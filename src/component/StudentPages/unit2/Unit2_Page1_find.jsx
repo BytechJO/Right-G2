@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import find_img from "../../../assets/imgs/test.png";
+import find_img from "../../../assets/imgs/test.png";//======= should change ==========
 import Rabbit from "../../../assets/Page 01/Rabbit.svg";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import MySVG from "../../../assets/imgs/test.png";

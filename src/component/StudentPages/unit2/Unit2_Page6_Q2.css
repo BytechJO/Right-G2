@@ -1,154 +1,118 @@
-.title {
-  font-size: 22px;
-  margin-bottom: 20px;
-}
+/* ================= WORD BANK ================= */
 
-.layout2 {
+.CB-unit2-p6-q2-word-bank {
   display: flex;
-  justify-content: space-between;
-     align-items: center;
-  gap: 50px;
-  padding-bottom: 40px;
-  margin: 35px 0px;
-  flex-direction: column;
-}
-
-.left-side2 {
-  display: flex;
-  /* gap: 35px 45px; مسافات متوازنة */
-}
-
-.image-row2 {
-  display: flex;
-  align-items:flex-start
-}
-
-.person-img2 {
-  width: 120px;
-  height: auto;
-}
-.drop-circle2 {
-  width: 50px;
-  height: 50px;
-  min-width: 50px; /* مهم */
-  min-height: 50px; /* مهم */
-  border: 2px solid #3baaf7;
-  border-radius: 10%;
-  display: flex;
+  gap: 12px;
+  padding: 12px;
+  border: 2px dashed #cfcfcf;
+  border-radius: 12px;
   justify-content: center;
-  align-items: center;
-  flex-shrink: 0; /* مهم */
-  transition: 0.25s;
+  margin-bottom: 25px;
 }
 
-.circle-number2 {
-  width: 45px;
-  height: 45px;
-  min-width: 45px; /* مهم */
-  min-height: 45px; /* مهم */
-  background: #3baaf7;
-  color: white;
-  border-radius: 10%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
+.CB-unit2-p6-q2-word {
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 2px solid #2c5287;
+  font-weight: 700;
+  background: #fff;
+  font-size: 14px;
   cursor: grab;
-  flex-shrink: 0; /* مهم */
+  user-select: none;
 }
-.wrong-x3 {
+
+/* ================= QUESTIONS LAYOUT ================= */
+
+.CB-unit2-p6-q2-content {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.CB-unit2-p6-q2-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* ================= LEFT SIDE (NUMBER + IMAGE) ================= */
+
+.CB-unit2-p6-q2-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.CB-unit2-p6-q2-index {
+  font-weight: bold;
+  font-size: 15px;
+  width: 20px;
+  text-align: center;
+}
+
+.CB-unit2-p6-q2-img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  border: 2px solid #e53935;
+  border-radius: 10px;
+  padding: 6px;
+}
+
+/* ================= SENTENCE ================= */
+
+.CB-unit2-p6-q2-sentence {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+}
+
+.CB-unit2-p6-q2-text {
+  font-size: 15px;
+}
+
+/* ================= INPUT LINE ================= */
+
+.CB-unit2-p6-q2-input {
+  flex: 1;
+  min-height: 22px;
+  border-bottom: 1.5px solid #000;
+  display: inline-flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 2px 4px;
+  position: relative;
+}
+
+.CB-unit2-p6-q2-input.drag-over-cell {
+  background: #e8f4ff;
+}
+
+/* ❌ خطأ */
+.CB-unit2-p6-q2-input-error {
   position: absolute;
-  top: -12px;
-  right: -12px;
+    top: -10px;
+  right: -14px;
+  width: 26px;
+  height: 26px;
   background: red;
   color: white;
+  border-radius: 50%;
   font-size: 18px;
   font-weight: bold;
-  border-radius: 50%;
-  width: 25px;
-  height: 25px;
   display: flex;
   align-items: center;
   justify-content: center;
   pointer-events: none;
+  z-index: 999999;
   border: 2px solid white;
-  transition: transform 0.2s ease ;
 }
 
-.drop2-hover {
-  background: #d8efff;
-}
+/* ================= LOCKED ================= */
 
-.right-side2 {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  min-width: 140px; /* غيري الرقم حسب اللي بناسبك */
-  min-height: 120px; /* اختياري */
-/* align-self: baseline; */
-  padding: 10px;
-}
-
-.option-box2 {
-  background: #e6f6ff;
-  border: 2px solid #3baaf7;
-  padding: 8px 14px;
-  border-radius: 10px;
-  cursor: grab;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.number-tag2 {
-  background: #3baaf7;
-  color: white;
-  padding: 3px 10px;
-  border-radius: 6px;
-  font-weight: bold;
-}
-
-/* ✅ Responsive Fixes */
-@media (max-width: 900px) {
-  .layout2 {
-    flex-direction: column;
-    /* gap: 30px; */
-    align-items: center;
-  }
-
-  .left-side2 {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    gap: 50px;
-  }
-
-  .image-row2 {
-    justify-content: center;
-  }
-
-  .right-side2 {
-    width: 100%;
-            align-items: flex-start;
-  }
-
-  .option-box2 {
-    text-align: center;
-  }
-}
-
-/* ✅ أصغر شاشات */
-@media (max-width: 500px) {
-  .person-img2 {
-    width: 90px;
-  }
-
-  .drop-circle2 {
-    width: 48px;
-    height: 48px;
-  }
-
-  .circle-number2 {
-    width: 40px;
-    height: 40px;
-  }
+.CB-unit2-p6-q2-word[aria-disabled="true"],
+.CB-unit2-p6-q2-input {
+  cursor: default;
 }

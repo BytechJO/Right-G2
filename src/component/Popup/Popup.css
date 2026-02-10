@@ -75,7 +75,7 @@
   justify-content: flex-start;
 
   /* ✅ السماح بالسكرول */
-  overflow-y: auto;
+  overflow-y: hidden;
   overflow-x: hidden;
 }
 
@@ -134,21 +134,20 @@
 /* ✅ زر الإغلاق */
 /* ============================= */
 .popup-close-btn {
-  position: fixed;     /* ⭐ ثابت مع السكرول */
-  top: 10px;           /* مسافة بسيطة من الأعلى */
-  right: 10px;         /* مسافة من اليمين */
+  position: fixed; /* ⭐ ثابت مع السكرول */
+  top: 10px; /* مسافة بسيطة من الأعلى */
+  right: 10px; /* مسافة من اليمين */
   background: none;
   border: none;
   font-size: 26px;
   cursor: pointer;
-  z-index: 10000000;       /* ⭐ فوق كل شيء */
+  z-index: 10000000; /* ⭐ فوق كل شيء */
 }
-
 
 .popup-close-btn.type-exercise {
   color: white;
   top: 0px;
-  right: 0px;
+  right: 25px;
 }
 
 .popup-close-btn.type-audio {

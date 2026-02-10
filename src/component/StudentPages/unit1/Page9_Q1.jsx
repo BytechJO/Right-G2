@@ -1,103 +1,226 @@
 import React, { useState } from "react";
-import conversation from "../../../assets/imgs/test.png";
+import img1 from "../../../assets/imgs/test.png";
+import img2 from "../../../assets/imgs/test.png";
+
 import ValidationAlert from "../../Popup/ValidationAlert";
+import "./Page9_Q1.css";
 
 const Page9_Q1 = () => {
-  // ✅ الإحداثيات كلها نسب مئوية (نسبة من الصورة)
-  const clickableAreas = [
-    { x: 14, y: 7.5, w: 27.8, h: 10 }, // غيّري هاي الأرقام حسب ما بدك
+  const questions = [
+    {
+      id: 1,
+      image: img1,
+      items1: [
+        { text: "Who’s he?", correct: "✓" },
+        { text: "Who’s she?", correct: "x" },
+      ],
+      items2: [
+        { text: "He’s Stella’s brother.", correct: "✓" },
+        { text: "She’s Stella’s brother.", correct: "x" },
+      ],
+    },
+    {
+      id: 2,
+      image: img2,
+      items1: [
+        { text: "Who’s he?", correct: "x" },
+        { text: "Who’s she?", correct: "✓" },
+      ],
+      items2: [
+        { text: "He’s my brother.", correct: "x" },
+        { text: "She’s my sister.", correct: "✓" },
+      ],
+    },
   ];
 
-  const [inputs, setInputs] = useState(Array(clickableAreas.length).fill(""));
+  const [answers, setAnswers] = useState({});
+  const [results, setResults] = useState({});
+  const [locked, setLocked] = useState(false); // ⭐ NEW — قفل التعديل
 
-  const handleInputChange = (value, index) => {
-    const updated = [...inputs];
-    updated[index] = value;
-    setInputs(updated);
+  const handleSelect = (qId, part, idx) => {
+    if (locked) return;
+
+    setAnswers((prev) => ({
+      ...prev,
+      [qId]: {
+        ...prev[qId],
+        [part]: idx,
+      },
+    }));
+
+    setResults({});
   };
 
-  const handleCheck = () => {
-    if (inputs.some((value) => value.trim() === "")) {
-      ValidationAlert.info();
+  const checkAnswers = () => {
+    if (locked) return;
+
+    const temp = {};
+    let correctCount = 0;
+    const total = questions.length * 2; // item1 + item2
+
+    questions.forEach((q) => {
+      const answer = answers[q.id];
+
+      if (!answer || answer.part1 === undefined || answer.part2 === undefined) {
+        temp[q.id] = "empty";
+        return;
+      }
+
+      const correct1 = q.items1[answer.part1].correct === "✓";
+      const correct2 = q.items2[answer.part2].correct === "✓";
+
+      temp[q.id] = {
+        part1: correct1 ? "correct" : "wrong",
+        part2: correct2 ? "correct" : "wrong",
+      };
+
+      if (correct1) correctCount++;
+      if (correct2) correctCount++;
+    });
+
+    setResults(temp);
+
+    if (Object.values(temp).some((r) => r === "empty")) {
+      ValidationAlert.info("Please answer all questions!");
       return;
     }
-    let scoreMessage = ``;
-    ValidationAlert.success(scoreMessage);
+
+    const color =
+      correctCount === total ? "green" : correctCount === 0 ? "red" : "orange";
+  const msg = `
+      <div style="font-size:20px;text-align:center;">
+        <span style="color:${color};font-weight:bold">
+          Score: ${correctCount} / ${total}
+        </span>
+      </div>
+    `;
+    
+    if (correctCount === total) ValidationAlert.success(msg);
+    else if (correctCount === 0) ValidationAlert.error(msg);
+    else ValidationAlert.warning(msg);
+
+    setLocked(true);
   };
 
-  const handleReset = () => {
-    setInputs(Array(clickableAreas.length).fill(""));
+  const reset = () => {
+    setAnswers({});
+    setResults({});
+    setLocked(false); // ⭐ NEW — إعادة التعديل
+  };
+
+  // ⭐⭐⭐ NEW — showAnswer
+  const showAnswer = () => {
+    const correctSelections = {};
+    const res = {};
+
+    questions.forEach((q) => {
+      correctSelections[q.id] = {
+        part1: q.items1.findIndex((i) => i.correct === "✓"),
+        part2: q.items2.findIndex((i) => i.correct === "✓"),
+      };
+
+      res[q.id] = { part1: "correct", part2: "correct" };
+    });
+
+    setAnswers(correctSelections);
+    setResults(res);
+    setLocked(true);
   };
 
   return (
-    <div className="page8-wrapper"
+    <div
       style={{
-        padding:"30px"
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: "30px",
       }}
     >
-      <div  className="div-forall"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "flex-start",
-            alignItems: "flex-start",
-            position: "relative",
-            width: "60%",
-          }}
-      
+      <div
+        className="div-forall"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "30px",
+          width: "60%",
+          justifyContent: "flex-start",
+        }}
       >
-        <h5 className="header-title-page8" id="ex-d">
-          <span className="ex-A">D</span> Ask and answer.
+        <h5 className="header-title-page8">
+          <span className="ex-A">D</span> Look, read, and write{" "}
+          <span style={{ color: "#2e3192" }}>✓</span>.
         </h5>
 
-        {/* ✅ الصورة هي المرجع */}
-     <div className="content-container-unit1-p9-q1"
-  style={{
-    position: "relative",
-    width: "100%",
-      maxWidth: "900px",
-    aspectRatio: "3 / 1", // نسبة الصورة
-  }}
->
-  <img
-    src={conversation}
-    style={{
-      position: "absolute",
-      inset: 0,
-      width: "100%",
-      height: "100%",
-      objectFit: "contain",
-    }}
-  />
+        <div className="CB-unit1-p9-q1-grid">
+          {questions.map((q) => (
+            <div key={q.id} className="CB-unit1-p9-q1-box">
+              <img src={q.image} alt="" className="CB-unit1-p9-q1-img" />
+              <div>
+                {q.items1.map((item, idx) => {
+                  const isSelected = answers[q.id]?.part1 === idx;
+                  const isWrong =
+                    results[q.id]?.part1 === "wrong" && isSelected;
 
-  {clickableAreas.map((area, index) => (
-    <input
-      key={index}
-      value={inputs[index]}
-      onChange={(e) => handleInputChange(e.target.value, index)}
-      style={{
-        position: "absolute",
-        top: `${area.y}%`,
-        left: `${area.x}%`,
-        width: `${area.w}%`,
-        height: `${area.h}%`,
-        fontSize: "1.3vw",
-        borderBottom:"2px solid black",
-        // borderRadius:"8px"
-      }}
-    />
-  ))}
-</div>
+                  return (
+                    <div key={idx} className="CB-unit1-p9-q1-row">
+                      <div className="CB-unit1-p9-q1-input-box">
+                        <input
+                          type="text"
+                          readOnly
+                          value={isSelected ? "✓" : ""}
+                          onFocus={() => handleSelect(q.id, "part1", idx)}
+                          className="CB-unit1-p9-q1-input"
+                        />
+
+                        {isWrong && <span className="CB-unit1-p9-q1-x">✕</span>}
+                      </div>
+                      <span className="CB-unit1-p9-q1-text">{item.text}</span>
+                    </div>
+                  );
+                })}
+
+                {q.items2.map((item, idx) => {
+                  const isSelected = answers[q.id]?.part2 === idx;
+                  const isWrong =
+                    results[q.id]?.part2 === "wrong" && isSelected;
+
+                  return (
+                    <div key={idx} className="CB-unit1-p9-q1-row">
+                      <div className="CB-unit1-p9-q1-input-box">
+                        <input
+                          type="text"
+                          readOnly
+                          value={isSelected ? "✓" : ""}
+                          onFocus={() => handleSelect(q.id, "part2", idx)}
+                          className="CB-unit1-p9-q1-input"
+                        />
+
+                        {isWrong && <span className="CB-unit1-p9-q1-x">✕</span>}
+                      </div>
+                      <span className="CB-unit1-p9-q1-text">{item.text}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-      {/* Buttons */}
+
       <div className="action-buttons-container">
-        <button onClick={handleReset} className="try-again-button">
+        <button onClick={reset} className="try-again-button">
           Start Again ↻
         </button>
-{/* 
-        <button onClick={handleCheck} className="check-button2">
+
+        {/* ⭐⭐⭐ NEW BUTTON */}
+        <button onClick={showAnswer} className="show-answer-btn swal-continue">
+          Show Answer
+        </button>
+
+        <button onClick={checkAnswers} className="check-button2">
           Check Answer ✓
-        </button> */}
+        </button>
       </div>
     </div>
   );

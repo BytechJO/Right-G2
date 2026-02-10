@@ -1,29 +1,25 @@
-import React, { useState } from "react";
-import page_6 from "../../../assets/imgs/pages/Right 2 Unit 1 Stellas Family_00001/Right 2 Unit 1 Stellas Family_00015.jpg";
-// import song from "../../../assets/img_unit2/sounds-unit2/Pg15.Sing_Adult Lady.mp3";
-import "./Unit2_Page6.css";
-import audioBtn from "../../../assets/Page 01/Audio btn.svg";
+import page_2 from "../../../assets/imgs/pages/Right 2 Unit 1 Stellas Family_00001/Right 2 Unit 1 Stellas Family_00017.jpg";
+import "./Review1_Page2.css";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
-
-const Unit2_Page6 = ({ openPopup }) => {
-
-
+// import Unit4_Page6_Q2 from "./Unit4_Page6_Q2";
+const Review1_Page2 = ({ openPopup }) => {
   return (
     <div
       className="page1-img-wrapper"
-      style={{ backgroundImage: `url(${page_6})` }}
+      // onClick={handleImageClick}
+      style={{ backgroundImage: `url(${page_2})` }}
     >
-      {/* <img src={page_6} /> */}
+      {/* <img src={page_2} /> */}
 
       <div
-        className="click-icon-unit2-page6-1 hover:scale-110 transition"
+        className="click-icon-review4-page2-2 hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg
           width="22"
           height="22"
           viewBox="0 0 90 90"
-          onClick={() => openPopup("exercise", { startIndex: 9 })}
+          onClick={() => openPopup("exercise", { startIndex: 13 })}
           style={{ overflow: "visible" }}
         >
           <image
@@ -38,32 +34,19 @@ const Unit2_Page6 = ({ openPopup }) => {
       </div>
 
       <div
-        className="headset-icon-CD-unit2-page6-2 hover:scale-110 transition"
+        className="click-icon-review4-page2-3  hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg
           width="22"
           height="22"
           viewBox="0 0 90 90"
-          onClick={() =>
-            openPopup(
-              "audio",
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignContent: "center",
-                }}
-              >
-                {/* <AudioWithCaption src={song} captions={captionsExample} /> */}
-              </div>
-            )
-          }
+          onClick={() => openPopup("exercise", { startIndex: 15 })}
           style={{ overflow: "visible" }}
         >
           <image
             className="svg-img"
-            href={audioBtn}
+            href={arrowBtn}
             x="0"
             y="0"
             width="90"
@@ -71,16 +54,15 @@ const Unit2_Page6 = ({ openPopup }) => {
           />
         </svg>
       </div>
-
       <div
-        className="click-icon-unit2-page6-2 hover:scale-110 transition"
+        className="click-icon-review4-page2-1 hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg
           width="22"
           height="22"
           viewBox="0 0 90 90"
-          onClick={() => openPopup("exercise", { startIndex: 10 })}
+          onClick={() => openPopup("exercise", { startIndex: 16 })}
           style={{ overflow: "visible" }}
         >
           <image
@@ -97,4 +79,4 @@ const Unit2_Page6 = ({ openPopup }) => {
   );
 };
 
-export default Unit2_Page6;
+export default Review1_Page2;

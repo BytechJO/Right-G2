@@ -5,18 +5,15 @@ import img2_letter from "../../../assets/imgs/test.png";
 import img3_letter from "../../../assets/imgs/test.png";
 import img4_letter from "../../../assets/imgs/test.png";
 import Rabbit from "../../../assets/Page 01/Rabbit.svg";
-// import soundListen from "../../../assets/img_unit2/sounds-unit2/cd10pg11-instruction1-adult-lady_inMDacHf.mp3";
-// import sound1_conversation from "../../../assets/img_unit2/sounds-unit2/Pg11_1.1_Bebo.mp3";
-// import sound2_conversation from "../../../assets/img_unit2/sounds-unit2/mix_09s (audio-joiner.com).mp3";
-// import sound3_conversation from "../../../assets/img_unit2/sounds-unit2/Pg11_1.2_Lolo_Take 2.mp3";
+import soundListen from "../../../assets/audio/ClassBook/U 2/Pg11_1.1_Stella.mp3";
 import img1_conversation from "../../../assets/imgs/test.png";
 import img2_conversation from "../../../assets/imgs/test.png";
-// import sound1_letter from "../../../assets/img_unit2/sounds-unit2/Pg11_2.1_Adult Lady.mp3";
-// import sound2_letter from "../../../assets/img_unit2/sounds-unit2/Pg11_2.2_Adult Lady.mp3";
-// import sound3_letter from "../../../assets/img_unit2/sounds-unit2/Pg11_2.3_Adult Lady.mp3";
-// import sound4_letter from "../../../assets/img_unit2/sounds-unit2/Pg11_2.4_Adult Lady.mp3";
-// import letterSound from "../../../assets/img_unit2/sounds-unit2/pg11-instruction2-adult-lady_9RiKbUV1.mp3";
-import read from "../../../assets/imgs/test.png";
+import sound1_letter from "../../../assets/audio/ClassBook/U 2/Pg11_1.1_Adult Lady.mp3";
+import sound2_letter from "../../../assets/audio/ClassBook/U 2/Pg11_1.2_Adult Lady.mp3";
+import sound3_letter from "../../../assets/audio/ClassBook/U 2/Pg11_1.3_Adult Lady.mp3";
+
+import letterSound from "../../../assets/audio/ClassBook/U 2/Pg11_Instruction1_Adult Lady.mp3";
+
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 import AudioWithCaption from "../../AudioWithCaption";
@@ -25,6 +22,7 @@ import FourImagesWithAudio from "../../FourImagesWithAudio";
 // import sound2 from "../../../assets/img_unit2/sounds-unit2/U2-07.mp3";
 
 import "./Unit2_Page2.css";
+import ReadChoose from "../../ReadChoose";
 const Unit2_Page2 = ({ openPopup }) => {
   const [activeAreaIndex, setActiveAreaIndex] = useState(null);
   const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
@@ -33,16 +31,26 @@ const Unit2_Page2 = ({ openPopup }) => {
   // أصوات الصور
   const imageSounds = [
     null, // الصورة الأولى الكبيرة (إن ما بدك صوت إلها)
-    // new Audio(sound1_letter),
-    // new Audio(sound2_letter),
-    // new Audio(sound3_letter),
-    // new Audio(sound4_letter),
+    new Audio(sound1_letter),
+    new Audio(sound2_letter),
+    new Audio(sound3_letter),
   ];
-  const imageSounds2 = [
-    null, // الصورة الأولى الكبيرة (إن ما بدك صوت إلها)
-    // new Audio(sound1_conversation),
-    // new Audio(sound2_conversation),
-  ];
+
+  const readChooseData = {
+    title: "Read and choose.",
+    questions: [
+      {
+        text: "The sun is in the sky.",
+        options: ["true", "false"],
+        correct: "true",
+      },
+      {
+        text: "There are ducks in the pond.",
+        options: ["true", "false"],
+        correct: "false",
+      },
+    ],
+  };
   const captionsExample = [
     { start: 0, end: 2.0, text: "Page11. Birthdays Are Fun" },
     { start: 2.05, end: 5.2, text: "Hi, everyone. Today is my birthday." },
@@ -50,19 +58,6 @@ const Unit2_Page2 = ({ openPopup }) => {
     { start: 7.24, end: 9.0, text: "  My friends are here. It's fun." },
   ];
 
-  const captions = [
-    { start: 0, end: 3.17, text: "Page 11. Listen, read & repeat." },
-    {
-      start: 3.19,
-      end: 4.29,
-      text: "What's your name?",
-    },
-    {
-      start: 4.31,
-      end: 7.03,
-      text: "My name is Lolo. ",
-    },
-  ];
   const captions2 = [
     { start: 0, end: 3.18, text: "Page 11. Listen and read along. " },
     { start: 3.2, end: 7.01, text: "P, pencil, pink, pizza. " },
@@ -113,7 +108,7 @@ const Unit2_Page2 = ({ openPopup }) => {
       style={{ backgroundImage: `url(${page_2})` }}
     >
       <audio ref={audioRef} style={{ display: "none" }} />
-  
+
       {areas.map((area, index) => {
         const isActive = activeAreaIndex === area.sound;
 
@@ -171,15 +166,19 @@ const Unit2_Page2 = ({ openPopup }) => {
           onClick={() =>
             openPopup(
               "audio",
-              <AudioWithCaption
-                // src={Pg11_1_1_Stella}
-                captions={captionsExample}
-              />
+              <AudioWithCaption src={soundListen} captions={captionsExample} />,
             )
           }
           style={{ overflow: "visible" }}
         >
-          <image className="svg-img" href={audioBtn} x="0" y="0" width="90" height="90" />
+          <image
+            className="svg-img"
+            href={audioBtn}
+            x="0"
+            y="0"
+            width="90"
+            height="90"
+          />
         </svg>
       </div>
       <div
@@ -191,22 +190,18 @@ const Unit2_Page2 = ({ openPopup }) => {
           height="22"
           viewBox="0 0 90 90"
           onClick={() =>
-            openPopup(
-              "html",
-              <FourImagesWithAudio
-                images={[read, img1_conversation,img2_conversation]}
-                audioSrc={null}
-                checkpoints={[0, 3.7, 5.3]}
-                popupOpen={true}
-                titleQ={`Listen, read, and repeat.`}
-                audioArr={imageSounds2}
-                captions={captions}
-              />
-            )
+            openPopup("html", <ReadChoose data={readChooseData} />)
           }
           style={{ overflow: "visible" }}
         >
-          <image className="svg-img" href={audioBtn} x="0" y="0" width="90" height="90" />
+          <image
+            className="svg-img"
+            href={audioBtn}
+            x="0"
+            y="0"
+            width="90"
+            height="90"
+          />
         </svg>
       </div>
       <div
@@ -221,19 +216,26 @@ const Unit2_Page2 = ({ openPopup }) => {
             openPopup(
               "html",
               <FourImagesWithAudio
-                images={[Rabbit, img1_letter, img2_letter, img3_letter, img4_letter]}
-                audioSrc={null}
+                images={[Rabbit, img1_letter, img2_letter, img3_letter]}
+                audioSrc={letterSound}
                 checkpoints={[0, 3.4, 4, 4.9, 6]}
                 popupOpen={true}
                 titleQ={"Listen and read along."}
                 audioArr={imageSounds}
                 captions={captions2}
-              />
+              />,
             )
           }
           style={{ overflow: "visible" }}
         >
-          <image className="svg-img" href={arrowBtn} x="0" y="0" width="90" height="90" />
+          <image
+            className="svg-img"
+            href={arrowBtn}
+            x="0"
+            y="0"
+            width="90"
+            height="90"
+          />
         </svg>
       </div>
     </div>

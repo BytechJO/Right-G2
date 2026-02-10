@@ -3,7 +3,6 @@ import backgroundImage from "../../../assets/imgs/test.png";
 import page2_2 from "../../../assets/imgs/test.png";
 // import vocabulary from "../../../assets/img_unit2/sounds-unit2/Pg10_Vocabulary_Adult Lady.mp3";
 import "./Unit2_Page1.css";
-import { CgPlayPauseO } from "react-icons/cg";
 import num1 from "../../../assets/imgs/test.png";
 import num2 from "../../../assets/imgs/test.png";
 import num3 from "../../../assets/imgs/test.png";
@@ -148,7 +147,7 @@ const Unit2_Page1_Vocab = () => {
       setIsPlaying(false);
     }
   };
-  //  const wordAudios = [sound1, sound2, sound3, sound4, sound5, sound6, sound7];
+   const wordAudios = [sound1, sound2, sound3, sound4, sound5, sound6, sound7];
  const playWordAudio = (index) => {
   // أوقفي الأوديو الرئيسي
   mainAudioRef.current.pause();
@@ -370,9 +369,9 @@ const Unit2_Page1_Vocab = () => {
           style={{ height: "75vh" }}
         />
       </div>
-      {/* {wordAudios.map((src, i) => (
+      {wordAudios.map((src, i) => (
   <audio key={i} ref={wordRefs.current[i]} src={src} />
-))} */}
+))}
 
     </div>
   );

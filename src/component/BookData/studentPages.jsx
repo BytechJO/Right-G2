@@ -20,6 +20,10 @@ import Unit2_Page6 from "../StudentPages/unit2/Unit2_Page6";
 
 // ==================== unit 3 pages
 
+import Review1_Page1 from "../StudentPages/review1&2/Review1_Page1";
+import Review1_Page2 from "../StudentPages/review1&2/Review1_Page2";
+import Review2_Page1 from "../StudentPages/review1&2/Review2_Page1";
+import Review2_Page2 from "../StudentPages/review1&2/Review2_Page2";
 //==================== unit 4 pages
 
 //=================== Review3,4
@@ -59,4 +63,10 @@ export const studentPages = (openPopup, goToUnit) => [
   <Unit2_Page4 openPopup={openPopup} />,
   <Unit2_Page5 openPopup={openPopup} />,
   <Unit2_Page6 openPopup={openPopup} />,
+
+  <Review1_Page1 openPopup={openPopup} />,
+  <Review1_Page2 openPopup={openPopup} />,
+  <Review2_Page1 openPopup={openPopup} />,
+  <Review2_Page2 openPopup={openPopup} />,
+  <Page1 />,
 ];

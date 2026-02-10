@@ -1,19 +1,15 @@
 import React, { useState, useRef } from "react";
 import page_3 from "../../../assets/imgs/pages/Right 2 Unit 1 Stellas Family_00001/Right 2 Unit 1 Stellas Family_00012.jpg";
 import "./Unit2_Page3.css";
-// import grammarSound from "../../../assets/img_unit2/sounds-unit2/U2 Right Grammar P12.mp3";
-// import sound1 from "../../../assets/img_unit2/sounds-unit2/Pg12_1.1_Adult Lady.mp3";
-// import sound2 from "../../../assets/img_unit2/sounds-unit2/Pg12_1.2_Adult Lady.mp3";
-// import sound3 from "../../../assets/img_unit2/sounds-unit2/Pg12_1.3_Adult Lady.mp3";
-// import sound4 from "../../../assets/img_unit2/sounds-unit2/Pg12_1.4_Adult Lady.mp3";
-// import sound5 from "../../../assets/img_unit2/sounds-unit2/Pg12_1.5_Adult Lady.mp3";
-// import sound6 from "../../../assets/img_unit2/sounds-unit2/Pg12_2.1_Harley.mp3";
-// import sound7 from "../../../assets/img_unit2/sounds-unit2/Pg12_2.2_Sarah.mp3";
-// import sound8 from "../../../assets/img_unit2/sounds-unit2/Pg12_3.1_Helen_Take 2.mp3";
-// import sound9 from "../../../assets/img_unit2/sounds-unit2/Pg12_3.2_Stella.mp3";
-// import sound10 from "../../../assets/img_unit2/sounds-unit2/Pg12_4.1_Hansel.mp3";
-// import sound11 from "../../../assets/img_unit2/sounds-unit2/Pg12_4.2_Stella.mp3";
-// import sound12 from "../../../assets/img_unit2/sounds-unit2/Pg12_4.3_Hansel.mp3";
+import grammarSound from "../../../assets/audio/ClassBook/U 2/CD8.Pg12_Right Grammar1_Adult Lady.mp3";
+import sound1 from "../../../assets/audio/ClassBook/U 2/Pg12_1.1_Adult Lady.mp3";
+import sound2 from "../../../assets/audio/ClassBook/U 2/Pg12_1.2_Adult Lady.mp3";
+import sound3 from "../../../assets/audio/ClassBook/U 2/Pg12_2.1_Helen.mp3";
+import sound4 from "../../../assets/audio/ClassBook/U 2/Pg12_2.1_Helen_Take 2.mp3";
+import sound5 from "../../../assets/audio/ClassBook/U 2/Pg12_2.1_Helen_Take 3.mp3";
+import sound6 from "../../../assets/audio/ClassBook/U 2/Pg12_3.1_Stella.mp3";
+import sound7 from "../../../assets/audio/ClassBook/U 2/Pg12_4.1_Tom.mp3";
+
 import AudioWithCaption from "../../AudioWithCaption";
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import pauseBtn from "../../../assets/Page 01/Right Video Button.svg";
@@ -57,11 +53,7 @@ const Unit2_Page3 = ({ openPopup }) => {
     { x1: 54.2, y1: 17.0, x2: 74.1, y2: 20.4, sound: sound5 },
     { x1: 14.08, y1: 27.0, x2: 29.6, y2: 31.7, sound: sound6 },
     { x1: 7.0, y1: 47.5, x2: 29.2, y2: 50.4, sound: sound7 },
-    { x1: 49.6, y1: 26.17, x2: 88.9, y2: 29.8, sound: sound8 },
-    { x1: 84.18, y1: 37.6, x2: 95.1, y2: 43.4, sound: sound9 },
-    { x1: 6.76, y1: 54.4, x2: 48.3, y2: 57.9, sound: sound10 },
-    { x1: 44.0, y1: 61.6, x2: 58.3, y2: 65.1, sound: sound11 },
-    { x1: 7.16, y1: 74.6, x2: 26.3, y2: 80.4, sound: sound12 },
+    
   ];
   const handleImageClick = (e) => {
     const rect = e.target.getBoundingClientRect();
@@ -141,10 +133,10 @@ const Unit2_Page3 = ({ openPopup }) => {
                   alignContent: "center",
                 }}
               >
-                {/* <AudioWithCaption
+                <AudioWithCaption
                   src={grammarSound}
                   captions={captionsExample}
-                /> */}
+                />
               </div>,
             )
           }

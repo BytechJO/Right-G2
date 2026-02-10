@@ -16,7 +16,7 @@
   padding: 14px 20px;
   border-radius: 12px;
   margin: 10px 0px;
-  border: 5px solid #5acbf4;
+  border: 5px solid #d2232a;
 }
 .big-input {
   min-height: 60px;
@@ -37,21 +37,6 @@
 /* =========================
    DROP SLOTS
 ========================= */
-
-/* .drop-slot {
-  width: 55px;
-  height: 55px;
-  border: 2px dashed #4aa3df;
-  border-radius: 10px;
-  background-color: #f4faff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 5px;
-  transition: all 0.25s ease;
-  position: relative;
-} */
 
 /* الرقم داخل المربع */
 .drop-slot h6 {
@@ -126,6 +111,33 @@
   justify-content: center;
   transition: all 0.25s ease;
 }
+.img-input-container {
+  display: flex;
+}
+.input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.wrong-icon {
+  position: absolute;
+  top: 8px;
+  left: 100%;
+  transform: translateX(-50%);
+  width: 28px;
+  height: 28px;
+  background: red;
+  color: white;
+  border-radius: 50%;
+  font-size: 18px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  border: 2px solid white;
+  justify-content: center;
+  z-index: 10;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
 
 .sentence-box {
   margin-top: 20px;
@@ -137,6 +149,7 @@
   font-weight: bold;
   text-align: center;
   height: 60px;
+  width: 100%;
 }
 
 .sentence-text {
@@ -145,7 +158,7 @@
 }
 
 .row1 {
-  background: #f7d3e4; /* نفس الوردي اللي بالصورة */
+  background: #daf5ff; /* نفس الوردي اللي بالصورة */
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
@@ -223,31 +236,6 @@
   font-size: 25px;
 }
 
-.action-buttons-container {
-  position: static;
-  transform: none;
-  flex-direction: column;
-  gap: 10px;
-  width: 100%;
-  margin-top: 20px;
-}
-
-.action-buttons-container {
-  bottom: 15px;
-  gap: 15px;
-  width: calc(100% - 30px);
-}
-.action-buttons-container {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: row;
-  gap: 20px;
-  width: calc(100% - 40px);
-  justify-content: center;
-}
 
 .letter-char1 {
   display: flex;

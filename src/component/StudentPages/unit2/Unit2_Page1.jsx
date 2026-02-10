@@ -8,7 +8,7 @@ import Unit2_Page1_Read from "./Unit2_Pag1_Read";
 import AudioWithCaption from "../../AudioWithCaption";
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
-// import allUnit2 from "../../../assets/unit1/sounds/P10-11.mp3";
+import allUnit2 from "../../../assets/audio/ClassBook/U 2/CD6.Pg10.U2_Intro_Adult Lady.mp3";
 // import sound1 from "../../../assets/img_unit2/sounds-unit2/U2-01.mp3";
 // import sound2 from "../../../assets/img_unit2/sounds-unit2/U2-02.mp3";
 // import sound3 from "../../../assets/img_unit2/sounds-unit2/U2-03.mp3";
@@ -112,7 +112,7 @@ const Unit2_Page1 = ({ openPopup }) => {
       onClick={handleImageClick}
       style={{ backgroundImage: `url(${page_1})` }}
     >
-      {/* <audio ref={audioRef} style={{ display: "none" }} /> */}
+      <audio ref={audioRef} style={{ display: "none" }} />
       {/* <img
         src={page_1}
         onClick={handleImageClick}
@@ -182,7 +182,7 @@ const Unit2_Page1 = ({ openPopup }) => {
                   alignContent: "center",
                 }}
               >
-                {/* <AudioWithCaption src={allUnit2} captions={captionsExample} /> */}
+                <AudioWithCaption src={allUnit2} captions={captionsExample} />
               </div>
             )
           }

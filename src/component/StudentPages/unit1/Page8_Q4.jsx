@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import "./Page8_Q4.css";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-
+import img1 from "../../../assets/imgs/test.png";
+import img2 from "../../../assets/imgs/test.png";
 const Page8_Q4 = () => {
   const gridLetters = [
     ..."dtheytadgbnmvglikexnsrolto",
@@ -15,6 +16,7 @@ const Page8_Q4 = () => {
   const [answerLetters, setAnswerLetters] = useState([]);
   const [isChecked, setIsChecked] = useState(false);
   const [showAnswer, setShowAnswer] = useState(false);
+const [isWrong, setIsWrong] = useState(false);
 
   const onDragEnd = (result) => {
     const { destination, draggableId } = result;
@@ -27,20 +29,50 @@ const Page8_Q4 = () => {
   };
 
   const handleShowAnswer = () => {
+    if (showAnswer || isChecked) return;
     setAnswerLetters(correctAnswer.split(""));
     setShowAnswer(true);
   };
 
   const handleCheckAnswers = () => {
+    if (showAnswer || isChecked) return;
     const formed = answerLetters.join("");
-    if (!formed) {
-      ValidationAlert.info("Oops!", "Drag letters into the box.");
+
+    // 1️⃣ input فاضي
+    if (!formed || formed.trim().length === 0) {
+      ValidationAlert.warning("Warning!", "Please drag letters first ✋");
       return;
     }
 
-    if (formed === correctAnswer)
-      ValidationAlert.success("Excellent! 🌟");
-    else ValidationAlert.error("Try again!");
+    // حساب السكور
+    let score = 0;
+    for (let i = 0; i < correctAnswer.length; i++) {
+      if (formed[i] === correctAnswer[i]) {
+        score++;
+      }
+    }
+    const total = correctAnswer.length;
+
+    let color = score === total ? "green" : score === 0 ? "red" : "orange";
+
+    const msg = `
+      <div style="font-size:20px;text-align:center;">
+        <span style="color:${color};font-weight:bold">
+          Score: ${score} / ${total}
+        </span>
+      </div>
+    `;
+    setIsChecked(true);
+    // 2️⃣ الإجابة صحيحة
+    if (formed === correctAnswer) {
+      ValidationAlert.success(msg);
+      setIsChecked(true);
+      return;
+    }
+
+    // 3️⃣ الإجابة غلط
+      setIsWrong(true);
+    ValidationAlert.error(msg);
   };
 
   return (
@@ -81,23 +113,36 @@ const Page8_Q4 = () => {
                 )}
               </Droppable>
 
-              {/* ⬜ BIG INPUT DROP ZONE */}
-              <Droppable droppableId="answer-input" direction="horizontal">
-                {(provided) => (
-                  <div
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
-                    className="sentence-box big-input"
-                  >
-                    {answerLetters.map((letter, index) => (
-                      <span key={index} className="sentence-text">
-                        {letter}
-                      </span>
-                    ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
+              <div className="img-input-container">
+                <img src={img1} style={{ height: "90px", width: "90px" }} />
+                {/* ⬜ BIG INPUT DROP ZONE */}
+                <div className="input-wrapper">
+  {isWrong && (
+    <div className="wrong-icon">
+      ✕
+    </div>
+  )}
+
+  <Droppable droppableId="answer-input" direction="horizontal">
+    {(provided) => (
+      <div
+        ref={provided.innerRef}
+        {...provided.droppableProps}
+        className="sentence-box big-input"
+      >
+        {answerLetters.map((letter, index) => (
+          <span key={index} className="sentence-text">
+            {letter}
+          </span>
+        ))}
+        {provided.placeholder}
+      </div>
+    )}
+  </Droppable>
+</div>
+
+                <img src={img1} style={{ height: "90px", width: "90px" }} />
+              </div>
             </DragDropContext>
           </div>
         </div>
@@ -105,16 +150,17 @@ const Page8_Q4 = () => {
 
       {/* 🔘 Buttons */}
       <div className="action-buttons-container">
-        <button
-          onClick={() => {
-            setAnswerLetters([]);
-            setIsChecked(false);
-            setShowAnswer(false);
-          }}
-          className="try-again-button"
-        >
-          Start Again ↻
-        </button>
+       <button
+  onClick={() => {
+    setAnswerLetters([]);
+    setIsChecked(false);
+    setShowAnswer(false);
+    setIsWrong(false); // 👈 مهم
+  }}
+  className="try-again-button"
+>
+  Start Again ↻
+</button>
 
         <button onClick={handleShowAnswer} className="show-answer-btn">
           Show Answer

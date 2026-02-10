@@ -1,489 +1,234 @@
-import React, { useState, useRef, useEffect } from "react";
-import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-import girl1 from "../../../assets/img_unit2/imgs/girl1.jpg";
-import girl2 from "../../../assets/img_unit2/imgs/girl2.jpg";
-import boy1 from "../../../assets/img_unit2/imgs/boy1.jpg";
-import boy2 from "../../../assets/img_unit2/imgs/boy2.jpg";
-import sound1 from "../../../assets/unit1/sounds/P15QD.mp3";
-import stella from "../../../assets/img_unit2/sounds-unit2/Pg15_1.1_Stella.mp3";
-import tom from "../../../assets/img_unit2/sounds-unit2/Pg15_1.2_Tom.mp3";
-import harley from "../../../assets/img_unit2/sounds-unit2/Pg15_1.3_Harley.mp3";
-import helen from "../../../assets/img_unit2/sounds-unit2/Pg15_1.4_Helen.mp3";
-import "./Unit2_Page6_Q1.css";
+import React, { useState, useRef } from "react";
+import img1 from "../../../assets/imgs/test.png";
+import img2 from "../../../assets/imgs/test.png";
+import img3 from "../../../assets/imgs/test.png";
+import img4 from "../../../assets/imgs/test.png";
+import img5 from "../../../assets/imgs/test.png";
+import img6 from "../../../assets/imgs/test.png";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import { FaPlay, FaPause, FaVolumeUp, FaVolumeMute } from "react-icons/fa";
-import { IoMdSettings } from "react-icons/io";
-import { TbMessageCircle } from "react-icons/tb";
-const exerciseData = {
-  pairs: [
-    { id: "pair-1", letter: "1", content: "January" },
-    { id: "pair-2", letter: "2", content: "November" },
-    { id: "pair-3", letter: "3", content: "May" },
-    { id: "pair-4", letter: "4", content: "August" },
-  ],
-  images: [
-    { img: girl1, sound: stella },
-    { img: girl2, sound: helen },
-    { img: boy1, sound: tom },
-    { img: boy2, sound: harley },
-  ],
-};
+import "./Unit2_Page6_Q1.css";
 
+/* ================= DATA ================= */
+
+const MATCHES = [
+  { word: "yellow", image: "img4", src: img4 },
+  { word: "red", image: "img3", src: img3 },
+  { word: "green", image: "img1", src: img1 },
+  { word: "brown", image: "img6", src: img6 },
+  { word: "blue", image: "img2", src: img2 },
+  { word: "pink", image: "img5", src: img5 },
+];
+const images = [
+  { image: "img1", src: img1 },
+  { image: "img2", src: img2 },
+  { image: "img3", src: img3 },
+  { image: "img4", src: img4 },
+  { image: "img5", src: img5 },
+  { image: "img6", src: img6 },
+];
 const Unit2_Page6_Q1 = () => {
-  const audioRef = useRef(null);
+  const containerRef = useRef(null);
 
-  // زر الكابشن
-  const [isMuted, setIsMuted] = useState(false);
-  const stopAtSecond = 4.5;
-  const [paused, setPaused] = useState(false);
-  // إعدادات الصوت
-  const [showSettings, setShowSettings] = useState(false);
-  const [volume, setVolume] = useState(1);
-  const settingsRef = useRef(null);
-  const [forceRender, setForceRender] = useState(0);
-  const [showContinue, setShowContinue] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [current, setCurrent] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const [showCaption, setShowCaption] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(null);
-  const initialDroppedState = {
-    "drop-1": null,
-    "drop-2": null,
-    "drop-3": null,
-    "drop-4": null,
-  };
-  const [wrongDrops, setWrongDrops] = useState([]);
+  const [lines, setLines] = useState([]);
+  const [start, setStart] = useState(null);
+  const [wrong, setWrong] = useState([]);
+  const [locked, setLocked] = useState(false);
   const [showAnswer, setShowAnswer] = useState(false);
 
-  const [droppedLetters, setDroppedLetters] = useState(initialDroppedState);
-  const clickAudioRef = useRef(null); // ✅ صوت المناطق
-  // ================================
-  // ✔ Captions Array
-  // ================================
-  const captions = [
-    { start: 0, end: 4.27, text: "Page 15, Exercise D. Listen and choose." },
-    { start: 4.29, end: 6.24, text: "1-January " },
-    { start: 6.26, end: 8.28, text: "2-November " },
-    { start: 8.3, end: 10.12, text: "3-May" },
-    { start: 10.14, end: 12.07, text: "4-August" },
-  ];
+  const disabled = locked || showAnswer;
 
-  // ================================
-  // ✔ Update caption highlight
-  // ================================
-  const updateCaption = (time) => {
-    const index = captions.findIndex(
-      (cap) => time >= cap.start && time <= cap.end,
+  /* ================= HELPERS ================= */
+
+  const getPos = (el) => {
+    if (!el || !containerRef.current) return { x: 0, y: 0 };
+    const r = el.getBoundingClientRect();
+    const c = containerRef.current.getBoundingClientRect();
+    return { x: r.left - c.left + 8, y: r.top - c.top + 8 };
+  };
+
+  /* ================= HANDLERS ================= */
+
+  const startLine = (e) => {
+    if (disabled) return;
+
+    const container = e.currentTarget.closest(".CB-unit2-p6-q1-dot-container");
+    const dot = container?.querySelector(".dot-start1");
+    if (!dot) return;
+
+    const word = dot.dataset.word;
+    if (lines.some((l) => l.word === word)) return;
+
+    setStart({ word, ...getPos(dot) });
+  };
+
+  const endLine = (e) => {
+    if (disabled || !start) return;
+
+    const wrapper = e.currentTarget.closest(".u2-image-wrapper");
+    const dot = wrapper?.querySelector(".dot-end1");
+    if (!dot) return;
+
+    const image = dot.dataset.image;
+    const pos = getPos(dot);
+
+    setLines((l) => [
+      ...l,
+      {
+        word: start.word,
+        image,
+        x1: start.x,
+        y1: start.y,
+        x2: pos.x,
+        y2: pos.y,
+      },
+    ]);
+
+    setStart(null);
+  };
+
+  const checkAnswers = () => {
+    if (lines.length < MATCHES.length)
+      return ValidationAlert.info("Oops!", "Please connect all the pairs.");
+
+    let correct = 0;
+    const wrongWords = [];
+
+    lines.forEach((l) =>
+      MATCHES.some((m) => m.word === l.word && m.image === l.image)
+        ? correct++
+        : wrongWords.push(l.word),
     );
-    setActiveIndex(index);
-  };
-  const handleOnDragEnd = (result) => {
-    if (showAnswer) return; // 🚫 يمنع السحب بعد عرض الإجابة
 
-    if (!result.destination) return;
+    setWrong(wrongWords);
+    setLocked(true);
 
-    const { destination, draggableId } = result;
-    const newDropped = { ...droppedLetters };
-
-    const previousDrop = Object.keys(newDropped).find(
-      (key) => newDropped[key] === draggableId,
-    );
-    if (previousDrop) newDropped[previousDrop] = null;
-
-    newDropped[destination.droppableId] = draggableId;
-    setDroppedLetters(newDropped);
-  };
-
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    audio.currentTime = 0;
-    audio.play();
-
-    const interval = setInterval(() => {
-      if (audio.currentTime >= stopAtSecond) {
-        audio.pause();
-        setPaused(true);
-        setIsPlaying(false);
-        setShowContinue(true);
-        clearInterval(interval);
-      }
-    }, 100);
-
-    // عند انتهاء الأوديو يرجع يبطل أنيميشن + يظهر Continue
-    const handleEnded = () => {
-      const audio = audioRef.current;
-      audio.currentTime = 0; // ← يرجع للبداية
-      setActiveIndex(null);
-      setPaused(false);
-      setIsPlaying(false);
-      setShowContinue(true);
-    };
-
-    audio.addEventListener("ended", handleEnded);
-
-    return () => {
-      clearInterval(interval);
-      audio.removeEventListener("ended", handleEnded);
-    };
-  }, []);
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setForceRender((prev) => prev + 1);
-    }, 1000); // كل ثانية
-
-    if (activeIndex === -1 || activeIndex === null) return;
-
-    const el = document.getElementById(`caption-${activeIndex}`);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-    return () => clearInterval(timer);
-  }, [activeIndex]);
-  const playSound = (src) => {
-    if (!clickAudioRef.current) return;
-    clickAudioRef.current.src = src;
-    clickAudioRef.current.currentTime = 0;
-    clickAudioRef.current.play();
-  };
-
-  const correctAnswers = {
-    "drop-1": "pair-1",
-    "drop-2": "pair-4",
-    "drop-3": "pair-2",
-    "drop-4": "pair-3",
-  };
-
-  const handleCheckAnswers = () => {
-    if (showAnswer) return;
-    const allFilled = Object.values(droppedLetters).every((v) => v !== null);
-
-    if (!allFilled) {
-      ValidationAlert.info("Incomplete!", "Please complete all drop zones.");
-      return;
-    }
-
-    let correctCount = 0;
-    const total = exerciseData.pairs.length;
-    const wrongTemp = [];
-    // مقارنة كل drop بالقيمة الصحيحة
-    Object.keys(droppedLetters).forEach((dropId) => {
-      const placedLetter = droppedLetters[dropId]; // ex: "1" or "3"
-      const correctLetter = correctAnswers[dropId]; // القيمة المطلوبة حسب الخريطة
-
-      if (placedLetter === correctLetter) {
-        correctCount++;
-      } else {
-        wrongTemp.push(dropId); // ✅ خزنا الـ drop الخطأ
-      }
-    });
-    setWrongDrops(wrongTemp); // ✅ تخزين الأخطاء لعرض الـ X
-    setShowAnswer(true)
     const color =
-      correctCount === total ? "green" : correctCount === 0 ? "red" : "orange";
+      correct === MATCHES.length ? "green" : correct === 0 ? "red" : "orange";
 
-    const scoreMessage = `
-    <div style="font-size: 20px; margin-top: 10px; text-align:center;">
-      <span style="color:${color}; font-weight:bold;">
-        Score: ${correctCount} / ${total}
-      </span>
-    </div>
-  `;
-
-    if (correctCount === total) {
-      ValidationAlert.success(scoreMessage);
-    } else if (correctCount === 0) {
-      ValidationAlert.error(scoreMessage);
-    } else {
-      ValidationAlert.warning(scoreMessage);
-    }
-  };
-  const handleShowAnswer = () => {
-    // ❗ ضبط جميع الإجابات على الصحيح
-    const correct = { ...correctAnswers };
-
-    setDroppedLetters(correct); // يحط كل إجابة صحيحة مكانها
-    setWrongDrops([]); // يشيل X من الغلط
-    setShowAnswer(true); // يمنع أي تعديل بعد هيك
+    ValidationAlert[
+      correct === MATCHES.length
+        ? "success"
+        : correct === 0
+          ? "error"
+          : "warning"
+    ](
+      `<div style="font-size:20px;text-align:center">
+        <b style="color:${color}">Score: ${correct} / ${MATCHES.length}</b>
+      </div>`,
+    );
   };
 
-  const togglePlay = () => {
-    const audio = audioRef.current;
-
-    if (!audio) return;
-
-    if (audio.paused) {
-      audio.play();
-      setPaused(false);
-      setIsPlaying(true);
-    } else {
-      audio.pause();
-      setPaused(true);
-      setIsPlaying(false);
-    }
+  const show = () => {
+    setLines(
+      MATCHES.map((m) => {
+        const w = document.querySelector(`[data-word="${m.word}"]`);
+        const i = document.querySelector(`[data-image="${m.image}"]`);
+        const s = getPos(w);
+        const e = getPos(i);
+        return { ...m, x1: s.x, y1: s.y, x2: e.x, y2: e.y };
+      }),
+    );
+    setWrong([]);
+    setShowAnswer(true);
+    setLocked(true);
   };
+
+  const reset = () => {
+    setLines([]);
+    setWrong([]);
+    setStart(null);
+    setLocked(false);
+    setShowAnswer(false);
+  };
+
+  /* ================= RENDER ================= */
+
   return (
-    <>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "30px",
-        }}
-      >
-        <div
-          className="div-forall"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "12px",
-            width: "60%",
-            justifyContent: "flex-start",
-          }}
-        >
+    <div style={{ display: "flex", justifyContent: "center", padding: "30px" }}>
+      <div className="div-forall" style={{ width: "60%" }}>
+        <div className="CB-unit2-p6-q1-container2">
           <h5 className="header-title-page8">
-            <span className="ex-A">D</span> Listen and choose.
+            <span className="ex-A">D</span> Read and match.
           </h5>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              width: "100%",
-            }}
-          >
-            <div
-              className="audio-popup-read"
-              style={{
-                width: "50%",
-              }}
-            >
-              <div className="audio-inner player-ui">
-                <audio
-                  ref={audioRef}
-                  src={sound1}
-                  onTimeUpdate={(e) => {
-                    const time = e.target.currentTime;
-                    setCurrent(time);
 
-                    updateCaption(time);
-                  }}
-                  onLoadedMetadata={(e) => setDuration(e.target.duration)}
-                ></audio>
-                {/* Play / Pause */}
-                {/* Play / Pause */}
-                {/* الوقت - السلايدر - الوقت */}
-                <div className="top-row">
-                  <span className="audio-time">
-                    {new Date(current * 1000).toISOString().substring(14, 19)}
-                  </span>
-
-                  <input
-                    type="range"
-                    className="audio-slider"
-                    min="0"
-                    max={duration}
-                    value={current}
-                    onChange={(e) => {
-                      audioRef.current.currentTime = e.target.value;
-                      updateCaption(Number(e.target.value));
-                    }}
-                    style={{
-                      background: `linear-gradient(to right, #430f68 ${
-                        (current / duration) * 100
-                      }%, #d9d9d9ff ${(current / duration) * 100}%)`,
-                    }}
-                  />
-
-                  <span className="audio-time">
-                    {new Date(duration * 1000).toISOString().substring(14, 19)}
-                  </span>
-                </div>
-                {/* الأزرار 3 أزرار بنفس السطر */}
-                <div className="bottom-row">
-                  {/* فقاعة */}
+          <div className="CB-unit2-p6-q1-match-wrapper2" ref={containerRef}>
+            {/* WORDS */}
+            <div className="u2-match-words">
+              {MATCHES.map((m, i) => (
+                <div key={m.word} className="u2-word-item">
+                  <span className="u2-word-index">{i + 1}</span>
                   <div
-                    className={`round-btn ${showCaption ? "active" : ""}`}
-                    style={{ position: "relative" }}
-                    onClick={() => setShowCaption(!showCaption)}
+                    className="CB-unit2-p6-q1-dot-container"
+                    onClick={startLine}
                   >
-                    <TbMessageCircle size={36} />
-                    <div
-                      className={`caption-inPopup ${showCaption ? "show" : ""}`}
-                      style={{ top: "100%", left: "10%" }}
-                    >
-                      {captions.map((cap, i) => (
-                        <p
-                          key={i}
-                          id={`caption-${i}`}
-                          className={`caption-inPopup-line2 ${
-                            activeIndex === i ? "active" : ""
-                          }`}
-                        >
-                          {cap.text}
-                        </p>
-                      ))}
-                    </div>
-                  </div>
+                    <h5 className={`u2-word ${disabled ? "is-disabled" : ""}`}>
+                      {m.word}
+                    </h5>
 
-                  {/* Play */}
-                  <button className="play-btn2" onClick={togglePlay}>
-                    {isPlaying ? <FaPause size={26} /> : <FaPlay size={26} />}
-                  </button>
-
-                  {/* Settings */}
-                  <div className="settings-wrapper" ref={settingsRef}>
-                    <button
-                      className={`round-btn ${showSettings ? "active" : ""}`}
-                      onClick={() => setShowSettings(!showSettings)}
-                    >
-                      <IoMdSettings size={36} />
-                    </button>
-
-                    {showSettings && (
-                      <div className="settings-popup">
-                        <label>Volume</label>
-                        <input
-                          type="range"
-                          min="0"
-                          max="1"
-                          step="0.05"
-                          value={volume}
-                          onChange={(e) => {
-                            setVolume(e.target.value);
-                            audioRef.current.volume = e.target.value;
-                          }}
-                        />
-                      </div>
+                    {wrong.includes(m.word) && (
+                      <span className="CB-unit2-p6-q1-error-mark-img">✕</span>
                     )}
+
+                    <div className="dot1 dot-start1" data-word={m.word} />
                   </div>
-                </div>{" "}
-              </div>
-            </div>
-          </div>
-
-          <div className="u2-container">
-            <DragDropContext onDragEnd={handleOnDragEnd}>
-              <div className="layout">
-                <audio ref={clickAudioRef} style={{ display: "none" }} />
-                <div className="left-side">
-                  {exerciseData.images.map((img, index) => {
-                    const droppedId = droppedLetters[`drop-${index + 1}`];
-                    const droppedPair = exerciseData.pairs.find(
-                      (p) => p.id === droppedId,
-                    );
-
-                    return (
-                      <Droppable key={index} droppableId={`drop-${index + 1}`} isDropDisabled={showAnswer}>
-                        {(provided, snapshot) => (
-                          <div className="image-row">
-                            <img
-                              src={img.img}
-                              alt=""
-                              className="person-img"
-                              style={{ cursor: "pointer" }}
-                              onClick={() => playSound(img.sound)}
-                            />
-
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.droppableProps}
-                              className={`drop-circle ${
-                                snapshot.isDraggingOver ? "drop-hover" : ""
-                              }`}
-                              style={{ position: "relative" }}
-                            >
-                              {/* ✅ إشارة الخطأ - تظهر فقط إذا كانت هذه الـ drop من ضمن الأخطاء */}
-                              {wrongDrops.includes(`drop-${index + 1}`) && (
-                                <div className="wrong-x3">✕</div>
-                              )}
-                              {droppedPair && (
-                                <Draggable
-                                  draggableId={droppedPair.id}
-                                  index={index}
-                                  isDragDisabled={true}
-                                >
-                                  {(providedDraggable) => (
-                                    <div
-                                      ref={providedDraggable.innerRef}
-                                      {...providedDraggable.draggableProps}
-                                      {...providedDraggable.dragHandleProps}
-                                      className="circle-number"
-                                    >
-                                      {droppedPair.letter}
-                                    </div>
-                                  )}
-                                </Draggable>
-                              )}
-                              {provided.placeholder}
-                            </div>
-                          </div>
-                        )}
-                      </Droppable>
-                    );
-                  })}
                 </div>
+              ))}
+            </div>
 
-                <Droppable droppableId="letters">
-                  {(provided) => (
-                    <div
-                      className="right-side"
-                      ref={provided.innerRef}
-                      {...provided.droppableProps}
-                    >
-                      {exerciseData.pairs
-                      
-                        .map((pair, index) => (
-                          <div className="option-box" key={pair.id}>
-                            <Draggable draggableId={pair.id} index={index} isDragDisabled={showAnswer}>
-                              {(providedDraggable) => (
-                                <span
-                                  ref={providedDraggable.innerRef}
-                                  {...providedDraggable.draggableProps}
-                                  {...providedDraggable.dragHandleProps}
-                                  className="number-tag draggable-number"
-                                >
-                                  {pair.letter}
-                                </span>
-                              )}
-                            </Draggable>
-
-                            <span className="month-label">{pair.content}</span>
-                          </div>
-                        ))}
-
-                      {provided.placeholder}
+            {/* IMAGES */}
+            <div className="u2-match-images">
+              {images.map((m) => (
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <div className="u2-image-wrapper" onClick={endLine}>
+                    <div className="dot1 dot-end1" data-image={m.image} />
+                    <div className="u2-image-item">
+                      <img
+                        src={m.src}
+                        alt=""
+                        className={`u2-image ${disabled ? "is-disabled" : ""}`}
+                      />
                     </div>
-                  )}
-                </Droppable>
-              </div>
-            </DragDropContext>
-          </div>
-        </div>
-        <div className="action-buttons-container">
-          <button
-            onClick={() => {
-              setDroppedLetters(initialDroppedState);
-              setWrongDrops([]);
-              setShowAnswer(false);
-            }}
-            className="try-again-button"
-          >
-            Start Again ↻
-          </button>
-          <button onClick={handleShowAnswer} className="show-answer-btn">
-            Show Answer
-          </button>
+                  </div>
+                </div>
+              ))}
+            </div>
 
-          <button onClick={handleCheckAnswers} className="check-button2">
-            Check Answer ✓
-          </button>
+            {/* LINES */}
+            <svg className="lines-layer">
+              {lines.map((l, i) => (
+                <line
+                  key={i}
+                  x1={l.x1}
+                  y1={l.y1}
+                  x2={l.x2}
+                  y2={l.y2}
+                  stroke="red"
+                  strokeWidth="3"
+                />
+              ))}
+            </svg>
+          </div>
         </div>
       </div>
-    </>
+      {/* ACTION BUTTONS (كما هي) */}
+      <div className="action-buttons-container">
+        <button onClick={reset} className="try-again-button">
+          Start Again ↻
+        </button>
+        <button onClick={show} className="show-answer-btn swal-continue">
+          Show Answer
+        </button>
+        <button onClick={checkAnswers} className="check-button2">
+          Check Answer ✓
+        </button>
+      </div>
+    </div>
   );
 };
 

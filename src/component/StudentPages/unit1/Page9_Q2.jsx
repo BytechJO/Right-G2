@@ -1,355 +1,228 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState } from "react";
+import img from "../../../assets/imgs/test.png";
 import ValidationAlert from "../../Popup/ValidationAlert";
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import "./Page9_Q2.css";
+const inputData = [
+  { question: "", correct: "He's my father" },
+  { question: "", correct: "She's my mother" },
+  { question: "", correct: "He's my brother" },
+  { question: "", correct: "She's my sister" },
+  { question: "", correct: "She's my aunt" },
+  { question: "", correct: "he's my uncle" },
+];
+const dragData = {
+  data: ["sister", "mother", "uncle", "father", "brother", "aunt"],
+  correct: "jack",
+};
+const Page9_Q2 = () => {
+  const [answers, setAnswers] = useState(Array(inputData.length).fill(""));
 
-export default function Page9_Q2() {
-  const [lines, setLines] = useState([]);
-  const containerRef = useRef(null);
-  const [wrongWords, setWrongWords] = useState([]); // ⭐ تم التعديل هون
-  const [firstDot, setFirstDot] = useState(null);
-  const [showAnswer, setShowAnswer] = useState(false);
-  const [locked, setLocked] = useState(false);
+  const [wrongInputs, setWrongInputs] = useState([]);
+  const [showAnswer, setShowAnswer] = useState(false); // ⭐ NEW
+  const [missingAnswer, setMissingAnswer] = useState("");
 
-  // 🎨 ألوان الكلمات
-  const colors = ["red", "blue", "green", "orange", "purple", "yellow"];
-  const [selectedWordIndex, setSelectedWordIndex] = useState(null);
-  const [wordColors, setWordColors] = useState([
-    "transparent",
-    "transparent",
-    "transparent",
-    "transparent",
-    "transparent",
-    "transparent",
-  ]);
-  const correctMatches = [
-    { word1: "Good", word2: "afternoon" },
-    { word1: "Fine,", word2: "thank you" },
-    { word1: "How", word2: "are you" },
-  ];
+  const onDragEnd = (result) => {
+    const { destination, draggableId } = result;
+    if (!destination || showAnswer) return;
 
-  const handleWordClick = (index) => {
-    setSelectedWordIndex(index);
-  };
+    const value = draggableId.replace("word-", "");
+    const index = Number(destination.droppableId.split("-")[1]);
 
-  const applyColor = (color) => {
-    const newColors = [...wordColors];
-    newColors[selectedWordIndex] = color;
-    setWordColors(newColors);
-    setSelectedWordIndex(null);
-  };
+    setAnswers((prev) => {
+      const updated = [...prev];
 
-  // ==========================
-  // ⭐ Click to Connect Logic
-  // ==========================
-  const handleStartDotClick = (e) => {
-    if (locked || showAnswer) return;
-    const word = e.target.dataset.letter;
+      // منع تكرار الكلمة
+      const oldIndex = updated.findIndex((a) => a === value);
+      if (oldIndex !== -1) updated[oldIndex] = null;
 
-    // ❌ منع رسم أكثر من خط من نفس الكلمة
-    const alreadyUsed = lines.some((line) => line.word === word);
-    if (alreadyUsed) return;
-    const rect = containerRef.current.getBoundingClientRect();
-
-    setFirstDot({
-      word: e.target.dataset.letter,
-      x: e.target.getBoundingClientRect().left - rect.left + 8,
-      y: e.target.getBoundingClientRect().top - rect.top + 8,
+      updated[index] = value;
+      return updated;
     });
+
+    setWrongInputs([]);
   };
-
-  const handleEndDotClick = (e) => {
-    if (locked || showAnswer) return;
-    if (!firstDot) return;
-
-    const rect = containerRef.current.getBoundingClientRect();
-
-    const newLine = {
-      x1: firstDot.x,
-      y1: firstDot.y,
-      x2: e.target.getBoundingClientRect().left - rect.left + 8,
-      y2: e.target.getBoundingClientRect().top - rect.top + 8,
-      word: firstDot.word,
-      image: e.target.dataset.image,
-    };
-
-    setLines((prev) => [...prev, newLine]);
-    setFirstDot(null);
-  };
-
-  useEffect(() => {
-    const hidePalette = (e) => {
-      // إذا الكبس كان على دائرة اللون أو على الكلمة المختارة → لا تخفيه
-      if (
-        e.target.classList.contains("color-circle") ||
-        e.target.classList.contains("H5")
-      ) {
-        return;
-      }
-
-      setSelectedWordIndex(null);
-    };
-
-    // إضافة listener
-    document.addEventListener("click", hidePalette);
-
-    // تنظيف عند الخروج
-    return () => {
-      document.removeEventListener("click", hidePalette);
-    };
-  }, []);
+  const missingCorrect = "jack";
 
   const checkAnswers = () => {
-    if (showAnswer) return;
-    // 1️⃣ إذا في خطوط ناقصة
-    if (lines.length < correctMatches.length) {
-      ValidationAlert.info(
-        "Oops!",
-        "Please connect all pairs before checking."
-      );
+    if (showAnswer) return; // ⭐ منع التعديل عند Show Answer
+    let missingCorrectAnswer = missingAnswer.trim() === missingCorrect;
+
+    if (answers.some((a) => a.trim() === "")) {
+      ValidationAlert.info("Please fill in all blanks before checking!");
       return;
     }
 
-    // 2️⃣ حساب عدد التوصيلات الصحيحة
-    let correctCount = 0;
-    const total = correctMatches.length;
-    let wrong = []; // ⭐ تم التعديل هون
-    lines.forEach((line) => {
-      const isCorrect = correctMatches.some(
-        (pair) => pair.word1 === line.word && pair.word2 === line.image
-      );
-      if (isCorrect) correctCount++;
-      else wrong.push(line.word); // ⭐ تم التعديل هون
+    const totalQuestions = inputData.length + 1;
+    let correctCount = missingCorrectAnswer ? 1 : 0;
+
+    let wrong = [];
+
+    answers.forEach((ans, i) => {
+      if (ans.trim() === inputData[i].correct) {
+        correctCount++;
+      } else {
+        wrong.push(i);
+      }
     });
 
-    setWrongWords(wrong); // ⭐ تم التعديل هون
-    // 3️⃣ تحديد اللون حسب النتيجة
-    const color =
-      correctCount === total ? "green" : correctCount === 0 ? "red" : "orange";
-
-    // 4️⃣ رسالة النتيجة بشكل HTML
-    const scoreMessage = `
-    <div style="font-size: 20px; margin-top: 10px; text-align:center;">
-      <span style="color:${color}; font-weight:bold;">
-       Score: ${correctCount} / ${total}
-      </span>
-    </div>
-  `;
-
-    // 5️⃣ اختيار نوع الرسالة
-    if (correctCount === total) {
-      ValidationAlert.success(scoreMessage);
-    } else if (correctCount === 0) {
-      ValidationAlert.error(scoreMessage);
-    } else {
-      ValidationAlert.warning(scoreMessage);
-    }
-    setLocked(true);
-  };
-  // ⭐ Show Correct Answers
-  const showCorrectAnswers = () => {
-    const rect = containerRef.current.getBoundingClientRect();
-
-    // 1️⃣ تجهيز خطوط الإجابة الصحيحة
-    const correctLines = correctMatches.map((pair) => {
-      const startEl = document.querySelector(
-        `.start-dot1[data-letter="${pair.word1}"]`
-      );
-      const endEl = document.querySelector(
-        `.end-dot1[data-image="${pair.word2}"]`
-      );
-
-      return {
-        x1: startEl.getBoundingClientRect().left - rect.left + 8,
-        y1: startEl.getBoundingClientRect().top - rect.top + 8,
-        x2: endEl.getBoundingClientRect().left - rect.left + 8,
-        y2: endEl.getBoundingClientRect().top - rect.top + 8,
-        word: pair.word1,
-        image: pair.word2,
-      };
-    });
-
-    // 2️⃣ وضع الخطوط
-    setLines(correctLines);
-
-    // 3️⃣ إخفاء علامات الإكس
-    setWrongWords([]);
+    setWrongInputs(wrong);
     setShowAnswer(true);
-    // 4️⃣ إعادة تلوين الكلمات (إذا بدك)
-    setWordColors(["green", "green", "green", "green", "green", "green"]);
+    let color =
+      correctCount === totalQuestions
+        ? "green"
+        : correctCount === 0
+          ? "red"
+          : "orange";
+
+    const scoreMessage = `
+      <div style="font-size:20px; text-align:center;">
+        <span style="color:${color}; font-weight:bold;">
+          Score: ${correctCount} / ${totalQuestions}
+        </span>
+      </div>
+    `;
+
+    if (correctCount === totalQuestions) ValidationAlert.success(scoreMessage);
+    else if (correctCount === 0) ValidationAlert.error(scoreMessage);
+    else ValidationAlert.warning(scoreMessage);
+  };
+
+  const reset = () => {
+    setAnswers(Array(inputData.length).fill(""));
+    setWrongInputs([]);
+    setMissingAnswer(""); // الجواب الصحيح
+    setShowAnswer(false); // ⭐ إعادة التفعيل الطبيعي
+  };
+
+  // ⭐⭐⭐ SHOW ANSWER FUNCTION
+  const showCorrectAnswers = () => {
+    setAnswers(inputData.map((item) => item.correct));
+    setMissingAnswer("jack"); // الجواب الصحيح
+    setWrongInputs([]);
+    setShowAnswer(true);
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        // marginTop: "30px",
-        padding: "30px",
-        justifyContent: "center",
-      }}
-    >
+    <DragDropContext onDragEnd={onDragEnd}>
       <div
-        className="div-forall"
         style={{
           display: "flex",
           flexDirection: "column",
-          justifyContent: "flex-start",
-          alignItems: "flex-start",
-          position: "relative",
-          width: "60%",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "30px",
         }}
       >
-        <h4 className="header-title-page8">
-          <span className="ex-A">E</span>Match and color.
-        </h4>
-        <span style={{ fontSize: "14px", color: "gray" }}>
-          Hint: Double Click to Color Word
-        </span>
-        {selectedWordIndex !== null && (
-          <div className="color-palette">
-            {colors.map((c) => (
-              <div
-                key={c}
-                className="color-circle"
-                style={{ backgroundColor: c }}
-                onClick={() => applyColor(c)}
-              ></div>
-            ))}
-          </div>
-        )}
-
-        <div className="container3" ref={containerRef}>
-          <div className="word-section1">
-            {["Good", "Fine,", "How"].map((word, i) => (
-              <div
-                style={{
-                  position: "relative",
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  width: "100%",
-                  justifyContent: "flex-end",
-                }}
-              >
-                <h5
-                  key={i}
-                  className={`H5 ${
-                    wordColors[0] === "transparent"
-                      ? "word-outline"
-                      : "word-colored"
-                  } ${locked || showAnswer ? "disabled-word" : ""}`}
-                  style={{
-                    color: wordColors[i],
-                    cursor: "pointer",
-                    position: "relative",
-                    textAlign: "start",
-                    width: "100%",
-                  }}
-                  onClick={() => document.getElementById(`dot-${word}`).click()} // رسم الخط
-                  onDoubleClick={() => handleWordClick(i)} // فتح الباليت
-                  onTouchEnd={() => handleWordClick(i)}
-                >
-                  {word}
-                </h5>{" "}
-                <div
-                  id={`dot-${word}`}
-                  className="dot1 start-dot1"
-                  data-letter={word}
-                  onClick={handleStartDotClick}
-                ></div>
-                {wrongWords.includes(word) && ( // ⭐ تم التعديل هون
-                  <span className="error-mark3">✕</span>
-                )}
+        <div
+          className="div-forall"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "30px",
+            width: "60%",
+            justifyContent: "flex-start",
+          }}
+        >
+          <div className="component-wrapper">
+            <h3 className="header-title-page8">
+              <span className="ex-A"> D</span> Look and write.
+            </h3>
+            <div className="CB-unit1-p9-q2-top-container">
+              <div className="family-image-wrapper">
+                <img
+                  src={img}
+                  className="CB-unit1-p9-q2-shape-img"
+                  alt=""
+                  style={{ height: "200px", width: "150px" }}
+                />
               </div>
-            ))}
-          </div>
+              <div className="CB-unit1-p9-q2-rightSide">
+                <div className="word-list-box">
+                  {dragData.data.map((word, index) => (
+                    <div key={index} className="word-item">
+                      {word}
+                    </div>
+                  ))}
+                </div>
 
-          <div className="word-section2">
-            {["thank you", "are you", "afternoon"].map((word, i) => (
-              <div
-                style={{
-                  position: "relative",
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  width: "100%",
-                  justifyContent: "flex-start",
-                }}
-              >
-                <div
-                  className="dot1 end-dot1"
-                  id={`dot-${word}`}
-                  data-image={word}
-                  onClick={handleEndDotClick}
-                ></div>
-                <h5
-                  key={i + 3}
-                  className={`H5 ${
-                    wordColors[0] === "transparent"
-                      ? "word-outline"
-                      : "word-colored"
-                  } ${locked || showAnswer ? "disabled-word" : ""}`}
-                  style={{
-                    color: wordColors[i + 3],
-                    cursor: "pointer",
-                    position: "relative",
-                  }}
-                  onClick={() => document.getElementById(`dot-${word}`).click()}
-                  onDoubleClick={() => handleWordClick(i + 3)}
-                  onTouchEnd={() => handleWordClick(i + 3)}
-                >
-                  {word}
-                </h5>
+                {/* الفقاعة الزرقا تحت صندوق الكلمات */}
+                <div className="missing-bubble">
+                  <input
+                    className="blank-space"
+                    value={missingAnswer}
+                    disabled={showAnswer}
+                    onChange={(e) => setMissingAnswer(e.target.value)}
+                  />
+                  {missingAnswer !== "jack" ||missingAnswer !== ""||!showAnswer && (
+                    <span className="CB-unit1-p9-q2-wrong-icon1">✕</span>
+                  )}
+                  <span> is missing from the picture.</span>
+                </div>
               </div>
-            ))}
-          </div>
+            </div>
+            <div className="CB-unit1-p9-q2-content">
+              <div className="CB-unit1-p9-q2-group-input">
+                {inputData.map((item, index) => (
+                  <div key={index} className="CB-unit1-p9-q2-question-row">
+                    <span className="CB-unit1-p9-q2-q-number">
+                      {index + 1}.
+                    </span>
 
-          <svg className="lines-layer">
-            {lines.map((line, i) => (
-              <line
-                key={i}
-                x1={line.x1}
-                y1={line.y1}
-                x2={line.x2}
-                y2={line.y2}
-                stroke="red"
-                strokeWidth="3"
-              />
-            ))}
-          </svg>
+                    <div
+                      className="CB-unit1-p9-q2-question-text"
+                      style={{ position: "relative" }}
+                    >
+                      <input
+                        type="text"
+                        value={answers[index]}
+                        disabled={showAnswer}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          setAnswers((prev) => {
+                            const updated = [...prev];
+                            updated[index] = value;
+                            return updated;
+                          });
+                        }}
+                        className={`CB-unit1-p9-q2-input ${
+                          wrongInputs.includes(index)
+                            ? "CB-unit1-p9-q2-input-wrong"
+                            : ""
+                        }`}
+                      />
+
+                      {wrongInputs.includes(index) && (
+                        <span className="CB-unit1-p9-q2-wrong-icon">✕</span>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="action-buttons-container">
+          <button className="try-again-button" onClick={reset}>
+            Start Again ↻
+          </button>
+
+          {/* ⭐ زر الشو أنسر */}
+          <button
+            className="show-answer-btn swal-continue"
+            onClick={showCorrectAnswers}
+          >
+            Show Answer
+          </button>
+
+          <button className="check-button2" onClick={checkAnswers}>
+            Check Answers ✓
+          </button>
         </div>
       </div>
-      <div className="action-buttons-container">
-        <button
-          onClick={() => {
-            setLines([]);
-            setWrongWords([]);
-            setWordColors([
-              "transparent",
-              "transparent",
-              "transparent",
-              "transparent",
-              "transparent",
-              "transparent",
-            ]);
-            setShowAnswer(false);
-            setLocked(false); // 🔓 مسموح الرسم مرة أخرى
-            setFirstDot(null);
-          }}
-          className="try-again-button"
-        >
-          Start Again ↻
-        </button>
-        <button
-          onClick={showCorrectAnswers}
-          className="show-answer-btn swal-continue"
-        >
-          Show Answer
-        </button>
-
-        <button onClick={checkAnswers} className="check-button2">
-          Check Answer ✓
-        </button>
-      </div>
-    </div>
+    </DragDropContext>
   );
-}
+};
+
+export default Page9_Q2;

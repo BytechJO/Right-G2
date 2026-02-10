@@ -1,0 +1,107 @@
+/* ===============================
+   WRAPPER
+================================ */
+.CB-unit2-p5-q2-wrapper {
+ 
+ 
+  padding: 16px 20px;
+  background: #fff;
+}
+
+/* ===============================
+   GRID
+================================ */
+.CB-unit2-p5-q2-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ===============================
+   QUESTION BOX
+================================ */
+.CB-unit2-p5-q2-box {
+  display: flex;
+  gap: 100px;
+      align-items: center;
+}
+
+/* ===============================
+   IMAGE
+================================ */
+.CB-unit2-p5-q2-img {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  background: #dff3c6;
+  border: 3px solid #ff6b6b;
+  border-radius: 12px;
+  padding: 6px;
+}
+
+/* ===============================
+   ROW (OPTION)
+================================ */
+.CB-unit2-p5-q2-row {
+  display: flex;
+  align-items: center;
+ justify-content: flex-start;
+  margin-bottom: 6px;
+}
+
+/* ===============================
+   TEXT
+================================ */
+.CB-unit2-p5-q2-text {
+  font-size: 22px;
+  line-height: 1.4;
+}
+
+/* ===============================
+   INPUT BOX
+================================ */
+.CB-unit2-p5-q2-input-box {
+  position: relative;
+}
+.CB-unit2-p5-q2-img-container{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+
+}
+/* ===============================
+   INPUT (CHECK BOX STYLE)
+================================ */
+.CB-unit2-p5-q2-input {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #ff6b6b;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 25px;
+  cursor: pointer;
+  color: #2e3192;
+  background: white;
+}
+
+/* ===============================
+   WRONG MARK
+================================ */
+.CB-unit2-p5-q2-x {
+  position: absolute;
+  top: -10px;
+  right: -8px;
+  width: 25px;
+  height: 25px;
+  border: 2px solid white;
+  background-color: red;
+  border-radius: 50%;
+  color: white;
+  font-weight: bold;
+  font-size: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none; /* عشان ما تأثر على السحب أو الكتابة */
+}

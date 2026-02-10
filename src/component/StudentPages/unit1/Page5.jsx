@@ -12,7 +12,7 @@ import allSound_letter from "../../../assets/audio/ClassBook/U 1/Pg5_Instruction
 import read from "../../../assets/Page 01/P1 listen and repeat 01.svg";
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
-import AudioWithCaption from "../../AudioWithCaption";
+import ReadChoose from "../../ReadChoose";
 import FourImagesWithAudio from "../../FourImagesWithAudio";
 import sound1_letter from "../../../assets/audio/ClassBook/U 1/Pg5_1.1_Adult Lady.mp3";
 import sound2_letter from "../../../assets/audio/ClassBook/U 1/Pg5_1.2_Adult Lady.mp3";
@@ -38,11 +38,18 @@ const Page5 = ({ openPopup }) => {
     { start: 8.25, end: 11.25, text: "She is one year old. She likes people." },
   ];
 
-  const captions = [
-    { start: 0, end: 3.26, text: " Page 5. Listen, read, and repeat. " },
-    { start: 3.28, end: 5.15, text: "Hello. How are you? " },
-    { start: 5.17, end: 7.13, text: "Fine, thank you. " },
-  ];
+const readChooseData = {
+  title: "Read and choose.",
+  questions: [
+    {
+      text: "Who’s Jack?",
+      options:["Stella’s uncle" ,"Stella’s cousin"],
+      correct:"Stella’s cousin",
+    },
+    
+  ],
+};
+
 
   const captions2 = [
     { start: 0, end: 3.19, text: " Page 5. Listen and read along. " },
@@ -194,15 +201,7 @@ const Page5 = ({ openPopup }) => {
           onClick={() =>
             openPopup(
               "html",
-              <FourImagesWithAudio
-                images={[read, repeat1_conversation, repeat2_conversation]}
-                audioSrc={null}
-                checkpoints={[0, 4, 5.9]}
-                popupOpen={true}
-                titleQ={`Listen, read, and repeat.`}
-                audioArr={imageSounds2}
-                captions={captions}
-              />,
+             <ReadChoose data={readChooseData}/>
             )
           }
           style={{ overflow: "visible" }}
