@@ -20,7 +20,7 @@ import longAudio from "../../../assets/audio/ClassBook/U 1/CD2.Pg4_Instruction1_
 // import sound1 from "../../../assets/audio/placeholders/song.mp3";
 // import sound4 from "../../../assets/audio/placeholders/song.mp3";
 // import sound5 from "../../../assets/audio/placeholders/song.mp3";
-
+import "./Page4.css"
 const Page4 = ({ openPopup }) => {
   const audioRef = useRef(null);
   const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);

@@ -1,172 +1,180 @@
-import React, { useState } from "react";
-import "./Page8_Q4.css";
+import React, { useState, useEffect } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-import img1 from "../../../assets/imgs/test.png";
-import img2 from "../../../assets/imgs/test.png";
+import "./Page8_Q4.css";
+
 const Page8_Q4 = () => {
-  const gridLetters = [
-    ..."dtheytadgbnmvglikexnsrolto",
-    ..."hfeatbxazbkgrasshafghrtfbi",
-    ..."pmolki",
-  ];
+  const grid = [
+  "d","t","h","e","y","t","a","d","g","b","n","m","v","g","l","i","k","e","x","n","s","r","o","l","t","o",
+  "h","f","e","a","t","b","x","a","z","b","k","g","r","a","s","s","h","a","f","g","h","r","t","f","b","i",
+  "p","m","o","l","k","i"
+];
 
-  const correctAnswer = "they like to eat grass";
+  const letters = grid; // نفس الـ array اللي عندك
+  const wordsToFind = ["they", "like", "to", "eat","grass"];
+  const [sentence, setSentence] = useState("");
 
-  const [answerLetters, setAnswerLetters] = useState([]);
-  const [isChecked, setIsChecked] = useState(false);
-  const [showAnswer, setShowAnswer] = useState(false);
-const [isWrong, setIsWrong] = useState(false);
+  const [selected, setSelected] = useState([]);
+  const [currentWord, setCurrentWord] = useState("");
+  const [foundWords, setFoundWords] = useState([]);
+  const [coloredCells, setColoredCells] = useState([]);
 
-  const onDragEnd = (result) => {
-    const { destination, draggableId } = result;
-    if (!destination || showAnswer || isChecked) return;
+  const handleClick = (letter, index) => {
+    if (coloredCells.includes(index)) return;
 
-    if (destination.droppableId === "answer-input") {
-      const letter = draggableId.split("-")[1];
-      setAnswerLetters((prev) => [...prev, letter]);
-    }
-  };
+    if (selected.includes(index)) {
+      const cutIndex = selected.indexOf(index);
+      const newSelected = selected.slice(0, cutIndex);
 
-  const handleShowAnswer = () => {
-    if (showAnswer || isChecked) return;
-    setAnswerLetters(correctAnswer.split(""));
-    setShowAnswer(true);
-  };
+      const newWord = newSelected.map((i) => letters[i]).join("");
 
-  const handleCheckAnswers = () => {
-    if (showAnswer || isChecked) return;
-    const formed = answerLetters.join("");
-
-    // 1️⃣ input فاضي
-    if (!formed || formed.trim().length === 0) {
-      ValidationAlert.warning("Warning!", "Please drag letters first ✋");
+      setSelected(newSelected);
+      setCurrentWord(newWord);
       return;
     }
 
-    // حساب السكور
-    let score = 0;
-    for (let i = 0; i < correctAnswer.length; i++) {
-      if (formed[i] === correctAnswer[i]) {
-        score++;
+    setSelected((prev) => [...prev, index]);
+    setCurrentWord((prev) => prev + letter);
+  };
+
+  useEffect(() => {
+    if (
+      wordsToFind.includes(currentWord) &&
+      !foundWords.includes(currentWord)
+    ) {
+      setFoundWords((prev) => [...prev, currentWord]);
+      setColoredCells((prev) => [...prev, ...selected]);
+
+      setSentence((prev) =>
+        prev === "" ? currentWord : prev + " " + currentWord,
+      );
+
+      setSelected([]);
+      setCurrentWord("");
+    }
+  }, [currentWord]);
+
+  const checkAnswers = () => {
+    const total = wordsToFind.length;
+    const score = foundWords.length;
+
+    if (foundWords.length === 0) {
+      ValidationAlert.info(`
+        <div style="font-size:20px;text-align:center;">
+          <b>Find all the words first!</b><br/>
+          <span style="color:#1d4f7b;font-weight:bold;">
+            Current Score: ${score} / ${total}
+          </span>
+        </div>
+      `);
+      return;
+    }
+
+    if (score === 0) {
+      ValidationAlert.error(`
+        <div style="font-size:20px;text-align:center;">
+          <b style="color:red;">Score: 0 / ${total}</b>
+        </div>
+      `);
+    } else if (score < total) {
+      ValidationAlert.warning(`
+        <div style="font-size:20px;text-align:center;">
+          <b style="color:orange;">Score: ${score} / ${total}</b>
+        </div>
+      `);
+    } else {
+      ValidationAlert.success(`
+        <div style="font-size:20px;text-align:center;">
+          <b style="color:green;">Score: ${score} / ${total}</b>
+        </div>
+      `);
+    }
+  };
+  const reset = () => {
+    setSelected([]);
+    setCurrentWord("");
+    setFoundWords([]);
+    setColoredCells([]);
+    setSentence(""); // 👈 مهم
+  };
+
+  const showAnswers = () => {
+    let allCells = [];
+    const fullString = letters.join("");
+
+    wordsToFind.forEach((word) => {
+      const startIndex = fullString.indexOf(word);
+
+      if (startIndex !== -1) {
+        for (let i = 0; i < word.length; i++) {
+          allCells.push(startIndex + i);
+        }
       }
-    }
-    const total = correctAnswer.length;
+    });
 
-    let color = score === total ? "green" : score === 0 ? "red" : "orange";
-
-    const msg = `
-      <div style="font-size:20px;text-align:center;">
-        <span style="color:${color};font-weight:bold">
-          Score: ${score} / ${total}
-        </span>
-      </div>
-    `;
-    setIsChecked(true);
-    // 2️⃣ الإجابة صحيحة
-    if (formed === correctAnswer) {
-      ValidationAlert.success(msg);
-      setIsChecked(true);
-      return;
-    }
-
-    // 3️⃣ الإجابة غلط
-      setIsWrong(true);
-    ValidationAlert.error(msg);
+    setFoundWords(wordsToFind);
+    setColoredCells(allCells);
+    setSelected([]);
+    setCurrentWord("");
+    setSentence(wordsToFind.join(" "));
   };
 
   return (
     <div style={{ display: "flex", justifyContent: "center", padding: "30px" }}>
       <div className="div-forall" style={{ width: "60%" }}>
-        <div className="container8">
-          <h5 className="header-title-page8">
-            <span className="ex-A">C</span> What do lambs like to eat?
-          </h5>
+        {/* ❌ الهيدر كما هو */}
+        <h5 className="header-title-page8">
+          <span className="ex-A">C</span>What do photographers use?
+        </h5>
 
-          <div className="alphabet-box">
-            <DragDropContext onDragEnd={onDragEnd}>
-              {/* 🔤 Letter Grid */}
-              <Droppable droppableId="grid" isDropDisabled>
-                {(provided) => (
-                  <div className="row1" ref={provided.innerRef}>
-                    {gridLetters.map((letter, index) => (
-                      <Draggable
-                        key={index}
-                        draggableId={`letter-${letter}-${index}`}
-                        index={index}
-                        isDragDisabled={showAnswer || isChecked}
-                      >
-                        {(provided) => (
-                          <div
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            className="cell1 drag-letter"
-                          >
-                            {letter}
-                          </div>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
+        <div className="words-list-CB-unit3-p5-q4">
+          {wordsToFind.map((word) => (
+            <span
+              key={word}
+              className={`word-CB-unit3-p5-q4 ${
+                foundWords.includes(word) ? "found-CB-unit3-p5-q4" : ""
+              }`}
+            >
+              {word}
+            </span>
+          ))}
+        </div>
 
-              <div className="img-input-container">
-                <img src={img1} style={{ height: "90px", width: "90px" }} />
-                {/* ⬜ BIG INPUT DROP ZONE */}
-                <div className="input-wrapper">
-  {isWrong && (
-    <div className="wrong-icon">
-      ✕
-    </div>
-  )}
+        <div className="wordsearch-wrapper-CB-unit3-p5-q4">
+          <div className="grid-CB-unit3-p5-q4">
+            {letters.map((letter, index) => {
+              const isSelected = selected.includes(index);
+              const isFound = coloredCells.includes(index);
 
-  <Droppable droppableId="answer-input" direction="horizontal">
-    {(provided) => (
-      <div
-        ref={provided.innerRef}
-        {...provided.droppableProps}
-        className="sentence-box big-input"
-      >
-        {answerLetters.map((letter, index) => (
-          <span key={index} className="sentence-text">
-            {letter}
-          </span>
-        ))}
-        {provided.placeholder}
-      </div>
-    )}
-  </Droppable>
-</div>
-
-                <img src={img1} style={{ height: "90px", width: "90px" }} />
-              </div>
-            </DragDropContext>
+              return (
+                <span
+                  key={index}
+                  className={`cell-CB-unit3-p5-q4 
+          ${isSelected ? "selected-CB-unit3-p5-q4" : ""}
+          ${isFound ? "found-cell-CB-unit3-p5-q4" : ""}`}
+                  onClick={() => handleClick(letter, index)}
+                >
+                  {letter}
+                </span>
+              );
+            })}
           </div>
+
+          <input
+            className="answer-input-CB-unit3-p5-q4"
+            value={sentence}
+            readOnly
+          />
         </div>
       </div>
 
-      {/* 🔘 Buttons */}
       <div className="action-buttons-container">
-       <button
-  onClick={() => {
-    setAnswerLetters([]);
-    setIsChecked(false);
-    setShowAnswer(false);
-    setIsWrong(false); // 👈 مهم
-  }}
-  className="try-again-button"
->
-  Start Again ↻
-</button>
-
-        <button onClick={handleShowAnswer} className="show-answer-btn">
+        <button onClick={reset} className="try-again-button">
+          Start Again ↻
+        </button>
+        <button onClick={showAnswers} className="show-answer-btn swal-continue">
           Show Answer
         </button>
-
-        <button onClick={handleCheckAnswers} className="check-button2">
+        <button onClick={checkAnswers} className="check-button2">
           Check Answer ✓
         </button>
       </div>

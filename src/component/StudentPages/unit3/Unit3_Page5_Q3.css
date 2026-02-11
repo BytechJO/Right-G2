@@ -1,0 +1,8 @@
+.CB-unit2-p6-q2-left-container{
+   
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+}

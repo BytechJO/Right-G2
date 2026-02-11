@@ -6,7 +6,7 @@ import sound2 from "../../../assets/audio/ClassBook/U 1/Pg7_2.2_Adult Lady.mp3";
 import sound3 from "../../../assets/audio/ClassBook/U 1/Pg7_2.3_Adult Lady.mp3";
 import sound4 from "../../../assets/audio/ClassBook/U 1/Pg7_2.4_Adult Lady.mp3";
 import sound5 from "../../../assets/audio/ClassBook/U 1/Pg7_2.5_Adult Lady.mp3";
-
+import "./Page7.css"
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 // import video2 from "../../../assets/unit1/sounds/p7 1920.mp4";

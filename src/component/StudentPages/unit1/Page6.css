@@ -1,0 +1,25 @@
+
+/*===========page 6 ====================*/
+
+.headset-icon-CD-page6 {
+  position: absolute;
+  /* background-color: #6bcff6;
+  border-radius: 20px;
+  border: rgb(255, 255, 255) solid 2px; */
+  padding: 5px;
+  top: 3.5%;
+  left: 35%;
+  cursor: pointer;
+}
+
+.clickable-area {
+  position: absolute;
+  cursor: pointer;
+}
+.pauseBtn-icon-CD-page6 {
+  position: absolute;
+  padding: 5px;
+  top: 3.5%;
+  left: 40.2%;
+  cursor: pointer;
+}

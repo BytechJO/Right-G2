@@ -22,6 +22,7 @@ import sound4_letter from "../../../assets/audio/ClassBook/U 1/Pg5_2.1_Adult Lad
 // import sound2_conversation from "../../../assets/audio/placeholders/song.mp3";
 // import sound2_vocab from "../../../assets/audio/placeholders/song.mp3";
 // import sound3_vocab from "../../../assets/audio/placeholders/song.mp3";
+import "./Page5.css"
 const Page5 = ({ openPopup }) => {
   const audioRef = useRef(null);
   const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);

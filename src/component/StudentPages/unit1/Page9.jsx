@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import page_9 from "../../../assets/imgs/pages/Right 2 Unit 1 Stellas Family_00001/Right 2 Unit 1 Stellas Family_00009.jpg";
-
+import "./Page9.css"
 // import song from "../../../assets/audio/placeholders/song.mp3";
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";

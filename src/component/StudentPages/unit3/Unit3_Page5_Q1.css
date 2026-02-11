@@ -1,0 +1,5 @@
+.row-content10-CB-unit3-p5-q1 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}

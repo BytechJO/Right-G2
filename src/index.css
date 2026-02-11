@@ -24,6 +24,12 @@ button {
   display: inline-flex;
   align-items: center;
 }
+.drag-over-cell {
+  background-color: #e3f2fd;      /* أزرق فاتح */
+  border: 2px dashed #1976d2;     /* إطار أزرق */
+  transform: scale(1.1);          /* تكبير خفيف */
+  transition: all 0.2s ease;
+}
 
 .tooltip-text {
   visibility: hidden;
@@ -147,95 +153,6 @@ img {
   width: auto;
 }
 
-/* ============page 4=============== */
-.page {
-  position: relative;
-  width: 100%;
-  max-width: 900px; /* حجم مناسب */
-  margin: auto;
-}
-
-.page-img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-.num-img,
-.num-img-posterVocab,
-.vocab_container_poster_vocab h6,
-.vocab_container h6 {
-  transition:
-    transform 0.4s ease,
-    color 0.4s ease;
-}
-
-.num-img.active,
-.num-img-posterVocab.active {
-  transform: scale(1.4);
-  filter: drop-shadow(0 0 6px gold);
-}
-
-.vocab_container h6,
-.vocab_container_poster_vocab h6 {
-  transition:
-    transform 0.2s ease,
-    color 0.2s;
-  cursor: pointer;
-}
-
-.vocab_container h6.active,
-.vocab_container_poster_vocab h6.active {
-  transform: scale(1.2); /* تكبير بدون ما يتحرك */
-  color: red;
-  font-weight: 600;
-  filter: drop-shadow(0 0 6px gold);
-}
-
-.vocab_container {
-  position: absolute;
-  bottom: 5%;
-  right: 8%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-.number-icon,
-.headset-icon-CD-page4-1,
-.headset-icon-CD-page4-2,
-.click-icon-page4 {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  cursor: pointer;
-  padding: 5px;
-}
-.headset-icon-CD-page4-1 {
-  top: 6.5%;
-  right: 8.2%;
-}
-
-#num-4-page4 {
-  top: 25%;
-  left: 85%;
-}
-
-#num-5-page4 {
-  top: 28%;
-  left: 74%;
-}
-
-#num-1-page4 {
-  top: 44%;
-  left: 45%;
-}
-/* .headset-icon-CD-page4-1 {
-  position: absolute;
-  background-color: #6bcff6;
-  border-radius: 20px;
-  border: rgb(255, 255, 255) solid 2px;
-  padding: 5px;
-  cursor: pointer;
-} */
 
 .circle-area {
   position: absolute;
@@ -255,48 +172,7 @@ img {
   border: 2px solid rgba(255, 0, 0, 0.8); /* 👌 تظهر فقط عند التفعيل */
   transform: scale(1.05);
 }
-.headset-icon-CD-page4-2 {
-  position: absolute;
-  top: 60.5%;
-  left: 26%;
-  /* background-color: #6bcff6;
-  border-radius: 20px;
-  border: rgb(255, 255, 255) solid 2px;
-  padding: 5px; */
-  cursor: pointer;
-  padding: 5px;
-}
 
-.click-icon-page4 {
-  position: absolute;
-  /* background-color: #6bcff6;
-  border-radius: 20px;
-  border: rgb(255, 255, 255) solid 3px; */
-  padding: 5px;
-  bottom: 11.5%;
-  right: 39%;
-
-  cursor: pointer;
-}
-
-.header-title-page4 {
-  font-family: "Fredoka", sans-serif;
-  font-weight: 700;
-  font-size: 22px;
-  text-shadow:
-    -1px -1px 0 #46b8e6,
-    1px -1px 0 #46b8e6,
-    -1px 1px 0 #46b8e6,
-    1px 1px 0 #46b8e6;
-  color: white;
-  background: #46b8e6;
-  width: fit-content;
-  border-radius: 20px 20px 0px 0px;
-  padding: 5px;
-  position: absolute;
-  top: 19%;
-  left: 26%;
-}
 .page1-img-wrapper-flashcard {
   width: 100%;
   height: 100%;
@@ -336,240 +212,6 @@ img {
   /* شكل الرقم */
   font-size: 16px;
   position: absolute;
-}
-.click-icon-page4-1 {
-  position: absolute;
-  /* background-color: #6bcff6;
-  border-radius: 20px;
-  border: rgb(255, 255, 255) solid 3px; */
-  padding: 5px;
-  top: 35%;
-  left: 16%;
-  cursor: pointer;
-}
-
-#num-4-page4 {
-  top: 25%;
-  left: 85%;
-}
-
-#num-5-page4 {
-  top: 28%;
-  left: 74%;
-}
-
-#num-1-page4 {
-  top: 44%;
-  left: 45%;
-}
-
-#d {
-  color: darkblue !important;
-  font-size: 30px;
-  position: absolute;
-  top: 43%;
-  left: 17.5%;
-}
-
-.listen {
-  color: black;
-  font-size: 20px;
-  position: absolute;
-  font-weight: 500;
-}
-
-.listenSpan {
-  color: red;
-}
-
-#duck {
-  bottom: 30%;
-  right: 18%;
-}
-
-#dish {
-  bottom: 30%;
-  left: 54%;
-}
-
-#deer {
-  bottom: 30%;
-  left: 31%;
-}
-
-/*===========page5============*/
-
-.headset-icon-CD-page5 {
-  position: absolute;
-  /* background-color: #6bcff6;
-  border-radius: 20px;
-  border: rgb(255, 255, 255) solid 2px; */
-  padding: 5px;
-  cursor: pointer;
-}
-
-#CD-1-page5 {
-  top: 3%;
-  right: 4%;
-}
-
-#CD-2-page5 {
-  bottom: 30.5%;
-  right: 9.2%;
-}
-
-#num-2-page5 {
-  top: 46%;
-  left: 8%;
-}
-
-#num-3-page5 {
-  top: 43%;
-  left: 34%;
-}
-
-.click-icon-page5 {
-  position: absolute;
-  /* background-color: #6bcff6;
-  border-radius: 20px;
-  border: rgb(255, 255, 255) solid 3px; */
-  padding: 5px;
-  bottom: 14%;
-  left: 52%;
-  cursor: pointer;
-}
-#t {
-  color: darkblue !important;
-  font-size: 30px;
-  position: absolute;
-  top: 45%;
-  left: 18.5%;
-}
-
-#tiger {
-  bottom: 28%;
-  right: 15%;
-}
-
-#taxi {
-  bottom: 28%;
-  left: 54%;
-}
-
-#table {
-  bottom: 28%;
-  left: 31%;
-}
-
-#text-0 {
-  position: absolute;
-  top: 30%;
-  left: 7%;
-  font-size: 43px;
-}
-#text-1 {
-  cursor: pointer;
-  font-size: 43px;
-  position: absolute;
-  right: 20%;
-  top: 30%;
-}
-
-/*===========page 6 ====================*/
-
-.headset-icon-CD-page6 {
-  position: absolute;
-  /* background-color: #6bcff6;
-  border-radius: 20px;
-  border: rgb(255, 255, 255) solid 2px; */
-  padding: 5px;
-  top: 3.5%;
-  left: 35%;
-  cursor: pointer;
-}
-
-.clickable-area {
-  position: absolute;
-  cursor: pointer;
-}
-.pauseBtn-icon-CD-page6 {
-  position: absolute;
-  padding: 5px;
-  top: 3.5%;
-  left: 40.2%;
-  cursor: pointer;
-}
-/*=========page7===========*/
-.headset-icon-CD-page7 {
-  position: absolute;
-  /* background-color: #6bcff6;
-  border-radius: 20px;
-  border: rgb(255, 255, 255) solid 2px; */
-  padding: 5px;
-  top: 3.5%;
-  right: 58.2%;
-  cursor: pointer;
-}
-
-.pauseBtn-icon-CD-page7 {
-  position: absolute;
-  padding: 5px;
-  top: 3.5%;
-  right: 53%;
-  cursor: pointer;
-}
-/*===========page8==================*/
-.headset-icon-CD-page8 {
-  position: absolute;
-  /* background-color: #6bcff6;
-  border-radius: 20px;
-  border: rgb(255, 255, 255) solid 3px; */
-  padding: 5px;
-  top: 8%;
-  right: 4%;
-  cursor: pointer;
-}
-
-.click-icon-page8-1 {
-  position: absolute;
-  /* background-color: #6bcff6;
-  border-radius: 20px;
-  border: rgb(255, 255, 255) solid 3px; */
-  padding: 5px;
-  top: 8%;
-  right: 3.4%;
-  cursor: pointer;
-}
-.click-icon-page8-2 {
-  position: absolute;
-  /* background-color: #6bcff6;
-  border-radius: 20px;
-  border: rgb(255, 255, 255) solid 3px; */
-  padding: 5px;
-  top: 26%;
-  left: 33.7%;
-  cursor: pointer;
-}
-.click-icon-page8-3 {
-  position: absolute;
-  /* background-color: #6bcff6;
-  border-radius: 20px;
-  border: rgb(255, 255, 255) solid 3px; */
-  padding: 5px;
-  top: 47%;
-  left: 33.5%;
-  cursor: pointer;
-}
-
-.click-icon-page8-4 {
-  position: absolute;
-  /* background-color: #6bcff6;
-  border-radius: 20px;
-  border: rgb(255, 255, 255) solid 3px; */
-  padding: 5px;
-  bottom: 23%;
-  left: 50.7%;
-  cursor: pointer;
 }
 
 .ex-A {
@@ -611,38 +253,6 @@ img {
   justify-content: space-evenly;
 }
 
-.exercise-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.exercise-image {
-  height: 150px;
-  width: auto;
-  cursor: pointer;
-  transition: 0.2s;
-  border: solid 2px #6ec1ff;
-  border-radius: 13px;
-  margin-left: 10px;
-}
-
-.exercise-image:hover {
-  transform: scale(1.1);
-}
-
-.missing-input {
-  width: 38px;
-  height: 38px;
-  border: 2px solid #6ec1ff;
-  border-radius: 6px;
-  text-align: center;
-  font-size: 30px;
-  font-weight: bold;
-  transition:
-    transform 0.2s ease,
-    font-size 0.2s ease;
-}
 .page8-wrapper {
   padding: 30px;
   width: 100%;
@@ -654,21 +264,6 @@ img {
   max-width: 900px;
 }
 
-/* لما يصير فيه حرف */
-.missing-input.filled {
-  transform: scale(1.1); /* يكبر بنسبة 20% */
-  font-size: 25px;
-}
-.missing-input:focus {
-  transform: scale(1.25); /* يكبر شوي */
-}
-
-.number-of-q {
-  color: rgb(105, 1, 147);
-  font-size: 30px;
-  font-weight: 700;
-  margin-right: 10px;
-}
 
 /* footer buttons */
 .validation-buttons {
@@ -873,37 +468,6 @@ img {
   font-weight: bold;
 }
 
-/*===========page9==================*/
-.headset-icon-CD-page9 {
-  position: absolute;
-  padding: 5px;
-  bottom: 30%;
-  left: 24.8%;
-  cursor: pointer;
-}
-
-.click-icon-page9-1 {
-  position: absolute;
-  /* background-color: #6bcff6;
-  border-radius: 20px;
-  border: rgb(255, 255, 255) solid 3px; */
-  padding: 5px;
-  top: 3.5%;
-  left: 33%;
-  cursor: pointer;
-}
-
-.click-icon-page9-2 {
-  position: absolute;
-  /* background-color: #6bcff6;
-  border-radius: 20px;
-  border: rgb(255, 255, 255) solid 3px; */
-  padding: 5px;
-  top: 26%;
-  left: 33.8%;
-
-  cursor: pointer;
-}
 
 #ex-d {
   display: flex;

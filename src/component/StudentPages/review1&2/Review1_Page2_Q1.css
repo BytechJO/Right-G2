@@ -83,25 +83,26 @@
 }
 
 .CB-review1-p2-q1-word {
-  width: 60px;
-  height: 32px;
+  width: 100px;
+  height: 60px;
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
   cursor: pointer;
+  font-size: 20px;
 }
 
 /* ====== COLORS (حسب الصورة) ====== */
-.CB-review1-p2-q1-word.d {
-  background: #b7fff8;
-  border: 2px solid #00b8a9;
+.CB-review1-p2-q1-word.l {
+  background: #f9e6dc;
+  /* border: 2px solid #e53935; */
 }
 
-.CB-review1-p2-q1-word.t {
-  background: #baf0ba;
-  border: 2px solid #2e8b57;
+.CB-review1-p2-q1-word.r {
+  background: #f9e6dc;
+  /* border: 2px solid #e53935; */
 }
 
 /* ====== LINES ====== */
