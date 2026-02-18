@@ -1,0 +1,74 @@
+.CB-unit5-p6-q2-word-section {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.CB-unit5-p6-q2-input {
+  border: 2px dashed #cfcfcf;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.CB-unit5-p6-q2-input.CB-unit5-p6-q2-drag-over {
+  border-color: #1976d2;
+  background-color: #e3f2fd;
+  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+}
+
+.CB-unit5-p6-q2-word-text {
+  flex: 1;
+  font-size: 20px;
+  font-weight: 700;
+  border-radius: 20px;
+  width: 200px;
+  text-align: start;
+  border: 2px solid transparent;
+}
+.CB-unit5-p6-q2-input {
+  width: 90%;
+  height: 30px;
+  border-bottom: 2px solid #000000;
+  font-size: 20px;
+}
+.CB-unit5-p6-q2-word-bank {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  border: 2px solid #4b74ff;
+  background-color: #f2f6ff;
+  border-radius: 8px;
+  padding: 4px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.CB-unit5-p6-q2-word-bank-container {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+}
+
+.CB-unit5-p6-q2-error-mark {
+  position: absolute;
+  right: 37%;
+  top: 50%;
+  border: 2px solid white;
+  background-color: red;
+  border-radius: 50%;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 8px;
+  vertical-align: middle;
+  width: 25px;
+  height: 25px;
+}

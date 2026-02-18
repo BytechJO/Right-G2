@@ -49,6 +49,24 @@ import Review4_Page1 from "../StudentPages/review3&4/Review4_Page1";
 import Review4_Page2 from "../StudentPages/review3&4/Review4_Page2";
 import Reading_Unit4_Page1 from "../StudentPages/unit4/Reading_Unit4_Page1";
 import Reading_Unit4_Page2 from "../StudentPages/unit4/Reading_Unit4_Page2";
+import Unit5_Page1 from "../StudentPages/unit5/Unit5_Page1";
+import Unit5_Page2 from "../StudentPages/unit5/Unit5_Page2";
+import Unit5_Page3 from "../StudentPages/unit5/Unit5_Page3";
+import Unit5_Page4 from "../StudentPages/unit5/Unit5_Page4";
+import Unit5_Page5 from "../StudentPages/unit5/Unit5_Page5";
+import Unit5_Page6 from "../StudentPages/unit5/Unit5_Page6";
+import Unit6_Page1 from "../StudentPages/unit6/Unit6_Page1";
+import Unit6_Page2 from "../StudentPages/unit6/Unit6_Page2";
+import Unit6_Page3 from "../StudentPages/unit6/Unit6_Page3";
+import Unit6_Page4 from "../StudentPages/unit6/Unit6_Page4";
+import Unit6_Page5 from "../StudentPages/unit6/Unit6_Page5";
+import Unit6_Page6 from "../StudentPages/unit6/Unit6_Page6";
+import Review5_Page1 from "../StudentPages/review5&6/Review5_Page1";
+import Review5_Page2 from "../StudentPages/review5&6/Review5_Page2";
+import Review6_Page1 from "../StudentPages/review5&6/Review6_Page1";
+import Review6_Page2 from "../StudentPages/review5&6/Review6_Page2";
+import Reading_Unit6_Page1 from "../StudentPages/unit6/Reading_Unit6_Page1";
+import Reading_Unit6_Page2 from "../StudentPages/unit6/Reading_Unit6_Page2";
 
 //================== unit 5 pages
 
@@ -114,6 +132,28 @@ export const studentPages = (openPopup, goToUnit) => [
   <Review4_Page2 openPopup={openPopup} />,
   <Reading_Unit4_Page1 openPopup={openPopup} />,
   <Reading_Unit4_Page2 />,
+
+  <Unit5_Page1 openPopup={openPopup} />,
+  <Unit5_Page2 openPopup={openPopup} />,
+  <Unit5_Page3 openPopup={openPopup} />,
+  <Unit5_Page4 openPopup={openPopup} />,
+  <Unit5_Page5 openPopup={openPopup} />,
+  <Unit5_Page6 openPopup={openPopup} />,
+
+  <Unit6_Page1 openPopup={openPopup} />,
+  <Unit6_Page2 openPopup={openPopup} />,
+  <Unit6_Page3 openPopup={openPopup} />,
+  <Unit6_Page4 openPopup={openPopup} />,
+  <Unit6_Page5 openPopup={openPopup} />,
+  <Unit6_Page6 openPopup={openPopup} />,
+
+  <Review5_Page1 openPopup={openPopup} />,
+  <Review5_Page2 openPopup={openPopup} />,
+  <Review6_Page1 openPopup={openPopup} />,
+  <Review6_Page2 openPopup={openPopup} />,
+
+  <Reading_Unit6_Page1 openPopup={openPopup} />,
+  <Reading_Unit6_Page2 />,
 
   <Page1 />,
 ];

@@ -38,6 +38,26 @@ import Unit4_Page5_Q3 from "./unit4/Unit4_Page5_Q3";
 import Unit4_Page5_Q4 from "./unit4/Unit4_Page5_Q4";
 import Unit4_Page6_Q1 from "./unit4/Unit4_Page6_Q1";
 import Unit4_Page6_Q2 from "./unit4/Unit4_Page6_Q2";
+import Review3_Page1_Q1 from "./review3&4/Review3_Page1_Q1";
+import Review3_Page1_Q2 from "./review3&4/Review3_Page1_Q2";
+import Review3_Page1_Q3 from "./review3&4/Review3_Page1_Q3";
+import Review3_Page1_Q4 from "./review3&4/Review3_Page1_Q4";
+import Review3_Page2_Q1 from "./review3&4/Review3_Page2_Q1";
+import Review3_Page2_Q2 from "./review3&4/Review3_Page2_Q2";
+import Review3_Page2_Q3 from "./review3&4/Review3_Page2_Q3";
+import Review4_Page1_Q1 from "./review3&4/Review4_Page1_Q1";
+import Review4_Page1_Q2 from "./review3&4/Review4_Page1_Q2";
+import Review4_Page2_Q1 from "./review3&4/Review4_Page2_Q1";
+import Review4_Page2_Q2 from "./review3&4/Review4_Page2_Q2";
+import Review4_Page2_Q3 from "./review3&4/Review4_Page2_Q3";
+import Unit5_Page5_Q1 from "./unit5/Unit5_Page5_Q1";
+import Unit5_Page5_Q2 from "./unit5/Unit5_Page5_Q2";
+import Unit5_Page5_Q3 from "./unit5/Unit5_Page5_Q3";
+import Unit5_Page5_Q4 from "./unit5/Unit5_Page5_Q4";
+import Unit5_Page6_Q1 from "./unit5/Unit5_Page6_Q1";
+import Unit5_Page6_Q2 from "./unit5/Unit5_Page6_Q2";
+
+
 
 export const lessons = [
   // UNIT 1
@@ -79,5 +99,28 @@ export const lessons = [
   { component: Unit4_Page5_Q3, unit: 4 }, //31
   { component: Unit4_Page5_Q4, unit: 4 },//32
   { component: Unit4_Page6_Q1, unit: 4 },//33
-  { component: Unit4_Page6_Q2, unit: 4 },//33
+  { component: Unit4_Page6_Q2, unit: 4 },//34
+
+  { component: Review3_Page1_Q1, unit: 3 ,isReview: true},//35
+  { component: Review3_Page1_Q2, unit: 3 ,isReview: true},//36
+  { component: Review3_Page1_Q3, unit: 3 ,isReview: true},//37
+  { component: Review3_Page1_Q4, unit: 3 ,isReview: true},//38
+  { component: Review3_Page2_Q1, unit: 3 ,isReview: true},//39
+  { component: Review3_Page2_Q2, unit: 3 ,isReview: true},//40
+  { component: Review3_Page2_Q3, unit: 3 ,isReview: true},//41
+
+  { component: Review4_Page1_Q1, unit: 4 ,isReview: true},//42
+  { component: Review4_Page1_Q2, unit: 4 ,isReview: true},//43
+  { component: Review4_Page2_Q1, unit: 4 ,isReview: true},//44
+  { component: Review4_Page2_Q2, unit: 4 ,isReview: true},//45
+  { component: Review4_Page2_Q3, unit: 4 ,isReview: true},//46
+
+  { component: Unit5_Page5_Q1, unit: 5 },//47
+  { component: Unit5_Page5_Q2, unit: 5 },//48
+  { component: Unit5_Page5_Q3, unit: 5 },//49
+  { component: Unit5_Page5_Q4, unit: 5 },//50
+  { component: Unit5_Page6_Q1, unit: 5 },//51
+  { component: Unit5_Page6_Q2, unit: 5 },//52
+
+
 ];

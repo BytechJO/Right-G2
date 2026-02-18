@@ -1,0 +1,125 @@
+.grid-CB-unit5-p5-q3 {
+  display: inline-block;
+  border: 2px solid #999;
+}
+
+.row-CB-unit5-p5-q3 {
+  display: flex;
+}
+
+.cell-CB-unit5-p5-q3 {
+  width: 55px;
+  height: 45px;
+  border: 1px solid #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.cell-CB-unit5-p5-q3.highlight {
+  background-color: #cdfffa;
+  border: 2px solid rgb(0, 179, 255);
+}
+
+.cell-CB-unit5-p5-q3.found {
+  background-color: #dcffcd;
+  border: 2px solid green;
+  font-weight: bold;
+}
+
+.word-list-CB-unit5-p5-q3 {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.container-CB-unit5-p5-q3 {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
+  gap: 20px;
+}
+
+.word-label-CB-unit5-p5-q3 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  pointer-events: none;
+}
+
+.word-btn-CB-unit5-p5-q3 {
+  display: grid;
+  gap: 5px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.word-label-wrapper-CB-unit5-p5-q3 {
+  width: 160px;
+  height: auto;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  font-weight: 500;
+  color: black;
+  background: white;
+  position: relative;
+}
+
+/* دائرة X للكلمة الخطأ */
+.wrong-x-circle-CB-unit5-p5-q3 {
+  position: absolute;
+  right: -12px;
+  top: -3%;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: red;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* ============================
+   RESPONSIVE
+============================ */
+
+@media screen and (max-width: 1024px) and (max-height: 600px) {
+  .cell-CB-unit5-p5-q3 {
+    width: 50px;
+    height: 40px;
+  }
+
+  .word-label-wrapper-CB-unit5-p5-q3 {
+    width: 155px;
+    height: 130px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .container-CB-unit5-p5-q3 {
+    flex-wrap: wrap;
+  }
+}
+
+@media screen and (max-width: 1024px) and (max-height: 800px) {
+  .container-CB-unit5-p5-q3 {
+    flex-wrap: nowrap;
+  }
+}
+
+@media (max-width: 820px) {
+  .container-CB-unit5-p5-q3 {
+    gap: 5px;
+  }
+}
