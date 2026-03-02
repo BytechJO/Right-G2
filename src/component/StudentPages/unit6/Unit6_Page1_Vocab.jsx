@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import backgroundImage from "../../../assets/imgs/test.png";
 import page2_2 from "../../../assets/imgs/test.png";
-import vocabulary from "../../../assets/audio/ClassBook/U 4/Pg28_Vocab_Adult Lady.mp3";
+import vocabulary from "../../../assets/audio/ClassBook/U 6/Pg46_Vocab_Adult Lady.mp3";
 import "./unit6_Page1.css";
 import num1 from "../../../assets/imgs/test.png";
 import num2 from "../../../assets/imgs/test.png";
@@ -167,8 +167,7 @@ const Unit6_Page1_Vocab = () => {
     sound8,
     sound9,
     sound10,
-    sound11,
-    sound12,
+  
   ];
   const playWordAudio = (index) => {
     // أوقفي الأوديو الرئيسي
@@ -209,8 +208,7 @@ const Unit6_Page1_Vocab = () => {
     num8,
     num9,
     num10,
-    num11,
-    num12,
+
   ];
   const wordRefs = useRef(wordAudios.map(() => React.createRef()));
 
@@ -364,7 +362,7 @@ const Unit6_Page1_Vocab = () => {
             "go home",
             "eat lunch",
             "do homework",
-            " go to sleep",
+            "go to sleep",
           ].map((text, i) => (
             <h6
               key={i}

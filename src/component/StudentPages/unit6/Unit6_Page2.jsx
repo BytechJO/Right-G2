@@ -43,13 +43,13 @@ const Unit6_Page2 = ({ openPopup }) => {
     questions: [
       {
         text: "When does Helen go to school?",
-        options: ["zoos", "people" ,"animals"],
-        correct: "animals",
+        options: ["She goes to school at eight o’clock.", "She goes to school at six o’clock." ,"She goes to school at nine o’clock."],
+        correct: "She goes to school at eight o’clock.",
       },
       {
         text: "When does Helen go to sleep?",
-        options: ["vet", "photographer","nurse"],
-        correct: "photographer",
+options: ["She goes to school at eight o’clock.", "She goes to school at six o’clock." ,"She goes to school at nine o’clock."],
+        correct: "She goes to school at nine o’clock.",
       },
     ],
   };
