@@ -33,7 +33,7 @@ const WB_Unit1_Page8 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
-          onClick={() => openPopup("exercise", { startIndex: 9 })}
+          onClick={() => openPopup("exercise", { startIndex: 12 })}
           style={{ overflow: "visible" }}
         >
           <image
@@ -56,7 +56,7 @@ const WB_Unit1_Page8 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
-          onClick={() => openPopup("exercise", { startIndex: 10 })}
+          onClick={() => openPopup("exercise", { startIndex: 13 })}
           style={{ overflow: "visible" }}
         >
           <image
@@ -78,7 +78,7 @@ const WB_Unit1_Page8 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
-          onClick={() => openPopup("exercise", { startIndex: 11 })}
+          onClick={() => openPopup("exercise", { startIndex: 14 })}
           style={{ overflow: "visible" }}
         >
           <image

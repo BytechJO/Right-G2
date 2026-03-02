@@ -1,6 +1,6 @@
 import React from 'react'
-import page_1 from "../../../assets/imgs/pages/workbook-cover.jpg"
-const WB_Unit1_Page1 = () => {
+import page_1 from "../../../assets/imgs/pages/workbook-images/1.jpg";
+const WB_Unit2_Page1 = () => {
   return (
     <div className="page1-img-wrapper"
             
@@ -12,4 +12,4 @@ const WB_Unit1_Page1 = () => {
   )
 }
 
-export default WB_Unit1_Page1
+export default WB_Unit2_Page1

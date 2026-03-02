@@ -1,0 +1,15 @@
+import React from 'react'
+import page_1 from "../../../assets/imgs/pages/workbook-images/51.jpg";
+const WB_Unit10_Page59 = () => {
+  return (
+    <div className="page1-img-wrapper"
+            
+              style={{ backgroundImage: `url(${page_1})` }} >
+    
+
+      
+    </div>
+  )
+}
+
+export default WB_Unit10_Page59;
