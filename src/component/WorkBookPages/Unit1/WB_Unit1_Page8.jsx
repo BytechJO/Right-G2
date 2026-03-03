@@ -47,7 +47,6 @@ const WB_Unit1_Page8 = ({ openPopup }) => {
           />
         </svg>
       </div>
-
       <div
         className="wb-unit1-p8-q2 hover:scale-110 transition"
         style={{ overflow: "visible" }}
