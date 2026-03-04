@@ -54,9 +54,8 @@ function DropZone({ id, items, letter }) {
   return (
     <div
       ref={setNodeRef}
-      className={`w-full sm:w-64 min-h-[200px] border-4 border-dashed rounded-lg flex flex-col items-center p-4 transition-colors ${
-        isOver ? 'border-blue-500 bg-blue-50' : 'border-gray-400'
-      }`}
+      className={`w-full sm:w-64 min-h-[200px] border-4 border-dashed rounded-lg flex flex-col items-center p-4 transition-colors ${isOver ? 'border-blue-500 bg-blue-50' : 'border-gray-400'
+        }`}
     >
       <span className="font-bold text-5xl text-gray-500 mb-4">
         {letter.toUpperCase()}
@@ -101,74 +100,74 @@ const WB_Unit1_Page8_Q2_DND = () => {
   };
 
   const handleDragEnd = (event) => {
-  const { active, over } = event;
+    const { active, over } = event;
 
-  if (!over) {
-    setActiveItem(null);
-    return;
-  }
-
-  const fromContainer = findContainer(active.id);
-  const toContainer = over.id; 
-
-  if (fromContainer === toContainer) {
-    setActiveItem(null);
-    return;
-  }
-
-  // تأكد أن الهدف صندوق فعلي
-  if (!containers[toContainer]) {
-    setActiveItem(null);
-    return;
-  }
-
-  setContainers(prev => {
-    const newContainers = { ...prev };
-
-    // إزالة العنصر من الصندوق الأصلي
-    newContainers[fromContainer] = newContainers[fromContainer].filter(
-      item => item.id !== active.id
-    );
-
-    // منع التكرار قبل الإضافة
-    const alreadyExists = newContainers[toContainer].some(
-      item => item.id === active.id
-    );
-
-    if (!alreadyExists) {
-      const movedItem = ALL_IMAGES.find(i => i.id === active.id);
-      newContainers[toContainer] = [...newContainers[toContainer], movedItem];
+    if (!over) {
+      setActiveItem(null);
+      return;
     }
 
-    return newContainers;
-  });
+    const fromContainer = findContainer(active.id);
+    const toContainer = over.id;
 
-  setActiveItem(null);
-};
+    if (fromContainer === toContainer) {
+      setActiveItem(null);
+      return;
+    }
+
+    // تأكد أن الهدف صندوق فعلي
+    if (!containers[toContainer]) {
+      setActiveItem(null);
+      return;
+    }
+
+    setContainers(prev => {
+      const newContainers = { ...prev };
+
+      // إزالة العنصر من الصندوق الأصلي
+      newContainers[fromContainer] = newContainers[fromContainer].filter(
+        item => item.id !== active.id
+      );
+
+      // منع التكرار قبل الإضافة
+      const alreadyExists = newContainers[toContainer].some(
+        item => item.id === active.id
+      );
+
+      if (!alreadyExists) {
+        const movedItem = ALL_IMAGES.find(i => i.id === active.id);
+        newContainers[toContainer] = [...newContainers[toContainer], movedItem];
+      }
+
+      return newContainers;
+    });
+
+    setActiveItem(null);
+  };
 
   const handleCheckAnswers = () => {
-  // إذا لم يتم توزيع كل الصور
-  if (containers.available.length > 0) {
-    ValidationAlert.warning("Please drag all images into the boxes!");
-    return;
-  }
+    // إذا لم يتم توزيع كل الصور
+    if (containers.available.length > 0) {
+      ValidationAlert.warning("Please drag all images into the boxes!");
+      return;
+    }
 
-  let correctCount = 0;
+    let correctCount = 0;
 
-  // احسب الصح في صندوق r
-  correctCount += containers.r.filter(img => img.letter === "r").length;
+    // احسب الصح في صندوق r
+    correctCount += containers.r.filter(img => img.letter === "r").length;
 
-  // احسب الصح في صندوق l
-  correctCount += containers.l.filter(img => img.letter === "l").length;
+    // احسب الصح في صندوق l
+    correctCount += containers.l.filter(img => img.letter === "l").length;
 
-  const total = ALL_IMAGES.length;
+    const total = ALL_IMAGES.length;
 
-  if (correctCount === total) {
-    ValidationAlert.success(`Score: ${correctCount}/${total}`);
-  } else {
-    ValidationAlert.error(`Score: ${correctCount}/${total}`);
-  }
-};
+    if (correctCount === total) {
+      ValidationAlert.success(`Score: ${correctCount}/${total}`);
+    } else {
+      ValidationAlert.error(`Score: ${correctCount}/${total}`);
+    }
+  };
 
   const handleReset = () => {
     setContainers({ available: ALL_IMAGES, r: [], l: [] });
@@ -185,8 +184,10 @@ const WB_Unit1_Page8_Q2_DND = () => {
   return (
     <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
       <div className="max-w-4xl mx-auto p-6 font-sans">
-        <h2 className="text-2xl font-bold mb-4 text-gray-700">Drag the image to the correct letter box</h2>
-        
+        <div className="flex items-center gap-4 mb-10">
+          <div className="ex-A">B</div>
+          <h1 className="header-title-page8">What are they? Write the words in the correct places.</h1>
+        </div>
         {/* منطقة الصور المتاحة */}
         <div className="flex flex-wrap justify-center items-center gap-4 mb-8 p-4 min-h-[120px] bg-gray-100 rounded-lg border-2 border-dashed">
           <SortableContext items={containers.available.map(i => i.id)}>
@@ -202,7 +203,7 @@ const WB_Unit1_Page8_Q2_DND = () => {
         </div>
 
         {validation.show && <ValidationAlert score={validation.score} total={validation.total} />}
-        
+
         <div className="mt-6">
           <Button handleShowAnswer={handleShowAnswer} handleStartAgain={handleReset} checkAnswers={handleCheckAnswers} />
         </div>

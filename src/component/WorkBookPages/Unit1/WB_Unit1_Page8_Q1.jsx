@@ -43,32 +43,32 @@ const LookWriteActivityGrid = () => {
   };
 
   const checkAnswers = () => {
-  const total = Object.keys(correctAnswers).length;
-  let correct = 0;
+    const total = Object.keys(correctAnswers).length;
+    let correct = 0;
 
-  // تحقق من الإجابات الفارغة
-  const anyEmpty = Object.values(answers).some(a => !a.trim());
-  if (anyEmpty) {
-    ValidationAlert.warning("Please fill in all the missing letters!");
-    return;
-  }
-
-  // تحقق من الإجابات الصحيحة
-  Object.keys(correctAnswers).forEach(key => {
-    const userInput = answers[key].trim().toLowerCase();
-    const correctLetter = correctAnswers[key].toLowerCase();
-
-    if (userInput === correctLetter) {
-      correct++;
+    // تحقق من الإجابات الفارغة
+    const anyEmpty = Object.values(answers).some(a => !a.trim());
+    if (anyEmpty) {
+      ValidationAlert.warning("Please fill in all the missing letters!");
+      return;
     }
-  });
 
-  if (correct === total) {
-    ValidationAlert.success(`Score: ${correct}/${total}`);
-  } else {
-    ValidationAlert.error(`Score: ${correct}/${total}`);
-  }
-};
+    // تحقق من الإجابات الصحيحة
+    Object.keys(correctAnswers).forEach(key => {
+      const userInput = answers[key].trim().toLowerCase();
+      const correctLetter = correctAnswers[key].toLowerCase();
+
+      if (userInput === correctLetter) {
+        correct++;
+      }
+    });
+
+    if (correct === total) {
+      ValidationAlert.success(`Score: ${correct}/${total}`);
+    } else {
+      ValidationAlert.error(`Score: ${correct}/${total}`);
+    }
+  };
 
   const questions = [
     { key: "q1", word: "Lemon", colStart: 2, colEnd: 3, rowStart: 2, rowEnd: 3 },
@@ -76,13 +76,15 @@ const LookWriteActivityGrid = () => {
     { key: "q3", word: "Rabbit", colStart: 4, colEnd: 5, rowStart: 2, rowEnd: 3 },
     { key: "q4", word: "Robot", colStart: 2, colEnd: 3, rowStart: 3, rowEnd: 4 },
     { key: "q5", word: "Lamp", colStart: 3, colEnd: 4, rowStart: 3, rowEnd: 4 },
-    { key: "q6", word: "Rule", colStart: 4, colEnd: 5, rowStart: 3, rowEnd: 4 }
+    { key: "q6", word: "Ruler", colStart: 4, colEnd: 5, rowStart: 3, rowEnd: 4 }
   ];
 
   return (
     <div className="max-w-4xl mx-auto p-6">
-      <h2 className="text-2xl font-bold mb-4">Look and write the missing letters. Read.</h2>
-
+      <div className="flex items-center gap-4">
+        <div className="ex-A">A</div>
+        <h1 className="header-title-page8">Look and write the missing letters. Read.</h1>
+      </div>
       {/* Grid */}
       <div className="grid grid-cols-4 gap-20">
         {questions.map(q => (
