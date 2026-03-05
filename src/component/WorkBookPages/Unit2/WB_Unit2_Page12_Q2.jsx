@@ -4,12 +4,12 @@ import Button from "../button";
 import ValidationAlert from '../../Popup/ValidationAlert';
 
 const correctAnswers = {
-    input2_1: 'Is this a',
-    input2_2: 'mule?',
-    input3_1: 'Are these',
-    input3_2: 'horses?',
-    input4_1: 'Are these',
-    input4_2: 'rabbits?',
+    input2_1: 'Is this a squirrel',
+    input2_2: 'Yes it is.',
+    input3_1: 'Is this a horse',
+    input3_2: 'Yes it is.',
+    input4_1: 'Are these rabbits',
+    input4_2: 'No, they aren\'t.',
 };
 
 export default function WritingExercise() {
