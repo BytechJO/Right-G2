@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import page2 from "../../../assets/imgs/pages/workbook-images/2.jpg";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
-import "./WB_Unit2-Page9.css";
+import "./WB_Unit2_Page9.css";
 const WB_Unit2_Page10 = ({ openPopup }) => {
   return (
     <div

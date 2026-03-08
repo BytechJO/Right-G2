@@ -1,7 +1,7 @@
 import React from 'react'
 import page_1 from "../../../assets/imgs/pages/workbook-images/5.jpg";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
-import "./WB_Unit2-Page9.css";
+import "./WB_Unit2_Page9.css";
 const WB_Unit2_Page13 = ({ openPopup }) => {
   return (
     <div className="page1-img-wrapper"

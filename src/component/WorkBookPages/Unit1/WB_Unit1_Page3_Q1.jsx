@@ -7,7 +7,7 @@ const WB_Unit1_Page3_Q1 = () => {
   const questions = [
     {
       id: 1,
-      question: "Who is he?",
+      question: "Who's he?",
       image: img,
       answer: "He's my father",
       isQuestionReadOnly: true,

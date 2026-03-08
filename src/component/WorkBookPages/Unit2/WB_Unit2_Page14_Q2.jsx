@@ -171,7 +171,6 @@ const DragAndDropWrite = () => {
                     ))}
                 </div>
 
-                {/* أزرار التحكم */}
                 <div className='mt-12 flex justify-center'>
                     <Button
                         handleShowAnswer={handleShowAnswer}
