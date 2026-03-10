@@ -7,7 +7,7 @@ const WB_Unit1_Page19 = ({ openPopup }) => {
 
       style={{ backgroundImage: `url(${page_1})` }} >
 
-      {/* <div
+      <div
         className="wb-unit2-p3-q2 hover:scale-110 transition ml-52 mt-25"
         style={{ overflow: "visible" }}
       >
@@ -74,7 +74,7 @@ const WB_Unit1_Page19 = ({ openPopup }) => {
             preserveAspectRatio="xMidYMid meet"
           />
         </svg>
-      </div> */}
+      </div>
 
     </div>
   )
