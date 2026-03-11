@@ -10,11 +10,11 @@ const WB_Unit4_Page21_Q2 = () => {
   const [showAnswers, setShowAnswers] = useState(false);
 
   const data = [
-    { id: 1, img: img, options: ["nurse", "clerk"], correct: "sun" },
-    { id: 2, img: img, options: ["pilot", "taxi driver"], correct: "cloud" },
+    { id: 1, img: img, options: ["nurse", "clerk"], correct: "nurse" },
+    { id: 2, img: img, options: ["pilot", "taxi driver"], correct: "pilot" },
 
-    { id: 4, img: img, options: ["vet", "mechanic"], correct: "duck" },
-    { id: 5, img: img, options: ["clerk", "vet"], correct: "butterfly" },
+    { id: 4, img: img, options: ["vet", "mechanic"], correct: "mechanic" },
+    { id: 5, img: img, options: ["clerk", "vet"], correct: "vet" },
   ];
 
   const handleSelect = (id, option) => {
@@ -39,7 +39,6 @@ const WB_Unit4_Page21_Q2 = () => {
 
     setScore(currentScore);
 
-    // Validation
     if (currentScore === totalQuestions) {
       ValidationAlert.success(`Score: ${currentScore} / ${totalQuestions}`);
     }
@@ -79,18 +78,23 @@ const WB_Unit4_Page21_Q2 = () => {
               <span className="font-bold text-blue-900 text-2xl">{item.id}</span>
               <img src={item.img} alt="" className="max-w-32 max-h-32 object-contain rounded-xl" />
               <div className="flex flex-col rounded-2xl overflow-hidden">
-                {item.options.map((option) => (
-                  <button
-                    key={option}
-                    onClick={() => handleSelect(item.id, option)}
-                    className={`px-4 py-1 transition-all ${userSelections[item.id] === option
-                        ? 'border-blue-500 bg-blue-100'
-                        : 'border-gray-300 hover:border-blue-400'
-                      } ${showAnswers && option === item.correct ? 'bg-green-500 text-white' : ''}`}
-                  >
-                    {option}
-                  </button>
-                ))}
+                {item.options.map((option) => {
+  const isSelected = userSelections[item.id] === option;      // هل هذا الزر مختار؟
+  const isCorrect = showAnswers && option === item.correct;   // هل هذا هو الإجابة الصحيحة؟
+
+  return (
+    <button
+      key={option}
+      onClick={() => handleSelect(item.id, option)}
+      className={`px-4 py-2 rounded-full border-2 transition-all
+        ${isSelected ? "bg-blue-500 text-white border-blue-500" : "bg-white text-gray-800 border-gray-300 hover:border-blue-400"}
+        ${isCorrect ? "bg-green-500 text-white border-green-500" : ""}
+      `}
+    >
+      {option}
+    </button>
+  );
+})}
               </div>
             </div>
           </div>

@@ -150,8 +150,7 @@ const WB_Unit4_Page22_Q2 = () => {
 ))}
                 </div>
 
-                {/* شبكة الأسئلة */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-10">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-10 mb-20">
                     {exerciseData.map((q, index) => (
                         <div key={q.id} className="space-y-2">
                             <div className="flex items-center gap-4">
@@ -159,7 +158,6 @@ const WB_Unit4_Page22_Q2 = () => {
                                 <img src={q.img} alt={`Job ${index + 1}`} className="max-w-full max-h-32 object-contain rounded-lg bg-gray-50 p-2" />
                             </div>
                             <div className="space-y-3 pl-6">
-                                {/* منطقة إفلات السؤال */}
                                 <DropZone id={`${q.id}-question`} className={getZoneClass(`${q.id}-question`, q.correctQuestion)}>
                                     {(droppedWords[`${q.id}-question`] || []).map(word => (
                                         <button key={word} onClick={() => removeWord(`${q.id}-question`, word)}
@@ -168,7 +166,6 @@ const WB_Unit4_Page22_Q2 = () => {
                                         </button>
                                     ))}
                                 </DropZone>
-                                {/* منطقة إفلات الجواب */}
                                 <DropZone id={`${q.id}-answer`} className={getZoneClass(`${q.id}-answer`, q.correctAnswer)}>
                                     {(droppedWords[`${q.id}-answer`] || []).map(word => (
                                         <button key={word} onClick={() => removeWord(`${q.id}-answer`, word)}

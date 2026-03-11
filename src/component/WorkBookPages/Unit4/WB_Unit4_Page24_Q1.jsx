@@ -70,46 +70,62 @@ const WB_Unit4_Page24_Q1 = () => {
   };
 
   return (
-    <div className="p-8 bg-white rounded-3xl max-w-3xl mx-auto">
+    <div className="p-8 rounded-3xl max-w-3xl mx-auto">
 
       <div className="flex items-center gap-4 mb-8">
         <div className="ex-A">G</div>
         <h1 className="header-title-page8">Look, read, and write ✓.</h1>
       </div>
 
-      <div className="space-y-6">
+      <div className="space-y-10">
 
         {questions.map((q) => (
-          <div key={q.id} className="flex items-center justify-between">
-            
-            <p className={`text-lg ${getColor(q)}`}>
-              {q.id}. {q.question}
-              <img src={placeholderImg} className="max-w-16 max-h-16"/>
-            </p>
-            
-            <div className="flex gap-6">
-                
-              <label className="flex gap-2">
-                <input
-                  type="radio"
-                  name={`q${q.id}`}
-                  checked={answers[q.id] === "yes"}
-                  onChange={() => handleChange(q.id, "yes")}
-                />
-                Yes, I do.
-              </label>
+          <div key={q.id} className="flex flex-col items-center text-center gap-4">
 
-              <label className="flex gap-2">
-                <input
-                  type="radio"
-                  name={`q${q.id}`}
-                  checked={answers[q.id] === "no"}
-                  onChange={() => handleChange(q.id, "no")}
-                />
-                No, I don’t.
-              </label>
+            {/* السؤال */}
+            <p className={`mr-50 text-lg font-medium ${getColor(q)}`}>
+              {q.id}. {q.question}
+            </p>
+
+            {/* الصورة + الإجابة */}
+            <div className="grid grid-cols-2 items-center gap-45">
+
+
+
+              <img
+                src={placeholderImg}
+                className="max-w-28 max-h-24 object-contain"
+                alt="question"
+              />
+              <div>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name={`q${q.id}`}
+                    checked={answers[q.id] === "yes"}
+                    onChange={() => handleChange(q.id, "yes")}
+                    className="cursor-pointer appearance-none w-5 h-5 border-2 border-gray-400 rounded-sm
+              checked:bg-blue-500 checked:border-blue-500"
+                  />
+                  Yes, I do.
+                </label>
+
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name={`q${q.id}`}
+                    checked={answers[q.id] === "no"}
+                    onChange={() => handleChange(q.id, "no")}
+                    className="cursor-pointer appearance-none w-5 h-5 border-2 border-gray-400 rounded-sm
+              checked:bg-blue-500 checked:border-blue-500"
+                  />
+                  No, I don’t.
+                </label>
+              </div>
+
 
             </div>
+
           </div>
         ))}
 
@@ -120,6 +136,7 @@ const WB_Unit4_Page24_Q1 = () => {
         handleShowAnswer={handleShowAnswer}
         handleStartAgain={handleStartAgain}
       />
+
     </div>
   );
 };
