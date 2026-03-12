@@ -79,8 +79,8 @@ const WB_Unit4_Page21_Q2 = () => {
               <img src={item.img} alt="" className="max-w-32 max-h-32 object-contain rounded-xl" />
               <div className="flex flex-col rounded-2xl overflow-hidden">
                 {item.options.map((option) => {
-  const isSelected = userSelections[item.id] === option;      // هل هذا الزر مختار؟
-  const isCorrect = showAnswers && option === item.correct;   // هل هذا هو الإجابة الصحيحة؟
+  const isSelected = userSelections[item.id] === option;
+  const isCorrect = showAnswers && option === item.correct;
 
   return (
     <button
