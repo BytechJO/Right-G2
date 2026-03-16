@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { DndContext, useDraggable, useDroppable, closestCenter } from '@dnd-kit/core';
 
-// استيراد الصور ومكونات الأزرار والتنبيهات
 import placeholderImg from "../../../assets/imgs/test6.png";
 import Button from '../button';
 import ValidationAlert from '../../Popup/ValidationAlert';
 
-// بيانات التمرين
 const exerciseData = [
     {
         id: 'q1',
@@ -178,9 +176,7 @@ const WB_Unit4_Page22_Q2 = () => {
                         </div>
                     ))}
                 </div>
-
                     <Button handleShowAnswer={handleShowAnswer} handleStartAgain={handleStartAgain} checkAnswers={checkAnswers} />
-                
             </div>
         </DndContext>
     );

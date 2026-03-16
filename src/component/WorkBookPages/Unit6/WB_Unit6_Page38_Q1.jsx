@@ -1,4 +1,172 @@
-const WB_Unit6_Page38_Q1 = () => {
-    return(<div>Q11</div>);
-}
-export default WB_Unit6_Page38_Q1;
+import React, { useState } from "react";
+import img from "../../../assets/imgs/test6.png";
+import ValidationAlert from "../../Popup/ValidationAlert";
+import Button from "../button";
+
+const QuestionA = () => {
+    const [answers, setAnswers] = useState({
+        1: "",
+        2: "",
+        3: "",
+        4: "",
+        5: "",
+        6: ""
+    });
+
+    const [showValidation, setShowValidation] = useState(false);
+    const [score, setScore] = useState({ correct: 0, total: 6 });
+    const [draggedWord, setDraggedWord] = useState(null);
+    
+
+    const correctAnswers = {
+        1: "kite",
+        2: "night",
+        3: "bike",
+        4: "five",
+        5: "tight",
+        6: "light"
+    };
+
+    const wordBank = [
+        { id: 1, word: "bike" },
+        { id: 2, word: "five" },
+        { id: 3, word: "kite" },
+        { id: 4, word: "light" },
+        { id: 5, word: "night" },
+        { id: 6, word: "tight" }
+    ];
+const [wordBankState, setWordBankState] = useState(wordBank);
+    const handleDragStart = (e, word) => {
+        setDraggedWord(word);
+        e.dataTransfer.setData("text/plain", word);
+    };
+
+    const handleDragOver = (e) => {
+        e.preventDefault();
+    };
+
+    const handleDrop = (e, questionNumber) => {
+        e.preventDefault();
+        const droppedWord = e.dataTransfer.getData("text/plain");
+
+        setAnswers({
+            ...answers,
+            [questionNumber]: droppedWord
+        });
+
+        // إزالة الكلمة من الـ wordBank
+        setWordBankState(prev => prev.filter(item => item.word !== droppedWord));
+    };
+
+
+    const checkAnswers = () => {
+        // نتأكد إذا كل الحقول مليانة
+        const allFilled = Object.values(answers).every(ans => ans !== "");
+        if (!allFilled) {
+            ValidationAlert.info();
+            return;
+        }
+
+        let correctCount = 0;
+
+        for (let i = 1; i <= 6; i++) {
+            if (answers[i] === correctAnswers[i]) {
+                correctCount++;
+            }
+        }
+
+        setScore({ correct: correctCount, total: 6 });
+        setShowValidation(true);
+
+        // نعرض التنبيه المناسب
+        if (correctCount === 6) {
+            ValidationAlert.success(`Score: ${correctCount}/6`);
+        } else if (correctCount === 0) {
+            ValidationAlert.error(`Oops! You got 0/6 correct. Try again.`);
+        } else {
+            ValidationAlert.warning(`Score: ${correctCount}/6`);
+        }
+    };
+
+    const handleShowAnswer = () => {
+        setAnswers(correctAnswers);
+    };
+
+    const handleStartAgain = () => {
+        setAnswers({
+            1: "",
+            2: "",
+            3: "",
+            4: "",
+            5: "",
+            6: ""
+        });
+        setWordBankState(wordBank);
+        setShowValidation(false);
+    };
+
+    return (
+        <div className="p-6 max-w-4xl mx-auto">
+
+            <div className="flex items-center gap-4 mb-8">
+                <span className="ex-A">A</span>
+                <h1 className="header-title-page8">Look, read, and write. Use the words from the box.</h1>
+            </div>
+            <div className="mb-6">
+                <div className="flex flex-wrap gap-2 p-3 bg-gray-50 rounded-lg">
+                    {wordBankState.map((item) => (
+                        <div
+                            key={item.id}
+                            draggable
+                            onDragStart={(e) => handleDragStart(e, item.word)}
+                            className="bg-blue-500 text-white px-4 py-2 rounded-lg cursor-move hover:bg-blue-600 transition-colors shadow-sm"
+                        >
+                            {item.word}
+                        </div>
+                    ))}
+                </div>
+            </div>
+            <div className="flex flex-col md:flex-row gap-8">
+                {/* الصورة */}
+                <div className="md:w-1/2">
+                    <img src={img} alt="Exercise" className="w-full rounded-lg shadow-md max-w-95 max-h-85" />
+                </div>
+
+                {/* منطقة الإجابات */}
+                <div className="md:w-1/2">
+                    <div className="space-y-2">
+                        {[1, 2, 3, 4, 5, 6].map((num) => (
+                            <div
+                                key={num}
+                                onDragOver={handleDragOver}
+                                onDrop={(e) => handleDrop(e, num)}
+                                className={`flex items-center gap-3 p-1 border-2 rounded-lg transition-colors ${answers[num] ? 'border-blue-300 bg-blue-50' : 'border-dashed border-gray-300 bg-white'
+                                    }`}
+                            >
+                                <span className="text-lg font-semibold w-8">{num}.</span>
+                                <div className="flex-1 min-h-[50px] flex items-center">
+                                    {answers[num] ? (
+                                        <div className="flex items-center justify-between w-full">
+                                            <span className="text-lg font-medium text-blue-700">{answers[num]}</span>
+
+                                        </div>
+                                    ) : (
+                                        <span className="text-gray-400 text-sm">Drop word here</span>
+                                    )}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            <Button
+                handleShowAnswer={handleShowAnswer}
+                handleStartAgain={handleStartAgain}
+                checkAnswers={checkAnswers}
+            />
+        </div>
+    );
+};
+
+export default QuestionA;
