@@ -85,7 +85,7 @@ const WB_Unit5_Page28_Q1 = () => {
         });
         if (score === total) ValidationAlert.success(`Score: ${score} / ${total}`);
         else if (score > 0) ValidationAlert.error(`Score: ${score} / ${total}`);
-        else ValidationAlert.warning("No correct answers. Try again.");
+        else ValidationAlert.info("No correct answers. Try again.");
     };
     return (
         <DndContext onDragEnd={handleDragEnd} collisionDetection={closestCenter}>

@@ -33,29 +33,6 @@ const WB_Unit6_Page38 = ({ openPopup }) => {
       </div>
 
       <div
-        className="wb-unit2-p3-q2 hover:scale-110 transition ml-52 mt-65"
-        style={{ overflow: "visible" }}
-      >
-        <svg
-          width="22"
-          height="22"
-          viewBox="0 0 90 90"
-          onClick={() => openPopup("exercise", { startIndex: 76 })}
-          style={{ overflow: "visible" }}
-        // className="click-icon-page8-2 hover:scale-110 transition"
-        >
-          <image className="svg-img"
-            href={arrowBtn}
-            x="0"
-            y="0"
-            width="100%"
-            height="100%"
-            preserveAspectRatio="xMidYMid meet"
-          />
-        </svg>
-      </div>
-
-      <div
         className="wb-unit2-p3-q2 hover:scale-110 transition ml-52 mt-110"
         style={{ overflow: "visible" }}
       >
@@ -63,7 +40,7 @@ const WB_Unit6_Page38 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
-          onClick={() => openPopup("exercise", { startIndex: 77 })}
+          onClick={() => openPopup("exercise", { startIndex: 76 })}
           style={{ overflow: "visible" }}
         // className="click-icon-page8-2 hover:scale-110 transition"
         >
