@@ -4,26 +4,30 @@ import { SortableContext, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import ValidationAlert from '../../Popup/ValidationAlert';
 import Button from '../button';
+import img from "../../../assets/imgs/test6.png";
+
+const images = [
+    { id: 'img1', src: img },
+    { id: 'img2', src: img },
+    { id: 'img3', src: img },
+    { id: 'img4', src: img }
+];
 
 const QUESTIONS = [
-    { id: 'q1', text: '1 What time does she have lunch?' },
-    { id: 'q2', text: '2 What time does she go to school?' },
-    { id: 'q3', text: '3 What time does she get up?' },
-    { id: 'q4', text: '4 What time do they do their homework?' },
-    { id: 'q5', text: '5 What time do they go home?' },
-    { id: 'q6', text: '6 What time do they have dinner?' },
+    { id: 'q1', text: '1 What time is it?' },
+    { id: 'q2', text: '2 What time is it?' },
+    { id: 'q3', text: '3 What time is it?' },
+    { id: 'q4', text: '3 What time is it?' },
 ];
 
 const ANSWERS_POOL = [
-    { id: 'a1', text: 'She has lunch at twelve o\'clock.' },
-    { id: 'a2', text: 'She goes to school at 7:30.' },
-    { id: 'a3', text: 'She gets up at 6:00.' },
-    { id: 'a4', text: 'They do their homework at 4:00.' },
-    { id: 'a5', text: 'They go home at 2:00.' },
-    { id: 'a6', text: 'They have dinner at 8:30.' },
+    { id: 'a1', text: 'It is four thirty in the afternoon' },
+    { id: 'a2', text: 'It\'s eight o\'clock' },
+    { id: 'a3', text: 'It is one o\'clock in the' },
+    { id: 'a4', text: 'It is twelve o\'clock' },
 ];
 
-const CORRECT_MAP = { q1: 'a1', q2: 'a2', q3: 'a3', q4: 'a4', q5: 'a5', q6: 'a6' };
+const CORRECT_MAP = { q1: 'a1', q2: 'a4', q3: 'a2', q4: 'a3' };
 
 function DraggableSentence({ answer, isUsed }) {
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: answer.id });
@@ -56,8 +60,8 @@ function AnswerDropZone({ id, content, isCorrect, isSubmitted }) {
     );
 }
 
-const WB_Unit6_Page33_Q2 = () => {
-    const [placedAnswers, setPlacedAnswers] = useState({ q1: null, q2: null, q3: null, q4: null, q5: null, q6: null });
+const WB_Unit7_Page40_Q2 = () => {
+    const [placedAnswers, setPlacedAnswers] = useState({ q1: null, q2: null, q3: null, q4: null });
     const [activeId, setActiveId] = useState(null);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [score, setScore] = useState(0);
@@ -108,7 +112,7 @@ const WB_Unit6_Page33_Q2 = () => {
         setScore(total);
         setIsSubmitted(true);
 
-        const scoreMessage = `Your score: ${total} / ${total}`;
+        const scoreMessage = `Score: ${total} / ${total}`;
 
     };
 
@@ -116,8 +120,8 @@ const WB_Unit6_Page33_Q2 = () => {
         <>
 
             <div className="flex items-center gap-4 mt-10 ml-70">
-                <div className="ex-A">B</div>
-                <h1 className="header-title-page8">Read and write.</h1>
+                <div className="ex-A">D</div>
+                <h1 className="header-title-page8">Look and complete the conversations.</h1>
             </div>
             <DndContext sensors={sensors} onDragStart={(e) => setActiveId(e.active.id)} onDragEnd={handleDragEnd}>
 
@@ -125,19 +129,33 @@ const WB_Unit6_Page33_Q2 = () => {
 
 
                     <div className="flex-1 space-y-6">
+                        {QUESTIONS.map((q, index) => {
+                            const image = images[index];
 
+                            return (
+                                <div key={q.id} className="flex items-center gap-4 pl-4">
+                                    <img
+                                        src={image.src}
+                                        className="max-w-24 max-h-24 object-cover"
+                                    />
 
+                                    <div className="flex-1">
+                                        <p className="font-semibold text-gray-800">{q.text}</p>
+                                        <AnswerDropZone
+                                            id={q.id}
+                                            content={placedAnswers[q.id]}
+                                            isCorrect={placedAnswers[q.id] === CORRECT_MAP[q.id]}
+                                            isSubmitted={isSubmitted}
+                                        />
+                                    </div>
 
-                        {QUESTIONS.map(q => (
-                            <div key={q.id} className="border-l-4 border-blue-500 pl-4">
-                                <p className="font-semibold text-gray-800">{q.text}</p>
-                                <AnswerDropZone id={q.id} content={placedAnswers[q.id]} isCorrect={placedAnswers[q.id] === CORRECT_MAP[q.id]} isSubmitted={isSubmitted} />
-                            </div>
-                        ))}
+                                </div>
+                            );
+                        })}
                     </div>
 
-                    {/* القسم الأيمن: بنك الإجابات والجداول المساعدة */}
                     <div className="w-full md:w-80 space-y-4">
+
                         <div className="p-4 bg-blue-50 rounded-lg border-2 border-blue-200">
                             <h3 className="font-bold text-blue-800 mb-3 text-center">Answers Bank</h3>
                             <div className="space-y-2">
@@ -148,33 +166,10 @@ const WB_Unit6_Page33_Q2 = () => {
                                 </SortableContext>
                             </div>
                         </div>
-
-                        <div className="border rounded overflow-hidden text-xs">
-                            <table className="w-full text-center">
-                                <thead className="bg-gray-100"><tr><th className="p-1 border">Activity</th><th className="p-1 border">Time</th></tr></thead>
-                                <tbody>
-                                    <tr><td className="p-1 border">get up</td><td className="p-1 border">6:00</td></tr>
-                                    <tr><td className="p-1 border">wash face</td><td className="p-1 border">6:30</td></tr>
-                                    <tr><td className="p-1 border">go to school</td><td className="p-1 border">7:30</td></tr>
-                                    <tr><td className="p-1 border">have lunch</td><td className="p-1 border">12:00</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div className="border rounded overflow-hidden text-xs">
-                            <table className="w-full text-center">
-                                <thead className="bg-gray-100"><tr><th className="p-1 border">Activity</th><th className="p-1 border">Time</th></tr></thead>
-                                <tbody>
-                                    <tr><td className="p-1 border">go home</td><td className="p-1 border">2:00</td></tr>
-                                    <tr><td className="p-1 border">do homework</td><td className="p-1 border">4:30</td></tr>
-                                    <tr><td className="p-1 border">have dinner</td><td className="p-1 border">8:30</td></tr>
-                                    <tr><td className="p-1 border">go to bed</td><td className="p-1 border">9:30</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
                     </div>
                 </div>
 
-                <Button handleShowAnswer={handleShowAnswer} handleStartAgain={() => { setPlacedAnswers({ q1: null, q2: null, q3: null, q4: null, q5: null, q6: null }); setIsSubmitted(false); }} checkAnswers={checkAnswers} />
+                <Button handleShowAnswer={handleShowAnswer} handleStartAgain={() => { setPlacedAnswers({ q1: null, q2: null, q3: null, q4: null }); setIsSubmitted(false); }} checkAnswers={checkAnswers} />
 
 
                 <DragOverlay>
@@ -190,4 +185,4 @@ const WB_Unit6_Page33_Q2 = () => {
     );
 };
 
-export default WB_Unit6_Page33_Q2;
+export default WB_Unit7_Page40_Q2;

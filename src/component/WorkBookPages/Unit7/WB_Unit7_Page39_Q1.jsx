@@ -1,0 +1,132 @@
+import React, { useState } from 'react';
+import img from '../../../assets/imgs/test6.png';
+import Button from '../button';
+import ValidationAlert from '../../Popup/ValidationAlert';
+
+const exerciseDataK = {
+    questions: [
+        { id: 'k1', text: "It's a quarter to nine.", correctNumber: 2 },
+        { id: 'k2', text: "It's a quarter past two in the afternoon.", correctNumber: 3 },
+        { id: 'k3', text: "It's six o'clock in the morning.", correctNumber: 1 },
+        { id: 'k4', text: "It's half past ten in the morning.", correctNumber: 4 },
+    ],
+};
+
+export default function WB_Unit7_Page39_Q1() {
+    const [answers, setAnswers] = useState({});
+    const [showResults, setShowResults] = useState(false);
+
+    const handleSelectNumber = (questionId, number) => {
+        if (showResults) return;
+        setAnswers((prev) => ({ ...prev, [questionId]: number }));
+    };
+
+    const checkAnswers = () => {
+    const unanswered = exerciseDataK.questions.filter(
+      (q) => !answers[q.id]
+    );
+
+    if (unanswered.length > 0) {
+      ValidationAlert.info();
+      return;
+    }
+
+    setShowResults(true);
+    let score = 0;
+    let total = exerciseDataK.questions.length;
+
+    exerciseDataK.questions.forEach((question) => {
+      if (answers[question.id] === question.correctNumber) {
+        score++;
+      }
+    });
+
+    if (score === total) {
+      ValidationAlert.success(`Score: ${score} / ${total}`);
+    } else if (score > 0) {
+      ValidationAlert.warning(`Score: ${score} / ${total}`);
+    } else {
+      ValidationAlert.error(`Score: ${score} / ${total}`);
+    }
+  };
+
+    const handleStartAgain = () => {
+        setAnswers({});
+        setShowResults(false);
+    };
+
+    const getSelectClass = (questionId) => {
+        if (!showResults) {
+            return 'cursor-pointer border-b-1 border-black px-3 py-2 font-semibold';
+        }
+
+        const question = exerciseDataK.questions.find((q) => q.id === questionId);
+        const isCorrect = answers[questionId] === (question && question.correctNumber);
+
+        if (isCorrect) {
+            return 'border-2 border-green-500 bg-green-50 px-3 py-2 rounded-lg font-semibold text-green-800';
+        }
+        return 'border-2 border-red-500 bg-red-50 px-3 py-2 rounded-lg font-semibold text-red-800';
+    };
+
+    const handleShowAnswer = () => {
+        const correctAnswers = {};
+
+        exerciseDataK.questions.forEach((question) => {
+            correctAnswers[question.id] = question.correctNumber;
+        });
+
+        setAnswers(correctAnswers);
+        setShowResults(true);
+    };
+
+    return (
+        <div className="p-8 max-w-4xl mx-auto bg-white rounded-lg">
+            <div className="flex items-center gap-3 mb-6">
+                <div className="ex-A">A</div>
+                <h1 className="header-title-page8">Look and read. Write the number.</h1>
+            </div>
+
+            {/* Images */}
+            <div className="grid grid-cols-4 gap-4 mb-8">
+                {[1, 2, 3, 4].map((num) => (
+                    <div key={num} className="flex flex-col items-center">
+                        <div className="w-24 h-24 bg-gray-200 rounded-lg flex items-center justify-center mb-2">
+                            <img src={img} alt={`Clock ${num}`} className="max-w-20 max-h-20 object-cover" />
+                        </div>
+                        <span className="font-bold text-lg text-gray-700">{num}</span>
+                    </div>
+                ))}
+            </div>
+
+            {/* Questions */}
+            <div className="space-y-6 mb-8">
+                {exerciseDataK.questions.map((question, idx) => (
+                    <div key={question.id} className="flex items-center gap-4">
+                        <span className="font-bold text-lg text-black">
+                            {String.fromCharCode(97 + idx)}.
+                        </span>
+                        <select
+                            value={answers[question.id] || ''}
+                            onChange={(e) =>
+                                handleSelectNumber(question.id, parseInt(e.target.value))
+                            }
+                            disabled={showResults}
+                            className={getSelectClass(question.id)}
+                        >
+                            <option value="">Select a number</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                        <p className="text-lg text-gray-700 flex-1">{question.text}</p>
+                    </div>
+                ))}
+            </div>
+
+
+            <Button handleShowAnswer={handleShowAnswer} handleStartAgain={handleStartAgain} checkAnswers={checkAnswers} />
+        </div>
+    );
+}
