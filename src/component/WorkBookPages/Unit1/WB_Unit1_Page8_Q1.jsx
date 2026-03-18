@@ -1,127 +1,264 @@
 import React, { useState } from "react";
-import img from "../../../assets/imgs/test6.png";
-import Button from "../button";
+import "./WB_Unit1_Page8_Q1.css";
 import ValidationAlert from "../../Popup/ValidationAlert";
+import img1 from "../../../assets/imgs/test.png";
+import img2 from "../../../assets/imgs/test.png";
+import img3 from "../../../assets/imgs/test.png";
+import img4 from "../../../assets/imgs/test.png";
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
-const LookWriteActivityGrid = () => {
-  const [answers, setAnswers] = useState({
-    q1: "",
-    q2: "",
-    q3: "",
-    q4: "",
-    q5: "",
-    q6: ""
-  });
+const data = [
+  { img: img1, scrambled: "emon", answer: "l", pattern: "emon" },
+  { img: img2, scrambled: "at", answer: "r", pattern: "at" },
+  {
+    img: img3,
+    scrambled: "abbit",
+    answer: "r",
+    pattern: "abbit",
+  },
 
-  const correctAnswers = {
-    q1: "L",
-    q2: "R",
-    q3: "R",
-    q4: "R",
-    q5: "L",
-    q6: "R"
-  };
+  { img: img4, scrambled: "obot", answer: "r", pattern: "obot" },
+  { img: img4, scrambled: "amp", answer: "l", pattern: "amp" },
+  { img: img4, scrambled: "uler", answer: "r", pattern: "uler" },
+];
 
-  const handleAnswerChange = (field, value) => {
-    setAnswers(prev => ({
-      ...prev,
-      [field]: value
-    }));
-  };
+const WB_Unit1_Page8_Q1 = () => {
+  const [inputs, setInputs] = useState(Array(data.length).fill(""));
+  const [wrongInputs, setWrongInputs] = useState(
+    Array(data.length).fill(false),
+  );
+  const [showAnswer, setShowAnswer] = useState(false); // ⭐ NEW
+  const lettersBank = [...new Set(data.map((item) => item.answer))].map(
+    (letter, i) => ({
+      id: `l-${i}`,
+      value: letter,
+    }),
+  );
 
-  const handleShowAnswer = () => setAnswers(correctAnswers);
+  const onDragEnd = (result) => {
+    if (!result.destination || showAnswer) return;
 
-  const handleStartAgain = () => {
-    setAnswers({
-      q1: "",
-      q2: "",
-      q3: "",
-      q4: "",
-      q5: "",
-      q6: ""
+    const letter = result.draggableId;
+    const targetIndex = Number(result.destination.droppableId);
+
+    setInputs((prev) => {
+      const copy = [...prev];
+      copy[targetIndex] = letter; // ✔ نفس الحرف مسموح يتكرر
+      return copy;
     });
+
+    setWrongInputs(Array(data.length).fill(false));
   };
 
   const checkAnswers = () => {
-    const total = Object.keys(correctAnswers).length;
-    let correct = 0;
+    if (showAnswer) return; // ❌ ممنوع التعديل بعد Show Answer
 
-    // تحقق من الإجابات الفارغة
-    const anyEmpty = Object.values(answers).some(a => !a.trim());
-    if (anyEmpty) {
-      ValidationAlert.warning("Please fill in all the missing letters!");
+    if (inputs.some((val) => val.trim() === "")) {
+      ValidationAlert.info(
+        "Oops!",
+        "Please fill in all the answers before checking.",
+      );
       return;
     }
 
-    // تحقق من الإجابات الصحيحة
-    Object.keys(correctAnswers).forEach(key => {
-      const userInput = answers[key].trim().toLowerCase();
-      const correctLetter = correctAnswers[key].toLowerCase();
+    let correctCount = 0;
+    const wrongFlags = [];
 
-      if (userInput === correctLetter) {
-        correct++;
+    data.forEach((item, index) => {
+      if (inputs[index].toLowerCase() === item.answer) {
+        correctCount++;
+        wrongFlags[index] = false;
+      } else {
+        wrongFlags[index] = true;
       }
     });
 
-    if (correct === total) {
-      ValidationAlert.success(`Score: ${correct}/${total}`);
-    } else {
-      ValidationAlert.error(`Score: ${correct}/${total}`);
-    }
+    setWrongInputs(wrongFlags);
+    setShowAnswer(true);
+    const total = data.length;
+    const color =
+      correctCount === total ? "green" : correctCount === 0 ? "red" : "orange";
+
+    const scoreMessage = `
+      <div style="font-size: 20px; text-align:center;">
+        <span style="color:${color}; font-weight:bold;">
+          Score: ${correctCount} / ${total}
+        </span>
+      </div>
+    `;
+
+    if (correctCount === total) ValidationAlert.success(scoreMessage);
+    else if (correctCount === 0) ValidationAlert.error(scoreMessage);
+    else ValidationAlert.warning(scoreMessage);
   };
 
-  const questions = [
-    { key: "q1", word: "Lemon", colStart: 2, colEnd: 3, rowStart: 2, rowEnd: 3 },
-    { key: "q2", word: "Rat", colStart: 3, colEnd: 4, rowStart: 2, rowEnd: 3 },
-    { key: "q3", word: "Rabbit", colStart: 4, colEnd: 5, rowStart: 2, rowEnd: 3 },
-    { key: "q4", word: "Robot", colStart: 2, colEnd: 3, rowStart: 3, rowEnd: 4 },
-    { key: "q5", word: "Lamp", colStart: 3, colEnd: 4, rowStart: 3, rowEnd: 4 },
-    { key: "q6", word: "Ruler", colStart: 4, colEnd: 5, rowStart: 3, rowEnd: 4 }
-  ];
+  const handleShowAnswer = () => {
+    const correct = data.map((item) => item.answer);
+    setInputs(correct); // ⭐ تعبئة الإجابة الصحيحة
+    setWrongInputs(Array(data.length).fill(false));
+    setShowAnswer(true);
+  };
+
+  const reset = () => {
+    setInputs(Array(data.length).fill(""));
+    setWrongInputs(Array(data.length).fill(false));
+    setShowAnswer(false);
+  };
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <div className="flex items-center gap-4">
-        <div className="ex-A">A</div>
-        <h1 className="header-title-page8">Look and write the missing letters. Read.</h1>
-      </div>
-      {/* Grid */}
-      <div className="grid grid-cols-4 gap-20">
-        {questions.map(q => (
-          <div
-            key={q.key}
-            className={`flex items-center justify-between p-3 rounded-lg`}
-            style={{
-              gridColumnStart: q.colStart,
-              gridColumnEnd: q.colEnd,
-              gridRowStart: q.rowStart,
-              gridRowEnd: q.rowEnd
-            }}
-          >
-            {/* أول حرف مفقود والباقي مبين */}
-            <input
-              type="text"
-              maxLength={1}
-              value={answers[q.key]}
-              onChange={e => handleAnswerChange(q.key, e.target.value)}
-              className="border-b-2 border-black-300 p-1 w-12 text-center focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
-            />
-            <span className="text-lg font-semibold">
-              {q.word.slice(1)}
-            </span>
+    <DragDropContext onDragEnd={onDragEnd}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "30px",
+        }}
+      >
+        <div
+          className="div-forall"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "30px",
+            width: "60%",
+            justifyContent: "flex-start",
+          }}
+        >
+          <div className="unscramble-container">
+            <h3 className="WB-header-title-page8">
+              <span className="WB-ex-A">A</span> Look and write the missing
+              letters. Read.
+            </h3>
 
-            <img src={img} alt={q.word} className="max-w-12 max-h-12 object-contain" />
+            <Droppable droppableId="letters" direction="horizontal">
+              {(provided) => (
+                <div
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                  style={{
+                    display: "flex",
+                    gap: "12px",
+                    padding: "10px",
+                    border: "2px dashed #ccc",
+                    borderRadius: "10px",
+                    marginTop: "20px",
+                    justifyContent: "center",
+                    width: "100%",
+                    // justifyContent: "center",
+                  }}
+                >
+                  {lettersBank.map((l, i) => (
+                    <Draggable
+                      key={l.id}
+                      draggableId={l.value}
+                      index={i}
+                      isDragDisabled={showAnswer}
+                    >
+                      {(provided) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          style={{
+                            padding: "7px 14px",
+                            border: "2px solid #2c5287",
+                            borderRadius: "8px",
+                            background: "white",
+                            fontWeight: "bold",
+                            cursor: "grab",
+                            fontSize: "22px",
+                            ...provided.draggableProps.style,
+                          }}
+                        >
+                          {l.value}
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+
+            <div className="unscramble-row-wb-unit1-p8-q1 ">
+              {data.map((item, index) => (
+                <div className="unscramble-box" key={index}>
+                  
+                  <div className="input-row-wb-unit1-p8-q1">
+                    <span
+                      className="num"
+                      style={{ fontSize: "25px", fontWeight: "600" }}
+                    >
+                      {index + 1}
+                    </span>
+
+                    <div className="input-wrapper-wb-unit1-page8-q1">
+                      <Droppable
+                        droppableId={String(index)}
+                        isDropDisabled={showAnswer}
+                      >
+                        {(provided, snapshot) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.droppableProps}
+                            className={`WB-unit1-p8-q1-input ${
+                            snapshot.isDraggingOver ? "drag-over-cell" : ""
+                          }`}
+                            style={{
+                              background: snapshot.isDraggingOver
+                                ? "#e3f2fd"
+                                : "white",
+                              fontSize: "25px",
+                              fontWeight: "600",
+                            }}
+                          >
+                            {inputs[index]}
+                            {provided.placeholder}
+                          </div>
+                        )}
+                      </Droppable>
+
+                      {/* ❌ علامة الخطأ */}
+                      {wrongInputs[index] && (
+                        <div className="error-icon-wb-unit1-p8-q1">✕</div>
+                      )}
+                    </div>
+
+                    <span className="pattern" style={{ fontSize: "22px" }}>
+                      {item.pattern}
+                    </span>
+                    <div className="img-box-wb-unit1-p8-q1">
+                    <img src={item.img} alt="" />
+                  </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-        ))}
-      </div>
+        </div>
 
-      <Button
-        handleShowAnswer={handleShowAnswer}
-        handleStartAgain={handleStartAgain}
-        checkAnswers={checkAnswers}
-      />
-    </div>
+        {/* ⭐ BUTTONS */}
+        <div className="action-buttons-container">
+          <button onClick={reset} className="try-again-button">
+            Start Again ↻
+          </button>
+
+          <button
+            onClick={handleShowAnswer}
+            className="show-answer-btn swal-continue"
+          >
+            Show Answer
+          </button>
+
+          <button onClick={checkAnswers} className="check-button2">
+            Check Answer ✓
+          </button>
+        </div>
+      </div>
+    </DragDropContext>
   );
 };
 
-export default LookWriteActivityGrid;
+export default WB_Unit1_Page8_Q1;

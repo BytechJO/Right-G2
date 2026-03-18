@@ -1,184 +1,425 @@
-import { useState, useRef, useEffect } from "react";
-import img from "../../../assets/imgs/test6.png";
+import React, { useState, useEffect, useRef } from "react";
+// import "./WB_Unit1_Page4_Q1.css";
+import img1 from "../../../assets/imgs/test.png";
+import img2 from "../../../assets/imgs/test1.png";
+import img3 from "../../../assets/imgs/test2.png";
+import img4 from "../../../assets/imgs/test3.png";
+import img5 from "../../../assets/imgs/test4.png";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import Button from "../button";
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
 const WB_Unit1_Page4_Q1 = () => {
-  const [userQuestions, setUserQuestions] = useState({ 1: "Who's he?", 2: "", 3: "", 4: "" });
-  const [selectedLeft, setSelectedLeft] = useState(null);
-  const [matches, setMatches] = useState({}); // { leftId: rightId }
-  const [showResults, setShowResults] = useState(false);
-  const [score, setScore] = useState(0);
-  const [showAnswers, setShowAnswers] = useState(false);
-  const containerRef = useRef(null);
-  const leftRefs = useRef({});
-  const rightRefs = useRef({});
   const [lines, setLines] = useState([]);
+  const containerRef = useRef(null);
+  let startPoint = null;
+  const [wrongWords, setWrongWords] = useState([]);
+  const [wrongInputs, setWrongInputs] = useState([]);
+  const [locked, setLocked] = useState(false);
+  const [firstDot, setFirstDot] = useState(null);
+  const [showAnswer, setShowAnswer] = useState(false);
+  const questions = [
+    {
+      id: 1,
+      matchWord: "He is my father.",
+      correctSentence: "who is he",
+      scrambled: ["who", "he", "is"],
+      image: img3,
+    },
+    {
+      id: 2,
+      matchWord: "She is my aunt.",
+      correctSentence: "who is she",
+      scrambled: ["who", "she", "is"],
+      image: img1,
+    },
+    {
+      id: 3,
+      matchWord: "He is my brother.",
+      correctSentence: "who is he",
+      scrambled: ["who", "he", "is"],
+      image: img4,
+    },
+    {
+      id: 4,
+      matchWord: "She is my sister.",
+      correctSentence: "who is she",
+      scrambled: ["who", "she", "is"],
+      image: img2,
+    },
+  ];
+  const correctMatches = questions.map((q) => ({
+    word: q.matchWord,
+    image: q.image,
+  }));
+  const images = [img1, img2, img3, img4];
+  const imgesWord = [
+    "She is my aunt.",
+    "She is my sister.",
+    "He is my father.",
+    "He is my brother.",
+  ];
+  const correctSentences = Object.fromEntries(
+    questions.map((q) => [q.id, q.correctSentence]),
+  );
 
-  const data = {
-    questions: [
-      { id: 1, initial: "Who's he?", correct: "Who's he?", isReadOnly: true },
-      { id: 2, initial: "", correct: "Who's she?", isReadOnly: false },
-      { id: 3, initial: "", correct: "Who's he?", isReadOnly: false },
-      { id: 4, initial: "", correct: "Who's she?", isReadOnly: false },
-    ],
-    answers: [
-      { id: 1, text: "She is my aunt.", img: img, matchId: 2 },
-      { id: 2, text: "She is my sister.", img: img, matchId: 2 },
-      { id: 3, text: "He is my father.", img: img, matchId: 3 },
-      { id: 4, text: "He is my brother.", img: img, matchId: 4 },
-    ],
+  const onDragEnd = (result) => {
+    if (!result.destination || locked || showAnswer) return;
+
+    const [qId, word] = result.draggableId.split("-");
+    const dest = result.destination.droppableId;
+
+    if (!dest.startsWith("sentence-")) return;
+
+    setUserInputs((prev) => ({
+      ...prev,
+      [qId]: [...prev[qId].filter((w) => w !== word), word],
+    }));
   };
-  const correctMatches = { 1: 4, 2: 2, 3: 3, 4: 1 };
 
-  const handleQuestionChange = (id, value) => {
-    setUserQuestions({ ...userQuestions, [id]: value });
+  const [userInputs, setUserInputs] = useState({
+    1: [],
+    2: [],
+    3: [],
+    4: [],
+  });
+
+  // ============================
+  // 1️⃣ الضغط على النقطة الأولى (start-dot)
+  // ============================
+  const handleStartDotClick = (e) => {
+    if (showAnswer || locked) return;
+
+    const rect = containerRef.current.getBoundingClientRect();
+
+    const word = e.target.dataset.word || null;
+    const image = e.target.dataset.image || null;
+
+    const alreadyUsed = lines.some((line) => line.word === word);
+    if (alreadyUsed) return;
+
+    setFirstDot({
+      word,
+      image,
+      x: e.target.getBoundingClientRect().left - rect.left + 8,
+      y: e.target.getBoundingClientRect().top - rect.top + 8,
+    });
   };
 
-  const handleLeftClick = (id) => setSelectedLeft(id);
-  const handleRightClick = (id) => {
-    if (selectedLeft) {
-      setMatches({ ...matches, [selectedLeft]: id });
-      setSelectedLeft(null);
-    }
+  // ============================
+  // 2️⃣ الضغط على النقطة الثانية (end-dot)
+  // ============================
+  const handleEndDotClick = (e) => {
+    if (showAnswer || locked) return;
+    if (!firstDot) return;
+
+    const rect = containerRef.current.getBoundingClientRect();
+
+    const endWord = e.target.dataset.word || null;
+    const endImage = e.target.dataset.image || null;
+
+    const newLine = {
+      x1: firstDot.x,
+      y1: firstDot.y,
+      x2: e.target.getBoundingClientRect().left - rect.left + 8,
+      y2: e.target.getBoundingClientRect().top - rect.top + 8,
+      word: firstDot.word || endWord,
+      image: firstDot.image || endImage,
+    };
+
+    setLines((prev) => [...prev, newLine]);
+    setFirstDot(null);
   };
 
   const checkAnswers = () => {
-    let currentScore = 0;
+    if (showAnswer || locked) return;
 
-    data.questions.forEach((q) => {
-      const userAnswer = userQuestions[q.id]?.toLowerCase().trim();
-      const correctAnswer = q.correct.toLowerCase().trim();
+    if (!userInputs[1] || !userInputs[2] || !userInputs[3] || !userInputs[4]) {
+      ValidationAlert.info("Oops!", "Please complete all sentences.");
+      return;
+    }
 
-      if (userAnswer === correctAnswer) {
-        currentScore += 1;
-      }
+    if (lines.length < 4) {
+      ValidationAlert.info("Oops!", "Please match all pairs before checking.");
+      return;
+    }
 
-      if (matches[q.id] === correctMatches[q.id]) {
-        currentScore += 1;
-      }
+    let sentenceCorrect = 0;
+    let lineCorrect = 0;
+
+    let wrongInputsTemp = [];
+
+    Object.keys(correctSentences).forEach((key) => {
+      const userAnswer = userInputs[key].join(" ").toLowerCase();
+
+      const correctAnswer = correctSentences[key];
+
+      if (userAnswer === correctAnswer) sentenceCorrect++;
+      else wrongInputsTemp.push(key);
     });
 
-    const totalScore = data.questions.length * 2;
+    setWrongInputs(wrongInputsTemp);
 
-    setScore(currentScore);
-    setShowResults(true);
+    let wrongLines = [];
 
-    // 🔥 Validation Logic
-    if (currentScore === totalScore) {
-      ValidationAlert.success(`Score: ${currentScore} / ${totalScore}`);
-    }
-    else if (currentScore > 1) {
-      ValidationAlert.error(`Score: ${currentScore} / ${totalScore}`);
-    }
-    else {
-      ValidationAlert.warning("No correct answers. Try again!");
-    }
-  };
+    lines.forEach((line) => {
+      const isCorrect = correctMatches.some(
+        (pair) => pair.word === line.word && pair.image === line.image,
+      );
 
-  const handleShowAnswer = () => {
-    const answers = {};
-    data.questions.forEach(q => answers[q.id] = q.correct);
-    setUserQuestions(answers);
-    setMatches(correctMatches);
-    setShowAnswers(true);
-  };
-
-  const handleStartAgain = () => {
-    setUserQuestions({ 1: "Who's he?", 2: "", 3: "", 4: "" });
-    setMatches({});
-    setShowResults(false);
-    setShowAnswers(false);
-  };
-
-  useEffect(() => {
-    const newLines = [];
-
-    Object.keys(matches).forEach((leftId) => {
-      const rightId = matches[leftId];
-
-      const leftEl = leftRefs.current[leftId];
-      const rightEl = rightRefs.current[rightId];
-
-      if (leftEl && rightEl && containerRef.current) {
-        const containerRect = containerRef.current.getBoundingClientRect();
-        const leftRect = leftEl.getBoundingClientRect();
-        const rightRect = rightEl.getBoundingClientRect();
-
-        newLines.push({
-          x1: leftRect.right - containerRect.left,
-          y1: leftRect.top + leftRect.height / 2 - containerRect.top,
-          x2: rightRect.left - containerRect.left,
-          y2: rightRect.top + rightRect.height / 2 - containerRect.top,
-        });
-      }
+      if (isCorrect) lineCorrect++;
+      else wrongLines.push(line.word);
     });
 
-    setLines(newLines);
-  }, [matches]);
+    const totalScore = 9;
+    const userScore = sentenceCorrect + lineCorrect;
+
+    setWrongWords([...wrongLines]);
+    setLocked(true);
+
+    let color =
+      userScore === totalScore ? "green" : userScore === 0 ? "red" : "orange";
+
+    const scoreMessage = `
+    <div style="font-size:20px; text-align:center;">
+      <span style="color:${color}; font-weight:bold;">
+        Score: ${userScore} / ${totalScore}
+      </span>
+    </div>
+  `;
+
+    if (userScore === totalScore) ValidationAlert.success(scoreMessage);
+    else if (userScore === 0) ValidationAlert.error(scoreMessage);
+    else ValidationAlert.warning(scoreMessage);
+  };
 
   return (
-    <div className="p-8 bg-white rounded-3xl max-w-5xl mx-auto">
-      <div className="flex items-center gap-4 mb-8">
-        <div className="ex-A">C</div>
-        <h1 className="header-title-page8">Look, trace, read, and write.</h1>
-      </div>
+    <DragDropContext onDragEnd={onDragEnd}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "30px",
+        }}
+      >
+        <div
+          className="div-forall"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            // gap: "30px",
+            width: "60%",
+            justifyContent: "flex-start",
+          }}
+        >
+          <div className="page8-q1-container">
+            <h4 className="WB-header-title-page8">
+              <span className="WB-ex-A">C</span> Look, trace, read, and write.
+            </h4>
 
-      <div ref={containerRef} className="flex justify-between gap-20 relative">
-        {/* Left Side: Questions */}
-        <div className="flex-1 space-y-12">
-          {data.questions.map((q) => (
-            <div key={q.id} className="flex items-center gap-4 relative">
-              <span className="font-bold text-blue-900 text-xl">{q.id}</span>
-              <input
-                type="text"
-                value={userQuestions[q.id]}
-                readOnly={q.isReadOnly}
-                onChange={(e) => handleQuestionChange(q.id, e.target.value)}
-                className={`flex-1 border-b-2 border-gray-400 outline-none text-xl py-1 ${q.isReadOnly ? 'text-gray-500' : 'focus:border-blue-500'}`}
-                placeholder=".................................................."
-              />
-              <div
-                ref={(el) => (leftRefs.current[q.id] = el)}
-                onClick={() => handleLeftClick(q.id)}
-                className={`w-4 h-4 rounded-full cursor-pointer transition-all ${selectedLeft === q.id ? 'bg-blue-500 scale-125' : 'bg-[#eb533c]'}`}
-              />
+            <div
+              className="container12"
+              ref={containerRef}
+              // style={{ margin: "30px" }}
+            >
+              {/* الصف الأول */}
+              {questions.map((q, i) => (
+                <div className="CB-unit5-p6-q1-row" key={q.id}>
+                  <div
+                    style={{
+                      width: "50%",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <span className="CB-unit5-p6-q1-number">{q.id}</span>
+                       <div style={{display:"flex",flexDirection:"column",width:"60%",gap:"10px"}}>
+                    {/* Word Bank */}
+                    <Droppable
+                      droppableId={`bank-${q.id}`}
+                      direction="horizontal"
+                    >
+                      {(provided) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.droppableProps}
+                          className="CB-unit5-p6-q1-word-bank"
+                        >
+                          {q.scrambled
+                            .filter((w) => !userInputs[q.id].includes(w))
+                            .map((word, i) => (
+                              <Draggable
+                                key={word}
+                                draggableId={`${q.id}-${word}`}
+                                index={i}
+                              >
+                                {(provided) => (
+                                  <div
+                                    ref={provided.innerRef}
+                                    {...provided.draggableProps}
+                                    {...provided.dragHandleProps}
+                                    className="CB-unit5-p6-q1-word-box"
+                                    style={{
+                                      textAlign: "center",
+                                      cursor: "grab",
+                                      ...provided.draggableProps.style,
+                                    }}
+                                  >
+                                    {word}
+                                  </div>
+                                )}
+                              </Draggable>
+                            ))}
+                          {provided.placeholder}
+                          {wrongWords.includes(q.matchWord) && (
+                            <span className="CB-unit5-p6-q1-error-mark">✕</span>
+                          )}
+                        </div>
+                      )}
+                    </Droppable>
+
+                    {/* Sentence */}
+                    <Droppable
+                      droppableId={`sentence-${q.id}`}
+                      direction="horizontal"
+                    >
+                      {(provided, snapshot) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.droppableProps}
+                          className={`CB-unit5-p6-q1-unscramble-input ${
+                            snapshot.isDraggingOver
+                              ? "CB-unit5-p6-q1-active-drop"
+                              : ""
+                          }`}
+                        >
+                          {userInputs[q.id].join(" ")}
+                          {provided.placeholder}
+                        </div>
+                      )}
+                    </Droppable>
+                    </div>
+                    <div className="CB-unit5-p6-q1-dot-wrapper">
+                      <div
+                        className="CB-unit5-p6-q1-dot CB-unit5-p6-q1-dot-start"
+                        id={`dot-word-${q.id}`}
+                        data-word={q.matchWord}
+                        onClick={handleStartDotClick}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Image Side */}
+                  <div className="CB-unit5-p6-q1-match-section">
+                    <div className="CB-unit5-p6-q1-dot-wrapper">
+                      <div
+                        className="CB-unit5-p6-q1-dot CB-unit5-p6-q1-dot-end"
+                        data-image={images[i]}
+                        id={`dot-img-${q.id}`}
+                        onClick={handleEndDotClick}
+                      />
+                    </div>
+
+                    <img
+                      src={images[i]}
+                      className={`CB-unit5-p6-q1-matched-img ${
+                        locked || showAnswer
+                          ? "CB-unit5-p6-q1-disabled-word"
+                          : ""
+                      }`}
+                      alt=""
+                      onClick={() =>
+                        document.getElementById(`dot-img-${q.id}`).click()
+                      }
+                    />
+                    <h5>{imgesWord[i]}</h5>
+                  </div>
+                </div>
+              ))}
+
+              <svg className="lines-layer">
+                {lines.map((line, i) => (
+                  <line key={i} {...line} stroke="red" strokeWidth="3" />
+                ))}
+              </svg>
             </div>
-          ))}
-        </div>
+          </div>
 
-        {/* Right Side: Answers & Images */}
-        <div className="flex-1 space-y-8">
-          {data.answers.map((a) => (
-            <div key={a.id} className="flex items-center gap-4 justify-end relative">
-              <div
-                ref={(el) => (rightRefs.current[a.id] = el)}
-                onClick={() => handleRightClick(a.id)}
-                className={`w-4 h-4 rounded-full cursor-pointer transition-all ${Object.values(matches).includes(a.id) ? 'bg-green-500' : 'bg-[#eb533c]'}`}
-              />
-              <img src={a.img} alt="" className="max-w-12 max-h-12 rounded-full object-cover" />
-              <span className="text-xl text-gray-700 w-40">{a.text}</span>
-            </div>
-          ))}
+          <div className="action-buttons-container">
+            <button
+              onClick={() => {
+                setLines([]);
+                setUserInputs({
+                  1: [],
+                  2: [],
+                  3: [],
+                  4: [],
+       
+                });
+
+                setWrongWords([]);
+                setWrongInputs([]);
+                setShowAnswer(false);
+                setLocked(false);
+              }}
+              className="try-again-button"
+            >
+              Start Again ↻
+            </button>
+
+            <button
+              onClick={() => {
+                const rect = containerRef.current.getBoundingClientRect();
+
+                const getDotPosition = (selector) => {
+                  const el = document.querySelector(selector);
+                  if (!el) return { x: 0, y: 0 };
+                  const r = el.getBoundingClientRect();
+                  return {
+                    x: r.left - rect.left + 8,
+                    y: r.top - rect.top + 8,
+                  };
+                };
+
+                // 1️⃣ إنشاء الخطوط الصحيحة
+                const finalLines = correctMatches.map((line) => ({
+                  ...line,
+                  x1: getDotPosition(`[data-word="${line.word}"]`).x,
+                  y1: getDotPosition(`[data-word="${line.word}"]`).y,
+                  x2: getDotPosition(`[data-image="${line.image}"]`).x,
+                  y2: getDotPosition(`[data-image="${line.image}"]`).y,
+                }));
+
+                setLines(finalLines);
+
+                // 2️⃣ تعبئة جميع الإجابات الصحيحة في inputs
+                setUserInputs({
+                  1: correctSentences["1"].split(" "),
+                  2: correctSentences["2"].split(" "),
+                  3: correctSentences["3"].split(" "),
+                  4: correctSentences["4"].split(" "),
+               
+                });
+
+                // 3️⃣ منع التعديل على كل شيء (قفل inputs + منع الرسم)
+                setLocked(true);
+                setShowAnswer(true);
+                setWrongWords([]);
+                setWrongInputs([]);
+              }}
+              className="show-answer-btn swal-continue"
+            >
+              Show Answer
+            </button>
+
+            <button onClick={checkAnswers} className="check-button2">
+              Check Answer ✓
+            </button>
+          </div>
         </div>
-        <svg className="absolute top-0 left-0 w-full h-full pointer-events-none">
-          {lines.map((line, index) => (
-            <line
-              key={index}
-              x1={line.x1}
-              y1={line.y1}
-              x2={line.x2}
-              y2={line.y2}
-              stroke="#3b82f6"
-              strokeWidth="2"
-            />
-          ))}
-        </svg>
       </div>
-
-
-      <Button handleShowAnswer={handleShowAnswer} handleStartAgain={handleStartAgain} checkAnswers={checkAnswers} />
-    </div>
+    </DragDropContext>
   );
 };
 

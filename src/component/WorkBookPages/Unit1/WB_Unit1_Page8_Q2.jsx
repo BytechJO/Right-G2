@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   DndContext,
   DragOverlay,
@@ -6,27 +6,34 @@ import {
   useSensors,
   PointerSensor,
   KeyboardSensor,
-} from '@dnd-kit/core';
-import { SortableContext, useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
+} from "@dnd-kit/core";
+import { SortableContext, useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
-import ValidationAlert from '../../Popup/ValidationAlert';
-import Button from '../button';
+import ValidationAlert from "../../Popup/ValidationAlert";
+import Button from "../button";
 
 import img from "../../../assets/imgs/test6.png";
 const ALL_IMAGES = [
-  { id: 'rat', src: img, letter: 'r' },
-  { id: 'rabbit', src: img, letter: 'r' },
-  { id: 'robot', src: img, letter: 'r' },
-  { id: 'rose', src: img, letter: 'r' },
-  { id: 'lamp', src: img, letter: 'l' },
-  { id: 'lemon', src: img, letter: 'l' },
-  { id: 'leaf', src: img, letter: 'l' },
+  { id: "rat", src: img, letter: "r" },
+  { id: "rabbit", src: img, letter: "r" },
+  { id: "robot", src: img, letter: "r" },
+  { id: "rose", src: img, letter: "r" },
+  { id: "lamp", src: img, letter: "l" },
+  { id: "lemon", src: img, letter: "l" },
+  { id: "leaf", src: img, letter: "l" },
 ];
 
 // مكون الصورة القابلة للسحب
 function DraggableImage({ item }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.id });
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: item.id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -54,16 +61,17 @@ function DropZone({ id, items, letter }) {
   return (
     <div
       ref={setNodeRef}
-      className={`w-full sm:w-64 min-h-[200px] border-4 border-dashed rounded-lg flex flex-col items-center p-4 transition-colors ${isOver ? 'border-blue-500 bg-blue-50' : 'border-gray-400'
-        }`}
+      className={`w-full sm:w-64 min-h-[200px] border-4 border-dashed rounded-lg flex flex-col items-center p-4 transition-colors ${
+        isOver ? "border-blue-500 bg-blue-50" : "border-gray-400"
+      }`}
     >
       <span className="font-bold text-5xl text-gray-500 mb-4">
         {letter.toUpperCase()}
       </span>
 
-      <SortableContext items={items.map(i => i.id)}>
+      <SortableContext items={items.map((i) => i.id)}>
         <div className="flex flex-wrap justify-center gap-2">
-          {items.map(item => (
+          {items.map((item) => (
             <DraggableImage key={item.id} item={item} />
           ))}
         </div>
@@ -80,21 +88,27 @@ const WB_Unit1_Page8_Q2_DND = () => {
     l: [],
   });
   const [activeItem, setActiveItem] = useState(null);
-  const [validation, setValidation] = useState({ show: false, score: 0, total: ALL_IMAGES.length });
+  const [validation, setValidation] = useState({
+    show: false,
+    score: 0,
+    total: ALL_IMAGES.length,
+  });
 
   const sensors = useSensors(
     useSensor(PointerSensor),
-    useSensor(KeyboardSensor)
+    useSensor(KeyboardSensor),
   );
 
   const findContainer = (id) => {
     if (id in containers) return id;
-    return Object.keys(containers).find(key => containers[key].find(item => item.id === id));
+    return Object.keys(containers).find((key) =>
+      containers[key].find((item) => item.id === id),
+    );
   };
 
   const handleDragStart = (event) => {
     const { active } = event;
-    const item = ALL_IMAGES.find(i => i.id === active.id);
+    const item = ALL_IMAGES.find((i) => i.id === active.id);
     setActiveItem(item);
     setValidation({ show: false, score: 0, total: ALL_IMAGES.length });
   };
@@ -121,21 +135,21 @@ const WB_Unit1_Page8_Q2_DND = () => {
       return;
     }
 
-    setContainers(prev => {
+    setContainers((prev) => {
       const newContainers = { ...prev };
 
       // إزالة العنصر من الصندوق الأصلي
       newContainers[fromContainer] = newContainers[fromContainer].filter(
-        item => item.id !== active.id
+        (item) => item.id !== active.id,
       );
 
       // منع التكرار قبل الإضافة
       const alreadyExists = newContainers[toContainer].some(
-        item => item.id === active.id
+        (item) => item.id === active.id,
       );
 
       if (!alreadyExists) {
-        const movedItem = ALL_IMAGES.find(i => i.id === active.id);
+        const movedItem = ALL_IMAGES.find((i) => i.id === active.id);
         newContainers[toContainer] = [...newContainers[toContainer], movedItem];
       }
 
@@ -148,24 +162,26 @@ const WB_Unit1_Page8_Q2_DND = () => {
   const handleCheckAnswers = () => {
     // إذا لم يتم توزيع كل الصور
     if (containers.available.length > 0) {
-      ValidationAlert.warning("Please drag all images into the boxes!");
+      ValidationAlert.info("Please drag all images into the boxes!");
       return;
     }
 
     let correctCount = 0;
 
     // احسب الصح في صندوق r
-    correctCount += containers.r.filter(img => img.letter === "r").length;
+    correctCount += containers.r.filter((img) => img.letter === "r").length;
 
     // احسب الصح في صندوق l
-    correctCount += containers.l.filter(img => img.letter === "l").length;
+    correctCount += containers.l.filter((img) => img.letter === "l").length;
 
     const total = ALL_IMAGES.length;
 
     if (correctCount === total) {
       ValidationAlert.success(`Score: ${correctCount}/${total}`);
-    } else {
-      ValidationAlert.error(`Score: ${correctCount}/${total}`);
+    } else if (correctCount > 0){
+      ValidationAlert.warning(`Score: ${correctCount}/${total}`);
+    }else{
+       ValidationAlert.error(`Score: ${correctCount}/${total}`);
     }
   };
 
@@ -176,42 +192,89 @@ const WB_Unit1_Page8_Q2_DND = () => {
 
   const handleShowAnswer = () => {
     const correctContainers = { available: [], r: [], l: [] };
-    ALL_IMAGES.forEach(img => correctContainers[img.letter].push(img));
+    ALL_IMAGES.forEach((img) => correctContainers[img.letter].push(img));
     setContainers(correctContainers);
     setValidation({ show: false, score: 0, total: ALL_IMAGES.length });
   };
 
   return (
-    <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
-      <div className="max-w-4xl mx-auto p-6 font-sans">
-        <div className="flex items-center gap-4 mb-10">
-          <div className="ex-A">B</div>
-          <h1 className="header-title-page8">What are they? Write the words in the correct places.</h1>
-        </div>
-        {/* منطقة الصور المتاحة */}
-        <div className="flex flex-wrap justify-center items-center gap-4 mb-8 p-4 min-h-[120px] bg-gray-100 rounded-lg border-2 border-dashed">
-          <SortableContext items={containers.available.map(i => i.id)}>
-            {containers.available.map(item => <DraggableImage key={item.id} item={item} />)}
-          </SortableContext>
-          {containers.available.length === 0 && <span className="text-gray-400">All images have been placed!</span>}
+    <DndContext
+      sensors={sensors}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+    >
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "30px",
+        }}
+      >
+        <div
+          className="div-forall"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "30px",
+            width: "60%",
+            justifyContent: "flex-start",
+          }}
+        >
+          <h1 className="WB-header-title-page8">
+            <span className="WB-ex-A">B</span>What are they? Write the words in
+            the correct places.
+          </h1>
+
+          {/* منطقة الصور المتاحة */}
+          <div className="flex flex-wrap justify-center items-center gap-4 mb-8 p-4 min-h-[120px] bg-gray-100 rounded-lg border-2 border-dashed">
+            <SortableContext items={containers.available.map((i) => i.id)}>
+              {containers.available.map((item) => (
+                <DraggableImage key={item.id} item={item} />
+              ))}
+            </SortableContext>
+            {containers.available.length === 0 && (
+              <span className="text-gray-400">
+                All images have been placed!
+              </span>
+            )}
+          </div>
+
+          {/* الصناديق */}
+          <div className="flex flex-col sm:flex-row gap-10 justify-center mb-6">
+            <DropZone id="r" items={containers.r} letter="r" />
+            <DropZone id="l" items={containers.l} letter="l" />
+          </div>
+
+          {validation.show && (
+            <ValidationAlert
+              score={validation.score}
+              total={validation.total}
+            />
+          )}
+
+          <div className="mt-6">
+            <Button
+              handleShowAnswer={handleShowAnswer}
+              handleStartAgain={handleReset}
+              checkAnswers={handleCheckAnswers}
+            />
+          </div>
         </div>
 
-        {/* الصناديق */}
-        <div className="flex flex-col sm:flex-row gap-10 justify-center mb-6">
-          <DropZone id="r" items={containers.r} letter="r" />
-          <DropZone id="l" items={containers.l} letter="l" />
-        </div>
-
-        {validation.show && <ValidationAlert score={validation.score} total={validation.total} />}
-
-        <div className="mt-6">
-          <Button handleShowAnswer={handleShowAnswer} handleStartAgain={handleReset} checkAnswers={handleCheckAnswers} />
-        </div>
+        <DragOverlay>
+          {activeItem ? (
+            <><img
+              src={activeItem.src}
+              alt={activeItem.id}
+              className="max-w-24 max-h-24 object-contain bg-white border rounded-md shadow-lg"
+            />
+            <h5>{activeItem.id}</h5>
+            </>
+          ) : null}
+        </DragOverlay>
       </div>
-
-      <DragOverlay>
-        {activeItem ? <img src={activeItem.src} alt={activeItem.id} className="max-w-24 max-h-24 object-contain bg-white border rounded-md shadow-lg" /> : null}
-      </DragOverlay>
     </DndContext>
   );
 };

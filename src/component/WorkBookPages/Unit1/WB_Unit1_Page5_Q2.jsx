@@ -2,6 +2,7 @@ import { useState } from "react";
 import img from "../../../assets/imgs/test6.png";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
 const WB_Unit1_Page5_Q2 = () => {
   const [userAnswers, setUserAnswers] = useState({
@@ -13,7 +14,13 @@ const WB_Unit1_Page5_Q2 = () => {
   const [showResults, setShowResults] = useState(false);
   const [score, setScore] = useState(0);
   const [showAnswers, setShowAnswers] = useState(false);
-
+  const [checked, setChecked] = useState(false);
+  const words = [
+    { id: "she", text: "she" },
+    { id: "he", text: "he" },
+    { id: "shes", text: "She's" },
+    { id: "hes", text: "He's" },
+  ];
   const correctAnswers = {
     1: { q: "she", a: "She's" },
     2: { q: "she", a: "She's" },
@@ -21,51 +28,61 @@ const WB_Unit1_Page5_Q2 = () => {
     4: { q: "he", a: "He's" },
   };
 
+  const onDragEnd = (result) => {
+    const { destination, draggableId } = result;
+
+    if (!destination) return;
+
+    const [id, field] = destination.droppableId.split("-");
+
+    handleInputChange(id, field, draggableId);
+  };
   const handleInputChange = (id, field, value) => {
     setUserAnswers({
       ...userAnswers,
       [id]: { ...userAnswers[id], [field]: value },
     });
   };
-
   const checkAnswers = () => {
-  let currentScore = 0;
+    const hasEmptyInputs = Object.values(userAnswers).some(
+      (item) => !item.q?.trim() || !item.a?.trim(),
+    );
 
-  const totalQuestions = Object.keys(correctAnswers).length * 2;
-
-  Object.keys(correctAnswers).forEach((id) => {
-    const userQ = userAnswers[id]?.q?.toLowerCase().trim();
-    const correctQ = correctAnswers[id]?.q?.toLowerCase().trim();
-
-    const userA = userAnswers[id]?.a?.toLowerCase().trim();
-    const correctA = correctAnswers[id]?.a?.toLowerCase().trim();
-
-    if (userQ && userQ === correctQ) {
-      currentScore += 1;
+    if (hasEmptyInputs) {
+      ValidationAlert.info("Please complete all answers first.");
+      return;
     }
 
-    if (userA && userA === correctA) {
-      currentScore += 1;
+    let currentScore = 0;
+    const totalQuestions = Object.keys(correctAnswers).length * 2;
+
+    Object.keys(correctAnswers).forEach((id) => {
+      const userQ = userAnswers[id]?.q?.toLowerCase().trim();
+      const correctQ = correctAnswers[id]?.q?.toLowerCase().trim();
+
+      const userA = userAnswers[id]?.a?.toLowerCase().trim();
+      const correctA = correctAnswers[id]?.a?.toLowerCase().trim();
+
+      if (userQ === correctQ) currentScore++;
+      if (userA === correctA) currentScore++;
+    });
+
+    setScore(currentScore);
+    setChecked(true);
+
+    if (currentScore === totalQuestions) {
+      ValidationAlert.success(`Score: ${currentScore} / ${totalQuestions}`);
+    } else if (currentScore > 0) {
+      ValidationAlert.warning(`Score: ${currentScore} / ${totalQuestions}`);
+    } else {
+      ValidationAlert.warning("No correct answers. Try again.");
     }
-  });
-
-  setScore(currentScore);
-
-  // Validation
-  if (currentScore === totalQuestions) {
-    ValidationAlert.success(`Score: ${currentScore} / ${totalQuestions}`);
-  } 
-  else if (currentScore > 0) {
-    ValidationAlert.error(`Score: ${currentScore} / ${totalQuestions}`);
-  } 
-  else {
-    ValidationAlert.warning("No correct answers. Try again.");
-  }
-};
+  };
 
   const handleShowAnswer = () => {
     setUserAnswers(correctAnswers);
     setShowAnswers(true);
+    setChecked(false);
   };
 
   const handleStartAgain = () => {
@@ -75,10 +92,11 @@ const WB_Unit1_Page5_Q2 = () => {
       3: { q: "", a: "" },
       4: { q: "", a: "" },
     });
+
     setShowResults(false);
     setShowAnswers(false);
+    setChecked(false);
   };
-
   const data = [
     { id: 1, img: img, name: "Stella." },
     { id: 2, img: img, name: "Sarah." },
@@ -87,52 +105,168 @@ const WB_Unit1_Page5_Q2 = () => {
   ];
 
   return (
-    <div className="p-8 bg-white rounded-3xl max-w-5xl mx-auto">
-      <div className="flex items-center gap-4 mb-12">
-        <div className="ex-A">G</div>
-        <h1 className="header-title-page8">Look, read, and complete.</h1>
-      </div>
-
-      <div className="grid grid-cols-2 gap-x-20 gap-y-10 lg:ml-10">
-        {data.map((item) => (
-          <div key={item.id} className="flex flex-col items-center gap-6">
-            <div className="flex items-start gap-4 w-full">
-              <span className="font-bold text-blue-900 text-2xl">{item.id}</span>
-              <img src={item.img} alt="" className="max-w-32 max-h-48 object-contain rounded-xl" />
+    <DragDropContext onDragEnd={onDragEnd}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "30px",
+     
+        }}
+      >
+        <div
+          className="div-forall"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            // gap: "30px",
+            width: "60%",
+            justifyContent: "flex-start",
+          }}
+        >
+          <h1 className="WB-header-title-page8">
+            <div className="WB-ex-A">G</div>Look, read, and complete.
+          </h1>
+       
+<div className="flex justify-center">
+  <Droppable
+          droppableId="words"
+          direction="horizontal"
+          isDragDisabled={false}
+        >
+          {(provided) => (
+            <div
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+              style={{
+                display: "flex",
+                gap: "10px",
+                padding: "10px",
+                border: "2px dashed #ccc",
+                borderRadius: "10px",
+                // margin: "10px 0",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "50%",
+              }}
+            >
+              {words.map((word, index) => (
+                <Draggable key={word.id} draggableId={word.text} index={index}>
+                  {(provided) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                      style={{
+                        padding: "7px 14px",
+                        border: "2px solid #2c5287",
+                        borderRadius: "8px",
+                        background: "white",
+                        fontWeight: "bold",
+                        cursor: "grab",
+                        fontSize: "18px",
+                        ...provided.draggableProps.style,
+                      }}
+                    >
+                      {word.text}
+                    </div>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
             </div>
-            
-            <div className="flex flex-col gap-4 w-full text-xl text-gray-800">
-              <div className="flex items-center gap-2">
-                <span>Who's</span>
-                <input
-                  type="text"
-                  value={userAnswers[item.id].q}
-                  onChange={(e) => handleInputChange(item.id, "q", e.target.value)}
-                  className="border-b-2 border-gray-400 outline-none w-24 text-center focus:border-blue-500"
-                  placeholder="......"
-                />
-                <span>?</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <input
-                  type="text"
-                  value={userAnswers[item.id].a}
-                  onChange={(e) => handleInputChange(item.id, "a", e.target.value)}
-                  className="border-b-2 border-gray-400 outline-none w-24 text-center focus:border-blue-500"
-                  placeholder="......"
-                />
-                <span>{item.name}</span>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+          )}
+        </Droppable>
+</div>
+        
+        <div className="grid grid-cols-2 gap-x-20 gap-y-10 lg:ml-10">
+          {data.map((item) => {
+            const wrongQ =
+              checked &&
+              userAnswers[item.id].q &&
+              userAnswers[item.id].q.toLowerCase().trim() !==
+                correctAnswers[item.id].q.toLowerCase();
 
-      <div className="mt-16 flex justify-center">
-        <Button handleShowAnswer={handleShowAnswer} handleStartAgain={handleStartAgain} checkAnswers={checkAnswers} />
-      </div>
+            const wrongA =
+              checked &&
+              userAnswers[item.id].a &&
+              userAnswers[item.id].a.toLowerCase().trim() !==
+                correctAnswers[item.id].a.toLowerCase();
+            return (
+              <div key={item.id} className="flex flex-col items-center gap-6">
+                <div className="flex items-start gap-4 w-full">
+                  <span className="font-bold text-blue-900 text-2xl">
+                    {item.id}
+                  </span>
+                  <img
+                    src={item.img}
+                    alt=""
+                   style={{height:"90px" ,width:"90px"}}
+                  />
+                </div>
 
-    </div>
+                <div className="flex flex-col gap-4 w-full text-xl text-gray-800">
+                  <div className="flex items-center gap-2 relative">
+                   
+                    <span>Who's</span>
+                    <Droppable droppableId={`${item.id}-q`}>
+                      {(provided, snapshot) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.droppableProps}
+                          className={`WB-unit1-p5-q2-input ${
+                            snapshot.isDraggingOver ? "drag-over-cell" : ""
+                          }`}
+                        > {wrongQ && (
+                      <div className="wb-wrong-icon-unit1-page5-q2">
+                        ✕
+                      </div>
+                    )}
+                          {userAnswers[item.id].q}
+                          {provided.placeholder}
+                        </div>
+                      )}
+                    </Droppable>
+                    <span>?</span>
+                  </div>
+                  <div className="flex items-center gap-2 relative">
+                   
+                    <Droppable droppableId={`${item.id}-a`}>
+                      {(provided, snapshot) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.droppableProps}
+                          className={`WB-unit1-p5-q2-input ${
+                            snapshot.isDraggingOver ? "drag-over-cell" : ""
+                          }`}
+                        > {wrongA && (
+                      <div className="wb-wrong-icon-unit1-page5-q2">✕</div>
+                    )}
+                          {userAnswers[item.id].a}
+                          {provided.placeholder}
+                        </div>
+                      )}
+                    </Droppable>
+                    <span>{item.name}</span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="mt-16 flex justify-center">
+          <Button
+            handleShowAnswer={handleShowAnswer}
+            handleStartAgain={handleStartAgain}
+            checkAnswers={checkAnswers}
+          />
+        </div>
+         </div>
+      </div>
+    </DragDropContext>
   );
 };
 

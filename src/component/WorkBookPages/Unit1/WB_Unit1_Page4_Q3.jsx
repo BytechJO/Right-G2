@@ -13,7 +13,7 @@ const WB_Unit1_Page4_Q3 = () => {
   const leftRefs = useRef({});
   const rightRefs = useRef({});
   const [lines, setLines] = useState([]);
-
+  const [checked, setChecked] = useState(false);
   const data = {
     left: [
       { id: 1, text: "I'm Stella's ...", img: img },
@@ -39,7 +39,6 @@ const WB_Unit1_Page4_Q3 = () => {
 
   const checkAnswers = () => {
     let currentScore = 0;
-
     const totalQuestions = Object.keys(correctMatches).length;
 
     Object.keys(correctMatches).forEach((leftId) => {
@@ -51,17 +50,14 @@ const WB_Unit1_Page4_Q3 = () => {
       }
     });
 
-    if (!currentScore)
-    {
-      ValidationAlert.warning("No correct matches. Try again.");
-    }
     setScore(currentScore);
+    setChecked(true);
 
-    // Validation
     if (currentScore === totalQuestions) {
       ValidationAlert.success(`Score: ${currentScore} / ${totalQuestions}`);
-    }
-    else if (currentScore >= 0) {
+    } else if (currentScore > 0) {
+      ValidationAlert.warning(`Score: ${currentScore} / ${totalQuestions}`);
+    } else {
       ValidationAlert.error(`Score: ${currentScore} / ${totalQuestions}`);
     }
   };
@@ -106,25 +102,43 @@ const WB_Unit1_Page4_Q3 = () => {
   return (
     <div className="p-8 bg-white rounded-3xl max-w-4xl mx-auto">
       <div className="flex items-center gap-4 mb-12">
-        <div className="ex-A">E</div>
-        <h1 className="header-title-page8">Look, read, and match.</h1>
+        <div className="WB-ex-A">E</div>
+        <h1 className="WB-header-title-page8">Look, read, and match.</h1>
       </div>
 
       <div ref={containerRef} className="flex justify-between gap-20 relative">
         {/* Left Side */}
         <div className="space-y-12">
-          {data.left.map((item) => (
-            <div key={item.id} className="flex items-center gap-6">
-              <span className="font-bold text-blue-900 text-xl">{item.id}</span>
-              <img src={item.img} alt="" className="max-w-16 max-h-16 rounded-full object-cover" />
-              <span className="text-xl text-gray-700">{item.text}</span>
-              <div
-                ref={(el) => (leftRefs.current[item.id] = el)}
-                onClick={() => handleLeftClick(item.id)}
-                className={`w-4 h-4 rounded-full cursor-pointer transition-all ${selectedLeft === item.id ? 'bg-blue-500 scale-125' : 'bg-[#eb533c]'}`}
-              />
-            </div>
-          ))}
+          {data.left.map((item) => {
+            const isWrong =
+              checked &&
+              matches[item.id] &&
+              matches[item.id] !== correctMatches[item.id];
+            return (
+              <div key={item.id} className="flex items-center gap-6 relative">
+                 {isWrong && (
+        <div className="wb-wrong-icon-unit1-page4-q3">
+          ✕
+        </div>
+      )}
+
+                <span className="font-bold text-blue-900 text-xl">
+                  {item.id}
+                </span>
+                <img
+                  src={item.img}
+                  alt=""
+                  className="max-w-16 max-h-16 rounded-full object-cover"
+                />
+                <span className="text-xl text-gray-700">{item.text}</span>
+                <div
+                  ref={(el) => (leftRefs.current[item.id] = el)}
+                  onClick={() => handleLeftClick(item.id)}
+                  className={`w-4 h-4 rounded-full cursor-pointer transition-all ${selectedLeft === item.id ? "bg-red-500 scale-125" : "bg-[#eb533c]"}`}
+                />
+              </div>
+            );
+          })}
         </div>
 
         {/* Right Side */}
@@ -134,7 +148,7 @@ const WB_Unit1_Page4_Q3 = () => {
               <div
                 ref={(el) => (rightRefs.current[item.id] = el)}
                 onClick={() => handleRightClick(item.id)}
-                className={`w-4 h-4 rounded-full cursor-pointer transition-all ${Object.values(matches).includes(item.id) ? 'bg-green-500' : 'bg-[#eb533c]'}`}
+                className={`w-4 h-4 rounded-full cursor-pointer transition-all ${Object.values(matches).includes(item.id) ? "bg-red-500" : "bg-[#eb533c]"}`}
               />
               <span className="text-xl text-gray-700 w-24">{item.text}</span>
             </div>
@@ -148,15 +162,18 @@ const WB_Unit1_Page4_Q3 = () => {
               y1={line.y1}
               x2={line.x2}
               y2={line.y2}
-              stroke="#3b82f6"
+              stroke="red"
               strokeWidth="2"
             />
           ))}
         </svg>
       </div>
 
-      <Button handleShowAnswer={handleShowAnswer} handleStartAgain={handleStartAgain} checkAnswers={checkAnswers} />
-
+      <Button
+        handleShowAnswer={handleShowAnswer}
+        handleStartAgain={handleStartAgain}
+        checkAnswers={checkAnswers}
+      />
     </div>
   );
 };

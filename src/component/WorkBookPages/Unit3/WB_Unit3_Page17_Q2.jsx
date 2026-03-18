@@ -1,92 +1,327 @@
-import React, { useState } from 'react';
-
-// استيراد مكونات الأزرار والتنبيهات
-import Button from '../button';
-import ValidationAlert from '../../Popup/ValidationAlert';
-
-// بيانات التمرين
-const unscrambleQuestions = [
-    { id: 'u1', scrambled: 'aekt a tpoho', correctAnswer: 'take a photo' },
-    { id: 'u2', scrambled: 'kema a chasdiwn', correctAnswer: 'make a sandwich' },
-    { id: 'u3', scrambled: 'deri a ekib', correctAnswer: 'ride a bike' },
-    { id: 'u4', scrambled: 'lyf a tiek', correctAnswer: 'fly a kite' },
-    { id: 'u5', scrambled: 'chneb', correctAnswer: 'bench' },
-    { id: 'u6', scrambled: 'lyap het mrud', correctAnswer: 'play the drum' },
-];
+import React, { useState } from "react";
+import ValidationAlert from "../../Popup/ValidationAlert";
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
 const WB_Unit3_Page17_Q2 = () => {
-    const [answers, setAnswers] = useState({});
-    const [showResults, setShowResults] = useState(false);
+  const data = [
+    { scrambled: "aekt a tpoho", answer: "take a photo" },
+    { scrambled: "kema a chasdiwn", answer: "make a sandwich" },
+    { scrambled: "deri a ekib", answer: "ride a bike" },
+    { scrambled: "lyf a tiek", answer: "fly a kite" },
+    { scrambled: "chneb", answer: "bench" },
+    { scrambled: "lyap eht murd", answer: "play the drum" },
+  ];
 
-    const handleInputChange = (qId, value) => {
-        setAnswers(prev => ({ ...prev, [qId]: value }));
-        setShowResults(false);
-    };
-
-    const getInputClass = (qId) => {
-        if (!showResults || !answers[qId]) return 'border-gray-300';
-        return answers[qId].trim().toLowerCase() === unscrambleQuestions.find(q => q.id === qId).correctAnswer ? 'border-green-500' : 'border-red-500';
-    };
-
-    const handleShowAnswer = () => {
-        const correctAns = {};
-        unscrambleQuestions.forEach(q => {
-            correctAns[q.id] = q.correctAnswer;
-        });
-        setAnswers(correctAns);
-        setShowResults(true);
-    };
-
-    const handleStartAgain = () => {
-        setAnswers({});
-        setShowResults(false);
-    };
-
-    const checkAnswers = () => {
-        setShowResults(true);
-        let score = 0;
-        unscrambleQuestions.forEach(q => {
-            if (answers[q.id]?.trim().toLowerCase() === q.correctAnswer) {
-                score++;
-            }
-        });
-
-        if (score === unscrambleQuestions.length) {
-            ValidationAlert.success(`Score: ${score} / ${unscrambleQuestions.length}`);
-        } else if (score > 0) {
-            ValidationAlert.error(`Score: ${score} / ${unscrambleQuestions.length}`);
-        } else {
-            ValidationAlert.warning("No matches. Try again.");
-        }
-    };
-
-    return (
-        <div className="p-6 max-w-4xl mx-auto font-sans mt-8">
-            <div className="flex items-center gap-4 mb-6">
-                <span className="ex-A">F</span>
-                <h1 className="header-title-page8">Unscramble and write.</h1>
-            </div>
-
-            <div className="space-y-4">
-                {unscrambleQuestions.map((q, index) => (
-                    <div key={q.id} className="grid grid-cols-[auto_1fr_2fr] items-baseline gap-x-4">
-                        <span className="font-bold text-blue-600">{index + 1}</span>
-                        <span className="text-gray-500 text-lg">{q.scrambled}</span>
-                        <input
-                            type="text"
-                            value={answers[q.id] || ''}
-                            onChange={(e) => handleInputChange(q.id, e.target.value)}
-                            className={`w-full bg-transparent border-b-2 pb-1 focus:outline-none transition-colors text-lg ${getInputClass(q.id)}`}
-                        />
-                    </div>
-                ))}
-            </div>
-
-            <div className='mt-10 flex justify-center'>
-                <Button handleShowAnswer={handleShowAnswer} handleStartAgain={handleStartAgain} checkAnswers={checkAnswers} />
-            </div>
-        </div>
+  const buildInitialInputs = () =>
+    data.map((item) =>
+      item.answer.split(" ").map((word) =>
+        Array.from({ length: word.length }, () => null),
+      ),
     );
+
+  const [inputs, setInputs] = useState(buildInitialInputs());
+  const [showAnswer, setShowAnswer] = useState(false);
+  const [wrong, setWrong] = useState(data.map(() => false));
+
+  const isLetterUsed = (rowIndex, letterId) => {
+    return inputs[rowIndex].some((wordArr) =>
+      wordArr.some((slot) => slot?.id === letterId),
+    );
+  };
+
+  const onDragEnd = (result) => {
+    if (!result.destination || showAnswer) return;
+
+    const { draggableId, destination } = result;
+
+    const [rowIndexStr, sourceWordIndexStr, charIndexStr, char] =
+      draggableId.split("__");
+
+    const rowIndex = Number(rowIndexStr);
+
+    const [destRowStr, destWordStr, destCharStr] =
+      destination.droppableId.split("__");
+
+    const destRowIndex = Number(destRowStr);
+    const destWordIndex = Number(destWordStr);
+    const destCharIndex = Number(destCharStr);
+
+    // منع السحب بين الأسطر
+    if (rowIndex !== destRowIndex) return;
+
+    setInputs((prev) => {
+      const updated = prev.map((row) => row.map((word) => [...word]));
+
+      // إزالة نفس الحرف "بنفس الـ id" من أي خانة قديمة
+      updated[rowIndex] = updated[rowIndex].map((wordArr) =>
+        wordArr.map((slot) => (slot?.id === draggableId ? null : slot)),
+      );
+
+      // إذا الخانة فيها حرف قديم، شيله واستبدله
+      updated[destRowIndex][destWordIndex][destCharIndex] = {
+        id: draggableId,
+        char,
+      };
+
+      return updated;
+    });
+
+    setWrong(data.map(() => false));
+  };
+
+  const getRowUserAnswer = (rowIndex) =>
+    inputs[rowIndex]
+      .map((word) => word.map((slot) => slot?.char || "").join(""))
+      .join(" ")
+      .trim();
+
+  const checkAnswers = () => {
+    if (showAnswer) return;
+
+    const hasEmpty = inputs.some((row) =>
+      row.some((word) => word.some((slot) => slot === null)),
+    );
+
+    if (hasEmpty) {
+      ValidationAlert.info(
+        "Oops!",
+        "Please complete all answers before checking.",
+      );
+      return;
+    }
+
+    let correct = 0;
+
+    const wrongStatus = data.map((item, i) => {
+      const userAnswer = getRowUserAnswer(i).toLowerCase();
+      const isCorrect = userAnswer === item.answer.toLowerCase();
+      if (isCorrect) correct++;
+      return !isCorrect;
+    });
+
+    setWrong(wrongStatus);
+
+    const total = data.length;
+    const msg = `Score: ${correct} / ${total}`;
+
+    if (correct === total) {
+      ValidationAlert.success(msg);
+    } else if (correct === 0) {
+      ValidationAlert.error(msg);
+    } else {
+      ValidationAlert.warning(msg);
+    }
+  };
+
+  const reset = () => {
+    setInputs(buildInitialInputs());
+    setWrong(data.map(() => false));
+    setShowAnswer(false);
+  };
+
+  return (
+    <DragDropContext onDragEnd={onDragEnd}>
+      <div className="main-container-component">
+        <div className="div-forall" style={{ gap: "20px",marginBottom:"60px" }}>
+          <div className="page8-content">
+            <header className="WB-header-title-page8">
+              <span className="WB-ex-A">F</span>
+              Unscramble and write.
+            </header>
+          </div>
+
+          {data.map((item, i) => {
+            const scrambledWords = item.scrambled.split(" ");
+            const answerWords = item.answer.split(" ");
+
+            return (
+              <div key={i} style={{ marginBottom: "14px", width: "100%" }}>
+                <div className="scrambled-wb-unit3-p17-q2">
+                  <div>
+                    <span style={{ fontWeight: "600", marginRight: "8px" }}>
+                      {i + 1}
+                    </span>
+                    {item.scrambled}
+                  </div>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "12px",
+                      flexWrap: "wrap",
+                      marginTop: "10px",
+                    }}
+                  >
+                    {scrambledWords.map((word, wordIndex) => (
+                      <Droppable
+                        key={`bank-${i}-${wordIndex}`}
+                        droppableId={`bank__${i}__${wordIndex}__0`}
+                        direction="horizontal"
+                      >
+                        {(provided) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.droppableProps}
+                            style={{
+                              display: "flex",
+                              gap: "6px",
+                              padding: "8px",
+                              border: "2px dashed #ccc",
+                              borderRadius: "10px",
+                              minHeight: "42px",
+                              alignItems: "center",
+                            }}
+                          >
+                            {word.split("").map((char, charIndex) => {
+                              const letterId = `${i}__${wordIndex}__${charIndex}__${char}`;
+                              const used =
+                                isLetterUsed(i, letterId) || showAnswer;
+
+                              return (
+                                <Draggable
+                                  key={letterId}
+                                  draggableId={letterId}
+                                  index={charIndex}
+                                  isDragDisabled={used}
+                                >
+                                  {(provided) => (
+                                    <span
+                                      ref={provided.innerRef}
+                                      {...(!used ? provided.draggableProps : {})}
+                                      {...(!used
+                                        ? provided.dragHandleProps
+                                        : {})}
+                                      style={{
+                                        width: "32px",
+                                        height: "32px",
+                                        display: "inline-flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        border: "2px solid #2c5287",
+                                        borderRadius: "8px",
+                                        background: "white",
+                                        fontWeight: "bold",
+                                        textTransform: "lowercase",
+                                        opacity: used ? 0.35 : 1,
+                                        cursor: used
+                                          ? "not-allowed"
+                                          : "grab",
+                                        ...provided.draggableProps.style,
+                                      }}
+                                    >
+                                      {char}
+                                    </span>
+                                  )}
+                                </Draggable>
+                              );
+                            })}
+                            {provided.placeholder}
+                          </div>
+                        )}
+                      </Droppable>
+                    ))}
+                  </div>
+                </div>
+
+                <div style={{ position: "relative", marginTop: "10px" }}>
+                  <div
+                    className="missing-input-wb-unit1-p3-q1"
+                    style={{
+                      minHeight: "56px",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "10px",
+                      flexWrap: "wrap",
+                      padding: "8px 10px",
+                    }}
+                  >
+                    {(showAnswer ? answerWords : inputs[i]).map(
+                      (wordValue, wordIndex) => {
+                        const targetLength = answerWords[wordIndex].length;
+
+                        return (
+                          <div
+                            key={`answer-word-${i}-${wordIndex}`}
+                            style={{
+                              display: "flex",
+                              gap: "4px",
+                              alignItems: "center",
+                            }}
+                          >
+                            {Array.from({ length: targetLength }).map(
+                              (_, charIndex) => (
+                                <Droppable
+                                  key={`blank-${i}-${wordIndex}-${charIndex}`}
+                                  droppableId={`${i}__${wordIndex}__${charIndex}`}
+                                >
+                                  {(provided, snapshot) => (
+                                    <div
+                                      ref={provided.innerRef}
+                                      {...provided.droppableProps}
+                                      style={{
+                                        width: "34px",
+                                        height: "40px",
+                                        borderBottom: "2px solid",
+                                        borderColor: snapshot.isDraggingOver
+                                          ? "#60a5fa"
+                                          : "#9ca3af",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        fontSize: "20px",
+                                        fontWeight: "700",
+                                        background: snapshot.isDraggingOver
+                                          ? "#eff6ff"
+                                          : "transparent",
+                                      }}
+                                    >
+                                      {showAnswer
+                                        ? answerWords[wordIndex][charIndex]
+                                        : inputs[i][wordIndex][charIndex]
+                                            ?.char || ""}
+                                      {provided.placeholder}
+                                    </div>
+                                  )}
+                                </Droppable>
+                              ),
+                            )}
+                          </div>
+                        );
+                      },
+                    )}
+                  </div>
+
+                  {wrong[i] && (
+                    <div className="wrong-icon-wb-unit1-p3-q1">✕</div>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="action-buttons-container">
+          <button onClick={reset} className="try-again-button">
+            Start Again ↻
+          </button>
+
+          <button
+            className="show-answer-btn swal-continue"
+            onClick={() => {
+              setShowAnswer(true);
+              setWrong(data.map(() => false));
+            }}
+          >
+            Show Answer
+          </button>
+
+          <button onClick={checkAnswers} className="check-button2">
+            Check Answer ✓
+          </button>
+        </div>
+      </div>
+    </DragDropContext>
+  );
 };
 
 export default WB_Unit3_Page17_Q2;

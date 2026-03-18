@@ -1,265 +1,275 @@
-import React, { useState, useEffect } from 'react';
-import Button from "../button";
+import React, { useState } from "react";
+import "./WB_Unit1_Page7_Q1.css";
 import ValidationAlert from "../../Popup/ValidationAlert";
-const WB_Unit1_Page7_Q1 = () => {
 
-  const [showTutorial, setShowTutorial] = useState(false);
+const grid = [
+  ["c", "u", "a", "i", "e", "b", "m"],
+  ["o", "n", "u", "t", "n", "r", "o"],
+  ["u", "c", "n", "a", "l", "o", "t"],
+  ["s", "l", "t", "c", "u", "t", "h"],
+  ["i", "e", "a", "o", "l", "h", "e"],
+  ["n", "f", "a", "t", "h", "e", "r"],
+  ["s", "i", "s", "t", "e", "r", "t"],
+];
 
-  const images = [
-    { id: 1, src: '/assets/unit4/review/page51/1.svg', word: 'father' },
-    { id: 2, src: '/assets/unit4/review/page51/2.svg', word: 'mother' },
-    { id: 3, src: '/assets/unit4/review/page51/3.svg', word: 'brother' },
-    { id: 4, src: '/assets/unit4/review/page51/4.svg', word: 'sister' },
-    { id: 5, src: '/assets/unit4/review/page51/5.svg', word: 'aunt' },
-    { id: 6, src: '/assets/unit4/review/page51/6.svg', word: "uncle" },
-    { id: 7, src: '/assets/unit4/review/page51/6.svg', word: "cousin" }
-  ];
+const words = [
+  {
+    text: "father",
+    coords: [
+      [5, 1],
+      [5, 2],
+      [5, 3],
+      [5, 4],
+      [5, 5],
+      [5, 6],
+    ],
+  },
+  {
+    text: "mother",
+    coords: [
+      [0, 6],
+      [1, 6],
+      [2, 6],
+      [3, 6],
+      [4, 6],
+      [5, 6],
+    ],
+  },
+  {
+    text: "brother",
+    coords: [
+      [0, 5],
+      [1, 5],
+      [2, 5],
+      [3, 5],
+      [4, 5],
+      [5, 5],
+    ],
+  },
+  {
+    text: "sister",
+    coords: [
+      [6, 0],
+      [6, 1],
+      [6, 2],
+      [6, 3],
+      [6, 4],
+      [6, 5],
+    ],
+  },
+  {
+    text: "aunt",
+    coords: [
+      [0, 2],
+      [1, 2],
+      [2, 2],
+      [3, 2],
+    ],
+  },
+  {
+    text: "uncle",
+    coords: [
+      [0, 1],
+      [1, 1],
+      [2, 1],
+      [3, 1],
+      [4, 1],
+    ],
+  },
+  {
+    text: "cousin",
+    coords: [
+      [0, 0],
+      [1, 0],
+      [2, 0],
+      [3, 0],
+      [4, 0],
+      [5, 0],
+      [6, 0],
+    ],
+  },
+];
 
-  const grid = [
-    ['a', 'u', 'i', 'o', 't', 'n', 'f', 'v', 't', 'o', 'p', 'r'],
-    ['o', 'd', 'a', 'r', 'h', 't', 'r', 'i', 'o', 'l', 'k', 'e'],
-    ['t', 'y', 'r', 't', 'u', 'p', 'o', 'm', 'm', 'e', 'i', 'u'],
-    ['b', 'u', 'f', 'o', 'v', 'c', 'm', 'm', 'u', 'i', 'h', 'l'],
-    ['o', 's', 'a', 'u', 'j', 'h', 'a', 'n', 'y', 't', 'r', 'e'],
-    ['n', 'n', 'i', 'o', 'e', 'y', 'o', 'j', 'k', 'o', 'g', 't'],
-    ['s', 'e', 'r', 'n', 'a', 'n', 'e', 's', 'k', 'm', 'o', 'k'],
-    ['s', 'b', 'a', 'n', 'r', 'a', 'h', 'b', 'f', 'g', 'a', 'g'],
-    ['q', 'l', 'u', 'o', 'a', 't', 's', 'l', 'm', "i", 'b', 'p'],
-    ['r', 'u', 'c', 's', 't', 'n', 'o', 'h', 'r', 'k', 'p', 'k'],
-    ['j', 'e', 'e', 'd', "h", 'o', 'r', 'a', 'n', 'n', 'b', 'l']
-  ];
+export default function WB_Unit1_Page7_Q1() {
+  const [selected, setSelected] = useState([]);
+  const [foundWords, setFoundWords] = useState([]);
+  const [wrongTry, setWrongTry] = useState(false);
+  const [allSelections, setAllSelections] = useState([]);
+  const [wrongWords, setWrongWords] = useState([]);
+  const [showAnswer, setShowAnswer] = useState(false);
+  const [locked, setLocked] = useState(false);
 
-  const [selectedLetters, setSelectedLetters] = useState({});
-  const [answers, setAnswers] = useState(Array(6).fill(""));
-  const [activeImageIndex, setActiveImageIndex] = useState(null);
-  const [isChecked, setIsChecked] = useState(false);
+  const handleCellClick = (r, c) => {
+    if (locked) return; // ⛔ بعد التشيك أو الشو
+    if (isFoundCell(r, c)) return;
 
-  const handleLetterClick = (rowIndex, colIndex, letter) => {
-    if (isChecked || activeImageIndex === null) return;
+    setSelected((prev) => {
+      const exists = prev.some((coord) => coord[0] === r && coord[1] === c);
 
-    const key = `${rowIndex}-${colIndex}`;
+      // toggle
+      if (exists) {
+        return prev.filter((coord) => !(coord[0] === r && coord[1] === c));
+      }
 
-    // إذا الحرف محدد، نشيله
-    if (selectedLetters[key]?.imageIndex === activeImageIndex) {
-      const newSelectedLetters = { ...selectedLetters };
-      delete newSelectedLetters[key];
-      setSelectedLetters(newSelectedLetters);
-
-      // تحديث الـ answer
-      const newAnswers = [...answers];
-      newAnswers[activeImageIndex] = newAnswers[activeImageIndex].slice(0, -1);
-      setAnswers(newAnswers);
-    } else {
-      // إضافة الحرف
-      setSelectedLetters({
-        ...selectedLetters,
-        [key]: { imageIndex: activeImageIndex, letter }
-      });
-
-      // إضافة الحرف للـ answer
-      const newAnswers = [...answers];
-      newAnswers[activeImageIndex] += letter;
-      setAnswers(newAnswers);
-    }
+      return [...prev, [r, c]];
+    });
   };
 
-  const normalizeText = (text) => {
-    return text
-      .toLowerCase()
-      .trim()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/\s+/g, "");
+  const isHighlighted = (r, c) => {
+    return (
+      selected.some((coord) => coord[0] === r && coord[1] === c) ||
+      allSelections.some((sel) =>
+        sel.some((coord) => coord[0] === r && coord[1] === c),
+      )
+    );
   };
 
-  const checkAnswer = (userAnswer, correctAnswer) => {
-    return normalizeText(userAnswer) === normalizeText(correctAnswer);
+  const isFoundCell = (r, c) => {
+    return words.some(
+      (w) =>
+        foundWords.includes(w.text) &&
+        w.coords.some((coord) => coord[0] === r && coord[1] === c),
+    );
   };
 
   const checkAnswers = () => {
-    const allFilled = answers.every(answer => answer.trim() !== "");
-
-    if (!allFilled) {
-      ValidationAlert.warning("Veuillez trouver tous les mots!");
-      return;
+    if (showAnswer) return;
+    let foundList = [];
+    if (selected.length === 0) {
+      return ValidationAlert.info("");
     }
+    words.forEach((word) => {
+      const isCorrect =
+        word.coords.length > 0 &&
+        word.coords.every(([r, c]) =>
+          selected.some((sel) => sel[0] === r && sel[1] === c),
+        );
 
-    let correctCount = 0;
-    answers.forEach((answer, index) => {
-      if (checkAnswer(answer, images[index].word)) {
-        correctCount++;
-      }
+      if (isCorrect) foundList.push(word.text);
     });
 
-    setIsChecked(true);
+    setFoundWords(foundList);
 
-    const score = `${correctCount}/${images.length}`;
+    // الكلمات الخاطئة = التي لم يجدها الطالب
+    const wrong = words
+      .map((w) => w.text)
+      .filter((txt) => !foundList.includes(txt));
 
-    if (correctCount === images.length) {
-      ValidationAlert.success(score);
+    setWrongWords(wrong);
+    setLocked(true);
+
+    let total = words.length;
+    let color =
+      foundList.length === total
+        ? "green"
+        : foundList.length === 0
+          ? "red"
+          : "orange";
+
+    const msg = `
+      <div style="font-size:20px; text-align:center;">
+        <span style="color:${color}; font-weight:bold;">
+          Score: ${foundList.length} / ${total}
+        </span>
+      </div>
+    `;
+    // النتيجة
+    if (foundList.length === total) {
+      ValidationAlert.success(msg);
+    } else if (foundList.length === 0) {
+      ValidationAlert.error(msg);
     } else {
-      ValidationAlert.error(score);
+      ValidationAlert.warning(msg);
     }
   };
 
-  const handleShowAnswer = () => {
-    setAnswers(images.map(img => img.word));
-    setIsChecked(true);
+  const showAnswers = () => {
+    setShowAnswer(true);
+    // 1) جميع الكلمات تعتبر صحيحة
+    setFoundWords(words.map((w) => w.text));
+
+    // 2) ضع كل الإحداثيات داخل allSelections لتسليط الضوء عليها
+    const allCoords = words.map((w) => w.coords);
+    setAllSelections(allCoords);
+
+    // 3) إزالة أي اختيار يدوي
+    setSelected([]);
+
+    // 4) إزالة الأخطاء
+    setWrongWords([]);
   };
 
-  const handleStartAgain = () => {
-    setAnswers(Array(6).fill(""));
-    setSelectedLetters({});
-    setActiveImageIndex(null);
-    setIsChecked(false);
-  };
-
-  const clearWord = (index) => {
-    if (isChecked) return;
-
-    const newAnswers = [...answers];
-    newAnswers[index] = "";
-    setAnswers(newAnswers);
-
-    // إزالة كل الحروف المحددة لهذه الصورة
-    const newSelectedLetters = { ...selectedLetters };
-    Object.keys(newSelectedLetters).forEach(key => {
-      if (newSelectedLetters[key].imageIndex === index) {
-        delete newSelectedLetters[key];
-      }
-    });
-    setSelectedLetters(newSelectedLetters);
-  };
-
-  const getAnswerStyle = (index) => {
-    if (!isChecked) {
-      return {
-        border: '3px solid #3b82f6',
-        backgroundColor: activeImageIndex === index ? '#dbeafe' : 'white',
-        color: '#1f2937'
-      };
-    }
-
-    if (checkAnswer(answers[index], images[index].word)) {
-      return {
-        border: '3px solid #22c55e',
-        backgroundColor: '#f0fdf4',
-        color: '#15803d'
-      };
-    } else {
-      return {
-        border: '3px solid #ef4444',
-        backgroundColor: '#fef2f2',
-        color: '#dc2626'
-      };
-    }
-  };
-
-  const getLetterStyle = (rowIndex, colIndex) => {
-    const key = `${rowIndex}-${colIndex}`;
-    const isSelected = selectedLetters[key];
-
-    if (isSelected) {
-      const colors = [
-        '#fbbf24', // yellow
-        '#fb923c', // orange
-        '#f472b6', // pink
-        '#a78bfa', // purple
-        '#60a5fa', // blue
-        '#34d399'  // green
-      ];
-      return {
-        backgroundColor: colors[isSelected.imageIndex],
-        color: 'white',
-        fontWeight: 'bold',
-        transform: 'scale(1.1)',
-        border: '2px solid #1f2937'
-      };
-    }
-
-    return {
-      backgroundColor: 'white',
-      color: '#1f2937',
-      border: '2px solid #d1d5db'
-    };
-  };
-
-  // دالة للإغلاق
-  const handleCloseTutorial = () => {
-    setShowTutorial(false);
-  };
-
-  // زر مساعدة في واجهة Q5
-  const handleShowHelp = () => {
-    setShowTutorial(true);
+  const reset = () => {
+    setSelected([]);
+    setFoundWords([]);
+    setWrongTry(false);
+    setWrongWords([]);
+    setLocked(false);
+    setShowAnswer(false);
+    setAllSelections([]); // ⭐️ هذه كانت ناقصة
   };
 
   return (
-    <>
-      <div className="flex items-center gap-4 ml-90 mt-10">
-        <div className="ex-A">K</div>
-        <h1 className="header-title-page8">Finds the words</h1>
-      </div>
-      <div className="flex flex-col items-center p-8 gap-5 lg:ml-50 mb-10">
-
-
-        <div className="grid grid-cols-7 gap-1 w-full max-w-4xl">
-          {images.map((image, index) => (
-            <div
-              key={image.id}
-              className={`flex flex-col items-center gap-2 p-3 rounded-lg cursor-pointer transition-all ${activeImageIndex === index ? 'bg-blue-100 shadow-lg' : 'bg-gray-50'}`}
-              onClick={() => !isChecked && setActiveImageIndex(index)}
-            >
-              {/* عرض الإجابة فوق الصندوق */}
-              <div className="text-center text-xs font-semibold text-gray-500">
-                {image.word}
-              </div>
-
-              {/* عرض الصندوق الذي يحتوي على الكلمة المختارة */}
-              <div
-                className="w-full px-3 py-2 rounded-lg text-center font-bold text-sm min-h-[40px] flex items-center justify-center relative"
-                style={getAnswerStyle(index)}
-              >
-                {answers[index] || '...'}
-                {!isChecked && answers[index] && (
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      clearWord(index);
-                    }}
-                    className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full text-xs hover:bg-red-600"
-                  >
-                    ✕
-                  </button>
-                )}
-              </div>
+    <div className="wordsearch-wrapper">
+      <div className="page8-wrapper">
+        <div className="div-forall" style={{ width: "60%" }}>
+          <h3 className="WB-header-title-page8">
+            <span className="WB-ex-A">H</span>Find the words.
+          </h3>
+          <div className="container-word-grid-wb-u1-p7-q2">
+            <div className={`grid-wb-u1-p7-q2 ${wrongTry ? "shake" : ""}`}>
+              {grid.map((row, rIdx) => (
+                <div key={rIdx} className="row-wb-u1-p7-q2">
+                  {row.map((cell, cIdx) => (
+                    <div
+                      key={cIdx}
+                      className={`cell-wb-u1-p7-q2 
+                    ${isHighlighted(rIdx, cIdx) ? "highlight" : ""} 
+                    ${isFoundCell(rIdx, cIdx) ? "found" : ""}
+                `}
+                      onClick={() => handleCellClick(rIdx, cIdx)}
+                    >
+                      {cell}
+                    </div>
+                  ))}
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
 
-        {/* شبكة الحروف */}
-        <div className=" rounded-lg shadow-xl p-6 border-4 border-[#4ead9b]">
-          <div className="grid grid-cols-12 gap-x-10 gap-y-2">
-            {grid.map((row, rowIndex) => (
-              row.map((letter, colIndex) => (
-                <button
-                  key={`${rowIndex}-${colIndex}`}
-                  onClick={() => handleLetterClick(rowIndex, colIndex, letter)}
-                  disabled={isChecked}
-                  className="w-10 h-10 flex items-center justify-center rounded-lg font-bold text-lg transition-all hover:scale-110 disabled:cursor-not-allowed"
-                  style={getLetterStyle(rowIndex, colIndex)}
-                >
-                  {letter}
-                </button>
-              ))
-            ))}
+            <div className="word-btn-wb-u1-p7-q2">
+              {words.map((w) => (
+                <div key={w.text} className="word-label-wrapper-wb-u1-p7-q2">
+                  <div
+                    className={`word-label-wb-u1-p7-q2 ${
+                      foundWords.includes(w.text) ? "done" : ""
+                    }`}
+                  >
+                    {w.text}
+                  </div>
+
+                  {/* ✖ إكس داخل دائرة للكلمات الخاطئة */}
+                  {wrongWords.includes(w.text) && (
+                    <span className="wrong-x-circle-wb-u1-p7-q2">✕</span>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-
-        <Button handleShowAnswer={handleShowAnswer} handleStartAgain={handleStartAgain} checkAnswers={checkAnswers} />
       </div>
-    </>
-  );
-};
+      <div className="action-buttons-container">
+        <button className="try-again-button" onClick={reset}>
+          Start Again ↻
+        </button>
 
-export default WB_Unit1_Page7_Q1;
+        <button className="show-answer-btn swal-continue" onClick={showAnswers}>
+          Show Answer
+        </button>
+
+        <button className="check-button2" onClick={checkAnswers}>
+          Check Answer ✓
+        </button>
+      </div>
+    </div>
+  );
+}

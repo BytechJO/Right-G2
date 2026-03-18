@@ -1,0 +1,38 @@
+.WB-unit1-p3-q2-word-box {
+    display: inline-block;
+    padding: 0px 10px;
+    border: 2px solid #4b74ff;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    background: transparent;
+}
+
+.WB-unit1-p3-q2-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.WB-unit1-p3-q2-word-bank {
+    height: 70px;
+    width: 50%;
+}
+
+.WB-unit1-p3-q2-unscramble-input {
+    width: 50%;
+    height: 30px;
+    border-bottom: 2px solid #000000;
+    font-size: 20px;
+     border: 2px dashed #cfcfcf;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.WB-unit1-p3-q2-unscramble-input {
+ 
+     border: 2px dashed #cfcfcf;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
