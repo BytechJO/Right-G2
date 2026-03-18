@@ -1,165 +1,235 @@
-import { useState } from "react";
-import img from "../../../assets/imgs/test6.png";
+import React, { useState } from "react";
+import img1 from "../../../assets/imgs/test.png";
+import img2 from "../../../assets/imgs/test.png";
+import img3 from "../../../assets/imgs/test.png";
+import img4 from "../../../assets/imgs/test.png";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import Button from "../button";
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+
+import "./WB_Unit1_Page3_Q1.css";
 
 const WB_Unit1_Page3_Q1 = () => {
   const questions = [
     {
-      id: 1,
-      question: "Who's he?",
-      image: img,
-      answer: "He's my father",
-      isQuestionReadOnly: true,
+      img: img1,
+      parts: [
+        { type: "text", value: "Who's he?" },
+        { type: "input", answer: "He's my father" },
+     
+      ],
     },
     {
-      id: 2,
-      question: "Who are they?",
-      image: img,
-      answer: "They're my father and mother",
-      isQuestionReadOnly: false,
+      img: img2,
+      parts: [
+        { type: "input", answer: "Who are they?" },
+        { type: "input", answer: "They're my father and mother" },
+      ],
     },
   ];
 
-  const [userAnswers, setUserAnswers] = useState({});
-  const [userQuestions, setUserQuestions] = useState({});
-  const [results, setResults] = useState({});
+  const [answers, setAnswers] = useState(
+    questions.map((q) => q.parts.map((p) => (p.type === "input" ? "" : null))),
+  );
+  const [wrongInputs, setWrongInputs] = useState([]);
+  const [locked, setLocked] = useState(false);
 
-  const handleAnswerChange = (id, value) => {
-    setUserAnswers({ ...userAnswers, [id]: value });
-  };
+  const wordBank = [
+    { id: "w1", text: "He's my father" },
+    { id: "w2", text: "Who are they?" },
+    { id: "w3", text: "They're my father and mother" },
+  ];
 
-  const handleQuestionChange = (id, value) => {
-    setUserQuestions({ ...userQuestions, [id]: value });
+  const onDragEnd = (result) => {
+    if (!result.destination || locked) return;
+
+    const { draggableId, destination } = result;
+
+    setAnswers((prev) => {
+      const copy = prev.map((row) => [...row]);
+
+      // remove word from previous place
+      copy.forEach((row, qi) =>
+        row.forEach((val, pi) => {
+          if (val === draggableId) copy[qi][pi] = "";
+        }),
+      );
+
+      if (destination.droppableId.startsWith("drop-")) {
+        const [qIndex, pIndex] = destination.droppableId
+          .replace("drop-", "")
+          .split("-")
+          .map(Number);
+        copy[qIndex][pIndex] = draggableId;
+      }
+
+      return copy;
+    });
+
+    setWrongInputs([]);
   };
 
   const checkAnswers = () => {
-  // 1️⃣ تحقق من الحقول الفارغة
-  for (let q of questions) {
-    if (!q.isQuestionReadOnly) {
-      if (!userQuestions[q.id]?.trim()) {
-        ValidationAlert.warning("Please write the question first.");
-        return;
-      }
-    }
+    if (locked) return;
 
-    if (!userAnswers[q.id]?.trim()) {
-      ValidationAlert.warning("Please write all answers before checking.");
-      return;
-    }
-  }
+    let wrong = [];
+    let score = 0;
+    let total = 0;
 
-  // 2️⃣ حساب النتائج
-  let correctCount = 0;
-  const newResults = {};
+    questions.forEach((q, qIndex) => {
+      q.parts.forEach((p, pIndex) => {
+        if (p.type === "input") {
+          total++;
+          const word =
+            wordBank.find((w) => w.id === answers[qIndex][pIndex])?.text || "";
+          if (word === p.answer) score++;
+          else wrong.push(`${qIndex}-${pIndex}`);
+        }
+      });
+    });
 
-  questions.forEach((q) => {
-    const isAnswerCorrect =
-      userAnswers[q.id]?.toLowerCase().trim() ===
-      q.answer.toLowerCase().trim();
+    setWrongInputs(wrong);
+    setLocked(true);
 
-    let isQuestionCorrect = true;
-
-    if (!q.isQuestionReadOnly) {
-      isQuestionCorrect =
-        userQuestions[q.id]?.toLowerCase().trim() ===
-        q.question.toLowerCase().trim();
-    }
-
-    const isCorrect = isAnswerCorrect && isQuestionCorrect;
-    newResults[q.id] = isCorrect;
-
-    if (isCorrect) correctCount++;
-  });
-
-  setResults(newResults);
-
-  // 3️⃣ عرض النتيجة
-  if (correctCount === questions.length) {
-    ValidationAlert.success(`
-        <div style="font-size:20px;text-align:center;">
-          <b style="color:green;">Score: ${correctCount} / ${questions.length}</b>
-        </div>
-      `);
-  } else {
-    ValidationAlert.error(`
-        <div style="font-size:20px;text-align:center;">
-          <b style="color:red;">Score: ${correctCount} / ${questions.length}</b>
-        </div>
-      `);
-  }
-};
-  const handleStartAgain = () => {
-    setUserAnswers({});
-    setUserQuestions({});
-    setResults({});
+    const msg = `Score: ${score} / ${total}`;
+    if (score === total) ValidationAlert.success(msg);
+    else if (score === 0) ValidationAlert.error(msg);
+    else ValidationAlert.warning(msg);
   };
-  const handleShowAnswer = () => {
-  const filledAnswers = {};
-  const filledQuestions = {};
 
-  questions.forEach((q) => {
-    // تعبئة الجواب
-    filledAnswers[q.id] = q.answer;
+  const showAnswers = () => {
+    setAnswers(
+      questions.map((q) =>
+        q.parts.map((p) =>
+          p.type === "input"
+            ? wordBank.find((w) => w.text === p.answer)?.id || ""
+            : null,
+        ),
+      ),
+    );
+    setWrongInputs([]);
+    setLocked(true);
+  };
 
-    // تعبئة السؤال إذا لم يكن readonly
-    if (!q.isQuestionReadOnly) {
-      filledQuestions[q.id] = q.question;
-    }
-  });
+  const reset = () => {
+    setAnswers(
+      questions.map((q) =>
+        q.parts.map((p) => (p.type === "input" ? "" : null)),
+      ),
+    );
+    setWrongInputs([]);
+    setLocked(false);
+  };
 
-  setUserAnswers(filledAnswers);
-  setUserQuestions(filledQuestions);
-};
   return (
-    <div className="relative flex flex-col items-center p-8 bg-white rounded-3xl max-w-5xl mx-auto">
-      <div className="w-full flex items-center gap-4 mb-12">
-        <div className="ex-A">A</div>
-        <h1 className="header-title-page8">Look and Write</h1>
-      </div>
+    <DragDropContext onDragEnd={onDragEnd}>
+      <div
+        style={{ display: "flex", justifyContent: "center", padding: "30px" }}
+      >
+        <div className="div-forall" style={{ width: "60%" }}>
+          {/* ❌ الهيدر كما هو */}
+          <h5 className="WB-header-title-page8">
+            <span className="WB-ex-A">A</span>Look and write.
+          </h5>
 
-      <div className="w-full max-w-2xl space-y-4">
-        {questions.map((q) => (
-          <div
-            key={q.id}
-            className="p-5 rounded-2xl flex items-start gap-6"
-          >
-            <img
-              src={q.image}
-              alt="question"
-              className="max-w-32 max-h-32 object-cover rounded-xl"
-            />
+          {/* WORD BANK */}
+          <Droppable droppableId="word-bank" direction="horizontal">
+            {(provided) => (
+              <div
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+                className="CB-unit2-p6-q2-word-bank"
+              >
+                {wordBank.map((w, i) => (
+                  <Draggable
+                    key={w.id}
+                    draggableId={w.id}
+                    index={i}
+                    isDragDisabled={locked}
+                  >
+                    {(provided) => (
+                      <span
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        className="CB-unit2-p6-q2-word"
+                        style={provided.draggableProps.style}
+                      >
+                        {w.text}
+                      </span>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
 
-            <div className="flex flex-col gap-6 w-full">
-              {/* حقل السؤال */}
-              <input
-                type="text"
-                value={q.isQuestionReadOnly ? q.question : (userQuestions[q.id] || "")}
-                readOnly={q.isQuestionReadOnly}
-                onChange={(e) => handleQuestionChange(q.id, e.target.value)}
-                placeholder={q.isQuestionReadOnly ? "" : "Write the question here..."}
-                className={`bg-transparent border-b-2 text-lg font-semibold outline-none transition ${q.isQuestionReadOnly ? "border-gray-500" : "border-blue-400 focus:border-blue-600"
-                  }`}
-              />
+          {/* QUESTIONS */}
+          <div className="CB-unit2-p6-q2-content">
+            {questions.map((q, qIndex) => (
+              <div key={qIndex} className="CB-unit2-p6-q2-row">
+                <div className="CB-unit2-p6-q2-left">
+                  <span className="CB-unit2-p6-q2-index">{qIndex + 1}</span>
+                  <img src={q.img} alt="" className="CB-unit2-p6-q2-img" />
+                </div>
 
-              {/* حقل الإجابة */}
-              <input
-                type="text"
-                value={userAnswers[q.id] || ""}
-                onChange={(e) => handleAnswerChange(q.id, e.target.value)}
-                className="bg-transparent border-b-2 border-gray-400 outline-none text-lg transition focus:border-[#eb533c]"
-                placeholder="Write your answer..."
-              />
-            </div>
+                <div className="WB-unit1-p3-q1-sentence">
+                  {q.parts.map((part, pIndex) =>
+                    part.type === "text" ? (
+                      <span key={pIndex} className="CB-unit2-p6-q2-text">
+                        {part.value}
+                      </span>
+                    ) : (
+                      <Droppable
+                        key={pIndex}
+                        droppableId={`drop-${qIndex}-${pIndex}`}
+                        isDropDisabled={locked}
+                      >
+                        {(provided, snapshot) => (
+                          <span
+                            ref={provided.innerRef}
+                            {...provided.droppableProps}
+                            className={`WB-unit1-p3-q1-input ${
+                              snapshot.isDraggingOver ? "drag-over-cell" : ""
+                            }`}
+                          >
+                            {wordBank.find(
+                              (w) => w.id === answers[qIndex][pIndex],
+                            )?.text || ""}
+                            {provided.placeholder}
+                            {wrongInputs.includes(`${qIndex}-${pIndex}`) && (
+                              <span className="CB-unit2-p6-q2-input-error">
+                                ✕
+                              </span>
+                            )}
+                          </span>
+                        )}
+                      </Droppable>
+                    ),
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
+
+        {/* ❌ الأزرار كما هي */}
+        <div className="action-buttons-container">
+          <button onClick={reset} className="try-again-button">
+            Start Again ↻
+          </button>
+          <button
+            onClick={showAnswers}
+            className="show-answer-btn swal-continue"
+          >
+            Show Answer
+          </button>
+          <button onClick={checkAnswers} className="check-button2">
+            Check Answer ✓
+          </button>
+        </div>
       </div>
-      <Button
-      handleShowAnswer={handleShowAnswer}
-      handleStartAgain={handleStartAgain}
-      checkAnswers={checkAnswers}
-      />
-    </div>
+    </DragDropContext>
   );
 };
 

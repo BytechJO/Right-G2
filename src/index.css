@@ -25,12 +25,26 @@ button {
   align-items: center;
 }
 .drag-over-cell {
-  background-color: #e3f2fd;      /* أزرق فاتح */
-  border: 2px dashed #1976d2;     /* إطار أزرق */
-  transform: scale(1.1);          /* تكبير خفيف */
+  background-color: #e3f2fd; /* أزرق فاتح */
+  border: 2px dashed #1976d2; /* إطار أزرق */
+  transform: scale(0.9); /* تكبير خفيف */
   transition: all 0.2s ease;
 }
 
+.main-container-component {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+}
+
+.div-forall {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  justify-content: flex-start;
+}
 .tooltip-text {
   visibility: hidden;
   opacity: 0;
@@ -153,7 +167,6 @@ img {
   width: auto;
 }
 
-
 .circle-area {
   position: absolute;
   width: 20px;
@@ -242,7 +255,26 @@ img {
   gap: 5px;
   white-space: nowrap;
 }
-
+.WB-header-title-page8 {
+  font-size: 25px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  color: #f05e4e;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+.WB-ex-A {
+  background: #f6967d;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  color: white;
+  font-weight: 700;
+  font-size: 25px;
+  padding: 0px 10px;
+  border-radius: 6px;
+  font-weight: bold;
+}
 .exercise-container {
   display: flex;
   margin-bottom: 80px;
@@ -263,7 +295,6 @@ img {
 .page8-content {
   max-width: 900px;
 }
-
 
 /* footer buttons */
 .validation-buttons {
@@ -467,7 +498,6 @@ img {
   padding: 5px;
   font-weight: bold;
 }
-
 
 #ex-d {
   display: flex;
