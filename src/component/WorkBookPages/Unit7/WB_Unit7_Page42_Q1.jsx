@@ -105,8 +105,8 @@ const exerciseDataO = {
   return (
     <div className="p-8 max-w-4xl mx-auto bg-white rounded-lg">
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 bg-gray-400 rounded-lg flex items-center justify-center font-bold text-white text-lg">G</div>
-        <h1 className="text-2xl font-bold text-gray-800">Look and write missing letters.</h1>
+        <div className="ex-A">G</div>
+        <h1 className="header-title-page8">Look and write missing letters.</h1>
       </div>
 
       {/* Months with bubbles - Left side */}

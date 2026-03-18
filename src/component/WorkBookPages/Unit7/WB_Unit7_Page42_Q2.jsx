@@ -124,8 +124,8 @@ const WB_Unit7_Page42_Q2 = () => {
     <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
       <div className="p-8 max-w-5xl mx-auto bg-white rounded-lg">
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 bg-gray-400 rounded-lg flex items-center justify-center font-bold text-white text-lg">H</div>
-          <h1 className="text-2xl font-bold text-gray-800">
+          <div className="ex-A">H</div>
+          <h1 className="header-title-page8">
             Read and look. Unscramble the word. Rewrite the sentence.
           </h1>
         </div>
