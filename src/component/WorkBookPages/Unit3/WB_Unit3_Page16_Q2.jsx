@@ -1,141 +1,199 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 // استيراد الصور ومكونات الأزرار والتنبيهات
-import sandwichImg from '../../../assets/imgs/test6.png';
-import drumImg from '../../../assets/imgs/test6.png';
-import swimImg from '../../../assets/imgs/test6.png';
-import chopsticksImg from '../../../assets/imgs/test6.png';
-import Button from '../button';
-import ValidationAlert from '../../Popup/ValidationAlert';
+import sandwichImg from "../../../assets/imgs/test6.png";
+import drumImg from "../../../assets/imgs/test6.png";
+import swimImg from "../../../assets/imgs/test6.png";
+import chopsticksImg from "../../../assets/imgs/test6.png";
+import Button from "../button";
+import ValidationAlert from "../../Popup/ValidationAlert";
 
 // بيانات التمرين
 const questions = [
-    { id: 'q1', text: 'Can she make sandwiches?', img: sandwichImg, correctAnswer: true },
-    { id: 'q2', text: 'Can he play the drum?', img: drumImg, correctAnswer: false },
-    { id: 'q3', text: 'Can it swim?', img: swimImg, correctAnswer: false },
-    { id: 'q4', text: 'Can he use chopsticks?', img: chopsticksImg, correctAnswer: false },
+  {
+    id: "q1",
+    text: "Can she make sandwiches?",
+    img: sandwichImg,
+    correctAnswer: true,
+  },
+  {
+    id: "q2",
+    text: "Can he play the drum?",
+    img: drumImg,
+    correctAnswer: false,
+  },
+  { id: "q3", text: "Can it swim?", img: swimImg, correctAnswer: false },
+  {
+    id: "q4",
+    text: "Can he use chopsticks?",
+    img: chopsticksImg,
+    correctAnswer: false,
+  },
 ];
 
 const WB_Unit3_Page16_Q2 = () => {
-    const [selections, setSelections] = useState({});
-    const [showResults, setShowResults] = useState(false);
+  const [selections, setSelections] = useState({});
+  const [showResults, setShowResults] = useState(false);
 
-    const handleSelect = (questionId, choice) => {
-        setSelections(prev => ({ ...prev, [questionId]: choice }));
-        setShowResults(false);
-    };
+  const handleSelect = (questionId, choice) => {
+    setSelections((prev) => ({ ...prev, [questionId]: choice }));
+    setShowResults(false);
+  };
 
-    const getCheckboxClass = (qId, choice) => {
-        const isSelected = selections[qId] === choice;
-        if (showResults) {
-            const isCorrectAnswer = questions.find(q => q.id === qId).correctAnswer === choice;
-            if (isCorrectAnswer) return 'border-green-500 bg-green-100';
-            if (isSelected && !isCorrectAnswer) return 'border-red-500 bg-red-100';
-        }
-        return isSelected ? 'border-blue-500 bg-blue-100' : 'border-gray-300 bg-white';
-    };
+  const getCheckboxClass = (qId, choice) => {
+    const isSelected = selections[qId] === choice;
+    if (showResults) {
+      const isCorrectAnswer =
+        questions.find((q) => q.id === qId).correctAnswer === choice;
+    }
+    return isSelected
+      ? "border-blue-500 bg-blue-100"
+      : "border-gray-300 bg-white";
+  };
 
-    const handleShowAnswer = () => {
-        const correctSels = {};
-        questions.forEach(q => {
-            correctSels[q.id] = q.correctAnswer;
-        });
-        setSelections(correctSels);
-        setShowResults(true);
-    };
+  const handleShowAnswer = () => {
+    const correctSels = {};
+    questions.forEach((q) => {
+      correctSels[q.id] = q.correctAnswer;
+    });
+    setSelections(correctSels);
+    setShowResults(true);
+  };
 
-    const handleStartAgain = () => {
-        setSelections({});
-        setShowResults(false);
-    };
+  const handleStartAgain = () => {
+    setSelections({});
+    setShowResults(false);
+  };
 
-    const checkAnswers = () => {
-        setShowResults(true);
-        let score = 0;
-        questions.forEach((q) => {
-            if (selections[q.id] === q.correctAnswer) {
-                score++;
-            }
-        });
+  const checkAnswers = () => {
+    const hasEmptyAnswers = questions.some(
+      (q) => selections[q.id] === undefined,
+    );
 
-        if (score === questions.length) {
-            ValidationAlert.success(`Score: ${score} / ${questions.length}`);
-        } else if (score > 0) {
-            ValidationAlert.error(`Score: ${score} / ${questions.length}`);
-        } else {
-            ValidationAlert.warning("No matches. Try again.");
-        }
-    };
+    if (hasEmptyAnswers) {
+      ValidationAlert.info("Please answer all questions first.");
+      return;
+    }
 
-    return (
-        <div className="p-6 max-w-4xl mx-auto font-sans mt-8">
-            <div className="flex items-center gap-4 mb-6">
-                <span className="ex-A">D</span>
-                <h1 className="header-title-page8">Read, look, and write ✔.</h1>
-            </div>
+    setShowResults(true);
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-                {questions.map((q, index) => (
-    <div key={q.id} className="flex items-start gap-4">
-        <span className="font-bold text-blue-600">{index + 1}</span>
+    let score = 0;
+    questions.forEach((q) => {
+      if (selections[q.id] === q.correctAnswer) {
+        score++;
+      }
+    });
 
-        <div className="flex-1">
-            <p className="mb-2 text-gray-800">{q.text}</p>
+    if (score === questions.length) {
+      ValidationAlert.success(`Score: ${score} / ${questions.length}`);
+    } else if (score > 0) {
+      ValidationAlert.warning(`Score: ${score} / ${questions.length}`);
+    } else {
+      ValidationAlert.error(`Score: ${score} / ${questions.length}`);
+    }
+  };
 
-            {/* image + options */}
-            <div className="flex items-start gap-6">
+  return (
+    <div className="main-container-component">
+      <div className="div-forall" style={{ gap: "20px" }}>
+        {" "}
+        <h1 className="WB-header-title-page8">
+          {" "}
+          <span className="WB-ex-A">D</span>Read, look, and write{" "}
+          <span style={{ color: "navy" }}>✓</span>.
+        </h1>
+      </div>
 
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+        {questions.map((q, index) => (
+          <div key={q.id} className="flex items-start gap-4">
+            <span className="font-bold text-blue-600">{index + 1}</span>
+
+            <div className="flex-1">
+              <p className="mb-2 text-gray-800">{q.text}</p>
+
+              {/* image + options */}
+              <div className="flex items-start gap-6">
                 <img
-                    src={q.img}
-                    alt={`Question ${index + 1}`}
-                    className="max-w-32 max-h-32 object-cover rounded-lg shadow-sm"
+                  src={q.img}
+                  alt={`Question ${index + 1}`}
+                  className="max-w-32 max-h-32 object-cover rounded-lg shadow-sm"
                 />
 
                 <div className="space-y-4 lg:mt-5">
-                    {/* Yes option */}
-                    <div
-                        onClick={() => handleSelect(q.id, true)}
-                        className={`flex items-center gap-2 p-2 border rounded-lg cursor-pointer transition-all ${getCheckboxClass(q.id, true)}`}
-                    >
-                        <div className="w-6 h-6 border-2 border-gray-400 rounded flex items-center justify-center">
-                            {selections[q.id] === true && (
-                                <span className="text-blue-600">✔</span>
-                            )}
-                        </div>
-
-                        <span>
-                            Yes, {q.id === 'q1' ? 'she' : (q.id === 'q3' ? 'it' : 'he')} can.
+                  {/* Yes option */}
+                  <div
+                    onClick={() => handleSelect(q.id, true)}
+                    className={`relative flex items-center gap-2 p-2 border rounded-lg cursor-pointer transition-all ${getCheckboxClass(q.id, true)}`}
+                  >
+                    <div className="w-6 h-6 border-2 border-gray-400 rounded flex items-center justify-center">
+                      {selections[q.id] === true && (
+                        <span
+                          className="text-red-600 text-2xl"
+                          style={{ fontWeight: "700" }}
+                        >
+                          ✓
                         </span>
+                      )}
                     </div>
 
-                    {/* No option */}
-                    <div
-                        onClick={() => handleSelect(q.id, false)}
-                        className={`flex items-center gap-2 p-2 border rounded-lg cursor-pointer transition-all ${getCheckboxClass(q.id, false)}`}
-                    >
-                        <div className="w-6 h-6 border-2 border-gray-400 rounded flex items-center justify-center">
-                            {selections[q.id] === false && (
-                                <span className="text-blue-600">✔</span>
-                            )}
-                        </div>
+                    <span>
+                      Yes, {q.id === "q1" ? "she" : q.id === "q3" ? "it" : "he"}{" "}
+                      can.
+                      {showResults &&
+                        selections[q.id] === true &&
+                        selections[q.id] !== q.correctAnswer && (
+                          <div className="absolute -top-2 -right-2 bg-red-500 text-white w-6 h-6 flex items-center justify-center rounded-full text-sm font-bold shadow-lg border-2 border-white">
+                            ✕
+                          </div>
+                        )}
+                    </span>
+                  </div>
 
-                        <span>
-                            No, {q.id === 'q1' ? 'she' : (q.id === 'q3' ? 'it' : 'he')} can't.
+                  {/* No option */}
+                  <div
+                    onClick={() => handleSelect(q.id, false)}
+                    className={`relative flex items-center gap-2 p-2 border rounded-lg cursor-pointer transition-all ${getCheckboxClass(q.id, false)}`}
+                  >
+                    <div className="w-6 h-6 border-2 border-gray-400 rounded flex items-center justify-center">
+                      {selections[q.id] === false && (
+                        <span
+                          className="text-red-600 text-2xl"
+                          style={{ fontWeight: "700" }}
+                        >
+                          ✓
                         </span>
+                      )}
                     </div>
+
+                    <span>
+                      No, {q.id === "q1" ? "she" : q.id === "q3" ? "it" : "he"}{" "}
+                      can't.
+                      {showResults &&
+                        selections[q.id] === false &&
+                        selections[q.id] !== q.correctAnswer && (
+                          <div className="absolute -top-2 -right-2 bg-red-500 text-white w-6 h-6 flex items-center justify-center rounded-full text-sm font-bold shadow-lg border-2 border-white">
+                            ✕
+                          </div>
+                        )}
+                    </span>
+                  </div>
                 </div>
-
+              </div>
             </div>
-        </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-10 flex justify-center">
+        <Button
+          handleShowAnswer={handleShowAnswer}
+          handleStartAgain={handleStartAgain}
+          checkAnswers={checkAnswers}
+        />
+      </div>
     </div>
-))}
-            </div>
-
-            <div className='mt-10 flex justify-center'>
-                <Button handleShowAnswer={handleShowAnswer} handleStartAgain={handleStartAgain} checkAnswers={checkAnswers} />
-            </div>
-        </div>
-    );
+  );
 };
 
 export default WB_Unit3_Page16_Q2;
