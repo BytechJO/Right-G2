@@ -1,262 +1,202 @@
 import React, { useState } from "react";
-import img1 from "../../../assets/imgs/test.png";
-import img2 from "../../../assets/imgs/test.png";
-import img3 from "../../../assets/imgs/test.png";
-import img4 from "../../../assets/imgs/test.png";
-import img5 from "../../../assets/imgs/test.png";
-import img6 from "../../../assets/imgs/test.png";
-import img7 from "../../../assets/imgs/test.png";
-import img8 from "../../../assets/imgs/test.png";
-import img9 from "../../../assets/imgs/test.png";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-import "./Unit4_Page6_Q2.css";
+import "./Unit6_Page6_Q2.css";
 
-const Unit4_Page6_Q2 = () => {
-  const correctAnswers = [
-    "mechanic",
-    "photographer",
-    "vet",
-    "nurse",
-    "police officer",
-    "farmer",
-    "pilot",
-    "taxi driver",
-    "clerk",
+const Unit6_Page6_Q2 = () => {
+  const questions = [
+    "It’s eight o’clock in the morning.",
+    "It’s two thirty in the afternoon.",
+    "It’s five o’clock in the afternoon.",
+    "It’s seven thirty at night.",
+    "It’s three in the morning.",
+    "It’s eleven thirty at night.",
   ];
-  const wordBank = [
-    "pilot",
-    "farmer",
-    "vet",
-    "nurse",
-    "clerk",
-    "photographer",
-    "police officer",
-    "mechanic",
-    "taxi driver",
+
+  const correct = [
+    { h: "8", m: "00", p: "am" },
+    { h: "2", m: "30", p: "pm" },
+    { h: "5", m: "00", p: "pm" },
+    { h: "7", m: "30", p: "pm" },
+    { h: "3", m: "00", p: "am" },
+    { h: "11", m: "30", p: "pm" },
   ];
-  const [answers, setAnswers] = useState(["", "", "", "", "", "", "", "", ""]);
-  const [wrongInputs, setWrongInputs] = useState([]);
+
+  const [answers, setAnswers] = useState(
+    questions.map(() => ({ h: 0, m: "00", p: "" })),
+  );
+
   const [locked, setLocked] = useState(false);
+  const [showResult, setShowResult] = useState(false);
 
-  /* ================= Drag Logic ================= */
-  const onDragEnd = (result) => {
-    const { destination, draggableId } = result;
-    if (!destination || locked) return;
-
-    if (destination.droppableId.startsWith("slot-")) {
-      const index = Number(destination.droppableId.split("-")[1]);
-      const word = draggableId.replace("word-", "");
-
-      setAnswers((prev) => {
-        const updated = [...prev];
-
-        // 🔒 منع التكرار
-        const oldIndex = updated.findIndex((a) => a === word);
-        if (oldIndex !== -1) updated[oldIndex] = "";
-
-        updated[index] = word;
-        return updated;
-      });
-
-      setWrongInputs([]);
-    }
-  };
-
-  /* ================= Check Answers (كما هو) ================= */
-  const checkAnswers = () => {
+  const handleChange = (i, field, value) => {
     if (locked) return;
 
-    if (answers.some((ans) => ans === "")) {
-      ValidationAlert.info("Please fill in all the blanks before checking!");
+    const updated = [...answers];
+    updated[i][field] = value;
+    setAnswers(updated);
+  };
+
+  const checkAnswers = () => {
+    if (locked || showResult) return;
+
+    if (answers.some((a) => !a.h || !a.m || !a.p)) {
+      ValidationAlert.info("Please complete all answers.");
       return;
     }
 
-    let tempScore = 0;
-    let wrong = [];
+    let correctCount = 0;
 
-    answers.forEach((ans, i) => {
-      if (ans === correctAnswers[i]) tempScore++;
-      else wrong.push(i);
+    answers.forEach((a, i) => {
+      if (
+        a.h === correct[i].h &&
+        a.m === correct[i].m &&
+        a.p === correct[i].p
+      ) {
+        correctCount++;
+      }
     });
 
-    setWrongInputs(wrong);
+    const total = correct.length;
 
-    const total = correctAnswers.length;
-    const color =
-      tempScore === total ? "green" : tempScore === 0 ? "red" : "orange";
-
-    ValidationAlert[
-      tempScore === total ? "success" : tempScore === 0 ? "error" : "warning"
-    ](`
+    const message = `
       <div style="font-size:20px;text-align:center;">
-        <span style="color:${color};font-weight:bold;">
-          Score: ${tempScore} / ${total}
+        <span style="color:#2e7d32;font-weight:bold;">
+          Score: ${correctCount} / ${total}
         </span>
       </div>
-    `);
+    `;
+
+    if (correctCount === total) {
+      ValidationAlert.success(message);
+    } else if (correctCount === 0) {
+      ValidationAlert.error(message);
+    } else {
+      ValidationAlert.warning(message);
+    }
 
     setLocked(true);
+    setShowResult(true);
+  };
+
+  const showAnswers = () => {
+    setAnswers(correct);
+    setLocked(true);
+    setShowResult(true);
   };
 
   const reset = () => {
-    setAnswers(["", "", "", "", "", "", "", "", ""]);
-    setWrongInputs([]);
+    setAnswers(questions.map(() => ({ h: 0, m: "00", p: "" })));
     setLocked(false);
-  };
-
-  const showAnswer = () => {
-    setAnswers([...correctAnswers]);
-    setWrongInputs([]);
-    setLocked(true);
+    setShowResult(false);
   };
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <div
-        className="question-wrapper-unit3-page6-q1"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "30px",
-        }}
-      >
-        <div
-          className="div-forall"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            // gap: "30px",
-            width: "60%",
-            marginBottom:"40px"
-          }}
-        >
-          <h5 className="header-title-page8">
-            {" "}
-            <span className="ex-A">E</span>Label the pictures with the words
-            from the box.
-          </h5>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        padding: "30px",
+      }}
+    >
+      <div className="div-forall" style={{ width: "80%" }}>
+        <h5 className="header-title-page8">
+          <span className="ex-A mr-2">E</span> Read, write, and check
+          <span style={{ color: "#2e3192" }}>✓</span> .
+        </h5>
 
-          {/* 🔤 Word Bank */}
-          <Droppable droppableId="bank" direction="horizontal" isDropDisabled>
-            {(provided) => (
-              <div
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-                style={{
-                  display: "flex",
-                  gap: "10px",
-                  padding: "10px",
-                  border: "2px dashed #ccc",
-                  borderRadius: "10px",
-                  // margin: "10px 0",
-                  flexWrap: "wrap",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                {wordBank.map((word, index) => (
-                  <Draggable
-                    key={word}
-                    draggableId={`word-${word}`}
-                    index={index}
-                    isDragDisabled={locked}
-                  >
-                    {(provided) => (
-                      <span
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        style={{
-                          padding: "7px 14px",
-                          border: "2px solid #2c5287",
-                          borderRadius: "8px",
-                          background: "white",
-                          fontWeight: "bold",
-                          cursor: "grab",
-                          ...provided.draggableProps.style,
-                        }}
-                      >
-                        {word}
-                      </span>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
+        <div className="grid grid-cols-2 gap-y-5 gap-x-[60px]">
+          {questions.map((q, i) => (
+            <div key={i} className="flex flex-col gap-2.5">
+              <div className="text-[18px]">
+                <span className=" font-bold mr-1.5">{i + 1}</span>
+                {q}
               </div>
-            )}
-          </Droppable>
 
-          <div className="row-content10-CB-unit4-p6-q2">
-            {[img1, img2, img3, img4, img5, img6, img7, img8, img9].map(
-              (img, index) => (
-                <div className="row2-CB-review2-p1-q2" key={index}>
-                  <img src={img} className="q-img-CB-review2-p1-q2" />
+              <div className="flex items-center gap-5">
+                {/* Time Box */}
+                <div className="flex items-center justify-center gap-2.5 border-4 border-[#e7a98e] rounded-[14px] w-[200px] h-20 bg-[#f4f4f4]">
+                  <input
+                    type="number"
+                    value={answers[i].h}
+                    min="1"
+                    max="12"
+                    step="1"
+                    onChange={(e) => handleChange(i, "h", e.target.value)}
+                    className="w-[45px] border-none bg-transparent text-[26px] text-center outline-none"
+                  />
 
-                  <Droppable droppableId={`slot-${index}`}>
-                    {(provided, snapshot) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                        className={`q-input-CB-review2-p1-q2 ${
-                          snapshot.isDraggingOver ? "drag-over-cell" : ""
-                        }`}
-                      >
-                        {answers[index] && (
-                          <Draggable
-                            draggableId={`slot-${index}-${answers[index]}`}
-                            index={0}
-                            isDragDisabled={true}
-                          >
-                            {(provided) => (
-                              <span
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                                {...provided.dragHandleProps}
-                              >
-                                {answers[index]}
-                              </span>
-                            )}
-                          </Draggable>
-                        )}
+                  <span className="text-[26px] text-[#c33]">:</span>
 
-                        {provided.placeholder}
-
-                        {wrongInputs.includes(index) && (
-                          <span className="error-mark-input-CB-review2-p1-q2">
-                            ✕
-                          </span>
-                        )}
-                      </div>
-                    )}
-                  </Droppable>
+                  <input
+                    type="number"
+                    value={answers[i].m}
+                    min="0"
+                    max="59"
+                    step="1"
+                    onChange={(e) => handleChange(i, "m", e.target.value)}
+                    className="w-[45px] border-none bg-transparent text-[26px] text-center outline-none"
+                  />
                 </div>
-              ),
-            )}
-          </div>
+
+                {/* AM PM */}
+                <div className="bg-[#d82525] rounded-[22px] p-2 w-[120px] h-20 flex flex-col justify-between">
+                  <div
+                    onClick={() => handleChange(i, "p", "am")}
+                    className={`flex justify-between items-center h-7 px-2.5 py-1 rounded-lg text-white text-[18px] cursor-pointer box-border transition-all
+    ${
+      answers[i].p === "am"
+        ? "text-[#d82525] font-bold bg-white/80"
+        : "bg-white/20 hover:bg-white/40"
+    }
+  `}
+                  >
+                    a.m.
+                    <span
+                      className={`${answers[i].p === "am" ? "opacity-100" : "opacity-0"}`}
+                    >
+                      ✔
+                    </span>
+                  </div>
+
+                  <div
+                    onClick={() => handleChange(i, "p", "pm")}
+                    className={`flex justify-between items-center h-7 px-2.5 py-1 rounded-lg text-white text-[18px] cursor-pointer box-border transition-all
+    ${
+      answers[i].p === "pm"
+        ? "text-[#d82525] font-bold bg-white/80"
+        : "bg-white/20 hover:bg-white/40"
+    }
+  `}
+                  >
+                    p.m.
+                    <span
+                      className={`${answers[i].p === "pm" ? "opacity-100" : "opacity-0"}`}
+                    >
+                      ✔
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
 
         <div className="action-buttons-container">
-          <button onClick={reset} className="try-again-button">
+          <button className="try-again-button" onClick={reset}>
             Start Again ↻
           </button>
 
-          <button
-            onClick={showAnswer}
-            className="show-answer-btn swal-continue"
-          >
+          <button onClick={showAnswers} className="show-answer-btn">
             Show Answer
           </button>
 
-          <button onClick={checkAnswers} className="check-button2">
+          <button className="check-button2" onClick={checkAnswers}>
             Check Answer ✓
           </button>
         </div>
       </div>
-    </DragDropContext>
+    </div>
   );
 };
 
-export default Unit4_Page6_Q2;
+export default Unit6_Page6_Q2;

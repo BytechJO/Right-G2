@@ -1,326 +1,213 @@
-import React, { useState, useRef, useEffect } from "react";
-import img1 from "../../../assets/imgs/test.png";
-import img2 from "../../../assets/imgs/test.png";
-import img3 from "../../../assets/imgs/test.png";
-import img4 from "../../../assets/imgs/test.png";
-import ValidationAlert from "../../Popup/ValidationAlert";
-import "./Review4_Page1_Q2.css";
+import React, { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+import ValidationAlert from "../../Popup/ValidationAlert";
+import "./Review6_Page1_Q2.css";
 
-const Review4_Page1_Q2 = () => {
-  const items = [
-    {
-      img: img1,
-      correct: "mechanic",
-      correctInput: "mechanic",
-      option: ["nurse", "mechanic"],
-      first: "He is",
-    },
-    {
-      img: img2,
-      correct: "fisherman",
-      correctInput: "fisherman",
-      option: ["teacher", "fisherman"],
-      first: "He is",
-    },
-    {
-      img: img3,
-      correct: "clerk",
-      correctInput: "clerk",
-      option: ["clerk", "police officer"],
-      first: "She is",
-    },
-  ];
+const items = [
+  { scrambled: ["og", "ot", "pseel"], correct: ["go", "to", "sleep"] },
+  { scrambled: ["mkea", "hte", "deb"], correct: ["make", "the", "bed"] },
+  { scrambled: ["tae", "chunl"], correct: ["eat", "lunch"] },
+  { scrambled: ["teg", "pu"], correct: ["get", "up"] },
+  { scrambled: ["og", "meoh"], correct: ["go", "home"] },
+  { scrambled: ["tae", "stafkearb"], correct: ["eat", "breakfast"] },
+];
 
-  const [selected, setSelected] = useState(["", "", ""]);
-  const [answers, setAnswers] = useState(["", "", ""]);
+export default function Review6_Page1_Q2() {
+  const [answers, setAnswers] = useState(
+    items.map((item) =>
+      item.correct.map((word) => Array(word.length).fill("")),
+    ),
+  );
   const [locked, setLocked] = useState(false);
-  const [wrongInputs, setWrongInputs] = useState([]);
   const [showResult, setShowResult] = useState(false);
 
   const onDragEnd = (result) => {
     const { destination, draggableId } = result;
+
     if (!destination || locked) return;
 
-    const value = draggableId.replace("word-", "").replace("filled-", "");
-    const index = Number(destination.droppableId.split("-")[1]);
+    const letter = draggableId.split("-")[1];
+    const [qIndex, wordIndex, letterIndex] = destination.droppableId
+      .split("-")
+      .slice(1);
 
-    setAnswers((prev) => {
-      const updated = [...prev];
+    const updated = [...answers];
+    updated[qIndex][wordIndex][letterIndex] = letter;
 
-      // منع التكرار
-      const oldIndex = updated.findIndex((a) => a === value);
-      if (oldIndex !== -1) updated[oldIndex] = "";
+    setAnswers(updated);
 
-      updated[index] = value;
-      return updated;
-    });
-
-    setShowResult(false);
-  };
-
-  const handleSelect = (value, index) => {
-    if (locked) return; // 🔒 لا تعديل بعد show answer
-    const newSel = [...selected];
-    newSel[index] = value;
-    setSelected(newSel);
+    setAnswers(updated);
     setShowResult(false);
   };
 
   const resetAll = () => {
-    setSelected(["", "", ""]);
-    setAnswers(["", "", ""]);
-    setWrongInputs([]);
+    setAnswers(
+      items.map((item) =>
+        item.correct.map((word) => Array(word.length).fill("")),
+      ),
+    );
+
+    setLocked(false);
     setShowResult(false);
-    setLocked(false); // 🔒 قفل كل شيء
   };
+
   const showAnswers = () => {
-    // حط الدوائر الصح
-    const correctCircles = items.map((item) => item.correct);
+    setAnswers(items.map((item) => item.correct.map((word) => word.split(""))));
 
-    // حط الكتابة الصحيحة
-    const correctTexts = items.map((item) => item.correctInput);
-
-    setSelected(correctCircles);
-    setAnswers(correctTexts);
-    setWrongInputs([]);
-    setShowResult(false);
-
-    setLocked(true); // 🔒 قفل كل شيء
+    setLocked(true);
   };
-
   const checkAnswers = () => {
     if (locked) return;
-    // 1) التشييك إذا في دائرة مش مختارة
-    if (selected.some((s) => s === "")) {
-      ValidationAlert.info("Please choose a circle (f or v) for all items!");
+
+    const empty = answers.some((row) =>
+      row.some((word) => word.some((l) => l === "")),
+    );
+
+    if (empty) {
+      ValidationAlert.info("Please complete all answers.");
       return;
     }
 
-    // 2) التشييك إذا في input فاضي
-    if (answers.some((a) => a.trim() === "")) {
-      ValidationAlert.info("Please fill in all the writing boxes!");
-      return;
-    }
-
-    let wrong = [];
     let score = 0;
-    setLocked(true);
-    items.forEach((item, i) => {
-      const circleCorrect = selected[i] === item.correct;
-      const inputCorrect =
-        answers[i].trim().toLowerCase() === item.correctInput.toLowerCase();
 
-      // نقطة للدائرة + نقطة للكتابة
-      if (circleCorrect) score++;
-      if (inputCorrect) score++;
+    answers.forEach((row, i) => {
+      const built = row.map((word) => word.join("")).join(" ");
 
-      if (!circleCorrect || !inputCorrect) {
-        wrong.push(i);
+      if (built === items[i].correct.join(" ")) {
+        score++;
       }
     });
+    const total = items.length;
 
-    setWrongInputs(wrong);
+    const message = `
+      <div style="font-size:20px;text-align:center;">
+        <span style="color:#2e7d32;font-weight:bold;">
+          Score: ${score} / ${total}
+        </span>
+      </div>
+    `;
+
+    if (score === total) ValidationAlert.success(message);
+    else if (score === 0) ValidationAlert.error(message);
+    else ValidationAlert.warning(message);
+
     setShowResult(true);
-
-    const total = items.length * 2; // 8 نقاط
-    const color = score === total ? "green" : score === 0 ? "red" : "orange";
-
-    const scoreMessage = `
-    <div style="font-size: 20px; margin-top: 10px; text-align:center;">
-      <span style="color:${color}; font-weight:bold;">
-        Score: ${score} / ${total}
-      </span>
-    </div>
-  `;
-
-    if (score === total) {
-      ValidationAlert.success(scoreMessage);
-    } else if (score === 0) {
-      ValidationAlert.error(scoreMessage);
-    } else {
-      ValidationAlert.warning(scoreMessage);
-    }
+    setLocked(true);
   };
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "30px",
-        }}
-      >
-        <div
-          className="div-forall"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            // gap: "30px",
-            width: "60%",
-            justifyContent: "flex-start",
-          }}
-        >
-          <h5 className="header-title-page8">
-            <span style={{ marginRight: "20px" }}>B</span> Look, read, circle,
-            and complete.
+      <div className="flex justify-center p-8">
+        <div className="w-[60%]">
+          <h5 className="header-title-page8 mb-5">
+            <span className=" mr-4">A</span>
+            Unscramble and write.{" "}
           </h5>
 
-          <Droppable droppableId="bank" isDropDisabled>
-            {(provided) => (
+          {items.map((item, i) => {
+            return (
               <div
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-                style={{
-                  display: "flex",
-                  gap: "10px",
-                  padding: "10px",
-                  border: "2px dashed #ccc",
-                  borderRadius: "10px",
-                  // margin: "10px 0",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
+                key={i}
+                className="flex items-center gap-[15px] my-5 text-[20px]"
               >
-                {items.map((item, index) => (
-                  <Draggable
-                    key={item.correctInput}
-                    draggableId={`word-${item.correctInput}`}
-                    index={index}
-                    isDragDisabled={locked}
-                  >
-                    {(provided) => (
-                      <span
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        style={{
-                          padding: "7px 14px",
-                          border: "2px solid #2c5287",
-                          borderRadius: "8px",
-                          background: "white",
-                          fontWeight: "bold",
-                          cursor: "grab",
-                          ...provided.draggableProps.style,
-                        }}
-                      >
-                        {item.correctInput}
-                      </span>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
+                <span className="font-bold">{i + 1}</span>
 
-          <div className="question-grid-CB-review4-p1-q2">
-            {items.map((item, i) => (
-              <div className="question-box-CB-review4-p1-q2" key={i}>
-                <span
-                  style={{
-                    fontSize: "22px",
-                    fontWeight: "600",
-                    color: "#1d4f7b",
-                  }}
-                >
-                  {i + 1}
-                </span>
+                {/* scrambled letters */}
+                <Droppable droppableId={`bank-${i}`} direction="horizontal">
+                  {(provided) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.droppableProps}
+                      className="flex gap-1.5"
+                    >
+                      {item.scrambled.map((chunk, chunkIndex) => {
+                        const letters = chunk.split("");
 
-                <div className="img-option-CB-review2-p2-q3">
-                  <img
-                    src={item.img}
-                    className="q-img-CB-review2-p2-q3"
-                    style={{ height: "auto", width: "200px" }}
-                  />
-
-                  {/*choices */}
-                  <div className="choices-CB-review2-p2-q3">
-                    {item.option.map((op, index) => (
-                      <div className="circle-wrapper" key={index}>
-                        <div
-                          className={`circle-choice-CB-review4-p1-q2 ${
-                            selected[i] === `${op}` ? "active" : ""
-                          }`}
-                          onClick={() => !locked && handleSelect(op, i)}
-                        >
-                          {op}
-                        </div>
-
-                        {showResult &&
-                          selected[i] === `${op}` &&
-                          selected[i] !== item.correct && (
-                            <div className="CB-review4-p1-q2-error-badge">
-                              ✕
-                            </div>
-                          )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* writing input */}
-                <div className="input-wrapper-CB-review4-p1-q2">
-                  {item.input}
-
-                  <Droppable droppableId={`slot-${i}`}>
-                    {(provided, snapshot) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                        className={`write-input-CB-review2-p2-q3 ${
-                          snapshot.isDraggingOver ? "drag-over-cell" : ""
-                        }`}
-                      >
-                        <span style={{marginRight:"10px"}}>{item.first}</span>
-                        {answers[i] && (
-                          <Draggable
-                            draggableId={`filled-${answers[i]}`}
-                            index={0}
-                            isDragDisabled={true}
+                        return (
+                          <div
+                            key={chunkIndex}
+                            className="flex gap-1 mr-3.5"
                           >
-                            {(provided) => (
-                              <span
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                                {...provided.dragHandleProps}
-                              >
-                                 {answers[i]}
-                              </span>
-                            )}
-                          </Draggable>
-                        )}
-                        {provided.placeholder}
-                      </div>
-                    )}
-                  </Droppable>
+                            {letters.map((letter, letterIndex) => {
+                              const id = `${letter}-${i}-${chunkIndex}-${letterIndex}`;
 
-                  {showResult &&
-                    answers[i].trim() !== "" &&
-                    answers[i].trim().toLowerCase() !==
-                      item.correctInput.toLowerCase() &&
-                    wrongInputs.includes(i) && (
-                      <div className="CB-review4-p1-q2-error-badge">✕</div>
-                    )}
+                              return (
+                                <Draggable
+                                  key={id}
+                                  draggableId={`letter-${id}`}
+                                  index={chunkIndex * 10 + letterIndex}
+                                  isDragDisabled={locked}
+                                >
+                                  {(provided) => (
+                                    <span
+                                      ref={provided.innerRef}
+                                      {...provided.draggableProps}
+                                      {...provided.dragHandleProps}
+                                      className="px-2.5 py-1.5 border-2 border-[#444] rounded-md bg-[#f3f3f3] cursor-grab font-bold"
+                                    >
+                                      {letter}
+                                    </span>
+                                  )}
+                                </Draggable>
+                              );
+                            })}
+                          </div>
+                        );
+                      })}
+
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+
+                {/* answer slots */}
+                <div className="flex gap-5 ml-5">
+                  {answers[i].map((wordSlots, wordIndex) => {
+                    return (
+                      <div key={wordIndex} className="flex gap-1">
+                        {wordSlots.map((letter, slotIndex) => {
+                          const slotId = `slot-${i}-${wordIndex}-${slotIndex}`;
+
+                          return (
+                            <Droppable droppableId={slotId} key={slotId}>
+                              {(provided) => (
+                                <div
+                                  ref={provided.innerRef}
+                                  {...provided.droppableProps}
+                                  className="w-7 border-b-2 border-black text-center text-[22px]"
+                                >
+                                  {letter}
+                                  {provided.placeholder}
+                                </div>
+                              )}
+                            </Droppable>
+                          );
+                        })}
+                      </div>
+                    );
+                  })}
                 </div>
+
+                {/* wrong mark */}
+                {showResult &&
+                  answers[i].map((w) => w.join("")).join(" ") !==
+                    items[i].correct.join(" ") && (
+                    <span className="text-red-500 font-bold ml-2.5">✕</span>
+                  )}
               </div>
-            ))}
-          </div>
+            );
+          })}
         </div>
+
         <div className="action-buttons-container">
           <button onClick={resetAll} className="try-again-button">
             Start Again ↻
           </button>
-          {/* ⭐⭐⭐ NEW — زر Show Answer */}
-          <button
-            onClick={showAnswers}
-            className="show-answer-btn swal-continue"
-          >
+
+          <button onClick={showAnswers} className="show-answer-btn">
             Show Answer
           </button>
+
           <button onClick={checkAnswers} className="check-button2">
             Check Answer ✓
           </button>
@@ -328,6 +215,4 @@ const Review4_Page1_Q2 = () => {
       </div>
     </DragDropContext>
   );
-};
-
-export default Review4_Page1_Q2;
+}

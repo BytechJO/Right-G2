@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Unit2_Page5_Q1.css";
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { TbMessageCircle } from "react-icons/tb";
 import { FaPlay, FaPause } from "react-icons/fa";
 import { IoMdSettings } from "react-icons/io";

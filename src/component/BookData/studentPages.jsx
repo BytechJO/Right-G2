@@ -49,18 +49,27 @@ import Review4_Page1 from "../StudentPages/review3&4/Review4_Page1";
 import Review4_Page2 from "../StudentPages/review3&4/Review4_Page2";
 import Reading_Unit4_Page1 from "../StudentPages/unit4/Reading_Unit4_Page1";
 import Reading_Unit4_Page2 from "../StudentPages/unit4/Reading_Unit4_Page2";
+
+//==================== unit 5 pages
+
 import Unit5_Page1 from "../StudentPages/unit5/Unit5_Page1";
 import Unit5_Page2 from "../StudentPages/unit5/Unit5_Page2";
 import Unit5_Page3 from "../StudentPages/unit5/Unit5_Page3";
 import Unit5_Page4 from "../StudentPages/unit5/Unit5_Page4";
 import Unit5_Page5 from "../StudentPages/unit5/Unit5_Page5";
 import Unit5_Page6 from "../StudentPages/unit5/Unit5_Page6";
+
+//==================== unit 6 pages
+
 import Unit6_Page1 from "../StudentPages/unit6/Unit6_Page1";
 import Unit6_Page2 from "../StudentPages/unit6/Unit6_Page2";
 import Unit6_Page3 from "../StudentPages/unit6/Unit6_Page3";
 import Unit6_Page4 from "../StudentPages/unit6/Unit6_Page4";
 import Unit6_Page5 from "../StudentPages/unit6/Unit6_Page5";
 import Unit6_Page6 from "../StudentPages/unit6/Unit6_Page6";
+
+//==================== unit  Review5,6
+
 import Review5_Page1 from "../StudentPages/review5&6/Review5_Page1";
 import Review5_Page2 from "../StudentPages/review5&6/Review5_Page2";
 import Review6_Page1 from "../StudentPages/review5&6/Review6_Page1";
@@ -68,23 +77,63 @@ import Review6_Page2 from "../StudentPages/review5&6/Review6_Page2";
 import Reading_Unit6_Page1 from "../StudentPages/unit6/Reading_Unit6_Page1";
 import Reading_Unit6_Page2 from "../StudentPages/unit6/Reading_Unit6_Page2";
 
-//================== unit 5 pages
+//==================== unit 7 pages
 
-//================== unit 6 pages
+import Unit7_Page1 from "../StudentPages/unit7/Unit7_Page1";
+import Unit7_Page2 from "../StudentPages/unit7/Unit7_Page2";
+import Unit7_Page3 from "../StudentPages/unit7/Unit7_Page3";
+import Unit7_Page4 from "../StudentPages/unit7/Unit7_Page4";
+import Unit7_Page5 from "../StudentPages/unit7/Unit7_Page5";
+import Unit7_Page6 from "../StudentPages/unit7/Unit7_Page6";
 
-// ==================Review5,6
+//==================== unit 8 pages
 
-//================ Unit7
+import Unit8_Page1 from "../StudentPages/unit8/Unit8_Page1";
+import Unit8_Page2 from "../StudentPages/unit8/Unit8_Page2";
+import Unit8_Page3 from "../StudentPages/unit8/Unit8_Page3";
+import Unit8_Page4 from "../StudentPages/unit8/Unit8_Page4";
+import Unit8_Page5 from "../StudentPages/unit8/Unit8_Page5";
+import Unit8_Page6 from "../StudentPages/unit8/Unit8_Page6";
 
-//=============== unit8
+//====================  Review7,8
 
-//================ review 7,8
+import Review7_Page1 from "../StudentPages/review7&8/Review7_Page1";
+import Review7_Page2 from "../StudentPages/review7&8/Review7_Page2";
+import Review8_Page1 from "../StudentPages/review7&8/Review8_Page1";
+import Review8_Page2 from "../StudentPages/review7&8/Review8_Page2";
+import Reading_Unit8_Page1 from "../StudentPages/unit8/Reading_Unit8_Page1";
+import Reading_Unit8_Page2 from "../StudentPages/unit8/Reading_Unit8_Page2";
 
-//================== Unit 9
+//==================== unit 9 pages
+
+import Unit9_Page1 from "../StudentPages/unit9/Unit9_Page1";
+import Unit9_Page2 from "../StudentPages/unit9/Unit9_Page2";
+import Unit9_Page3 from "../StudentPages/unit9/Unit9_Page3";
+import Unit9_Page4 from "../StudentPages/unit9/Unit9_Page4";
+import Unit9_Page5 from "../StudentPages/unit9/Unit9_Page5";
+import Unit9_Page6 from "../StudentPages/unit9/Unit9_Page6";
 
 //================= Unit10
+import Unit10_Page1 from "../StudentPages/unit10/Unit10_Page1";
+import Unit10_Page2 from "../StudentPages/unit10/Unit10_Page2";
+import Unit10_Page3 from "../StudentPages/unit10/Unit10_Page3";
+import Unit10_Page4 from "../StudentPages/unit10/Unit10_Page4";
+import Unit10_Page5 from "../StudentPages/unit10/Unit10_Page5";
+import Unit10_Page6 from "../StudentPages/unit10/Unit10_Page6";
 
 //================= review 9,10
+import Review9_Page1 from "../StudentPages/review9&10/Review9_Page1";
+import Review9_Page2 from "../StudentPages/review9&10/Review9_Page2";
+import Review10_Page1 from "../StudentPages/review9&10/Review10_Page1";
+import Review10_Page2 from "../StudentPages/review9&10/Review10_Page2";
+import Reading_Unit10_Page1 from "../StudentPages/unit10/Reading_Unit10_Page1";
+import Reading_Unit10_Page2 from "../StudentPages/unit10/Reading_Unit10_Page2";
+
+//================= Song
+
+import Song_Page1 from "../StudentPages/song/Song_Page1";
+import Song_Page2 from "../StudentPages/song/Song_Page2";
+import Song_Page3 from "../StudentPages/song/Song_Page3";
 
 export const studentPages = (openPopup, goToUnit) => [
   <Page1 />,
@@ -154,6 +203,52 @@ export const studentPages = (openPopup, goToUnit) => [
 
   <Reading_Unit6_Page1 openPopup={openPopup} />,
   <Reading_Unit6_Page2 />,
+
+  <Unit7_Page1 openPopup={openPopup} />,
+  <Unit7_Page2 openPopup={openPopup} />,
+  <Unit7_Page3 openPopup={openPopup} />,
+  <Unit7_Page4 openPopup={openPopup} />,
+  <Unit7_Page5 openPopup={openPopup} />,
+  <Unit7_Page6 openPopup={openPopup} />,
+
+  <Unit8_Page1 openPopup={openPopup} />,
+  <Unit8_Page2 openPopup={openPopup} />,
+  <Unit8_Page3 openPopup={openPopup} />,
+  <Unit8_Page4 openPopup={openPopup} />,
+  <Unit8_Page5 openPopup={openPopup} />,
+  <Unit8_Page6 openPopup={openPopup} />,
+
+  <Review7_Page1 openPopup={openPopup} />,
+  <Review7_Page2 openPopup={openPopup} />,
+  <Review8_Page1 openPopup={openPopup} />,
+  <Review8_Page2 openPopup={openPopup} />,
+  <Reading_Unit8_Page1 openPopup={openPopup} />,
+  <Reading_Unit8_Page2 />,
+
+  <Unit9_Page1 openPopup={openPopup} />,
+  <Unit9_Page2 openPopup={openPopup} />,
+  <Unit9_Page3 openPopup={openPopup} />,
+  <Unit9_Page4 openPopup={openPopup} />,
+  <Unit9_Page5 openPopup={openPopup} />,
+  <Unit9_Page6 openPopup={openPopup} />,
+
+  <Unit10_Page1 openPopup={openPopup} />,
+  <Unit10_Page2 openPopup={openPopup} />,
+  <Unit10_Page3 openPopup={openPopup} />,
+  <Unit10_Page4 openPopup={openPopup} />,
+  <Unit10_Page5 openPopup={openPopup} />,
+  <Unit10_Page6 openPopup={openPopup} />,
+
+  <Review9_Page1 openPopup={openPopup} />,
+  <Review9_Page2 openPopup={openPopup} />,
+  <Review10_Page1 openPopup={openPopup} />,
+  <Review10_Page2 openPopup={openPopup} />,
+  <Reading_Unit10_Page1 openPopup={openPopup} />,
+  <Reading_Unit10_Page2 />,
+
+  <Song_Page1 />,
+  <Song_Page2 />,
+  <Song_Page3 />,
 
   <Page1 />,
 ];

@@ -1,16 +1,9 @@
-.headset-icon-CD-unit6-page6-1 {
-  position: absolute;
-  padding: 5px;
-  top: 4%;
-  left: 36%;
-  cursor: pointer;
-}
 
 .click-icon-unit6-page6-1 {
   position: absolute;
   padding: 5px;
   top: 3.5%;
-  left: 35.5%;
+  left: 50.5%;
   cursor: pointer;
 }
 .click-icon-unit6-page6-2 {
@@ -20,13 +13,7 @@
   left: 42.2%;
   cursor: pointer;
 }
-.headset-icon-CD-unit6-page6-2 {
-  position: absolute;
-  padding: 5px;
-  bottom: 29%;
-  left: 24%;
-  cursor: pointer;
-}
+
 
 @media screen and (max-width: 1024px) and (max-height: 600px) {
   .click-icon-unit6-page6-1 {

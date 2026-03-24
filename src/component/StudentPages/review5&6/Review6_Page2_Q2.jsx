@@ -1,217 +1,271 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import find_img from "../../../assets/imgs/test.png";
+import "./Review6_Page2_Q2.css";
 
-/* ================= DATA ================= */
+import img1 from "../../../assets/imgs/test6.png";
+import img2 from "../../../assets/imgs/test6.png";
+import img3 from "../../../assets/imgs/test6.png";
+import img4 from "../../../assets/imgs/test6.png";
+import img5 from "../../../assets/imgs/test6.png";
+import img6 from "../../../assets/imgs/test6.png";
 
-const items = [
-  {
-    key: "cake",
-    label: "cake",
-    area: { x1: 26.4395, y1: 48.9356, x2: 34.2037, y2: 53.5385 },
-  },
-  {
-    key: "rain",
-    label: "rain",
-    area: { x1: 17.6300, y1: 33.6881, x2: 28.9778, y2: 37.7158 },
-  },
-  {
-    key: "paint",
-    label: "paint",
-    area: {
-      x1: 56.1526,
-      y1: 50.0863,
-      x2: 61.2292,
-      y2: 54.9770,
-    },
-  },
- 
-];
+const Review6_Page2_Q2 = () => {
+  const [lines, setLines] = useState([]);
+  const [startDot, setStartDot] = useState(null);
 
-/* ================= COMPONENT ================= */
+  const imageDotRefs = useRef([]);
+  const textDotRefs = useRef([]);
+  const containerRef = useRef(null);
+  const [isChecked, setIsChecked] = useState(false);
+  const [showedAnswer, setShowedAnswer] = useState(false);
+  const images = [
+    { image: img1 },
+    { image: img2 },
+    { image: img3 },
+    { image: img4 },
+    { image: img5 },
+    { image: img6 },
+  ];
 
-const Review4_Page2_Q2 = () => {
-  const [selectedItem, setSelectedItem] = useState(null);
-  const [circles, setCircles] = useState({});
-  const [checked, setChecked] = useState(false);
+  const words = ["light", "five", "kite", "tight", "night", "bike"];
 
-  /* ================= IMAGE CLICK ================= */
-
-  const handleImageClick = (e) => {
-    if (!selectedItem || checked) return;
-
-    const rect = e.target.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-  console.log(`x: ${x.toFixed(4)}, y: ${y.toFixed(4)}`);
-    setCircles((prev) => ({
-      ...prev,
-      [selectedItem]: { x, y },
-    }));
+  const correctMatches = {
+    0: 2,
+    1: 4,
+    2: 3,
+    3: 0,
+    4: 5,
+    5: 1,
   };
 
-  /* ================= CHECK ANSWER ================= */
+  const handleDotClick = (index, type) => {
+    if (isChecked || showedAnswer) return;
+    if (!startDot) {
+      setStartDot({ index, type });
+      return;
+    }
 
-  const handleCheck = () => {
-    if (checked) return;
-    if (Object.keys(circles).length < items.length) {
-      ValidationAlert.info("Pay attention!", "Please circle all the words.");
+    if (startDot.type === type) {
+      setStartDot(null);
+      return;
+    }
+
+    const imageIndex = startDot.type === "image" ? startDot.index : index;
+
+    const textIndex = startDot.type === "text" ? startDot.index : index;
+
+    setLines((prevLines) => {
+      let updatedLines = [...prevLines];
+
+      updatedLines = updatedLines.filter((line) => {
+        const img =
+          line.from.type === "image" ? line.from.index : line.to.index;
+
+        return img !== imageIndex;
+      });
+
+      updatedLines = updatedLines.filter((line) => {
+        const txt = line.from.type === "text" ? line.from.index : line.to.index;
+
+        return txt !== textIndex;
+      });
+
+      updatedLines.push({
+        from: { index: imageIndex, type: "image" },
+        to: { index: textIndex, type: "text" },
+      });
+
+      return updatedLines;
+    });
+
+    setStartDot(null);
+  };
+
+  const showAnswers = () => {
+    if (isChecked) return;
+
+    const answerLines = Object.keys(correctMatches).map((imgIndex) => ({
+      from: { index: parseInt(imgIndex), type: "image" },
+      to: { index: correctMatches[imgIndex], type: "text" },
+    }));
+
+    setLines(answerLines);
+    setShowedAnswer(true);
+  };
+  const resetAll = () => {
+    setLines([]);
+    setStartDot(null);
+    setIsChecked(false);
+    setShowedAnswer(false);
+  };
+
+  const checkAnswers = () => {
+    if (showedAnswer) return;
+    if (lines.length !== images.length) {
+      ValidationAlert.info(
+        "Oops!",
+        "Please complete all matches before checking.",
+      );
       return;
     }
 
     let score = 0;
 
-    items.forEach((item) => {
-      const p = circles[item.key];
-      if (!p) return;
+    lines.forEach((line) => {
+      const imageIndex =
+        line.from.type === "image" ? line.from.index : line.to.index;
 
-      if (
-        p.x >= item.area.x1 &&
-        p.x <= item.area.x2 &&
-        p.y >= item.area.y1 &&
-        p.y <= item.area.y2
-      ) {
+      const textIndex =
+        line.from.type === "text" ? line.from.index : line.to.index;
+
+      if (correctMatches[imageIndex] === textIndex) {
         score++;
       }
     });
 
-    setChecked(true);
+    const total = images.length;
 
-    const color =
-      score === items.length ? "green" : score === 0 ? "red" : "orange";
-    const scoreMessage = `
-    <div style="font-size: 20px; margin-top: 10px; text-align:center;">
-      <span style="color:${color}; font-weight:bold;">
-      Score: ${score} / ${items.length}
-      </span>
-    </div>
-  `;
-    if (score === items.length) ValidationAlert.success(scoreMessage);
-    else if (score === 0) ValidationAlert.error(scoreMessage);
-    else ValidationAlert.warning(scoreMessage);
+    const color = score === total ? "green" : score === 0 ? "red" : "orange";
+
+    const msg = `
+      <div style="font-size:20px;text-align:center;">
+        <span style="color:${color};font-weight:bold">
+          Score: ${score} / ${total}
+        </span>
+      </div>
+    `;
+    setIsChecked(true);
+    if (score === total) ValidationAlert.success(msg);
+    else if (score === 0) ValidationAlert.error(msg);
+    else ValidationAlert.warning(msg);
   };
-
-  /* ================= SHOW ANSWER ================= */
-
-  const handleShowAnswer = () => {
-    const correct = {};
-    items.forEach((item) => {
-      correct[item.key] = {
-        x: (item.area.x1 + item.area.x2) / 2,
-        y: (item.area.y1 + item.area.y2) / 2,
-      };
-    });
-
-    setCircles(correct);
-    setChecked(true);
-  };
-
-  /* ================= RESET ================= */
-
-  const handleStartAgain = () => {
-    setSelectedItem(null);
-    setCircles({});
-    setChecked(false);
-  };
-
-  /* ================= RENDER ================= */
 
   return (
     <div
+      ref={containerRef}
       style={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         padding: "30px",
+        position: "relative",
       }}
     >
-      <div
-        className="div-forall"
-        style={{
-          width: "60%",
-          display: "flex",
-          flexDirection: "column",
-          gap: "20px",
-        }}
-      >
-       <h5 className="header-title-page8">
-          <span style={{ marginRight: "20px" }}>E</span> Does it have{" "}
-          <span style={{ color: "#2e3192" }}>long a</span>?Look and circle.
-
+      <div className="div-forall" style={{ width: "60%" }}>
+        <h5 className="header-title-page8">
+          <span style={{ marginRight: "20px" }}>E</span>
+          Read, look, and match.
         </h5>
+        {images.map((item, i) => (
+          <div key={i} className="flex justify-between items-center my-3">
+            {/* WORD SIDE */}
+            <div className="w-[45%] flex justify-start">
+              <div className="relative inline-block">
+                <p
+                  onClick={() => handleDotClick(i, "text")}
+                  className={`px-5 py-1.5 rounded-full font-semibold text-[18px] cursor-pointer min-w-20 ${
+                    startDot?.index === i && startDot?.type === "text"
+                      ? "border-2 border-[#e74c3c] bg-[#fdecea]"
+                      : "bg-[#f6e6de]"
+                  }`}
+                >
+                  {words[i]}
+                </p>
 
-        {/* WORD BUTTONS */}
-        <div style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
-          {items.map((item) => (
-            <button
-              key={item.key}
-              onClick={() => setSelectedItem(item.key)}
-              style={{
-                padding: "6px 16px",
-                borderRadius: "12px",
-                background: "white",
-                border:
-                  selectedItem === item.key
-                    ? "2px solid #007bff"
-                    : "1px solid #999",
-                cursor: "pointer",
-              }}
-            >
-              {item.label}
-            </button>
-          ))}
-        </div>
-      </div>
+                <div
+                  ref={(el) => (textDotRefs.current[i] = el)}
+                  onClick={() => handleDotClick(i, "text")}
+                  className="absolute -right-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-[#d82b2b] rounded-full cursor-pointer"
+                />
+              </div>
+            </div>
 
-      {/* IMAGE */}
-      <div style={{ position: "relative", marginTop: "20px" }}>
-        <img
-          src={find_img}
-          alt="classroom"
-          style={{
-            height: "50vh",
-            width: "auto",
-            cursor: selectedItem ? "crosshair" : "default",
-            display: "block",
-          }}
-          onClick={handleImageClick}
-        />
+            {/* IMAGE SIDE */}
+            <div className="w-[35%] flex items-center justify-end gap-2">
+              <div
+                ref={(el) => (imageDotRefs.current[i] = el)}
+                onClick={() => handleDotClick(i, "image")}
+                className="w-3 h-3 bg-[#d82b2b] rounded-full cursor-pointer"
+              />
 
-        {/* DRAW CIRCLES */}
-        {Object.entries(circles).map(([key, point]) => (
-          <div
-            key={key}
-            style={{
-              position: "absolute",
-              top: `${point.y}%`,
-              left: `${point.x}%`,
-              width: "9%",
-              height: "10%",
-              border: "3px solid red",
-              borderRadius: "50%",
-              transform: "translate(-50%, -50%)",
-              pointerEvents: "none",
-            }}
-          />
+              <img
+                src={item.image}
+                alt=""
+                onClick={() => handleDotClick(i, "image")}
+                style={{
+                  height: "60px",
+                  width: "auto",
+                  objectFit: "contain",
+                  cursor: "pointer",
+                  border:
+                    startDot?.index === i && startDot?.type === "image"
+                      ? "3px solid #e74c3c"
+                      : "none",
+                  transform:
+                    startDot?.index === i && startDot?.type === "image"
+                      ? "scale(1.05)"
+                      : "scale(1)",
+                }}
+              />
+            </div>
+          </div>
         ))}
-      </div>
 
-      {/* ACTION BUTTONS */}
-      <div className="action-buttons-container">
-        <button className="try-again-button" onClick={handleStartAgain}>
-          Start Again ↻
-        </button>
+        {/* SVG */}
+        <svg className="absolute top-0 left-0 w-full h-full pointer-events-none">
+          {lines.map((line, i) => {
+            const imageIndex =
+              line.from.type === "image" ? line.from.index : line.to.index;
 
-        <button className="show-answer-btn" onClick={handleShowAnswer}>
-          Show Answer
-        </button>
+            const textIndex =
+              line.from.type === "text" ? line.from.index : line.to.index;
 
-        <button className="check-button2" onClick={handleCheck}>
-          Check Answer ✓
-        </button>
+            const imgDot = imageDotRefs.current[imageIndex];
+            const txtDot = textDotRefs.current[textIndex];
+
+            if (!imgDot || !txtDot || !containerRef.current) return null;
+
+            const imgRect = imgDot.getBoundingClientRect();
+            const txtRect = txtDot.getBoundingClientRect();
+            const containerRect = containerRef.current.getBoundingClientRect();
+
+            const x1 = imgRect.left + imgRect.width / 2 - containerRect.left;
+            const y1 = imgRect.top + imgRect.height / 2 - containerRect.top;
+
+            const x2 = txtRect.left + txtRect.width / 2 - containerRect.left;
+            const y2 = txtRect.top + txtRect.height / 2 - containerRect.top;
+
+            return (
+              <line
+                key={i}
+                x1={x1}
+                y1={y1}
+                x2={x2}
+                y2={y2}
+                stroke="#e74c3c"
+                strokeWidth="3"
+                strokeLinecap="round"
+              />
+            );
+          })}
+        </svg>
+
+        <div className="action-buttons-container">
+          <button onClick={resetAll} className="try-again-button">
+            Start Again ↻
+          </button>
+
+          <button onClick={showAnswers} className="show-answer-btn">
+            Show Answer
+          </button>
+
+          <button onClick={checkAnswers} className="check-button2">
+            Check Answer ✓
+          </button>
+        </div>
       </div>
     </div>
   );
 };
 
-export default Review4_Page2_Q2;
+export default Review6_Page2_Q2;

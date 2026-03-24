@@ -1,160 +1,291 @@
-import React, { useState } from 'react';
-import { DndContext, useDraggable, useDroppable, closestCenter } from '@dnd-kit/core';
-
-// استيراد الصور ومكونات الأزرار والتنبيهات
-import placeholderImg from "../../../assets/imgs/test6.png";
-import Button from '../button';
-import ValidationAlert from '../../Popup/ValidationAlert';
-
-// بيانات التمرين
-const matchQuestions = [
-    { id: 'q1', question: 'Can he play the drum?', answer: 'Yes, he can.' },
-    { id: 'q2', question: 'Can she swim?', answer: 'Yes, she can.' },
-    { id: 'q3', question: 'Can she drive the car?', answer: 'No, she can\'t.' },
-    { id: 'q4', question: 'Can she make sandwiches?', answer: 'Yes, she can.' },
-];
-
-const matchImages = [
-    { id: 'img1', img: placeholderImg, correctQuestionId: 'q2' }, 
-    { id: 'img2', img: placeholderImg, correctQuestionId: 'q4' }, 
-    { id: 'img3', img: placeholderImg, correctQuestionId: 'q3' }, 
-    { id: 'img4', img: placeholderImg, correctQuestionId: 'q1' }, 
-];
-
-const DraggableQuestion = ({ id, question, answer, isPlaced }) => {
-    const { attributes, listeners, setNodeRef, transform } = useDraggable({ id });
-    const style = transform ? { transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`, zIndex: 100 } : undefined;
-
-    return (
-        <div ref={setNodeRef} style={style} {...listeners} {...attributes}
-            className={`p-3 border rounded-lg shadow-sm cursor-grab active:cursor-grabbing touch-none transition-opacity ${isPlaced ? 'opacity-20' : 'bg-white'}`}>
-            <p className="font-semibold">{question}</p>
-            <p className="text-gray-600">{answer}</p>
-        </div>
-    );
-};
-
-const DropZone = ({ id, children, isOver, borderColor }) => {
-    const { setNodeRef } = useDroppable({ id });
-    return (
-        <div ref={setNodeRef} className={`relative w-48 h-40 flex flex-col items-center justify-end p-2 border-2 border-dashed rounded-lg transition-colors ${isOver ? 'bg-blue-50' : ''} ${borderColor}`}>
-            {children}
-        </div>
-    );
-};
+import React, { useState, useRef } from "react";
+import img1 from "../../../assets/imgs/test.png";
+import img2 from "../../../assets/imgs/test.png";
+import img3 from "../../../assets/imgs/test.png";
+import img4 from "../../../assets/imgs/test.png";
+import ValidationAlert from "../../Popup/ValidationAlert";
+import "./WB_Unit3_Page18_Q2.css";
 
 const WB_Unit3_Page18_Q2 = () => {
-    const [placedQuestions, setPlacedQuestions] = useState({}); // { img1: 'q2', img2: 'q1' }
-    const [showResults, setShowResults] = useState(false);
+  const [lines, setLines] = useState([]);
+  const containerRef = useRef(null);
+  let startPoint = null;
+  const [wrongImages, setWrongImages] = useState([]);
+  // ⭐⭐ NEW: قفل الرسم بعد Check Answer
+  const [locked, setLocked] = useState(false); //  ← إضافة جديدة
+  const [firstDot, setFirstDot] = useState(null);
+  const [showAnswer, setShowAnswer] = useState(false);
+  const correctMatches = [
+    { word: "Can he play the drum? \nYes, he can.", image: "img4" },
+    { word: "Can she swim?\n Yes, she can.", image: "img1" },
+    { word: "Can she drive the car?\n No, she can\'t.", image: "img3" },
+    { word: "Can she make sandwiches? \n Yes, she can.", image: "img2" },
+  ];
 
-    const handleDragEnd = (event) => {
-        const { over, active } = event;
-        if (!over) return;
 
-        const questionId = active.id;
-        const imageId = over.id;
+  const words = correctMatches.map((item, index) => ({
+    id: `word-${index}`,
+    text: item.word,
+  }));
 
-        const newPlaced = { ...placedQuestions };
-        // إزالة السؤال من أي مكان كان فيه سابقاً
-        Object.keys(newPlaced).forEach(key => {
-            if (newPlaced[key] === questionId) delete newPlaced[key];
-        });
+  const images = [
+    { id: "img1", src: img1 },
+    { id: "img2", src: img2 },
+    { id: "img3", src: img3 },
+    { id: "img4", src: img4 },
+  ];
 
-        // إذا كانت منطقة الإفلات تحتوي على سؤال، أعده
-        const existingQuestion = newPlaced[imageId];
-        if (existingQuestion) {
-            delete newPlaced[imageId];
-        }
+  // ============================
+  // 1️⃣ الضغط على النقطة الأولى (start-dot)
+  // ============================
+  const handleStartDotClick = (e) => {
+    if (showAnswer || locked) return; // ⭐⭐ NEW: منع التوصيل إذا مغلق
 
-        // وضع السؤال في المكان الجديد
-        newPlaced[imageId] = questionId;
-        setPlacedQuestions(newPlaced);
-        setShowResults(false);
+    const rect = containerRef.current.getBoundingClientRect();
+
+    const wordId = e.target.dataset.wordId;
+    const image = e.target.dataset.image || null;
+
+    // ⭐⭐ NEW: منع رسم أكثر من خط من نفس الصورة (image)
+    const alreadyUsed = lines.some((line) => line.wordId === wordId);
+
+    if (alreadyUsed) return; // ← إضافة جديدة
+
+    setFirstDot({
+      wordId,
+
+      x: e.target.getBoundingClientRect().left - rect.left + 8,
+      y: e.target.getBoundingClientRect().top - rect.top + 8,
+    });
+  };
+
+  // ============================
+  // 2️⃣ الضغط على النقطة الثانية (end-dot)
+  // ============================
+  const handleEndDotClick = (e) => {
+    if (showAnswer || locked) return; // ⭐⭐ NEW: منع التوصيل إذا مغلق
+    if (!firstDot) return;
+
+    const rect = containerRef.current.getBoundingClientRect();
+
+    const endWord = e.target.dataset.word || null;
+    const endImage = e.target.dataset.image || null;
+
+    const newLine = {
+      x1: firstDot.x,
+      y1: firstDot.y,
+      x2: e.target.getBoundingClientRect().left - rect.left + 8,
+      y2: e.target.getBoundingClientRect().top - rect.top + 8,
+
+      wordId: firstDot.wordId,
+      image: endImage,
     };
 
-    const getBorderColor = (imgId) => {
-        if (!showResults || !placedQuestions[imgId]) return 'border-gray-300';
-        const correctId = matchImages.find(img => img.id === imgId).correctQuestionId;
-        return placedQuestions[imgId] === correctId ? 'border-green-500' : 'border-red-500';
-    };
+    setLines((prev) => [...prev, newLine]);
+    setFirstDot(null);
+  };
+  // ============================
+  // 3️⃣ Check Answers
+  // ============================
+  const checkAnswers2 = () => {
+    if (showAnswer || locked) return; // ⭐⭐ NEW: منع التوصيل بعد القفل
+    if (lines.length < correctMatches.length) {
+      ValidationAlert.info(
+        "Oops!",
+        "Please connect all the pairs before checking.",
+      );
+      return;
+    }
 
-    const handleShowAnswer = () => {
-        const correctPlacements = {};
-        matchImages.forEach(img => {
-            correctPlacements[img.id] = img.correctQuestionId;
-        });
-        setPlacedQuestions(correctPlacements);
-        setShowResults(true);
-    };
+    let correctCount = 0;
+    let wrong = [];
 
-    const handleStartAgain = () => {
-        setPlacedQuestions({});
-        setShowResults(false);
-    };
+    lines.forEach((line) => {
+      const isCorrect = correctMatches.some(
+        (pair, index) =>
+          `word-${index}` === line.wordId && pair.image === line.image,
+      );
 
-    const checkAnswers = () => {
-        setShowResults(true);
-        let score = 0;
-        matchImages.forEach(img => {
-            if (placedQuestions[img.id] === img.correctQuestionId) {
-                score++;
-            }
-        });
+      if (isCorrect) {
+        correctCount++;
+      } else {
+        wrong.push(line.wordId); // ✅ خزّني اسم صورة الخطأ فقط
+      }
+    });
 
-        if (score === matchImages.length) {
-            ValidationAlert.success(`Score: ${score} / ${matchImages.length}`);
-        } else if (score > 0) {
-            ValidationAlert.error(`Score: ${score} / ${matchImages.length}`);
-        };
-        if (!score) {
-            ValidationAlert.warning("No matches. Try again.");
-        }
-    };
+    setWrongImages(wrong); // ✅ حفظ الصور الغلط
 
-    const unplacedQuestions = matchQuestions.filter(q => !Object.values(placedQuestions).includes(q.id));
+    const total = correctMatches.length;
+    const color =
+      correctCount === total ? "green" : correctCount === 0 ? "red" : "orange";
+    const scoreMessage = `
+    <div style="font-size: 20px; margin-top: 10px; text-align:center;">
+      <span style="color:${color}; font-weight:bold;">
+      Score: ${correctCount} / ${total}
+      </span>
+    </div>
+  `;
 
-    return (
-        <DndContext onDragEnd={handleDragEnd} collisionDetection={closestCenter}>
-            <div className="p-6 max-w-5xl mx-auto font-sans mt-8">
-                <div className="flex items-center gap-4 mb-6">
-                    <span className="ex-A">H</span>
-                    <h1 className="header-title-page8">Read, look, and match.</h1>
+    if (correctCount === total) ValidationAlert.success(scoreMessage);
+    else if (correctCount === 0) ValidationAlert.error(scoreMessage);
+    else ValidationAlert.warning(scoreMessage);
+    setLocked(true); // ⭐⭐ NEW: إغلاق الرسم بعد Check Answer
+  };
+
+  return (
+      <div className="main-container-component">
+      <div className="div-forall" style={{ gap: "20px" }}>
+        <div className="page7-q2-container2">
+        <h1 className="WB-header-title-page8">
+          <span className="WB-ex-A">H</span>Read, look, and match.
+        </h1>
+
+
+          <div className="CB-review3-p1-q2-wrapper" ref={containerRef}>
+            {/* الجمل */}
+            <div className="CB-review3-p1-q2-words-row">
+              {words.map((wordObj, index) => (
+                <div
+                  key={wordObj.id}
+                  className="CB-review3-p1-q2-word-box"
+                  style={{
+                    display: "flex",
+                    gap: "10px",
+                    flexDirection: "row",
+                    alignItems: "flex-start",
+                  }}
+                >
+                  <span style={{ color: "darkblue", fontWeight: "700" }}>
+                    {index + 1}
+                  </span>
+
+                  <div>
+                    <div style={{ position: "relative" }}>
+                      <h5
+                        className={`WB-unit3-page18-q2-word ${
+                          locked || showAnswer
+                            ? "WB-unit3-page18-q2-disabled-hover"
+                            : ""
+                        }`}
+                        onClick={() =>
+                          document.getElementById(`${wordObj.id}-dot`).click()
+                        }
+                      >
+                        {wordObj.text}
+                      </h5>
+
+                      {wrongImages.includes(wordObj.id) && (
+                        <span className="CB-review3-p1-q2-error-mark">✕</span>
+                      )}
+                    </div>
+
+                    <div
+                      className="CB-review3-p1-q2-dot CB-review3-p1-q2-start-dot"
+                      data-word-id={wordObj.id}
+                      id={`${wordObj.id}-dot`}
+                      onClick={handleStartDotClick}
+                    ></div>
+                  </div>
                 </div>
-
-                {/* منطقة الأسئلة القابلة للسحب */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                    {unplacedQuestions.map(q => (
-                        <DraggableQuestion key={q.id} id={q.id} question={q.question} answer={q.answer} isPlaced={false} />
-                    ))}
-                    {/* عرض الأسئلة التي تم وضعها ولكن بشكل شفاف لإبقاء التنسيق */}
-                     {matchQuestions.filter(q => Object.values(placedQuestions).includes(q.id)).map(q => (
-                        <DraggableQuestion key={q.id} id={q.id} question={q.question} answer={q.answer} isPlaced={true} />
-                    ))}
-                </div>
-
-                {/* مناطق إفلات الصور */}
-                <div className="flex flex-wrap justify-center gap-10 mt-40">
-                    {matchImages.map(img => (
-                        <DropZone key={img.id} id={img.id} borderColor={getBorderColor(img.id)}>
-                            <img src={img.img} alt={`Match for ${img.id}`} className="max-w-full max-h-full object-contain rounded-md" />
-                            {placedQuestions[img.id] && (
-                                <div className="absolute  max-w-44">
-                                    <DraggableQuestion
-                                        id={placedQuestions[img.id]}
-                                        {...matchQuestions.find(q => q.id === placedQuestions[img.id])}
-                                    />
-                                </div>
-                            )}
-                        </DropZone>
-                    ))}
-                </div>
-
-                <div className='mt-16 flex justify-center'>
-                    <Button handleShowAnswer={handleShowAnswer} handleStartAgain={handleStartAgain} checkAnswers={checkAnswers} />
-                </div>
+              ))}
             </div>
-        </DndContext>
-    );
+
+            {/* الصور */}
+            <div className="CB-review3-p1-q2-images-row">
+              {images.map((img) => (
+                <div key={img.id} className="CB-review3-p1-q2-img-box">
+                  <img
+                    src={img.src}
+                    alt=""
+                    className={`CB-review3-p1-q2-image ${
+                      locked || showAnswer
+                        ? "WB-unit3-page18-q2-disabled-hover"
+                        : ""
+                    }`}
+                    onClick={() =>
+                      document.getElementById(`${img.id}-dot`).click()
+                    }
+                  />
+
+                  <div
+                    className="CB-review3-p1-q2-dot CB-review3-p1-q2-end-dot"
+                    data-image={img.id}
+                    id={`${img.id}-dot`}
+                    onClick={handleEndDotClick}
+                  ></div>
+                </div>
+              ))}
+            </div>
+
+            {/* الخطوط */}
+            <svg className="lines-layer">
+              {lines.map((l, i) => (
+                <line
+                  key={i}
+                  x1={l.x1}
+                  y1={l.y1}
+                  x2={l.x2}
+                  y2={l.y2}
+                  stroke="red"
+                  strokeWidth="3"
+                />
+              ))}
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div className="action-buttons-container">
+        <button
+          onClick={() => {
+            setLines([]);
+            setWrongImages([]);
+            setFirstDot(null);
+            setShowAnswer(false);
+            setLocked(false); // ⭐⭐ NEW: السماح بالرسم مجدداً
+          }}
+          className="try-again-button"
+        >
+          Start Again ↻
+        </button>
+        {/* Show Answer */}
+        <button
+          onClick={() => {
+            const rect = containerRef.current.getBoundingClientRect();
+
+            const getDotPosition = (selector) => {
+              const el = document.querySelector(selector);
+              if (!el) return { x: 0, y: 0 };
+              const r = el.getBoundingClientRect();
+              return {
+                x: r.left - rect.left + 8,
+                y: r.top - rect.top + 8,
+              };
+            };
+
+            const finalLines = correctMatches.map((line, index) => ({
+              x1: getDotPosition(`[data-word-id="word-${index}"]`).x,
+              y1: getDotPosition(`[data-word-id="word-${index}"]`).y,
+              x2: getDotPosition(`[data-image="${line.image}"]`).x,
+              y2: getDotPosition(`[data-image="${line.image}"]`).y,
+              wordId: `word-${index}`,
+              image: line.image,
+            }));
+
+            setLines(finalLines);
+            setWrongImages([]);
+            setShowAnswer(true);
+            setLocked(true); // ⭐⭐ NEW: منع الرسم أثناء Show Answer
+          }}
+          className="show-answer-btn swal-continue"
+        >
+          Show Answer
+        </button>
+        <button onClick={checkAnswers2} className="check-button2">
+          Check Answer ✓
+        </button>
+      </div>
+    </div>
+  );
 };
 
 export default WB_Unit3_Page18_Q2;

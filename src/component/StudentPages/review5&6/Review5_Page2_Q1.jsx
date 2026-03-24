@@ -1,31 +1,22 @@
-import React, { useState, useEffect, useRef } from "react";
+/* eslint-disable no-unused-vars */
+import React, { useState, useRef, useEffect } from "react";
+import "./Review5_Page2_Q2.css";
+import ValidationAlert from "../../Popup/ValidationAlert";
 import img1 from "../../../assets/imgs/test.png";
 import img2 from "../../../assets/imgs/test.png";
 import img3 from "../../../assets/imgs/test.png";
-import img4 from "../../../assets/imgs/test.png";
-import img5 from "../../../assets/imgs/test.png";
-import img6 from "../../../assets/imgs/test.png";
-import ValidationAlert from "../../Popup/ValidationAlert";
-import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-import "./Review3_Page2_Q1.css";
-import sound1 from "../../../assets/audio/ClassBook/U 4/CD25.Pg35_Instruction1_Adult Lady.mp3";
+import sound1 from "../../../assets/audio/ClassBook/U 6/Pg53_1.1_Adult Lady.mp3";
 import { TbMessageCircle } from "react-icons/tb";
 import { FaPlay, FaPause } from "react-icons/fa";
 import { IoMdSettings } from "react-icons/io";
-const Review3_Page2_Q1 = () => {
-  const correctAnswers = ["yo-yo", "jam", "yogurt", "jet", "jacket", "yellow"];
-  const [answers, setAnswers] = useState(["", "", "", "", "", ""]);
-  const [wrongInputs, setWrongInputs] = useState([]);
-  const [locked, setLocked] = useState(false);
-
-  /* ================ audio logic =========================*/
-
+const Review1_Page2_Q2 = () => {
   const audioRef = useRef(null);
   const [showContinue, setShowContinue] = useState(false);
   const [paused, setPaused] = useState(false);
   const [activeIndex, setActiveIndex] = useState(null);
   const stopAtSecond = 3.5;
-  // إعدادات الصوت
+  const [locked, setLocked] = useState(false); // ⭐ NEW — قفل التعديل بعد Show Answer
+
   const [showSettings, setShowSettings] = useState(false);
   const [volume, setVolume] = useState(1);
   const settingsRef = useRef(null);
@@ -127,332 +118,297 @@ const Review3_Page2_Q1 = () => {
       setIsPlaying(false);
     }
   };
+  const questions = [
+    {
+      id: 1,
+      image: img1,
+      correct: "✓",
+    },
+    { id: 2, image: img2, correct: "✗" },
+    {
+      id: 3,
+      image: img3,
+      correct: "✓",
+    },
+  ];
 
-  /* ================= Drag Logic ================= */
-  const onDragEnd = (result) => {
-    const { destination, draggableId } = result;
-    if (!destination || locked) return;
+  const [answers, setAnswers] = useState({});
+  const [showResult, setShowResult] = useState([]);
 
-    if (destination.droppableId.startsWith("slot-")) {
-      const index = Number(destination.droppableId.split("-")[1]);
-      const word = draggableId.replace("word-", "");
+  const selectAnswer = (id, value) => {
+    if (locked) return; // 🔒 ممنوع التعديل بعد Show Answer
+    setAnswers({ ...answers, [id]: value });
+    setShowResult(false);
+  };
+  const showAnswers = () => {
+    const corrects = {};
+    questions.forEach((q) => {
+      corrects[q.id] = q.correct; // ✓ أو ✗
+    });
 
-      setAnswers((prev) => {
-        const updated = [...prev];
-
-        updated[index] = word;
-        return updated;
-      });
-
-      setWrongInputs([]);
-    }
+    setAnswers(corrects);
+    setShowResult([]); // إخفاء كل X
+    setLocked(true); // 🔒 قفل التعديل
   };
 
-  /* ================= Check Answers (كما هو) ================= */
   const checkAnswers = () => {
     if (locked) return;
-
-    if (answers.some((ans) => ans === "")) {
-      ValidationAlert.info("Please fill in all the blanks before checking!");
+    // 1) فحص الخانات الفارغة
+    const isEmpty = questions.some((q) => !answers[q.id]);
+    if (isEmpty) {
+      ValidationAlert.info("Please choose ✓ or ✗ for all questions!");
       return;
     }
 
-    let tempScore = 0;
-    let wrong = [];
+    // 2) مقارنة الإجابات
+    const results = questions.map((q) =>
+      answers[q.id] === q.correct ? "correct" : "wrong",
+    );
 
-    answers.forEach((ans, i) => {
-      if (ans === correctAnswers[i]) tempScore++;
-      else wrong.push(i);
-    });
+    setShowResult(results);
+    setLocked(true); // 🔒 قفل التعديل
+    // 3) حساب السكور
+    const correctCount = results.filter((r) => r === "correct").length;
+    const total = questions.length;
+    const scoreMsg = `${correctCount} / ${total}`;
 
-    setWrongInputs(wrong);
+    let color =
+      correctCount === total ? "green" : correctCount === 0 ? "red" : "orange";
 
-    const total = correctAnswers.length;
-    const color =
-      tempScore === total ? "green" : tempScore === 0 ? "red" : "orange";
-
-    ValidationAlert[
-      tempScore === total ? "success" : tempScore === 0 ? "error" : "warning"
-    ](`
-      <div style="font-size:20px;text-align:center;">
-        <span style="color:${color};font-weight:bold;">
-          Score: ${tempScore} / ${total}
+    const resultHTML = `
+      <div style="font-size: 20px; text-align:center; margin-top: 8px;">
+        <span style="color:${color}; font-weight:bold;">
+          Score: ${scoreMsg}
         </span>
       </div>
-    `);
+    `;
 
-    setLocked(true);
+    if (correctCount === total) ValidationAlert.success(resultHTML);
+    else if (correctCount === 0) ValidationAlert.error(resultHTML);
+    else ValidationAlert.warning(resultHTML);
   };
 
-  const reset = () => {
-    setAnswers(["", "", "", "", "", ""]);
-    setWrongInputs([]);
-    setLocked(false);
-  };
-
-  const showAnswer = () => {
-    setAnswers([...correctAnswers]);
-    setWrongInputs([]);
-    setLocked(true);
+  const resetAnswers = () => {
+    setAnswers({});
+    setShowResult([]);
+    setLocked(false); // ← مهم جداً
   };
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: "30px",
+      }}
+    >
       <div
-        className="question-wrapper-unit3-page6-q1"
+        className="div-forall"
         style={{
           display: "flex",
           flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "30px",
+          // gap: "20px",
+          width: "60%",
+          justifyContent: "flex-start",
         }}
       >
+        <h5 className="header-title-page8">
+          <span style={{ marginRight: "15px" }}>D</span>Do they both have{" "}
+          <span style={{ color: "#2e3192" }}>long e</span>? Listen and write
+          <span style={{ color: "#2e3192" }}>✓</span> or
+          <span style={{ color: "#2e3192" }}>✗</span>.
+        </h5>
         <div
-          className="div-forall"
           style={{
             display: "flex",
-            flexDirection: "column",
-            // gap: "30px",
-            width: "60%",
+            justifyContent: "center",
+            marginTop: "30px",
+            width: "100%",
           }}
         >
-          <h5 className="header-title-page8">
-            <span style={{marginRight:"20px"}}>E</span>Look, listen, and write.
-          </h5>
           <div
+            className="audio-popup-read"
             style={{
-              display: "flex",
-              justifyContent: "center",
-              marginTop: "30px",
-              width: "100%",
+              width: "50%",
             }}
           >
-            <div
-              className="audio-popup-read"
-              style={{
-                width: "50%",
-              }}
-            >
-              <div className="audio-inner player-ui">
-                <audio
-                  ref={audioRef}
-                  src={sound1}
-                  onTimeUpdate={(e) => {
-                    const time = e.target.currentTime;
-                    setCurrent(time);
-                    updateCaption(time);
+            <div className="audio-inner player-ui">
+              <audio
+                ref={audioRef}
+                src={sound1}
+                onTimeUpdate={(e) => {
+                  const time = e.target.currentTime;
+                  setCurrent(time);
+                  updateCaption(time);
+                }}
+                onLoadedMetadata={(e) => setDuration(e.target.duration)}
+              ></audio>
+              {/* Play / Pause */}
+              {/* Play / Pause */}
+              {/* الوقت - السلايدر - الوقت */}
+              <div className="top-row">
+                <span className="audio-time">
+                  {new Date(current * 1000).toISOString().substring(14, 19)}
+                </span>
+
+                <input
+                  type="range"
+                  className="audio-slider"
+                  min="0"
+                  max={duration}
+                  value={current}
+                  onChange={(e) => {
+                    audioRef.current.currentTime = e.target.value;
+                    updateCaption(Number(e.target.value));
                   }}
-                  onLoadedMetadata={(e) => setDuration(e.target.duration)}
-                ></audio>
-                {/* Play / Pause */}
-                {/* Play / Pause */}
-                {/* الوقت - السلايدر - الوقت */}
-                <div className="top-row">
-                  <span className="audio-time">
-                    {new Date(current * 1000).toISOString().substring(14, 19)}
-                  </span>
+                  style={{
+                    background: `linear-gradient(to right, #430f68 ${
+                      (current / duration) * 100
+                    }%, #d9d9d9ff ${(current / duration) * 100}%)`,
+                  }}
+                />
 
-                  <input
-                    type="range"
-                    className="audio-slider"
-                    min="0"
-                    max={duration}
-                    value={current}
-                    onChange={(e) => {
-                      audioRef.current.currentTime = e.target.value;
-                      updateCaption(Number(e.target.value));
-                    }}
-                    style={{
-                      background: `linear-gradient(to right, #430f68 ${
-                        (current / duration) * 100
-                      }%, #d9d9d9ff ${(current / duration) * 100}%)`,
-                    }}
-                  />
-
-                  <span className="audio-time">
-                    {new Date(duration * 1000).toISOString().substring(14, 19)}
-                  </span>
-                </div>
-                {/* الأزرار 3 أزرار بنفس السطر */}
-                <div className="bottom-row">
-                  {/* فقاعة */}
+                <span className="audio-time">
+                  {new Date(duration * 1000).toISOString().substring(14, 19)}
+                </span>
+              </div>
+              {/* الأزرار 3 أزرار بنفس السطر */}
+              <div className="bottom-row">
+                {/* فقاعة */}
+                <div
+                  className={`round-btn ${showCaption ? "active" : ""}`}
+                  style={{ position: "relative" }}
+                  onClick={() => setShowCaption(!showCaption)}
+                >
+                  <TbMessageCircle size={36} />
                   <div
-                    className={`round-btn ${showCaption ? "active" : ""}`}
-                    style={{ position: "relative" }}
-                    onClick={() => setShowCaption(!showCaption)}
+                    className={`caption-inPopup ${showCaption ? "show" : ""}`}
+                    style={{ top: "100%", left: "10%" }}
                   >
-                    <TbMessageCircle size={36} />
-                    <div
-                      className={`caption-inPopup ${showCaption ? "show" : ""}`}
-                      style={{ top: "100%", left: "10%" }}
-                    >
-                      {captions.map((cap, i) => (
-                        <p
-                          key={i}
-                          id={`caption-${i}`}
-                          className={`caption-inPopup-line2 ${
-                            activeIndex === i ? "active" : ""
-                          }`}
-                        >
-                          {cap.text}
-                        </p>
-                      ))}
-                    </div>
+                    {captions.map((cap, i) => (
+                      <p
+                        key={i}
+                        id={`caption-${i}`}
+                        className={`caption-inPopup-line2 ${
+                          activeIndex === i ? "active" : ""
+                        }`}
+                      >
+                        {cap.text}
+                      </p>
+                    ))}
                   </div>
+                </div>
 
-                  {/* Play */}
-                  <button className="play-btn2" onClick={togglePlay}>
-                    {isPlaying ? <FaPause size={26} /> : <FaPlay size={26} />}
+                {/* Play */}
+                <button className="play-btn2" onClick={togglePlay}>
+                  {isPlaying ? <FaPause size={26} /> : <FaPlay size={26} />}
+                </button>
+
+                {/* Settings */}
+                <div className="settings-wrapper" ref={settingsRef}>
+                  <button
+                    className={`round-btn ${showSettings ? "active" : ""}`}
+                    onClick={() => setShowSettings(!showSettings)}
+                  >
+                    <IoMdSettings size={36} />
                   </button>
 
-                  {/* Settings */}
-                  <div className="settings-wrapper" ref={settingsRef}>
-                    <button
-                      className={`round-btn ${showSettings ? "active" : ""}`}
-                      onClick={() => setShowSettings(!showSettings)}
-                    >
-                      <IoMdSettings size={36} />
-                    </button>
-
-                    {showSettings && (
-                      <div className="settings-popup">
-                        <label>Volume</label>
-                        <input
-                          type="range"
-                          min="0"
-                          max="1"
-                          step="0.05"
-                          value={volume}
-                          onChange={(e) => {
-                            setVolume(e.target.value);
-                            audioRef.current.volume = e.target.value;
-                          }}
-                        />
-                      </div>
-                    )}
-                  </div>
-                </div>{" "}
-              </div>
-            </div>
-          </div>
-          {/* 🔤 Word Bank */}
-          <Droppable droppableId="bank" direction="horizontal" isDropDisabled>
-            {(provided) => (
-              <div
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-                style={{
-                  display: "flex",
-                  gap: "10px",
-                  padding: "10px",
-                  border: "2px dashed #ccc",
-                  borderRadius: "10px",
-                  // margin: "10px 0",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                {["yo-yo", "jam", "yogurt", "jet", "jacket", "yellow"].map(
-                  (word, index) => (
-                    <Draggable
-                      key={word}
-                      draggableId={`word-${word}`}
-                      index={index}
-                      isDragDisabled={locked}
-                    >
-                      {(provided) => (
-                        <span
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          style={{
-                            padding: "7px 14px",
-                            border: "2px solid #2c5287",
-                            borderRadius: "8px",
-                            background: "white",
-                            fontWeight: "bold",
-                            cursor: "grab",
-                            ...provided.draggableProps.style,
-                          }}
-                        >
-                          {word}
-                        </span>
-                      )}
-                    </Draggable>
-                  ),
-                )}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-
-          <div className="row-content10-CB-review3-p2-q1">
-            {[img1, img2, img3, img4, img5, img6].map((img, index) => (
-              <div className="row2-CB-review2-p1-q2" key={index}>
-                <img src={img} className="q-img-CB-review2-p1-q2" />
-
-                <Droppable droppableId={`slot-${index}`}>
-                  {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.droppableProps}
-                      className={`q-input-CB-review2-p2-q1 ${
-                        snapshot.isDraggingOver ? "drag-over-cell" : ""
-                      }`}
-                    >
-                      {answers[index] && (
-                        <Draggable
-                          draggableId={`slot-${index}-${answers[index]}`}
-                          index={0}
-                          isDragDisabled={true}
-                        >
-                          {(provided) => (
-                            <span
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                            >
-                              {answers[index]}
-                            </span>
-                          )}
-                        </Draggable>
-                      )}
-
-                      {provided.placeholder}
-
-                      {wrongInputs.includes(index) && (
-                        <span className="error-mark-input-CB-review2-p1-q2">
-                          ✕
-                        </span>
-                      )}
+                  {showSettings && (
+                    <div className="settings-popup">
+                      <label>Volume</label>
+                      <input
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.05"
+                        value={volume}
+                        onChange={(e) => {
+                          setVolume(e.target.value);
+                          audioRef.current.volume = e.target.value;
+                        }}
+                      />
                     </div>
                   )}
-                </Droppable>
-              </div>
-            ))}
+                </div>
+              </div>{" "}
+            </div>
           </div>
+        </div>
+        <div className="CB-review1-p2-q1-container">
+          {questions.map((q, index) => (
+            <div key={q.id} className="CB-review1-p2-q1-question-box">
+              <p
+                className="CB-review1-p2-q1-question-text"
+                style={{ fontSize: "20px" }}
+              >
+                <span style={{ color: "darkblue", fontWeight: "700" }}>
+                  {q.id}.
+                </span>
+              </p>
+
+              <div className="CB-review1-p2-q1-flex">
+                <div style={{ display: "flex" }}>
+                  <img src={q.image} alt="" className="CB-review1-p2-q1-img" />
+                </div>
+
+                <div className="CB-review1-p2-q1-options-box">
+                  {/* خيار الصح */}
+                  <div className="CB-review1-p2-q1-option-wrapper">
+                    <div
+                      className={`CB-review1-p2-q1-option-btn ${
+                        answers[q.id] === "✓" ? "is-selected" : ""
+                      }`}
+                      onClick={() => selectAnswer(q.id, "✓")}
+                    >
+                      ✓
+                    </div>
+
+                    {showResult[index] === "wrong" && answers[q.id] === "✓" && (
+                      <div className="CB-review1-p2-q1-wrong-icon">✕</div>
+                    )}
+                  </div>
+
+                  {/* خيار الخطأ */}
+                  <div className="CB-review1-p2-q1-option-wrapper">
+                    <div
+                      className={`CB-review1-p2-q1-option-btn ${
+                        answers[q.id] === "✗" ? "is-selected" : ""
+                      }`}
+                      onClick={() => selectAnswer(q.id, "✗")}
+                    >
+                      ✗
+                    </div>
+
+                    {showResult[index] === "wrong" && answers[q.id] === "✗" && (
+                      <div className="CB-review1-p2-q1-wrong-icon">✕</div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
 
         <div className="action-buttons-container">
-          <button onClick={reset} className="try-again-button">
+          <button onClick={resetAnswers} className="try-again-button">
             Start Again ↻
           </button>
-
+          {/* ⭐⭐⭐ NEW — زر Show Answer */}
           <button
-            onClick={showAnswer}
+            onClick={showAnswers}
             className="show-answer-btn swal-continue"
           >
             Show Answer
           </button>
-
           <button onClick={checkAnswers} className="check-button2">
             Check Answer ✓
           </button>
         </div>
       </div>
-    </DragDropContext>
+    </div>
   );
 };
 
-export default Review3_Page2_Q1;
+export default Review1_Page2_Q2;

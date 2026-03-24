@@ -9,18 +9,24 @@
 .click-icon-review5-page2-3 {
   position: absolute;
   padding: 5px;
-  top: 29%;
-  right: 6%;
+  bottom: 45.5%;
+  left: 39%;
   cursor: pointer;
 }
 .click-icon-review5-page2-1 {
   position: absolute;
   padding: 5px;
-  bottom: 45.5%;
-  left: 39%;
+  bottom: 20.5%;
+  right: 10%;
   cursor: pointer;
 }
-
+.click-icon-review5-page2-4{
+   position: absolute;
+  padding: 5px;
+  bottom: 20.5%;
+  right: 30%;
+  cursor: pointer;
+}
 @media screen and (max-width: 1024px) and (max-height: 600px) {
   .click-icon-review5-page2-2 {
     top: 2.8%;
