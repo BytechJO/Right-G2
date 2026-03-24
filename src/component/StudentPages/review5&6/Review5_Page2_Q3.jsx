@@ -1,242 +1,250 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import img1 from "../../../assets/imgs/test.png";
-import img2 from "../../../assets/imgs/test.png";
-import img3 from "../../../assets/imgs/test.png";
-import img4 from "../../../assets/imgs/test.png";
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
-import "./Review3_Page2_Q3.css";
+import "./Review5_Page2_Q3.css";
 
-const IMAGES = [
-  { id: "img1", src: img1 },
-  { id: "img2", src: img2 },
-  { id: "img3", src: img3 },
-  { id: "img4", src: img4 },
-];
+import bee from "../../../assets/imgs/test6.png";
+import tea from "../../../assets/imgs/test6.png";
+import sleep from "../../../assets/imgs/test6.png";
+import read from "../../../assets/imgs/test6.png";
 
-const WORDS = [
-  { char: "j", color: "l" },
-  { char: "y", color: "r" },
-];
+const Review5_Page2_Q4 = () => {
+  const questions = [
+    {
+      id: 1,
+      parts: [
+        { type: "text", value: "The" },
+        { type: "blank", answer: "bee" },
+        { type: "img", src: bee },
+        { type: "text", value: "lands in the" },
+        { type: "blank", answer: "tea" },
+        { type: "img", src: tea },
+        { type: "text", value: "." },
+      ],
+    },
+    {
+      id: 2,
+      parts: [
+        { type: "text", value: "I" },
+        { type: "blank", answer: "sleep" },
+        { type: "img", src: sleep },
+        { type: "text", value: "after I" },
+        { type: "blank", answer: "read" },
+        { type: "img", src: read },
+        { type: "text", value: "a book." },
+      ],
+    },
+  ];
 
-const ANSWERS = [
-  { word: "j", images: ["img1", "img2"] },
-  { word: "y", images: ["img3", "img4"] },
-];
+  const options = ["bee", "tea", "sleep", "read"];
 
-const Review3_Page2_Q3 = () => {
-  const ref = useRef(null);
-  const [lines, setLines] = useState([]);
-  const [start, setStart] = useState(null);
-  const [wrong, setWrong] = useState([]);
+  const [answers, setAnswers] = useState({});
   const [locked, setLocked] = useState(false);
-  const [showAnswer, setShowAnswer] = useState(false);
 
-  const getCenterPos = (el) => {
-    if (!el || !ref.current) return { x: 0, y: 0 };
+  const onDragEnd = (result) => {
+    const { destination, draggableId } = result;
 
-    const r = el.getBoundingClientRect();
-    const c = ref.current.getBoundingClientRect();
+    if (!destination || locked) return;
 
-    // مركز العنصر (بدون +8 ثابت)
-    return {
-      x: r.left - c.left + r.width / 2,
-      y: r.top - c.top + r.height / 2,
-    };
+    const word = draggableId.replace("word-", "");
+
+    const updated = { ...answers };
+    updated[destination.droppableId] = word;
+
+    setAnswers(updated);
   };
 
-  const startLine = (e) => {
-    if (locked || showAnswer) return;
-
-    const dot = e.currentTarget; // ✅ الدوت نفسه
-    const image = dot.dataset.image;
-
-    if (lines.some((l) => l.image === image)) return;
-
-    setStart({ image, ...getCenterPos(dot) });
+  const reset = () => {
+    setAnswers({});
+    setLocked(false);
   };
 
-  const endLine = (e) => {
-    if (!start || locked || showAnswer) return;
+  const show = () => {
+    if (locked) return;
 
-    const dot = e.currentTarget; // ✅ الدوت نفسه
-    const word = dot.dataset.word;
-    const pos = getCenterPos(dot);
+    const correct = {};
 
-    setLines((prev) => [
-      ...prev,
-      {
-        x1: start.x,
-        y1: start.y,
-        x2: pos.x,
-        y2: pos.y,
-        image: start.image,
-        word,
-      },
-    ]);
+    questions.forEach((q, qIndex) => {
+      q.parts.forEach((p, pIndex) => {
+        if (p.type === "blank") {
+          correct[`slot-${qIndex}-${pIndex}`] = p.answer;
+        }
+      });
+    });
 
-    setStart(null);
+    setAnswers(correct);
+    setLocked(true);
   };
 
   const checkAnswers = () => {
-    if (locked || showAnswer) return;
-    const total = ANSWERS.reduce((a, b) => a + b.images.length, 0);
-    if (lines.length < total)
-      return ValidationAlert.info("Oops!", "Please connect all the pairs.");
+    if (locked) return;
 
-    let correct = 0;
-    let wrongImgs = [];
+    const blanks = [];
 
-    lines.forEach((l) => {
-      const ok = ANSWERS.some(
-        (a) => a.word === l.word && a.images.includes(l.image),
-      );
-      ok ? correct++ : wrongImgs.push(l.image);
+    questions.forEach((q, qIndex) => {
+      q.parts.forEach((p, pIndex) => {
+        if (p.type === "blank") {
+          blanks.push({
+            slot: `slot-${qIndex}-${pIndex}`,
+            answer: p.answer,
+          });
+        }
+      });
     });
 
-    setWrong(wrongImgs);
-    setLocked(true);
+    if (blanks.some((b) => !answers[b.slot])) {
+      ValidationAlert.info("Please complete all answers");
+      return;
+    }
 
-    const color =
-      correct === total ? "green" : correct === 0 ? "red" : "orange";
+    let score = 0;
 
-    ValidationAlert[
-      correct === total ? "success" : correct === 0 ? "error" : "warning"
-    ](`<b style="color:${color}">Score: ${correct} / ${total}</b>`);
-  };
-
- const show = () => {
-  setLocked(true);
-  setShowAnswer(true);
-  setWrong([]);
-  setLines([]); // ⬅️ امسح أي خطوط قديمة
-
-  const answerLines = [];
-
-  ANSWERS.forEach((a) => {
-    a.images.forEach((imgId) => {
-      const startDot = document.querySelector(
-        `.CB-review1-p2-q1-dot-start[data-image="${imgId}"]`
-      );
-      const endDot = document.querySelector(
-        `.CB-review1-p2-q1-dot-end[data-word="${a.word}"]`
-      );
-
-      if (startDot && endDot) {
-        const s = getCenterPos(startDot);
-        const e = getCenterPos(endDot);
-
-        answerLines.push({
-          x1: s.x,
-          y1: s.y,
-          x2: e.x,
-          y2: e.y,
-          image: imgId,
-          word: a.word,
-        });
+    blanks.forEach((b) => {
+      if (answers[b.slot] === b.answer) {
+        score++;
       }
     });
-  });
 
-  setLines(answerLines);
-};
+    const total = blanks.length;
 
+    const message = `
+    <div style="font-size:20px;text-align:center;">
+      <span style="color:#2e7d32;font-weight:bold;">
+        Score: ${score} / ${total}
+      </span>
+    </div>
+    `;
+
+    if (score === total) ValidationAlert.success(message);
+    else if (score === 0) ValidationAlert.error(message);
+    else ValidationAlert.warning(message);
+
+    setLocked(true);
+  };
 
   return (
-    <div style={{ display: "flex", justifyContent: "center", padding: "30px" }}>
-      <div className="div-forall" style={{ width: "60%" }}>
-        {/* ❌ لا تعديل */}
-        <h5 className="header-title-page8">
-        <span style={{ marginRight: "20px" }}>G</span> Look and match.
-        </h5>
+    <DragDropContext onDragEnd={onDragEnd}>
+      <div className="flex justify-center p-8">
+        <div className="w-[60%]">
+          <h5 className="header-title-page8">
+            <span className="mr-4">G</span>
+            Read, look, and complete the sentences.
+          </h5>
 
-        {/* ❌ لا تعديل */}
-        <div ref={ref} className="match-wrapper2-CB-review1-p2-q1">
-          {/* IMAGES */}
-          <div className="CB-review1-p2-q1-images">
-            {IMAGES.map((img) => (
-              <div key={img.id} className="CB-review1-p2-q1-img-box">
-                <img
-                  src={img.src}
-                  alt=""
-                  className={`CB-review1-p2-q1-img ${locked ? "disabled-hover" : ""}`}
-                  onClick={() =>
-                    document.querySelector(`[data-image="${img.id}"]`)?.click()
+          {/* WORD BANK */}
+
+          <Droppable droppableId="bank" direction="horizontal" isDropDisabled>
+            {(provided) => (
+              <div
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+                className="flex gap-5 justify-center mb-[30px]"
+              >
+                {options
+                  .filter((word) => !Object.values(answers).includes(word))
+                  .map((word, i) => (
+                    <Draggable
+                      key={word}
+                      draggableId={`word-${word}`}
+                      index={i}
+                      isDragDisabled={locked}
+                    >
+                      {(provided) => (
+                        <span
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          className="px-3.5 py-1.5 border-2 border-[#2c5287] rounded-lg cursor-grab font-bold bg-white"
+                        >
+                          {word}
+                        </span>
+                      )}
+                    </Draggable>
+                  ))}
+
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+
+          {/* SENTENCES */}
+
+          <div className="flex flex-col gap-[60px]">
+            {questions.map((q, qIndex) => (
+              <div
+                key={qIndex}
+                className="flex items-center gap-5 text-[20px] mb-[50px]"
+              >
+                <span className="font-bold">{q.id}</span>
+
+                {q.parts.map((part, pIndex) => {
+                  if (part.type === "text") {
+                    return <span key={pIndex}>{part.value}</span>;
                   }
-                />
-                {wrong.includes(img.id) && (
-                  <span className="CB-review1-p2-q1-error">✕</span>
-                )}
 
-                <div
-                  className="CB-review1-p2-q1-dot CB-review1-p2-q1-dot-start"
-                  data-image={img.id}
-                  onClick={startLine}
-                />
+                  if (part.type === "img") {
+                    return (
+                      <img
+                        key={pIndex}
+                        src={part.src}
+                        alt=""
+                        style={{
+                          maxWidth: "120px",
+                          width: "100%",
+                          height: "auto",
+                          objectFit: "contain",
+                        }}
+                      />
+                    );
+                  }
+
+                  if (part.type === "blank") {
+                    const slotId = `slot-${qIndex}-${pIndex}`;
+
+                    return (
+                      <Droppable droppableId={slotId} key={pIndex}>
+                        {(provided, snapshot) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.droppableProps}
+                            className={`min-w-[100px] border-b-2 border-black text-center flex items-center justify-center ${
+                              snapshot.isDraggingOver ? "bg-blue-100" : ""
+                            }`}
+                          >
+                            {answers[slotId] && (
+                              <span className="font-bold">
+                                {answers[slotId]}
+                              </span>
+                            )}
+                            {provided.placeholder}
+                          </div>
+                        )}
+                      </Droppable>
+                    );
+                  }
+                })}
               </div>
             ))}
           </div>
+        </div>
 
-          {/* WORDS */}
-          <div className="CB-review1-p2-q1-words">
-            {WORDS.map((w) => (
-              <div key={w.char} className="CB-review1-p2-q1-word-box">
-                <h5
-                  className={`CB-review1-p2-q1-word ${w.color}`}
-                  onClick={() =>
-                    document.querySelector(`[data-word="${w.char}"]`)?.click()
-                  }
-                >
-                  {w.char}
-                </h5>
+        <div className="action-buttons-container">
+          <button onClick={reset} className="try-again-button">
+            Start Again ↻
+          </button>
 
-                <div
-                  className="CB-review1-p2-q1-dot CB-review1-p2-q1-dot-end"
-                  data-word={w.char}
-                  onClick={endLine}
-                />
-              </div>
-            ))}
-          </div>
+          <button onClick={show} className="show-answer-btn">
+            Show Answer
+          </button>
 
-          {/* LINES */}
-          <svg className="lines-layer">
-            {lines.map((l, i) => (
-              <line
-                key={i}
-                x1={l.x1}
-                y1={l.y1}
-                x2={l.x2}
-                y2={l.y2}
-                stroke="red"
-                strokeWidth="3"
-              />
-            ))}
-          </svg>
+          <button onClick={checkAnswers} className="check-button2">
+            Check Answer ✓
+          </button>
         </div>
       </div>
-      {/* ❌ الأزرار كما هي */}
-      <div className="action-buttons-container">
-        <button
-          onClick={() => {
-            setLines([]);
-            setWrong([]);
-            setShowAnswer(false); // ← رجع التعديل
-            setLocked(false); // ⭐⭐⭐ NEW: إعادة فتح الرسم
-          }}
-          className="try-again-button"
-        >
-          Start Again ↻
-        </button>
-        <button onClick={show} className="show-answer-btn">
-          Show Answer
-        </button>
-        <button onClick={checkAnswers} className="check-button2">
-          Check Answer ✓
-        </button>
-      </div>
-    </div>
+    </DragDropContext>
   );
 };
 
-export default Review3_Page2_Q3;
+export default Review5_Page2_Q4;

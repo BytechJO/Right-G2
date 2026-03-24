@@ -1,76 +1,73 @@
 import React, { useState, useEffect } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import "./Unit4_Page5_Q4.css";
+import "./Unit6_Page5_Q4.css";
 
 const Unit4_Page5_Q4 = () => {
   const grid = [
-    "w",
-    "x",
-    "t",
-    "h",
-    "e",
-    "o",
-    "s",
-    "d",
-    "t",
-    "p",
-    "h",
-    "o",
-    "t",
-    "o",
-    "g",
-    "r",
-    "a",
-    "p",
-    "h",
-    "e",
-    "r",
-    "s",
-    "x",
-    "d",
-    "u",
-    "l",
-    "t",
-    "h",
-    "a",
-    "x",
-    "m",
-    "k",
-    "l",
-    "i",
-    "o",
-    "p",
-    "a",
-    "s",
-    "e",
-    "i",
-    "j",
-    "u",
-    "s",
-    "e",
-    "x",
-    "s",
-    "q",
-    "w",
-    "z",
     "f",
-    "h",
-    "c",
-    "a",
-    "m",
+    "t",
     "e",
     "r",
-    "a",
+    "y",
+    "u",
+    "w",
+    "e",
+    "o",
+    "b",
+    "n",
+    "x",
+    "n",
+    "m",
+    "j",
+    "h",
+    "g",
+    "o",
+    "k",
+    "n",
+    "j",
+    "l",
+    "k",
+    "m",
+    "g",
+    "t",
+    "o",
     "s",
     "x",
-    "s",
-    "y",
-    "p",
+    "d",
+    "o",
+    "b",
+    "e",
+    "d",
+    "f",
+    "o",
+    "n",
+    "g",
+    "u",
+    "a",
+    "t",
+    "v",
+    "f",
+    "m",
+    "e",
+    "i",
+    "g",
+    "h",
+    "t",
+    "i",
+    "k",
+    "e",
+    "o",
+    "c",
+    "l",
+    "o",
+    "c",
+    "k",
+    "x",
   ];
 
   const letters = grid; // نفس الـ array اللي عندك
 
-  const wordsToFind = ["the", "photographers", "use", "cameras"];
+  const wordsToFind = ["we", "go", "to", "bed","at","eight","oclock"];
   const [sentence, setSentence] = useState("");
 
   const [selected, setSelected] = useState([]);
@@ -181,9 +178,8 @@ const Unit4_Page5_Q4 = () => {
   return (
     <div style={{ display: "flex", justifyContent: "center", padding: "30px" }}>
       <div className="div-forall" style={{ width: "60%" }}>
-        {/* ❌ الهيدر كما هو */}
         <h5 className="header-title-page8">
-          <span className="ex-A">C</span>What do photographers use?
+          <span className="ex-A">C </span>When do we go to bed?
         </h5>
 
         <div className="words-list-CB-unit3-p5-q4">

@@ -1,240 +1,100 @@
-import React, { useState, useEffect, useRef } from "react";
-import "./Unit4_Page5_Q2.css";
+import "./Unit6_Page5_Q2.css";
+import React, { useState } from "react";
+import mapImg from "../../../assets/imgs/mapImg.png";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import img1 from "../../../assets/imgs/test.png";
-import img2 from "../../../assets/imgs/test.png";
-import img3 from "../../../assets/imgs/test.png";
-import img4 from "../../../assets/imgs/test.png";
-import img5 from "../../../assets/imgs/test.png";
-import sound1 from "../../../assets/audio/ClassBook/U 4/CD24.Pg32_Instruction1_Adult Lady.mp3";
-import { TbMessageCircle } from "react-icons/tb";
-import { FaPlay, FaPause } from "react-icons/fa";
-import { IoMdSettings } from "react-icons/io";
-const Unit4_Page5_Q2 = () => {
-  // ===============================
-  // 🔵 1) الأسئلة (كلها داخل نفس الكومبونينت)
-  // ===============================
-  const questions = [
-    {
-      id: 1,
-      parts: [
-        { type: "text", value: "sn" },
-        { type: "blank", options: ["aik", "ake"] },
-        { type: "text", value: "." },
-      ],
-      correct: ["ake"],
-      image: img1,
-    },
 
-    {
-      id: 2,
-      parts: [
-        { type: "text", value: "tr" },
-        { type: "blank", options: ["ain", "ayn"] },
-
-        { type: "text", value: "." },
-      ],
-      correct: ["ain"],
-      image: img2,
-    },
-    {
-      id: 3,
-      parts: [
-        { type: "text", value: "d" },
-        { type: "blank", options: ["ay", "ae"] },
-
-        { type: "text", value: "." },
-      ],
-      correct: ["ay"],
-      image: img3,
-    },
-  ];
-
-  // ===============================
-  // 🔵 2) حفظ اختيارات الطالب
-  // ===============================
-  const [answers, setAnswers] = useState(
-    questions.map((q) =>
-      q.parts.map((p) => (p.type === "blank" ? null : null)),
-    ),
-  );
+const Unit6_Page5_Q2 = () => {
+  const [circles, setCircles] = useState([]);
   const [showResult, setShowResult] = useState(false);
   const [locked, setLocked] = useState(false);
-
-  /* ================ audio logic =========================*/
-
-  const audioRef = useRef(null);
-  const [showContinue, setShowContinue] = useState(false);
-  const [paused, setPaused] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(null);
-  const stopAtSecond = 3.5;
-  // إعدادات الصوت
-  const [showSettings, setShowSettings] = useState(false);
-  const [volume, setVolume] = useState(1);
-  const settingsRef = useRef(null);
-  const [forceRender, setForceRender] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [current, setCurrent] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const [showCaption, setShowCaption] = useState(false);
-
-  // ================================
-  // ✔ Captions Array
-  // ================================
-  const captions = [
-    {
-      start: 0,
-      end: 4.23,
-      text: "Page 8. Right Activities. Exercise A, number 1. ",
-    },
-    {
-      start: 4.25,
-      end: 8.28,
-      text: "Listen and write the missing letters. Number the pictures.  ",
-    },
-    { start: 8.3, end: 11.05, text: "1-tiger." },
-    { start: 11.07, end: 13.12, text: "2-taxi." },
-    { start: 13.14, end: 15.14, text: "3-duck." },
-    { start: 15.16, end: 17.13, text: "4-deer." },
+  const wordAreas = [
+    { id: "kite", x: 28.4, y: 13, w: 6, h: 6, correct: true },
+    { id: "it", x: 30, y: 27, w: 4, h: 6, correct: false },
+    { id: "light", x: 25, y: 39, w: 6, h: 7, correct: true },
+    { id: "rain", x: 19.5, y: 52, w: 6, h: 6, correct: false },
+    { id: "sit", x: 20.5, y: 68, w: 4, h: 6, correct: false },
+    { id: "five", x: 29.5, y: 62, w: 6, h: 7, correct: true },
+    { id: "cake", x: 40.5, y: 48.5, w: 6, h: 7, correct: false },
+    { id: "bike", x: 46.4, y: 60, w: 6, h: 7, correct: true },
+    { id: "feet", x: 52.5, y: 70.5, w: 6, h: 7, correct: false },
+    { id: "night", x: 60, y: 65, w: 7, h: 7, correct: true },
+    { id: "time", x: 63, y: 53, w: 7, h: 7, correct: true },
+    { id: "in", x: 64, y: 37.5, w: 5, h: 6, correct: false },
+    { id: "tight", x: 72, y: 18.5, w: 7, h: 7, correct: true },
+    { id: "tea", x: 79.5, y: 37.5, w: 6, h: 6, correct: false },
+    { id: "like", x: 79, y: 53, w: 6, h: 7, correct: true },
+    { id: "meat", x: 73.5, y: 65.5, w: 7, h: 7, correct: false },
+    { id: "six", x: 69, y: 80, w: 5, h: 6, correct: false },
   ];
+  const handleClick = (area) => {
+    if (locked || showResult) return;
 
-  // ================================
-  // ✔ Update caption highlight
-  // ================================
-  const updateCaption = (time) => {
-    const index = captions.findIndex(
-      (cap) => time >= cap.start && time <= cap.end,
-    );
-    setActiveIndex(index);
-  };
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    audio.currentTime = 0;
-    audio.play();
-
-    const interval = setInterval(() => {
-      if (audio.currentTime >= stopAtSecond) {
-        audio.pause();
-        setPaused(true);
-        setIsPlaying(false);
-        setShowContinue(true);
-        clearInterval(interval);
-      }
-    }, 100);
-
-    // عند انتهاء الأوديو يرجع يبطل أنيميشن + يظهر Continue
-    const handleEnded = () => {
-      const audio = audioRef.current;
-      audio.currentTime = 0; // ← يرجع للبداية
-      setIsPlaying(false);
-      setPaused(false);
-      setActiveIndex(null);
-      setShowContinue(true);
-    };
-
-    audio.addEventListener("ended", handleEnded);
-
-    return () => {
-      clearInterval(interval);
-      audio.removeEventListener("ended", handleEnded);
-    };
-  }, []);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setForceRender((prev) => prev + 1);
-    }, 1000); // كل ثانية
-    if (activeIndex === -1 || activeIndex === null) return;
-
-    const el = document.getElementById(`caption-${activeIndex}`);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "center" });
+    if (circles.some((c) => c.id === area.id)) {
+      setCircles((prev) => prev.filter((c) => c.id !== area.id));
+      return;
     }
-    return () => clearInterval(timer);
-  }, [activeIndex]);
 
-  const togglePlay = () => {
-    const audio = audioRef.current;
-
-    if (!audio) return;
-
-    if (audio.paused) {
-      audio.play();
-      setPaused(false);
-      setIsPlaying(true);
-    } else {
-      audio.pause();
-      setPaused(true);
-      setIsPlaying(false);
-    }
+    setCircles((prev) => [
+      ...prev,
+      {
+        id: area.id,
+        x: area.x,
+        y: area.y,
+        w: area.w,
+        h: area.h,
+        correct: area.correct,
+      },
+    ]);
   };
 
-  // ===============================
-  // 🔵 3) الضغط على خيار
-  // ===============================
-  const handleSelect = (qIndex, blankIndex, option) => {
-    if (locked || showResult) return; // ❌ لا يسمح بالتعديل بعد Show Answer
-    const updated = [...answers];
-    updated[qIndex][blankIndex] = option;
-    setAnswers(updated);
-    setShowResult(false);
-  };
-
-  // ===============================
-  // 🔵 4) فحص الإجابات
-  // ===============================
   const checkAnswers = () => {
-    if (locked || showResult) return; // ❌ لا يسمح بالتعديل بعد Show Answer
-    // تحقق إذا الطالب ما اختار ولا شيء
-    const selectedCount = answers.flat().filter((a) => a !== null).length;
-    if (selectedCount === 0) {
+    if (locked || showResult) return;
+
+    if (circles.length === 0) {
       ValidationAlert.info("");
       return;
     }
 
-    let correct = 0;
-    let total = 0;
+    const total = wordAreas.filter((w) => w.correct).length;
 
-    questions.forEach((q, qIndex) => {
-      q.correct.forEach((correctAns, blankIndex) => {
-        total++;
-        if (answers[qIndex][blankIndex] === correctAns) {
-          correct++;
-        }
-      });
-    });
+    const correctSelected = circles.filter((c) => c.correct).length;
 
-    const color =
-      correct === total ? "green" : correct === 0 ? "red" : "orange";
+    const score = correctSelected;
 
-    const scoreMessage = `
-    <div style="font-size: 20px; margin-top: 10px; text-align:center;">
-      <span style="color:${color}; font-weight:bold;">
-        Score: ${correct} / ${total}
-      </span>
-    </div>
+    const color = score === total ? "green" : score === 0 ? "red" : "orange";
+
+    const message = `
+  <div style="font-size:20px;text-align:center;">
+    <span style="color:${color};font-weight:bold;">
+      Score: ${score} / ${total}
+    </span>
+  </div>
   `;
 
-    if (correct === total) ValidationAlert.success(scoreMessage);
-    else if (correct === 0) ValidationAlert.error(scoreMessage);
-    else ValidationAlert.warning(scoreMessage);
+    if (score === total) ValidationAlert.success(message);
+    else if (score === 0) ValidationAlert.error(message);
+    else ValidationAlert.warning(message);
 
     setShowResult(true);
+    setLocked(true);
   };
+
   const showAnswers = () => {
-    // اجابة كل سؤال = correct array
-    const correctFilled = questions.map((q) => [...q.correct]);
+    const correctCircles = wordAreas
+      .filter((w) => w.correct)
+      .map((w) => ({
+        id: w.id,
+        x: w.x,
+        y: w.y,
+        w: w.w,
+        h: w.h,
+        correct: true,
+      }));
 
-    setAnswers(correctFilled);
+    setCircles(correctCircles);
     setShowResult(true);
-    setLocked(true); // 🔒 قفل الإجابات
+    setLocked(true);
   };
-
-  // ===============================
-  // 🔵 JSX
-  // ===============================
   return (
     <div
       style={{
@@ -250,228 +110,54 @@ const Unit4_Page5_Q2 = () => {
         style={{
           display: "flex",
           flexDirection: "column",
+          position: "relative",
+          width: "100%",
+          maxWidth: "1000px",
           gap: "30px",
-          width: "60%",
-          justifyContent: "flex-start",
         }}
       >
-        <h3 className="header-title-page8">
-          <span style={{ color: "#2e3192" }}>2</span>Listen and circle.
-        </h3>
-
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "30px",
-            width: "100%",
-          }}
-        >
-          <div
-            className="audio-popup-read"
-            style={{
-              width: "50%",
-            }}
-          >
-            <div className="audio-inner player-ui">
-              <audio
-                ref={audioRef}
-                src={sound1}
-                onTimeUpdate={(e) => {
-                  const time = e.target.currentTime;
-                  setCurrent(time);
-                  updateCaption(time);
-                }}
-                onLoadedMetadata={(e) => setDuration(e.target.duration)}
-              ></audio>
-              {/* Play / Pause */}
-              {/* Play / Pause */}
-              {/* الوقت - السلايدر - الوقت */}
-              <div className="top-row">
-                <span className="audio-time">
-                  {new Date(current * 1000).toISOString().substring(14, 19)}
-                </span>
-
-                <input
-                  type="range"
-                  className="audio-slider"
-                  min="0"
-                  max={duration}
-                  value={current}
-                  onChange={(e) => {
-                    audioRef.current.currentTime = e.target.value;
-                    updateCaption(Number(e.target.value));
-                  }}
-                  style={{
-                    background: `linear-gradient(to right, #430f68 ${
-                      (current / duration) * 100
-                    }%, #d9d9d9ff ${(current / duration) * 100}%)`,
-                  }}
-                />
-
-                <span className="audio-time">
-                  {new Date(duration * 1000).toISOString().substring(14, 19)}
-                </span>
-              </div>
-              {/* الأزرار 3 أزرار بنفس السطر */}
-              <div className="bottom-row">
-                {/* فقاعة */}
-                <div
-                  className={`round-btn ${showCaption ? "active" : ""}`}
-                  style={{ position: "relative" }}
-                  onClick={() => setShowCaption(!showCaption)}
-                >
-                  <TbMessageCircle size={36} />
-                  <div
-                    className={`caption-inPopup ${showCaption ? "show" : ""}`}
-                    style={{ top: "100%", left: "10%" }}
-                  >
-                    {captions.map((cap, i) => (
-                      <p
-                        key={i}
-                        id={`caption-${i}`}
-                        className={`caption-inPopup-line2 ${
-                          activeIndex === i ? "active" : ""
-                        }`}
-                      >
-                        {cap.text}
-                      </p>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Play */}
-                <button className="play-btn2" onClick={togglePlay}>
-                  {isPlaying ? <FaPause size={26} /> : <FaPlay size={26} />}
-                </button>
-
-                {/* Settings */}
-                <div className="settings-wrapper" ref={settingsRef}>
-                  <button
-                    className={`round-btn ${showSettings ? "active" : ""}`}
-                    onClick={() => setShowSettings(!showSettings)}
-                  >
-                    <IoMdSettings size={36} />
-                  </button>
-
-                  {showSettings && (
-                    <div className="settings-popup">
-                      <label>Volume</label>
-                      <input
-                        type="range"
-                        min="0"
-                        max="1"
-                        step="0.05"
-                        value={volume}
-                        onChange={(e) => {
-                          setVolume(e.target.value);
-                          audioRef.current.volume = e.target.value;
-                        }}
-                      />
-                    </div>
-                  )}
-                </div>
-              </div>{" "}
-            </div>
-          </div>
+        <div>
+          <h5 className="header-title-page8">
+            <span style={{ color: "#2e3192" }}> 2 </span> Read and circle the{" "}
+            <span style={{ color: "#2e3192" }}>long i</span>words.
+          </h5>
         </div>
-        <div className="content-container-CB-unit3-p6-q1">
-          {questions.map((q, qIndex) => (
-            <div className="question-row-CB-unit3-p6-q1" key={q.id}>
-              <div className="sentence-CB-unit4-p5-q2">
-                <div
-                  style={{
-                    display: "flex",
-                    // width: "100%",
-                    justifyContent: "center",
-                    alignItems: "flex-start",
-                  }}
-                >
-                  <span
-                    className="header-title-page8"
-                    style={{
-                      color: "#2c5287",
-                      fontWeight: "700",
-                      fontSize: "20px",
-                    }}
-                  >
-                    {q.id}
-                  </span>
+        <div className="relative w-full max-w-[1000px]">
+          <img
+            src={mapImg}
+            alt=""
+            style={{
+              width: "100%",
+              height: "auto",
+              display: "block",
+            }}
+          />
 
-                  <img
-                    src={q.image}
-                    className="question-img-CB-unit3-p6-q1"
-                    style={{ width: "150px", height: "150px" }}
-                  />
-                </div>
+          {wordAreas.map((area) => (
+            <div
+              key={area.id}
+              onClick={() => handleClick(area)}
+              className="absolute cursor-pointer"
+              style={{
+                left: `${area.x}%`,
+                top: `${area.y}%`,
+                width: `${area.w}%`,
+                height: `${area.h}%`,
+              }}
+            />
+          ))}
 
-                <div
-                  style={{
-                    display: "flex",
-                     alignItems: "center",
-                    gap: "50px",
-                  }}
-                >
-                  {q.parts.map((part, pIndex) => {
-                    if (part.type === "text") {
-                      return (
-                        <span
-                          key={pIndex}
-                          className="sentence-text-CB-unit3-p6-q1"
-                        >
-                          {part.value}
-                        </span>
-                      );
-                    }
-
-                    if (part.type === "blank") {
-                      const actualBlankIndex = q.parts
-                        .filter((p) => p.type === "blank")
-                        .indexOf(part);
-
-                      return (
-                        <span
-                          key={pIndex}
-                          className="blank-options-CB-unit4-p5-q2"
-                        >
-                          {part.options.map((opt, optIndex) => {
-                            const isSelected =
-                              answers[qIndex][actualBlankIndex] === opt;
-
-                            const isWrongSelected =
-                              showResult &&
-                              isSelected &&
-                              opt !== q.correct[actualBlankIndex];
-
-                            return (
-                              <div
-                                key={optIndex}
-                                className="option-wrapper-CB-unit3-p6-q1"
-                              >
-                                <span
-                                  className={`option-word-CB-unit3-p6-q1 ${
-                                    isSelected ? "selected" : ""
-                                  }`}
-                                  onClick={() =>
-                                    handleSelect(qIndex, actualBlankIndex, opt)
-                                  }
-                                >
-                                  {opt}
-                                </span>
-
-                                {isWrongSelected && !locked && (
-                                  <div className="wrong-mark-CB-unit4-p5-q2">✕</div>
-                                )}
-                              </div>
-                            );
-                          })}
-                        </span>
-                      );
-                    }
-                  })}
-                </div>
-              </div>
-            </div>
+          {circles.map((c, i) => (
+            <div
+              key={i}
+              className="absolute border-4 border-purple-500 rounded-full pointer-events-none cursor-pointer"
+              style={{
+                left: `${c.x - 0.5}%`,
+                top: `${c.y - 0.5}%`,
+                width: `${c.w + 1}%`,
+                height: `${c.h + 1}%`,
+              }}
+            />
           ))}
         </div>
       </div>
@@ -479,20 +165,18 @@ const Unit4_Page5_Q2 = () => {
         <button
           className="try-again-button"
           onClick={() => {
-            setAnswers(
-              questions.map((q) =>
-                q.parts.map((p) => (p.type === "blank" ? null : null)),
-              ),
-            );
+            setCircles([]);
             setShowResult(false);
             setLocked(false);
           }}
         >
           Start Again ↻
         </button>
+
         <button onClick={showAnswers} className="show-answer-btn">
           Show Answer
         </button>
+
         <button onClick={checkAnswers} className="check-button2">
           Check Answer ✓
         </button>
@@ -501,4 +185,4 @@ const Unit4_Page5_Q2 = () => {
   );
 };
 
-export default Unit4_Page5_Q2;
+export default Unit6_Page5_Q2;

@@ -1,151 +1,216 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 // استيراد الصور ومكونات الأزرار والتنبيهات
 import placeholderImg from "../../../assets/imgs/test6.png";
-import Button from '../button';
-import ValidationAlert from '../../Popup/ValidationAlert';
+import Button from "../button";
+import ValidationAlert from "../../Popup/ValidationAlert";
 
 // بيانات التمرين
 const chartData = [
-    { name: 'Steve', job: 'pilot' },
-    { name: 'Janice', job: 'graphic designer' },
-    { name: 'Larry', job: 'teacher' },
-    { name: 'Philip', job: 'vet' },
+  { name: "Steve", job: "pilot" },
+  { name: "Janice", job: "graphic designer" },
+  { name: "Larry", job: "teacher" },
+  { name: "Philip", job: "vet" },
 ];
 
 const questions = [
-    { id: 'h1', question: "What's Larry's job?", correctAnswer: 'Larry is a teacher.' },
-    { id: 'h2', question: "What's Janice's job?", correctAnswer: 'Janice is a graphic designer.' },
-    { id: 'h3', question: "What's Philip's job?", correctAnswer: 'Philip is a vet.' },
-    { id: 'h4', question: "What's Steve's job?", correctAnswer: 'Steve is a pilot.' },
+  {
+    id: "h1",
+    question: "What's Larry's job?",
+    correctAnswer: "Larry is a teacher.",
+  },
+  {
+    id: "h2",
+    question: "What's Janice's job?",
+    correctAnswer: "Janice is a graphic designer.",
+  },
+  {
+    id: "h3",
+    question: "What's Philip's job?",
+    correctAnswer: "Philip is a vet.",
+  },
+  {
+    id: "h4",
+    question: "What's Steve's job?",
+    correctAnswer: "Steve is a pilot.",
+  },
 ];
 
 const jobImages = [
-    { job: 'pilot', img: placeholderImg },
-    { job: 'teacher', img: placeholderImg },
-    { job: 'vet', img: placeholderImg },
-    { job: 'graphic designer', img: placeholderImg },
+  { job: "pilot", img: placeholderImg },
+  { job: "teacher", img: placeholderImg },
+  { job: "vet", img: placeholderImg },
+  { job: "graphic designer", img: placeholderImg },
 ];
 const answerOptions = [
-    "Larry is a teacher.",
-    "Janice is a graphic designer.",
-    "Philip is a vet.",
-    "Steve is a pilot."
+  "Larry is a teacher.",
+  "Janice is a graphic designer.",
+  "Philip is a vet.",
+  "Steve is a pilot.",
 ];
 const ReadChartAndAnswer = () => {
-    const [answers, setAnswers] = useState({});
-    const [showResults, setShowResults] = useState(false);
+  const [answers, setAnswers] = useState({});
+  const [showResults, setShowResults] = useState(false);
 
-    const handleInputChange = (qId, value) => {
-        setAnswers(prev => ({ ...prev, [qId]: value }));
-        setShowResults(false);
-    };
+  const handleInputChange = (qId, value) => {
+    setAnswers((prev) => ({ ...prev, [qId]: value }));
+    setShowResults(false);
+  };
 
-    const getInputClass = (qId, correctAnswer) => {
-        if (!showResults || !answers[qId]) return 'border-gray-300';
-        const userAnswer = answers[qId].trim().toLowerCase().replace('.', '');
-        const correct = correctAnswer.toLowerCase().replace('.', '');
-        return userAnswer === correct ? 'border-green-500' : 'border-red-500';
-    };
-    const handleSelectChange = (qId, value) => {
-        setAnswers(prev => ({ ...prev, [qId]: value }));
-        setShowResults(false);
-    };
+  const isWrong = (q) => {
+    if (!showResults) return false;
+    if (!answers[q.id]) return false;
 
-    const getSelectClass = (qId, correctAnswer) => {
-        if (!showResults || !answers[qId]) return 'border-gray-300';
-        return answers[qId] === correctAnswer ? 'border-green-500' : 'border-red-500';
-    };
-    const handleShowAnswer = () => {
-        const correctAns = {};
-        questions.forEach(q => {
-            correctAns[q.id] = q.correctAnswer;
-        });
-        setAnswers(correctAns);
-        setShowResults(true);
-    };
+    const user = answers[q.id];
+    return user !== q.correctAnswer;
+  };
+  const handleSelectChange = (qId, value) => {
+    setAnswers((prev) => ({ ...prev, [qId]: value }));
+    setShowResults(false);
+  };
 
-    const handleStartAgain = () => {
-        setAnswers({});
-        setShowResults(false);
-    };
+  const getSelectClass = (qId, correctAnswer) => {
+    if (!showResults || !answers[qId]) return "border-gray-300";
+    return answers[qId] === correctAnswer
+      ? "border-green-500"
+      : "border-red-500";
+  };
+  const handleShowAnswer = () => {
+    const correctAns = {};
+    questions.forEach((q) => {
+      correctAns[q.id] = q.correctAnswer;
+    });
+    setAnswers(correctAns);
+    setShowResults(true);
+  };
 
-    const checkAnswers = () => {
-        setShowResults(true);
-        let score = 0;
-        questions.forEach(q => {
-            const userAnswer = (answers[q.id] || '').trim().toLowerCase().replace('.', '');
-            const correctAnswer = q.correctAnswer.toLowerCase().replace('.', '');
-            if (userAnswer === correctAnswer) {
-                score++;
-            }
-        });
+  const handleStartAgain = () => {
+    setAnswers({});
+    setShowResults(false);
+  };
 
-        if (score === questions.length) {
-            ValidationAlert.success(`Score: ${score} / ${questions.length}`);
-        } else if (score > 0) {
-            ValidationAlert.error(`Score: ${score} / ${questions.length}`);
-        } else {
-            ValidationAlert.warning("No correct answers. Try again.");
-        }
-    };
+  const checkAnswers = () => {
+    // ✅ أول شي تأكد كل الأسئلة فيها إجابة
+    for (let q of questions) {
+      if (!answers[q.id]) {
+        ValidationAlert.warning("Please answer all questions first.");
+        return; // ⛔ وقف
+      }
+    }
 
-    return (
-        <div className="p-6 max-w-4xl mx-auto font-sans">
-            <div className="flex items-center gap-4 mb-6">
-                <span className="ex-A">H</span>
-                <h1 className="header-title-page8">Read the chart. Answer the questions.</h1>
+    // ✅ إذا كله معبّي → كمل
+    setShowResults(true);
+
+    let score = 0;
+
+    questions.forEach((q) => {
+      const userAnswer = (answers[q.id] || "")
+        .trim()
+        .toLowerCase()
+        .replace(".", "");
+
+      const correctAnswer = q.correctAnswer.toLowerCase().replace(".", "");
+
+      if (userAnswer === correctAnswer) {
+        score++;
+      }
+    });
+
+    if (score === questions.length) {
+      ValidationAlert.success(`Score: ${score} / ${questions.length}`);
+    } else if (score === 0) {
+      ValidationAlert.error(`Score: ${score} / ${questions.length}`);
+    } else {
+      ValidationAlert.warning(`Score: ${score} / ${questions.length}`);
+    }
+  };
+
+  return (
+    <div className="main-container-component">
+      <div className="div-forall" style={{ gap: "20px" }}>
+        <h1 className="WB-header-title-page8">
+          {" "}
+          <span className="WB-ex-A">H</span> Read the chart. Answer the
+          questions.
+        </h1>
+
+        <div className="flex flex-col gap-8">
+          {/* الجزء الأيسر: الجدول والصور */}
+          <div className="flex gap-8 space-y-6">
+            <table className="w-full border-collapse shadow-md rounded-lg overflow-hidden">
+              <tbody>
+                {chartData.map((person, index) => (
+                  <tr
+                    key={person.name}
+                    className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}
+                  >
+                    <td className="p-3 border border-gray-200 font-semibold text-lg">
+                      {person.name}
+                    </td>
+                    <td className="p-3 border border-gray-200 text-lg">
+                      {person.job}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+             <div className="grid grid-cols-2 gap-4 mb-10">
+              {jobImages.map((job) => (
+                <img
+                  key={job.job}
+                  src={job.img}
+                  alt={job.job}
+                  className="max-w-full max-h-24 object-contain bg-gray-100 p-2 rounded-lg"
+                />
+              ))}
             </div>
+            
+          </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {/* الجزء الأيسر: الجدول والصور */}
-                <div className="space-y-6">
-                    <table className="w-full border-collapse shadow-md rounded-lg overflow-hidden">
-                        <tbody>
-                            {chartData.map((person, index) => (
-                                <tr key={person.name} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                                    <td className="p-3 border border-gray-200 font-semibold text-lg">{person.name}</td>
-                                    <td className="p-3 border border-gray-200 text-lg">{person.job}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                    {questions.map((q, index) => (
-                        <div key={q.id} className="flex flex-col gap-2">
-                            <div className="flex items-baseline gap-2">
-                                <span className="font-bold text-blue-600">{index + 1}</span>
-                                <p className="text-lg">{q.question}</p>
-                            </div>
-                            <select
-                                value={answers[q.id] || ''}
-                                onChange={(e) => handleSelectChange(q.id, e.target.value)}
-                                className={`cursor-pointer w-full mb-6  pb-1 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors ${getSelectClass(q.id, q.correctAnswer)}`}
-                            >
-                                <option value="" disabled>______________________________</option>
-                                {answerOptions.map(option => (
-                                    <option key={option} value={option}>{option}</option>
-                                ))}
-                            </select>
-                        </div>
+          {/* الجزء الأيمن: الأسئلة والأجوبة */}
+          <div className="space-y-6">
+           {questions.map((q, index) => (
+              <div key={q.id} className="flex gap-2">
+                <div className="flex items-baseline gap-2">
+                  <span className="font-bold text-blue-600">{index + 1}</span>
+                  <p className="text-lg">{q.question}</p>
+                </div>
+                <div className="relative">
+                  <select
+                    value={answers[q.id] || ""}
+                    onChange={(e) => handleSelectChange(q.id, e.target.value)}
+                    className={`cursor-pointer w-full mb-6  pb-1 text-lg border-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors ${getSelectClass(q.id, q.correctAnswer)}`}
+                  >
+                    <option value="" disabled>
+                      ______________________________
+                    </option>
+                    {answerOptions.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
                     ))}
-                </div>
-
-                {/* الجزء الأيمن: الأسئلة والأجوبة */}
-                <div className="space-y-6">
-                    <div className="grid grid-cols-2 gap-4 mb-10">
-                        {jobImages.map(job => (
-                            <img key={job.job} src={job.img} alt={job.job} className="max-w-full max-h-24 object-contain bg-gray-100 p-2 rounded-lg" />
-                        ))}
+                  </select>
+                  {isWrong(q) && (
+                    <div className="absolute -top-2 right-7 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-sm font-bold shadow border-2 border-white">
+                      ✕
                     </div>
-
+                  )}
                 </div>
-            </div>
-
-            <div className='mt-10 flex justify-center'>
-                <Button handleShowAnswer={handleShowAnswer} handleStartAgain={handleStartAgain} checkAnswers={checkAnswers} />
-            </div>
+              </div>
+            ))}
+          </div>
         </div>
-    );
+
+        <div className="mt-10 flex justify-center">
+          <Button
+            handleShowAnswer={handleShowAnswer}
+            handleStartAgain={handleStartAgain}
+            checkAnswers={checkAnswers}
+          />
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default ReadChartAndAnswer;

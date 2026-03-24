@@ -1,101 +1,231 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import placeholderImg from '../../../assets/imgs/test6.png';
+import placeholderImg from "../../../assets/imgs/test6.png";
 
-import Button from '../button';
-import ValidationAlert from '../../Popup/ValidationAlert';
+import Button from "../button";
+import ValidationAlert from "../../Popup/ValidationAlert";
 
 // بيانات التمرين
 const writeQuestions = [
-    { id: 'g1', img: placeholderImg, prompt: 'I can fly a kite.', correctAnswer: 'I can fly a kite.' },
-    { id: 'g2', img: placeholderImg, prompt: 'can', correctAnswer: 'I can paint a picture.' },
-    { id: 'g3', img: placeholderImg, prompt: 'can', correctAnswer: 'I can climb a tree.' },
-    { id: 'g4', img: placeholderImg, prompt: 'can\'t', correctAnswer: 'I can\'t ride a bike.' },
-    { id: 'g5', img: placeholderImg, prompt: 'can', correctAnswer: 'I can sleep.' },
-    { id: 'g6', img: placeholderImg, prompt: 'can\'t', correctAnswer: 'It can\'t swim.' },
+  {
+    id: "g1",
+    img: placeholderImg,
+    modal: "can",
+    correctBefore: "I",
+    correctAfter: "fly a kite.",
+    beforeOptions: ["I", "It"],
+    afterOptions: ["fly a kite.", "swim."],
+  },
+  {
+    id: "g2",
+    img: placeholderImg,
+    modal: "can",
+    correctBefore: "I",
+    correctAfter: "paint a picture.",
+    beforeOptions: ["I", "It"],
+    afterOptions: ["paint a picture.", "ride a bike."],
+  },
+  {
+    id: "g3",
+    img: placeholderImg,
+    modal: "can",
+    correctBefore: "I",
+    correctAfter: "climb a tree.",
+    beforeOptions: ["I", "It"],
+    afterOptions: ["climb a tree.", "sleep."],
+  },
+  {
+    id: "g4",
+    img: placeholderImg,
+    modal: "can't",
+    correctBefore: "I",
+    correctAfter: "ride a bike.",
+    beforeOptions: ["I", "It"],
+    afterOptions: ["ride a bike.", "swim."],
+  },
+  {
+    id: "g5",
+    img: placeholderImg,
+    modal: "can",
+    correctBefore: "I",
+    correctAfter: "sleep.",
+    beforeOptions: ["I", "It"],
+    afterOptions: ["sleep.", "paint a picture."],
+  },
+  {
+    id: "g6",
+    img: placeholderImg,
+    modal: "can't",
+    correctBefore: "It",
+    correctAfter: "swim.",
+    beforeOptions: ["I", "It"],
+    afterOptions: ["swim.", "fly a kite."],
+  },
 ];
 
 const WB_Unit3_Page18_Q1 = () => {
-    const [answers, setAnswers] = useState({});
-    const [showResults, setShowResults] = useState(false);
+  const [answers, setAnswers] = useState({});
+  const [showResults, setShowResults] = useState(false);
 
-    const handleInputChange = (qId, value) => {
-        setAnswers(prev => ({ ...prev, [qId]: value }));
-        setShowResults(false);
-    };
+  const handleChange = (qId, field, value) => {
+    setAnswers((prev) => ({
+      ...prev,
+      [qId]: {
+        ...prev[qId],
+        [field]: value,
+      },
+    }));
+    setShowResults(false);
+  };
 
-    const getInputClass = (qId) => {
-        if (!showResults || !answers[qId]) return 'border-gray-300';
-        // إزالة النقطة من نهاية الجملة للمقارنة
-        const userAnswer = answers[qId].trim().toLowerCase().replace(/\.$/, '');
-        const correctAnswer = writeQuestions.find(q => q.id === qId).correctAnswer.toLowerCase().replace(/\.$/, '');
-        return userAnswer === correctAnswer ? 'border-green-500' : 'border-red-500';
-    };
+  const isCorrect = (qId) => {
+    const q = writeQuestions.find((q) => q.id === qId);
+    const ans = answers[qId];
 
-    const handleShowAnswer = () => {
-        const correctAns = {};
-        writeQuestions.forEach(q => {
-            correctAns[q.id] = q.correctAnswer;
-        });
-        setAnswers(correctAns);
-        setShowResults(true);
-    };
+    if (!ans) return false;
 
-    const handleStartAgain = () => {
-        setAnswers({});
-        setShowResults(false);
-    };
+    return ans.before === q.correctBefore && ans.after === q.correctAfter;
+  };
 
-    const checkAnswers = () => {
-        setShowResults(true);
-        let score = 0;
-        writeQuestions.forEach(q => {
-            const userAnswer = answers[q.id]?.trim().toLowerCase().replace(/\.$/, '');
-            const correctAnswer = q.correctAnswer.toLowerCase().replace(/\.$/, '');
-            if (userAnswer === correctAnswer) {
-                score++;
-            }
-        });
+  const getClass = (qId) => {
+    if (!showResults || !answers[qId]) return "border-gray-300";
+    return "border-gray-300";
+  };
 
-        if (score === writeQuestions.length) {
-            ValidationAlert.success(`Score: ${score} / ${writeQuestions.length}`);
-        } else if (score > 0) {
-            ValidationAlert.error(`Score: ${score} / ${writeQuestions.length}`);
-        } else {
-            ValidationAlert.warning("No matches. Try again.");
-        }
-    };
+  const handleShowAnswer = () => {
+    const correctAns = {};
+    writeQuestions.forEach((q) => {
+      correctAns[q.id] = {
+        before: q.correctBefore,
+        after: q.correctAfter,
+      };
+    });
+    setAnswers(correctAns);
+    setShowResults(true);
+  };
 
-    return (
-        <div className="p-6 max-w-5xl mx-auto font-sans">
-            <div className="flex items-center gap-4 mb-6">
-                <span className="ex-A">G</span>
-                <h1 className="header-title-page8">Look, read, and write.</h1>
-            </div>
+  const handleStartAgain = () => {
+    setAnswers({});
+    setShowResults(false);
+  };
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-                {writeQuestions.map((q, index) => (
-                    <div key={q.id} className="space-y-2">
-                        <div className="flex items-center gap-4">
-                            <span className="font-bold text-blue-600">{index + 1}</span>
-                            <img src={q.img} alt={`Question ${index + 1}`} className="w-full max-h-24 object-cover rounded-lg shadow-sm" />
-                        </div>
-                        <input
-                            type="text"
-                            value={answers[q.id] || ''}
-                            onChange={(e) => handleInputChange(q.id, e.target.value)}
-                            placeholder={q.prompt}
-                            className={`w-full bg-transparent border-b-2 pb-1 focus:outline-none transition-colors text-lg ${getInputClass(q.id)}`}
-                        />
+  const checkAnswers = () => {
+    const hasEmptyFields = writeQuestions.some((q) => {
+      const answer = answers[q.id];
+      return !answer?.before || !answer?.after;
+    });
+
+    if (hasEmptyFields) {
+      ValidationAlert.info("Please answer all questions first.");
+      return;
+    }
+
+    setShowResults(true);
+    let score = 0;
+
+    writeQuestions.forEach((q) => {
+      if (isCorrect(q.id)) score++;
+    });
+
+    if (score === writeQuestions.length) {
+      ValidationAlert.success(`Score: ${score} / ${writeQuestions.length}`);
+    } else if (score > 0) {
+      ValidationAlert.warning(`Score: ${score} / ${writeQuestions.length}`);
+    } else {
+      ValidationAlert.error(`Score: ${score} / ${writeQuestions.length}`);
+    }
+  };
+  return (
+    <div className="main-container-component">
+      <div className="div-forall" style={{ gap: "20px" }}>
+        <h1 className="WB-header-title-page8">
+          <span className="WB-ex-A">G</span>
+          Look, read, and write.
+        </h1>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+          {writeQuestions.map((q, index) => {
+            const isWrong = (qId) => {
+              if (!showResults || !answers[qId]) return false;
+              return !isCorrect(qId);
+            };
+            return (
+              <div key={q.id} className="space-y-2 relative">
+                <div className="flex items-center gap-4">
+                  <span className="font-bold text-blue-600 text-xl">
+                    {index + 1}
+                  </span>
+                  <img
+                    src={q.img}
+                    alt={`Question ${index + 1}`}
+                    className="w-full max-h-24 object-cover rounded-lg shadow-sm"
+                  />
+                </div>
+
+                <div
+                  className={`flex items-center gap-2 border-b-2 pb-1 ${getClass(q.id)}`}
+                >
+                  {/* before */}
+                  <select
+                    value={answers[q.id]?.before || ""}
+                    onChange={(e) =>
+                      handleChange(q.id, "before", e.target.value)
+                    }
+                    className="bg-transparent focus:outline-none text-xl"
+                  >
+                    <option value="" disabled>
+                      _____
+                    </option>
+                    {q.beforeOptions.map((opt) => (
+                      <option key={opt} value={opt}>
+                        {opt}
+                      </option>
+                    ))}
+                  </select>
+
+                  {/* can / can't */}
+                  <span className="font-semibold text-blue-700 text-xl">
+                    {q.modal}
+                  </span>
+
+                  {/* after */}
+                  <select
+                    value={answers[q.id]?.after || ""}
+                    onChange={(e) =>
+                      handleChange(q.id, "after", e.target.value)
+                    }
+                    className="bg-transparent focus:outline-none text-2xl"
+                  >
+                    <option value="" disabled>
+                      ______________
+                    </option>
+                    {q.afterOptions.map((opt) => (
+                      <option key={opt} value={opt}>
+                        {opt}
+                      </option>
+                    ))}
+                  </select>
+                  {isWrong(q.id) && (
+                    <div className="absolute bottom-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm shadow border-2 border-white text-2xl">
+                      ✕
                     </div>
-                ))}
-            </div>
-
-            <div className='mt-10 flex justify-center'>
-                <Button handleShowAnswer={handleShowAnswer} handleStartAgain={handleStartAgain} checkAnswers={checkAnswers} />
-            </div>
+                  )}
+                </div>
+              </div>
+            );
+          })}
         </div>
-    );
+
+        <div className="mt-10 flex justify-center">
+          <Button
+            handleShowAnswer={handleShowAnswer}
+            handleStartAgain={handleStartAgain}
+            checkAnswers={checkAnswers}
+          />
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default WB_Unit3_Page18_Q1;

@@ -1,345 +1,226 @@
-import React, { useState } from "react";
-import farmImg from "../../../assets/imgs/test.png";
-import ValidationAlert from "../../Popup/ValidationAlert";
-import "./Unit4_Page6_Q1.css";
+import React, { useState, useRef } from "react";
+import "./Unit6_Page6_Q1.css";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-import img1 from "../../../assets/imgs/test.png";
-import img2 from "../../../assets/imgs/test.png";
-import img3 from "../../../assets/imgs/test.png";
-import img4 from "../../../assets/imgs/test.png";
+import pencilCursor from "../../../assets/imgs/pen_96740.png";
+import eraserCursor from "../../../assets/imgs/gui_eraser_icon_157160.png";
+import img1 from "../../../assets/imgs/clock1.png";
 
-const Unit4_Page6_Q1 = () => {
-  const items = [
-    {
-      image: img1,
-      questionParts: ["Do you want a doll?"],
-      blanksCount: 0,
-      questionAnswers: [],
-      answer: "Yes, I do.",
-    },
-    {
-      image: img2,
-      questionParts: ["Do you want a", ""],
-      blanksCount: 1,
-      questionAnswers: ["robot"],
-      answer: "Yes, I do.",
-    },
-    {
-      image: img3,
-      questionParts: [""],
-      blanksCount: 1,
-      questionAnswers: ["Do you want a computer?"],
-      answer: "Yes, I do.",
-    },
-    {
-      image: img4,
-      questionParts: ["Do you want a bike?"],
-      blanksCount: 0,
-      questionAnswers: [],
-      answer: "No, I don't. I want a dress",
-    },
+const Unit6_Page6_Q1 = () => {
+  const [locked, setLocked] = useState(false);
+  const questions = [
+    { id: 1, text: "I brush my teeth at six thirty.", img: img1 },
+    { id: 2, text: "I wash my face at seven o’clock.", img: img1 },
+    { id: 3, text: "I comb my hair at seven thirty.", img: img1 },
+    { id: 4, text: "I eat my breakfast at eight o’clock.", img: img1 },
+    { id: 5, text: "I go to school at eight thirty.", img: img1 },
   ];
+  const correctTimes = {
+    1: { h: 6, m: 30 },
+    2: { h: 7, m: 0 },
+    3: { h: 7, m: 30 },
+    4: { h: 8, m: 0 },
+    5: { h: 8, m: 30 },
+  };
+  const [tool, setTool] = useState("pen");
 
-  const wordBank = [
-    "Yes, I do.",
-    "robot",
-    "Do you want a computer?",
-    "No, I don't. I want a dress",
-  ];
+  const canvasRefs = useRef({});
 
-  const [questionInputs, setQuestionInputs] = useState(
-    items.map((item) => Array(item.blanksCount).fill("")),
-  );
+  const startDrawing = (e, id) => {
+    if (locked) return;
+    const canvas = canvasRefs.current[id];
+    const ctx = canvas.getContext("2d");
 
-  const [answers, setAnswers] = useState(items.map(() => ""));
-  const [showCorrect, setShowCorrect] = useState(false);
-  const [wrongMarks, setWrongMarks] = useState([]);
+    ctx.isDrawing = true;
+    ctx.lineCap = "round";
 
-  // =========================
-  // DRAG END (🔥 FIXED)
-  // =========================
-  const onDragEnd = (result) => {
-    const { destination, draggableId } = result;
-    if (!destination || showCorrect) return;
-
-    const value = draggableId.replace("word-", "");
-    const [type, i, j] = destination.droppableId.split("-");
-
-    const qIndex = Number(i);
-    const blankIndex = Number(j);
-
-    if (type === "q") {
-      const updated = [...questionInputs];
-      updated[qIndex][blankIndex] = value;
-      setQuestionInputs(updated);
+    if (tool === "eraser") {
+      ctx.globalCompositeOperation = "destination-out";
+      ctx.lineWidth = 20;
+    } else {
+      ctx.globalCompositeOperation = "source-over";
+      ctx.strokeStyle = "purple";
+      ctx.lineWidth = 3;
     }
 
-    if (type === "a") {
-      const updated = [...answers];
-      updated[qIndex] = value;
-      setAnswers(updated);
-    }
+    const rect = canvas.getBoundingClientRect();
+    ctx.lastX = (e.clientX || e.touches[0].clientX) - rect.left;
+    ctx.lastY = (e.clientY || e.touches[0].clientY) - rect.top;
   };
 
-  // =========================
-  // SHOW ANSWERS (🔥 FIXED)
-  // =========================
-  const showAnswers = () => {
-    setQuestionInputs(
-      items.map((item) =>
-        item.blanksCount > 0 ? [...item.questionAnswers] : [],
-      ),
+  const draw = (e, id) => {
+    const canvas = canvasRefs.current[id];
+    const ctx = canvas.getContext("2d");
+    if (!ctx.isDrawing) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const x = (e.clientX || e.touches[0].clientX) - rect.left;
+    const y = (e.clientY || e.touches[0].clientY) - rect.top;
+
+    ctx.beginPath();
+    ctx.moveTo(ctx.lastX, ctx.lastY);
+    ctx.lineTo(x, y);
+    ctx.stroke();
+
+    ctx.lastX = x;
+    ctx.lastY = y;
+  };
+
+  const stopDrawing = (id) => {
+    const canvas = canvasRefs.current[id];
+    const ctx = canvas.getContext("2d");
+    ctx.isDrawing = false;
+  };
+
+  const resetCanvas = () => {
+    questions.forEach((q) => {
+      const canvas = canvasRefs.current[q.id];
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    });
+    setLocked(false);
+  };
+  const drawCorrectTime = (canvas, hour, minute) => {
+    const ctx = canvas.getContext("2d");
+
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    const radius = canvas.width / 2 - 10;
+
+    ctx.strokeStyle = "red";
+    ctx.lineWidth = 3;
+
+    // minute hand
+    const minuteAngle = (minute * Math.PI) / 30 - Math.PI / 2;
+    ctx.beginPath();
+    ctx.moveTo(centerX, centerY);
+    ctx.lineTo(
+      centerX + Math.cos(minuteAngle) * radius,
+      centerY + Math.sin(minuteAngle) * radius,
     );
+    ctx.stroke();
 
-    setAnswers(items.map((item) => item.answer));
-    setShowCorrect(true);
-    setWrongMarks([]);
+    // hour hand
+    const hourAngle =
+      ((hour % 12) * Math.PI) / 6 + (minute * Math.PI) / 360 - Math.PI / 2;
+
+    ctx.lineWidth = 4;
+
+    ctx.beginPath();
+    ctx.moveTo(centerX, centerY);
+    ctx.lineTo(
+      centerX + Math.cos(hourAngle) * radius * 0.6,
+      centerY + Math.sin(hourAngle) * radius * 0.6,
+    );
+    ctx.stroke();
   };
-
-  // =========================
-  // RESET
-  // =========================
-  const resetAll = () => {
-    setQuestionInputs(items.map((item) => Array(item.blanksCount).fill("")));
-    setAnswers(items.map(() => ""));
-    setShowCorrect(false);
-    setWrongMarks([]);
-  };
-
-  // =========================
-  // CHECK ANSWERS (🔥 FIXED)
-  // =========================
   const checkAnswers = () => {
-    if (showCorrect) return;
+    questions.forEach((q) => {
+      const canvas = canvasRefs.current[q.id];
+      const time = correctTimes[q.id];
 
-    // 1️⃣ Check blanks
-    for (let i = 0; i < items.length; i++) {
-      for (let j = 0; j < questionInputs[i].length; j++) {
-        if (!questionInputs[i][j]?.trim()) {
-          ValidationAlert.info(
-            "Oops!",
-            "Please complete all question blanks before checking.",
-          );
-          return;
-        }
-      }
-
-      // 2️⃣ Check answers
-      if (!answers[i]?.trim()) {
-        ValidationAlert.info(
-          "Oops!",
-          "Please complete all answers before checking.",
-        );
-        return;
-      }
-    }
-
-    let score = 0;
-    let total = 0;
-    let wrong = [];
-
-    items.forEach((item, i) => {
-      // blanks
-      item.questionAnswers.forEach((correctWord, idx) => {
-        total++;
-        if (
-          questionInputs[i][idx]?.trim().toLowerCase() ===
-          correctWord.toLowerCase()
-        ) {
-          score++;
-        } else {
-          wrong.push({ type: "question", qIndex: i, idx });
-        }
-      });
-
-      // answers
-      total++;
-      if (answers[i]?.trim().toLowerCase() === item.answer.toLowerCase()) {
-        score++;
-      } else {
-        wrong.push({ type: "answer", qIndex: i });
-      }
+      drawCorrectTime(canvas, time.h, time.m);
     });
 
-    setWrongMarks(wrong);
-    setShowCorrect(true);
-
-    const color = score === total ? "green" : score === 0 ? "red" : "orange";
-
-    const msg = `
-      <div style="font-size:20px;text-align:center;">
-        <span style="color:${color};font-weight:bold">
-          Score: ${score} / ${total}
-        </span>
-      </div>
-    `;
-
-    if (score === total) ValidationAlert.success(msg);
-    else if (score === 0) ValidationAlert.error(msg);
-    else ValidationAlert.warning(msg);
+    setLocked(true);
   };
-
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: "30px",
+      }}
+    >
       <div
+        className="div-forall"
         style={{
           display: "flex",
           flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "30px",
+          // gap: "20px",
+          width: "60%",
+          justifyContent: "flex-start",
         }}
       >
-        <div className="div-forall" style={{ width: "60%" }}>
-          <h5 className="header-title-page8">
-            <span className="ex-A">D</span>Complete the conversations.
-          </h5>
+        <h5 className="header-title-page8">
+          <span style={{ marginRight: "15px" }} className="ex-A">
+            D
+          </span>
+          Read and then draw the time.{" "}
+        </h5>
+        {/* TOOLS */}
+        <div className="flex gap-3 mb-8 mt-6">
+          <button
+            onClick={() => setTool("pen")}
+            className={`px-4 py-1 rounded-md ${
+              tool === "pen" ? "bg-blue-600 text-white" : "bg-gray-200"
+            }`}
+          >
+            ✏️ Pen
+          </button>
 
-          {/* WORD BANK */}
-          <Droppable droppableId="bank" isDropDisabled={showCorrect}>
-            {(provided) => (
-              <div
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-                style={{
-                  display: "flex",
-                  gap: "10px",
-                  padding: "10px",
-                  border: "2px dashed #ccc",
-                  borderRadius: "10px",
-                  justifyContent: "center",
-                }}
-              >
-                {wordBank.map((word, index) => (
-                  <Draggable
-                    key={word}
-                    draggableId={`word-${word}`}
-                    index={index}
-                    isDragDisabled={showCorrect}
-                  >
-                    {(provided) => (
-                      <span
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        style={{
-                          padding: "7px 14px",
-                          border: "2px solid #2c5287",
-                          borderRadius: "8px",
-                          background: "white",
-                          fontWeight: "bold",
-                          cursor: "grab",
-                          ...provided.draggableProps.style,
-                        }}
-                      >
-                        {word}
-                      </span>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-
-          {/* CONTENT */}
-
-          {items.map((item, i) => {
-            return (
-              <div className="content-CB-unit4-p6-q1">
-                <div className="CB-unit4-p6-q1-img-container">
-                   <span className="CB-unit4-p6-q1-index">{i + 1}</span>
-                  <img
-                    src={farmImg}
-                    alt=""
-                    style={{ height: "150px", width: "200px" }}
-                  />
-                </div>
-                <div key={i} className="question-box-CB-unit4-p6-q1">
-                  <div className="CB-unit4-p6-q1-title-container">
-                    <span className="CB-unit4-p6-q1-index">{i + 1}</span>
-                    <p style={{ width: "100%", display: "flex" }}>
-                      {item.questionParts.map((part, idx) => {
-                        if (part === "") {
-                          const blankIndex =
-                            item.questionParts
-                              .slice(0, idx + 1)
-                              .filter((p) => p === "").length - 1;
-
-                          return (
-                            <Droppable
-                              key={idx}
-                              droppableId={`q-${i}-${blankIndex}`}
-                              isDropDisabled={showCorrect}
-                            >
-                              {(provided, snapshot) => (
-                                <span
-                                  ref={provided.innerRef}
-                                  {...provided.droppableProps}
-                                  className={`question-blank-CB-unit4-p6-q1 ${
-                                    snapshot.isDraggingOver
-                                      ? "drag-over-cell"
-                                      : ""
-                                  }`}
-                                >
-                                  {questionInputs[i][blankIndex]}
-                                  {provided.placeholder}
-                                </span>
-                              )}
-                            </Droppable>
-                          );
-                        }
-
-                        return (
-                          <span
-                            key={idx}
-                            style={{ width: "100%", fontSize: "18px" }}
-                          >
-                            {" "}
-                            {part}{" "}
-                          </span>
-                        );
-                      })}
-                    </p>
-                  </div>
-                  <Droppable
-                    droppableId={`a-${i}`}
-                    isDropDisabled={showCorrect}
-                  >
-                    {(provided, snapshot) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                        className={`answer-input-CB-unit4-p6-q1  ${
-                          snapshot.isDraggingOver ? "drag-over-cell" : ""
-                        }`}
-                      >
-                        {answers[i]}
-                        {provided.placeholder}
-                      </div>
-                    )}
-                  </Droppable>
-                </div>
-              </div>
-            );
-          })}
+          <button
+            onClick={() => setTool("eraser")}
+            className={`px-4 py-1 rounded-md ${
+              tool === "eraser" ? "bg-blue-600 text-white" : "bg-gray-200"
+            }`}
+          >
+            🧽 Eraser
+          </button>
         </div>
 
-        {/* BUTTONS */}
+        {/* MAIN */}
+        <div className="flex flex-col gap-8 mt-6">
+          {questions.map((q) => (
+            <div key={q.id} className="flex items-center justify-between">
+              {/* TEXT */}
+              <div className="flex gap-3 text-[18px] w-[70%]">
+                <span className="font-bold">{q.id}</span>
+                <span>{q.text}</span>
+              </div>
+
+              {/* CLOCK */}
+              <canvas
+                ref={(el) => (canvasRefs.current[q.id] = el)}
+                width={90}
+                height={90}
+                style={{
+                  backgroundImage: `url(${q.img})`,
+                  backgroundRepeat: "no-repeat",
+                  backgroundSize: "contain",
+                  backgroundPosition: "center",
+                  cursor:
+                    tool === "eraser"
+                      ? `url(${eraserCursor}) 12 12, auto`
+                      : `url(${pencilCursor}) 4 28, auto`,
+                }}
+                className="shrink-0"
+                onMouseDown={(e) => startDrawing(e, q.id)}
+                onMouseMove={(e) => draw(e, q.id)}
+                onMouseUp={() => stopDrawing(q.id)}
+                onMouseLeave={() => stopDrawing(q.id)}
+                onTouchStart={(e) => startDrawing(e, q.id)}
+                onTouchMove={(e) => {
+                  e.preventDefault();
+                  draw(e, q.id);
+                }}
+                onTouchEnd={() => stopDrawing(q.id)}
+              />
+            </div>
+          ))}
+        </div>
         <div className="action-buttons-container">
-          <button onClick={resetAll} className="try-again-button">
+          <button onClick={resetCanvas} className="try-again-button">
             Start Again ↻
           </button>
-          <button onClick={showAnswers} className="show-answer-btn">
-            Show Answer
-          </button>
           <button onClick={checkAnswers} className="check-button2">
-            Check Answer ✓
+            Show Answer
           </button>
         </div>
       </div>
-    </DragDropContext>
+    </div>
   );
 };
 
-export default Unit4_Page6_Q1;
+export default Unit6_Page6_Q1;

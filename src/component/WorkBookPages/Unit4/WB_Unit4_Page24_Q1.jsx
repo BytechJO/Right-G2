@@ -29,7 +29,12 @@ const WB_Unit4_Page24_Q1 = () => {
     setAnswers({ ...answers, [id]: value });
     setShowResults(false);
   };
+  const isWrong = (q) => {
+    if (!showResults) return false;
+    if (!answers[q.id]) return false;
 
+    return answers[q.id] !== q.correct;
+  };
   const checkAnswers = () => {
     let score = 0;
 
@@ -70,73 +75,94 @@ const WB_Unit4_Page24_Q1 = () => {
   };
 
   return (
-    <div className="p-8 rounded-3xl max-w-3xl mx-auto">
+    <div className="main-container-component">
+      <div className="div-forall" style={{ gap: "20px" }}>
+        <h1 className="WB-header-title-page8">
+          <span className="WB-ex-A">G</span>Look, read, and write{" "}
+          <span style={{ color: "navy" }}>✓</span>.
+        </h1>
 
-      <div className="flex items-center gap-4 mb-8">
-        <div className="ex-A">G</div>
-        <h1 className="header-title-page8">Look, read, and write ✓.</h1>
-      </div>
+        <div className="space-y-10">
+          {questions.map((q) => (
+            <div
+              key={q.id}
+              className="flex flex-col items-center text-center gap-4"
+            >
+              <p className={`mr-50 text-lg font-medium`}>
+                {q.id}. {q.question}
+              </p>
 
-      <div className="space-y-10">
-
-        {questions.map((q) => (
-          <div key={q.id} className="flex flex-col items-center text-center gap-4">
-
-            {/* السؤال */}
-            <p className={`mr-50 text-lg font-medium ${getColor(q)}`}>
-              {q.id}. {q.question}
-            </p>
-
-            {/* الصورة + الإجابة */}
-            <div className="grid grid-cols-2 items-center gap-45">
-
-
-
-              <img
-                src={placeholderImg}
-                className="max-w-28 max-h-24 object-contain"
-                alt="question"
-              />
-              <div>
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="radio"
-                    name={`q${q.id}`}
-                    checked={answers[q.id] === "yes"}
-                    onChange={() => handleChange(q.id, "yes")}
-                    className="cursor-pointer appearance-none w-5 h-5 border-2 border-gray-400 rounded-sm
-              checked:bg-blue-500 checked:border-blue-500"
-                  />
-                  Yes, I do.
-                </label>
-
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="radio"
-                    name={`q${q.id}`}
-                    checked={answers[q.id] === "no"}
-                    onChange={() => handleChange(q.id, "no")}
-                    className="cursor-pointer appearance-none w-5 h-5 border-2 border-gray-400 rounded-sm
-              checked:bg-blue-500 checked:border-blue-500"
-                  />
-                  No, I don’t.
-                </label>
+              <div className="grid grid-cols-2 items-center gap-45">
+                <img
+                  src={placeholderImg}
+                  className="max-w-28 max-h-24 object-contain"
+                  alt="question"
+                />
+                <div>
+                  <div className="relative">
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      {isWrong(q) && answers[q.id] === "yes" && (
+                        <div className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-sm font-bold shadow border-2 border-white">
+                          ✕
+                        </div>
+                      )}
+                      <input
+                        type="radio"
+                        name={`q${q.id}`}
+                        checked={answers[q.id] === "yes"}
+                        onChange={() => handleChange(q.id, "yes")}
+                        className="hidden"
+                      />
+                      <span
+                        className={`w-10 h-10 border-2 border-gray-400 rounded-sm flex items-center justify-center text-lg font-bold ${
+                          answers[q.id] === "yes"
+                            ? "text-red"
+                            : "text-transparent"
+                        }`}
+                      >
+                        ✓
+                      </span>
+                      Yes, I do.
+                    </label>
+                  </div>
+                  <div className="relative">
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      {isWrong(q) && answers[q.id] === "no" && (
+                        <div className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-sm font-bold shadow border-2 border-white">
+                          ✕
+                        </div>
+                      )}
+                      <input
+                        type="radio"
+                        name={`q${q.id}`}
+                        checked={answers[q.id] === "no"}
+                        onChange={() => handleChange(q.id, "no")}
+                        className="hidden"
+                      />
+                      <span
+                        className={`w-10 h-10 border-2 border-gray-400 rounded-sm flex items-center justify-center text-lg font-bold ${
+                          answers[q.id] === "no"
+                            ? "text-red"
+                            : "text-transparent"
+                        }`}
+                      >
+                        ✓
+                      </span>
+                      No, I don’t.
+                    </label>
+                  </div>
+                </div>
               </div>
-
-
             </div>
+          ))}
+        </div>
 
-          </div>
-        ))}
-
+        <Button
+          checkAnswers={checkAnswers}
+          handleShowAnswer={handleShowAnswer}
+          handleStartAgain={handleStartAgain}
+        />
       </div>
-
-      <Button
-        checkAnswers={checkAnswers}
-        handleShowAnswer={handleShowAnswer}
-        handleStartAgain={handleStartAgain}
-      />
-
     </div>
   );
 };
