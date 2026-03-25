@@ -1,15 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
-import page_5 from "../../../assets/imgs/pages/Right 2 Unit 1 Stellas Family_00001/Right 2 Unit 1 Stellas Family_00005.jpg";
+import page_5 from "../../../assets/imgs/unit1/pages/Untitled-15.png";
 import Rabbit from "../../../assets/Page 01/Rabbit.svg";
-import img1_letter from "../../../assets/imgs/test.png"; //-------should change-------
-import img2_letter from "../../../assets/imgs/test.png"; //-------should change-------
-import img3_letter from "../../../assets/imgs/test.png"; //-------should change-------
-import img4_letter from "../../../assets/imgs/test.png"; //-------should change-------
-import repeat1_conversation from "../../../assets/imgs/test.png"; //-------should change-------
-import repeat2_conversation from "../../../assets/imgs/test.png"; //-------should change-------
-import sound_conversation from "../../../assets/imgs/test.png";
+import img1_letter from "../../../assets/imgs/unit1/Page 4-5/Page5-listen1.svg"; //-------should change-------
+import img2_letter from "../../../assets/imgs/unit1/Page 4-5/Page5-listen2.svg"; //-------should change-------
+import img3_letter from "../../../assets/imgs/unit1/Page 4-5/Page5-listen3.svg"; //-------should change-------
+import img4_letter from "../../../assets/imgs/unit1/Page 4-5/Page5-listen4.svg"; //-------should change-------
 import allSound_letter from "../../../assets/audio/ClassBook/U 1/Pg5_Instruction1_Adult Lady.mp3";
-import read from "../../../assets/Page 01/P1 listen and repeat 01.svg";
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 import ReadChoose from "../../ReadChoose";

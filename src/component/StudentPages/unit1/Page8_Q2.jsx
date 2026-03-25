@@ -7,21 +7,21 @@ import { TbMessageCircle } from "react-icons/tb";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
 // Example images imports. Replace with your actual paths.
-import img1a from "../../../assets/imgs/test.png";
-import img1b from "../../../assets/imgs/test.png";
-import img1c from "../../../assets/imgs/test.png";
+import img1a from "../../../assets/imgs/unit1/Page 8/Page8-Ex A 2-1.svg";
+import img1b from "../../../assets/imgs/unit1/Page 8/Page8-Ex A 2-2.svg";
+import img1c from "../../../assets/imgs/unit1/Page 8/Page8-Ex A 2-3.svg";
 
-import img2a from "../../../assets/imgs/test.png";
-import img2b from "../../../assets/imgs/test.png";
-import img2c from "../../../assets/imgs/test.png";
+import img2a from "../../../assets/imgs/unit1/Page 8/Page8-Ex A 2-2-1.svg";
+import img2b from "../../../assets/imgs/unit1/Page 8/Page8-Ex A 2-2-2.svg";
+import img2c from "../../../assets/imgs/unit1/Page 8/Page8-Ex A 2-2-3.svg";
 
-import img3a from "../../../assets/imgs/test.png";
-import img3b from "../../../assets/imgs/test.png";
-import img3c from "../../../assets/imgs/test.png";
+import img3a from "../../../assets/imgs/unit1/Page 8/Page8-Ex A 2-3-1.svg";
+import img3b from "../../../assets/imgs/unit1/Page 8/Page8-Ex A 2-3-2.svg";
+import img3c from "../../../assets/imgs/unit1/Page 8/Page8-Ex A 2-3-3.svg";
 
-import img4a from "../../../assets/imgs/test.png";
-import img4b from "../../../assets/imgs/test.png";
-import img4c from "../../../assets/imgs/test.png";
+import img4a from "../../../assets/imgs/unit1/Page 8/Page8-Ex A 2-4-1.svg";
+import img4b from "../../../assets/imgs/unit1/Page 8/Page8-Ex A 2-4-2.svg";
+import img4c from "../../../assets/imgs/unit1/Page 8/Page8-Ex A 2-4-3.svg";
 
 const Page8_Q2 = () => {
   const groups = [

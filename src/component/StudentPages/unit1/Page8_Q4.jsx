@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Page8_Q4.css";
-
+import img1 from "../../../assets/imgs/unit1/Page 8/Page8-Ex C 1.svg"
+import img2 from "../../../assets/imgs/unit1/Page 8/Page8-Ex C 2.svg"
 const Page8_Q4 = () => {
   const grid = [
   "d","t","h","e","y","t","a","d","g","b","n","m","v","g","l","i","k","e","x","n","s","r","o","l","t","o",
@@ -158,12 +159,15 @@ const Page8_Q4 = () => {
               );
             })}
           </div>
-
+          <div className="flex justify-center items-center">
+       <img src={img1} style={{height:"90px",width:"90px"}}/>
           <input
             className="answer-input-CB-unit3-p5-q4"
             value={sentence}
             readOnly
           />
+          <img src={img2} style={{height:"90px",width:"90px"}}/>
+          </div>
         </div>
       </div>
 

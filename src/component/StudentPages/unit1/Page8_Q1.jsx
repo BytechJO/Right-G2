@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import img1 from "../../../assets/imgs/test.png";
-import img2 from "../../../assets/imgs/test.png";
-import img3 from "../../../assets/imgs/test.png";
+import img1 from "../../../assets/imgs/unit1/Page 8/Page8-Ex A 1-1.svg";
+import img2 from "../../../assets/imgs/unit1/Page 8/Page8-Ex A 1-2.svg";
+import img3 from "../../../assets/imgs/unit1/Page 8/Page8-Ex A 1-3.svg";
 import img4 from "../../../assets/imgs/test.png";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
@@ -197,8 +197,9 @@ const Page8_Q1 = () => {
           <div className="CB-unit1-p8-q1-grid">
             {items.map((item, i) => (
               <div className="CB-unit1-p8-q1-box" key={i}>
-                <img src={item.img} className="CB-unit1-p8-q1-image" />
-
+                <div style={{height:"150px"}}>
+                  <img src={item.img} className="CB-unit1-p8-q1-image" />
+                </div>
                 {/* f / v circles */}
                 <div className="CB-unit1-p8-q1-choices">
                   {["l", "r"].map((letter) => (

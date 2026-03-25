@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
-import page4 from "../../../assets/imgs/pages/Right 2 Unit 1 Stellas Family_00001/Right 2 Unit 1 Stellas Family_00004.jpg";
+import page4 from "../../../assets/imgs/unit1/pages/Untitled-14.png";
 import allUnitSound from "../../../assets/audio/ClassBook/U 1/CD1.Pg4.U1_Intro_Adult Lady.mp3";
 import Rabbit from "../../../assets/Page 01/Rabbit.svg";
-import img1 from "../../../assets/imgs/test.png";
-import img2 from "../../../assets/imgs/test.png";
-import img3 from "../../../assets/imgs/test.png";
-import img4 from "../../../assets/imgs/test.png";
+import img1 from "../../../assets/imgs/unit1/Page 4-5/Page4-listen1.svg";
+import img2 from "../../../assets/imgs/unit1/Page 4-5/Page4-listen2.svg";
+import img3 from "../../../assets/imgs/unit1/Page 4-5/Page4-listen3.svg";
+import img4 from "../../../assets/imgs/unit1/Page 4-5/Page4-listen4.svg";
 import sound1_letter from "../../../assets/audio/ClassBook/U 1/Pg4_1.1_Adult Lady.mp3";
 import sound2_letter from "../../../assets/audio/ClassBook/U 1/Pg4_1.2_Adult Lady.mp3";
 import sound3_letter from "../../../assets/audio/ClassBook/U 1/Pg4_1.3_Adult Lady.mp3";

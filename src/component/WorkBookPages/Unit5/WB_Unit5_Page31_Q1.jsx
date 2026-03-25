@@ -109,7 +109,7 @@ export default function WB_Unit5_Page31_Q1() {
                   <div className="flex flex-col">
                     <button
                       onClick={() => handleSelect(q.id, "likes")}
-                      className={`px-3 py-1 rounded-full font-semibold text-sm transition-all
+                      className={`px-3 py-1 rounded-full font-semibold text-sm
                     ${
                       selected === "likes"
                         ? showAnswer
@@ -125,7 +125,7 @@ export default function WB_Unit5_Page31_Q1() {
 
                     <button
                       onClick={() => handleSelect(q.id, "doesn't like")}
-                      className={`px-3 py-1 rounded-full font-semibold text-sm transition-all
+                      className={`px-3 py-1 rounded-full font-semibold text-sm
                     ${
                       selected === "doesn't like"
                         ? showAnswer

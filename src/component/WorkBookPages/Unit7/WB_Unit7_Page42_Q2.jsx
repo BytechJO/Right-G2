@@ -1,180 +1,395 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   DndContext,
   closestCenter,
-  KeyboardSensor,
   PointerSensor,
   useSensor,
   useSensors,
-} from '@dnd-kit/core';
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
-  useSortable,
-} from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import ValidationAlert from '../../Popup/ValidationAlert';
-import Button from '../button';
+  useDraggable,
+  useDroppable,
+} from "@dnd-kit/core";
+import { CSS } from "@dnd-kit/utilities";
+import ValidationAlert from "../../Popup/ValidationAlert";
+import Button from "../button";
 
-const exerciseDataP = {
+const exerciseData = {
   sentences: [
-    { id: 'p1', words: ['flight', 'attendant'], correct: ['flight', 'attendant'], question: 'My mom is a _______ _______.', hint: 'My mom is a flight attendant.' },
-    { id: 'p2', words: ['suitcase'], correct: ['suitcase'], question: 'She can pack her _______.', hint: 'She can pack her suitcase.' },
-    { id: 'p3', words: ['souvenir', 'shop'], correct: ['souvenir', 'shop'], question: 'He is looking at the things in the _______.', hint: 'He is looking at the things in the souvenir shop.' },
-    { id: 'p4', words: ['arrival', 'of', 'the', 'airplane'], correct: ['arrival', 'of', 'the', 'airplane'], question: 'We saw the _______ _______ _______ _______.', hint: 'We saw the arrival of the airplane.' },
-    { id: 'p5', words: ['pilot'], correct: ['pilot'], question: 'The _______ walked to the plane.', hint: 'The pilot walked to the plane.' },
+    {
+      id: "1",
+      words: [
+        { scrambled: ["l", "g", "t", "i", "h", "f"], correct: "flight" },
+        {
+          scrambled: ["t", "e", "d", "a", "t", "n", "a", "t", "n"],
+          correct: "attendant",
+        },
+      ],
+      questionParts: ["My mom is a ", " ", "."],
+    },
+    {
+      id: "2",
+      words: [
+        {
+          scrambled: ["s", "e", "a", "c", "t", "i", "u", "s"],
+          correct: "suitcase",
+        },
+      ],
+      questionParts: ["She can pack her ", "."],
+    },
+    {
+      id: "3",
+      words: [
+        {
+          scrambled: ["n","i","r","v","e","u","o","s"],
+          correct: "souvenir",
+        },
+        { scrambled: ["p","o","s","h"], correct: "shop" },
+      ],
+      questionParts: ["He is looking at the things in the ", " ", "."],
+    },
+    {
+      id: "4",
+      words: [
+        { scrambled: ["l","v","a","i","r","r","a"], correct: "arrival" },
+        {
+          scrambled: ["n","e","a","l","p","r","i","a"],
+          correct: "airplane",
+        },
+      ],
+      questionParts: ["We saw the ", " of the ", "."],
+    },
+    {
+      id: "5",
+      words: [{ scrambled: ["l", "t", "o", "p", "i"], correct: "pilot" }],
+      questionParts: ["The ", " walked to the plane."],
+    },
   ],
 };
 
-const DropZone = ({ id, items, isCorrect }) => {
-  const { setNodeRef } = useSortable({ id });
+const buildInitialAnswers = () => {
+  const initial = {};
+  exerciseData.sentences.forEach((sentence) => {
+    initial[sentence.id] = sentence.words.map(() => "");
+  });
+  return initial;
+};
 
-  const bgColor = isCorrect === undefined ? 'bg-gray-50' : isCorrect ? 'bg-green-50' : 'bg-red-50';
-  const borderColor = isCorrect === undefined ? 'border-gray-300' : isCorrect ? 'border-green-500' : 'border-red-500';
+const buildInitialUsedLetters = () => {
+  const initial = {};
+  exerciseData.sentences.forEach((sentence) => {
+    initial[sentence.id] = sentence.words.map(() => []);
+  });
+  return initial;
+};
+
+const DraggableLetter = ({ id, letter, disabled }) => {
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id,
+    data: { letter },
+    disabled,
+  });
+
+  const style = {
+    transform: CSS.Translate.toString(transform),
+  };
 
   return (
-    <div
+    <button
       ref={setNodeRef}
-      className={`${bgColor} border-2 ${borderColor} rounded-lg p-4 min-h-16 flex flex-wrap gap-2 items-center justify-start`}
+      style={style}
+      type="button"
+      {...listeners}
+      {...attributes}
+      disabled={disabled}
+      className={`px-2 py-1 rounded-lg font-bold border-2 ${
+        disabled
+          ? "bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed"
+          : "bg-gray-200 text-gray-800 border-gray-300 cursor-grab active:cursor-grabbing hover:bg-gray-300"
+      }`}
     >
-      {items.length === 0 ? (
-        <span className="text-gray-400 text-sm">Drop words here</span>
-      ) : (
-        items.map((item, idx) => (
-          <span key={idx} className="bg-white border-2 border-gray-300 px-3 py-1 rounded font-semibold text-gray-800">
-            {item}
-          </span>
-        ))
+      {letter}
+    </button>
+  );
+};
+
+const WordDropZone = ({
+  dropId,
+  value,
+  showResults,
+  isCorrect,
+  onRemoveLastLetter,
+}) => {
+  const { setNodeRef, isOver } = useDroppable({
+    id: dropId,
+  });
+
+  let resultClass = "border-gray-400 text-gray-800 bg-white";
+
+  if (showResults) {
+    resultClass = isCorrect
+      ? "border-blue-500 text-black bg-gray-50"
+      : "border-blue-500 text-black bg-gray-50";
+  } else if (isOver) {
+    resultClass = "border-blue-500 text-gray-800 bg-blue-50";
+  }
+
+  return (
+    <div className="relative inline-block">
+      <button
+        ref={setNodeRef}
+        type="button"
+        onClick={onRemoveLastLetter}
+        disabled={showResults}
+        className={`min-w-[130px] min-h-[40px] px-4 py-2 border-2 border-dashed rounded-lg font-semibold text-center ${resultClass}`}
+      >
+        {value}
+      </button>
+
+      {showResults && value && !isCorrect && (
+        <div className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold shadow border-2 border-white">
+          ✕
+        </div>
       )}
     </div>
   );
 };
 
 const WB_Unit7_Page42_Q2 = () => {
-  const [answers, setAnswers] = useState({});
+  const [answers, setAnswers] = useState(buildInitialAnswers);
+  const [usedLetters, setUsedLetters] = useState(buildInitialUsedLetters);
   const [showResults, setShowResults] = useState(false);
 
   const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+    useSensor(PointerSensor, {
+      activationConstraint: { distance: 4 },
+    })
   );
 
   const handleDragEnd = (event) => {
     if (showResults) return;
+
     const { active, over } = event;
-    if (!over) return;
+    if (!active || !over) return;
 
-    const allSentenceIds = exerciseDataP.sentences.map(s => s.id);
-    const activeSentenceId = allSentenceIds.find(id => active.id.toString().startsWith(id));
-    const overSentenceId = allSentenceIds.find(id => over.id.toString().startsWith(id));
-    if (activeSentenceId !== overSentenceId) return;
+    const activeId = String(active.id);
+    const overId = String(over.id);
 
-    const sentenceId = activeSentenceId;
-    const currentAnswer = answers[sentenceId] || [];
-    const activeIndex = currentAnswer.findIndex(item => item === active.id);
-    const overIndex = currentAnswer.findIndex(item => item === over.id);
-    if (activeIndex === -1 || overIndex === -1) return;
+    if (!activeId.startsWith("letter-") || !overId.startsWith("drop-")) return;
 
-    const newAnswer = arrayMove(currentAnswer, activeIndex, overIndex);
-    setAnswers(prev => ({ ...prev, [sentenceId]: newAnswer }));
+    const [, fromSentenceId, fromWordIndex, fromLetterIndex] = activeId.split("-");
+    const [, toSentenceId, toWordIndex] = overId.split("-");
+
+    if (fromSentenceId !== toSentenceId || fromWordIndex !== toWordIndex) return;
+
+    const sentenceId = fromSentenceId;
+    const wordIndex = Number(toWordIndex);
+    const letterIndex = Number(fromLetterIndex);
+
+    const sentence = exerciseData.sentences.find((s) => s.id === sentenceId);
+    if (!sentence) return;
+
+    const letter = sentence.words[wordIndex].scrambled[letterIndex];
+    const correctLength = sentence.words[wordIndex].correct.length;
+
+    const currentWord = answers[sentenceId][wordIndex] || "";
+    const currentUsed = usedLetters[sentenceId][wordIndex] || [];
+
+    if (currentUsed.includes(letterIndex)) return;
+    if (currentWord.length >= correctLength) return;
+
+    const newAnswers = { ...answers };
+    const newUsedLetters = { ...usedLetters };
+
+    newAnswers[sentenceId] = [...newAnswers[sentenceId]];
+    newUsedLetters[sentenceId] = [...newUsedLetters[sentenceId]];
+
+    newAnswers[sentenceId][wordIndex] = currentWord + letter;
+    newUsedLetters[sentenceId][wordIndex] = [...currentUsed, letterIndex];
+
+    setAnswers(newAnswers);
+    setUsedLetters(newUsedLetters);
   };
 
-  const handleAddWord = (sentenceId, word) => {
+  const handleRemoveLastLetter = (sentenceId, wordIndex) => {
     if (showResults) return;
-    const currentAnswer = answers[sentenceId] || [];
-    if (!currentAnswer.includes(word)) {
-      setAnswers(prev => ({ ...prev, [sentenceId]: [...currentAnswer, word] }));
-    }
+
+    const currentWord = answers[sentenceId][wordIndex];
+    const currentUsed = usedLetters[sentenceId][wordIndex];
+
+    if (!currentWord || !currentUsed.length) return;
+
+    const newAnswers = { ...answers };
+    const newUsedLetters = { ...usedLetters };
+
+    newAnswers[sentenceId] = [...newAnswers[sentenceId]];
+    newUsedLetters[sentenceId] = [...newUsedLetters[sentenceId]];
+
+    newAnswers[sentenceId][wordIndex] = currentWord.slice(0, -1);
+    newUsedLetters[sentenceId][wordIndex] = currentUsed.slice(0, -1);
+
+    setAnswers(newAnswers);
+    setUsedLetters(newUsedLetters);
   };
 
-  const handleRemoveWord = (sentenceId, word) => {
-    if (showResults) return;
-    const currentAnswer = answers[sentenceId] || [];
-    setAnswers(prev => ({ ...prev, [sentenceId]: currentAnswer.filter(w => w !== word) }));
-  };
-
-  const checkAnswers = () => {
-    const unanswered = exerciseDataP.sentences.filter(s => !answers[s.id] || answers[s.id].length === 0);
-    if (unanswered.length > 0) { ValidationAlert.info(); return; }
-
-    setShowResults(true);
-    let score = 0;
-    exerciseDataP.sentences.forEach(sentence => {
-      const userAnswer = answers[sentence.id] || [];
-      if (JSON.stringify(userAnswer) === JSON.stringify(sentence.correct)) score++;
-    });
-
-    if (score === exerciseDataP.sentences.length) ValidationAlert.success(`Score: ${score} / ${exerciseDataP.sentences.length}`);
-    else if (score > 0) ValidationAlert.warning(`Score: ${score} / ${exerciseDataP.sentences.length}`);
-    else ValidationAlert.error(`Score: ${score} / ${exerciseDataP.sentences.length}`);
+  const handleStartAgain = () => {
+    setAnswers(buildInitialAnswers());
+    setUsedLetters(buildInitialUsedLetters());
+    setShowResults(false);
   };
 
   const handleShowAnswer = () => {
     const correctAnswers = {};
-    exerciseDataP.sentences.forEach(s => { correctAnswers[s.id] = s.correct; });
+    const correctUsed = {};
+
+    exerciseData.sentences.forEach((sentence) => {
+      correctAnswers[sentence.id] = sentence.words.map((word) => word.correct);
+      correctUsed[sentence.id] = sentence.words.map((word) =>
+        word.scrambled.map((_, idx) => idx)
+      );
+    });
+
     setAnswers(correctAnswers);
+    setUsedLetters(correctUsed);
     setShowResults(true);
   };
 
-  const handleStartAgain = () => { setAnswers({}); setShowResults(false); };
+  const checkAnswers = () => {
+    const hasIncomplete = exerciseData.sentences.some((sentence) =>
+      sentence.words.some((word, wordIndex) => {
+        const answer = answers[sentence.id][wordIndex] || "";
+        return answer.length !== word.correct.length;
+      })
+    );
+
+    if (hasIncomplete) {
+      ValidationAlert.info();
+      return;
+    }
+
+    let score = 0;
+
+    exerciseData.sentences.forEach((sentence) => {
+      const isSentenceCorrect = sentence.words.every((word, wordIndex) => {
+        return answers[sentence.id][wordIndex] === word.correct;
+      });
+
+      if (isSentenceCorrect) score++;
+    });
+
+    setShowResults(true);
+
+    if (score === exerciseData.sentences.length) {
+      ValidationAlert.success(`Score: ${score} / ${exerciseData.sentences.length}`);
+    } else if (score > 0) {
+      ValidationAlert.warning(`Score: ${score} / ${exerciseData.sentences.length}`);
+    } else {
+      ValidationAlert.error(`Score: ${score} / ${exerciseData.sentences.length}`);
+    }
+  };
 
   return (
-    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-      <div className="p-8 max-w-5xl mx-auto bg-white rounded-lg">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="ex-A">H</div>
-          <h1 className="header-title-page8">
-            Read and look. Unscramble the word. Rewrite the sentence.
-          </h1>
-        </div>
+    <div className="main-container-component">
+      <div className="div-forall">
+        <h1 className="WB-header-title-page8">
+          <span className="WB-ex-A">H</span>
+          Read and look. Unscramble the word. Rewrite the sentence.
+        </h1>
 
-        <div className="space-y-8 mb-8">
-          {exerciseDataP.sentences.map((sentence, idx) => {
-            const currentAnswer = answers[sentence.id] || [];
-            const isCorrect = JSON.stringify(currentAnswer) === JSON.stringify(sentence.correct);
-
-            return (
-              <div key={sentence.id} className="border-l-4 border-blue-500 pl-6 py-4 bg-blue-50 rounded-r-lg">
-                <p className="text-lg text-gray-700 mb-4">
-                  <span className="font-bold">{idx + 1}.</span> {sentence.question}
-                </p>
-
-                <SortableContext items={currentAnswer} strategy={verticalListSortingStrategy}>
-                  <DropZone id={`${sentence.id}-drop`} items={currentAnswer} isCorrect={showResults ? isCorrect : undefined} />
-                </SortableContext>
-
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {sentence.words.map(word => (
-                    <button
-                      key={word}
-                      onClick={() => currentAnswer.includes(word) ? handleRemoveWord(sentence.id, word) : handleAddWord(sentence.id, word)}
-                      disabled={showResults}
-                      className={`px-3 py-2 rounded-lg font-semibold cursor-pointer transition-all ${
-                        currentAnswer.includes(word)
-                          ? 'bg-green-200 text-green-800 border-2 border-green-500'
-                          : 'bg-gray-200 text-gray-800 border-2 border-gray-300 hover:bg-gray-300'
-                      }`}
-                    >
-                      {word}
-                    </button>
-                  ))}
-                </div>
-
-                {showResults && (
-                  <p className="text-sm text-gray-600 mt-3">
-                    <span className="font-semibold">Correct answer:</span> {sentence.hint}
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <div className="p-6 space-y-8">
+            {exerciseData.sentences.map((sentence, idx) => {
+              return (
+                <div key={sentence.id} className="bg-blue-50 p-4 rounded-lg">
+                  <p className="text-lg mb-5 leading-10">
+                    <span className="font-bold">{idx + 1}.</span>{" "}
+                    {sentence.questionParts.map((part, partIndex) => (
+                      <React.Fragment key={partIndex}>
+                        {part}
+                        {partIndex < sentence.words.length && (
+                          <span className="inline-block mx-1 px-1 border-b-2 border-gray-500 font-semibold tracking-wide">
+                            {sentence.words[partIndex].scrambled.join("")}
+                          </span>
+                        )}
+                      </React.Fragment>
+                    ))}
                   </p>
-                )}
-              </div>
-            );
-          })}
-        </div>
 
-        <Button handleStartAgain={handleStartAgain} handleShowAnswer={handleShowAnswer} checkAnswers={checkAnswers} />
+                  <div
+                    className="space-y-2 flex flex-wrap"
+                    style={{ justifyContent: "space-around" }}
+                  >
+                    {sentence.words.map((word, wordIndex) => {
+                      const value = answers[sentence.id][wordIndex] || "";
+                      const isCorrect = value === word.correct;
+
+                      return (
+                        <div
+                          key={`${sentence.id}-${wordIndex}`}
+                          className="space-y-2"
+                        >
+                          <WordDropZone
+                            dropId={`drop-${sentence.id}-${wordIndex}`}
+                            value={value}
+                            showResults={showResults}
+                            isCorrect={isCorrect}
+                            onRemoveLastLetter={() =>
+                              handleRemoveLastLetter(sentence.id, wordIndex)
+                            }
+                          />
+
+                          <div className="flex flex-wrap gap-2">
+                            {word.scrambled.map((letter, letterIndex) => {
+                              const isUsed = usedLetters[sentence.id][wordIndex].includes(
+                                letterIndex
+                              );
+
+                              return (
+                                <DraggableLetter
+                                  key={`letter-${sentence.id}-${wordIndex}-${letterIndex}`}
+                                  id={`letter-${sentence.id}-${wordIndex}-${letterIndex}`}
+                                  letter={letter}
+                                  disabled={showResults || isUsed}
+                                />
+                              );
+                            })}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {showResults && (
+                    <div className="mt-3 text-sm text-gray-600">
+                      <span className="font-semibold">Correct answer:</span>{" "}
+                      {sentence.questionParts.reduce((acc, part, index) => {
+                        acc.push(part);
+                        if (index < sentence.words.length) {
+                          acc.push(
+                            <span key={index} className="font-medium">
+                              {sentence.words[index].correct}
+                            </span>
+                          );
+                        }
+                        return acc;
+                      }, [])}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+
+            <Button
+              handleStartAgain={handleStartAgain}
+              handleShowAnswer={handleShowAnswer}
+              checkAnswers={checkAnswers}
+            />
+          </div>
+        </DndContext>
       </div>
-    </DndContext>
+    </div>
   );
 };
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import img from "../../../assets/imgs/test.png";
+import img from "../../../assets/imgs/unit1/Page 9/Page9-Ex E 1.svg";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import "./Page9_Q2.css";
@@ -134,7 +134,7 @@ const Page9_Q2 = () => {
                   src={img}
                   className="CB-unit1-p9-q2-shape-img"
                   alt=""
-                  style={{ height: "200px", width: "150px" }}
+                  
                 />
               </div>
               <div className="CB-unit1-p9-q2-rightSide">

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Page8_Q3.css";
-import img1 from "../../../assets/imgs/test.png";
-import img2 from "../../../assets/imgs/test.png";
+import img1 from "../../../assets/imgs/unit1/Page 8/Page8-Ex B 1.svg";
+import img2 from "../../../assets/imgs/unit1/Page 8/Page8-Ex B 2.svg";
+import img3 from "../../../assets/imgs/unit1/Page 8/Page8-Ex B 3.svg"
 
 const Page8_Q3 = () => {
   const [answers, setAnswers] = useState(Array(3).fill(null));
@@ -24,7 +25,7 @@ const Page8_Q3 = () => {
       correctIndex: 1,
     },
     {
-      img: img2,
+      img: img3,
       text: "",
       options: ["he", "she"],
       correctIndex: 0,

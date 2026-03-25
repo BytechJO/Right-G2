@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import img1 from "../../../assets/imgs/test.png";
-import img2 from "../../../assets/imgs/test.png";
+import img1 from "../../../assets/imgs/unit1/Page 9/Page9-Ex D 1.svg";
+import img2 from "../../../assets/imgs/unit1/Page 9/Page9-Ex D 2.svg";
 
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Page9_Q1.css";
