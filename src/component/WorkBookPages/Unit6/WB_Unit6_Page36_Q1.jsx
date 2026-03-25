@@ -32,7 +32,6 @@ const WB_Unit6_Page36_Q1 = () => {
   const containerRef = useRef(null);
   const elementRefs = useRef({});
 
-  // Hook لرسم وتحديث الخطوط
   useLayoutEffect(() => {
     const updateLines = () => {
       if (!containerRef.current) return;
@@ -67,7 +66,6 @@ const WB_Unit6_Page36_Q1 = () => {
     return () => window.removeEventListener("resize", updateLines);
   }, [matches]);
 
-  // منطق التعامل مع النقرات
   const handleLeftClick = (id) => {
     setSelectedLeft(id);
     setShowResults(false);
@@ -92,7 +90,6 @@ const WB_Unit6_Page36_Q1 = () => {
 
     const totalQuestions = exerciseData.left.length;
 
-    // تحقق إذا ترك المستخدم أسئلة فارغة
     const unanswered = Object.keys(exerciseData.correctMatches).some(
       (leftId) => !matches.hasOwnProperty(leftId),
     );
@@ -103,7 +100,6 @@ const WB_Unit6_Page36_Q1 = () => {
 
     let currentScore = 0;
 
-    // حساب عدد الإجابات الصحيحة
     Object.entries(exerciseData.correctMatches).forEach(
       ([leftId, correctRightId]) => {
         if (matches[leftId] === correctRightId) {
@@ -114,13 +110,12 @@ const WB_Unit6_Page36_Q1 = () => {
 
     const scoreMessage = `Score: ${currentScore} / ${totalQuestions}`;
 
-    // إعطاء التنبيه المناسب
     if (currentScore === totalQuestions) {
-      ValidationAlert.success(scoreMessage); // كل الإجابات صحيحة
+      ValidationAlert.success(scoreMessage);
     } else if (currentScore === 0) {
-      ValidationAlert.error(scoreMessage); // كل الإجابات خطأ
+      ValidationAlert.error(scoreMessage);
     } else {
-      ValidationAlert.warning(scoreMessage); // بعض الإجابات صحيحة وبعضها خطأ
+      ValidationAlert.warning(scoreMessage);
     }
   };
 
@@ -136,7 +131,6 @@ const WB_Unit6_Page36_Q1 = () => {
     setLines([]);
   };
 
-  // دوال تحديد الألوان
   const getLineColor = (lineId) => {
     if (!showResults) return "#ef4444";
     const [leftId] = lineId.split("-");
@@ -164,11 +158,17 @@ const WB_Unit6_Page36_Q1 = () => {
     return "bg-blue-500";
   };
 
+  const isLeftMatchWrong = (leftId) => {
+    if (!showResults) return false;
+    if (!matches[leftId]) return false;
+
+    return matches[leftId] !== exerciseData.correctMatches[leftId];
+  };
+
   return (
     <div className="main-container-component">
       <div className="div-forall" style={{ gap: "20px" }}>
         <h1 className="WB-header-title-page8">
-          {" "}
           <div className="WB-ex-A">E</div>Read, look, and match.
         </h1>
 
@@ -182,16 +182,26 @@ const WB_Unit6_Page36_Q1 = () => {
                 key={item.id}
                 className="flex items-center gap-6 justify-end"
               >
-               
-                <div className="text-right flex gap-5"> 
-                    <span className="text-xl font-bold text-blue-900">
-                  {item.id}
-                </span>
-                  <p className="text-xl text-gray-700 border-2 rounded p-2">
-                    {" "}
-                    {item.text}
-                  </p>
+                <div className="text-right flex gap-5 items-center">
+                  <span className="text-xl font-bold text-blue-900">
+                    {item.id}
+                  </span>
+
+                  <div className="relative">
+                    <p className="text-xl text-gray-700 border-2 rounded p-2">
+                      {item.text}
+                    </p>
+
+                    {isLeftMatchWrong(item.id) && (
+                      <div className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-red-500 flex items-center justify-center shadow-md z-10 border-2 border-white">
+                        <span className="text-white text-sm font-bold leading-none">
+                          ✕
+                        </span>
+                      </div>
+                    )}
+                  </div>
                 </div>
+
                 <div
                   ref={(el) => (elementRefs.current[`left-${item.id}`] = el)}
                   onClick={() => handleLeftClick(item.id)}
@@ -218,7 +228,6 @@ const WB_Unit6_Page36_Q1 = () => {
             ))}
           </div>
 
-          {/* SVG Container for Lines */}
           <svg className="absolute top-0 left-0 w-full h-full pointer-events-none">
             {lines.map((line) => (
               <line

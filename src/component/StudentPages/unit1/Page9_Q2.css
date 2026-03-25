@@ -154,10 +154,10 @@ grid-template-rows: repeat(2,1fr);
    IMAGE
 ================================ */
 .family-image-wrapper {
-  border: 3px solid #ff6b6b;
+  /* border: 3px solid #ff6b6b; */
   border-radius: 16px;
   padding: 12px;
-  width: 65%;
+  /* width: 65%; */
 }
 
 .CB-unit1-p9-q2-shape-img {

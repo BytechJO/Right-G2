@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import backgroundImage from "../../../assets/imgs/test.png";
+import backgroundImage from "../../../assets/imgs/unit1/pages/Page.png";
 import page2_2 from "../../../assets/imgs/test.png";
 import num1 from "../../../assets/imgs/test.png";
 import num2 from "../../../assets/imgs/test.png";

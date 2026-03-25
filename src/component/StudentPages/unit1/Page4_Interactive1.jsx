@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import backgroundImage from "../../../assets/imgs/test.png";
+import backgroundImage from "../../../assets/imgs/unit1/pages/Page.png";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Rabbit from "../../../assets/Page 01/Rabbit.svg";
 import MySVG from "../../../assets/imgs/test.png";
@@ -40,7 +40,7 @@ const Page4_Interactive1 = () => {
     if (!clickedPoint) {
       ValidationAlert.info(
         "Pay Attention!",
-        "Please click on a spot in the image before checking."
+        "Please click on a spot in the image before checking.",
       );
       return;
     }
@@ -100,7 +100,7 @@ const Page4_Interactive1 = () => {
         >
           <img src={Rabbit} style={{ height: "50px", width: "auto" }} />{" "}
           <h5 className="header-title-page8">
-            I need your help. Can you help me find the restaurant in the
+            I need your help. Can you help me find Grandma and Grandpa in the
             picture?
           </h5>
         </div>

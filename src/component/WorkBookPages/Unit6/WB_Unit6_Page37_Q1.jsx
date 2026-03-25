@@ -94,7 +94,6 @@ const WB_Unit6_Page37_Q1 = () => {
 
     const totalQuestions = exerciseData.left.length;
 
-    // تحقق إذا ترك المستخدم أسئلة فارغة
     const unanswered = Object.keys(exerciseData.correctMatches).some(
       (leftId) => !matches.hasOwnProperty(leftId),
     );
@@ -105,7 +104,6 @@ const WB_Unit6_Page37_Q1 = () => {
 
     let currentScore = 0;
 
-    // حساب عدد الإجابات الصحيحة
     Object.entries(exerciseData.correctMatches).forEach(
       ([leftId, correctRightId]) => {
         if (matches[leftId] === correctRightId) {
@@ -116,13 +114,12 @@ const WB_Unit6_Page37_Q1 = () => {
 
     const scoreMessage = `Score: ${currentScore} / ${totalQuestions}`;
 
-    // إعطاء التنبيه المناسب
     if (currentScore === totalQuestions) {
-      ValidationAlert.success(scoreMessage); // كل الإجابات صحيحة
+      ValidationAlert.success(scoreMessage);
     } else if (currentScore === 0) {
-      ValidationAlert.error(scoreMessage); // كل الإجابات خطأ
+      ValidationAlert.error(scoreMessage);
     } else {
-      ValidationAlert.warning(scoreMessage); // بعض الإجابات صحيحة وبعضها خطأ
+      ValidationAlert.warning(scoreMessage);
     }
   };
 
@@ -163,6 +160,13 @@ const WB_Unit6_Page37_Q1 = () => {
     }
 
     return "bg-blue-500";
+  };
+
+  const isLeftMatchWrong = (leftId) => {
+    if (!showResults) return false;
+    if (!matches[leftId]) return false;
+
+    return matches[leftId] !== exerciseData.correctMatches[leftId];
   };
 
   return (
@@ -215,6 +219,7 @@ const WB_Unit6_Page37_Q1 = () => {
             </tbody>
           </table>
         </div>
+
         <div
           ref={containerRef}
           className="flex justify-between items-center gap-20 relative mb-20"
@@ -223,11 +228,20 @@ const WB_Unit6_Page37_Q1 = () => {
             {exerciseData.left.map((item) => (
               <div
                 key={item.id}
-                className="flex items-center gap-6 justify-end"
+                className="flex items-center gap-6 justify-start"
               >
-                <div className="text-right">
-                  <p className="text-xl text-gray-700">{item.text}</p>
+                <div className="relative">
+                  <p className="text-xl text-gray-700 w-55">{item.text}</p>
+
+                  {isLeftMatchWrong(item.id) && (
+                    <div className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-red-500 flex items-center justify-center shadow-md z-10 border-2 border-white">
+                      <span className="text-white text-sm font-bold leading-none">
+                        ✕
+                      </span>
+                    </div>
+                  )}
                 </div>
+
                 <div
                   ref={(el) => (elementRefs.current[`left-${item.id}`] = el)}
                   onClick={() => handleLeftClick(item.id)}
@@ -252,7 +266,6 @@ const WB_Unit6_Page37_Q1 = () => {
             ))}
           </div>
 
-          {/* SVG Container for Lines */}
           <svg className="absolute top-0 left-0 w-full h-full pointer-events-none">
             {lines.map((line) => (
               <line
