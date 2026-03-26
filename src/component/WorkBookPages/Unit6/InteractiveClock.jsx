@@ -1,10 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
-import { CheckCircle2 } from "lucide-react";
-import Button from "../button";
-import ValidationAlert from "../../Popup/ValidationAlert";
-/* =========================
-   Interactive Clock
-========================= */
+import { CheckCircle2, RotateCcw } from "lucide-react";
+
 const InteractiveClock = ({
   targetHour,
   targetMinute,
@@ -12,11 +8,9 @@ const InteractiveClock = ({
   onCorrect,
   size = 180,
   showFeedback = true,
-  showDigitalTime = true,
+  showDigitalTime = false,
   initialHour = 12,
   initialMinute = 0,
-  showAnswerTrigger = 0,
-  resetTrigger = 0,
 }) => {
   const [handPosition, setHandPosition] = useState({
     hour: initialHour % 12,
@@ -34,32 +28,14 @@ const InteractiveClock = ({
       handPosition.hour === normalizedTargetHour &&
       handPosition.minute === targetMinute;
 
-    setIsCorrect(isMatching);
-
-    if (onCorrect) {
-      onCorrect(isMatching);
+    if (isMatching && !isCorrect) {
+      setIsCorrect(true);
+      onCorrect?.(true);
+    } else if (!isMatching && isCorrect) {
+      setIsCorrect(false);
+      onCorrect?.(false);
     }
-  }, [handPosition, normalizedTargetHour, targetMinute, onCorrect]);
-
-  useEffect(() => {
-    if (showAnswerTrigger === 0) return;
-
-    setHandPosition({
-      hour: targetHour % 12,
-      minute: targetMinute,
-    });
-    setIsCorrect(true);
-  }, [showAnswerTrigger, targetHour, targetMinute]);
-
-  useEffect(() => {
-    if (resetTrigger === 0) return;
-
-    setHandPosition({
-      hour: initialHour % 12,
-      minute: initialMinute,
-    });
-    setIsCorrect(false);
-  }, [resetTrigger, initialHour, initialMinute]);
+  }, [handPosition, normalizedTargetHour, targetMinute, isCorrect, onCorrect]);
 
   const handleHandMouseDown = (hand) => {
     setDraggingHand(hand);
@@ -92,22 +68,14 @@ const InteractiveClock = ({
 
       if (draggingHand === "minute") {
         const minute = Math.round(angle / 6) % 60;
-        setHandPosition((prev) => ({
-          ...prev,
-          minute,
-        }));
+        setHandPosition((prev) => ({ ...prev, minute }));
       } else {
         const hour = Math.round(angle / 30) % 12;
-        setHandPosition((prev) => ({
-          ...prev,
-          hour,
-        }));
+        setHandPosition((prev) => ({ ...prev, hour }));
       }
     };
 
-    const handleUp = () => {
-      setDraggingHand(null);
-    };
+    const handleUp = () => setDraggingHand(null);
 
     if (draggingHand) {
       document.addEventListener("mousemove", handleMove);
@@ -128,6 +96,14 @@ const InteractiveClock = ({
   const hourRotation =
     ((handPosition.hour + handPosition.minute / 60) / 12) * 360;
 
+  const handleReset = () => {
+    setHandPosition({
+      hour: initialHour % 12,
+      minute: initialMinute,
+    });
+    setIsCorrect(false);
+  };
+
   const formatTime = (hour, minute) => {
     if (hour == null || minute == null) return "--:--";
 
@@ -136,7 +112,6 @@ const InteractiveClock = ({
 
     return `${h}:${m}`;
   };
-
   return (
     <div className="flex flex-col items-center gap-3">
       <div className="relative" style={{ width: size, height: size }}>
@@ -205,12 +180,10 @@ const InteractiveClock = ({
           />
         </svg>
 
-        {!isCorrect && showFeedback && (
+        {isCorrect && showFeedback && (
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-8 h-8 rounded-full bg-red-500 flex items-center justify-center shadow-md z-10 border-2 border-white">
-              <span className="text-white text-sm font-bold leading-none">
-                ✕
-              </span>
+            <div className="bg-green-500 rounded-full p-2 shadow-md">
+              <CheckCircle2 className="w-6 h-6 text-white" />
             </div>
           </div>
         )}
@@ -228,120 +201,16 @@ const InteractiveClock = ({
       <div className="text-center text-gray-700 font-medium min-h-[48px]">
         {label}
       </div>
+
+      {/* <button
+        onClick={handleReset}
+        className="flex items-center gap-2 px-3 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded-lg text-sm"
+      >
+        <RotateCcw className="w-4 h-4" />
+        Reset
+      </button> */}
     </div>
   );
 };
 
-/* =========================
-   Questions
-========================= */
-const questions = [
-  { id: 1, hour: 10, minute: 0, text: "It is ten o’clock." },
-  { id: 2, hour: 3, minute: 30, text: "It is half past three." },
-  { id: 3, hour: 5, minute: 0, text: "It is five o’clock." },
-  { id: 4, hour: 9, minute: 30, text: "It is half past nine." },
-  { id: 5, hour: 6, minute: 0, text: "It is six o’clock." },
-  { id: 6, hour: 2, minute: 30, text: "It is half past two." },
-];
-
-/* =========================
-   Main Component
-========================= */
-const ReadAndDrawClocks = () => {
-  const [correctMap, setCorrectMap] = useState({});
-  const [showAnswerTrigger, setShowAnswerTrigger] = useState(0);
-  const [resetTrigger, setResetTrigger] = useState(0);
-  const [checked, setChecked] = useState(false);
-
-  const handleClockCorrect = (id, value) => {
-    setCorrectMap((prev) => ({
-      ...prev,
-      [id]: value,
-    }));
-  };
-
-  const totalCorrect = Object.values(correctMap).filter(Boolean).length;
-
-  const checkAnswers = () => {
-    let currentScore = 0;
-
-    Object.values(correctMap).forEach((isCorrect) => {
-      if (isCorrect) currentScore++;
-    });
-
-    const total = questions.length;
-    const scoreMessage = `Your score: ${currentScore} / ${total}`;
-
-    if (currentScore === total) {
-      ValidationAlert.success(scoreMessage);
-    } else if (currentScore === 0) {
-      ValidationAlert.error(scoreMessage);
-    } else {
-      ValidationAlert.warning(scoreMessage);
-    }
-
-    setChecked(true);
-  };
-
-  const handleShowAnswer = () => {
-    setShowAnswerTrigger((prev) => prev + 1);
-    setChecked(true);
-  };
-
-  const handleStartAgain = () => {
-    setCorrectMap({});
-    setChecked(false);
-    setResetTrigger((prev) => prev + 1);
-  };
-
-  return (
-    <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
-        <h1 className="WB-header-title-page8">
-          <span className="WB-ex-A">F</span>
-          Read and draw.
-        </h1>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {questions.map((q) => (
-            <div key={q.id} className="flex flex-col items-center">
-              <div className="text-sm font-bold text-indigo-700 mb-2">
-                {q.id}
-              </div>
-
-              <InteractiveClock
-                targetHour={q.hour}
-                targetMinute={q.minute}
-                label={q.text}
-                size={170}
-                showDigitalTime={true}
-                showFeedback={checked}
-                initialHour={12}
-                initialMinute={0}
-                showAnswerTrigger={showAnswerTrigger}
-                resetTrigger={resetTrigger}
-                onCorrect={(value) => handleClockCorrect(q.id, value)}
-              />
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-8 text-center text-lg font-semibold text-purple-700">
-          <Button
-            handleShowAnswer={handleShowAnswer}
-            handleStartAgain={handleStartAgain}
-            checkAnswers={checkAnswers}
-          />
-        </div>
-
-        {checked && (
-          <div className="text-center mt-4 text-purple-700 font-bold">
-            Score: {totalCorrect} / {questions.length}
-          </div>
-        )}
-      </div>
-    </div>
-  );
-};
-
-export default ReadAndDrawClocks;
+export default InteractiveClock;

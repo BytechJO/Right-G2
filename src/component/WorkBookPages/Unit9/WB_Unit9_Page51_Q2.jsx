@@ -57,20 +57,43 @@ const SentenceBuilder = ({
     onUpdate(newChosenWords.map((w) => w.text).join(" "));
   };
 
-  const getBoxClassName = () => {
-    if (!showResult) {
-      return "border-gray-300 bg-white";
-    }
-    const userAnswer = chosenWords.map((w) => w.text).join(" ");
-    if (userAnswer.length === 0) {
-      return "border-gray-300 bg-white";
-    }
-  };
+const getBoxClassName = () => {
+  if (!showResult) {
+    return "border-gray-300 bg-white";
+  }
+
+  const userAnswer = chosenWords.map((w) => w.text).join(" ");
+
+  if (!userAnswer) {
+    return "border-gray-300 bg-white";
+  }
+
+  const userWords = userAnswer
+    .replace(/[.,!?]/g, "")
+    .trim()
+    .split(/\s+/);
+
+  const correctWords = correct
+    .replace(/[.,!?]/g, "")
+    .trim()
+    .split(/\s+/);
+
+  const isCorrect =
+    userWords.length === correctWords.length &&
+    userWords.every((word, idx) => word === correctWords[idx]);
+
+  return isCorrect
+    ? "border-blue-400 bg-blue-50"
+    : "border-red-500"; // 👈 هون الحل
+};
 
   return (
     <div className="space-y-3">
-      <div className="flex flex-wrap gap-2 p-3 bg-gray-100 rounded-lg min-h-[50px] items-center">
-        <img src={src} className="max-w-24 max-h-24 object-contain" />
+      <div className="flex flex-wrap gap-10 p-3 bg-gray-100 rounded-lg min-h-[50px] items-center">
+        <img src={src} className="max-w-50 max-h-24 object-contain" />
+        <div className="flex flex-col justify-center gap-5 w-80">
+          <h5 className="text-lg">{scrambled.split(" ").join("/")}</h5>
+       <div className="flex gap-2">
         {availableWords.length > 0 ? (
           availableWords.map((word) => (
             <button
@@ -84,11 +107,13 @@ const SentenceBuilder = ({
         ) : (
           <p className="text-gray-400 text-sm"></p>
         )}
+         </div>
+        </div>
       </div>
 
       <div className="relative">
         <div
-          className={`flex flex-wrap gap-2 p-3 border-2 rounded-lg min-h-[60px] transition-colors duration-300 items-center ${getBoxClassName()}`}
+          className={`flex flex-wrap gap-2 p-3 border-2 border-dashed rounded-lg min-h-[60px] transition-colors duration-300 items-center ${getBoxClassName()}`}
         >
           {chosenWords.map((word) => (
             <button
@@ -221,13 +246,11 @@ const WB_Unit9_Page51_Q2 = () => {
   };
 
   return (
-    <div key={resetKey} className="main-container-component">
-      <div className="div-forall">
-
-        <div className="flex items-center gap-3 mb-6">
-          <div className="ex-A">B</div>
-          <h1 className="header-title-page8">Look and write sentences.</h1>
-        </div>
+    <div className="main-container-component">
+      <div className="div-forall" style={{ gap: "10px", marginBottom: "50px" }}>
+        <h1 className="WB-header-title-page8">
+          <span className="WB-ex-A">B</span>Look and write sentences.
+        </h1>
 
         <div className="space-y-4">
           {exerciseSentences.map((sentence, index) => (
@@ -240,6 +263,7 @@ const WB_Unit9_Page51_Q2 = () => {
               </span>
               <div className="flex-1">
                 <SentenceBuilder
+                key={sentence.id + resetKey} // 👈 الحل هون
                   id={sentence.id}
                   scrambled={sentence.scrambled}
                   correct={sentence.correct}
