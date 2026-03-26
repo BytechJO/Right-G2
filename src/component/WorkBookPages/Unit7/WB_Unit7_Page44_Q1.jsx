@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
+import { TbMessageCircle } from "react-icons/tb";
+import { FaPlay, FaPause } from "react-icons/fa";
+import { IoMdSettings } from "react-icons/io";
+import sound from "../../../assets/audio/WorkBook/titel G2/Unit 2.mp3";
 
 import boatImg from "../../../assets/imgs/test6.png";
 import snowImg from "../../../assets/imgs/test6.png";
@@ -63,6 +67,110 @@ const WB_Unit7_Page44_Q1 = () => {
     setLocked(false);
   };
 
+  const clickAudioRef = useRef(null);
+  const audioRef = useRef(null);
+  const stopAtSecond = 9;
+  const [paused, setPaused] = useState(false);
+
+  const [showSettings, setShowSettings] = useState(false);
+  const [volume, setVolume] = useState(1);
+  const settingsRef = useRef(null);
+  const [forceRender, setForceRender] = useState(0);
+  const [showContinue, setShowContinue] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [current, setCurrent] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [showCaption, setShowCaption] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(null);
+
+  const captions = [
+    {
+      start: 0,
+      end: 4.23,
+      text: "Page 8. Right Activities. Exercise A, number 1. ",
+    },
+    {
+      start: 4.25,
+      end: 8.28,
+      text: "Listen and write the missing letters. Number the pictures.  ",
+    },
+    { start: 8.3, end: 11.05, text: "1-tiger." },
+    { start: 11.07, end: 13.12, text: "2-taxi." },
+    { start: 13.14, end: 15.14, text: "3-duck." },
+    { start: 15.16, end: 17.13, text: "4-deer." },
+  ];
+
+  const updateCaption = (time) => {
+    const index = captions.findIndex(
+      (cap) => time >= cap.start && time <= cap.end,
+    );
+    setActiveIndex(index);
+  };
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    audio.currentTime = 0;
+    audio.play();
+
+    const interval = setInterval(() => {
+      if (audio.currentTime >= stopAtSecond) {
+        audio.pause();
+        setPaused(true);
+        setIsPlaying(false);
+        setShowContinue(true);
+        clearInterval(interval);
+      }
+    }, 100);
+
+    const handleEnded = () => {
+      const audio = audioRef.current;
+      audio.currentTime = 0;
+      setIsPlaying(false);
+      setPaused(false);
+      setActiveIndex(null);
+      setShowContinue(true);
+    };
+
+    audio.addEventListener("ended", handleEnded);
+
+    return () => {
+      clearInterval(interval);
+      audio.removeEventListener("ended", handleEnded);
+    };
+  }, []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setForceRender((prev) => prev + 1);
+    }, 1000);
+
+    if (activeIndex === -1 || activeIndex === null) return;
+
+    const el = document.getElementById(`caption-${activeIndex}`);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+
+    return () => clearInterval(timer);
+  }, [activeIndex]);
+
+  const togglePlay = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (audio.paused) {
+      audio.play();
+      setPaused(false);
+      setIsPlaying(true);
+    } else {
+      audio.pause();
+      setPaused(true);
+      setIsPlaying(false);
+    }
+  };
+
   return (
     <div className="main-container-component">
       <div className="div-forall">
@@ -70,6 +178,125 @@ const WB_Unit7_Page44_Q1 = () => {
           <span className="WB-ex-A">A</span>
           Listen and write <span className="text-blue-900">✓</span>.
         </h2>
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            margin: "30px 0px",
+            width: "100%",
+          }}
+        >
+          <div
+            className="audio-popup-read"
+            style={{
+              width: "50%",
+            }}
+          >
+            <div className="audio-inner player-ui">
+              <audio
+                ref={audioRef}
+                src={sound}
+                onTimeUpdate={(e) => {
+                  const time = e.target.currentTime;
+                  setCurrent(time);
+                  updateCaption(time);
+                }}
+                onLoadedMetadata={(e) => setDuration(e.target.duration)}
+              ></audio>
+
+              <div className="top-row">
+                <span className="audio-time">
+                  {new Date(current * 1000).toISOString().substring(14, 19)}
+                </span>
+
+                <input
+                  type="range"
+                  className="audio-slider"
+                  min="0"
+                  max={duration}
+                  value={current}
+                  onChange={(e) => {
+                    audioRef.current.currentTime = e.target.value;
+                    updateCaption(Number(e.target.value));
+                  }}
+                  style={{
+                    background: `linear-gradient(to right, #430f68 ${
+                      duration ? (current / duration) * 100 : 0
+                    }%, #d9d9d9ff ${
+                      duration ? (current / duration) * 100 : 0
+                    }%)`,
+                  }}
+                />
+
+                <span className="audio-time">
+                  {new Date(duration * 1000).toISOString().substring(14, 19)}
+                </span>
+              </div>
+
+              <div className="bottom-row">
+                <div
+                  className={`round-btn ${showCaption ? "active" : ""}`}
+                  style={{ position: "relative" }}
+                  onClick={() => setShowCaption(!showCaption)}
+                >
+                  <TbMessageCircle size={36} />
+                  <div
+                    className={`caption-inPopup ${showCaption ? "show" : ""}`}
+                    style={{ top: "100%", left: "10%" }}
+                  >
+                    {captions.map((cap, i) => (
+                      <p
+                        key={i}
+                        id={`caption-${i}`}
+                        className={`caption-inPopup-line2 ${
+                          activeIndex === i ? "active" : ""
+                        }`}
+                      >
+                        {cap.text}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+
+                <button className="play-btn2" onClick={togglePlay}>
+                  {isPlaying ? <FaPause size={26} /> : <FaPlay size={26} />}
+                </button>
+
+                <div className="settings-wrapper" ref={settingsRef}>
+                  <button
+                    className={`round-btn ${showSettings ? "active" : ""}`}
+                    onClick={() => setShowSettings(!showSettings)}
+                  >
+                    <IoMdSettings size={36} />
+                  </button>
+
+                  {showSettings && (
+                    <div className="settings-popup">
+                      <label>Volume</label>
+                      <input
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.05"
+                        value={volume}
+                        onChange={(e) => {
+                          const newVolume = Number(e.target.value);
+                          setVolume(newVolume);
+                          if (audioRef.current) {
+                            audioRef.current.volume = newVolume;
+                          }
+                        }}
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <audio ref={clickAudioRef} style={{ display: "none" }} />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {exerciseAData.map((item) => (
@@ -83,10 +310,7 @@ const WB_Unit7_Page44_Q1 = () => {
               <div className="flex flex-col gap-3">
                 {item.options.map((opt) => {
                   const isSelected = answersA[item.id] === opt;
-                  const isWrong =
-                    checked &&
-                    isSelected &&
-                    opt !== item.correct;
+                  const isWrong = checked && isSelected && opt !== item.correct;
 
                   return (
                     <div key={opt} className="flex items-center gap-4">
@@ -110,8 +334,6 @@ const WB_Unit7_Page44_Q1 = () => {
                               ✓
                             </span>
                           )}
-
-                          
                         </div>
 
                         {/* ❌ Wrong Icon */}

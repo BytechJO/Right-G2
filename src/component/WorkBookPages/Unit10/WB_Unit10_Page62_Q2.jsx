@@ -4,37 +4,75 @@ import { useState } from "react";
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import img from "../../../assets/imgs/test6.png";
-
+import img1 from "../../../assets/imgs/test1.png";
+import img2 from "../../../assets/imgs/test1.png";
+import img3 from "../../../assets/imgs/test1.png";
+import img4 from "../../../assets/imgs/test1.png";
 const questions = [
-  { id: 1, emoji: "🪑", parts: ["d", "sk"],  options: ["e", "ee", "ea"], correct: "e"  },
-  { id: 2, emoji: "💚", parts: ["gr", "n"],  options: ["e", "ee", "ea"], correct: "ee" },
-  { id: 3, emoji: "✏️", parts: ["p", "n"],   options: ["e", "ee", "ea"], correct: "e"  },
-  { id: 4, emoji: "📖", parts: ["r", "d"],   options: ["e", "ee", "ea"], correct: "ea" },
+  {
+    id: 1,
+    emoji: img1,
+    parts: ["d", "sk"],
+    options: ["e", "ee", "ea"],
+    correct: "e",
+  },
+  {
+    id: 2,
+    emoji: img2,
+    parts: ["gr", "n"],
+    options: ["e", "ee", "ea"],
+    correct: "ee",
+  },
+  {
+    id: 3,
+    emoji: img3,
+    parts: ["p", "n"],
+    options: ["e", "ee", "ea"],
+    correct: "e",
+  },
+  {
+    id: 4,
+    emoji: img4,
+    parts: ["r", "d"],
+    options: ["e", "ee", "ea"],
+    correct: "ea",
+  },
 ];
 
 const correctAnswers = { 1: "e", 2: "ee", 3: "e", 4: "ea" };
 
 export default function WB_Unit10_Page62_Q2() {
-  const [answers, setAnswers]       = useState({});
+  const [answers, setAnswers] = useState({});
   const [showResult, setShowResult] = useState(false);
-  const [score, setScore]           = useState(null);
-  const [resetKey, setResetKey]     = useState(0);
+  const [score, setScore] = useState(null);
+  const [resetKey, setResetKey] = useState(0);
 
   const handleSelect = (qId, val) => {
     if (showResult) return;
-    setAnswers(prev => ({ ...prev, [qId]: prev[qId] === val ? undefined : val }));
+
+    setAnswers((prev) => ({
+      ...prev,
+      [qId]: prev[qId] === val ? undefined : val,
+    }));
   };
 
   const checkAnswers = () => {
-    const answered = questions.filter(q => answers[q.id]).length;
+    const answered = questions.filter((q) => answers[q.id]).length;
+
     if (answered < questions.length) {
       ValidationAlert.warning("Please answer all questions before checking.");
       return;
     }
+
     let correct = 0;
-    questions.forEach(q => { if (answers[q.id] === correctAnswers[q.id]) correct++; });
+
+    questions.forEach((q) => {
+      if (answers[q.id] === correctAnswers[q.id]) correct++;
+    });
+
     setScore(correct);
     setShowResult(true);
+
     correct === questions.length
       ? ValidationAlert.success(`Score: ${correct}/${questions.length}`)
       : ValidationAlert.error(`Score: ${correct}/${questions.length}`);
@@ -50,77 +88,102 @@ export default function WB_Unit10_Page62_Q2() {
     setAnswers({});
     setShowResult(false);
     setScore(null);
-    setResetKey(k => k + 1);
+    setResetKey((k) => k + 1);
+  };
+
+  // ✅ FIXED
+  const getCardClass = (qId) => {
+    const base =
+      "relative flex flex-col items-center gap-3 p-4 rounded-2xl border-2 transition-all duration-300 ";
+
+    if (!showResult || !answers[qId]) {
+      return base + "border-blue-600 bg-gray-50";
+    }
+
+    return answers[qId] === correctAnswers[qId]
+      ? base + "border-blue-600"
+      : base + "border-red-500";
   };
 
   const getOptClass = (qId, val) => {
     const isSelected = answers[qId] === val;
-    const base = "px-3 py-1 rounded-lg border-2 text-sm font-bold transition-all cursor-pointer ";
-    if (!isSelected) return base + "border-gray-300 text-gray-500 hover:border-blue-400 hover:bg-blue-50";
-    if (!showResult)  return base + "border-blue-500 bg-blue-500 text-white";
-    return answers[qId] === correctAnswers[qId]
-      ? base + "border-green-500 bg-green-500 text-white"
-      : base + "border-red-400 bg-red-400 text-white";
-  };
 
-  const getCardClass = (qId) => {
-    const base = "flex flex-col items-center gap-3 p-4 rounded-2xl border-2 transition-all ";
-    if (!showResult || !answers[qId]) return base + "border-gray-200 bg-gray-50";
+    const base =
+      "px-3 py-1 rounded-lg border-2 text-sm font-bold transition-all cursor-pointer ";
+
+    if (!isSelected) {
+      return (
+        base +
+        "border-blue-600 text-blue-900 hover:border-blue-400 hover:bg-blue-50"
+      );
+    }
+
+    if (!showResult) {
+      return base + "border-blue-500 bg-blue-500 text-white";
+    }
+
     return answers[qId] === correctAnswers[qId]
+      ? base + "border-blue-500 bg-blue-500 text-white"
+      : base + "border-blue-500 bg-blue-500 text-white";
   };
 
   return (
-    <div key={resetKey} className="p-6 max-w-3xl mx-auto font-sans">
-      <div className="flex items-center gap-4 mb-8">
-        <span className="ex-A">B</span>
-        <h1 className="header-title-page8">Look and write the missing letters.</h1>
-      </div>
+    <div key={resetKey} className="main-container-component">
+      <div className="div-forall" style={{ gap: "20px" }}>
+        <h1 className="WB-header-title-page8">
+          <span className="WB-ex-A">B</span>Look and write the missing letters.
+        </h1>
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
-        {questions.map(q => (
-          <div key={q.id} className={getCardClass(q.id)}>
-            <span className="text-xs font-bold text-blue-500 self-start">{q.id}</span>
-            <span className="text-4xl">{q.emoji}</span>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6 w-full">
+          {questions.map((q) => (
+            <div key={q.id} className={`${getCardClass(q.id)} w-full`}>
+              {/* ❌ Wrong Answer */}
+              {showResult &&
+                answers[q.id] &&
+                answers[q.id] !== correctAnswers[q.id] && (
+                  <div className="absolute -top-2 -right-2 w-7 h-7 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold border-2 border-white shadow">
+                    ✕
+                  </div>
+                )}
 
-            {/* Word with blank */}
-            <p className="text-base font-bold text-gray-700 tracking-wide">
-              {q.parts[0]}
-              <span className={`mx-1 px-1 rounded font-bold ${
-                showResult
-                  ? answers[q.id] === correctAnswers[q.id] ? "text-green-600" : "text-red-500"
-                  : answers[q.id] ? "text-blue-600" : "text-gray-300"
-              }`}>
-                {answers[q.id] || "__"}
+              <span className="text-lg font-bold text-blue-800 self-start">
+                {q.id}
               </span>
-              {q.parts[1]}
-            </p>
 
-            {/* Show correct if wrong */}
-            {showResult && answers[q.id] !== correctAnswers[q.id] && (
-              <span className="text-xs text-green-600 font-semibold">✓ {correctAnswers[q.id]}</span>
-            )}
+              <img src={q.emoji} className="max-w-45 max-h-30" />
 
-            {/* Options */}
-            {!showResult && (
+              {/* Word */}
+              <p className="text-base font-bold text-gray-700 tracking-wide">
+                {q.parts[0]}
+                <span className="mx-1 px-1 rounded font-bold text-blue-600">
+                  {answers[q.id] || "__"}
+                </span>
+                {q.parts[1]}
+              </p>
+
+              {/* Options */}
+
               <div className="flex gap-1 flex-wrap justify-center">
-                {q.options.map(opt => (
-                  <button key={opt} onClick={() => handleSelect(q.id, opt)} className={getOptClass(q.id, opt)}>
+                {q.options.map((opt) => (
+                  <button
+                    key={opt}
+                    onClick={() => handleSelect(q.id, opt)}
+                    className={getOptClass(q.id, opt)}
+                  >
                     {opt}
                   </button>
                 ))}
               </div>
-            )}
-          </div>
-        ))}
+            </div>
+          ))}
+        </div>
+
+        <Button
+          handleShowAnswer={handleShowAnswer}
+          handleStartAgain={handleStartAgain}
+          checkAnswers={checkAnswers}
+        />
       </div>
-
-      {score !== null && (
-        <p className={`text-center font-bold text-lg mb-4 ${score === questions.length ? "text-green-600" : "text-orange-500"}`}>
-          Score: {score} / {questions.length}
-        </p>
-      )}
-
-      <Button handleShowAnswer={handleShowAnswer} handleStartAgain={handleStartAgain} checkAnswers={checkAnswers} />
     </div>
   );
 }

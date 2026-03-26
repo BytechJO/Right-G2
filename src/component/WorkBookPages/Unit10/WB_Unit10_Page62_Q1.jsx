@@ -3,151 +3,242 @@
 import { useState } from "react";
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import img from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/test1.png";
+import img2 from "../../../assets/imgs/test1.png";
+import img3 from "../../../assets/imgs/test1.png";
+import img4 from "../../../assets/imgs/test1.png";
+import img5 from "../../../assets/imgs/test1.png";
+import img6 from "../../../assets/imgs/test1.png";
+import img7 from "../../../assets/imgs/test1.png";
+import img8 from "../../../assets/imgs/test1.png"
+const wordImages = {
+  sleep: img1,
+  feet: img2,
+  ten: img3,
+  bed: img4,
+  net: img5,
+  read: img6,
+  bread: img7,
+  green:img8
+};
+const wordBank = [
+  "sleep",
+  "feet",
+  "ten",
+  "bed",
+  "net",
+  "read",
+  "bread",
+  "green",
+];
 
-const wordBank = ["sleep", "feet", "ten", "bed", "net", "read", "bread"];
-
-const fixedWords = { ee: ["green"], e: [], ea: [] };
+const fixedWords = { ee: [], e: [], ea: [] };
 
 const correctAnswers = {
-  ee: ["sleep", "feet"],
-  e:  ["ten", "bed", "net"],
+  ee: ["green","sleep", "feet"],
+  e: ["ten", "bed", "net"],
   ea: ["read", "bread"],
 };
 
 const columns = [
   { id: "ee", label: "ee" },
-  { id: "e",  label: "e"  },
+  { id: "e", label: "e" },
   { id: "ea", label: "ea" },
 ];
 
 export default function WB_Unit10_Page62_Q1() {
-  const [placed, setPlaced]         = useState({ ee: [], e: [], ea: [] });
-  const [remaining, setRemaining]   = useState([...wordBank]);
+  const [placed, setPlaced] = useState({ ee: [], e: [], ea: [] });
+  const [selectedWord, setSelectedWord] = useState(null);
   const [showResult, setShowResult] = useState(false);
-  const [score, setScore]           = useState(null);
-  const [resetKey, setResetKey]     = useState(0);
+  const [score, setScore] = useState(null);
 
-  const addWord = (colId, word) => {
-    if (showResult) return;
-    setPlaced(prev => ({ ...prev, [colId]: [...prev[colId], word] }));
-    setRemaining(prev => prev.filter(w => w !== word));
-  };
-
-  const removeWord = (colId, word) => {
-    if (showResult) return;
-    setPlaced(prev => ({ ...prev, [colId]: prev[colId].filter(w => w !== word) }));
-    setRemaining(prev => [...prev, word].sort((a, b) => wordBank.indexOf(a) - wordBank.indexOf(b)));
-  };
+  // 🔥 الكلمات المستخدمة
+  const usedWords = Object.values(placed).flat();
 
   const checkAnswers = () => {
-    if (remaining.length > 0) {
-      ValidationAlert.warning("Please place all words before checking your answers.");
+    const totalPlaced = placed.ee.length + placed.e.length + placed.ea.length;
+
+    if (totalPlaced < wordBank.length) {
+      ValidationAlert.warning(
+        "Please place all words before checking your answers.",
+      );
       return;
     }
+
     let correct = 0;
-    columns.forEach(col => {
-      const userSorted  = [...placed[col.id]].sort().join(",");
+
+    columns.forEach((col) => {
+      const userSorted = [...placed[col.id]].sort().join(",");
       const rightSorted = [...correctAnswers[col.id]].sort().join(",");
       if (userSorted === rightSorted) correct++;
     });
+
     setScore(correct);
     setShowResult(true);
+
     correct === columns.length
       ? ValidationAlert.success(`Score: ${correct}/${columns.length}`)
       : ValidationAlert.error(`Score: ${correct}/${columns.length}`);
   };
 
   const handleShowAnswer = () => {
-    setPlaced({ ee: [...correctAnswers.ee], e: [...correctAnswers.e], ea: [...correctAnswers.ea] });
-    setRemaining([]);
+    setPlaced({
+      ee: [...correctAnswers.ee],
+      e: [...correctAnswers.e],
+      ea: [...correctAnswers.ea],
+    });
     setShowResult(true);
     setScore(columns.length);
   };
 
   const handleStartAgain = () => {
     setPlaced({ ee: [], e: [], ea: [] });
-    setRemaining([...wordBank]);
+    setSelectedWord(null);
     setShowResult(false);
     setScore(null);
-    setResetKey(k => k + 1);
   };
 
-  
-
   const getPlacedWordClass = (colId, word) => {
-    const base = "px-3 py-1 rounded-lg text-sm font-semibold border-2 cursor-pointer transition-all ";
-    if (!showResult) return base + "bg-blue-500 text-white border-blue-500 hover:bg-blue-600";
+    const base =
+      "px-3 py-1 rounded-lg text-lg w-20 font-semibold border-2 cursor-pointer transition-all ";
+
+    if (!showResult)
+      return base + "text-blue border-blue-500 hover:bg-blue-600";
+
     return correctAnswers[colId].includes(word)
-      ? base + "bg-gray-500 text-white border-green-500"
-      : base + "bg-gray-400 text-white border-red-400";
+      ? base + "text-blue border-blue-500"
+      : base + "text-blue border-red-400";
   };
 
   return (
-    <div key={resetKey} className="p-6 max-w-3xl mx-auto font-sans">
-      <div className="flex items-center gap-4 mb-6">
-        <span className="ex-A">A</span>
-        <h1 className="header-title-page8">
-          What are the middle letters of these words? Look and write the words in the correct place.
+    <div className="main-container-component">
+      <div className="div-forall" style={{ gap: "10px" }}>
+        <h1 className="WB-header-title-page8">
+          <span className="WB-ex-A">A</span>
+          What are the middle letters of these words? Look and write the words
+          in the correct place.
         </h1>
-      </div>
 
-      {/* Word bank */}
-      <div className="flex flex-wrap gap-2 p-4 bg-blue-50 border-2 border-blue-100 rounded-xl mb-6">
-        <span className="text-xs text-blue-400 font-bold w-full mb-1">Words:</span>
-        {remaining.map(word => (
-          <span key={word} className="px-3 py-1 rounded-lg text-sm font-semibold border bg-white text-gray-600 border-gray-300">
-            {word}
-          </span>
-        ))}
-        {remaining.length === 0 && <p className="text-gray-400 text-sm">All words placed ✓</p>}
-      </div>
+        {/* 🔥 Global Word Bank */}
+        <div className="flex flex-wrap gap-2 p-4 bg-blue-50 border-2 border-blue-100 rounded-xl mb-6">
+          {wordBank.map((word) => {
+            const isUsed = usedWords.includes(word);
 
-      {/* Columns */}
-      <div className="grid grid-cols-3 gap-4 mb-6">
-        {columns.map(col => (
-          <div key={col.id} className={`border-2 rounded-2xl p-4 min-h-[160px] transition-all`}>
-            {/* Header bubble */}
-            <div className="flex justify-center mb-3">
-              <span className="px-4 py-1 rounded-full border-2 border-gray-400 text-gray-600 font-bold text-sm bg-white">
-                {col.label}
-              </span>
-            </div>
+            return (
+              <div key={word} className="flex flex-col items-center gap-1">
+                {/* 🖼️ الصورة (NOT draggable) */}
+                <img
+                  src={wordImages[word]}
+                  alt={word}
+                  className="max-w-45 max-h-45 object-contain pointer-events-none"
+                />
 
-            {/* Fixed example words */}
-            {fixedWords[col.id].map(w => (
-              <p key={w} className="text-center text-green-500 font-semibold underline text-sm mb-1">{w}</p>
-            ))}
-
-            {/* Placed words */}
-            <div className="flex flex-col items-center gap-2 mb-3">
-              {placed[col.id].map(word => (
-                <button key={word} onClick={() => removeWord(col.id, word)} className={getPlacedWordClass(col.id, word)}>
+                {/* 🔥 الكلمة هي draggable */}
+                <div
+                  draggable={!isUsed && !showResult}
+                  onDragStart={() => setSelectedWord(word)}
+                  className={`px-3 py-1 rounded-lg text-lg font-semibold border transition-all
+          ${
+            isUsed
+              ? "bg-gray-200 text-gray-400 border-gray-200 cursor-not-allowed"
+              : "bg-white text-gray-600 border-gray-300 cursor-grab hover:bg-blue-50"
+          }
+        `}
+                >
                   {word}
-                </button>
-              ))}
-            </div>
-
-            {!showResult && remaining.length > 0 && (
-              <div className="flex flex-wrap justify-center gap-1 mt-2 pt-2 border-t border-dashed border-gray-200">
-                {remaining.map(word => (
-                  <button
-                    key={word}
-                    onClick={() => addWord(col.id, word)}
-                    className="px-2 py-1 text-xs bg-white border border-gray-300 rounded-lg hover:border-blue-400 hover:bg-blue-50 transition-all"
-                  >
-                    + {word}
-                  </button>
-                ))}
+                </div>
               </div>
-            )}
-          </div>
-        ))}
+            );
+          })}
+        </div>
+
+        {/* 🔥 Columns */}
+        <div className="grid grid-cols-3 gap-4 mb-6">
+          {columns.map((col) => {
+            const isWrong =
+              showResult &&
+              JSON.stringify([...placed[col.id]].sort()) !==
+                JSON.stringify([...correctAnswers[col.id]].sort());
+
+            return (
+              <div
+                key={col.id}
+                onDragOver={(e) => e.preventDefault()}
+                onDrop={() => {
+                  if (!selectedWord || showResult) return;
+
+                  setPlaced((prev) => {
+                    const updated = { ...prev };
+
+                    Object.keys(updated).forEach((key) => {
+                      updated[key] = updated[key].filter(
+                        (w) => w !== selectedWord,
+                      );
+                    });
+
+                    updated[col.id] = [...updated[col.id], selectedWord];
+
+                    return updated;
+                  });
+
+                  setSelectedWord(null);
+                }}
+                className="relative border-2 rounded-2xl p-4 min-h-[160px]"
+              >
+                {/* ❌ Wrong */}
+                {isWrong && (
+                  <div className="absolute -top-2 -right-2 w-7 h-7 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold border-2 border-white shadow">
+                    ✕
+                  </div>
+                )}
+
+                {/* Header */}
+                <div className="flex justify-center mb-3">
+                  <span className="px-4 py-1 w-15 text-center rounded-lg border-2 border-gray-400 text-gray-800 font-bold text-lg bg-white">
+                    {col.label}
+                  </span>
+                </div>
+
+                {/* Fixed Words */}
+                {fixedWords[col.id].map((w) => (
+                  <p
+                    key={w}
+                    className="text-center text-green-500 font-semibold underline text-lg mb-1"
+                  >
+                    {w}
+                  </p>
+                ))}
+
+                {/* Placed Words */}
+                <div className="flex flex-col items-center gap-2 mb-3">
+                  {placed[col.id].map((word) => (
+                    <button
+                      key={word}
+                      onClick={() => {
+                        if (showResult) return;
+
+                        setPlaced((prev) => ({
+                          ...prev,
+                          [col.id]: prev[col.id].filter((w) => w !== word),
+                        }));
+                      }}
+                      className={getPlacedWordClass(col.id, word)}
+                    >
+                      {word}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <Button
+          handleShowAnswer={handleShowAnswer}
+          handleStartAgain={handleStartAgain}
+          checkAnswers={checkAnswers}
+        />
       </div>
-
-      
-
-      <Button handleShowAnswer={handleShowAnswer} handleStartAgain={handleStartAgain} checkAnswers={checkAnswers} />
     </div>
   );
 }
