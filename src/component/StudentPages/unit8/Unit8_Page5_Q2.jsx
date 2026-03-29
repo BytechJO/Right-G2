@@ -20,7 +20,7 @@ const Unit8_Page5_Q2 = () => {
 
   const [answers, setAnswers] = useState({});
   const [locked, setLocked] = useState(false);
-
+const [showResult, setShowResult] = useState(false);
   const onDragEnd = (result) => {
     const { destination, draggableId } = result;
 
@@ -34,10 +34,11 @@ const Unit8_Page5_Q2 = () => {
     });
   };
 
-  const reset = () => {
-    setAnswers({});
-    setLocked(false);
-  };
+ const reset = () => {
+  setAnswers({});
+  setLocked(false);
+  setShowResult(false);
+};
 
   const show = () => {
     setAnswers(blanks);
@@ -59,86 +60,120 @@ const Unit8_Page5_Q2 = () => {
       if (answers[key] === blanks[key]) score++;
     });
 
+   const color = score === total ? "green" : score === 0 ? "red" : "orange";
+
     const msg = `
-    <div style="font-size:20px;text-align:center;">
-    <span style="color:#2e7d32;font-weight:bold">
-    Score: ${score} / ${total}
-    </span>
-    </div>`;
+      <div style="font-size:20px;text-align:center;">
+        <span style="color:${color};font-weight:bold">
+        Score: ${score} / ${total}
+        </span>
+      </div>
+    `;
 
     if (score === total) ValidationAlert.success(msg);
     else if (score === 0) ValidationAlert.error(msg);
     else ValidationAlert.warning(msg);
 
     setLocked(true);
+setShowResult(true);
   };
 
-  const Blank = ({ id }) => (
-    <Droppable droppableId={id}>
-      {(provided) => (
+ const Blank = ({ id }) => (
+  <Droppable droppableId={id}>
+    {(provided) => (
+      <span className="relative inline-block min-w-[90px] h-[50px] mx-2 text-center">
+
+        {/* ❌ */}
+        {isWrong(id) && (
+          <span className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold border-2 border-white shadow-md">
+            ✕
+          </span>
+        )}
+
         <span
           ref={provided.innerRef}
           {...provided.droppableProps}
-          className="inline-block min-w-[90px] border-b-2 border-black text-center mx-2"
+          className={`inline-block w-full h-full border-b-2
+            ${
+              isWrong(id)
+                ? "border-red-500"
+                : "border-black"
+            }
+          `}
         >
           {answers[id] && (
-            <span className="text-red-600 font-semibold">{answers[id]}</span>
+            <span className="text-red-600 font-semibold">
+              {answers[id]}
+            </span>
           )}
+
           {provided.placeholder}
         </span>
-      )}
-    </Droppable>
-  );
+      </span>
+    )}
+  </Droppable>
+);
+  const isWordUsed = (word) => {
+    return Object.values(answers).includes(word);
+  };
 
+  const isWrong = (id) => {
+  if (!showResult) return false;
+  return answers[id] !== blanks[id];
+};
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div
-        style={{ display: "flex", justifyContent: "center", padding: "30px" }}
-      >
-        <div className="div-forall" style={{ width: "60%" }}>
+      <div className="main-container-component">
+        <div className="div-forall" >
+          {" "}
           {/* ❌ الهيدر كما هو */}
           <h5 className="header-title-page8 mb-8">
             <span style={{ color: "#2e3192", marginRight: "20px" }}>2</span>Look
             and complete the poem. Then say.
           </h5>
           {/* word bank */}
-
           <Droppable droppableId="bank" direction="horizontal" isDropDisabled>
             {(provided) => (
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="flex gap-4 justify-center mt-6 mb-6"
+                className="flex gap-4 justify-center border-2 border-dashed border-gray-500 p-2 rounded-lg"
               >
-                {options
-                  .filter((w) => !Object.values(answers).includes(w))
-                  .map((word, i) => (
+                {options.map((word, index) => {
+                  const used = isWordUsed(word);
+
+                  return (
                     <Draggable
                       key={word}
-                      draggableId={`word-${word}`}
-                      index={i}
-                      isDragDisabled={locked}
+                      draggableId={word}
+                      index={index}
+                      isDragDisabled={locked || used}
                     >
                       {(provided) => (
-                        <span
+                        <div
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
-                          className="px-3 py-1 bg-yellow-200 rounded cursor-pointer font-semibold"
+                          className={`px-4 py-2 border rounded-lg shadow transition-all
+            ${
+              used
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed opacity-50"
+                : "bg-white cursor-grab hover:bg-gray-100"
+            }
+          `}
                         >
                           {word}
-                        </span>
+                        </div>
                       )}
                     </Draggable>
-                  ))}
+                  );
+                })}
 
                 {provided.placeholder}
               </div>
             )}
           </Droppable>
-
           {/* poem */}
-
           <div className="text-2xl leading-[60px] text-gray-700 mt-8">
             <div>
               <span className="text-[#2e3192] font-bold mr-4">1</span>

@@ -179,14 +179,15 @@ const Review6_Page2_Q3 = () => {
 
     const score = foundWords.length;
     const total = words.length;
+    const color = score === total ? "green" : score === 0 ? "red" : "orange";
 
     const msg = `
-    <div style="font-size:20px;text-align:center;">
-      <span style="font-weight:bold">
-        Score: ${score} / ${total}
-      </span>
-    </div>
-  `;
+      <div style="font-size:20px;text-align:center;">
+        <span style="color:${color};font-weight:bold">
+          Score: ${score} / ${total}
+        </span>
+      </div>
+    `;
 
     setIsChecked(true);
     setLocked(true);
@@ -224,24 +225,8 @@ const Review6_Page2_Q3 = () => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: "30px",
-      }}
-    >
-      <div
-        className="div-forall"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          width: "60%",
-          justifyContent: "flex-start",
-        }}
-      >
+    <div className="main-container-component">
+      <div className="div-forall" style={{ gap: "20px" }}>
         <h5 className="header-title-page8">
           <span style={{ marginRight: "20px" }}>F</span> Find the words.
         </h5>
@@ -250,7 +235,7 @@ const Review6_Page2_Q3 = () => {
           {/* GRID */}
           <div
             ref={gridRef}
-            className="bg-[#d8c2b3] border-2 border-red-500 rounded-xl p-5 select-none relative"
+            className="bg-[#f9e5dd] border-2 border-red-500 rounded-xl p-5 select-none relative"
             onMouseLeave={endSelection}
           >
             {grid.map((row, rowIndex) => (

@@ -33,12 +33,13 @@ const Unit8_Page5_Q3 = () => {
     2: "",
     3: "",
   });
-
+  const [showResult, setShowResult] = useState(false);
   const [locked, setLocked] = useState(false);
 
   const reset = () => {
     setAnswers({ 1: "", 2: "", 3: "" });
     setLocked(false);
+    setShowResult(false);
   };
 
   const showAnswers = () => {
@@ -79,11 +80,17 @@ const Unit8_Page5_Q3 = () => {
     else ValidationAlert.warning(message);
 
     setLocked(true);
+    setShowResult(true);
   };
+  const isWrong = (id) => {
+    if (!showResult) return false;
 
+    const q = questions.find((q) => q.id === id);
+    return answers[id] !== q.answer;
+  };
   return (
-    <div className="flex justify-center p-8">
-      <div className="w-[70%]">
+    <div className="main-container-component">
+      <div className="div-forall">
         <h5 className="header-title-page8 mb-8">
           <span className="ex-A">B </span>
           Count and write.
@@ -101,11 +108,23 @@ const Unit8_Page5_Q3 = () => {
                   <span className="text-[#2e3192] font-bold">{q.id}</span>
                   <p>{q.question}</p>
                 </div>
+                <div className="relative mt-2 h-10">
+                  {/* ❌ */}
+                  {isWrong(q.id) && (
+                    <span className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold border-2 border-white shadow-md">
+                      ✕
+                    </span>
+                  )}
 
-                <div className="border-b-2 border-black mt-2 py-1 text-lg min-h-10">
-                  <span className="text-red-600 font-semibold">
-                    {answers[q.id] && `I have ${answers[q.id]} ${q.type}.`}
-                  </span>
+                  <div
+                    className={`border-b-2 py-1 text-lg h-10
+      ${isWrong(q.id) ? "border-red-500" : "border-black"}
+    `}
+                  >
+                    <span className="text-blue-600 font-semibold">
+                      {answers[q.id] && `I have ${answers[q.id]} ${q.type}.`}
+                    </span>
+                  </div>
                 </div>
 
                 {/* OPTIONS FOR THIS QUESTION */}
@@ -121,7 +140,7 @@ const Unit8_Page5_Q3 = () => {
                         }))
                       }
                       className={`px-3 py-1 rounded border
-${answers[q.id] === opt ? "bg-yellow-300" : "bg-white"}
+${answers[q.id] === opt ? "bg-blue-500" : "bg-white"}
 `}
                     >
                       {opt}

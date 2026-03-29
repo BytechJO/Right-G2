@@ -1,81 +1,31 @@
+
 import React, { useState, useEffect } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Unit7_Page5_Q4.css";
 
 const Unit7_Page5_Q4 = () => {
   const [locked, setLocked] = useState(false);
+
   const grid = [
-    "o",
-    "u",
-    "p",
-    "i",
-    "l",
-    "o",
-    "t",
-    "s",
-    "i",
-    "v",
-    "a",
-    "l",
-    "t",
-    "w",
-    "p",
-    "d",
-    "f",
-    "r",
-    "s",
-    "k",
-    "c",
-    "a",
-    "n",
-    "v",
-    "d",
-    "t",
-    "a",
-    "v",
-    "r",
-    "y",
-    "x",
-    "f",
-    "l",
-    "y",
-    "x",
-    "c",
-    "l",
-    "f",
-    "c",
-    "x",
-    "v",
-    "c",
-    "s",
-    "x",
-    "t",
-    "e",
-    "b",
-    "t",
-    "x",
-    "z",
-    "a",
-    "i",
-    "r",
-    "p",
-    "l",
-    "a",
-    "n",
-    "e",
-    "s",
-    "x",
-    "o",
-    "y",
+    "o","u","p","i","l","o","t","s","i","v","a","l","t","w","p","d","f","r","s","k",
+    "c","a","n","v","d","t","a","v","r","y","x","f","l","y","x","c","l","f","c","x",
+    "v","c","s","x","t","e","b","t","x","z","a","i","r","p","l","a","n","e","s","x",
+    "o","y",
   ];
+
   const letters = grid;
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const wordsToFind = ["pilots", "fly", "planes"];
-  const [sentence, setSentence] = useState("");
 
+  // ✅ أماكن الكلمات (حسب الاندكس)
+  const wordPositions = {
+    pilots: [2, 3, 4, 5, 6, 7],
+    fly: [31, 32, 33],
+    planes: [ 53, 54, 55, 56, 57,58],
+  };
+
+  const [sentence, setSentence] = useState("");
   const [selected, setSelected] = useState([]);
-  const [currentWord, setCurrentWord] = useState("");
   const [foundWords, setFoundWords] = useState([]);
   const [coloredCells, setColoredCells] = useState([]);
 
@@ -85,107 +35,99 @@ const Unit7_Page5_Q4 = () => {
     if (selected.includes(index)) {
       const cutIndex = selected.indexOf(index);
       const newSelected = selected.slice(0, cutIndex);
-
-      const newWord = newSelected.map((i) => letters[i]).join("");
-
       setSelected(newSelected);
-      setCurrentWord(newWord);
       return;
     }
 
+    // ✅ فقط حروف قريبة (يمين/يسار)
+    if (selected.length > 0) {
+      const last = selected[selected.length - 1];
+      if (Math.abs(last - index) !== 1) return;
+    }
+
     setSelected((prev) => [...prev, index]);
-    setCurrentWord((prev) => prev + letter);
   };
 
+  // ✅ التصحيح بالـ index
   useEffect(() => {
-    if (
-      wordsToFind.includes(currentWord) &&
-      !foundWords.includes(currentWord)
-    ) {
-      setFoundWords((prev) => [...prev, currentWord]);
+    const sortedSelected = [...selected].sort((a, b) => a - b);
+
+    const foundWord = Object.keys(wordPositions).find((word) => {
+      const positions = wordPositions[word];
+      return JSON.stringify(positions) === JSON.stringify(sortedSelected);
+    });
+
+    if (foundWord && !foundWords.includes(foundWord)) {
+      setFoundWords((prev) => [...prev, foundWord]);
       setColoredCells((prev) => [...prev, ...selected]);
 
       setSentence((prev) =>
-        prev === "" ? currentWord : prev + " " + currentWord,
+        prev === "" ? foundWord : prev + " " + foundWord
       );
 
       setSelected([]);
-      setCurrentWord("");
     }
-  }, [currentWord, foundWords, selected, wordsToFind]);
+  }, [selected]);
 
   const checkAnswers = () => {
-      if (locked) return;
+    if (locked) return;
 
     const total = wordsToFind.length;
     const score = foundWords.length;
 
-    if (foundWords.length === 0) {
+    if (score === 0) {
       ValidationAlert.info(`
         <div style="font-size:20px;text-align:center;">
           <b>Find all the words first!</b><br/>
           <span style="color:#1d4f7b;font-weight:bold;">
-            Current Score: ${score} / ${total}
+            Score: ${score} / ${total}
           </span>
         </div>
       `);
       return;
     }
 
-    if (score === 0) {
-      ValidationAlert.error(`
-        <div style="font-size:20px;text-align:center;">
-          <b style="color:red;">Score: 0 / ${total}</b>
-        </div>
-      `);
-    } else if (score < total) {
-      ValidationAlert.warning(`
-        <div style="font-size:20px;text-align:center;">
-          <b style="color:orange;">Score: ${score} / ${total}</b>
-        </div>
-      `);
-    } else {
-      ValidationAlert.success(`
-        <div style="font-size:20px;text-align:center;">
-          <b style="color:green;">Score: ${score} / ${total}</b>
-        </div>
-      `);
-    }
+    const color =
+      score === total ? "green" : score === 0 ? "red" : "orange";
+
+    const msg = `
+      <div style="font-size:20px;text-align:center;">
+        <b style="color:${color};">Score: ${score} / ${total}</b>
+      </div>
+    `;
+
+    if (score === total) ValidationAlert.success(msg);
+    else if (score === 0) ValidationAlert.error(msg);
+    else ValidationAlert.warning(msg);
+
+    setLocked(true);
   };
+
   const reset = () => {
     setSelected([]);
-    setCurrentWord("");
     setFoundWords([]);
     setColoredCells([]);
-    setSentence(""); 
+    setSentence("");
     setLocked(false);
   };
 
   const showAnswers = () => {
     let allCells = [];
-    const fullString = letters.join("");
 
-    wordsToFind.forEach((word) => {
-      const startIndex = fullString.indexOf(word);
-
-      if (startIndex !== -1) {
-        for (let i = 0; i < word.length; i++) {
-          allCells.push(startIndex + i);
-        }
-      }
+    Object.values(wordPositions).forEach((positions) => {
+      allCells.push(...positions);
     });
 
     setFoundWords(wordsToFind);
     setColoredCells(allCells);
     setSelected([]);
-    setCurrentWord("");
     setSentence(wordsToFind.join(" "));
-     setLocked(true);
+    setLocked(true);
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: "center", padding: "30px" }}>
-      <div className="div-forall" style={{ width: "60%" }}>
+    <div className="main-container-component">
+      <div className="div-forall" style={{ gap: "20px" }}>
         <h5 className="header-title-page8" style={{ marginBottom: "20px" }}>
           <span className="ex-A">C </span>What do pilots do?
         </h5>
@@ -213,8 +155,9 @@ const Unit7_Page5_Q4 = () => {
                 <span
                   key={index}
                   className={`cell-CB-unit3-p5-q4 
-          ${isSelected ? "selected-CB-unit3-p5-q4" : ""}
-          ${isFound ? "found-cell-CB-unit3-p5-q4" : ""}`}
+                    ${isSelected ? "selected-CB-unit3-p5-q4" : ""}
+                    ${isFound ? "found-cell-CB-unit3-p5-q4" : ""}
+                  `}
                   onClick={() => handleClick(letter, index)}
                 >
                   {letter}
@@ -235,7 +178,7 @@ const Unit7_Page5_Q4 = () => {
         <button onClick={reset} className="try-again-button">
           Start Again ↻
         </button>
-        <button onClick={showAnswers} className="show-answer-btn swal-continue">
+        <button onClick={showAnswers} className="show-answer-btn">
           Show Answer
         </button>
         <button onClick={checkAnswers} className="check-button2">

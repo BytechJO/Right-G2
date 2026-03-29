@@ -140,116 +140,129 @@ const Review6_Page2_Q2 = () => {
     else ValidationAlert.warning(msg);
   };
 
+  const isWrong = (textIndex) => {
+    if (!isChecked) return false;
+
+    const line = lines.find((l) => {
+      const txt = l.from.type === "text" ? l.from.index : l.to.index;
+
+      return txt === textIndex;
+    });
+
+    if (!line) return false;
+
+    const imageIndex =
+      line.from.type === "image" ? line.from.index : line.to.index;
+
+    return correctMatches[imageIndex] !== textIndex;
+  };
   return (
-    <div
-      ref={containerRef}
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        padding: "30px",
-        position: "relative",
-      }}
-    >
-      <div className="div-forall" style={{ width: "60%" }}>
+    <div className="main-container-component relative" ref={containerRef}>
+      <div className="div-forall" style={{ gap: "20px" }}>
+        {" "}
         <h5 className="header-title-page8">
           <span style={{ marginRight: "20px" }}>E</span>
           Read, look, and match.
         </h5>
-        {images.map((item, i) => (
-          <div key={i} className="flex justify-between items-center my-3">
-            {/* WORD SIDE */}
-            <div className="w-[45%] flex justify-start">
-              <div className="relative inline-block">
-                <p
-                  onClick={() => handleDotClick(i, "text")}
-                  className={`px-5 py-1.5 rounded-full font-semibold text-[18px] cursor-pointer min-w-20 ${
-                    startDot?.index === i && startDot?.type === "text"
-                      ? "border-2 border-[#e74c3c] bg-[#fdecea]"
-                      : "bg-[#f6e6de]"
-                  }`}
-                >
-                  {words[i]}
-                </p>
+        <div>
+          {images.map((item, i) => (
+            <div key={i} className="flex justify-between items-center my-3">
+              {/* WORD SIDE */}
+              <div className="w-[45%] flex justify-start">
+                <div className="relative inline-block">
+                  <p
+                    onClick={() => handleDotClick(i, "text")}
+                    className={`px-5 py-1.5 rounded-full font-semibold text-[18px] cursor-pointer min-w-20 ${
+                      startDot?.index === i && startDot?.type === "text"
+                        ? "border-2 border-[#e74c3c] bg-[#fdecea]"
+                        : "bg-[#f6e6de]"
+                    }`}
+                  >
+                    {words[i]}
+                  </p>
+                  {isWrong(i) && (
+                    <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold border-2 border-white shadow-md">
+                      ✕
+                    </span>
+                  )}
+                  <div
+                    ref={(el) => (textDotRefs.current[i] = el)}
+                    onClick={() => handleDotClick(i, "text")}
+                    className="absolute -right-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-[#d82b2b] rounded-full cursor-pointer"
+                  />
+                </div>
+              </div>
 
+              {/* IMAGE SIDE */}
+              <div className="w-[35%] flex items-center justify-end gap-2">
                 <div
-                  ref={(el) => (textDotRefs.current[i] = el)}
-                  onClick={() => handleDotClick(i, "text")}
-                  className="absolute -right-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-[#d82b2b] rounded-full cursor-pointer"
+                  ref={(el) => (imageDotRefs.current[i] = el)}
+                  onClick={() => handleDotClick(i, "image")}
+                  className="w-3 h-3 bg-[#d82b2b] rounded-full cursor-pointer"
+                />
+
+                <img
+                  src={item.image}
+                  alt=""
+                  onClick={() => handleDotClick(i, "image")}
+                  style={{
+                    height: "60px",
+                    width: "auto",
+                    objectFit: "contain",
+                    cursor: "pointer",
+                    border:
+                      startDot?.index === i && startDot?.type === "image"
+                        ? "3px solid #e74c3c"
+                        : "none",
+                    transform:
+                      startDot?.index === i && startDot?.type === "image"
+                        ? "scale(1.05)"
+                        : "scale(1)",
+                  }}
                 />
               </div>
             </div>
+          ))}
+          {/* SVG */}
+          <svg className="absolute top-0 left-0 w-full h-full pointer-events-none">
+            {lines.map((line, i) => {
+              const imageIndex =
+                line.from.type === "image" ? line.from.index : line.to.index;
 
-            {/* IMAGE SIDE */}
-            <div className="w-[35%] flex items-center justify-end gap-2">
-              <div
-                ref={(el) => (imageDotRefs.current[i] = el)}
-                onClick={() => handleDotClick(i, "image")}
-                className="w-3 h-3 bg-[#d82b2b] rounded-full cursor-pointer"
-              />
+              const textIndex =
+                line.from.type === "text" ? line.from.index : line.to.index;
 
-              <img
-                src={item.image}
-                alt=""
-                onClick={() => handleDotClick(i, "image")}
-                style={{
-                  height: "60px",
-                  width: "auto",
-                  objectFit: "contain",
-                  cursor: "pointer",
-                  border:
-                    startDot?.index === i && startDot?.type === "image"
-                      ? "3px solid #e74c3c"
-                      : "none",
-                  transform:
-                    startDot?.index === i && startDot?.type === "image"
-                      ? "scale(1.05)"
-                      : "scale(1)",
-                }}
-              />
-            </div>
-          </div>
-        ))}
+              const imgDot = imageDotRefs.current[imageIndex];
+              const txtDot = textDotRefs.current[textIndex];
 
-        {/* SVG */}
-        <svg className="absolute top-0 left-0 w-full h-full pointer-events-none">
-          {lines.map((line, i) => {
-            const imageIndex =
-              line.from.type === "image" ? line.from.index : line.to.index;
+              if (!imgDot || !txtDot || !containerRef.current) return null;
 
-            const textIndex =
-              line.from.type === "text" ? line.from.index : line.to.index;
+              const imgRect = imgDot.getBoundingClientRect();
+              const txtRect = txtDot.getBoundingClientRect();
+              const containerRect =
+                containerRef.current.getBoundingClientRect();
 
-            const imgDot = imageDotRefs.current[imageIndex];
-            const txtDot = textDotRefs.current[textIndex];
+              const x1 = imgRect.left + imgRect.width / 2 - containerRect.left;
+              const y1 = imgRect.top + imgRect.height / 2 - containerRect.top;
 
-            if (!imgDot || !txtDot || !containerRef.current) return null;
+              const x2 = txtRect.left + txtRect.width / 2 - containerRect.left;
+              const y2 = txtRect.top + txtRect.height / 2 - containerRect.top;
 
-            const imgRect = imgDot.getBoundingClientRect();
-            const txtRect = txtDot.getBoundingClientRect();
-            const containerRect = containerRef.current.getBoundingClientRect();
-
-            const x1 = imgRect.left + imgRect.width / 2 - containerRect.left;
-            const y1 = imgRect.top + imgRect.height / 2 - containerRect.top;
-
-            const x2 = txtRect.left + txtRect.width / 2 - containerRect.left;
-            const y2 = txtRect.top + txtRect.height / 2 - containerRect.top;
-
-            return (
-              <line
-                key={i}
-                x1={x1}
-                y1={y1}
-                x2={x2}
-                y2={y2}
-                stroke="#e74c3c"
-                strokeWidth="3"
-                strokeLinecap="round"
-              />
-            );
-          })}
-        </svg>
-
+              return (
+                <line
+                  key={i}
+                  x1={x1}
+                  y1={y1}
+                  x2={x2}
+                  y2={y2}
+                  stroke="#e74c3c"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                />
+              );
+            })}
+          </svg>
+        </div>
         <div className="action-buttons-container">
           <button onClick={resetAll} className="try-again-button">
             Start Again ↻

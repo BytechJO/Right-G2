@@ -21,7 +21,7 @@ const Review5_Page2_Q3 = () => {
   const [selected, setSelected] = useState(Array(items.length).fill(""));
   const [answers, setAnswers] = useState(Array(items.length).fill(""));
   const [locked, setLocked] = useState(false);
-
+  const [showResult, setShowResult] = useState(false);
   const chooseOption = (i, value) => {
     if (locked) return;
 
@@ -78,66 +78,94 @@ const Review5_Page2_Q3 = () => {
     else ValidationAlert.warning(msg);
 
     setLocked(true);
+
+setShowResult(true); // 🔥 هذا الناقص
   };
 
   return (
-    <div className="flex justify-center p-8">
-      <div className="w-[80%]">
+    <div className="main-container-component">
+      <div className="div-forall" style={{ gap: "20px" }}>
         <h5 className="header-title-page8">
           <span className=" mr-4">F</span>
           Look, circle, and write.
         </h5>
-        <div className="flex justify-center">
-          <div className="grid grid-cols-3 gap-y-10 gap-x-[60px] mt-10 justify-center">
-            {items.map((item, i) => (
-              <div
-                key={i}
-                className="flex flex-col scale-[1.2] origin-top-left"
-              >
-                <div className="flex items-center gap-2.5">
-                  <span className="text-[20px] font-bold text-[#2a4e7c]">
-                    {i + 1}
-                  </span>
+        <div className="flex w-full">
+          <div className="grid grid-cols-3 gap-y-10 gap-x-[60px] mt-10 justify-center w-full">
+            {items.map((item, i) => {
+              const isWrong =
+                showResult && selected[i] && selected[i] !== item.correct;
 
-                  <img
-                    src={item.img}
-                    alt=""
-                    style={{
-                      width: "100px",
-                      height: "auto",
-                    }}
-                  />
-
-                  <div className="flex flex-col gap-1.5 text-[18px]">
-                    <span
-                      onClick={() => chooseOption(i, item.options[0])}
-                      className={`cursor-pointer px-2 py-0.5 ${
-                        selected[i] === item.options[0]
-                          ? "border-2 border-red-500 rounded-full"
-                          : "hover:bg-gray-100 rounded-full"
-                      }`}
-                    >
-                      {item.options[0]}
+              const isCorrect = showResult && selected[i] === item.correct;
+              return (
+                <div
+                  key={i}
+                  className="flex flex-col scale-[1.2] origin-top-left"
+                >
+                  <div className="flex gap-2.5">
+                    <span className="text-[20px] font-bold text-[#2a4e7c]">
+                      {i + 1}
                     </span>
 
-                    <span
-                      onClick={() => chooseOption(i, item.options[1])}
-                      className={`cursor-pointer px-2 py-0.5 ${
-                        selected[i] === item.options[1]
-                          ? "border-2 border-red-500 rounded-full"
-                          : "hover:bg-gray-100 rounded-full"
-                      }`}
+                    <img
+                      src={item.img}
+                      alt=""
+                      style={{
+                        width: "100px",
+                        height: "auto",
+                      }}
+                    />
+
+                    <div className="flex flex-col gap-1.5 text-[18px]">
+                      <span
+                        onClick={() => chooseOption(i, item.options[0])}
+                        className={`cursor-pointer px-2 py-0.5 ${
+                          selected[i] === item.options[0]
+                            ? "border-2 border-blue-500 rounded-full"
+                            : "hover:bg-gray-100 rounded-full"
+                        }`}
+                      >
+                        {item.options[0]}
+                      </span>
+
+                      <span
+                        onClick={() => chooseOption(i, item.options[1])}
+                        className={`cursor-pointer px-2 py-0.5 ${
+                          selected[i] === item.options[1]
+                            ? "border-2 border-blue-500 rounded-full"
+                            : "hover:bg-gray-100 rounded-full"
+                        }`}
+                      >
+                        {item.options[1]}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="relative">
+                    <div
+                      className={`h-10 border-b-2 w-40 mt-2 text-[18px]
+    ${
+      showResult
+        ? isCorrect
+          ? "border-[#444]"
+          : isWrong
+            ? "border-red-500"
+            : "border-[#444]"
+        : "border-[#444]"
+    }`}
                     >
-                      {item.options[1]}
-                    </span>
+                      {answers[i]}
+                    </div>
+
+                    {/* ❌ X */}
+                    {isWrong && (
+                      <div className="absolute top-3 right-20 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-sm font-bold shadow-md border-2 border-white">
+                        ✕
+                      </div>
+                    )}
                   </div>
                 </div>
-
-                <div className="border-b-2 border-[#444] w-40 mt-2 text-[18px]">
-                  {answers[i]}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
         {/* ⭐ الأزرار (كما هي) */}

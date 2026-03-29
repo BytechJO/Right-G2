@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Unit6_Page5_Q1.css";
+import QuestionAudioPlayer from "../../QuestionAudioPlayer";
+import audio from "../../../assets/audio/ClassBook/U 6/CD36.Pg50_Instruction1_Adult Lady.mp3";
 const Unit6_Page5_Q1 = () => {
   const questions = [
     { id: 1, optionA: "bike", optionB: "kite", correct: "A" },
@@ -11,6 +13,22 @@ const Unit6_Page5_Q1 = () => {
     { id: 6, optionA: "kite", optionB: "five", correct: "A" },
   ];
 
+  const captions = [
+    {
+      start: 0,
+      end: 4.23,
+      text: "Page 8. Right Activities. Exercise A, number 1. ",
+    },
+    {
+      start: 4.25,
+      end: 8.28,
+      text: "Listen and write the missing letters. Number the pictures.  ",
+    },
+    { start: 8.3, end: 11.05, text: "1-tiger." },
+    { start: 11.07, end: 13.12, text: "2-taxi." },
+    { start: 13.14, end: 15.14, text: "3-duck." },
+    { start: 15.16, end: 17.13, text: "4-deer." },
+  ];
   const [answers, setAnswers] = useState({});
   const [wrongRows, setWrongRows] = useState([]);
   const [locked, setLocked] = useState(false);
@@ -108,10 +126,12 @@ const Unit6_Page5_Q1 = () => {
         <div>
           <h5 className="header-title-page8">
             <span className="ex-A">A</span>{" "}
-            <span style={{ color: "#2e3192" }}>1</span> Which picture has{" "}
-            <span style={{ color: "#2e3192" }}>long e</span>? Listen and circle.
+            <span style={{ color: "#2e3192" }}>1</span> Listen, read, and write
+            <span style={{ color: "#2e3192" }}>✓</span>.
           </h5>
         </div>
+
+        <QuestionAudioPlayer src={audio} captions={captions} stopAtSecond={5} />
         <div className="CB-unit6-p5-q1-container" style={{ marginTop: "20px" }}>
           {questions.map((q, i) => (
             <div key={q.id} className="CB-unit6-p5-q1-row">

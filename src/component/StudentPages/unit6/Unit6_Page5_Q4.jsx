@@ -64,10 +64,18 @@ const Unit4_Page5_Q4 = () => {
     "k",
     "x",
   ];
-
+  const correctPositions = {
+    we: [6, 7],
+    go: [16, 17],
+    to: [25, 26],
+    bed: [31, 32, 33],
+    at: [39, 40],
+    eight: [44, 45, 46, 47, 48],
+    oclock: [ 52, 53, 54, 55, 56,57],
+  };
   const letters = grid; // نفس الـ array اللي عندك
 
-  const wordsToFind = ["we", "go", "to", "bed","at","eight","oclock"];
+  const wordsToFind = ["we", "go", "to", "bed", "at", "eight", "oclock"];
   const [sentence, setSentence] = useState("");
 
   const [selected, setSelected] = useState([]);
@@ -94,15 +102,22 @@ const Unit4_Page5_Q4 = () => {
   };
 
   useEffect(() => {
-    if (
-      wordsToFind.includes(currentWord) &&
-      !foundWords.includes(currentWord)
-    ) {
-      setFoundWords((prev) => [...prev, currentWord]);
+    const matchedWord = Object.keys(correctPositions).find((word) => {
+      const correctIdx = correctPositions[word];
+
+      return (
+        word === currentWord &&
+        correctIdx.length === selected.length &&
+        correctIdx.every((idx, i) => idx === selected[i])
+      );
+    });
+
+    if (matchedWord && !foundWords.includes(matchedWord)) {
+      setFoundWords((prev) => [...prev, matchedWord]);
       setColoredCells((prev) => [...prev, ...selected]);
 
       setSentence((prev) =>
-        prev === "" ? currentWord : prev + " " + currentWord,
+        prev === "" ? matchedWord : prev + " " + matchedWord,
       );
 
       setSelected([]);
@@ -176,8 +191,8 @@ const Unit4_Page5_Q4 = () => {
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: "center", padding: "30px" }}>
-      <div className="div-forall" style={{ width: "60%" }}>
+    <div className="main-container-component">
+      <div className="div-forall" style={{ gap: "20px" }}>
         <h5 className="header-title-page8">
           <span className="ex-A">C </span>When do we go to bed?
         </h5>

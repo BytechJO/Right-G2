@@ -17,7 +17,7 @@ const Review5_Page1_Q1 = () => {
   const options = questions.map((q) => q.answer);
   const [answers, setAnswers] = useState(["", "", "", "", "", ""]);
   const [locked, setLocked] = useState(false);
-
+  const [showResult, setShowResult] = useState(false);
   const onDragEnd = (result) => {
     const { destination, draggableId } = result;
 
@@ -56,14 +56,16 @@ const Review5_Page1_Q1 = () => {
     });
 
     const total = questions.length;
-
+    const color = score === total ? "green" : score === 0 ? "red" : "orange";
+    setLocked(true);
+    setShowResult(true);
     const message = `
-    <div style="font-size:20px;text-align:center;">
-      <span style="color:#2e7d32;font-weight:bold;">
-        Score: ${score} / ${total}
-      </span>
-    </div>
-    `;
+  <div style="font-size:20px;text-align:center;">
+    <span style="color:${color};font-weight:bold;">
+      Score: ${score} / ${total}
+    </span>
+  </div>
+  `;
 
     if (score === total) ValidationAlert.success(message);
     else if (score === 0) ValidationAlert.error(message);
@@ -74,11 +76,11 @@ const Review5_Page1_Q1 = () => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="exercise-container">
-        <div className="div-forall">
+      <div className="main-container-component">
+        <div className="div-forall" style={{ marginBottom: "50px" }}>
           <h5 className="header-title-page8">
             <span style={{ marginRight: "20px" }}>A</span>
-            Find and drag.
+            Find and write.
           </h5>
 
           {/* IMAGE */}
@@ -132,33 +134,54 @@ const Review5_Page1_Q1 = () => {
 
           {/* QUESTIONS */}
           <div className="grid grid-cols-2 gap-y-5 gap-x-[60px] mt-5">
-            {questions.map((q, i) => (
-              <div key={i} className="flex items-center gap-2.5">
-                <span className="font-bold">{i + 1}</span>
+            {questions.map((q, i) => {
+              const isWrong =
+                showResult && answers[i] && answers[i] !== q.answer;
 
-                <span className="bg-[#e6b29c] px-2 py-1 rounded-md">
-                  {q.code}
-                </span>
+              const isCorrect = showResult && answers[i] === q.answer;
+              return (
+                <div key={i} className="flex items-center gap-2.5">
+                  <span className="font-bold">{i + 1}</span>
 
-                <Droppable droppableId={`slot-${i}`}>
-                  {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.droppableProps}
-                      className={`w-[140px] h-[35px] border-b-[3px] border-[#444] flex items-center justify-center ${
-                        snapshot.isDraggingOver ? "bg-blue-100" : ""
-                      }`}
-                    >
-                      {answers[i] && (
-                        <span className="font-bold">{answers[i]}</span>
-                      )}
+                  <span className="bg-[#e6b29c] px-2 py-1 rounded-md">
+                    {q.code}
+                  </span>
 
-                      {provided.placeholder}
-                    </div>
-                  )}
-                </Droppable>
-              </div>
-            ))}
+                  <Droppable droppableId={`slot-${i}`}>
+                    {(provided, snapshot) => (
+                      <div className="relative">
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.droppableProps}
+                          className={`w-[140px] h-[35px] border-b-[3px] flex items-center justify-center ${
+                            snapshot.isDraggingOver ? "bg-blue-100" : ""
+                          } ${
+                            showResult
+                              ? isCorrect
+                                ? "border-[#444]"
+                                : isWrong
+                                  ? "border-red-500"
+                                  : "border-[#444]"
+                              : "border-[#444]"
+                          }`}
+                        >
+                          {answers[i] && (
+                            <span className="font-bold">{answers[i]}</span>
+                          )}
+
+                          {provided.placeholder}
+                          {isWrong && (
+                            <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-sm font-bold shadow-md border-2 border-white">
+                              ✕
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </Droppable>
+                </div>
+              );
+            })}
           </div>
         </div>
 

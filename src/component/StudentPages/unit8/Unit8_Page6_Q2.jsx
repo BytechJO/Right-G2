@@ -10,7 +10,7 @@ const Unit8_Page6_Q2 = () => {
   const [lines, setLines] = useState([]);
   const [startDot, setStartDot] = useState(null);
   const [locked, setLocked] = useState(false);
-
+  const [showResult, setShowResult] = useState(false);
   const imageDotRefs = useRef([]);
   const textDotRefs = useRef([]);
   const containerRef = useRef(null);
@@ -84,6 +84,7 @@ const Unit8_Page6_Q2 = () => {
     setLines([]);
     setStartDot(null);
     setLocked(false);
+    setShowResult(false);
   };
 
   const checkAnswers = () => {
@@ -125,14 +126,27 @@ const Unit8_Page6_Q2 = () => {
     if (score === total) ValidationAlert.success(msg);
     else if (score === 0) ValidationAlert.error(msg);
     else ValidationAlert.warning(msg);
+    setShowResult(true);
+    setLocked(true);
   };
+  const isImageWrong = (imgIndex) => {
+    if (!showResult) return false;
 
+    const line = lines.find((l) => {
+      const img = l.from.type === "image" ? l.from.index : l.to.index;
+      return img === imgIndex;
+    });
+
+    if (!line) return true;
+
+    const textIndex =
+      line.from.type === "text" ? line.from.index : line.to.index;
+
+    return correctMatches[imgIndex] !== textIndex;
+  };
   return (
-    <div
-      ref={containerRef}
-      className="flex flex-col items-center p-[30px] relative"
-    >
-      <div className="relative w-[60%]">
+    <div className="main-container-component relative" ref={containerRef}>
+      <div className="div-forall">
         <h5 className="header-title-page8">
           <span className="ex-A">E</span>
           Look and match.
@@ -143,14 +157,23 @@ const Unit8_Page6_Q2 = () => {
             {/* LEFT IMAGE */}
             <div className="flex items-center gap-6 w-[45%]">
               <div className="relative">
+                {/* ❌ */}
+                {isImageWrong(i) && (
+                  <span className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold border-2 border-white shadow-md">
+                    ✕
+                  </span>
+                )}
+
                 <img
                   src={item.image}
                   className={`w-[200px]! h-[150px]! object-contain cursor-pointer rounded-lg
-                 ${
-                   startDot?.index === i && startDot?.type === "image"
-                     ? "ring-4 ring-red-400"
-                     : ""
-                 }`}
+      ${isImageWrong(i) ? "border-2 border-red-500" : ""}
+      ${
+        startDot?.index === i && startDot?.type === "image"
+          ? "ring-4 ring-red-400"
+          : ""
+      }
+    `}
                   onClick={() => handleDotClick(i, "image")}
                 />
               </div>
@@ -182,7 +205,7 @@ const Unit8_Page6_Q2 = () => {
   ${
     startDot?.index === i && startDot?.type === "text"
       ? "bg-orange-200 ring-2 ring-red-400"
-      : "bg-[#ead6cc]"
+      : "bg-[#f9e5dd]"
   }`}
               >
                 {texts[i]}
@@ -223,7 +246,7 @@ const Unit8_Page6_Q2 = () => {
               y1={y1}
               x2={x2}
               y2={y2}
-              stroke="#e74c3c"
+              stroke="red"
               strokeWidth="3"
               strokeLinecap="round"
             />

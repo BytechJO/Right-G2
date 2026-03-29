@@ -96,26 +96,8 @@ const Unit6_Page5_Q2 = () => {
     setLocked(true);
   };
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: "30px",
-      }}
-    >
-      <div
-        className="div-forall"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          position: "relative",
-          width: "100%",
-          maxWidth: "1000px",
-          gap: "30px",
-        }}
-      >
+    <div className="main-container-component">
+      <div className="div-forall" style={{ gap: "20px" }}>
         <div>
           <h5 className="header-title-page8">
             <span style={{ color: "#2e3192" }}> 2 </span> Read and circle the{" "}
@@ -150,14 +132,32 @@ const Unit6_Page5_Q2 = () => {
           {circles.map((c, i) => (
             <div
               key={i}
-              className="absolute border-4 border-purple-500 rounded-full pointer-events-none cursor-pointer"
+              className="absolute pointer-events-none"
               style={{
                 left: `${c.x - 0.5}%`,
                 top: `${c.y - 0.5}%`,
                 width: `${c.w + 1}%`,
                 height: `${c.h + 1}%`,
               }}
-            />
+            >
+              {/* الدائرة */}
+              <div
+                className={`w-full h-full rounded-full border-2 ${
+                  showResult
+                    ? c.correct
+                      ? "border-blue-500"
+                      : "border-red-500"
+                    : "border-blue-500"
+                }`}
+              />
+
+              {/* ❌ X إذا الجواب غلط */}
+              {showResult && !c.correct && (
+                <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-sm font-bold border-2 border-white">
+                  ✕
+                </div>
+              )}
+            </div>
           ))}
         </div>
       </div>

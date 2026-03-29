@@ -12,7 +12,7 @@ const Unit7_Page6_Q1 = () => {
     "Friday",
     "Saturday",
   ];
-
+  const [showResult, setShowResult] = useState(false);
   const questions = [
     { id: 1, number: 4, answer: "Wednesday" },
     { id: 2, number: 2, answer: "Monday" },
@@ -38,7 +38,7 @@ const Unit7_Page6_Q1 = () => {
 
       setAnswers((prev) => ({
         ...prev,
-        [id]: word,
+        [id]: word, // 👈 replace عادي
       }));
     }
   };
@@ -73,6 +73,7 @@ const Unit7_Page6_Q1 = () => {
     else ValidationAlert.warning(message);
 
     setLocked(true);
+    setShowResult(true);
   };
   const reset = () => {
     setAnswers({
@@ -81,6 +82,7 @@ const Unit7_Page6_Q1 = () => {
       3: "",
     });
     setLocked(false);
+    setShowResult(false)
   };
 
   const showAnswers = () => {
@@ -92,11 +94,19 @@ const Unit7_Page6_Q1 = () => {
     setAnswers(filled);
     setLocked(true);
   };
+  const isWordUsed = (word) => {
+    return Object.values(answers).includes(word);
+  };
+  const isWrong = (id) => {
+    if (!showResult) return false;
 
+    const q = questions.find((q) => q.id === id);
+    return answers[id] !== q.answer;
+  };
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="flex flex-col items-center p-8">
-        <div className="w-[60%]">
+      <div className="main-container-component">
+        <div className="div-forall" style={{ gap: "20px" }}>
           <h5 className="header-title-page8" style={{ marginBottom: "20px" }}>
             <span className="ex-A">D </span>Read and write.
           </h5>
@@ -107,22 +117,37 @@ const Unit7_Page6_Q1 = () => {
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="flex flex-wrap gap-3 mb-10"
+                className="flex flex-wrap justify-center gap-3 mb-10 border-2 border-dashed border-gray-500 p-2 rounded-lg"
               >
-                {wordBank.map((word, index) => (
-                  <Draggable key={word} draggableId={word} index={index}>
-                    {(provided) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        className="px-4 py-2 border rounded-lg bg-white shadow cursor-grab hover:bg-gray-100"
-                      >
-                        {word}
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
+                {wordBank.map((word, index) => {
+                  const used = isWordUsed(word);
+
+                  return (
+                    <Draggable
+                      key={word}
+                      draggableId={word}
+                      index={index}
+                      isDragDisabled={locked || used}
+                    >
+                      {(provided) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          className={`px-4 py-2 border rounded-lg shadow transition-all
+            ${
+              used
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed opacity-50"
+                : "bg-white cursor-grab hover:bg-gray-100"
+            }
+          `}
+                        >
+                          {word}
+                        </div>
+                      )}
+                    </Draggable>
+                  );
+                })}
                 {provided.placeholder}
               </div>
             )}
@@ -143,14 +168,29 @@ const Unit7_Page6_Q1 = () => {
                     <div
                       ref={provided.innerRef}
                       {...provided.droppableProps}
-                      className="border-b-2 border-black min-w-[250px] py-1"
+                      className="relative min-w-[250px] min-h-10"
                     >
-                      It is
-                      <span style={{ color: "red" }}>
-                        {" "}
-                        {answers[q.id]}
-                        {provided.placeholder}
-                      </span>
+                      {/* ❌ */}
+                      {isWrong(q.id) && (
+                        <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold border-2 border-white shadow-md">
+                          ✕
+                        </span>
+                      )}
+
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}
+                        className={`h-10 border-b-2 ${
+                          isWrong(q.id) ? "border-red-500" : "border-black"
+                        }`}
+                      >
+                        It is
+                        <span style={{ color: "red" }}>
+                          {" "}
+                          {answers[q.id]}
+                          {provided.placeholder}
+                        </span>
+                      </div>
                     </div>
                   )}
                 </Droppable>

@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Unit7_Page6_Q2.css";
@@ -22,7 +23,7 @@ const Unit7_Page6_Q2 = () => {
   ];
 
   const [answers, setAnswers] = useState(
-    questions.map(() => ({ h: 0, m: "00", p: "" })),
+    questions.map(() => ({ h: 0, m: "00", p: "" }))
   );
 
   const [locked, setLocked] = useState(false);
@@ -58,21 +59,22 @@ const Unit7_Page6_Q2 = () => {
 
     const total = correct.length;
 
+    let color =
+      correctCount === total
+        ? "green"
+        : correctCount === 0
+        ? "red"
+        : "orange";
+
     const message = `
       <div style="font-size:20px;text-align:center;">
-        <span style="color:#2e7d32;font-weight:bold;">
-          Score: ${correctCount} / ${total}
-        </span>
+        <b style="color:${color};">Score: ${correctCount} / ${total}</b>
       </div>
     `;
 
-    if (correctCount === total) {
-      ValidationAlert.success(message);
-    } else if (correctCount === 0) {
-      ValidationAlert.error(message);
-    } else {
-      ValidationAlert.warning(message);
-    }
+    if (correctCount === total) ValidationAlert.success(message);
+    else if (correctCount === 0) ValidationAlert.error(message);
+    else ValidationAlert.warning(message);
 
     setLocked(true);
     setShowResult(true);
@@ -90,89 +92,122 @@ const Unit7_Page6_Q2 = () => {
     setShowResult(false);
   };
 
+  // ✅ check wrong
+  const isWrong = (i) => {
+    if (!showResult) return false;
+
+    return (
+      answers[i].h !== correct[i].h ||
+      answers[i].m !== correct[i].m ||
+      answers[i].p !== correct[i].p
+    );
+  };
+
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        padding: "30px",
-      }}
-    >
-      <div className="div-forall" style={{ width: "80%" }}>
+    <div className="main-container-component">
+      <div className="div-forall" style={{ gap: "20px" }}>
         <h5 className="header-title-page8">
-          <span className="ex-A">E</span> Read, write, and check{" "}
-          <span style={{ color: "#2e3192" }}>✓</span>.
+          <span className="ex-A">E</span> Read, write, and check <span className="text-blue-900">✓</span>.
         </h5>
 
-        <div className="grid grid-cols-2 gap-y-5 gap-x-[60px] mt-5 ">
+        <div className="grid grid-cols-2 gap-y-5 gap-x-[60px] mt-5">
           {questions.map((q, i) => (
-            <div key={i} className="flex flex-col gap-2.5 ">
+            <div key={i} className="flex flex-col gap-2.5">
               <div className="text-[18px]">
-                <span className=" font-bold mr-1.5">{i + 1}</span>
+                <span className="font-bold mr-1.5">{i + 1}</span>
                 {q}
               </div>
 
               <div className="flex items-center gap-5">
-                {/* Time Box */}
-                <div className="flex items-center justify-center gap-2.5 border-4 border-[#e7a98e] rounded-[14px] w-[200px] h-20 bg-[#f4f4f4]">
-                  <input
-                    type="number"
-                    value={answers[i].h}
-                    min="1"
-                    max="12"
-                    step="1"
-                    onChange={(e) => handleChange(i, "h", e.target.value)}
-                    className="w-[45px] border-none bg-transparent text-[26px] text-center outline-none"
-                  />
+                {/* TIME BOX */}
+                <div className="relative">
+                  {/* ❌ */}
+                  {isWrong(i) && (
+                    <span className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold border-2 border-white shadow-md">
+                      ✕
+                    </span>
+                  )}
 
-                  <span className="text-[26px] text-[#c33]">:</span>
+                  <div
+                    className={`flex items-center justify-center gap-2.5 border-4 rounded-[14px] w-[200px] h-20 bg-[#f4f4f4]
+                      ${
+                        isWrong(i)
+                          ? "border-red-500"
+                          : "border-[#e7a98e]"
+                      }
+                    `}
+                  >
+                    <input
+                      type="number"
+                      value={answers[i].h}
+                      min="1"
+                      max="12"
+                      step="1"
+                      onChange={(e) =>
+                        handleChange(i, "h", e.target.value)
+                      }
+                      className="w-[45px] border-none bg-transparent text-[26px] text-center outline-none"
+                    />
 
-                  <input
-                    type="number"
-                    value={answers[i].m}
-                    min="0"
-                    max="59"
-                    step="1"
-                    onChange={(e) => handleChange(i, "m", e.target.value)}
-                    className="w-[45px] border-none bg-transparent text-[26px] text-center outline-none"
-                  />
+                    <span className="text-[26px] text-[#c33]">:</span>
+
+                    <input
+                      type="number"
+                      value={answers[i].m}
+                      min="0"
+                      max="59"
+                      step="1"
+                      onChange={(e) =>
+                        handleChange(i, "m", e.target.value)
+                      }
+                      className="w-[45px] border-none bg-transparent text-[26px] text-center outline-none"
+                    />
+                  </div>
                 </div>
 
-                {/* AM PM */}
+                {/* AM / PM */}
                 <div className="bg-[#d82525] rounded-[22px] p-2 w-[120px] h-20 flex flex-col justify-between">
                   <div
                     onClick={() => handleChange(i, "p", "am")}
-                    className={`flex justify-between items-center h-7 px-2.5 py-1 rounded-lg text-white text-[18px] cursor-pointer box-border transition-all
-    ${
-      answers[i].p === "am"
-        ? "text-[#d82525] font-bold bg-white/80"
-        : "bg-white/20 hover:bg-white/40"
-    }
-  `}
+                    className={`flex justify-between items-center h-7 px-2.5 py-1 rounded-lg text-white text-[18px] cursor-pointer transition-all
+                      ${
+                        answers[i].p === "am"
+                          ? "text-[#d82525] font-bold bg-white/40"
+                          : "bg-white/20 hover:bg-white/40"
+                      }
+                    `}
                   >
                     a.m.
                     <span
-                      className={`${answers[i].p === "am" ? "opacity-100" : "opacity-0"}`}
+                      className={`text-green-700 ${
+                        answers[i].p === "am"
+                          ? "opacity-100"
+                          : "opacity-0"
+                      }`}
                     >
-                      ✔
+                      ✓
                     </span>
                   </div>
 
                   <div
                     onClick={() => handleChange(i, "p", "pm")}
-                    className={`flex justify-between items-center h-7 px-2.5 py-1 rounded-lg text-white text-[18px] cursor-pointer box-border transition-all
-    ${
-      answers[i].p === "pm"
-        ? "text-[#d82525] font-bold bg-white/80"
-        : "bg-white/20 hover:bg-white/40"
-    }
-  `}
+                    className={`flex justify-between items-center h-7 px-2.5 py-1 rounded-lg text-white text-[18px] cursor-pointer transition-all
+                      ${
+                        answers[i].p === "pm"
+                          ? "text-[#d82525] font-bold bg-white/40"
+                          : "bg-white/20 hover:bg-white/40"
+                      }
+                    `}
                   >
                     p.m.
                     <span
-                      className={`${answers[i].p === "pm" ? "opacity-100" : "opacity-0"}`}
+                      className={`text-green-700 ${
+                        answers[i].p === "pm"
+                          ? "opacity-100"
+                          : "opacity-0"
+                      }`}
                     >
-                      ✔
+                      ✓
                     </span>
                   </div>
                 </div>
@@ -181,6 +216,7 @@ const Unit7_Page6_Q2 = () => {
           ))}
         </div>
 
+        {/* BUTTONS */}
         <div className="action-buttons-container">
           <button className="try-again-button" onClick={reset}>
             Start Again ↻
@@ -200,3 +236,4 @@ const Unit7_Page6_Q2 = () => {
 };
 
 export default Unit7_Page6_Q2;
+

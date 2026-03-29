@@ -9,8 +9,8 @@ import img3 from "../../../assets/imgs/test6.png";
 const Review5_Page1_Q3 = () => {
   const [lines, setLines] = useState([]);
   const [startDot, setStartDot] = useState(null);
+  const [showResult, setShowResult] = useState(false);
 
-  // ✅ FIXED
   const [selected, setSelected] = useState({
     image: null,
     text: null,
@@ -35,7 +35,6 @@ const Review5_Page1_Q3 = () => {
   };
 
   const handleDotClick = (index, type) => {
-    // ✅ يخزن الاثنين مش واحد
     if (type === "image") {
       setSelected((prev) => ({ ...prev, image: index }));
     } else {
@@ -58,16 +57,15 @@ const Review5_Page1_Q3 = () => {
     setLines((prevLines) => {
       let updatedLines = [...prevLines];
 
-      // حذف أي خط سابق للصورة
       updatedLines = updatedLines.filter((line) => {
         const img =
           line.from.type === "image" ? line.from.index : line.to.index;
         return img !== imageIndex;
       });
 
-      // حذف أي خط سابق للنص
       updatedLines = updatedLines.filter((line) => {
-        const txt = line.from.type === "text" ? line.from.index : line.to.index;
+        const txt =
+          line.from.type === "text" ? line.from.index : line.to.index;
         return txt !== textIndex;
       });
 
@@ -78,31 +76,34 @@ const Review5_Page1_Q3 = () => {
 
       return updatedLines;
     });
+
     setStartDot(null);
     setSelected({ image: null, text: null });
   };
 
   const showAnswers = () => {
     const answerLines = Object.keys(correctMatches).map((imgIndex) => ({
-      from: { index: parseInt(imgIndex), type: "image" },
+      from: { index: parseInt(imgIndex, 10), type: "image" },
       to: { index: correctMatches[imgIndex], type: "text" },
     }));
 
     setLines(answerLines);
     setSelected({ image: null, text: null });
+    setShowResult(true);
   };
 
   const resetAll = () => {
     setLines([]);
     setStartDot(null);
     setSelected({ image: null, text: null });
+    setShowResult(false);
   };
 
   const checkAnswers = () => {
     if (lines.length !== images.length) {
       ValidationAlert.info(
         "Oops!",
-        "Please complete all matches before checking.",
+        "Please complete all matches before checking."
       );
       return;
     }
@@ -122,7 +123,6 @@ const Review5_Page1_Q3 = () => {
     });
 
     const total = images.length;
-
     const color = score === total ? "green" : score === 0 ? "red" : "orange";
 
     const msg = `
@@ -136,87 +136,112 @@ const Review5_Page1_Q3 = () => {
     if (score === total) ValidationAlert.success(msg);
     else if (score === 0) ValidationAlert.error(msg);
     else ValidationAlert.warning(msg);
+
+    setShowResult(true);
   };
 
   return (
-    <div
-      ref={containerRef}
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        padding: "30px",
-        position: "relative",
-      }}
-    >
-      <div className="div-forall" style={{ width: "60%" }}>
+    <div className="main-container-component relative" ref={containerRef}>
+      <div className="div-forall">
         <h5 className="header-title-page8">
           <span style={{ marginRight: "20px" }}>C</span>
           Look, read, and match.
         </h5>
 
-        {images.map((item, i) => (
-          <div key={i} className="flex items-center justify-between my-[35px]">
-            {/* IMAGE */}
-            <div className="flex items-center gap-2.5 w-[45%]">
-              <span className="text-[22px] font-bold">{i + 1}</span>
+        {images.map((item, i) => {
+          const matchedLine = lines.find((line) => {
+            const img =
+              line.from.type === "image" ? line.from.index : line.to.index;
+            return img === i;
+          });
 
-              <div
-                className="relative cursor-pointer"
-                onClick={() => handleDotClick(i, "image")}
-              >
-                <img
-                  src={item.image}
-                  alt=""
-                  style={{
-                    width: "200px",
-                    height: "150px",
-                    borderRadius: "12px",
-                    border:
-                      selected.image === i
-                        ? "4px solid #7e1d12"
-                        : "3px solid #e74c3c",
-                    display: "block",
-                  }}
-                />
+          const selectedTextIndex = matchedLine
+            ? matchedLine.from.type === "text"
+              ? matchedLine.from.index
+              : matchedLine.to.index
+            : null;
+
+          const isWrong =
+            showResult &&
+            selectedTextIndex !== null &&
+            correctMatches[i] !== selectedTextIndex;
+
+          const isCorrect =
+            showResult &&
+            selectedTextIndex !== null &&
+            correctMatches[i] === selectedTextIndex;
+
+          return (
+            <div key={i} className="flex items-center justify-between my-[35px]">
+              <div className="flex items-center gap-2.5 w-[45%]">
+                <span className="text-[22px] font-bold">{i + 1}</span>
 
                 <div
-                  ref={(el) => (imageDotRefs.current[i] = el)}
-                  className={`absolute -right-2 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full ${
-                    selected.image === i
+                  className="relative cursor-pointer"
+                  onClick={() => handleDotClick(i, "image")}
+                >
+                  <img
+                    src={item.image}
+                    alt=""
+                    style={{
+                      width: "200px",
+                      height: "150px",
+                      borderRadius: "12px",
+                      border: showResult
+                        ? isCorrect
+                          ? "4px solid green"
+                          : isWrong
+                            ? "4px solid red"
+                            : "3px solid #e74c3c"
+                        : selected.image === i
+                          ? "4px solid #7e1d12"
+                          : "3px solid #e74c3c",
+                      display: "block",
+                    }}
+                  />
+
+                  {isWrong && (
+                    <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-sm font-bold shadow-md z-10 border-2 border-white">
+                      ✕
+                    </div>
+                  )}
+
+                  <div
+                    ref={(el) => (imageDotRefs.current[i] = el)}
+                    className={`absolute -right-2 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full ${
+                      selected.image === i
+                        ? "bg-[#7e1d12] scale-110"
+                        : "bg-[#e74c3c]"
+                    }`}
+                  />
+                </div>
+              </div>
+
+              <div
+                className="flex items-center gap-[15px] w-[45%] cursor-pointer"
+                onClick={() => handleDotClick(i, "text")}
+              >
+                <div
+                  ref={(el) => (textDotRefs.current[i] = el)}
+                  className={`w-4 h-4 rounded-full ${
+                    selected.text === i
                       ? "bg-[#7e1d12] scale-110"
                       : "bg-[#e74c3c]"
                   }`}
                 />
+
+                <p
+                  className={`text-[18px] font-medium ${
+                    selected.text === i ? "text-[#7e1d12] font-bold" : ""
+                  }`}
+                >
+                  {texts[i]}
+                </p>
               </div>
             </div>
+          );
+        })}
 
-            {/* TEXT */}
-            <div
-              className="flex items-center gap-[15px] w-[45%] cursor-pointer"
-              onClick={() => handleDotClick(i, "text")}
-            >
-              <div
-                ref={(el) => (textDotRefs.current[i] = el)}
-                className={`w-4 h-4 rounded-full ${
-                  selected.text === i
-                    ? "bg-[#7e1d12] scale-110"
-                    : "bg-[#e74c3c]"
-                }`}
-              />
-
-              <p
-                className={`text-[18px] font-medium ${
-                  selected.text === i ? "text--[#7e1d12] font-bold" : ""
-                }`}
-              >
-                {texts[i]}
-              </p>
-            </div>
-          </div>
-        ))}
-
-        {/* SVG */}
         <svg className="absolute top-0 left-0 w-full h-full pointer-events-none">
           {lines.map((line, i) => {
             const imageIndex =

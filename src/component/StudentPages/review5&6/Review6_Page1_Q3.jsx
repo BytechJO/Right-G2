@@ -94,12 +94,13 @@ She goes to bed at nine.
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: "center", padding: "30px" }}>
-      <div className="div-forall" style={{ width: "60%" }}>
+    <div className="main-container-component">
+      <div className="div-forall" style={{ gap: "20px" }}>
         <h5 className="header-title-page8">
           <span style={{ marginRight: "20px" }}>C</span>
-          Read and circle <span style={{ color: "#2e3192" }}>true</span> or{" "}
-          <span style={{ color: "#2e3192" }}>false</span>.
+          Read and circle <span style={{ color: "#0b0f7bff" }}>
+            true
+          </span> or <span style={{ color: "#0b0f7bff" }}>false</span>.
         </h5>
 
         {/* passage + image */}
@@ -125,39 +126,41 @@ She goes to bed at nine.
 
             return (
               <div key={i} className="flex items-center gap-2.5 mb-2.5">
-                <span className="font-bold">{i + 1}</span>
+                <span className="font-bold text-xl">{i + 1}</span>
 
-                <span className="flex-1">{q.text}</span>
+                <span className="flex-1 text-xl">{q.text}</span>
 
                 <div className="flex gap-5">
                   <span
                     onClick={() => selectAnswer(i, "True")}
-                    className={`cursor-pointer px-2 py-[3px] ${
+                    className={`relative cursor-pointer px-2 py-[3px] ${
                       answers[i] === "True"
-                        ? "font-bold border-2 border-red-500 rounded-full"
+                        ? "font-bold border-2 border-blue-500 rounded-full"
                         : "hover:bg-gray-100 rounded-full"
-                    } ${
-                      showResult && answers[i] === "True" && !isCorrect
-                        ? "text-red-500"
-                        : ""
-                    }`}
+                    } `}
                   >
                     True
+                    {showResult && answers[i] === "True" && !isCorrect && (
+                      <div className="absolute -top-2 -right-2 ml-3 w-6 h-6 bg-red-500 rounded-full flex items-center text-sm justify-center text-white font-bold border-2 border-white shadow-lg">
+                        ✕
+                      </div>
+                    )}
                   </span>
 
                   <span
                     onClick={() => selectAnswer(i, "False")}
-                    className={`cursor-pointer px-2 py-[3px] ${
+                    className={`relative cursor-pointer px-2 py-[3px] ${
                       answers[i] === "False"
-                        ? "font-bold border-2 border-red-500 rounded-full"
+                        ? "font-bold border-2 border-blue-500 rounded-full"
                         : "hover:bg-gray-100 rounded-full"
-                    } ${
-                      showResult && answers[i] === "False" && !isCorrect
-                        ? "text-red-500"
-                        : ""
                     }`}
                   >
                     False
+                    {showResult && answers[i] === "False" && !isCorrect && (
+                      <div className="absolute -top-2 -right-2 ml-3 w-6 h-6 bg-red-500 rounded-full flex items-center text-sm justify-center text-white font-bold border-2 border-white shadow-lg">
+                        ✕
+                      </div>
+                    )}
                   </span>
                 </div>
               </div>

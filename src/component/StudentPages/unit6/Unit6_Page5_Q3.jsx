@@ -81,10 +81,12 @@ const Unit6_Page5_Q3 = () => {
     });
 
     const total = images.length;
+    let color =
+      correctCount === total ? "green" : correctCount === 0 ? "red" : "orange";
 
     const message = `
     <div style="font-size:20px;text-align:center;">
-      <span style="color:#2e7d32;font-weight:bold;">
+     <span style="color:${color};font-weight:bold;">
         Score: ${correctCount} / ${total}
       </span>
     </div>
@@ -118,27 +120,54 @@ const Unit6_Page5_Q3 = () => {
   return (
     <div
       ref={containerRef}
-      className="relative flex flex-col items-center p-[30px]"
+      className="main-container-component relative flex flex-col items-center p-[30px]"
     >
-      <div className="w-full max-w-[900px] flex flex-col gap-[30px]">
+      <div className="div-forall w-full max-w-[900px] flex flex-col gap-[30px]">
         <h5 className="header-title-page8">
           <span className="ex-A">B</span> Look, read, and match.
         </h5>
 
         {/* Images */}
         <div className="flex justify-between gap-5">
-          {images.map((img) => (
-            <div
-              key={img.id}
-              ref={(el) => (imageRefs.current[img.id] = el)}
-              onClick={() => selectImage(img.id)}
-              className={`border-2 border-red-500 rounded-[10px] p-[5px] cursor-pointer transition-all duration-200 ${
-                selectedImg === img.id ? "bg-red-100" : ""
-              }`}
-            >
-              <img src={img.img} alt="" style={{ height: "90px" }} />
-            </div>
-          ))}
+          {images.map((img) => {
+            const isWrong =
+              showResult &&
+              matches[img.id] !== undefined &&
+              correct[img.id] !== matches[img.id];
+
+            const isCorrect =
+              showResult &&
+              matches[img.id] !== undefined &&
+              correct[img.id] === matches[img.id];
+
+            return (
+              <div
+                key={img.id}
+                ref={(el) => (imageRefs.current[img.id] = el)}
+                onClick={() => selectImage(img.id)}
+                className={`relative border-2 rounded-[10px] p-[5px] cursor-pointer transition-all duration-200 ${
+                  selectedImg === img.id ? "bg-red-100" : ""
+                } ${
+                  showResult
+                    ? isCorrect
+                      ? "border-gray-300"
+                      : isWrong
+                        ? "border-red-500"
+                        : "border-gray-300"
+                    : "border-red-500"
+                }`}
+              >
+                <img src={img.img} alt="" style={{ height: "90px" }} />
+
+                {/* ❌ X إذا الجواب غلط */}
+                {isWrong && (
+                  <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-sm font-bold border-2 border-white">
+                    ✕
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
 
         {/* Sentences */}

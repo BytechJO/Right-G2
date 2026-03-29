@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { CheckCircle2, RotateCcw } from "lucide-react";
-
+import { CheckCircle2 } from "lucide-react";
 const InteractiveClock = ({
   targetHour,
   targetMinute,
@@ -8,9 +7,11 @@ const InteractiveClock = ({
   onCorrect,
   size = 180,
   showFeedback = true,
-  showDigitalTime = false,
+  showDigitalTime = true,
   initialHour = 12,
   initialMinute = 0,
+  showAnswerTrigger = 0,
+  resetTrigger = 0,
 }) => {
   const [handPosition, setHandPosition] = useState({
     hour: initialHour % 12,
@@ -28,14 +29,32 @@ const InteractiveClock = ({
       handPosition.hour === normalizedTargetHour &&
       handPosition.minute === targetMinute;
 
-    if (isMatching && !isCorrect) {
-      setIsCorrect(true);
-      onCorrect?.(true);
-    } else if (!isMatching && isCorrect) {
-      setIsCorrect(false);
-      onCorrect?.(false);
+    setIsCorrect(isMatching);
+
+    if (onCorrect) {
+      onCorrect(isMatching);
     }
-  }, [handPosition, normalizedTargetHour, targetMinute, isCorrect, onCorrect]);
+  }, [handPosition, normalizedTargetHour, targetMinute, onCorrect]);
+
+  useEffect(() => {
+    if (showAnswerTrigger === 0) return;
+
+    setHandPosition({
+      hour: targetHour % 12,
+      minute: targetMinute,
+    });
+    setIsCorrect(true);
+  }, [showAnswerTrigger, targetHour, targetMinute]);
+
+  useEffect(() => {
+    if (resetTrigger === 0) return;
+
+    setHandPosition({
+      hour: initialHour % 12,
+      minute: initialMinute,
+    });
+    setIsCorrect(false);
+  }, [resetTrigger, initialHour, initialMinute]);
 
   const handleHandMouseDown = (hand) => {
     setDraggingHand(hand);
@@ -68,14 +87,22 @@ const InteractiveClock = ({
 
       if (draggingHand === "minute") {
         const minute = Math.round(angle / 6) % 60;
-        setHandPosition((prev) => ({ ...prev, minute }));
+        setHandPosition((prev) => ({
+          ...prev,
+          minute,
+        }));
       } else {
         const hour = Math.round(angle / 30) % 12;
-        setHandPosition((prev) => ({ ...prev, hour }));
+        setHandPosition((prev) => ({
+          ...prev,
+          hour,
+        }));
       }
     };
 
-    const handleUp = () => setDraggingHand(null);
+    const handleUp = () => {
+      setDraggingHand(null);
+    };
 
     if (draggingHand) {
       document.addEventListener("mousemove", handleMove);
@@ -96,14 +123,6 @@ const InteractiveClock = ({
   const hourRotation =
     ((handPosition.hour + handPosition.minute / 60) / 12) * 360;
 
-  const handleReset = () => {
-    setHandPosition({
-      hour: initialHour % 12,
-      minute: initialMinute,
-    });
-    setIsCorrect(false);
-  };
-
   const formatTime = (hour, minute) => {
     if (hour == null || minute == null) return "--:--";
 
@@ -112,6 +131,7 @@ const InteractiveClock = ({
 
     return `${h}:${m}`;
   };
+
   return (
     <div className="flex flex-col items-center gap-3">
       <div className="relative" style={{ width: size, height: size }}>
@@ -180,10 +200,12 @@ const InteractiveClock = ({
           />
         </svg>
 
-        {isCorrect && showFeedback && (
+        {!isCorrect && showFeedback && (
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="bg-green-500 rounded-full p-2 shadow-md">
-              <CheckCircle2 className="w-6 h-6 text-white" />
+            <div className="w-8 h-8 rounded-full bg-red-500 flex items-center justify-center shadow-md z-10 border-2 border-white">
+              <span className="text-white text-sm font-bold leading-none">
+                ✕
+              </span>
             </div>
           </div>
         )}
@@ -201,14 +223,6 @@ const InteractiveClock = ({
       <div className="text-center text-gray-700 font-medium min-h-[48px]">
         {label}
       </div>
-
-      {/* <button
-        onClick={handleReset}
-        className="flex items-center gap-2 px-3 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded-lg text-sm"
-      >
-        <RotateCcw className="w-4 h-4" />
-        Reset
-      </button> */}
     </div>
   );
 };
