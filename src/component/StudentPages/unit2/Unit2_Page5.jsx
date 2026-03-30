@@ -1,5 +1,5 @@
 
-import page_5 from "../../../assets/imgs/pages/Right 2 Unit 1 Stellas Family_00001/Right 2 Unit 1 Stellas Family_00014.jpg";
+import page_5 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 14.png";
 import "./Unit2_Page5.css";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 const Unit2_Page5 = ({ openPopup }) => {

@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
-import page_4 from "../../../assets/imgs/pages/Right 2 Unit 1 Stellas Family_00001/Right 2 Unit 1 Stellas Family_00013.jpg";
+import page_4 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 13.png";
 import "./Unit2_Page4.css";
-import grammarSound from "../../../assets/audio/ClassBook/U 2/CD9.Pg13_Right Grammar2_Adult Lady.mp3";
+import grammarSound from "../../../assets/audio/ClassBook/U 2/cd9pg13-right-grammar2-adult-lady_q2Vq2y9A.mp3";
 import sound1 from "../../../assets/audio/ClassBook/U 2/Pg13_2.1_Adult Lady.mp3";
 import sound2 from "../../../assets/audio/ClassBook/U 2/Pg13_2.2_Adult Lady.mp3";
 import sound3 from "../../../assets/audio/ClassBook/U 2/Pg13_2.3_Adult Lady.mp3";
@@ -44,7 +44,6 @@ const Unit2_Page4 = ({ openPopup }) => {
     { x1: 6.7, y1: 32.3, x2: 21.8, y2: 36.2, sound: sound5 },
     { x1: 23.3, y1: 25.5, x2: 39.8, y2: 30.7, sound: sound6 },
     { x1: 55.0, y1: 30.7, x2: 74.1, y2: 33.9, sound: sound7 },
-
   ];
 
   const handleImageClick = (e) => {
@@ -69,9 +68,11 @@ const Unit2_Page4 = ({ openPopup }) => {
   };
 
   return (
-    <div className="page1-img-wrapper"
-          onClick={handleImageClick}
-          style={{ backgroundImage: `url(${page_4})` }}>
+    <div
+      className="page1-img-wrapper"
+      onClick={handleImageClick}
+      style={{ backgroundImage: `url(${page_4})` }}
+    >
       {/* <img
         src={page_4}
         style={{ display: "block" }}
@@ -114,7 +115,8 @@ const Unit2_Page4 = ({ openPopup }) => {
           viewBox="0 0 90 90"
           onClick={() =>
             openPopup(
-             "audio", <div
+              "audio",
+              <div
                 style={{
                   display: "flex",
                   justifyContent: "center",
@@ -125,12 +127,19 @@ const Unit2_Page4 = ({ openPopup }) => {
                   src={grammarSound}
                   captions={captionsExample}
                 />
-              </div>
+              </div>,
             )
           }
           style={{ overflow: "visible" }}
         >
-          <image className="svg-img" href={audioBtn} x="0" y="0" width="90" height="90" />
+          <image
+            className="svg-img"
+            href={audioBtn}
+            x="0"
+            y="0"
+            width="90"
+            height="90"
+          />
         </svg>
       </div>
       <div
@@ -143,7 +152,8 @@ const Unit2_Page4 = ({ openPopup }) => {
           viewBox="0 0 90 90"
           onClick={() =>
             openPopup(
-             "video", <div
+              "video",
+              <div
                 style={{
                   display: "flex",
                   justifyContent: "center",
@@ -151,7 +161,6 @@ const Unit2_Page4 = ({ openPopup }) => {
                   alignItems: "center",
                   height: "100%",
                   width: "100%",
-                
                 }}
               >
                 <video
@@ -166,12 +175,19 @@ const Unit2_Page4 = ({ openPopup }) => {
                 >
                   {/* <source src={video} type="video/mp4" /> */}
                 </video>
-              </div>
+              </div>,
             )
           }
           style={{ overflow: "visible" }}
         >
-          <image className="svg-img" href={pauseBtn} x="0" y="0" width="90" height="90" />
+          <image
+            className="svg-img"
+            href={pauseBtn}
+            x="0"
+            y="0"
+            width="90"
+            height="90"
+          />
         </svg>
       </div>
       <audio ref={audioRef} style={{ display: "none" }} />

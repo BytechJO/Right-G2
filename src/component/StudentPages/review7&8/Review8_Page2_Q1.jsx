@@ -200,25 +200,8 @@ const Review8_Page2_Q1 = () => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: "30px",
-      }}
-    >
-      <div
-        className="div-forall"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          // gap: "20px",
-          width: "60%",
-          justifyContent: "flex-start",
-        }}
-      >
+     <div className="main-container-component">
+      <div className="div-forall">
         <h5 className="header-title-page8">
           <span style={{ marginRight: "15px" }}>D</span>
           Do they both have <span style={{ color: "#2e3192" }}>long u</span>?
@@ -369,7 +352,7 @@ const Review8_Page2_Q1 = () => {
                       className={`w-10 h-10 border-2 border-red-400 rounded-md flex items-center justify-center text-xl font-bold transition
 ${
   answers[q.id] === "✓"
-    ? "bg-[#777cfd] text-white border-[#777cfd]"
+    ? "bg-blue-600 text-white border-[#777cfd]"
     : "bg-white text-black"
 }`}
                     >
@@ -377,7 +360,7 @@ ${
                     </button>
 
                     {showResult[index] === "wrong" && answers[q.id] === "✓" && (
-                      <span className="absolute -top-2 -right-2 text-red-600 font-bold">
+                      <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold shadow border-2 border-white">
                         ✕
                       </span>
                     )}
@@ -390,7 +373,7 @@ ${
                       className={`w-10 h-10 border-2 border-red-400 rounded-md flex items-center justify-center text-xl font-bold transition
 ${
   answers[q.id] === "✗"
-    ? "bg-[#777cfd] text-white border-[#777cfd]"
+    ? "bg-blue-600 text-white border-[#777cfd]"
     : "bg-white text-black"
 }`}
                     >
@@ -398,7 +381,7 @@ ${
                     </button>
 
                     {showResult[index] === "wrong" && answers[q.id] === "✗" && (
-                      <span className="absolute -top-2 -right-2 text-red-600 font-bold">
+                      <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold shadow border-2 border-white">
                         ✕
                       </span>
                     )}

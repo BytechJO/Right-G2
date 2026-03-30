@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./Page8_Q2.css";
-import sound1 from "../../../assets/audio/ClassBook/U 1/CD5.Pg8_Instruction1_Adult Lady.mp3";
+import sound1 from "../../../assets/audio/ClassBook/U 1/page8-q1.mp3";
 import { FaPlay, FaPause } from "react-icons/fa";
 import { IoMdSettings } from "react-icons/io";
 import { TbMessageCircle } from "react-icons/tb";
@@ -22,6 +22,7 @@ import img3c from "../../../assets/imgs/unit1/Page 8/Page8-Ex A 2-3-3.svg";
 import img4a from "../../../assets/imgs/unit1/Page 8/Page8-Ex A 2-4-1.svg";
 import img4b from "../../../assets/imgs/unit1/Page 8/Page8-Ex A 2-4-2.svg";
 import img4c from "../../../assets/imgs/unit1/Page 8/Page8-Ex A 2-4-3.svg";
+import QuestionAudioPlayer from "../../QuestionAudioPlayer";
 
 const Page8_Q2 = () => {
   const groups = [
@@ -35,105 +36,77 @@ const Page8_Q2 = () => {
   const [showResult, setShowResult] = useState(false);
   const [locked, setLocked] = useState(false);
 
-  const audioRef = useRef(null);
-  const [paused, setPaused] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(null);
-  const stopAtSecond = 9;
-
-  // إعدادات الصوت
-  const [showSettings, setShowSettings] = useState(false);
-  const [volume, setVolume] = useState(1);
-  const settingsRef = useRef(null);
-  const [forceRender, setForceRender] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [current, setCurrent] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const [showCaption, setShowCaption] = useState(false);
-
   // ================================
   // ✔ Captions Array
   // ================================
   const captions = [
     {
-      start: 0,
-      end: 9.04,
-      text: "Page 53, exercise E. Which picture begins with a different sound? Listen and write X.",
+      start: 0.579,
+      end: 3.379,
+      text: "Page 8. Write activities.",
     },
-    { start: 9.06, end: 13.14, text: "1. goose, gate, kiwi," },
-    { start: 13.16, end: 17.17, text: "2. kick, goat, kite," },
-    { start: 17.19, end: 22.06, text: "3. king, garlic, game,  " },
-    { start: 22.08, end: 27.09, text: "4. kangaroo, key, grapes. " },
+    {
+      start: 4.519,
+      end: 6.859,
+      text: "Exercise A, number two.",
+    },
+    {
+      start: 7.919,
+      end: 12.439,
+      text: "Listen and write X on the picture with a different sound.",
+    },
+    {
+      start: 13.5,
+      end: 13.84,
+      text: "One:",
+    },
+    {
+      start: 15.259,
+      end: 19.739,
+      text: "run, rabbit, lemon.",
+    },
+    {
+      start: 19.739,
+      end: 20.959,
+      text: "Two:",
+    },
+    {
+      start: 20.959,
+      end: 21.379,
+      text: "leg,",
+    },
+    {
+      start: 22.5,
+      end: 26.26,
+      text: "railroad track, red.",
+    },
+    {
+      start: 26.26,
+      end: 27.439,
+      text: "Three:",
+    },
+    {
+      start: 27.439,
+      end: 32.34,
+      text: "laugh, rain, lock.",
+    },
+    {
+      start: 32.34,
+      end: 34.34,
+      text: "Four:",
+    },
+    {
+      start: 34.34,
+      end: 36.34,
+      text: "lion, lamp,",
+    },
+    {
+      start: 37.36,
+      end: 37.84,
+      text: "ring",
+    },
   ];
 
-  // ================================
-  // ✔ Update caption highlight
-  // ================================
-  const updateCaption = (time) => {
-    const index = captions.findIndex(
-      (cap) => time >= cap.start && time <= cap.end,
-    );
-    setActiveIndex(index);
-  };
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    audio.currentTime = 0;
-    audio.play();
-
-    const interval = setInterval(() => {
-      if (audio.currentTime >= stopAtSecond) {
-        audio.pause();
-        setPaused(true);
-        setIsPlaying(false);
-        clearInterval(interval);
-      }
-    }, 100);
-
-    // عند انتهاء الأوديو يرجع يبطل أنيميشن + يظهر Continue
-    const handleEnded = () => {
-      const audio = audioRef.current;
-      audio.currentTime = 0; // ← يرجع للبداية
-      setActiveIndex(null);
-      setPaused(false);
-      setIsPlaying(false);
-    };
-
-    audio.addEventListener("ended", handleEnded);
-
-    return () => {
-      clearInterval(interval);
-      audio.removeEventListener("ended", handleEnded);
-    };
-  }, []);
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setForceRender((prev) => prev + 1);
-    }, 1000); // كل ثانية
-    if (activeIndex === -1 || activeIndex === null) return;
-
-    const el = document.getElementById(`caption-${activeIndex}`);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-    return () => clearInterval(timer);
-  }, [activeIndex]);
-
-  const togglePlay = () => {
-    const audio = audioRef.current;
-
-    if (!audio) return;
-
-    if (audio.paused) {
-      audio.play();
-      setPaused(false);
-      setIsPlaying(true);
-    } else {
-      audio.pause();
-      setPaused(true);
-      setIsPlaying(false);
-    }
-  };
   const handleSelect = (groupIndex, imageIndex) => {
     if (locked || showResult2) return; // 🔒 منع التعديل بعد Show Answer
     const updated = [...selected];
@@ -219,126 +192,15 @@ const Page8_Q2 = () => {
         }}
       >
         <h3 className="header-title-page8">
-          <span style={{ color: "#2e3192" }}>2</span> Listen and write <span style={{ color: "#2e3192" }}>✗</span> on the
-          picture with a different sound.
-          
+          <span style={{ color: "#2e3192" }}>2</span> Listen and write{" "}
+          <span style={{ color: "#2e3192" }}>✗</span> on the picture with a
+          different sound.
         </h3>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            width: "100%",
-          }}
-        >
-          <div
-            className="audio-popup-read"
-            style={{
-              width: "50%",
-              marginTop: "0px",
-            }}
-          >
-            <div className="audio-inner player-ui">
-              <audio
-                ref={audioRef}
-                src={sound1}
-                onTimeUpdate={(e) => {
-                  const time = e.target.currentTime;
-                  setCurrent(time);
-                  updateCaption(time);
-                }}
-                onLoadedMetadata={(e) => setDuration(e.target.duration)}
-              ></audio>
-              {/* Play / Pause */}
-              {/* الوقت - السلايدر - الوقت */}
-              <div className="top-row">
-                <span className="audio-time">
-                  {new Date(current * 1000).toISOString().substring(14, 19)}
-                </span>
-
-                <input
-                  type="range"
-                  className="audio-slider"
-                  min="0"
-                  max={duration}
-                  value={current}
-                  onChange={(e) => {
-                    audioRef.current.currentTime = e.target.value;
-                    updateCaption(Number(e.target.value));
-                  }}
-                  style={{
-                    background: `linear-gradient(to right, #430f68 ${
-                      (current / duration) * 100
-                    }%, #d9d9d9ff ${(current / duration) * 100}%)`,
-                  }}
-                />
-
-                <span className="audio-time">
-                  {new Date(duration * 1000).toISOString().substring(14, 19)}
-                </span>
-              </div>
-              {/* الأزرار 3 أزرار بنفس السطر */}
-              <div className="bottom-row">
-                {/* فقاعة */}
-                <div
-                  className={`round-btn ${showCaption ? "active" : ""}`}
-                  style={{ position: "relative" }}
-                  onClick={() => setShowCaption(!showCaption)}
-                >
-                  <TbMessageCircle size={36} />
-                  <div
-                    className={`caption-inPopup ${showCaption ? "show" : ""}`}
-                    style={{ top: "100%", left: "10%" }}
-                  >
-                    {captions.map((cap, i) => (
-                      <p
-                        key={i}
-                        id={`caption-${i}`}
-                        className={`caption-inPopup-line2 ${
-                          activeIndex === i ? "active" : ""
-                        }`}
-                      >
-                        {cap.text}
-                      </p>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Play */}
-                <button className="play-btn2" onClick={togglePlay}>
-                  {isPlaying ? <FaPause size={26} /> : <FaPlay size={26} />}
-                </button>
-
-                {/* Settings */}
-                <div className="settings-wrapper" ref={settingsRef}>
-                  <button
-                    className={`round-btn ${showSettings ? "active" : ""}`}
-                    onClick={() => setShowSettings(!showSettings)}
-                  >
-                    <IoMdSettings size={36} />
-                  </button>
-
-                  {showSettings && (
-                    <div className="settings-popup">
-                      <label>Volume</label>
-                      <input
-                        type="range"
-                        min="0"
-                        max="1"
-                        step="0.05"
-                        value={volume}
-                        onChange={(e) => {
-                          setVolume(e.target.value);
-                          audioRef.current.volume = e.target.value;
-                        }}
-                      />
-                    </div>
-                  )}
-                </div>
-              </div>{" "}
-            </div>
-          </div>
-        </div>
-
+        <QuestionAudioPlayer
+          src={sound1}
+          captions={captions}
+          stopAtSecond={12.43}
+        />
         <div className="exercise-row-CB-unit1-p8-q2">
           {groups.map((group, gIndex) => (
             <div className="group-box-CB-unit1-p8-q2 " key={gIndex}>

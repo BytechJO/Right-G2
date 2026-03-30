@@ -1,21 +1,31 @@
 import React, { useState, useRef, useEffect } from "react";
-import backgroundImage from "../../../assets/imgs/unit1/pages/Page.png";
-import page2_2 from "../../../assets/imgs/test.png";
-import num1 from "../../../assets/imgs/test.png";
-import num2 from "../../../assets/imgs/test.png";
-import num3 from "../../../assets/imgs/test.png";
-import num4 from "../../../assets/imgs/test.png";
-import num5 from "../../../assets/imgs/test.png";
+import backgroundImage from "../../../assets/imgs/Right 2 Unit 1 Stellas Family/Page.png";
+import page2_2 from "../../../assets/imgs/vocab-box.svg";
+import num1 from "../../../assets/imgs/Num1.svg";
+import num2 from "../../../assets/imgs/Num2.svg";
+import num3 from "../../../assets/imgs/Num3.svg";
+import num4 from "../../../assets/imgs/Num4.svg";
+import num5 from "../../../assets/imgs/Num5.svg";
+import num6 from "../../../assets/imgs/Num6.svg";
+import num7 from "../../../assets/imgs/Num7.svg";
+import num8 from "../../../assets/imgs/Num8.svg";
+import num9 from "../../../assets/imgs/Num9.svg";
+
 import { IoMdSettings } from "react-icons/io";
 import { TbMessageCircle } from "react-icons/tb";
 import vocabulary from "../../../assets/imgs/test.png";
 import { FaPlay, FaPause } from "react-icons/fa";
 import "../../../index.css";
-import sound1 from "../../../assets/imgs/test.png";
-import sound4 from "../../../assets/imgs/test.png";
-import sound5 from "../../../assets/imgs/test.png";
-import sound2 from "../../../assets/imgs/test.png";
-import sound3 from "../../../assets/imgs/test.png";
+import soundFull from "../../../assets/audio/ClassBook/U 1/Pg4_Vocabulary_Adult Lady.mp3";
+import sound1 from "../../../assets/audio/ClassBook/U 1/sound1.mp3";
+import sound2 from "../../../assets/audio/ClassBook/U 1/sound2.mp3";
+import sound3 from "../../../assets/audio/ClassBook/U 1/sound3.mp3";
+import sound4 from "../../../assets/audio/ClassBook/U 1/sound4.mp3";
+import sound5 from "../../../assets/audio/ClassBook/U 1/sound5.mp3";
+import sound6 from "../../../assets/audio/ClassBook/U 1/sound6.mp3";
+import sound7 from "../../../assets/audio/ClassBook/U 1/sound7.mp3";
+import sound8 from "../../../assets/audio/ClassBook/U 1/sound8.mp3";
+import sound9 from "../../../assets/audio/ClassBook/U 1/sound9.mp3";
 
 const Page4_vocabulary = () => {
   const mainAudioRef = useRef(null);
@@ -26,7 +36,7 @@ const Page4_vocabulary = () => {
   const [activeIndex2, setActiveIndex2] = useState(null);
   const [showContinue, setShowContinue] = useState(false);
 
-  const stopAtSecond = 2.5;
+  const stopAtSecond = 3.85;
 
   const [showSettings, setShowSettings] = useState(false);
   const [volume, setVolume] = useState(1);
@@ -43,25 +53,33 @@ const Page4_vocabulary = () => {
   const captions = [
     {
       start: 0,
-      end: 3.0,
-      text: "Page 4, Unit 1. Good morning, world.Vocabulary.",
+      end: 3.85,
+      text: "Page four, unit one vocabulary.",
     },
-    { start: 3.02, end: 5.1, text: "1. Goodbye." },
-    { start: 5.13, end: 7.0, text: "2. How are you?" },
-    { start: 7.03, end: 10.5, text: "3. Fine, thank you." },
-    { start: 10.52, end: 12.1, text: "4. Hello." },
-    { start: 12.12, end: 15.0, text: "5. Good morning." },
+    { start: 4.02, end: 6.45, text: "1 father" },
+    { start: 6.52, end: 9.18, text: "2 knock" },
+    { start: 9.24, end: 12.05, text: "3 brother" },
+    { start: 12.12, end: 15.0, text: "4 mother" },
+    { start: 15.06, end: 16.9, text: "5 sister" },
+    { start: 17.0, end: 20.0, text: "6 play" },
+    { start: 20.78, end: 22.18, text: "7 cousin" },
+    { start: 22.8, end: 25.6, text: "8 aunt" },
+    { start: 26.7, end: 28.12, text: "9 uncle" },
   ];
 
   // ================================
   // ✔ Word timings
   // ================================
   const wordTimings = [
-    { start: 2.8, end: 5.0 }, // Goodbye
-    { start: 5.1, end: 7.2 }, // How are you
-    { start: 7.25, end: 10.5 }, // Fine thank you
-    { start: 10.6, end: 12.35 }, // Hello
-    { start: 12.37, end: 15.0 }, // Good morning
+    { start: 4.02, end: 6.45, text: "1 father" },
+    { start: 6.52, end: 9.18, text: "2 knock" },
+    { start: 9.24, end: 12.05, text: "3 brother" },
+    { start: 12.12, end: 15.0, text: "4 mother" },
+    { start: 15.06, end: 16.9, text: "5 sister" },
+    { start: 17.0, end: 20.0, text: "6 play" },
+    { start: 20.78, end: 22.18, text: "7 cousin" },
+    { start: 22.8, end: 25.6, text: "8 aunt" },
+    { start: 26.7, end: 28.12, text: "9 uncle" },
   ];
 
   // ================================
@@ -69,7 +87,7 @@ const Page4_vocabulary = () => {
   // ================================
   const updateCaption = (time) => {
     const index = captions.findIndex(
-      (cap) => time >= cap.start && time <= cap.end
+      (cap) => time >= cap.start && time <= cap.end,
     );
     setActiveIndex(index);
   };
@@ -79,7 +97,7 @@ const Page4_vocabulary = () => {
   // ================================
   const updateWord = (time) => {
     const wordIndex = wordTimings.findIndex(
-      (w) => time >= w.start && time <= w.end
+      (w) => time >= w.start && time <= w.end,
     );
     setActiveIndex2(wordIndex);
   };
@@ -138,39 +156,48 @@ const Page4_vocabulary = () => {
     }
   };
 
-    const wordAudios = [sound1, sound2, sound3, sound4, sound5];
- const playWordAudio = (index) => {
-  // أوقفي الأوديو الرئيسي
-  mainAudioRef.current.pause();
+  const wordAudios = [
+    sound1,
+    sound2,
+    sound3,
+    sound4,
+    sound5,
+    sound6,
+    sound7,
+    sound8,
+    sound9,
+  ];
+  const playWordAudio = (index) => {
+    // أوقفي الأوديو الرئيسي
+    mainAudioRef.current.pause();
 
-  // أوقفي أي كلمة شغالة
-  wordRefs.current.forEach((ref) => {
-    if (ref.current) {
-      ref.current.pause();
-      ref.current.currentTime = 0;
-    }
-  });
+    // أوقفي أي كلمة شغالة
+    wordRefs.current.forEach((ref) => {
+      if (ref.current) {
+        ref.current.pause();
+        ref.current.currentTime = 0;
+      }
+    });
 
-  const audio = wordRefs.current[index].current;
-  if (!audio) return;
+    const audio = wordRefs.current[index].current;
+    if (!audio) return;
 
-  // تشغيل الصوت من البداية
-  audio.currentTime = 0;
-  audio.play();
+    // تشغيل الصوت من البداية
+    audio.currentTime = 0;
+    audio.play();
 
-  // 🔥 فعل الأنيميشن على طول فترة التشغيل
-  setClickedIndex(index);
+    // 🔥 فعل الأنيميشن على طول فترة التشغيل
+    setClickedIndex(index);
 
-  // 🔥 عند انتهاء الصوت -> أطفئ الأنيميشن
-  audio.onended = () => {
-    setClickedIndex(null);
+    // 🔥 عند انتهاء الصوت -> أطفئ الأنيميشن
+    audio.onended = () => {
+      setClickedIndex(null);
+    };
   };
-};
 
- const wordRefs = useRef(wordAudios.map(() => React.createRef()));
+  const wordRefs = useRef(wordAudios.map(() => React.createRef()));
 
-
-  const nums = [num1, num2, num3, num4, num5];
+  const nums = [num1, num2, num3, num4, num5, num6, num7, num8, num9];
 
   return (
     <div
@@ -179,7 +206,8 @@ const Page4_vocabulary = () => {
       {/* ============================
            AUDIO PLAYER
       ============================= */}
-      <div className="audio-popup-vocab-container"
+      <div
+        className="audio-popup-vocab-container"
         style={{
           width: "30%",
           display: "flex",
@@ -187,14 +215,14 @@ const Page4_vocabulary = () => {
           justifyContent: "center",
           margin: "0px 20px",
           position: "relative",
-          alignItems:"center"
+          alignItems: "center",
         }}
       >
         <div className="audio-popup-vocab">
           <div className="audio-inner player-ui">
             <audio
               ref={mainAudioRef}
-              src={vocabulary}
+              src={soundFull}
               onTimeUpdate={(e) => {
                 const t = e.target.currentTime;
                 setCurrent(t);
@@ -298,7 +326,7 @@ const Page4_vocabulary = () => {
         <img
           src={page2_2}
           style={{
-            height: "170px",
+            height: "260px",
             position: "absolute",
             bottom: "0%",
             right: "0%",
@@ -308,11 +336,15 @@ const Page4_vocabulary = () => {
 
         <div className="vocab_container" style={{ bottom: "2%", right: "6%" }}>
           {[
-            "Goodbye!",
-            "How are you?",
-            "Fine, thank you.",
-            "Hello!",
-            "Good morning!",
+            "father",
+            "knock",
+            "brother",
+            "mother",
+            "sister",
+            "play",
+            "cousin",
+            "aunt",
+            "uncle",
           ].map((text, i) => (
             <h6
               key={i}
@@ -333,6 +365,7 @@ const Page4_vocabulary = () => {
           <img
             key={i}
             src={num}
+            id={`num-${i + 1}-unit1`}
             className={`num-img ${
               (activeIndex2 === i && current >= 2.8) || clickedIndex === i
                 ? "active"
@@ -341,8 +374,6 @@ const Page4_vocabulary = () => {
             style={{
               height: "20px",
               position: "absolute",
-              top: ["43%", "44%", "42%", "27.5%", "24.5%"][i],
-              left: ["19%", "52%", "66%", "34%", "32%"][i],
             }}
           />
         ))}
@@ -350,9 +381,9 @@ const Page4_vocabulary = () => {
         {/* Background */}
         <img src={backgroundImage} style={{ height: "75vh" }} />
       </div>
-        {wordAudios.map((src, i) => (
-  <audio key={i} ref={wordRefs.current[i]} src={src} />
-))}
+      {wordAudios.map((src, i) => (
+        <audio key={i} ref={wordRefs.current[i]} src={src} />
+      ))}
     </div>
   );
 };

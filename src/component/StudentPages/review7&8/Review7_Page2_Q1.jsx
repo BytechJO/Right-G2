@@ -12,6 +12,7 @@ import home from "../../../assets/audio/ClassBook/U 7/Pg58_1.4_Adult Lady.mp3";
 import caot from "../../../assets/audio/ClassBook/U 7/Pg59_1.3_Adult Lady.mp3";
 import boat from "../../../assets/audio/ClassBook/U 7/Pg58_1.2_Adult Lady.mp3";
 import audio5 from "../../../assets/audio/ClassBook/U 7/Pg58_1.2_Adult Lady.mp3";
+import QuestionAudioPlayer from "../../QuestionAudioPlayer";
 const Review7_Page2_Q1 = () => {
   const items = [
     { img: img1, audio: caot, correct: "yes" },
@@ -20,7 +21,14 @@ const Review7_Page2_Q1 = () => {
     { img: img4, audio: home, correct: "yes" },
     { img: img5, audio: audio5, correct: "yes" },
   ];
-
+  const captions = [
+    {
+      start: 0,
+      end: 4.23,
+      text: "Page 8. Right Activities. Exercise A, number 1.",
+    },
+    { start: 4.25, end: 8.28, text: "Listen and write the missing letters." },
+  ];
   const [selected, setSelected] = useState(Array(items.length).fill(""));
   const [locked, setLocked] = useState(false);
 
@@ -81,61 +89,70 @@ const Review7_Page2_Q1 = () => {
   };
 
   return (
-    <div className="flex justify-center p-8">
-      <div className="w-[80%]">
+    <div className="main-container-component">
+      <div className="div-forall">
         <h5 className="header-title-page8">
           <span style={{ marginRight: "20px" }}>C</span>
           Does it have a <span style={{ color: "#2e3192" }}>long o</span>?
           Listen and write<span style={{ color: "#2e3192" }}> ✓ </span>or
           <span style={{ color: "#2e3192" }}> ✗</span>
         </h5>
-
+        <QuestionAudioPlayer
+          src={audio5}
+          captions={captions}
+          stopAtSecond={4}
+        />
         {/* GRID */}
-        <div className="grid grid-cols-5 gap-3 mt-10">
-          {items.map((item, i) => (
-            <div
-              key={i}
-              className="flex flex-col items-center justify-center relative mt-4"
-            >
-              {/* number in corner */}
-              <span className="absolute -top-1 -left-1 text-lg font-bold">
-                {i + 1}
-              </span>
-
-              {/* image + audio */}
-              <img
-                src={item.img}
-                className="w-[150px]! h-[150px]! object-contain"
-              />
-
-              <button
-                onClick={() => playAudio(item.audio)}
-                className="text-2xl mt-1"
+        <div className="grid grid-cols-3 gap-3">
+          {items.map((item, i) => {
+            const isWrong = locked && selected[i] !== item.correct;
+            return (
+              <div
+                key={i}
+                className="flex flex-col items-center justify-center mt-4"
               >
-                🔊
-              </button>
+                {" "}
+                <div className="relative">
+                  <div className="flex gap-2 justify-center">
+                    {/* number in corner */}
+                    <span className="text-lg font-bold">{i + 1}</span>
 
-              <div className="flex gap-2 mt-2">
-                <button
-                  onClick={() => choose(i, "yes")}
-                  className={`w-10 h-10 border rounded text-lg ${
-                    selected[i] === "yes" ? "bg-green-500 text-white" : ""
-                  }`}
-                >
-                  ✓
-                </button>
+                    {/* image + audio */}
+                    <img
+                      src={item.img}
+                      className="w-[150px]! h-[150px]! object-contain"
+                    />
 
-                <button
-                  onClick={() => choose(i, "no")}
-                  className={`w-10 h-10 border rounded text-lg ${
-                    selected[i] === "no" ? "bg-red-500 text-white" : ""
-                  }`}
-                >
-                  ✗
-                </button>
+                    {/* Wrong Icon */}
+                    {isWrong && (
+                      <div className="absolute top-6 -right-3 w-7 h-7 bg-red-500 rounded-full flex items-center justify-center border-2 border-white">
+                        <span className="text-white font-bold">✕</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div className="flex gap-2 mt-2">
+                  <button
+                    onClick={() => choose(i, "yes")}
+                    className={`w-10 h-10 border rounded text-lg ${
+                      selected[i] === "yes" ? "bg-green-500 text-white" : ""
+                    }`}
+                  >
+                    ✓
+                  </button>
+
+                  <button
+                    onClick={() => choose(i, "no")}
+                    className={`w-10 h-10 border rounded text-lg ${
+                      selected[i] === "no" ? "bg-red-500 text-white" : ""
+                    }`}
+                  >
+                    ✗
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* buttons */}

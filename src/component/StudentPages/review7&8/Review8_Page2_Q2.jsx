@@ -39,8 +39,8 @@ const Review8_Page2_Q2 = () => {
     {
       id: 1,
       word: ["t", "", "n", ""],
-      letters: ["a", "o", "e"],
-      answer: ["t", "o", "n", "e"],
+      letters: ["a", "u", "e"],
+      answer: ["t", "u", "n", "e"],
     },
     {
       id: 2,
@@ -126,11 +126,13 @@ const Review8_Page2_Q2 = () => {
     });
 
     const total = images.length;
+    let color =
+      correctCount === total ? "green" : correctCount === 0 ? "red" : "orange";
 
     const msg = `
-      <div style="font-size:20px;text-align:center;">
-        <span style="color:#2e7d32;font-weight:bold;">
-          Score: ${correctCount} / ${total}
+      <div style="font-size: 20px; text-align:center; margin-top: 8px;">
+        <span style="color:${color}; font-weight:bold;">
+          Score: ${correctCount}
         </span>
       </div>
     `;
@@ -166,14 +168,26 @@ const Review8_Page2_Q2 = () => {
     setLocked(false);
   };
 
+  // ❌ هل التوصيل غلط؟
+  const isWrongMatch = (imgId) => {
+    if (!showResult) return false;
+    return correct[imgId] !== matches[imgId];
+  };
+
+  // ❌ هل الكلمة غلط؟
+  const isWrongWord = (sentId) => {
+    if (!showResult) return false;
+
+    const filled = filledLetters[sentId];
+    if (!filled) return true;
+
+    return JSON.stringify(filled) !== JSON.stringify(sentences[sentId].answer);
+  };
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       {/* كل الكود تبعك */}
-      <div
-        ref={containerRef}
-        className="flex flex-col items-center p-10 relative"
-      >
-        <div className="w-full max-w-[900px] flex flex-col gap-10">
+      <div ref={containerRef} className="main-container-component relative">
+        <div className="div-forall gap-10">
           <h5 className="header-title-page8">
             <span style={{ marginRight: "15px" }}>F</span>
             Match and write.
@@ -189,12 +203,21 @@ const Review8_Page2_Q2 = () => {
                   onClick={() => selectImage(img.id)}
                   className="flex flex-col items-center gap-3 cursor-pointer"
                 >
-                  <div
-                    className={`border-2 border-red-500 rounded-lg w-[140px] h-[110px] flex items-center justify-center ${
-                      selectedImg === img.id ? "bg-red-100" : ""
-                    }`}
-                  >
-                    <img src={img.img} className="max-h-[60px]" />
+                  <div className="relative">
+                    <div
+                      className={`border-2 border-red-500 rounded-lg w-[140px] h-[110px] flex items-center justify-center ${
+                        selectedImg === img.id ? "bg-red-100" : ""
+                      }`}
+                    >
+                      <img src={img.img} className="max-h-[60px]" />
+                    </div>
+
+                    {/* ❌ WRONG IMAGE */}
+                    {isWrongMatch(img.id) && (
+                      <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold shadow border-2 border-white">
+                        ✕
+                      </div>
+                    )}
                   </div>
                   <div className="w-3 h-3 bg-red-500 rounded-full"></div>
                 </div>
@@ -211,25 +234,51 @@ const Review8_Page2_Q2 = () => {
                   className="flex flex-col items-center cursor-pointer"
                 >
                   <div className="relative">
-                    <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-red-500 rounded-full"></div>
+                    <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-red-500 rounded-full z-20"></div>
 
-                    <div className="bg-[#e9d7c9] px-4 py-2 rounded-xl text-lg">
+                    <div className="bg-[#e9d7c9] px-4 py-2 rounded-xl text-lg relative">
+                      {/* ❌ WRONG WORD (مرة وحدة فقط) */}
+                      {isWrongWord(sent.id) && (
+                        <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold shadow border-2 border-white z-20">
+                          ✕
+                        </div>
+                      )}
                       {/* الكلمة */}
                       <div className="flex gap-1 justify-center">
-                        {sent.word.map((char, idx) => (
-                          <Droppable droppableId={`blank-${sent.id}-${idx}`}>
-                            {(provided) => (
+                        {sent.word.map((char, idx) => {
+                          const isBlank = char === "";
+
+                          if (!isBlank) {
+                            // 🔒 حرف ثابت (ما ينلمس)
+                            return (
                               <span
-                                ref={provided.innerRef}
-                                {...provided.droppableProps}
-                                className="w-6 h-8 border-b-2 text-center"
+                                key={idx}
+                                className="w-6 h-8 text-center font-bold"
                               >
-                                {filledLetters[sent.id]?.[idx] || char || "_"}
-                                {provided.placeholder}
+                                {char}
                               </span>
-                            )}
-                          </Droppable>
-                        ))}
+                            );
+                          }
+
+                          // ✨ فقط الفراغ Droppable
+                          return (
+                            <Droppable
+                              key={idx}
+                              droppableId={`blank-${sent.id}-${idx}`}
+                            >
+                              {(provided) => (
+                                <span
+                                  ref={provided.innerRef}
+                                  {...provided.droppableProps}
+                                  className="w-6 h-8 border-b-2 text-center"
+                                >
+                                  {filledLetters[sent.id]?.[idx] || "_"}
+                                  {provided.placeholder}
+                                </span>
+                              )}
+                            </Droppable>
+                          );
+                        })}
                       </div>
 
                       {/* الحروف */}

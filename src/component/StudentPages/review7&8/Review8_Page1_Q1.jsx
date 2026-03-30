@@ -96,11 +96,16 @@ const Review8_Page1_Q1 = () => {
     correct += userShe.filter((a) => correctShe.includes(a)).length;
     const total = questions.length;
 
+    const color =
+      correct === total ? "green" : correct === 0 ? "red" : "orange";
+
     const msg = `
-<div style="font-size:20px;text-align:center;">
-<b>Score: ${correct} / ${total}</b>
-</div>
-`;
+      <div style="font-size:20px;text-align:center;">
+        <span style="color:${color};font-weight:bold">
+        Score: ${correct} / ${total}
+        </span>
+      </div>
+    `;
 
     if (correct === total) ValidationAlert.success(msg);
     else if (correct === 0) ValidationAlert.error(msg);
@@ -109,16 +114,30 @@ const Review8_Page1_Q1 = () => {
     setLocked(true);
   };
 
+  const isWrongAnswer = (id, value) => {
+    if (!locked || !value) return false;
+
+    if (id.startsWith("I")) {
+      return !I_answers.includes(value);
+    }
+
+    if (id.startsWith("S")) {
+      return !She_answers.includes(value);
+    }
+
+    return false;
+  };
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="flex justify-center p-8">
-        <div className="w-[80%]">
+      <div className="main-container-component">
+        <div className="div-forall">
           <h5 className="header-title-page8 ">
             <span style={{ marginRight: "20px" }}>A</span> Look and write.
           </h5>
 
           {/* IMAGES */}
-          <div className="w-[70%] mx-auto">
+          <div>
             <div className="flex justify-center gap-8 ">
               <div className="relative">
                 <img
@@ -149,29 +168,33 @@ const Review8_Page1_Q1 = () => {
                 <div
                   ref={provided.innerRef}
                   {...provided.droppableProps}
-                  className="flex flex-wrap gap-4 justify-center mb-5"
+                  className="flex flex-wrap gap-4 justify-center mb-5 border-2 border-dashed border-gray-300 p-4 rounded-lg"
                 >
-                  {answersBank
-                    .filter((a) => !Object.values(answers).includes(a))
-                    .map((a, index) => (
+                  {answersBank.map((a, index) => {
+                    const isUsed = Object.values(answers).includes(a);
+                    return (
                       <Draggable
                         key={a}
                         draggableId={a}
                         index={index}
-                        isDragDisabled={locked}
+                        isDragDisabled={locked || isUsed}
                       >
                         {(provided) => (
                           <div
                             ref={provided.innerRef}
                             {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            className="bg-yellow-200 px-4 py-2 rounded-lg cursor-grab"
+                            {...(!isUsed && provided.dragHandleProps)}
+                            className={`
+    px-4 py-2 rounded-lg
+    ${isUsed ? "bg-gray-300 cursor-not-allowed opacity-60" : "bg-yellow-200 cursor-grab"}
+  `}
                           >
                             {a}
                           </div>
                         )}
                       </Draggable>
-                    ))}
+                    );
+                  })}
 
                   {provided.placeholder}
                 </div>
@@ -194,12 +217,18 @@ const Review8_Page1_Q1 = () => {
                           <div
                             ref={provided.innerRef}
                             {...provided.droppableProps}
-                            className="border-b-2 border-black min-h-10 flex-1"
+                            className={`relative border-b-2 border-black min-h-10 flex-1 ${isWrongAnswer(q.id, answers[q.id]) ? "border-b-2 border-red-600" : "border-b-2 border-black"}`}
                           >
-                            <span className="text-red-600 font-semibold">
+                            <span className="text-black font-semibold">
                               {answers[q.id]}
                             </span>
 
+                            {/* ❌ WRONG ICON */}
+                            {isWrongAnswer(q.id, answers[q.id]) && (
+                              <div className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold shadow border-2 border-white">
+                                ✕
+                              </div>
+                            )}
                             {provided.placeholder}
                           </div>
                         )}
@@ -221,11 +250,17 @@ const Review8_Page1_Q1 = () => {
                           <div
                             ref={provided.innerRef}
                             {...provided.droppableProps}
-                            className="border-b-2 border-black min-h-10 flex-1"
+                            className={`relative border-b-2 border-black min-h-10 flex-1 ${isWrongAnswer(q.id, answers[q.id]) ? "border-b-2 border-red-600" : "border-b-2 border-black"}`}
                           >
-                            <span className="text-red-600 font-semibold">
+                            <span className="text-black font-semibold">
                               {answers[q.id]}
                             </span>
+                            {/* ❌ WRONG ICON */}
+                            {isWrongAnswer(q.id, answers[q.id]) && (
+                              <div className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold shadow border-2 border-white">
+                                ✕
+                              </div>
+                            )}
                             {provided.placeholder}
                           </div>
                         )}

@@ -197,7 +197,7 @@ const Page8_Q1 = () => {
           <div className="CB-unit1-p8-q1-grid">
             {items.map((item, i) => (
               <div className="CB-unit1-p8-q1-box" key={i}>
-                <div style={{height:"150px"}}>
+                <div style={{ height: "150px" }}>
                   <img src={item.img} className="CB-unit1-p8-q1-image" />
                 </div>
                 {/* f / v circles */}

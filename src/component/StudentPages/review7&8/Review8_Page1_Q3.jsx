@@ -73,58 +73,90 @@ const Review8_Page1_Q3 = () => {
   };
 
   return (
-    <div className="flex justify-center p-8">
-      <div className="w-[80%]">
+    <div className="main-container-component">
+      <div className="div-forall">
         <h5 className="header-title-page8">
-          <span  style={{ marginRight: "20px" }}>
-            C
-          </span>
+          <span style={{ marginRight: "20px" }}>C</span>
           Look, read, and write<span style={{ color: "#2e3192" }}> ✓ </span>or
           <span style={{ color: "#2e3192" }}> ✗</span>
         </h5>
 
         {/* GRID */}
-        <div className="grid grid-cols-2 gap-x-4 gap-y-2 mt-4">
-          {items.map((item, i) => (
-            <div key={i} className="flex items-center gap-2">
-              {/* number */}
-              <span className="font-bold text-sm w-4">{i + 1}</span>
+        <div className="grid grid-cols-2 gap-x-4 gap-y-2 mt-4 w-full">
+          {items.map((item, i) => {
+            const isWrongYes =
+              locked && selected[i] === "yes" && item.correct !== "yes";
 
-              {/* image */}
-              <img
-                src={item.img}
-                style={{
-                  width: "120px",
-                  height: "120px",
-                  border: "2px solid red",
-                }}
-                className=" border-2 border-red-400 rounded-lg"
-              />
+            const isWrongNo =
+              locked && selected[i] === "no" && item.correct !== "no";
+            return (
+              <div
+                key={i}
+                className="flex items-center gap-2 w-full"
+                style={{ justifyContent: "space-between" }}
+              >
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2">
+                    {/* number */}
+                    <span className="font-bold text-xl w-4">{i + 1}</span>
 
-              {/* sentence */}
-              <span className="text-[20px]">{item.text}</span>
-              {/* answer box */}
-              <div className="flex flex-col gap-2 justify-center h-[150px]">
-                <button
-                  onClick={() => choose(i, "yes")}
-                  className={`w-10 h-10 border rounded text-lg ${
-                    selected[i] === "yes" ? "bg-green-500 text-white" : ""
-                  }`}
-                >
-                  ✓
-                </button>
+                    {/* image */}
+                    <img
+                      src={item.img}
+                      style={{
+                        width: "120px",
+                        height: "120px",
+                        border: "2px solid red",
+                      }}
+                      className=" border-2 border-red-400 rounded-lg"
+                    />
+                  </div>
+                  {/* sentence */}
+                  <span className="text-[20px]">{item.text}</span>
+                </div>
+                {/* answer box */}
+                <div className="flex flex-col gap-2 justify-center h-[150px]">
+                  {/* YES */}
+                  <div className="relative">
+                    <button
+                      onClick={() => choose(i, "yes")}
+                      className={`w-10 h-10 border rounded text-lg ${
+                        selected[i] === "yes" ? "bg-blue-600 text-white" : ""
+                      }`}
+                    >
+                      ✓
+                    </button>
 
-                <button
-                  onClick={() => choose(i, "no")}
-                  className={`w-10 h-10 border rounded text-lg ${
-                    selected[i] === "no" ? "bg-red-500 text-white" : ""
-                  }`}
-                >
-                  ✗
-                </button>
+                    {/* ❌ فوق زر yes إذا غلط */}
+                    {isWrongYes && (
+                      <div className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold shadow border-2 border-white">
+                        ✕
+                      </div>
+                    )}
+                  </div>
+
+                  {/* NO */}
+                  <div className="relative">
+                    <button
+                      onClick={() => choose(i, "no")}
+                      className={`w-10 h-10 border rounded text-lg ${
+                        selected[i] === "no" ? "bg-blue-600 text-white" : ""
+                      }`}
+                    >
+                      ✗
+                    </button>
+
+                    {/* ❌ فوق زر no إذا غلط */}
+                    {isWrongNo && (
+                      <div className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold shadow border-2 border-white">
+                        ✕
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* buttons */}

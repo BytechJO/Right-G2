@@ -1,90 +1,98 @@
 import { useState, useRef } from "react";
-import page_1 from "../../../assets/imgs/pages/Right 2 Unit 1 Stellas Family_00001/Right 2 Unit 1 Stellas Family_00010.jpg";
+import page_1 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 10.png";
 import "./Unit2_Page1.css";
-// import unit2_page1_CD8 from "../../../assets/img_unit2/sounds-unit2/CD8.Pg10_U2.Intro_Adult Lady.mp3";
+import unit2_page1_CD8 from "../../../assets/audio/ClassBook/U 2/unit2-All.mp3";
 import Unit2_Page1_find from "./Unit2_Page1_find";
 import Unit2_Page1_Vocab from "./Unit2_Page1_Vocab";
 import Unit2_Page1_Read from "./Unit2_Pag1_Read";
 import AudioWithCaption from "../../AudioWithCaption";
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
-import allUnit2 from "../../../assets/audio/ClassBook/U 2/CD6.Pg10.U2_Intro_Adult Lady.mp3";
-// import sound1 from "../../../assets/img_unit2/sounds-unit2/U2-01.mp3";
-// import sound2 from "../../../assets/img_unit2/sounds-unit2/U2-02.mp3";
-// import sound3 from "../../../assets/img_unit2/sounds-unit2/U2-03.mp3";
-// import sound4 from "../../../assets/img_unit2/sounds-unit2/U2-04.mp3";
-// import sound5 from "../../../assets/img_unit2/sounds-unit2/U2-05.mp3";
+import allUnit2 from "../../../assets/audio/ClassBook/U 2/unit2-All.mp3";
+import sound1 from "../../../assets/audio/ClassBook/U 2/sound1-unit2.mp3";
+import sound2 from "../../../assets/audio/ClassBook/U 2/sound2-unit2.mp3";
+import sound3 from "../../../assets/audio/ClassBook/U 2/sound3-unit2.mp3";
+import sound4 from "../../../assets/audio/ClassBook/U 2/sound4-unit2.mp3";
+import sound5 from "../../../assets/audio/ClassBook/U 2/sound5-unit2.mp3";
+import sound6 from "../../../assets/audio/ClassBook/U 2/sound6-unit2.mp3";
+import sound7 from "../../../assets/audio/ClassBook/U 2/sound7-unit2.mp3";
+import sound8 from "../../../assets/audio/ClassBook/U 2/sound8-unit2.mp3";
+import sound9 from "../../../assets/audio/ClassBook/U 2/sound9-unit2.mp3";
+import sound10 from "../../../assets/audio/ClassBook/U 2/sound10-unit2.mp3";
 
 const Unit2_Page1 = ({ openPopup }) => {
   const [activeAreaIndex, setActiveAreaIndex] = useState(null);
   const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef(null);
+
   const captionsExample = [
-    { start: 0, end: 4.0, text: " Page 10, Unit 2, Stella's Birthday. " },
-    { start: 4.05, end: 7.09, text: "Page 10, Unit 2, Vocabulary." },
-    { start: 7.12, end: 9.19, text: " 1. Party Hat. " },
-    { start: 9.22, end: 11.16, text: "2. Jello." },
-    { start: 11.2, end: 14.0, text: "3. Cake. " },
-    { start: 14.04, end: 16.23, text: "4. Happy Birthday." },
-    { start: 16.26, end: 19.1, text: " 5. Balloons." },
-    { start: 19.14, end: 21.17, text: " 6. Present. " },
-    { start: 21.2, end: 24.04, text: "7.card" },
-    { start: 24.08, end: 26.29, text: "Page 10. Listen and read along. " },
-    { start: 26.33, end: 30.12, text: "B, bird, ball, boy " },
-    { start: 30.16, end: 32.28, text: "Page 11. Birthday is fun" },
+    { start: 0.5, end: 4.67, text: "Page 10, Unit 2. A Day at the Park." },
+    { start: 5.72, end: 8.56, text: "Page 10, Unit 2, Vocabulary." },
+    { start: 10.4, end: 11.8, text: "1. Duck." },
+    { start: 12.82, end: 14.47, text: "2. Swim." },
+    { start: 15.54, end: 20.38, text: "3. Bird. 4. Sun." },
+    { start: 21.52, end: 23.39, text: "5. Cloud." },
+    { start: 24.78, end: 26.45, text: "6. Pink." },
+    { start: 27.92, end: 29.6, text: "7. Blue." },
+    { start: 30.9, end: 32.68, text: "8. Flower." },
+    { start: 33.92, end: 35.62, text: "9. Fly." },
+    { start: 36.8, end: 38.57, text: "10. Pond." },
+    { start: 39.64, end: 43.02, text: "Page 10. Listen and read along." },
+    { start: 44.6, end: 47.75, text: "C, Q. Cat." },
+    { start: 48.8, end: 52.18, text: "Page 11. Listen and read along." },
     {
-      start: 32.32,
-      end: 40.09,
-      text: "Hi, everyone. Today is my birthday. I'm seven years old. My friends are here. It's fun. ",
+      start: 53.34,
+      end: 66.79,
+      text: "Dear diary, it was fun at the park. These are pictures of our day. This is a butterfly. That is a bird. These are ducks in the pond. Those are my friends.",
     },
-    { start: 40.12, end: 43.18, text: "Page 11. Listen, read & repeat. " },
-    {
-      start: 43.22,
-      end: 46.26,
-      text: "What's your name? My name is Lolo. ",
-    },
-    { start: 46.3, end: 50.14, text: "Page 11. Listen and read along. " },
-    { start: 50.18, end: 53.25, text: "P, pencil, pink, pizza. " },
+    { start: 66.8, end: 69.58, text: "Page 11. At the park." },
+    { start: 71.06, end: 74.83, text: "C, K, X. Clock, queen, fox." },
   ];
 
   const areas = [
     // الصوت الأول – المنطقة الأساسية
-    { x1: 72.8, y1: 26.6, x2: 77.0, y2: 30.0, sound: 1, isPrimary: true },
+    { x1: 23.8, y1: 31.6, sound: 1, isPrimary: true },
 
     // // الصوت الأول – منطقة إضافية
-    { x1: 69.5, y1: 25.8, x2: 75.9, y2: 33.4, sound: 1, isPrimary: false },
+    { x1: 25.3, y1: 27.78, x2: 32.48, y2: 30.98, sound: 1, isPrimary: false },
 
     // // الصوت الثاني – الأساسية
-    { x1: 63.2, y1: 56.35, x2: 67.2, y2: 59.3, sound: 2, isPrimary: true },
+    { x1: 30.6, y1: 37.7, sound: 2, isPrimary: true },
 
     // // الصوت الثاني – الإضافية
-    { x1: 62.9, y1: 53.5, x2: 74.8, y2: 59.9, sound: 2, isPrimary: false },
+    { x1: 31.48, y1: 31.28, x2: 41.4, y2: 36.16, sound: 2, isPrimary: false },
 
     // // الصوت الثالث – الأساسية
-    { x1: 60.8, y1: 47.9, x2: 64.9, y2: 50.9, sound: 3, isPrimary: true },
+    { x1: 63, y1: 19.8, sound: 3, isPrimary: true },
 
     // // الصوت الثالث – الإضافية
-    { x1: 56.4, y1: 43.5, x2: 72.8, y2: 51.1, sound: 3, isPrimary: false },
+    { x1: 49.15, y1: 15.75, x2: 61.95, y2: 25.04, sound: 3, isPrimary: false },
     // // الصوت الرابع – الأساسية
-    { x1: 88.2, y1: 11.45, x2: 92.1, y2: 14.4, sound: 4, isPrimary: true },
+    { x1: 31.2, y1: 16.6, sound: 4, isPrimary: true },
 
     // // الصوت الرابع – الإضافية
-    { x1: 23.17, y1: 11.5, x2: 99.4, y2: 20.5, sound: 4, isPrimary: false },
+    { x1: 23.17, y1: 13.5, x2: 43.92, y2: 16.51, sound: 4, isPrimary: false },
 
     // // الصوت الخامس – الأساسية
-    { x1: 13.4, y1: 23.7, x2: 17.3, y2: 26.7, sound: 5, isPrimary: true },
+    { x1: 68.8, y1: 62.4, sound: 5, isPrimary: true },
 
     // // الصوت الخامس – الإضافية
-    { x1: 1.0, y1: 11.06, x2: 16.9, y2: 28.5, sound: 5, isPrimary: false },
+    { x1: 71.45, y1: 59.61, x2: 88.32, y2: 73.93, sound: 5, isPrimary: false },
+    // // الصوت السادس  – الأساسية
+    { x1: 7.9, y1: 27.3, sound: 5, isPrimary: true },
+
+    // // الصوت الخامس – الإضافية
+    { x1: 3.19, y1: 24.73, x2: 16.9, y2: 28.5, sound: 5, isPrimary: false },
   ];
-  // const sounds = {
-  //   1: sound1,
-  //   2: sound2,
-  //   3: sound3,
-  //   4: sound4,
-  //   5: sound5,
-  // };
+  const sounds = {
+    1: sound1,
+    2: sound2,
+    3: sound4,
+    4: sound5,
+    5: sound8,
+    6: sound6,
+  };
 
   const handleImageClick = (e) => {
     const rect = e.target.getBoundingClientRect();
@@ -158,7 +166,7 @@ const Unit2_Page1 = ({ openPopup }) => {
             }}
             onClick={() => {
               setActiveAreaIndex(area.sound); // 👈 يفعل الدائرة فوق الرقم
-              // playSound(sounds[area.sound]);
+              playSound(sounds[area.sound]);
             }}
           ></div>
         );
@@ -183,7 +191,7 @@ const Unit2_Page1 = ({ openPopup }) => {
                 }}
               >
                 <AudioWithCaption src={allUnit2} captions={captionsExample} />
-              </div>
+              </div>,
             )
           }
           style={{ overflow: "visible" }}
@@ -212,7 +220,7 @@ const Unit2_Page1 = ({ openPopup }) => {
               "html",
               <>
                 <Unit2_Page1_find />
-              </>
+              </>,
             )
           }
           style={{ overflow: "visible" }}
@@ -240,7 +248,7 @@ const Unit2_Page1 = ({ openPopup }) => {
               "html",
               <>
                 <Unit2_Page1_Vocab />
-              </>
+              </>,
             )
           }
           style={{ overflow: "visible" }}
@@ -268,7 +276,7 @@ const Unit2_Page1 = ({ openPopup }) => {
               "html",
               <>
                 <Unit2_Page1_Read />
-              </>
+              </>,
             )
           }
           style={{ overflow: "visible" }}

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import page_9 from "../../../assets/imgs/unit1/pages/Untitled-19.png";
+import page_9 from "../../../assets/imgs/Right 2 Unit 1 Stellas Family/Page 9.png";
 import "./Page9.css"
 // import song from "../../../assets/audio/placeholders/song.mp3";
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
@@ -25,42 +25,7 @@ const Page9 = ({ openPopup }) => {
       className="page1-img-wrapper"
       style={{ backgroundImage: `url(${page_9})` }}
     >
-      {/* <img src={page_9} /> */}
-      <div
-        className="headset-icon-CD-page9 hover:scale-110 transition"
-        style={{ overflow: "visible" }}
-      >
-        <svg
-          width="22"
-          height="22"
-          viewBox="0 0 90 90"
-          onClick={() =>
-            openPopup(
-              "audio",
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignContent: "center",
-                }}
-              >
-                {/* <AudioWithCaption src={song} captions={captionsExample} /> */}
-              </div>
-            )
-          }
-          // className="headset-icon-CD-page9 hover:scale-110 transition"
-          style={{ overflow: "visible" }}
-        >
-          <image className="svg-img"
-            href={audioBtn}
-            x="0"
-            y="0"
-            width="100%"
-            height="100%"
-            preserveAspectRatio="xMidYMid meet"
-          />
-        </svg>
-      </div>
+    
       <div
         className="click-icon-page9-1 hover:scale-110 transition"
         style={{ overflow: "visible" }}
@@ -103,7 +68,7 @@ const Page9 = ({ openPopup }) => {
           />
         </svg>
       </div>
-      <audio ref={audioRef} style={{ display: "none" }} />
+     
     </div>
   );
 };

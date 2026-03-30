@@ -47,9 +47,13 @@ const Review8_Page2_Q3 = () => {
 
     const total = questions.length;
 
+    let color = score === total ? "green" : score === 0 ? "red" : "orange";
+
     const msg = `
-      <div style="font-size:20px;text-align:center;">
-        <b>Score: ${score} / ${total}</b>
+      <div style="font-size: 20px; text-align:center; margin-top: 8px;">
+        <span style="color:${color}; font-weight:bold;">
+          Score: ${score}/${total}
+        </span>
       </div>
     `;
 
@@ -71,45 +75,63 @@ const Review8_Page2_Q3 = () => {
   };
 
   return (
-    <div className="flex justify-center p-8">
-      <div className="w-full max-w-[900px] flex flex-col gap-10">
+    <div className="main-container-component">
+      <div className="div-forall gap-5">
+        {" "}
         {/* العنوان */}
         <h5 className="header-title-page8">
           <span style={{ marginRight: "15px" }}>G</span>
           Circle and write.
         </h5>
-
         {/* الأسئلة */}
         <div className="space-y-6">
           {questions.map((q, i) => {
             const parts = q.sentence.split("_____");
-
+            const isWrong =
+              locked && answers[i] !== null && answers[i] !== q.correct;
             return (
-              <div key={i} className="flex items-center gap-4">
-                <span className="font-bold">{i + 1}</span>
+              <div key={i} className="flex items-center gap-4 ">
+                <span className="font-bold text-xl">{i + 1}</span>
 
-                <span className="flex-1">
+                <span className="flex-1 text-xl">
                   {parts[0]}
 
-                  {answers[i] ? (
-                    <span className="border-b-2 border-black px-2">
-                      {answers[i]}
-                    </span>
-                  ) : (
-                    <span className="border-b-2 border-black px-10 inline-block"></span>
-                  )}
+                  <span className="relative inline-block">
+                    {answers[i] ? (
+                      <span
+                        className={`border-b-2 border-black px-2 ${
+                          answers[i] === q.correct
+                            ? "border-b-2 border-black"
+                            : isWrong
+                              ? "border-red-500"
+                              : "border-black"
+                        }`}
+                      >
+                        {answers[i]}
+                      </span>
+                    ) : (
+                      <span className="border-b-2 border-black px-10 inline-block"></span>
+                    )}
+
+                    {/* ❌ WRONG ICON */}
+                    {isWrong && (
+                      <span className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold shadow border-2 border-white">
+                        ✕
+                      </span>
+                    )}
+                  </span>
 
                   {parts[1]}
                 </span>
 
-                <div className="flex gap-6">
+                <div className="flex gap-6 text-xl">
                   {q.options.map((opt, idx) => (
                     <span
                       key={idx}
                       onClick={() => selectAnswer(i, opt)}
                       className={`cursor-pointer ${
                         answers[i] === opt
-                          ? "border-2 border-red-500 rounded-full px-2 font-bold"
+                          ? "border-2 border-blue-700 rounded-full px-2 font-bold"
                           : ""
                       }`}
                     >
@@ -124,7 +146,6 @@ const Review8_Page2_Q3 = () => {
             );
           })}
         </div>
-
         <div className="action-buttons-container">
           <button onClick={reset} className="try-again-button">
             Start Again ↻

@@ -7,7 +7,7 @@
   border: rgb(255, 255, 255) solid 3px; */
   padding: 5px;
   top: 8%;
-  right: 4%;
+    right: 22.4%;
   cursor: pointer;
 }
 
@@ -18,7 +18,7 @@
   border: rgb(255, 255, 255) solid 3px; */
   padding: 5px;
   top: 8%;
-  right: 3.4%;
+    right: 22.4%;
   cursor: pointer;
 }
 .click-icon-page8-2 {
@@ -27,8 +27,8 @@
   border-radius: 20px;
   border: rgb(255, 255, 255) solid 3px; */
   padding: 5px;
-  top: 26%;
-  left: 33.7%;
+      top: 30%;
+    left: 86.7%;
   cursor: pointer;
 }
 .click-icon-page8-3 {
@@ -37,8 +37,8 @@
   border-radius: 20px;
   border: rgb(255, 255, 255) solid 3px; */
   padding: 5px;
-  top: 47%;
-  left: 33.5%;
+  top: 57%;
+    left: 31.5%;
   cursor: pointer;
 }
 
@@ -48,8 +48,8 @@
   border-radius: 20px;
   border: rgb(255, 255, 255) solid 3px; */
   padding: 5px;
-  bottom: 23%;
-  left: 50.7%;
+     bottom: 21%;
+    left: 57.7%;
   cursor: pointer;
 }
 

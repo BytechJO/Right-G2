@@ -22,10 +22,10 @@ export default function QuestionAudioPlayer({
   const [duration, setDuration] = useState(0);
   const [showCaption, setShowCaption] = useState(false);
   const [activeIndex, setActiveIndex] = useState(null);
-
+  const progress = duration ? (current / duration) * 100 : 0;
   const updateCaption = (time) => {
     const index = captions.findIndex(
-      (cap) => time >= cap.start && time <= cap.end
+      (cap) => time >= cap.start && time <= cap.end,
     );
     setActiveIndex(index);
   };
@@ -102,11 +102,16 @@ export default function QuestionAudioPlayer({
       style={{
         display: "flex",
         justifyContent: "center",
-        margin: "30px 0px",
         width: "100%",
       }}
     >
-      <div className="audio-popup-read" style={{ width: "50%" }}>
+      <div
+        className="audio-popup-read"
+        style={{
+          width: "50%",
+          marginTop: "0px",
+        }}
+      >
         <div className="audio-inner player-ui">
           <audio
             ref={audioRef}
@@ -117,9 +122,9 @@ export default function QuestionAudioPlayer({
               updateCaption(time);
             }}
             onLoadedMetadata={(e) => setDuration(e.target.duration)}
-          />
-
-          {/* top */}
+          ></audio>
+          {/* Play / Pause */}
+          {/* الوقت - السلايدر - الوقت */}
           <div className="top-row">
             <span className="audio-time">
               {new Date(current * 1000).toISOString().substring(14, 19)}
@@ -135,23 +140,26 @@ export default function QuestionAudioPlayer({
                 audioRef.current.currentTime = e.target.value;
                 updateCaption(Number(e.target.value));
               }}
+              style={{
+                background: `linear-gradient(to right, #430f68 ${
+                  (current / duration) * 100
+                }%, #d9d9d9ff ${(current / duration) * 100}%)`,
+              }}
             />
 
             <span className="audio-time">
               {new Date(duration * 1000).toISOString().substring(14, 19)}
             </span>
           </div>
-
-          {/* bottom */}
+          {/* الأزرار 3 أزرار بنفس السطر */}
           <div className="bottom-row">
-            {/* captions */}
+            {/* فقاعة */}
             <div
               className={`round-btn ${showCaption ? "active" : ""}`}
               style={{ position: "relative" }}
               onClick={() => setShowCaption(!showCaption)}
             >
               <TbMessageCircle size={36} />
-
               <div
                 className={`caption-inPopup ${showCaption ? "show" : ""}`}
                 style={{ top: "100%", left: "10%" }}
@@ -170,12 +178,12 @@ export default function QuestionAudioPlayer({
               </div>
             </div>
 
-            {/* play */}
+            {/* Play */}
             <button className="play-btn2" onClick={togglePlay}>
               {isPlaying ? <FaPause size={26} /> : <FaPlay size={26} />}
             </button>
 
-            {/* settings */}
+            {/* Settings */}
             <div className="settings-wrapper" ref={settingsRef}>
               <button
                 className={`round-btn ${showSettings ? "active" : ""}`}
@@ -194,21 +202,16 @@ export default function QuestionAudioPlayer({
                     step="0.05"
                     value={volume}
                     onChange={(e) => {
-                      const newVolume = Number(e.target.value);
-                      setVolume(newVolume);
-                      if (audioRef.current) {
-                        audioRef.current.volume = newVolume;
-                      }
+                      setVolume(e.target.value);
+                      audioRef.current.volume = e.target.value;
                     }}
                   />
                 </div>
               )}
             </div>
-          </div>
+          </div>{" "}
         </div>
       </div>
-
-      <audio ref={clickAudioRef} style={{ display: "none" }} />
     </div>
   );
 }

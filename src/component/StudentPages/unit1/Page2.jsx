@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import page2 from "../../../assets/imgs/unit1/pages/Untitled-12.png";
+import page2 from "../../../assets/imgs/Right 2 Unit 1 Stellas Family/Page 2.png";
 
 const Page2 = ({ goToUnit }) => {
   const clickableAreas = [
