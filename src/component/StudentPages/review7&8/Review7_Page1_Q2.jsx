@@ -100,12 +100,15 @@ const Review7_Page1_Q2 = () => {
 
   const [answers, setAnswers] = useState({});
   const [locked, setLocked] = useState(false);
-
+  const [usedWords, setUsedWords] = useState([]);
   const onDragEnd = (result) => {
     if (!result.destination || locked) return;
 
     const wordId = result.draggableId;
     const slot = result.destination.droppableId;
+
+    // ❌ إذا الكلمة مستخدمة قبل → امنع
+    if (usedWords.includes(wordId)) return;
 
     let wordText = "";
 
@@ -123,13 +126,16 @@ const Review7_Page1_Q2 = () => {
       ...prev,
       [slot]: prev[slot] ? prev[slot] + " " + wordText : wordText,
     }));
+
+    // ✅ سجّل الكلمة كمستخدمة
+    setUsedWords((prev) => [...prev, wordId]);
   };
 
   const reset = () => {
     setAnswers({});
+    setUsedWords([]); // 👈 مهم
     setLocked(false);
   };
-
   const showAnswers = () => {
     const filled = {};
 
@@ -181,128 +187,157 @@ const Review7_Page1_Q2 = () => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="flex justify-center p-8">
-        <div className="w-[80%]">
+      <div className="main-container-component">
+        <div className="div-forall">
           <h5 className="header-title-page8 mb-6">
             <span style={{ marginRight: "20px" }}>B</span>
             Look, unscramble, and answer.
           </h5>
 
-          {questions.map((q, i) => (
-            <div key={i} className="flex gap-10 mb-12">
-              <div className="flex-1">
-                {/* scrambled */}
+          {questions.map((q, i) => {
+            const isWrongQ = locked && answers[`q-${i}`] !== q.correctQuestion;
 
-                <div className="mb-3 text-lg">
-                  <span className="font-bold mr-2">{q.id}</span>
-                  {q.scramble}
+            const isWrongA = locked && answers[`a-${i}`] !== q.correctAnswer;
+            return (
+              <div key={i} className="flex gap-10 mb-4">
+                <div className="flex-1">
+                  {/* scrambled */}
+
+                  <div
+                    className="flex w-full"
+                    style={{ justifyContent: "space-between" }}
+                  >
+                    <div className="mb-3 text-lg">
+                      <span className="font-bold mr-2">{q.id}</span>
+                      {q.scramble}
+                    </div>
+
+                    {/* question words */}
+
+                    <Droppable
+                      droppableId={`bank-q-${i}`}
+                      direction="horizontal"
+                    >
+                      {(provided) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.droppableProps}
+                          className="flex gap-2 mb-2 flex-wrap border-2 border-dashed border-gray-500 p-2 rounded-lg"
+                        >
+                          {q.questionWords.map((w, index) => (
+                            <Draggable
+                              key={w.id}
+                              draggableId={w.id}
+                              index={index}
+                              isDragDisabled={
+                                locked || usedWords.includes(w.id)
+                              }
+                            >
+                              {(provided) => (
+                                <span
+                                  ref={provided.innerRef}
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                  className={`px-3 py-1 rounded ${usedWords.includes(w.id) ? "bg-yellow-100 cursor-not-allowed" : "bg-yellow-200  cursor-grab"}`}
+                                >
+                                  {w.text}
+                                </span>
+                              )}
+                            </Draggable>
+                          ))}
+
+                          {provided.placeholder}
+                        </div>
+                      )}
+                    </Droppable>
+                  </div>
+                  {/* question line */}
+
+                  <div className="relative">
+                    <Droppable droppableId={`q-${i}`}>
+                      {(provided) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.droppableProps}
+                          className="border-b-2 border-black h-10 mb-4 text-blue-600"
+                        >
+                          {answers[`q-${i}`]}
+                          {provided.placeholder}
+                        </div>
+                      )}
+                    </Droppable>
+
+                    {isWrongQ && (
+                      <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center border-2 border-white">
+                        <span className="text-white text-sm font-bold">✕</span>
+                      </div>
+                    )}
+                  </div>
+                  {/* answer words */}
+
+                  <Droppable droppableId={`bank-a-${i}`} direction="horizontal">
+                    {(provided) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}
+                        className="flex gap-2 mb-2 flex-wrap border-2 border-dashed border-gray-500 p-2 rounded-lg"
+                      >
+                        {q.answerWords.map((w, index) => (
+                          <Draggable
+                            key={w.id}
+                            draggableId={w.id}
+                            index={index}
+                            isDragDisabled={locked || usedWords.includes(w.id)}
+                          >
+                            {(provided) => (
+                              <span
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                className={`px-3 py-1 rounded ${usedWords.includes(w.id) ? "bg-blue-50 cursor-not-allowed" : "bg-blue-200  cursor-grab"}`}
+                              >
+                                {w.text}
+                              </span>
+                            )}
+                          </Draggable>
+                        ))}
+
+                        {provided.placeholder}
+                      </div>
+                    )}
+                  </Droppable>
+
+                  {/* answer line */}
+
+                  <div className="relative">
+                    <Droppable droppableId={`a-${i}`}>
+                      {(provided) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.droppableProps}
+                          className="border-b-2 border-black h-10 text-blue-600"
+                        >
+                          {answers[`a-${i}`]}
+                          {provided.placeholder}
+                        </div>
+                      )}
+                    </Droppable>
+
+                    {isWrongA && (
+                      <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center border-2 border-white">
+                        <span className="text-white text-sm font-bold">✕</span>
+                      </div>
+                    )}
+                  </div>
                 </div>
 
-                {/* question words */}
-
-                <Droppable droppableId={`bank-q-${i}`} direction="horizontal">
-                  {(provided) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.droppableProps}
-                      className="flex gap-2 mb-2 flex-wrap"
-                    >
-                      {q.questionWords.map((w, index) => (
-                        <Draggable
-                          key={w.id}
-                          draggableId={w.id}
-                          index={index}
-                          isDragDisabled={locked}
-                        >
-                          {(provided) => (
-                            <span
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              className="bg-yellow-200 px-3 py-1 rounded cursor-grab"
-                            >
-                              {w.text}
-                            </span>
-                          )}
-                        </Draggable>
-                      ))}
-
-                      {provided.placeholder}
-                    </div>
-                  )}
-                </Droppable>
-
-                {/* question line */}
-
-                <Droppable droppableId={`q-${i}`}>
-                  {(provided) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.droppableProps}
-                      className="border-b-2 border-black min-h-10 mb-4 text-red-600"
-                    >
-                      {answers[`q-${i}`]}
-                      {provided.placeholder}
-                    </div>
-                  )}
-                </Droppable>
-
-                {/* answer words */}
-
-                <Droppable droppableId={`bank-a-${i}`} direction="horizontal">
-                  {(provided) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.droppableProps}
-                      className="flex gap-2 mb-2 flex-wrap"
-                    >
-                      {q.answerWords.map((w, index) => (
-                        <Draggable
-                          key={w.id}
-                          draggableId={w.id}
-                          index={index}
-                          isDragDisabled={locked}
-                        >
-                          {(provided) => (
-                            <span
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              className="bg-blue-200 px-3 py-1 rounded cursor-grab"
-                            >
-                              {w.text}
-                            </span>
-                          )}
-                        </Draggable>
-                      ))}
-
-                      {provided.placeholder}
-                    </div>
-                  )}
-                </Droppable>
-
-                {/* answer line */}
-
-                <Droppable droppableId={`a-${i}`}>
-                  {(provided) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.droppableProps}
-                      className="border-b-2 border-black min-h-10 text-red-600"
-                    >
-                      {answers[`a-${i}`]}
-                      {provided.placeholder}
-                    </div>
-                  )}
-                </Droppable>
+                <img
+                  src={q.image}
+                  className="w-[180px]! h-[150px]! object-contain"
+                />
               </div>
-
-              <img
-                src={q.image}
-                className="w-[180px]! h-[150px]! object-contain"
-              />
-            </div>
-          ))}
+            );
+          })}
 
           <div className="action-buttons-container">
             <button onClick={reset} className="try-again-button">

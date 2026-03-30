@@ -73,6 +73,14 @@ const Unit8_Page5_Q4 = () => {
     "r",
   ];
   const letters = grid;
+  const wordPositions = {
+    the: [2, 3, 4],
+    summer: [ 13, 14, 15, 16, 17,18],
+    vacation: [32, 33, 34, 35, 36, 37, 38, 39],
+    starts: [43, 44, 45, 46, 47, 48],
+    in: [51, 52],
+    june: [55, 56, 57, 58],
+  };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const wordsToFind = ["the", "summer", "vacation", "starts", "in", "june"];
@@ -89,34 +97,30 @@ const Unit8_Page5_Q4 = () => {
     if (selected.includes(index)) {
       const cutIndex = selected.indexOf(index);
       const newSelected = selected.slice(0, cutIndex);
-
-      const newWord = newSelected.map((i) => letters[i]).join("");
-
       setSelected(newSelected);
-      setCurrentWord(newWord);
       return;
     }
 
     setSelected((prev) => [...prev, index]);
-    setCurrentWord((prev) => prev + letter);
   };
 
   useEffect(() => {
-    if (
-      wordsToFind.includes(currentWord) &&
-      !foundWords.includes(currentWord)
-    ) {
-      setFoundWords((prev) => [...prev, currentWord]);
+    const sortedSelected = [...selected].sort((a, b) => a - b);
+
+    const foundWord = Object.keys(wordPositions).find((word) => {
+      const positions = wordPositions[word];
+      return JSON.stringify(positions) === JSON.stringify(sortedSelected);
+    });
+
+    if (foundWord && !foundWords.includes(foundWord)) {
+      setFoundWords((prev) => [...prev, foundWord]);
       setColoredCells((prev) => [...prev, ...selected]);
 
-      setSentence((prev) =>
-        prev === "" ? currentWord : prev + " " + currentWord,
-      );
+      setSentence((prev) => (prev === "" ? foundWord : prev + " " + foundWord));
 
       setSelected([]);
-      setCurrentWord("");
     }
-  }, [currentWord, foundWords, selected, wordsToFind]);
+  }, [selected]);
 
   const checkAnswers = () => {
     if (locked) return;
@@ -158,7 +162,7 @@ const Unit8_Page5_Q4 = () => {
   };
   const reset = () => {
     setSelected([]);
-    setCurrentWord("");
+    // setCurrentWord("");
     setFoundWords([]);
     setColoredCells([]);
     setSentence("");
@@ -167,7 +171,10 @@ const Unit8_Page5_Q4 = () => {
 
   const showAnswers = () => {
     let allCells = [];
-    const fullString = letters.join("");
+
+    Object.values(wordPositions).forEach((positions) => {
+      allCells.push(...positions);
+    });
 
     wordsToFind.forEach((word) => {
       const startIndex = fullString.indexOf(word);
@@ -188,8 +195,8 @@ const Unit8_Page5_Q4 = () => {
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: "center", padding: "30px" }}>
-      <div className="div-forall" style={{ width: "60%" }}>
+    <div className="main-container-component">
+      <div className="div-forall">
         <h5 className="header-title-page8" style={{ marginBottom: "20px" }}>
           <span className="ex-A">C </span>When does summer vacation start?
         </h5>

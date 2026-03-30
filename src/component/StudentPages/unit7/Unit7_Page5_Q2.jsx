@@ -74,6 +74,9 @@ const Unit7_Page5_Q2 = () => {
 
       if (!updated[sentId]) updated[sentId] = [...sentences[sentId].word];
 
+      // ❌ لا تسمح بالاستبدال
+      if (updated[sentId][index]) return prev;
+
       updated[sentId][index] = letter;
 
       return updated;
@@ -127,10 +130,13 @@ const Unit7_Page5_Q2 = () => {
 
     const total = images.length;
 
+    const color =
+      correctCount === total ? "green" : correctCount === 0 ? "red" : "orange";
+
     const msg = `
       <div style="font-size:20px;text-align:center;">
-        <span style="color:#2e7d32;font-weight:bold;">
-          Score: ${correctCount} / ${total}
+        <span style="color:${color};font-weight:bold">
+        Score: ${correctCount} / ${total}
         </span>
       </div>
     `;
@@ -165,15 +171,38 @@ const Unit7_Page5_Q2 = () => {
     setShowResult(false);
     setLocked(false);
   };
+  const isWordWrong = (sentId) => {
+    if (!showResult) return false;
 
+    const wordFilled = filledLetters[sentId];
+    if (!wordFilled) return true;
+
+    return (
+      JSON.stringify(wordFilled) !== JSON.stringify(sentences[sentId].answer)
+    );
+  };
+
+  const isImageWrong = (imgId) => {
+    if (!showResult) return false;
+
+    const sentId = matches[imgId];
+
+    if (sentId === undefined) return true;
+
+    const isMatchCorrect = correct[imgId] === sentId;
+
+    const wordFilled = filledLetters[sentId];
+    const isWordCorrect =
+      wordFilled &&
+      JSON.stringify(wordFilled) === JSON.stringify(sentences[sentId].answer);
+
+    return !(isMatchCorrect && isWordCorrect);
+  };
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       {/* كل الكود تبعك */}
-      <div
-        ref={containerRef}
-        className="flex flex-col items-center p-10 relative"
-      >
-        <div className="div-forall" style={{ width: "60%" }}>
+      <div className="main-container-component" ref={containerRef}>
+        <div className="div-forall" style={{ gap: "20px" }}>
           <h5 className="header-title-page8">
             <span style={{ color: "#2e3192" }}>2</span>
             Match and write.
@@ -189,12 +218,19 @@ const Unit7_Page5_Q2 = () => {
                   onClick={() => selectImage(img.id)}
                   className="flex flex-col items-center gap-3 cursor-pointer"
                 >
-                  <div
-                    className={`border-2 border-red-500 rounded-lg w-[140px] h-[110px] flex items-center justify-center ${
-                      selectedImg === img.id ? "bg-red-100" : ""
-                    }`}
-                  >
-                    <img src={img.img} className="max-h-[60px]" />
+                  <div className="relative">
+                    {isImageWrong(img.id) && (
+                      <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold border-2 border-white shadow-md">
+                        ✕
+                      </span>
+                    )}
+                    <div
+                      className={`border-2 border-red-500 rounded-lg w-[140px] h-[110px] flex items-center justify-center ${
+                        selectedImg === img.id ? "bg-red-100" : ""
+                      }`}
+                    >
+                      <img src={img.img} className="max-h-[60px]" />
+                    </div>
                   </div>
                   <div className="w-3 h-3 bg-red-500 rounded-full"></div>
                 </div>
@@ -211,62 +247,69 @@ const Unit7_Page5_Q2 = () => {
                   className="flex flex-col items-center cursor-pointer"
                 >
                   <div className="relative">
-                    <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-red-500 rounded-full"></div>
+                    <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-red-500 rounded-full z-10"></div>
+                    <div className="relative">
+                      {isWordWrong(sent.id) && (
+                        <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold border-2 border-white shadow-md">
+                          ✕
+                        </span>
+                      )}
 
-                    <div className="bg-[#e9d7c9] px-4 py-2 rounded-xl text-lg">
-                      {/* الكلمة */}
-                      <div className="flex gap-1 justify-center">
-                        {sent.word.map((char, idx) => (
-                          <Droppable droppableId={`blank-${sent.id}-${idx}`}>
-                            {(provided) => (
-                              <span
-                                ref={provided.innerRef}
-                                {...provided.droppableProps}
-                                className="w-6 h-8 border-b-2 text-center"
-                              >
-                                {filledLetters[sent.id]?.[idx] || char || "_"}
-                                {provided.placeholder}
-                              </span>
-                            )}
-                          </Droppable>
-                        ))}
+                      <div className="bg-[#f9e5dd] px-4 py-2 rounded-xl text-lg">
+                        {/* الكلمة */}
+                        <div className="flex gap-1 justify-center">
+                          {sent.word.map((char, idx) => (
+                            <Droppable droppableId={`blank-${sent.id}-${idx}`}>
+                              {(provided) => (
+                                <span
+                                  ref={provided.innerRef}
+                                  {...provided.droppableProps}
+                                  className="w-6 h-8 border-b-2 text-center"
+                                >
+                                  {filledLetters[sent.id]?.[idx] || char || "_"}
+                                  {provided.placeholder}
+                                </span>
+                              )}
+                            </Droppable>
+                          ))}
+                        </div>
+
+                        {/* الحروف */}
+                        <Droppable
+                          droppableId={`letters-${sent.id}`}
+                          direction="horizontal"
+                        >
+                          {(provided) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.droppableProps}
+                              className="flex gap-2 mt-2 justify-center"
+                            >
+                              {sent.letters.map((l, i) => (
+                                <Draggable
+                                  key={`${sent.id}-${l}-${i}`}
+                                  draggableId={`${sent.id}-${l}-${i}`}
+                                  index={i}
+                                  isDragDisabled={locked}
+                                >
+                                  {(provided) => (
+                                    <span
+                                      ref={provided.innerRef}
+                                      {...provided.draggableProps}
+                                      {...provided.dragHandleProps}
+                                      className="px-2 py-1 border rounded cursor-grab bg-yellow-200"
+                                      onClick={(e) => e.stopPropagation()}
+                                    >
+                                      {l}
+                                    </span>
+                                  )}
+                                </Draggable>
+                              ))}
+                              {provided.placeholder}
+                            </div>
+                          )}
+                        </Droppable>
                       </div>
-
-                      {/* الحروف */}
-                      <Droppable
-                        droppableId={`letters-${sent.id}`}
-                        direction="horizontal"
-                      >
-                        {(provided) => (
-                          <div
-                            ref={provided.innerRef}
-                            {...provided.droppableProps}
-                            className="flex gap-2 mt-2 justify-center"
-                          >
-                            {sent.letters.map((l, i) => (
-                              <Draggable
-                                key={`${sent.id}-${l}-${i}`}
-                                draggableId={`${sent.id}-${l}-${i}`}
-                                index={i}
-                                isDragDisabled={locked}
-                              >
-                                {(provided) => (
-                                  <span
-                                    ref={provided.innerRef}
-                                    {...provided.draggableProps}
-                                    {...provided.dragHandleProps}
-                                    className="px-2 py-1 border rounded cursor-grab bg-yellow-200"
-                                    onClick={(e) => e.stopPropagation()}
-                                  >
-                                    {l}
-                                  </span>
-                                )}
-                              </Draggable>
-                            ))}
-                            {provided.placeholder}
-                          </div>
-                        )}
-                      </Droppable>
                     </div>
                   </div>
                 </div>

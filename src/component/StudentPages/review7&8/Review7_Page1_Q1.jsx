@@ -67,14 +67,13 @@ const Review7_Page1_Q1 = () => {
 
     const total = questions.length;
 
+    const color = score === total ? "green" : score === 0 ? "red" : "orange";
+
     const message = `
 <div style="font-size:20px;text-align:center;">
-<span style="color:#2e7d32;font-weight:bold;">
-Score: ${score} / ${total}
-</span>
+<b style="color:${color};">Score: ${score} / ${total}</b>
 </div>
 `;
-
     if (score === total) ValidationAlert.success(message);
     else if (score === 0) ValidationAlert.error(message);
     else ValidationAlert.warning(message);
@@ -83,12 +82,10 @@ Score: ${score} / ${total}
   };
 
   return (
-    <div className="flex flex-col items-center p-8">
-      <div className="w-[85%]">
+    <div className="main-container-component">
+      <div className="div-forall">
         <h5 className="header-title-page8">
-          <span style={{ marginRight: "20px" }} >
-            A
-          </span>
+          <span style={{ marginRight: "20px" }}>A</span>
           Look and circle.
         </h5>
 
@@ -104,30 +101,42 @@ Score: ${score} / ${total}
         {/* OPTIONS */}
 
         <div className="grid grid-cols-6 gap-4">
-          {questions.map((q, qIndex) => (
-            <div
-              key={qIndex}
-              className="bg-[#ead6cc] rounded-xl p-3 text-center flex flex-col gap-1"
-            >
-              <div className="font-bold">{qIndex + 1}</div>
+          {questions.map((q, qIndex) => {
+            return (
+              <div
+                key={qIndex}
+                className="bg-[#f9e5dd] rounded-xl p-3 text-center flex flex-col gap-1"
+              >
+                <div className="font-bold">{qIndex + 1}</div>
 
-              {q.options.map((word) => {
-                const selected = answers[qIndex] === word;
+                {q.options.map((word) => {
+                  const isSelected = answers[qIndex] === word;
+                  const isWrong =
+                    locked && isSelected && word !== questions[qIndex].answer;
 
-                return (
-                  <div
-                    key={word}
-                    onClick={() => choose(qIndex, word)}
-                    className={`cursor-pointer px-2 py-1 relative
-${selected ? "border-2 border-red-500 rounded-full px-3 py-1" : ""}
+                  return (
+                    <div
+                      key={word}
+                      onClick={() => choose(qIndex, word)}
+                      className={`cursor-pointer px-2 py-1 relative
+${isSelected ? "border-2 border-blue-500 rounded-full px-3 py-1" : ""}
 `}
-                  >
-                    {word}
-                  </div>
-                );
-              })}
-            </div>
-          ))}
+                    >
+                      {word}
+
+                      {isWrong && (
+                        <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center border-2 border-white">
+                          <span className="text-white text-sm font-bold">
+                            ✕
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
         </div>
       </div>
 

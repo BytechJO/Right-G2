@@ -50,7 +50,7 @@ const Unit8_Page6_Q1 = () => {
 
   const [answers, setAnswers] = useState({});
   const [locked, setLocked] = useState(false);
-
+  const [showResult, setShowResult] = useState(false);
   const onDragEnd = (result) => {
     if (!result.destination || locked) return;
 
@@ -66,8 +66,8 @@ const Unit8_Page6_Q1 = () => {
   const reset = () => {
     setAnswers({});
     setLocked(false);
+    setShowResult(false);
   };
-
   const showAnswers = () => {
     const filled = {};
     questions.forEach((q) => {
@@ -91,29 +91,44 @@ const Unit8_Page6_Q1 = () => {
 
     const total = questions.length;
 
-    const msg = `
+    const color =
+      correct === total ? "green" : correct === 0 ? "red" : "orange";
+
+    const message = `
 <div style="font-size:20px;text-align:center;">
-<b>Score: ${correct} / ${total}</b>
+<b style="color:${color};">Score: ${correct} / ${total}</b>
 </div>
 `;
 
-    if (correct === total) ValidationAlert.success(msg);
-    else if (correct === 0) ValidationAlert.error(msg);
-    else ValidationAlert.warning(msg);
+    if (correct === total) ValidationAlert.success(message);
+    else if (correct === 0) ValidationAlert.error(message);
+    else ValidationAlert.warning(message);
 
     setLocked(true);
+    setShowResult(true);
+  };
+
+  const isWordUsed = (word) => {
+    return Object.values(answers).includes(word);
+  };
+
+  const isWrong = (id) => {
+    if (!showResult) return false;
+
+    const q = questions.find((q) => q.id === id);
+    return answers[id] !== q.answer;
   };
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="flex justify-center p-8">
-        <div className="w-[80%]">
+      <div className="main-container-component">
+        <div className="div-forall">
           <h5 className="header-title-page8 ">
             <span className="ex-A mr-2.5">D</span> Look and write.
           </h5>
 
           {/* IMAGES */}
-          <div className="w-[70%] mx-auto">
+          <div className="w-[100%]">
             <div className="flex justify-center gap-8 ">
               <div className="relative">
                 <img
@@ -143,29 +158,34 @@ const Unit8_Page6_Q1 = () => {
                 <div
                   ref={provided.innerRef}
                   {...provided.droppableProps}
-                  className="flex flex-wrap gap-4 justify-center mb-5"
+                  className="flex flex-wrap gap-4 justify-center mb-5 border-2 border-dashed border-gray-500 p-2 rounded-lg"
                 >
-                  {answersBank
-                    .filter((a) => !Object.values(answers).includes(a))
-                    .map((a, index) => (
+                  {answersBank.map((a, index) => {
+                    const used = isWordUsed(a);
+                    return (
                       <Draggable
                         key={a}
                         draggableId={a}
                         index={index}
-                        isDragDisabled={locked}
+                        isDragDisabled={locked || used}
                       >
                         {(provided) => (
                           <div
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
-                            className="bg-yellow-200 px-4 py-2 rounded-lg cursor-grab"
+                            className={`bg-yellow-200 px-4 py-2 rounded-lg cursor-grab  ${
+                              used
+                                ? "bg-gray-300 text-gray-500 cursor-not-allowed opacity-50"
+                                : "bg-white cursor-grab hover:bg-gray-100"
+                            }`}
                           >
                             {a}
                           </div>
                         )}
                       </Draggable>
-                    ))}
+                    );
+                  })}
 
                   {provided.placeholder}
                 </div>
@@ -184,16 +204,27 @@ const Unit8_Page6_Q1 = () => {
 
                   <Droppable droppableId={`answer-${q.id}`}>
                     {(provided) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                        className="border-b-2 border-black min-h-10 mt-2"
-                      >
-                        <span className="text-red-600 font-semibold">
-                          {answers[q.id]}
-                        </span>
+                      <div className="relative h-10 mt-2">
+                        {/* ❌ */}
+                        {isWrong(q.id) && (
+                          <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold border-2 border-white shadow-md">
+                            ✕
+                          </span>
+                        )}
 
-                        {provided.placeholder}
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.droppableProps}
+                          className={`h-8 border-b-2 ${
+                            isWrong(q.id) ? "border-red-500" : "border-black"
+                          }`}
+                        >
+                          <span className="text-red-600 font-semibold">
+                            {answers[q.id]}
+                          </span>
+
+                          {provided.placeholder}
+                        </div>
                       </div>
                     )}
                   </Droppable>

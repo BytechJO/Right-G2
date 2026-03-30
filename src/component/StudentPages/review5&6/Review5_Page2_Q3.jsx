@@ -41,7 +41,7 @@ const Review5_Page2_Q4 = () => {
 
   const [answers, setAnswers] = useState({});
   const [locked, setLocked] = useState(false);
-
+  const [showResult, setShowResult] = useState(false);
   const onDragEnd = (result) => {
     const { destination, draggableId } = result;
 
@@ -50,6 +50,14 @@ const Review5_Page2_Q4 = () => {
     const word = draggableId.replace("word-", "");
 
     const updated = { ...answers };
+
+    // ❌ حذف الكلمة من أي slot سابق
+    Object.keys(updated).forEach((key) => {
+      if (updated[key] === word) {
+        delete updated[key];
+      }
+    });
+
     updated[destination.droppableId] = word;
 
     setAnswers(updated);
@@ -107,26 +115,27 @@ const Review5_Page2_Q4 = () => {
     });
 
     const total = blanks.length;
+    const color = score === total ? "green" : score === 0 ? "red" : "orange";
 
-    const message = `
-    <div style="font-size:20px;text-align:center;">
-      <span style="color:#2e7d32;font-weight:bold;">
+    const msg = `
+      <div style="font-size:20px;text-align:center;">
+        <span style="color:${color};font-weight:bold">
         Score: ${score} / ${total}
-      </span>
-    </div>
+        </span>
+      </div>
     `;
-
-    if (score === total) ValidationAlert.success(message);
-    else if (score === 0) ValidationAlert.error(message);
-    else ValidationAlert.warning(message);
+    if (score === total) ValidationAlert.success(msg);
+    else if (score === 0) ValidationAlert.error(msg);
+    else ValidationAlert.warning(msg);
 
     setLocked(true);
+    setShowResult(true); // 🔥 مهم
   };
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="flex justify-center p-8">
-        <div className="w-[60%]">
+      <div className="main-container-component">
+        <div className="div-forall" style={{ gap: "20px" }}>
           <h5 className="header-title-page8">
             <span className="mr-4">G</span>
             Read, look, and complete the sentences.
@@ -139,29 +148,34 @@ const Review5_Page2_Q4 = () => {
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="flex gap-5 justify-center mb-[30px]"
+                className="flex gap-5 justify-center mb-[30px] border-2 border-blue-800 border-dashed p-4 rounded-lg"
               >
-                {options
-                  .filter((word) => !Object.values(answers).includes(word))
-                  .map((word, i) => (
+                {options.map((word, i) => {
+                  const isUsed = Object.values(answers).includes(word);
+
+                  return (
                     <Draggable
                       key={word}
                       draggableId={`word-${word}`}
                       index={i}
-                      isDragDisabled={locked}
+                      isDragDisabled={locked || isUsed} // خليها draggable
                     >
                       {(provided) => (
                         <span
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
-                          className="px-3.5 py-1.5 border-2 border-[#2c5287] rounded-lg cursor-grab font-bold bg-white"
+                          className={`px-3.5 py-1.5 border-2 border-[#2c5287] rounded-lg font-bold bg-white
+    ${isUsed ? "opacity-40" : ""}
+    ${locked ? "cursor-not-allowed" : "cursor-grab"}
+  `}
                         >
                           {word}
                         </span>
                       )}
                     </Draggable>
-                  ))}
+                  );
+                })}
 
                 {provided.placeholder}
               </div>
@@ -202,22 +216,34 @@ const Review5_Page2_Q4 = () => {
                   if (part.type === "blank") {
                     const slotId = `slot-${qIndex}-${pIndex}`;
 
+                    const isWrong =
+                      showResult &&
+                      answers[slotId] &&
+                      answers[slotId] !== part.answer;
+
+                    const isCorrect =
+                      showResult && answers[slotId] === part.answer;
                     return (
                       <Droppable droppableId={slotId} key={pIndex}>
                         {(provided, snapshot) => (
-                          <div
-                            ref={provided.innerRef}
-                            {...provided.droppableProps}
-                            className={`min-w-[100px] border-b-2 border-black text-center flex items-center justify-center ${
-                              snapshot.isDraggingOver ? "bg-blue-100" : ""
-                            }`}
-                          >
-                            {answers[slotId] && (
-                              <span className="font-bold">
-                                {answers[slotId]}
-                              </span>
-                            )}
-                            {provided.placeholder}
+                          <div className="relative">
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.droppableProps}
+                              className={`min-w-[100px] h-10 border-b-2 text-center flex items-center justify-center ${snapshot.isDraggingOver ? "bg-blue-100" : ""} ${showResult ? (isCorrect ? "border-black" : isWrong ? "border-red-500" : "border-black") : "border-black"}`}
+                            >
+                              {answers[slotId] && (
+                                <span className="font-bold">
+                                  {answers[slotId]}
+                                </span>
+                              )}
+                              {isWrong && (
+                                <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-sm font-bold shadow-md border-2 border-white">
+                                  ✕
+                                </div>
+                              )}
+                              {provided.placeholder}
+                            </div>
                           </div>
                         )}
                       </Droppable>

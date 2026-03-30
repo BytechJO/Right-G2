@@ -41,7 +41,7 @@ const Review5_Page1_Q2 = () => {
   const [selected, setSelected] = useState(["", "", "", ""]);
   const [sentences, setSentences] = useState(["", "", "", ""]);
   const [locked, setLocked] = useState(false);
-
+  const [showResult, setShowResult] = useState(false);
   const chooseOption = (i, value) => {
     if (locked) return;
 
@@ -102,66 +102,93 @@ Score: ${score} / ${total}
     else ValidationAlert.warning(message);
 
     setLocked(true);
+    setShowResult(true);
   };
 
   return (
-    <div className="exercise-container">
-      <div className="div-forall">
+    <div className="main-container-component">
+      <div className="div-forall" style={{ gap: "20px" }}>
         <h5 className="header-title-page8">
           <span style={{ marginRight: "20px" }}>B</span>
           Look, circle, and write.
         </h5>
 
-        <div className="grid grid-cols-2 gap-y-[60px] gap-x-20 mt-5">
-          {items.map((item, i) => (
-            <div key={i} className="flex flex-col gap-2.5">
-              <div className="flex items-center gap-2 text-[18px]">
-                <span className="font-bold text-[#1d4f7b]">{i + 1}</span>
+        <div className="grid grid-cols-2 gap-y-[60px] gap-x-7 mt-5">
+          {items.map((item, i) => {
+            const isWrong =
+              showResult && selected[i] && selected[i] !== item.correct;
 
-                <img
-                  src={item.img}
-                  alt=""
-                  style={{
-                    width: "60px",
-                    height: "auto",
-                    objectFit: "contain",
-                    marginRight: "6px",
-                    border: "2px solid red",
-                  }}
-                />
+            const isCorrect = showResult && selected[i] === item.correct;
+            return (
+              <div key={i} className="flex flex-col gap-2.5">
+                <div className="flex items-center gap-2 text-[18px]">
+                  <span className="font-bold text-[#1d4f7b]">{i + 1}</span>
 
-                <span>{item.start}</span>
+                  <img
+                    src={item.img}
+                    alt=""
+                    style={{
+                      width: "120px",
+                      height: "auto",
+                      objectFit: "contain",
+                      marginRight: "6px",
+                      border: "2px solid red",
+                    }}
+                  />
 
-                <span
-                  onClick={() => chooseOption(i, item.options[0])}
-                  className={`cursor-pointer px-2 py-[3px] rounded-full ${
-                    selected[i] === item.options[0]
-                      ? "border-2 border-red-500"
-                      : "hover:bg-gray-100"
-                  }`}
-                >
-                  {item.options[0]}
-                </span>
+                  <span>{item.start}</span>
 
-                <span> / </span>
+                  <span
+                    onClick={() => chooseOption(i, item.options[0])}
+                    className={`cursor-pointer px-2 py-[3px] rounded-full ${
+                      selected[i] === item.options[0]
+                        ? "border-2 border-blue-500"
+                        : "hover:bg-gray-100"
+                    }`}
+                  >
+                    {item.options[0]}
+                  </span>
 
-                <span
-                  onClick={() => chooseOption(i, item.options[1])}
-                  className={`cursor-pointer px-2 py-[3px] rounded-full ${
-                    selected[i] === item.options[1]
-                      ? "border-2 border-red-500"
-                      : "hover:bg-gray-100"
-                  }`}
-                >
-                  {item.options[1]}
-                </span>
+                  <span> / </span>
+
+                  <span
+                    onClick={() => chooseOption(i, item.options[1])}
+                    className={`cursor-pointer px-2 py-[3px] rounded-full ${
+                      selected[i] === item.options[1]
+                        ? "border-2 border-red-500"
+                        : "hover:bg-gray-100"
+                    }`}
+                  >
+                    {item.options[1]}
+                  </span>
+                </div>
+
+                <div className="relative">
+                  <div
+                    className={`border-b-2 w-[260px] min-h-6 text-[18px]
+    ${
+      showResult
+        ? isCorrect
+          ? "border-[#444]"
+          : isWrong
+            ? "border-red-500"
+            : "border-[#444]"
+        : "border-[#444]"
+    }`}
+                  >
+                    {sentences[i]}
+                  </div>
+
+                  {/* ❌ X */}
+                  {isWrong && (
+                    <div className="absolute -top-2 right-35 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-sm font-bold shadow-md border-2 border-white">
+                      ✕
+                    </div>
+                  )}
+                </div>
               </div>
-
-              <div className="border-b-2 border-[#444] w-[260px] min-h-6 text-[18px]">
-                {sentences[i]}
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 

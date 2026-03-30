@@ -8,12 +8,15 @@ import img3 from "../../../assets/imgs/test6.png";
 import img4 from "../../../assets/imgs/test6.png";
 import img5 from "../../../assets/imgs/test6.png";
 import img6 from "../../../assets/imgs/test6.png";
+import sound1 from "../../../assets/audio/ClassBook/U 7/Pg58_1.3_Adult Lady.mp3";
 import snow from "../../../assets/audio/ClassBook/U 7/Pg58_1.3_Adult Lady.mp3";
 import home from "../../../assets/audio/ClassBook/U 7/Pg58_1.4_Adult Lady.mp3";
 import caot from "../../../assets/audio/ClassBook/U 7/Pg59_1.3_Adult Lady.mp3";
 import boat from "../../../assets/audio/ClassBook/U 7/Pg58_1.2_Adult Lady.mp3";
 // import window from "../../../assets/audio/ClassBook/U 7/Pg59_1.4_Adult Lady.mp3";
 import note from "../../../assets/audio/ClassBook/U 7/Pg59_1.5_Adult Lady.mp3";
+import QuestionAudioPlayer from "../../QuestionAudioPlayer";
+
 
 const Unit7_Page5_Q1 = () => {
   const items = [
@@ -66,14 +69,18 @@ const Unit7_Page5_Q1 = () => {
       end: "me",
     },
   ];
-
+  const captions = [
+    {
+      start: 0,
+      end: 4.23,
+      text: "Page 8. Right Activities. Exercise A, number 1.",
+    },
+    { start: 4.25, end: 8.28, text: "Listen and write the missing letters." },
+  ];
   const [selected, setSelected] = useState(Array(items.length).fill(""));
   const [answers, setAnswers] = useState(Array(items.length).fill(""));
   const [locked, setLocked] = useState(false);
-  const playAudio = (src) => {
-    const audio = new Audio(src);
-    audio.play();
-  };
+  const [showResult, setShowResult] = useState(false);
   const chooseOption = (i, value) => {
     if (locked) return;
 
@@ -94,6 +101,7 @@ const Unit7_Page5_Q1 = () => {
     setSelected(Array(items.length).fill(""));
     setAnswers(Array(items.length).fill(""));
     setLocked(false);
+    setShowResult(false);
   };
 
   const showAnswers = () => {
@@ -139,19 +147,26 @@ const Unit7_Page5_Q1 = () => {
     else ValidationAlert.warning(msg);
 
     setLocked(true);
+    setShowResult(true);
   };
-
+  const isWrong = (index) => {
+    return showResult && selected[index] !== items[index].correct;
+  };
   return (
-    <div className="flex justify-center p-8">
-      <div className="w-[60%]">
+    <div className="main-container-component">
+      <div className="div-forall">
         <h5 className="header-title-page8 mb-5">
           <span className="ex-A mr-4">A</span>
           <span style={{ color: "#2e3192" }}>1</span>
           Listen, circle, and write.
         </h5>
-
-        <div className="flex justify-center">
-          <div className="grid grid-cols-3 gap-y-10 gap-x-[60px] mt-10 justify-center">
+        <QuestionAudioPlayer
+          src={sound1}
+          captions={captions}
+          stopAtSecond={4}
+        />
+        <div className="flex w-full">
+          <div className="grid grid-cols-3 gap-y-10 w-full gap-x-[60px] mt-10 justify-center">
             {items.map((item, i) => (
               <div
                 key={i}
@@ -171,14 +186,6 @@ const Unit7_Page5_Q1 = () => {
                     }}
                   />
 
-                  {/* AUDIO BUTTON */}
-                  <button
-                    onClick={() => playAudio(item.audio)}
-                    className="ml-2 bg-[#2e3192] text-white rounded-md px-2 py-[5px] cursor-pointer hover:bg-[#1f2268] transition-all"
-                  >
-                    🔊
-                  </button>
-
                   {/* OPTIONS */}
                   <div className="flex flex-col gap-1.5 text-[18px]">
                     {item.options.map((opt, idx) => (
@@ -197,8 +204,21 @@ const Unit7_Page5_Q1 = () => {
                   </div>
                 </div>
 
-                <div className="border-b-2 border-[#444] w-40 mt-2 text-[18px]">
-                  {answers[i]}
+                <div className="relative w-40 mt-2">
+                  {/* ❌ */}
+                  {isWrong(i) && (
+                    <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold border-2 border-white shadow-md">
+                      ✕
+                    </span>
+                  )}
+
+                  <div
+                    className={`border-b-2 text-[18px] h-10 ${
+                      isWrong(i) ? "border-red-500" : "border-[#444]"
+                    }`}
+                  >
+                    {answers[i]}
+                  </div>
                 </div>
               </div>
             ))}
