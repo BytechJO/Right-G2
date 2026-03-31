@@ -1,10 +1,10 @@
 import React, { useState, useRef } from "react";
-import img1 from "../../../assets/imgs/test.png";
-import img2 from "../../../assets/imgs/test.png";
-import img3 from "../../../assets/imgs/test.png";
-import img4 from "../../../assets/imgs/test.png";
-import img5 from "../../../assets/imgs/test.png";
-import img6 from "../../../assets/imgs/test.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 15/Ex D 1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 15/Ex D 2.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 15/Ex D 3.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 15/Ex D 4.svg";
+import img5 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 15/Ex D 5.svg";
+import img6 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 15/Ex D 6.svg";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Unit2_Page6_Q1.css";
 
@@ -186,7 +186,15 @@ const Unit2_Page6_Q1 = () => {
                   }}
                 >
                   <div className="u2-image-wrapper" onClick={endLine}>
-                    <div className="dot1 dot-end1" data-image={m.image} />
+                    <div
+                      className="dot1 dot-end1"
+                      data-image={m.image}
+                      style={{
+                        position: "absolute",
+                        bottom: "119px",
+                        zIndex: "9",
+                      }}
+                    />
                     <div className="u2-image-item">
                       <img
                         src={m.src}

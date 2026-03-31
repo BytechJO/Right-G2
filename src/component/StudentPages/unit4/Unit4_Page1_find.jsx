@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import find_img from "../../../assets/imgs/test.png";//======= should change ==========
+import find_img from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page.png";//======= should change ==========
 import Rabbit from "../../../assets/Page 01/Rabbit.svg";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import MySVG from "../../../assets/imgs/test.png";
+import MySVG from "../../../assets/imgs/Interactive Svg un 4.svg";
 
 const Unit4_Page1_find = () => {
   const [clickedPoint, setClickedPoint] = useState(null);
@@ -10,16 +10,17 @@ const Unit4_Page1_find = () => {
   const [showAnswer, setShowAnswer] = useState(false);
   // ✅ منطقة المطعم (بالنسب المئوية)
   const targetArea = {
-    x1: 18,
-    y1: 69,
-    x2: 24,
-    y2: 74,
+    x1: 24,
+    y1: 52,
+    x2: 34,
+    y2: 66,
   };
 
   const handleImageClick = (e) => {
     const rect = e.target.getBoundingClientRect();
     const xPercent = ((e.clientX - rect.left) / rect.width) * 100;
     const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
+console.log(xPercent , yPercent);
 
     setClickedPoint({
       x: xPercent,
@@ -118,9 +119,9 @@ const Unit4_Page1_find = () => {
               alt="answer highlight"
               style={{
                 position: "absolute",
-                top: `67%`,
-                left: `18.5%`,
-                height: `7%`,
+                top: `52%`,
+                left: `24.5%`,
+                height: `14%`,
                 pointerEvents: "none",
               }}
             /> 

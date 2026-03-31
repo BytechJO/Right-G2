@@ -1,4 +1,4 @@
-import page_1 from "../../../assets/imgs/pages/Right 2 Unit 1 Stellas Family_00001/Right 2 Unit 1 Stellas Family_00036.jpg";
+import page_1 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 36.png";
 import "./Review4_Page1.css";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 

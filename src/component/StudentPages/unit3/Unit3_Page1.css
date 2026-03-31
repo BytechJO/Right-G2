@@ -12,10 +12,9 @@
   padding: 5px;
 }
 
-
 .headset-icon-CD-unit3-page1-1 {
   top: 7%;
-  right: 14%;
+  right: 29%;
 }
 
 .click-icon-unit3-page1-1 {
@@ -24,7 +23,7 @@
 }
 
 .headset-icon-CD-unit3-page1-2 {
-  bottom: 34.5%;
+  bottom: 43.5%;
   left: 26%;
 }
 
@@ -34,53 +33,71 @@
 }
 
 #num-1-unit3 {
-  top: 31%;
-  left: 34%;
+  top: 33%;
+  left: 13%;
 }
 
 #num-2-unit3 {
-  bottom: 38%;
-  left: 31%;
+  top: 24%;
+  left: 72.5%;
 }
 
 #num-3-unit3 {
-  top: 48%;
-  left: 28.5%;
+  top: 52%;
+  left: 30.5%;
 }
 
 #num-4-unit3 {
-  top: 16%;
-  left: 44%;
+ top: 57%;
+    left: 35%;
 }
 
 #num-5-unit3 {
-  top: 24%;
-  left: 3%;
+    top: 41%;
+    left: 57%;
 }
 
 #num-6-unit3 {
-  bottom: 40%;
-  right: 29%;
+     bottom: 43%;
+    right: 38%;
 }
 
 #num-7-unit3 {
-  bottom: 40.5%;
-  right: 25%;
+     bottom: 48.5%;
+    right: 51%;
+}
+#num-8-unit3 {
+ top: 25%;
+    left: 62%;
 }
 
+#num-9-unit3 {
+    top: 36%;
+    left: 38%;
+}
+
+#num-10-unit3 {
+ bottom: 46%;
+    right: 86%;
+}
+
+#num-11-unit3 {
+    bottom: 30.5%;
+    right: 69%;
+}
 @media screen and (max-width: 1024px) and (max-height: 600px) {
-      .headset-icon-CD-unit3-page1-1 {
-        top: 7% !important;
-        right: 12% !important;
-    }
-        .headset-icon-CD-unit3-page1-2 {
-        bottom: 32% !important;
-        left: 27% !important;
-    }
-    .click-icon-unit3-page1-2 {
-        bottom: 9% !important;
-        right: 35% !important;
-    }
+  .headset-icon-CD-unit3-page1-1 {
+    top: 7% !important;
+    right: 12% !important;
+  }
+  .headset-icon-CD-unit3-page1-2 {
+    bottom: 32% !important;
+    left: 27% !important;
+  }
+  .click-icon-unit3-page1-2 {
+    bottom: 9% !important;
+    right: 35% !important;
+  }
 }
 @media (max-width: 1024px) {
   .headset-icon-CD-unit3-page1-1 {
@@ -102,10 +119,10 @@
     top: 6.5%;
     right: 16%;
   }
- .headset-icon-CD-unit3-page1-2 {
-        bottom: 36.5%;
-        left: 25%;
-    }
+  .headset-icon-CD-unit3-page1-2 {
+    bottom: 36.5%;
+    left: 25%;
+  }
   .click-icon-unit3-page1-2 {
     bottom: 13%;
     right: 41%;

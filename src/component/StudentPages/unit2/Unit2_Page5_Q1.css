@@ -99,8 +99,8 @@
 .matched-img2 {
   width: 80px;
   height: 80px;
-  object-fit: contain;
-  border: 3px solid #ff6b6b;
+  /* object-fit: contain; */
+  /* border: 3px solid #ff6b6b; */
   border-radius: 14px;
   padding: 6px;
   background: #fff;

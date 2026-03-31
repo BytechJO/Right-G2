@@ -12,7 +12,7 @@ const Review2_Page1 = ({ openPopup }) => {
       {/* <img src={page_1} /> */}
 
       <div
-        className="click-icon-review3-page1-2 hover:scale-110 transition"
+        className="click-icon-review2-page1-2 hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg
@@ -33,7 +33,7 @@ const Review2_Page1 = ({ openPopup }) => {
         </svg>
       </div>
       <div
-        className="click-icon-review3-page1-3 hover:scale-110 transition"
+        className="click-icon-review2-page1-3 hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg
@@ -55,7 +55,7 @@ const Review2_Page1 = ({ openPopup }) => {
       </div>
 
       <div
-        className="click-icon-review3-page1-1 hover:scale-110 transition"
+        className="click-icon-review2-page1-1 hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg
@@ -76,7 +76,7 @@ const Review2_Page1 = ({ openPopup }) => {
         </svg>
       </div>
         <div
-        className="click-icon-review3-page1-4 hover:scale-110 transition"
+        className="click-icon-review2-page1-4 hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg

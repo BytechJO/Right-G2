@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Unit4_Page5_Q4.css";
-
+import img1 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 32/Ex C 1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 32/Ex C 2.svg";
 const Unit4_Page5_Q4 = () => {
   const grid = [
     "w",
@@ -185,7 +186,6 @@ const Unit4_Page5_Q4 = () => {
         <h5 className="header-title-page8">
           <span className="ex-A">C</span>What do photographers use?
         </h5>
-
         <div className="words-list-CB-unit3-p5-q4">
           {wordsToFind.map((word) => (
             <span
@@ -198,7 +198,6 @@ const Unit4_Page5_Q4 = () => {
             </span>
           ))}
         </div>
-
         <div className="wordsearch-wrapper-CB-unit3-p5-q4">
           <div className="grid-CB-unit3-p5-q4">
             {letters.map((letter, index) => {
@@ -218,13 +217,16 @@ const Unit4_Page5_Q4 = () => {
               );
             })}
           </div>
-
+        </div>
+        <div className="flex">
+          <img src={img1} style={{ height: "80px", width: "80px" }} />
           <input
             className="answer-input-CB-unit3-p5-q4"
             value={sentence}
             readOnly
           />
-        </div>
+          <img src={img2} style={{ height: "80px", width: "80px" }} />
+        </div>{" "}
       </div>
 
       <div className="action-buttons-container">

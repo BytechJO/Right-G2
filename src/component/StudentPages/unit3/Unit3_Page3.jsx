@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
-import page_3 from "../../../assets/imgs/pages/Right 2 Unit 1 Stellas Family_00001/Right 2 Unit 1 Stellas Family_00024.jpg";
+import page_3 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 24.png";
 import "./unit3_Page3.css";
-import grammarSound from "../../../assets/audio/ClassBook/U 3/CD17.Pg24_Grammar1_Adult Lady.mp3";
+import grammarSound from "../../../assets/audio/ClassBook/U 3/cd17pg24-grammar1.mp3";
 import sound1 from "../../../assets/audio/ClassBook/U 3/Pg24_1.1_Adult Lady.mp3";
 import sound2 from "../../../assets/audio/ClassBook/U 3/Pg24_1.2_Adult Lady.mp3";
 import sound3 from "../../../assets/audio/ClassBook/U 3/Pg24_2.1_Adult Lady.mp3";
@@ -19,37 +19,22 @@ const Unit3_Page3 = ({ openPopup }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeAreaIndex, setActiveAreaIndex] = useState(null);
   const captionsExample = [
-    { start: 0, end: 3.22, text: "Page 12, Exercise 1. Right Grammar." },
-    { start: 3.25, end: 7.11, text: " How old are you? I'm seven years old." },
-    {
-      start: 7.15,
-      end: 11.02,
-      text: " When is your birthday? My birthday is in August.",
-    },
-    {
-      start: 11.06,
-      end: 13.11,
-      text: "It is on Tuesday. ",
-    },
-    { start: 13.15, end: 14.22, text: "How old are you, Sara? " },
-    { start: 14.26, end: 16.05, text: "I'm three years old. " },
-    { start: 16.09, end: 17.24, text: "When is your birthday party, Stella? " },
-    { start: 17.27, end: 19.16, text: "It is on Tuesday. " },
-    {
-      start: 19.2,
-      end: 22.1,
-      text: "Happy birthday! This is for you, Stella. ",
-    },
-    { start: 22.14, end: 23.1, text: "Thank you.  " },
-    { start: 23.14, end: 25.05, text: "You're welcome. Open it." },
+ { start: 0.58, end: 5.72, text: "Page 24. Write grammar. Can he ride a bike?" },
+  { start: 6.76, end: 8.3, text: "Yes, he can." },
+  { start: 9.34, end: 10.96, text: "Can she fly a kite?" },
+  { start: 12.14, end: 16.1, text: "Yes, she can. Can he ride a bike?" },
+  { start: 17.4, end: 21.46, text: "Yes, he can. Can she take a photo?" },
+  { start: 22.68, end: 24.18, text: "Yes, she can." },
+  { start: 25.22, end: 26.7, text: "Can she fly a kite?" },
+  { start: 28.1, end: 29.64, text: "Yes, she can." },
   ];
 
   const clickableAreas = [
-    { x1: 6.5, y1: 10.7, x2: 30.0, y2: 15.0, sound: sound1 },
-    { x1: 54.2, y1: 9.5, x2: 78.3, y2: 13.0, sound: sound2 },
-    { x1: 6.5, y1: 15.8, x2: 35.6, y2: 20.0, sound: sound3 },
-    { x1: 54.2, y1: 13.5, x2: 83.5, y2: 16.7, sound: sound4 },
-    { x1: 54.2, y1: 17.0, x2: 74.1, y2: 20.4, sound: sound5 },
+    { x1: 6.88, y1: 9.35, x2: 35.58, y2: 20.01, sound: sound1 },
+    { x1: 68.74, y1: 9.35, x2: 92.59, y2: 20.01, sound: sound2 },
+    { x1: 6.30, y1: 27.17, x2: 29.18, y2: 32.99, sound: sound3 },
+    { x1: 50.32, y1: 26.87, x2: 76.88, y2: 32.35, sound: sound4 },
+    { x1: 9.40, y1: 59.61, x2: 31.31, y2: 65.40, sound: sound5 },
 
     
   ];

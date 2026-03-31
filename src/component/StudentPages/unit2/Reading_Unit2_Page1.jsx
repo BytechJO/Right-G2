@@ -1,7 +1,7 @@
 import page24 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 20.png";
 import React, { useState, useRef } from "react";
 import "./Reading_Unit2_Page1.css";
-import sound1 from "../../../assets/audio/ClassBook/U 2/CD1.Pg20_Reading_Adult Lady.mp3";
+import sound1 from "../../../assets/audio/ClassBook/U 2/pg20-11-adult-lady_ptTUU2uW.mp3";
 import sound2 from "../../../assets/audio/ClassBook/U 2/Pg20_1.1_Adult Lady.mp3";
 import sound3 from "../../../assets/audio/ClassBook/U 2/Pg20_1.2_Adult Lady.mp3";
 import sound4 from "../../../assets/audio/ClassBook/U 2/Pg20_1.3_Adult Lady.mp3";
@@ -16,52 +16,36 @@ const Reading_Unit2_Page1 = ({ openPopup }) => {
   const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeAreaIndex, setActiveAreaIndex] = useState(null);
-  const captionsExample = [
-    { start: 0, end: 3.17, text: "Page 20 Reading. It's a Bunny." },
-    {
-      start: 3.2,
-      end: 7.18,
-      text: " Today is Stella's birthday. Her friends are at her party. ",
-    },
-    {
-      start: 7.21,
-      end: 14.01,
-      text: "There is a big birthday cake. Harley asks Stella how old she is. She is seven years old. ",
-    },
-    {
-      start: 14.05,
-      end: 18.26,
-      text: "Harley, Hansel, and John see the cupcakes. They look delicious.",
-    },
-    {
-      start: 18.3,
-      end: 26.09,
-      text: "Hansel eats a lot of cupcakes. His tummy hurts. John tells him it is not good to eat so many sweets.",
-    },
-    {
-      start: 26.12,
-      end: 34.0,
-      text: "Now, it's time for presents. Mom gives Stella her present. Stella is so excited.",
-    },
-    {
-      start: 34.04,
-      end: 37.05,
-      text: "Stella opens the present. What can it be?  ",
-    },
-    {
-      start: 37.09,
-      end: 45.09,
-      text: "The present from mom is a bunny. It is very cute and white. Stella names her new bunny Tilly.",
-    },
-    {
-      start: 45.12,
-      end: 54.04,
-      text: "Tilly hops and chases Lolo. Lolo is surprised. Stella and Sara laugh and laugh. This is the best birthday.",
-    },
-  ];
+const captionsExample = [
+  {
+    start: 0.46,
+    end: 13.76,
+    text: "Who's she? She's my mother. She's in the kitchen cooking food. Who are they? They're my father and brother. They are shopping for school supplies.",
+  },
+  {
+    start: 14.84,
+    end: 20.9,
+    text: "There is Jack. He's Sarah's cousin. He's Sarah's best friend.",
+  },
+  {
+    start: 21.94,
+    end: 31.12,
+    text: "Who are they? They're Stella's aunt and uncle. They're in the car. John has new art supplies for school.",
+  },
+  {
+    start: 32.18,
+    end: 39.44,
+    text: "Stella is sad. She wants new art supplies like John. He has supplies for Stella, too.",
+  },
+  {
+    start: 40.58,
+    end: 51.74,
+    text: "Sarah plays with Stella's new art supplies. John is surprised. Sarah paints a picture of Stella. Stella is surprised, too.",
+  },
+];
   const clickableAreas = [
     { x1: 15.9, y1: 39.4, x2: 51.14, y2: 44.0, sound: sound2 },
-    { x1: 56.0, y1: 39.1, x2: 93.9, y2: 44.0, sound: sound3 },
+    { x1: 56.0, y1: 39.1, x2: 93.9, y2: 45.90, sound: sound3 },
     { x1: 16.0, y1: 84.0, x2: 52.9, y2: 89.5, sound: sound4 },
     { x1: 56.0, y1: 84.5, x2: 93.7, y2: 90.9, sound: sound5 },
   ];

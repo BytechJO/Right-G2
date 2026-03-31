@@ -1,8 +1,8 @@
-import React, { useState ,useRef,useEffect} from "react";
-import img1 from "../../../assets/imgs/test.png";
-import img2 from "../../../assets/imgs/test.png";
-import img3 from "../../../assets/imgs/test.png";
-import img4 from "../../../assets/imgs/test.png";
+import React, { useState, useRef, useEffect } from "react";
+import img1 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 38/Ex F 1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 38/Ex F 2.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 38/Ex F 3.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 38/Ex F 4.svg";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Review4_Page2_Q3.css";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
@@ -165,7 +165,7 @@ const Review4_Page2_Q3 = () => {
           <h5 className="header-title-page8">
             <span style={{ marginRight: "20px" }}>F</span> Circle and write.
           </h5>
-       
+
           <Droppable droppableId="bank" isDropDisabled>
             {(provided) => (
               <div

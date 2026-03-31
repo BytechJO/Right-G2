@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import "./Unit3_Page6_Q1.css";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import img1 from "../../../assets/imgs/test.png";
-import img2 from "../../../assets/imgs/test.png";
-import img3 from "../../../assets/imgs/test.png";
-import img4 from "../../../assets/imgs/test.png";
-import img5 from "../../../assets/imgs/test.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 27/Ex D 1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 27/Ex D 2.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 27/Ex D 3.svg";
+
 
 const Unit3_Page6_Q1 = () => {
   // ===============================
@@ -181,7 +180,7 @@ const Unit3_Page6_Q1 = () => {
           <img
             src={q.image}
             className="question-img-CB-unit3-p6-q1"
-            style={{ width: "150px" ,height:"150px" }}
+            style={{ width: "300px" ,height:"150px" }}
           />
         </div>
 

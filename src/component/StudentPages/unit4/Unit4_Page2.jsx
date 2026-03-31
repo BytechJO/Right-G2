@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
-import page_2 from "../../../assets/imgs/pages/Right 2 Unit 1 Stellas Family_00001/Right 2 Unit 1 Stellas Family_00029.jpg";
-import img1_letter from "../../../assets/imgs/test.png";
-import img2_letter from "../../../assets/imgs/test.png";
-import img3_letter from "../../../assets/imgs/test.png";
-import img4_letter from "../../../assets/imgs/test.png";
+import page_2 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 29.png";
+import img1_letter from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 28-29/List 1 un 4-01 p29-01.svg";
+import img2_letter from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 28-29/List 1 un 4-01 p29-02.svg";
+import img3_letter from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 28-29/List 1 un 4-01 p29-03.svg";
+import img4_letter from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 28-29//List 1 un 4-01 p29-04.svg";
 import Rabbit from "../../../assets/Page 01/Rabbit.svg";
-import soundListen from "../../../assets/audio/ClassBook/U 4/Pg29_1.1_Helen.mp3";
+import soundListen from "../../../assets/audio/ClassBook/U 4/pg29-reading-adult-lady_Ic3rdX1F.mp3";
 import img1_conversation from "../../../assets/imgs/test.png";
 import img2_conversation from "../../../assets/imgs/test.png";
 import sound1_letter from "../../../assets/audio/ClassBook/U 4/Pg29_1.1_Adult Lady.mp3";
@@ -13,14 +13,17 @@ import sound2_letter from "../../../assets/audio/ClassBook/U 4/Pg29_1.2_Adult La
 import sound3_letter from "../../../assets/audio/ClassBook/U 4/Pg29_1.3_Adult Lady.mp3";
 import sound4_letter from "../../../assets/audio/ClassBook/U 4/Pg29_1.4_Adult Lady.mp3";
 
-import letterSound from "../../../assets/audio/ClassBook/U 2/Pg11_Instruction1_Adult Lady.mp3";
+import letterSound from "../../../assets/audio/ClassBook/U 4/pg29-instruction1-adult-lady_wI6B8Mcm (1).mp3";
 
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 import AudioWithCaption from "../../AudioWithCaption";
 import FourImagesWithAudio from "../../FourImagesWithAudio";
-// import sound1 from "../../../assets/img_unit4/sounds-unit4/U2-06.mp3";
-// import sound2 from "../../../assets/img_unit4/sounds-unit4/U2-07.mp3";
+
+import sound8 from "../../../assets/audio/ClassBook/U 4/unit4-sound8.mp3";
+import sound9 from "../../../assets/audio/ClassBook/U 4/unit4-sound9.mp3";
+
+import sound11 from "../../../assets/audio/ClassBook/U 4/unit4-sound11.mp3";
 
 import "./Unit4_Page2.css";
 import ReadChoose from "../../ReadChoose";
@@ -43,44 +46,55 @@ const Unit4_Page2 = ({ openPopup }) => {
     questions: [
       {
         text: "Helen’s uncle takes pictures of",
-        options: ["zoos", "people" ,"animals"],
+        options: ["zoos", "people", "animals"],
         correct: "animals",
       },
       {
         text: "Helen’s uncle is a",
-        options: ["vet", "photographer","nurse"],
+        options: ["vet", "photographer", "nurse"],
         correct: "photographer",
       },
     ],
   };
   const captionsExample = [
-    { start: 0, end: 2.0, text: "Page11. Birthdays Are Fun" },
-    { start: 2.05, end: 5.2, text: "Hi, everyone. Today is my birthday." },
-    { start: 5.24, end: 7.2, text: " I'm seven years old." },
-    { start: 7.24, end: 9.0, text: "  My friends are here. It's fun." },
+    { start: 0.52, end: 4.78, text: "Page 29. My uncle's job." },
+    {
+      start: 4.78,
+      end: 13.72,
+      text: "My uncle is a photographer. He takes pictures of animals. His favorite animals are tigers and panthers. I think they are scary.",
+    },
   ];
 
   const captions2 = [
-    { start: 0, end: 3.18, text: "Page 11. Listen and read along. " },
-    { start: 3.2, end: 7.01, text: "P, pencil, pink, pizza. " },
+    { start: 0.56, end: 3.86, text: "Page 29. Listen and read along." },
+    { start: 4.94, end: 5.94, text: "Long A." },
+    { start: 6.98, end: 7.54, text: "Play." },
+    { start: 8.64, end: 10.6, text: "Paint. Lake." },
   ];
 
   const areas = [
     // الصوت الأول – المنطقة الأساسية
-    { x1: 35.24, y1: 54.6, x2: 39.0, y2: 58.0, sound: 1, isPrimary: true },
+    { x1: 26.8, y1: 65.6, sound: 1, isPrimary: true },
 
     // // // الصوت الأول – منطقة إضافية
-    { x1: 31.3, y1: 45.4, x2: 40.12, y2: 53.4, sound: 1, isPrimary: false },
+    { x1: 24.82, y1: 67.53, x2: 41.11, y2:75.15, sound: 1, isPrimary: false },
 
-    // // // الصوت الثاني – الأساسية
-    { x1: 43.6, y1: 54.1, x2: 47.7, y2: 57.1, sound: 2, isPrimary: true },
+    // // // // الصوت الثاني – الأساسية
+    { x1:25.6, y1: 43.1, sound: 2, isPrimary: true },
 
-    // // // الصوت الثاني – الإضافية
-    { x1: 41.6, y1: 47.31, x2: 48.3, y2: 53.7, sound: 2, isPrimary: false },
+    // // // // الصوت الثاني – الإضافية
+    { x1: 16.09, y1: 42.40, x2: 32.58, y2: 57.7, sound: 2, isPrimary: false },
+
+    // // // // الصوت الثاني – الأساسية
+    { x1: 14.7, y1: 69.7, sound: 2, isPrimary: true },
+
+    // // // // الصوت الثاني – الإضافية
+    { x1: 19.00, y1: 67.99, x2: 21.91, y2: 76.21, sound: 2, isPrimary: false },
   ];
   const sounds = {
-    // 1: sound1,
-    // 2: sound2,
+    1: sound8,
+    2: sound9,
+    3: sound11,
   };
 
   const handleImageClick = (e) => {
@@ -198,7 +212,7 @@ const Unit4_Page2 = ({ openPopup }) => {
         >
           <image
             className="svg-img"
-            href={audioBtn}
+            href={arrowBtn}
             x="0"
             y="0"
             width="90"
@@ -226,7 +240,7 @@ const Unit4_Page2 = ({ openPopup }) => {
                   img4_letter,
                 ]}
                 audioSrc={letterSound}
-                checkpoints={[0, 3.4, 4, 4.9, 6]}
+                checkpoints={[0, 4.5, 6.68, 8.64, 9.64]}
                 popupOpen={true}
                 titleQ={"Listen and read along."}
                 audioArr={imageSounds}

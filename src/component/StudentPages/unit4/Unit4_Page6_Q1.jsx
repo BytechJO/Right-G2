@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import farmImg from "../../../assets/imgs/test.png";
+import farmImg from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 33/Ex D 1.svg";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Unit4_Page6_Q1.css";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-import img1 from "../../../assets/imgs/test.png";
-import img2 from "../../../assets/imgs/test.png";
-import img3 from "../../../assets/imgs/test.png";
-import img4 from "../../../assets/imgs/test.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 33/Ex D 1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 33/Ex D 2.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 33/Ex D 3.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 33/Ex D 4.svg";
 
 const Unit4_Page6_Q1 = () => {
   const items = [
@@ -248,7 +248,7 @@ const Unit4_Page6_Q1 = () => {
             return (
               <div className="content-CB-unit4-p6-q1">
                 <div className="CB-unit4-p6-q1-img-container">
-                   <span className="CB-unit4-p6-q1-index">{i + 1}</span>
+                  <span className="CB-unit4-p6-q1-index">{i + 1}</span>
                   <img
                     src={farmImg}
                     alt=""

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import img1 from "../../../assets/imgs/test.png";
-import img2 from "../../../assets/imgs/test.png";
-import img3 from "../../../assets/imgs/test.png";
-import img4 from "../../../assets/imgs/test.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 15/Ex E 1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 15/Ex E 2.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 15/Ex E 3.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 15/Ex E 4.svg";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
@@ -20,20 +20,29 @@ const Unit2_Page6_Q2 = () => {
     },
     {
       img: img2,
-      parts: [{ type: "input", answer: "Those are clouds" }, { type: "text", value: "." }],
+      parts: [
+        { type: "input", answer: "Those are clouds" },
+        { type: "text", value: "." },
+      ],
     },
     {
       img: img3,
-      parts: [{ type: "input", answer: "Those are ducks" }, { type: "text", value: "." }],
+      parts: [
+        { type: "input", answer: "Those are ducks" },
+        { type: "text", value: "." },
+      ],
     },
     {
       img: img4,
-      parts: [{ type: "input", answer: "These are flowers" }, { type: "text", value: "." }],
+      parts: [
+        { type: "input", answer: "These are flowers" },
+        { type: "text", value: "." },
+      ],
     },
   ];
 
   const [answers, setAnswers] = useState(
-    questions.map((q) => q.parts.map((p) => (p.type === "input" ? "" : null)))
+    questions.map((q) => q.parts.map((p) => (p.type === "input" ? "" : null))),
   );
   const [wrongInputs, setWrongInputs] = useState([]);
   const [locked, setLocked] = useState(false);
@@ -57,7 +66,7 @@ const Unit2_Page6_Q2 = () => {
       copy.forEach((row, qi) =>
         row.forEach((val, pi) => {
           if (val === draggableId) copy[qi][pi] = "";
-        })
+        }),
       );
 
       if (destination.droppableId.startsWith("drop-")) {
@@ -108,9 +117,9 @@ const Unit2_Page6_Q2 = () => {
         q.parts.map((p) =>
           p.type === "input"
             ? wordBank.find((w) => w.text === p.answer)?.id || ""
-            : null
-        )
-      )
+            : null,
+        ),
+      ),
     );
     setWrongInputs([]);
     setLocked(true);
@@ -118,7 +127,9 @@ const Unit2_Page6_Q2 = () => {
 
   const reset = () => {
     setAnswers(
-      questions.map((q) => q.parts.map((p) => (p.type === "input" ? "" : null)))
+      questions.map((q) =>
+        q.parts.map((p) => (p.type === "input" ? "" : null)),
+      ),
     );
     setWrongInputs([]);
     setLocked(false);
@@ -126,9 +137,10 @@ const Unit2_Page6_Q2 = () => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-        <div style={{ display: "flex", justifyContent: "center", padding: "30px" }}>
-      <div className="div-forall" style={{ width: "60%" }}>
-     
+      <div
+        style={{ display: "flex", justifyContent: "center", padding: "30px" }}
+      >
+        <div className="div-forall" style={{ width: "60%" }}>
           {/* ❌ الهيدر كما هو */}
           <h5 className="header-title-page8">
             <span className="ex-A">E</span>Look and write.
@@ -197,7 +209,7 @@ const Unit2_Page6_Q2 = () => {
                             }`}
                           >
                             {wordBank.find(
-                              (w) => w.id === answers[qIndex][pIndex]
+                              (w) => w.id === answers[qIndex][pIndex],
                             )?.text || ""}
                             {provided.placeholder}
                             {wrongInputs.includes(`${qIndex}-${pIndex}`) && (
@@ -208,7 +220,7 @@ const Unit2_Page6_Q2 = () => {
                           </span>
                         )}
                       </Droppable>
-                    )
+                    ),
                   )}
                 </div>
               </div>
@@ -221,7 +233,10 @@ const Unit2_Page6_Q2 = () => {
           <button onClick={reset} className="try-again-button">
             Start Again ↻
           </button>
-          <button onClick={showAnswers} className="show-answer-btn swal-continue">
+          <button
+            onClick={showAnswers}
+            className="show-answer-btn swal-continue"
+          >
             Show Answer
           </button>
           <button onClick={checkAnswers} className="check-button2">

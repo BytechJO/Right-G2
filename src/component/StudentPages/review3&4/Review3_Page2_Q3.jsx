@@ -1,9 +1,9 @@
 import React, { useState, useRef } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import img1 from "../../../assets/imgs/test.png";
-import img2 from "../../../assets/imgs/test.png";
-import img3 from "../../../assets/imgs/test.png";
-import img4 from "../../../assets/imgs/test.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 35/Ex G 1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 35/Ex G 2.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 35/Ex G 3.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 35/Ex G 4.svg";
 
 import "./Review3_Page2_Q3.css";
 
@@ -159,6 +159,7 @@ const Review3_Page2_Q3 = () => {
                 <img
                   src={img.src}
                   alt=""
+                  style={{height:"120px",width:"120px"}}
                   className={`CB-review1-p2-q1-img ${locked ? "disabled-hover" : ""}`}
                   onClick={() =>
                     document.querySelector(`[data-image="${img.id}"]`)?.click()

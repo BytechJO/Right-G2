@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import page25 from "../../../assets/imgs/pages/Right 2 Unit 1 Stellas Family_00001/Right 2 Unit 1 Stellas Family_00039.jpg";
+import page25 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 39.png";
 import "./Reading_Unit4_Page1.css";
 import sound1 from "../../../assets/audio/ClassBook/U 4/Pg39_1.5_Adult Lady.mp3";
 import sound2 from "../../../assets/audio/ClassBook/U 4/Pg39_1.6_Adult Lady.mp3";
@@ -12,7 +12,7 @@ const Reading_Unit4_Page2 = () => {
   const [activeAreaIndex, setActiveAreaIndex] = useState(null);
   const clickableAreas = [
     { x1: 9.0, y1: 39.0, x2: 45.8, y2: 43.9, sound: sound1 },
-    { x1: 49.0, y1: 39.2, x2: 85.4, y2: 43.1, sound: sound2 },
+    { x1: 49.0, y1: 39.2, x2: 85.4, y2: 44.08, sound: sound2 },
     { x1: 9.0, y1: 84.5, x2: 45.0, y2: 91.2, sound: sound3 },
     { x1: 49.0, y1: 84.5, x2: 86.5, y2: 91.0, sound: sound4 },
   ];

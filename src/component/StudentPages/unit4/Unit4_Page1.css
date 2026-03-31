@@ -12,10 +12,9 @@
   padding: 5px;
 }
 
-
 .headset-icon-CD-unit4-page1-1 {
-  top: 7%;
-  right: 14%;
+  top: 8%;
+  right: 24%;
 }
 
 .click-icon-unit4-page1-1 {
@@ -24,7 +23,7 @@
 }
 
 .headset-icon-CD-unit4-page1-2 {
-  bottom: 34.5%;
+  bottom: 44.5%;
   left: 26%;
 }
 
@@ -34,53 +33,76 @@
 }
 
 #num-1-unit4 {
-  top: 31%;
-  left: 34%;
+  top: 53%;
+  left: 10%;
 }
 
 #num-2-unit4 {
-  bottom: 38%;
-  left: 31%;
+  bottom: 51%;
+  left: 26%;
 }
 
 #num-3-unit4 {
-  top: 48%;
-  left: 28.5%;
+  top: 41%;
+  left: 43.5%;
 }
 
 #num-4-unit4 {
-  top: 16%;
-  left: 44%;
+  top: 53%;
+  left: 34%;
 }
 
 #num-5-unit4 {
-  top: 24%;
-  left: 3%;
+  top: 55%;
+  left: 42%;
 }
 
 #num-6-unit4 {
-  bottom: 40%;
-  right: 29%;
+  bottom: 30%;
+  right: 78%;
 }
 
 #num-7-unit4 {
-  bottom: 40.5%;
-  right: 25%;
+  bottom: 22.5%;
+  right: 66%;
+}
+#num-8-unit4 {
+  top: 68%;
+  left: 61.5%;
 }
 
+#num-9-unit4 {
+  top: 48%;
+  left: 61%;
+}
+
+#num-10-unit4 {
+  top: 27%;
+  left: 42%;
+}
+
+#num-11-unit4 {
+  bottom: 24%;
+  right: 43%;
+}
+
+#num-12-unit4 {
+  bottom: 24.5%;
+  right: 54%;
+}
 @media screen and (max-width: 1024px) and (max-height: 600px) {
-      .headset-icon-CD-unit4-page1-1 {
-        top: 7% !important;
-        right: 12% !important;
-    }
-        .headset-icon-CD-unit4-page1-2 {
-        bottom: 32% !important;
-        left: 27% !important;
-    }
-    .click-icon-unit4-page1-2 {
-        bottom: 9% !important;
-        right: 35% !important;
-    }
+  .headset-icon-CD-unit4-page1-1 {
+    top: 7% !important;
+    right: 12% !important;
+  }
+  .headset-icon-CD-unit4-page1-2 {
+    bottom: 32% !important;
+    left: 27% !important;
+  }
+  .click-icon-unit4-page1-2 {
+    bottom: 9% !important;
+    right: 35% !important;
+  }
 }
 @media (max-width: 1024px) {
   .headset-icon-CD-unit4-page1-1 {
@@ -102,10 +124,10 @@
     top: 6.5%;
     right: 16%;
   }
- .headset-icon-CD-unit4-page1-2 {
-        bottom: 36.5%;
-        left: 25%;
-    }
+  .headset-icon-CD-unit4-page1-2 {
+    bottom: 36.5%;
+    left: 25%;
+  }
   .click-icon-unit4-page1-2 {
     bottom: 13%;
     right: 41%;
