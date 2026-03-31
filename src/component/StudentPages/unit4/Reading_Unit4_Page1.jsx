@@ -1,7 +1,7 @@
 import page24 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 38.png";
 import React, { useState, useRef } from "react";
 import "./Reading_Unit4_Page1.css";
-import sound1 from "../../../assets/audio/ClassBook/U 4/CD2.Pg38_Reading1_Adult Lady.mp3";
+import sound1 from "../../../assets/audio/ClassBook/U 4/cd2pg38-reading1-adult-lady_KCb6Y6f6.mp3";
 import sound2 from "../../../assets/audio/ClassBook/U 4/Pg38_1.1_Adult Lady.mp3";
 import sound3 from "../../../assets/audio/ClassBook/U 4/Pg38_1.2_Adult Lady.mp3";
 import sound4 from "../../../assets/audio/ClassBook/U 4/Pg38_1.3_Adult Lady.mp3";
@@ -16,52 +16,37 @@ const Reading_Unit4_Page1 = ({ openPopup }) => {
   const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeAreaIndex, setActiveAreaIndex] = useState(null);
-  const captionsExample = [
-    { start: 0, end: 3.17, text: "Page 20 Reading. It's a Bunny." },
-    {
-      start: 3.2,
-      end: 7.18,
-      text: " Today is Stella's birthday. Her friends are at her party. ",
-    },
-    {
-      start: 7.21,
-      end: 14.01,
-      text: "There is a big birthday cake. Harley asks Stella how old she is. She is seven years old. ",
-    },
-    {
-      start: 14.05,
-      end: 18.26,
-      text: "Harley, Hansel, and John see the cupcakes. They look delicious.",
-    },
-    {
-      start: 18.3,
-      end: 26.09,
-      text: "Hansel eats a lot of cupcakes. His tummy hurts. John tells him it is not good to eat so many sweets.",
-    },
-    {
-      start: 26.12,
-      end: 34.0,
-      text: "Now, it's time for presents. Mom gives Stella her present. Stella is so excited.",
-    },
-    {
-      start: 34.04,
-      end: 37.05,
-      text: "Stella opens the present. What can it be?  ",
-    },
-    {
-      start: 37.09,
-      end: 45.09,
-      text: "The present from mom is a bunny. It is very cute and white. Stella names her new bunny Tilly.",
-    },
-    {
-      start: 45.12,
-      end: 54.04,
-      text: "Tilly hops and chases Lolo. Lolo is surprised. Stella and Sara laugh and laugh. This is the best birthday.",
-    },
-  ];
+ const captionsExample = [
+  { start: 0.58, end: 4.24, text: "Page 38. Reading. Tom gets in trouble." },
+  {
+    start: 5.32,
+    end: 8.94,
+    text: "Tom feels sick. Helen gets the doctor to help him.",
+  },
+  {
+    start: 9.98,
+    end: 12.9,
+    text: "Helen calls Tom to ask how he feels today.",
+  },
+  {
+    start: 14.32,
+    end: 21.26,
+    text: "Tom tells Helen he feels fine now. Helen asks Tom to go with her to their art lesson.",
+  },
+  {
+    start: 22.36,
+    end: 37.64,
+    text: "Tom tells Helen he is busy watching TV. Helen is upset. She tells Tom the art teacher already gave him one warning. The new art teacher is teaching the students how to draw a vase of flowers.",
+  },
+  {
+    start: 38.72,
+    end: 50.72,
+    text: "Tom remembers the warning. The art teacher can call his mom if he doesn't go. The new art teacher calls to speak to Tom's mom. Tom knows he's in trouble now.",
+  },
+];
   const clickableAreas = [
     { x1: 15.9, y1: 39.4, x2: 51.14, y2: 44.0, sound: sound2 },
-    { x1: 56.0, y1: 39.1, x2: 93.9, y2: 44.0, sound: sound3 },
+    { x1: 56.0, y1: 39.1, x2: 93.9, y2: 46.06, sound: sound3 },
     { x1: 16.0, y1: 84.0, x2: 52.9, y2: 89.5, sound: sound4 },
     { x1: 56.0, y1: 84.5, x2: 93.7, y2: 90.9, sound: sound5 },
   ];

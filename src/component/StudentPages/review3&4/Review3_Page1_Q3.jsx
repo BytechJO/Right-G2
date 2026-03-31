@@ -3,10 +3,9 @@ import farmImg from "../../../assets/imgs/test.png";
 import ValidationAlert from "../../Popup/ValidationAlert";
 // import "./Review3_Page1_Q3.css";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-import img1 from "../../../assets/imgs/test.png";
-import img2 from "../../../assets/imgs/test.png";
-import img3 from "../../../assets/imgs/test.png";
-import img4 from "../../../assets/imgs/test.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 34/Ex C 1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 34/Ex C 2.svg";
+
 
 const Review3_Page1_Q3 = () => {
   const items = [
@@ -236,7 +235,7 @@ const Review3_Page1_Q3 = () => {
                 <div className="CB-unit4-p6-q1-img-container">
                    <span className="CB-unit4-p6-q1-index">{i + 1}</span>
                   <img
-                    src={farmImg}
+                    src={item.image}
                     alt=""
                     style={{ height: "150px", width: "200px" }}
                   />

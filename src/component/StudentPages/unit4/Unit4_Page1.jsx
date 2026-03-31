@@ -8,90 +8,128 @@ import AudioWithCaption from "../../AudioWithCaption";
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 import allunit4 from "../../../assets/audio/ClassBook/U 4/CD20.Pg28.U4_Intro_Adult Lady.mp3";
-// import sound1 from "../../../assets/img_unit4/sounds-unit4/U2-01.mp3";
-// import sound2 from "../../../assets/img_unit4/sounds-unit4/U2-02.mp3";
-// import sound3 from "../../../assets/img_unit4/sounds-unit4/U2-03.mp3";
-// import sound4 from "../../../assets/img_unit4/sounds-unit4/U2-04.mp3";
-// import sound5 from "../../../assets/img_unit4/sounds-unit4/U2-05.mp3";
-// import sound6 from "../../../assets/img_unit4/sounds-unit4/U2-05.mp3";
-// import sound7 from "../../../assets/img_unit4/sounds-unit4/U2-05.mp3";
-// import sound8 from "../../../assets/img_unit4/sounds-unit4/U2-05.mp3";
-// import sound9 from "../../../assets/img_unit4/sounds-unit4/U2-05.mp3";
-
+import sound1 from "../../../assets/audio/ClassBook/U 4/unit4-sound1.mp3";
+import sound2 from "../../../assets/audio/ClassBook/U 4/unit4-sound2.mp3";
+import sound3 from "../../../assets/audio/ClassBook/U 4/unit4-sound3.mp3";
+import sound4 from "../../../assets/audio/ClassBook/U 4/unit4-sound4.mp3";
+import sound5 from "../../../assets/audio/ClassBook/U 4/unit4-sound5.mp3";
+import sound6 from "../../../assets/audio/ClassBook/U 4/unit4-sound6.mp3";
+import sound7 from "../../../assets/audio/ClassBook/U 4/unit4-sound7.mp3";
+import sound8 from "../../../assets/audio/ClassBook/U 4/unit4-sound8.mp3";
+import sound9 from "../../../assets/audio/ClassBook/U 4/unit4-sound9.mp3";
+import sound10 from "../../../assets/audio/ClassBook/U 4/unit4-sound10.mp3";
+import sound11 from "../../../assets/audio/ClassBook/U 4/unit4-sound11.mp3";
+import sound12 from "../../../assets/audio/ClassBook/U 4/unit4-sound12.mp3";
+import { TbMessageCircle } from "react-icons/tb";
 const Unit4_Page1 = ({ openPopup }) => {
   const [activeAreaIndex, setActiveAreaIndex] = useState(null);
   const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef(null);
   const captionsExample = [
-    { start: 0, end: 4.0, text: " Page 10, Unit 2, Stella's Birthday. " },
-    { start: 4.05, end: 7.09, text: "Page 10, Unit 2, Vocabulary." },
-    { start: 7.12, end: 9.19, text: " 1. Party Hat. " },
-    { start: 9.22, end: 11.16, text: "2. Jello." },
-    { start: 11.2, end: 14.0, text: "3. Cake. " },
-    { start: 14.04, end: 16.23, text: "4. Happy Birthday." },
-    { start: 16.26, end: 19.1, text: " 5. Balloons." },
-    { start: 19.14, end: 21.17, text: " 6. Present. " },
-    { start: 21.2, end: 24.04, text: "7.card" },
-    { start: 24.08, end: 26.29, text: "Page 10. Listen and read along. " },
-    { start: 26.33, end: 30.12, text: "B, bird, ball, boy " },
-    { start: 30.16, end: 32.28, text: "Page 11. Birthday is fun" },
     {
-      start: 32.32,
-      end: 40.09,
-      text: "Hi, everyone. Today is my birthday. I'm seven years old. My friends are here. It's fun. ",
+      start: 0.54,
+      end: 9.6,
+      text: "Page 28, Unit 4. Helen's uncle is a photographer. Page 28, Unit 4 vocabulary.",
     },
-    { start: 40.12, end: 43.18, text: "Page 11. Listen, read & repeat. " },
     {
-      start: 43.22,
-      end: 46.26,
-      text: "What's your name? My name is Lolo. ",
+      start: 10.72,
+      end: 18.26,
+      text: "One, nurse. Two, pilot. Three, grow food.",
     },
-    { start: 46.3, end: 50.14, text: "Page 11. Listen and read along. " },
-    { start: 50.18, end: 53.25, text: "P, pencil, pink, pizza. " },
+    { start: 19.32, end: 21.62, text: "Four, taxi driver." },
+    { start: 22.68, end: 24.5, text: "Five, vet." },
+    { start: 25.76, end: 27.72, text: "Six, clerk." },
+    { start: 28.74, end: 34.48, text: "Seven, photographer. Eight, fix cars." },
+    { start: 35.58, end: 37.88, text: "Nine, police officer." },
+    { start: 38.9, end: 40.78, text: "Ten, farmer." },
+    {
+      start: 41.82,
+      end: 50.7,
+      text: "Eleven, mechanic. Twelve, chef. Page 28, listen and read along.",
+    },
+    { start: 51.9, end: 52.98, text: "Long A." },
+    { start: 54.1, end: 54.6, text: "May," },
+    { start: 55.7, end: 62.92, text: "rain, cake. Page 29, My uncle's job." },
+    {
+      start: 62.92,
+      end: 71.9,
+      text: "My uncle is a photographer. He takes pictures of animals. His favorite animals are tigers and panthers. I think they are scary.",
+    },
+    { start: 72.96, end: 76.24, text: "Page 29, listen and read along." },
+    { start: 77.34, end: 78.32, text: "Long A." },
+    { start: 79.38, end: 79.92, text: "Play," },
+    { start: 81.04, end: 83.0, text: "paint, lake." },
   ];
 
   const areas = [
     // الصوت الأول – المنطقة الأساسية
-    { x1: 72.8, y1: 26.6, x2: 77.0, y2: 30.0, sound: 1, isPrimary: true },
+    { x1: 22.3, y1: 44.4, sound: 1, isPrimary: true },
 
-    // // الصوت الأول – منطقة إضافية
-    { x1: 69.5, y1: 25.8, x2: 75.9, y2: 33.4, sound: 1, isPrimary: false },
+    // // // الصوت الأول – منطقة إضافية
+    { x1: 26.46, y1: 38.75, x2: 31.70, y2: 57.48, sound: 1, isPrimary: false },
 
-    // // الصوت الثاني – الأساسية
-    { x1: 63.2, y1: 56.35, x2: 67.2, y2: 59.3, sound: 2, isPrimary: true },
+    // // // // الصوت الثاني – الأساسية
+    { x1: 55.8, y1: 38.35, sound: 2, isPrimary: true },
 
-    // // الصوت الثاني – الإضافية
-    { x1: 62.9, y1: 53.5, x2: 74.8, y2: 59.9, sound: 2, isPrimary: false },
+    // // // // الصوت الثاني – الإضافية
+    { x1: 50.70, y1: 25.15, x2: 57.10, y2: 43.01, sound:2, isPrimary: false },
 
-    // // الصوت الثالث – الأساسية
-    { x1: 60.8, y1: 47.9, x2: 64.9, y2: 50.9, sound: 3, isPrimary: true },
+    // // // // الصوت الثالث – الأساسية
+    { x1: 87.9, y1: 33.1, sound: 3, isPrimary: true },
 
-    // // الصوت الثالث – الإضافية
-    { x1: 56.4, y1: 43.5, x2: 72.8, y2: 51.1, sound: 3, isPrimary: false },
-    // // الصوت الرابع – الأساسية
-    { x1: 88.2, y1: 11.45, x2: 92.1, y2: 14.4, sound: 4, isPrimary: true },
+    // // // // الصوت الثالث – الإضافية
+    { x1: 86.19, y1: 29.00, x2: 91.23, y2: 32.35, sound: 3, isPrimary: false },
+    // // // // الصوت الرابع – الأساسية
+    { x1: 66.5, y1: 48.3, sound: 4, isPrimary: true },
 
-    // // الصوت الرابع – الإضافية
-    { x1: 23.17, y1: 11.5, x2: 99.4, y2: 20.5, sound: 4, isPrimary: false },
+    // // // // الصوت الرابع – الإضافية
+    { x1: 55.74, y1: 49.25, x2: 70.09, y2: 60.37, sound: 4, isPrimary: false },
 
-    // // الصوت الخامس – الأساسية
-    { x1: 13.4, y1: 23.7, x2: 17.3, y2: 26.7, sound: 5, isPrimary: true },
+    // // // // الصوت الخامس – الأساسية
+    { x1: 86.8, y1: 51.2, sound: 5, isPrimary: true },
 
-    // // الصوت الخامس – الإضافية
-    { x1: 1.0, y1: 11.06, x2: 16.9, y2: 28.5, sound: 5, isPrimary: false },
+    // // // // الصوت الخامس – الإضافية
+    { x1: 90.26, y1: 48.04, x2: 96.47, y2: 64.33, sound: 5, isPrimary: false },
+
+    // // // // الصوت السادس – الأساسية
+    { x1: 36.5, y1: 61.3, sound: 6, isPrimary: true },
+
+    // // // // الصوت السادس – الإضافية
+    { x1: 31.31, y1: 63.42, x2: 45.86, y2: 78.80, sound: 6, isPrimary: false },
+
+
+    // // // // الصوت السابع – الأساسية
+    { x1: 63, y1: 73, sound: 7, isPrimary: true },
+
+    // // // // الصوت السابع – الإضافية
+    { x1: 57.3, y1: 68.44, x2: 63.50, y2: 82.76, sound: 7, isPrimary: false },
+    
+    
+    // // // // الصوت السادس – الأساسية
+    { x1: 87, y1: 19.3, sound: 8, isPrimary: true },
+
+    // // // // الصوت السادس – الإضافية
+    { x1: 80.37, y1:19.40, x2: 85.3, y2: 25.80, sound: 8, isPrimary: false },
+
+    // // // // // الصوت السابع – الأساسية
+    { x1: 79, y1: 75.5, sound: 9, isPrimary: true },
+
+    // // // // // الصوت السابع – الإضافية
+    { x1: 80.95, y1: 71.58, x2: 95.30, y2: 87.33, sound: 9, isPrimary: false },
   ];
-  // const sounds = {
-  //   1: sound1,
-  //   2: sound2,
-  //   3: sound3,
-  //   4: sound4,
-  //   5: sound5,
-  //   6: sound6,
-  //   7: sound7,
-  //   8: sound8,
-  //   9: sound9,
-  // };
+ 
+  const sounds = {
+    1: sound1,
+    2: sound2,
+    3: sound3,
+    4: sound4,
+    5: sound5,
+    6: sound6,
+    7: sound7,
+    8: sound10,
+    9: sound12,
+  };
 
   const handleImageClick = (e) => {
     const rect = e.target.getBoundingClientRect();
@@ -165,7 +203,7 @@ const Unit4_Page1 = ({ openPopup }) => {
             }}
             onClick={() => {
               setActiveAreaIndex(area.sound); // 👈 يفعل الدائرة فوق الرقم
-              // playSound(sounds[area.sound]);
+              playSound(sounds[area.sound]);
             }}
           ></div>
         );
@@ -190,7 +228,7 @@ const Unit4_Page1 = ({ openPopup }) => {
                 }}
               >
                 <AudioWithCaption src={allunit4} captions={captionsExample} />
-              </div>
+              </div>,
             )
           }
           style={{ overflow: "visible" }}
@@ -219,7 +257,7 @@ const Unit4_Page1 = ({ openPopup }) => {
               "html",
               <>
                 <Unit4_Page1_find />
-              </>
+              </>,
             )
           }
           style={{ overflow: "visible" }}
@@ -247,7 +285,7 @@ const Unit4_Page1 = ({ openPopup }) => {
               "html",
               <>
                 <Unit4_Page1_Vocab />
-              </>
+              </>,
             )
           }
           style={{ overflow: "visible" }}
@@ -275,7 +313,7 @@ const Unit4_Page1 = ({ openPopup }) => {
               "html",
               <>
                 <Unit4_Page1_Read />
-              </>
+              </>,
             )
           }
           style={{ overflow: "visible" }}

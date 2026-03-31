@@ -3,12 +3,12 @@ import sound2 from "../../../assets/audio/ClassBook/U 4/Pg28_1.2_Adult Lady.mp3"
 import sound3 from "../../../assets/audio/ClassBook/U 4/Pg28_1.3_Adult Lady.mp3";
 import sound4 from "../../../assets/audio/ClassBook/U 4/Pg28_1.4_Adult Lady.mp3";
 import Rabbit from "../../../assets/Page 01/Rabbit.svg";
-import img1 from "../../../assets/imgs/test.png";
-import img2 from "../../../assets/imgs/test.png";
-import img3 from "../../../assets/imgs/test.png";
-import img4 from "../../../assets/imgs/test.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 28-29/List 28 1-01.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 28-29/List 28 1-02.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 28-29/List 28 1-03.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 28-29/List 28 1-04.svg";
 import FourImagesWithAudio from "../../FourImagesWithAudio";
-import longAudio from "../../../assets/audio/ClassBook/U 4/CD21.Pg28.Instruction1_Adult Lady.mp3";
+import longAudio from "../../../assets/audio/ClassBook/U 4/cd21pg28instruction1-adult-lady_kBDuFMKR.mp3";
 
 const Unit4_Page1_Read = () => {
   const imageSounds = [
@@ -17,20 +17,20 @@ const Unit4_Page1_Read = () => {
     new Audio(sound2),
     new Audio(sound3),
     new Audio(sound4),
-  
   ];
 
 const captions = [
-   { start: 0, end: 3.05, text: "Page 10. Listen and read along." },
-    { start: 3.07, end: 6.14, text: "B, bird, ball, boy " },
-    
-  ];
+  { start: 0.5, end: 3.94, text: "Page 28. Listen and read along." },
+  { start: 5.14, end: 6.22, text: "Long A." },
+  { start: 7.34, end: 7.86, text: "May." },
+  { start: 8.94, end: 10.98, text: "Rain. Cake." },
+];
   return (
     <>
       <FourImagesWithAudio
-        images={[Rabbit, img1, img2, img3,img4]}
+        images={[Rabbit, img1, img2, img3, img4]}
         audioSrc={longAudio}
-        checkpoints={[0, 2.9, 3.4, 4.2, 5.1]}
+        checkpoints={[0, 3.94, 7.34, 8.94, 9.56]}
         popupOpen={true}
         titleQ={"Listen and read along."}
         audioArr={imageSounds}

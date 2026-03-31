@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import "./Review4_Page1_Q1.css";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import imgDown1 from "../../../assets/imgs/test.png";
-import imgAcross1 from "../../../assets/imgs/test.png";
-import imgDown2 from "../../../assets/imgs/test.png";
-import imgAcross2 from "../../../assets/imgs/test.png";
-import imgDown3 from "../../../assets/imgs/test.png";
-import imgAcross3 from "../../../assets/imgs/test.png";
-import imgDown4 from "../../../assets/imgs/test.png";
-import imgAcross4 from "../../../assets/imgs/test.png";
+import imgDown1 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 36/Ex A 1.svg";
+import imgAcross1 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 36/Ex A 2.svg";
+import imgDown2 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 36/Ex A 3.svg";
+import imgAcross2 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 36/Ex A 4.svg";
+import imgDown3 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 36/Ex A 5.svg";
+import imgAcross3 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 36/Ex A 6.svg";
+import imgDown4 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 36/Ex A 7.svg";
+import imgAcross4 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 36/Ex A 8.svg";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
 const crosswordStructure = [
@@ -78,7 +78,6 @@ export default function Review4_Page1_Q1() {
     }
     return null;
   };
-
 
   const checkAnswers = () => {
     if (showAnswers) return;
@@ -220,7 +219,8 @@ export default function Review4_Page1_Q1() {
         >
           <div className="crossword-container">
             <h3 className="header-title-page8">
-              <span style={{ marginRight: "20px" }}>A</span> Look and complete the crossword puzzle.
+              <span style={{ marginRight: "20px" }}>A</span> Look and complete
+              the crossword puzzle.
             </h3>
 
             <Droppable droppableId="letters-bank" isDropDisabled>
@@ -274,148 +274,146 @@ export default function Review4_Page1_Q1() {
             </Droppable>
 
             {/* ===================== الصور ===================== */}
-         <div className="CB-review4-p1-q1-grid-container">
-  <div className="CB-review4-p1-q1-puzzle-images-box">
-    <div className="CB-review4-p1-q1-column-box">
-      <h4 className="CB-review4-p1-q1-label">Down</h4>
+            <div className="CB-review4-p1-q1-grid-container">
+              <div className="CB-review4-p1-q1-puzzle-images-box">
+                <div className="CB-review4-p1-q1-column-box">
+                  <h4 className="CB-review4-p1-q1-label">Down</h4>
 
-      <div className="CB-review4-p1-q1-img-item">
-        <span className="CB-review4-p1-q1-num">1</span>
-        <img src={imgDown1} alt="down1" />
-      </div>
+                  <div className="CB-review4-p1-q1-img-item">
+                    <span className="CB-review4-p1-q1-num">1</span>
+                    <img src={imgDown1} alt="down1" />
+                  </div>
 
-      <div className="CB-review4-p1-q1-img-item">
-        <span className="CB-review4-p1-q1-num">2</span>
-        <img src={imgDown2} alt="down2" />
-      </div>
+                  <div className="CB-review4-p1-q1-img-item">
+                    <span className="CB-review4-p1-q1-num">2</span>
+                    <img src={imgDown2} alt="down2" />
+                  </div>
 
-      <div className="CB-review4-p1-q1-img-item">
-        <span className="CB-review4-p1-q1-num">3</span>
-        <img src={imgDown3} alt="down3" />
-      </div>
+                  <div className="CB-review4-p1-q1-img-item">
+                    <span className="CB-review4-p1-q1-num">3</span>
+                    <img src={imgDown3} alt="down3" />
+                  </div>
 
-      <div className="CB-review4-p1-q1-img-item">
-        <span className="CB-review4-p1-q1-num">5</span>
-        <img src={imgDown4} alt="down4" />
-      </div>
-    </div>
+                  <div className="CB-review4-p1-q1-img-item">
+                    <span className="CB-review4-p1-q1-num">5</span>
+                    <img src={imgDown4} alt="down4" />
+                  </div>
+                </div>
 
-    <div className="CB-review4-p1-q1-column-box">
-      <h4 className="CB-review4-p1-q1-label">Across</h4>
+                <div className="CB-review4-p1-q1-column-box">
+                  <h4 className="CB-review4-p1-q1-label">Across</h4>
 
-      <div className="CB-review4-p1-q1-img-item">
-        <span className="CB-review4-p1-q1-num">1</span>
-        <img src={imgAcross1} alt="across1" />
-      </div>
+                  <div className="CB-review4-p1-q1-img-item">
+                    <span className="CB-review4-p1-q1-num">1</span>
+                    <img src={imgAcross1} alt="across1" />
+                  </div>
 
-      <div className="CB-review4-p1-q1-img-item">
-        <span className="CB-review4-p1-q1-num">4</span>
-        <img src={imgAcross2} alt="across2" />
-      </div>
+                  <div className="CB-review4-p1-q1-img-item">
+                    <span className="CB-review4-p1-q1-num">4</span>
+                    <img src={imgAcross2} alt="across2" />
+                  </div>
 
-      <div className="CB-review4-p1-q1-img-item">
-        <span className="CB-review4-p1-q1-num">6</span>
-        <img src={imgAcross3} alt="across3" />
-      </div>
+                  <div className="CB-review4-p1-q1-img-item">
+                    <span className="CB-review4-p1-q1-num">6</span>
+                    <img src={imgAcross3} alt="across3" />
+                  </div>
 
-      <div className="CB-review4-p1-q1-img-item">
-        <span className="CB-review4-p1-q1-num">7</span>
-        <img src={imgAcross4} alt="across4" />
-      </div>
-    </div>
-  </div>
+                  <div className="CB-review4-p1-q1-img-item">
+                    <span className="CB-review4-p1-q1-num">7</span>
+                    <img src={imgAcross4} alt="across4" />
+                  </div>
+                </div>
+              </div>
 
-  <div className="CB-review4-p1-q1-crossword-grid">
-    {crosswordStructure.map((row, r) => (
-      <div key={r} className="CB-review4-p1-q1-row">
-        {row.map((cell, c) => {
-          const isBlock = cell === "B";
-          const isNumber = /[1-9]/.test(cell);
+              <div className="CB-review4-p1-q1-crossword-grid">
+                {crosswordStructure.map((row, r) => (
+                  <div key={r} className="CB-review4-p1-q1-row">
+                    {row.map((cell, c) => {
+                      const isBlock = cell === "B";
+                      const isNumber = /[1-9]/.test(cell);
 
-          return (
-            <div
-              key={r + "-" + c}
-              className={`CB-review4-p1-q1-cell ${
-                isBlock
-                  ? "CB-review4-p1-q1-block"
-                  : "CB-review4-p1-q1-white"
-              }`}
-            >
-              {/* رقم + input */}
-              {isNumber && (
-                <>
-                  <span className="CB-review4-p1-q1-number">
-                    {cell}
-                  </span>
+                      return (
+                        <div
+                          key={r + "-" + c}
+                          className={`CB-review4-p1-q1-cell ${
+                            isBlock
+                              ? "CB-review4-p1-q1-block"
+                              : "CB-review4-p1-q1-white"
+                          }`}
+                        >
+                          {/* رقم + input */}
+                          {isNumber && (
+                            <>
+                              <span className="CB-review4-p1-q1-number">
+                                {cell}
+                              </span>
 
-                  <Droppable
-                    droppableId={`${r}-${c}`}
-                    isDropDisabled={showAnswers}
-                  >
-                    {(provided, snapshot) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                        className={`CB-review4-p1-q1-letter ${
-                          snapshot.isDraggingOver
-                            ? "CB-review4-p1-q1-drag-over"
-                            : ""
-                        }`}
-                      >
-                        {userGrid[r][c] && (
-                          <span className="CB-review4-p1-q1-filled-letter">
-                            {userGrid[r][c]}
-                          </span>
-                        )}
-                        {provided.placeholder}
-                      </div>
-                    )}
-                  </Droppable>
-                </>
-              )}
+                              <Droppable
+                                droppableId={`${r}-${c}`}
+                                isDropDisabled={showAnswers}
+                              >
+                                {(provided, snapshot) => (
+                                  <div
+                                    ref={provided.innerRef}
+                                    {...provided.droppableProps}
+                                    className={`CB-review4-p1-q1-letter ${
+                                      snapshot.isDraggingOver
+                                        ? "CB-review4-p1-q1-drag-over"
+                                        : ""
+                                    }`}
+                                  >
+                                    {userGrid[r][c] && (
+                                      <span className="CB-review4-p1-q1-filled-letter">
+                                        {userGrid[r][c]}
+                                      </span>
+                                    )}
+                                    {provided.placeholder}
+                                  </div>
+                                )}
+                              </Droppable>
+                            </>
+                          )}
 
-              {/* خانة بيضاء بدون رقم */}
-              {!isBlock && !isNumber && (
-                <Droppable
-                  droppableId={`${r}-${c}`}
-                  isDropDisabled={showAnswers}
-                >
-                  {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.droppableProps}
-                      className={`CB-review4-p1-q1-letter ${
-                        snapshot.isDraggingOver
-                          ? "CB-review4-p1-q1-drag-over"
-                          : ""
-                      }`}
-                    >
-                      {userGrid[r][c] && (
-                        <span className="CB-review4-p1-q1-filled-letter">
-                          {userGrid[r][c]}
-                        </span>
-                      )}
-                      {provided.placeholder}
-                    </div>
-                  )}
-                </Droppable>
-              )}
+                          {/* خانة بيضاء بدون رقم */}
+                          {!isBlock && !isNumber && (
+                            <Droppable
+                              droppableId={`${r}-${c}`}
+                              isDropDisabled={showAnswers}
+                            >
+                              {(provided, snapshot) => (
+                                <div
+                                  ref={provided.innerRef}
+                                  {...provided.droppableProps}
+                                  className={`CB-review4-p1-q1-letter ${
+                                    snapshot.isDraggingOver
+                                      ? "CB-review4-p1-q1-drag-over"
+                                      : ""
+                                  }`}
+                                >
+                                  {userGrid[r][c] && (
+                                    <span className="CB-review4-p1-q1-filled-letter">
+                                      {userGrid[r][c]}
+                                    </span>
+                                  )}
+                                  {provided.placeholder}
+                                </div>
+                              )}
+                            </Droppable>
+                          )}
 
-              {/* ❌ دائرة الخطأ */}
-              {!isBlock &&
-                wrongCells.includes(`${r}-${c}`) && (
-                  <span className="CB-review4-p1-q1-error-badge">
-                    ✕
-                  </span>
-                )}
+                          {/* ❌ دائرة الخطأ */}
+                          {!isBlock && wrongCells.includes(`${r}-${c}`) && (
+                            <span className="CB-review4-p1-q1-error-badge">
+                              ✕
+                            </span>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                ))}
+              </div>
             </div>
-          );
-        })}
-      </div>
-    ))}
-  </div>
-</div>
-
           </div>
         </div>
         <div className="action-buttons-container">

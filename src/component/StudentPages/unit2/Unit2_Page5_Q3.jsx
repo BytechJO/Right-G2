@@ -223,14 +223,15 @@ const Unit2_Page5_Q3 = () => {
             })}
           </div>
           <div className="flex">
-          <img src={img1} style={{ height: "80px", width: "80px" }} />
-          <input
-            className="answer-input-CB-unit3-p5-q4"
-            value={sentence}
-            readOnly
-          />
-          <img src={img2} style={{ height: "80px", width: "80px" }} />
-  </div>      </div>
+            <img src={img1} style={{ height: "80px", width: "80px" }} />
+            <input
+              className="answer-input-CB-unit3-p5-q4"
+              value={sentence}
+              readOnly
+            />
+            <img src={img2} style={{ height: "80px", width: "80px" }} />
+          </div>{" "}
+        </div>
       </div>
 
       <div className="action-buttons-container">

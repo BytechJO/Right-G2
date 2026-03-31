@@ -3,10 +3,10 @@ import sound2 from "../../../assets/audio/ClassBook/U 3/Pg22_1.2_Adult Lady.mp3"
 import sound3 from "../../../assets/audio/ClassBook/U 3/Pg22_1.3_Adult Lady.mp3";
 import sound4 from "../../../assets/audio/ClassBook/U 3/Pg22_1.4_Adult Lady.mp3";
 import Rabbit from "../../../assets/Page 01/Rabbit.svg";
-import img1 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 22-23/Page22-listen1.svg";
-import img2 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 22-23/Page22-listen 2.svg";
-import img3 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 22-23/Page22-listen3.svg";
-import img4 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 22-23/Page22-listen4.svg";
+import img1 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 22-23/8.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 22-23/3.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 22-23/4-01.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 22-23/5-01.svg";
 import FourImagesWithAudio from "../../FourImagesWithAudio";
 import longAudio from "../../../assets/audio/ClassBook/U 3/cd16pg22-instruction1.mp3";
 

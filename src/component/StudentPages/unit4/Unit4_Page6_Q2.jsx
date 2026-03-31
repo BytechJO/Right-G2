@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import img1 from "../../../assets/imgs/test.png";
-import img2 from "../../../assets/imgs/test.png";
-import img3 from "../../../assets/imgs/test.png";
-import img4 from "../../../assets/imgs/test.png";
-import img5 from "../../../assets/imgs/test.png";
-import img6 from "../../../assets/imgs/test.png";
-import img7 from "../../../assets/imgs/test.png";
-import img8 from "../../../assets/imgs/test.png";
-import img9 from "../../../assets/imgs/test.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 33/Ex E 1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 33/Ex E 2.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 33/Ex E 3.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 33/Ex E 4.svg";
+import img5 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 33/Ex E 5.svg";
+import img6 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 33/Ex E 6.svg";
+import img7 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 33/Ex E 7.svg";
+import img8 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 33/Ex E 8.svg";
+import img9 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 33/Ex E 9.svg";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import "./Unit4_Page6_Q2.css";
@@ -130,7 +130,7 @@ const Unit4_Page6_Q2 = () => {
             flexDirection: "column",
             // gap: "30px",
             width: "60%",
-            marginBottom:"40px"
+            marginBottom: "40px",
           }}
         >
           <h5 className="header-title-page8">
@@ -193,7 +193,11 @@ const Unit4_Page6_Q2 = () => {
             {[img1, img2, img3, img4, img5, img6, img7, img8, img9].map(
               (img, index) => (
                 <div className="row2-CB-review2-p1-q2" key={index}>
-                  <img src={img} className="q-img-CB-review2-p1-q2" />
+                  <img
+                    src={img}
+                    // className="q-img-CB-review2-p1-q2"
+                    style={{ height: "130px", width: "auto" }}
+                  />
 
                   <Droppable droppableId={`slot-${index}`}>
                     {(provided, snapshot) => (

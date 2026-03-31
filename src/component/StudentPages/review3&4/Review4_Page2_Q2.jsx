@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import find_img from "../../../assets/imgs/test.png";
+import find_img from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 38/Ex E 1.svg";
 
 /* ================= DATA ================= */
 
@@ -8,21 +8,21 @@ const items = [
   {
     key: "cake",
     label: "cake",
-    area: { x1: 26.4395, y1: 48.9356, x2: 34.2037, y2: 53.5385 },
+    area: { x1: 19.63, y1: 41.15, x2: 29.63, y2: 56.5385 },
   },
   {
     key: "rain",
     label: "rain",
-    area: { x1: 17.6300, y1: 33.6881, x2: 28.9778, y2: 37.7158 },
+    area: { x1: 31.44, y1: 50.73, x2: 45.88, y2: 57.46 },
   },
   {
     key: "paint",
     label: "paint",
     area: {
-      x1: 56.1526,
-      y1: 50.0863,
-      x2: 61.2292,
-      y2: 54.9770,
+      x1: 61.793,
+      y1: 9.04,
+      x2: 91.48,
+      y2: 85.19,
     },
   },
  

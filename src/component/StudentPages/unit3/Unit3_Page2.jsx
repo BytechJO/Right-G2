@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import page_2 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 23.png";
-import img1_letter from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 22-23/Page23-listen1.svg";
-import img2_letter from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 22-23/Page23-listen2.svg";
-import img3_letter from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 22-23/Page23-listen3.svg";
-import img4_letter from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 22-23/Page23-listen4.svg";
+import img1_letter from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 22-23/6.svg";
+import img2_letter from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 22-23/93-01.svg";
+import img3_letter from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 22-23/93-02.svg";
+import img4_letter from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 22-23/93-03.svg";
 import Rabbit from "../../../assets/Page 01/Rabbit.svg";
 import soundListen from "../../../assets/audio/ClassBook/U 3/pg23-reading.mp3";
 
@@ -76,28 +76,28 @@ const Unit3_Page2 = ({ openPopup }) => {
 
   const areas = [
     // الصوت الأول – المنطقة الأساسية
-    { x1: 43.3, y1: 23,  sound: 1, isPrimary: true },
+    { x1: 43.3, y1: 23, sound: 1, isPrimary: true },
 
     // // // // الصوت الأول – منطقة إضافية
     { x1: 36.65, y1: 25.19, x2: 44.41, y2: 36.16, sound: 1, isPrimary: false },
 
     // // // // الصوت الثاني – الأساسية
-    { x1: 15.1, y1: 44.1,  sound: 2, isPrimary: true },
+    { x1: 15.1, y1: 44.1, sound: 2, isPrimary: true },
 
     // // // // الصوت الثاني – الإضافية
-    { x1: 15.51, y1: 36.31, x2: 29.47, y2:47.27, sound: 2, isPrimary: false },
+    { x1: 15.51, y1: 36.31, x2: 29.47, y2: 47.27, sound: 2, isPrimary: false },
 
     //     // // // الصوت الثاني – الأساسية
-    { x1: 17.1, y1: 56.1,  sound: 3, isPrimary: true },
+    { x1: 17.1, y1: 56.1, sound: 3, isPrimary: true },
 
     // // // // الصوت الثاني – الإضافية
-    { x1: 13.96, y1: 49.86, x2: 26.18, y2:57.33, sound: 3, isPrimary: false },
+    { x1: 13.96, y1: 49.86, x2: 26.18, y2: 57.33, sound: 3, isPrimary: false },
 
     //     // // // الصوت الثاني – الأساسية
-    { x1: 23.9, y1: 26.1,  sound: 2, isPrimary: true },
+    { x1: 23.9, y1: 26.1, sound: 2, isPrimary: true },
 
     // // // // الصوت الثاني – الإضافية
-    { x1: 14.93, y1: 20.62, x2: 26.57, y2: 32.50, sound: 2, isPrimary: false },
+    { x1: 14.93, y1: 20.62, x2: 26.57, y2: 32.5, sound: 2, isPrimary: false },
   ];
   const sounds = {
     1: sound2,
@@ -249,7 +249,7 @@ const Unit3_Page2 = ({ openPopup }) => {
                   img4_letter,
                 ]}
                 audioSrc={letterSound}
-                checkpoints={[0, 4.4, 7.26,8.86, 10]}
+                checkpoints={[0, 4.4, 7.26, 8.86, 10]}
                 popupOpen={true}
                 titleQ={"Listen and read along."}
                 audioArr={imageSounds}
