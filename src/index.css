@@ -175,7 +175,7 @@ img {
   background: rgba(255, 179, 0, 0.493);
   border: 2px solid red;
   cursor: pointer;
-  opacity: 0; /* 🚫 مخفية دائماً */
+  opacity: 1; /* 🚫 مخفية دائماً */
   transition: 0.25s;
 }
 

@@ -1,12 +1,20 @@
 import React, { useState, useRef, useEffect } from "react";
-import page_7 from "../../../assets/imgs/unit1/pages/Untitled-17.png";
-import grammarSound from "../../../assets/audio/ClassBook/U 1/CD4.Pg7_Right Grammar2_Adult Lady.mp3";
-import sound1 from "../../../assets/audio/ClassBook/U 1/Pg7_2.1_Adult Lady.mp3";
-import sound2 from "../../../assets/audio/ClassBook/U 1/Pg7_2.2_Adult Lady.mp3";
-import sound3 from "../../../assets/audio/ClassBook/U 1/Pg7_2.3_Adult Lady.mp3";
-import sound4 from "../../../assets/audio/ClassBook/U 1/Pg7_2.4_Adult Lady.mp3";
-import sound5 from "../../../assets/audio/ClassBook/U 1/Pg7_2.5_Adult Lady.mp3";
-import "./Page7.css"
+import page_7 from "../../../assets/imgs/Right 2 Unit 1 Stellas Family/Page 7.png";
+import grammarSound from "../../../assets/audio/ClassBook/U 1/grammer-2.mp3";
+
+import sound2 from "../../../assets/audio/ClassBook/U 1/Pg6_1.4_Adult Lady.mp3";
+import sound3 from "../../../assets/audio/ClassBook/U 1/Pg6_2.1_Adult Lady.mp3";
+import sound4 from "../../../assets/audio/ClassBook/U 1/Pg6_4.2_Jack.mp3";
+import sound5 from "../../../assets/audio/ClassBook/U 1/Pg6_5.1_Adult Lady.mp3";
+import sound6 from "../../../assets/audio/ClassBook/U 1/pg6-51-adult-lady_AXjN0mkr.mp3";
+import sound7 from "../../../assets/audio/ClassBook/U 1/Pg6a_3.1_Adult Lady.mp3";
+import sound8 from "../../../assets/audio/ClassBook/U 1/Pg6b_3.1_Adult Lady.mp3";
+import sound9 from "../../../assets/audio/ClassBook/U 1/Pg6b_4.1_Adult Lady.mp3";
+import sound10 from "../../../assets/audio/ClassBook/U 1/Pg7_2.1_Adult Lady.mp3"
+import sound11 from "../../../assets/audio/ClassBook/U 1/pg7-21-adult-lady_UAKOFhvX.mp3"
+import sound12 from "../../../assets/audio/ClassBook/U 1/Pg7_2.3_Adult Lady.mp3"
+import sound13 from "../../../assets/audio/ClassBook/U 1/Pg7_2.4_Adult Lady.mp3"
+import "./Page7.css";
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 // import video2 from "../../../assets/unit1/sounds/p7 1920.mp4";
@@ -27,27 +35,64 @@ const Page7 = ({ openPopup }) => {
     checkAreaAndPlaySound(xPercent, yPercent);
   };
   const captionsExample = [
-    { start: 0, end: 4.05, text: "Page 7, exercise 2. Right grammar. " },
-    { start: 4.09, end: 4.45, text: "Good morning." },
-    { start: 4.47, end: 6.16, text: "Good afternoon." },
-    { start: 6.2, end: 7.27, text: "Good evening. " },
-    { start: 7.3, end: 9.01, text: "Goodbye. " },
-    { start: 9.05, end: 10.16, text: "Good morning, Mom. " },
-    { start: 10.2, end: 12.05, text: "Good morning, Stella. " },
-    { start: 12.09, end: 13.12, text: "Good afternoon. " },
-    { start: 13.16, end: 15.01, text: "Good afternoon." },
-    { start: 15.05, end: 16.13, text: "Good evening" },
-    { start: 16.17, end: 17.24, text: "Good evening" },
-    { start: 17.27, end: 19.04, text: "Goodbye, Stella." },
+    {
+      start: 0.379,
+      end: 4.739,
+      text: "Page seven, exercise two. Write grammar.",
+    },
+    {
+      start: 5.819,
+      end: 7.039,
+      text: "Who are you?",
+    },
+    {
+      start: 8.059,
+      end: 9.039,
+      text: "Who are they?",
+    },
+    {
+      start: 10.059,
+      end: 12.319,
+      text: "They are Stella's father and brother.",
+    },
+    {
+      start: 13.46,
+      end: 14.359,
+      text: "Who are you?",
+    },
+    {
+      start: 15.539,
+      end: 16.879,
+      text: "I'm Stella's cousin.",
+    },
+    {
+      start: 18.02,
+      end: 19.739,
+      text: "We're Stella's family.",
+    },
+    {
+      start: 20.899,
+      end: 25.159,
+      text: "Who are they? They're Stella's father and brother.",
+    },
+    {
+      start: 26.34,
+      end: 31.599,
+      text: "I'm Stella's cousin. I like to play. I'm Sarah's best friend.",
+    },
+    {
+      start: 32.819,
+      end: 34.559,
+      text: "We're Stella's family.",
+    },
   ];
 
   const clickableAreas = [
-    { x1: 6.33, y1: 9.4, x2: 28.43, y2: 13.3, sound: sound1 },
-    { x1: 29.25, y1: 9.4, x2: 50.14, y2: 13.3, sound: sound2 },
-    { x1: 51.0, y1: 9.4, x2: 72.0, y2: 13.3, sound: sound3 },
-    { x1: 73.0, y1: 9.4, x2: 89.0, y2: 13.3, sound: sound4 },
-    { x1: 6.5, y1: 16.3, x2: 31.7, y2: 19.6, sound: sound5 },
-
+    { x1: 67.87, y1: 26.41, x2: 90.95, y2: 33.57, sound: sound4 },
+    { x1: 49.8, y1: 29.9, x2: 66.9, y2: 33.2, sound: sound9 },
+    { x1: 8.34, y1: 25.19, x2: 30.64, y2: 32.35, sound: sound11 },
+    { x1: 9.31, y1: 62.51, x2: 32.97, y2: 68.2, sound: sound6 },
+    // { x1: 6.5, y1: 16.3, x2: 31.7, y2: 19.6, sound: sound5 },
   ];
 
   const checkAreaAndPlaySound = (x, y) => {

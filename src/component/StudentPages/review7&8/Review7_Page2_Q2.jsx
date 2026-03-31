@@ -226,7 +226,7 @@ const Review7_Page2_Q2 = () => {
     const msg = `
       <div style="font-size:20px;text-align:center;">
         <span style="color:${color};font-weight:bold">
-        ${userCorrect} / ${correctCount}
+        Score: ${userCorrect} / ${correctCount}
         </span>
       </div>
     `;
@@ -251,41 +251,54 @@ const Review7_Page2_Q2 = () => {
   };
 
   return (
-    <div className="flex justify-center p-8">
-      <div className="w-[80%]">
+    <div className="main-container-component">
+      <div className="div-forall">
         {/* Title */}
         <h5 className="header-title-page8" style={{ marginBottom: "20px" }}>
-          <span  style={{ marginRight: "20px" }}>
-            E
-          </span>
+          <span style={{ marginRight: "20px" }}>E</span>
           Circle and count the<span style={{ color: "#2e3192" }}>long o</span>
           words.
         </h5>
-        <div className="flex gap-10">
+        <div className="flex flex-col justify-center items-center gap-10 mb-30">
           {/* LEFT BOX */}
           <div className="bg-[#F9E5DC] rounded-3xl w-[650px] h-[500px] relative p-6">
-            {wordsData.map((item, i) => (
-              <span
-                key={i}
-                onClick={() => toggleWord(item.word)}
-                className={`
-        absolute cursor-pointer text-lg font-medium
-        ${item.color}
-        ${item.rotate}
-        ${
-          selected.includes(item.word)
-            ? "border-2 border-red-500 rounded-full px-2 py-1"
-            : ""
-        }
-      `}
-                style={{
-                  top: item.top,
-                  left: item.left,
-                }}
-              >
-                {item.word}
-              </span>
-            ))}
+            {wordsData.map((item, i) => {
+              const isWrong =
+                locked && selected.includes(item.word) && !item.correct;
+              return (
+                <div
+                  key={i}
+                  className="absolute"
+                  style={{
+                    top: item.top,
+                    left: item.left,
+                  }}
+                >
+                  <span
+                    onClick={() => toggleWord(item.word)}
+                    className={`
+      relative cursor-pointer text-lg font-medium
+      ${item.color}
+      ${item.rotate}
+      ${
+        selected.includes(item.word)
+          ? "border-2 border-red-500 rounded-full px-2 py-1"
+          : ""
+      }
+    `}
+                  >
+                    {item.word}
+
+                    {/* ❌ WRONG ICON */}
+                    {isWrong && (
+                      <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold shadow border-2 border-white">
+                        ✕
+                      </span>
+                    )}
+                  </span>
+                </div>
+              );
+            })}
           </div>
 
           {/* RIGHT SIDE */}

@@ -61,34 +61,14 @@
   padding: 5px;
 }
 .headset-icon-CD-page4-1 {
-  top: 6.5%;
-  right: 8.2%;
+  top: 7%;
+  right: 18.2%;
 }
-
-#num-4-page4 {
-  top: 25%;
-  left: 85%;
-}
-
-#num-5-page4 {
-  top: 28%;
-  left: 74%;
-}
-
-#num-1-page4 {
-  top: 44%;
-  left: 45%;
-}
-
 
 .headset-icon-CD-page4-2 {
   position: absolute;
-  top: 60.5%;
+  top: 59.5%;
   left: 26%;
-  /* background-color: #6bcff6;
-  border-radius: 20px;
-  border: rgb(255, 255, 255) solid 2px;
-  padding: 5px; */
   cursor: pointer;
   padding: 5px;
 }
@@ -134,18 +114,46 @@
   cursor: pointer;
 }
 
-#num-4-page4 {
-  top: 25%;
-  left: 85%;
-}
-
-#num-5-page4 {
+#num-1-unit1 {
   top: 28%;
-  left: 74%;
+  left: 13%;
 }
 
-#num-1-page4 {
-  top: 44%;
-  left: 45%;
+#num-2-unit1 {
+  top: 22%;
+  left: 24%;
 }
 
+#num-3-unit1 {
+  top: 48%;
+  left: 24%;
+}
+
+#num-4-unit1 {
+  top: 30%;
+  left: 36%;
+}
+
+#num-5-unit1 {
+  top: 65%;
+  left: 16%;
+}
+
+#num-6-unit1 {
+  top: 65%;
+  left: 26%;
+}
+#num-7-unit1 {
+  top: 71%;
+  left: 35%;
+}
+
+#num-8-unit1 {
+  top: 54%;
+  left: 56%;
+}
+
+#num-9-unit1 {
+  top: 59%;
+  left: 66%;
+}

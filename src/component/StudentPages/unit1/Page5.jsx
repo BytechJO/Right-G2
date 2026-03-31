@@ -1,24 +1,24 @@
 import React, { useState, useRef, useEffect } from "react";
-import page_5 from "../../../assets/imgs/unit1/pages/Untitled-15.png";
+import steall from "../../../assets/audio/ClassBook/U 1/reading stella.mp3";
+import page_5 from "../../../assets/imgs/Right 2 Unit 1 Stellas Family/Page 5.png";
 import Rabbit from "../../../assets/Page 01/Rabbit.svg";
 import img1_letter from "../../../assets/imgs/unit1/Page 4-5/Page5-listen1.svg"; //-------should change-------
 import img2_letter from "../../../assets/imgs/unit1/Page 4-5/Page5-listen2.svg"; //-------should change-------
 import img3_letter from "../../../assets/imgs/unit1/Page 4-5/Page5-listen3.svg"; //-------should change-------
 import img4_letter from "../../../assets/imgs/unit1/Page 4-5/Page5-listen4.svg"; //-------should change-------
-import allSound_letter from "../../../assets/audio/ClassBook/U 1/Pg5_Instruction1_Adult Lady.mp3";
+import allSound_letter from "../../../assets/audio/ClassBook/U 1/unit1-page5-lestine.mp3";
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 import ReadChoose from "../../ReadChoose";
 import FourImagesWithAudio from "../../FourImagesWithAudio";
+import AudioWithCaption from "../../AudioWithCaption";
 import sound1_letter from "../../../assets/audio/ClassBook/U 1/Pg5_1.1_Adult Lady.mp3";
 import sound2_letter from "../../../assets/audio/ClassBook/U 1/Pg5_1.2_Adult Lady.mp3";
 import sound3_letter from "../../../assets/audio/ClassBook/U 1/Pg5_Instruction2_Adult Lady.mp3";
 import sound4_letter from "../../../assets/audio/ClassBook/U 1/Pg5_2.1_Adult Lady.mp3";
-// import sound1_paragraph from "../../../assets/audio/ClassBook/U 1/Pg5_1.1_Stella.mp3";
-// import sound2_conversation from "../../../assets/audio/placeholders/song.mp3";
-// import sound2_vocab from "../../../assets/audio/placeholders/song.mp3";
-// import sound3_vocab from "../../../assets/audio/placeholders/song.mp3";
-import "./Page5.css"
+import sound8 from "../../../assets/audio/ClassBook/U 1/sound8.mp3";
+import sound9 from "../../../assets/audio/ClassBook/U 1/sound9.mp3";
+import "./Page5.css";
 const Page5 = ({ openPopup }) => {
   const audioRef = useRef(null);
   const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
@@ -35,22 +35,20 @@ const Page5 = ({ openPopup }) => {
     { start: 8.25, end: 11.25, text: "She is one year old. She likes people." },
   ];
 
-const readChooseData = {
-  title: "Read and choose.",
-  questions: [
-    {
-      text: "Who’s Jack?",
-      options:["Stella’s uncle" ,"Stella’s cousin"],
-      correct:"Stella’s cousin",
-    },
-    
-  ],
-};
-
+  const readChooseData = {
+    title: "Read and choose.",
+    questions: [
+      {
+        text: "Who’s Jack?",
+        options: ["Stella’s uncle", "Stella’s cousin"],
+        correct: "Stella’s cousin",
+      },
+    ],
+  };
 
   const captions2 = [
-    { start: 0, end: 3.19, text: " Page 5. Listen and read along. " },
-    { start: 3.21, end: 7.22, text: "T. Table. Taxi. Tiger." },
+    { start: 0, end: 3.67, text: " Page 5. Listen and read along.  " },
+    { start: 4.88, end: 9.78, text: "R. rabbit red run" },
   ];
   // أصوات الصور
   const imageSounds = [
@@ -68,21 +66,21 @@ const readChooseData = {
 
   const areas = [
     // الصوت الأول – المنطقة الأساسية
-    { x1: 7.25, y1: 45.8, x2: 11.4, y2: 48.8, sound: 1, isPrimary: true },
+    { x1: 10.9, y1: 49, sound: 1, isPrimary: true },
 
     // الصوت الأول – منطقة إضافية
-    { x1: 4.6, y1: 34.1, x2: 15.2, y2: 67.8, sound: 1, isPrimary: false },
+    { x1: 1.94, y1: 39.2, x2: 9.7, y2: 60.8, sound: 1, isPrimary: false },
 
     // الصوت الثاني – الأساسية
-    { x1: 33.9, y1: 43.1, x2: 37.7, y2: 46.1, sound: 2, isPrimary: true },
+    { x1: 30.7, y1: 59.9, sound: 2, isPrimary: true },
 
     // الصوت الثاني – الإضافية
-    { x1: 26.9, y1: 32.8, x2: 35.8, y2: 68.9, sound: 2, isPrimary: false },
+    { x1: 22.5, y1: 38.44, x2: 30.8, y2: 68.9, sound: 2, isPrimary: false },
   ];
-  // const sounds = {
-  //   1: sound2_vocab,
-  //   2: sound3_vocab,
-  // };
+  const sounds = {
+    1: sound8,
+    2: sound9,
+  };
   const handleImageClick = (e) => {
     const rect = e.target.getBoundingClientRect();
     const xPercent = ((e.clientX - rect.left) / rect.width) * 100;
@@ -169,7 +167,7 @@ const readChooseData = {
           onClick={() =>
             openPopup(
               "audio",
-              // <AudioWithCaption src={page5_CD2} captions={captionsExample} />,
+              <AudioWithCaption src={steall} captions={captionsExample} />,
             )
           }
           style={{ overflow: "visible" }}
@@ -196,16 +194,13 @@ const readChooseData = {
           height="22"
           viewBox="0 0 90 90"
           onClick={() =>
-            openPopup(
-              "html",
-             <ReadChoose data={readChooseData}/>
-            )
+            openPopup("html", <ReadChoose data={readChooseData} />)
           }
           style={{ overflow: "visible" }}
         >
           <image
             className="svg-img"
-            href={audioBtn}
+            href={arrowBtn}
             x="0"
             y="0"
             width="90"
@@ -233,7 +228,7 @@ const readChooseData = {
                   img4_letter,
                 ]}
                 audioSrc={allSound_letter}
-                checkpoints={[0, 3.4, 4, 4.9, 6]}
+                checkpoints={[0, 4.5, 6.4, 8.18, 9.78]}
                 popupOpen={true}
                 titleQ={"Listen and read along."}
                 audioArr={imageSounds}

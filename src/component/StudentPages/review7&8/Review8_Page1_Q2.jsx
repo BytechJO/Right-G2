@@ -31,33 +31,39 @@ const items = [
 ];
 
 export default function Review8_Page1_Q3() {
-  // ✨ كل كلمة string بدل array
   const [answers, setAnswers] = useState(items.map(() => ["", ""]));
-
   const [locked, setLocked] = useState(false);
   const [showResult, setShowResult] = useState(false);
-
+  const [usedLetterIds, setUsedLetterIds] = useState([]);
   const onDragEnd = (result) => {
     const { destination, draggableId } = result;
     if (!destination || locked) return;
 
-    const letter = draggableId.split("-")[1];
+    const parts = draggableId.split("-");
+    const letter = parts[1];
+    const sourceQ = parts[2];
+    const sourceWord = parts[3];
+
+    const id = draggableId.replace("letter-", "");
+
     const [qIndex, wordIndex] = destination.droppableId.split("-").slice(1);
+
+    if (sourceQ !== qIndex || sourceWord !== wordIndex) return;
+
+    if (usedLetterIds.includes(id)) return;
 
     const updated = [...answers];
 
-    // ✨ منع زيادة الحروف عن الحد
     if (
       updated[qIndex][wordIndex].length >=
       items[qIndex].correct[wordIndex].length
     )
       return;
 
-    // ✨ نضيف الحرف تدريجياً
     updated[qIndex][wordIndex] += letter;
 
     setAnswers(updated);
-    setShowResult(false);
+    setUsedLetterIds((prev) => [...prev, id]);
   };
 
   const resetAll = () => {
@@ -92,10 +98,12 @@ export default function Review8_Page1_Q3() {
 
     const total = items.length;
 
+    const color = score === total ? "green" : score === 0 ? "red" : "orange";
+
     const message = `
       <div style="font-size:20px;text-align:center;">
-        <span style="color:#2e7d32;font-weight:bold;">
-          Score: ${score} / ${total}
+        <span style="color:${color};font-weight:bold">
+        Score: ${score} / ${total}
         </span>
       </div>
     `;
@@ -107,103 +115,120 @@ export default function Review8_Page1_Q3() {
     setShowResult(true);
     setLocked(true);
   };
-
+  const usedLetters = answers.flatMap((row) => row.join("").split(""));
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="flex justify-center p-8">
-        <div className="div-forall" style={{ width: "60%" }}>
+      <div className="main-container-component">
+        <div className="div-forall">
           <h5 className="header-title-page8">
             <span style={{ marginRight: "20px" }}>B</span>
             Unscramble the words and write the sentences.
           </h5>
 
           {items.map((item, i) => (
-            <div key={i} className="mb-6 mt-4">
-              <div className="flex items-center gap-3 flex-wrap">
-                {/* number */}
+            <div key={i} className="mb-8 mt-4">
+              <div className="flex items-center gap-4 flex-wrap">
                 <span className="font-bold text-lg w-5">{i + 1}</span>
-
-                {/* sentence */}
                 <span className="text-lg">{item.sentence}</span>
 
-                {/* scrambled letters */}
-                <Droppable droppableId={`bank-${i}`} direction="horizontal">
-                  {(provided) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.droppableProps}
-                      className="flex gap-3"
-                    >
-                      {item.scrambled.map((word, wordIndex) => {
-                        const letters = word.split("");
-
-                        return (
-                          <div key={wordIndex} className="flex gap-1">
-                            {letters.map((letter, letterIndex) => {
-                              const id = `${letter}-${i}-${wordIndex}-${letterIndex}`;
-
-                              return (
-                                <Draggable
-                                  key={id}
-                                  draggableId={`letter-${id}`}
-                                  index={wordIndex * 10 + letterIndex}
-                                  isDragDisabled={locked}
-                                >
-                                  {(provided) => (
-                                    <span
-                                      ref={provided.innerRef}
-                                      {...provided.draggableProps}
-                                      {...provided.dragHandleProps}
-                                      className="w-8 h-8 flex items-center justify-center bg-yellow-200 rounded border cursor-grab"
-                                    >
-                                      {letter}
-                                    </span>
-                                  )}
-                                </Draggable>
-                              );
-                            })}
-                          </div>
-                        );
-                      })}
-                      {provided.placeholder}
-                    </div>
-                  )}
-                </Droppable>
-
-                {/* ✨ answer words (live typing) */}
-                <div className="flex gap-4">
-                  {answers[i].map((word, wordIndex) => {
+                {/* الكلمات */}
+                <div className="flex gap-8">
+                  {item.scrambled.map((word, wordIndex) => {
+                    const letters = word.split("");
                     const dropId = `slot-${i}-${wordIndex}`;
 
                     return (
-                      <Droppable droppableId={dropId} key={dropId}>
-                        {(provided) => (
-                          <div
-                            ref={provided.innerRef}
-                            {...provided.droppableProps}
-                            className={`min-w-[120px] border-b-2 border-black h-8 flex items-center px-2
-                              ${
-                                word === items[i].correct[wordIndex]
-                                  ? "text-green-600 font-bold"
-                                  : ""
-                              }`}
-                          >
-                            {word}
-                            {provided.placeholder}
-                          </div>
-                        )}
-                      </Droppable>
+                      <div
+                        key={wordIndex}
+                        className="flex flex-col items-center gap-2"
+                      >
+                        {/* 🔤 الحروف */}
+                        <Droppable
+                          droppableId={`bank-${i}-${wordIndex}`}
+                          direction="horizontal"
+                        >
+                          {(provided) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.droppableProps}
+                              className="flex gap-1"
+                            >
+                              {letters.map((letter, letterIndex) => {
+                                const id = `${letter}-${i}-${wordIndex}-${letterIndex}`;
+
+                                const isUsed = usedLetterIds.includes(id);
+                                return (
+                                  <Draggable
+                                    key={id}
+                                    draggableId={`letter-${id}`}
+                                    index={letterIndex}
+                                    isDragDisabled={locked || isUsed}
+                                  >
+                                    {(provided) => (
+                                      <span
+                                        ref={provided.innerRef}
+                                        {...provided.draggableProps}
+                                        {...provided.dragHandleProps}
+                                        className={`
+  w-8 h-8 flex items-center justify-center rounded border
+  ${
+    isUsed
+      ? "bg-gray-300 cursor-not-allowed opacity-50"
+      : "bg-yellow-200 cursor-grab"
+  }
+`}
+                                      >
+                                        {letter}
+                                      </span>
+                                    )}
+                                  </Draggable>
+                                );
+                              })}
+
+                              {provided.placeholder}
+                            </div>
+                          )}
+                        </Droppable>
+
+                        {/* ✏️ input */}
+                        <Droppable droppableId={dropId}>
+                          {(provided) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.droppableProps}
+                              className={`min-w-[120px] h-10 relative border-0 border-b-2 border-black px-3 py-2 text-lg text-center
+  ${
+    answers[i][wordIndex] === item.correct[wordIndex]
+      ? "border-black"
+      : showResult
+        ? "border-red-500"
+        : "border-black"
+  }
+`}
+                            >
+                              {answers[i][wordIndex]}
+                              {showResult &&
+                                answers[i][wordIndex] !==
+                                  item.correct[wordIndex] && (
+                                  <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold shadow border-2 border-white">
+                                    ✕
+                                  </div>
+                                )}
+                              {provided.placeholder}
+                            </div>
+                          )}
+                        </Droppable>
+                      </div>
                     );
                   })}
                 </div>
               </div>
 
-              {/* final sentence */}
-              {showResult && (
-                <div className="text-red-600 font-semibold mt-2 ml-8">
-                  {item.sentence} {answers[i].join(" ")}.
+              <div className="mt-3 ml-8">
+                <div className="w-full max-w-[500px] border-2 border-gray-400 rounded-lg px-3 py-2 text-lg text-center">
+                  {item.sentence} {answers[i].join(" ")}
                 </div>
-              )}
+              </div>
             </div>
           ))}
 

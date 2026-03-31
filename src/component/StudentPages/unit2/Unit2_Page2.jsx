@@ -1,25 +1,28 @@
 import React, { useState, useEffect, useRef } from "react";
-import page_2 from "../../../assets/imgs/pages/Right 2 Unit 1 Stellas Family_00001/Right 2 Unit 1 Stellas Family_00011.jpg";
-import img1_letter from "../../../assets/imgs/test.png";
-import img2_letter from "../../../assets/imgs/test.png";
-import img3_letter from "../../../assets/imgs/test.png";
-import img4_letter from "../../../assets/imgs/test.png";
+import page_2 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 11.png";
+import img1_letter from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 10-11/Page11-listen1.svg";
+import img2_letter from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 10-11/Page11-listen2.svg";
+import img3_letter from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 10-11/Page11-listen3.svg";
 import Rabbit from "../../../assets/Page 01/Rabbit.svg";
-import soundListen from "../../../assets/audio/ClassBook/U 2/Pg11_1.1_Stella.mp3";
-import img1_conversation from "../../../assets/imgs/test.png";
-import img2_conversation from "../../../assets/imgs/test.png";
+import soundListen from "../../../assets/audio/ClassBook/U 2/pg11-reading-adult-lady_LwfXrCnU.mp3";
 import sound1_letter from "../../../assets/audio/ClassBook/U 2/Pg11_1.1_Adult Lady.mp3";
 import sound2_letter from "../../../assets/audio/ClassBook/U 2/Pg11_1.2_Adult Lady.mp3";
 import sound3_letter from "../../../assets/audio/ClassBook/U 2/Pg11_1.3_Adult Lady.mp3";
-
-import letterSound from "../../../assets/audio/ClassBook/U 2/Pg11_Instruction1_Adult Lady.mp3";
-
+import letterSound from "../../../assets/audio/ClassBook/U 2/page11-unit2-listen.mp3";
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 import AudioWithCaption from "../../AudioWithCaption";
 import FourImagesWithAudio from "../../FourImagesWithAudio";
-// import sound1 from "../../../assets/img_unit2/sounds-unit2/U2-06.mp3";
-// import sound2 from "../../../assets/img_unit2/sounds-unit2/U2-07.mp3";
+import sound1 from "../../../assets/audio/ClassBook/U 2/sound1-unit2.mp3";
+import sound2 from "../../../assets/audio/ClassBook/U 2/sound2-unit2.mp3";
+import sound3 from "../../../assets/audio/ClassBook/U 2/sound3-unit2.mp3";
+import sound4 from "../../../assets/audio/ClassBook/U 2/sound4-unit2.mp3";
+import sound5 from "../../../assets/audio/ClassBook/U 2/sound5-unit2.mp3";
+import sound6 from "../../../assets/audio/ClassBook/U 2/sound6-unit2.mp3";
+import sound7 from "../../../assets/audio/ClassBook/U 2/sound7-unit2.mp3";
+import sound8 from "../../../assets/audio/ClassBook/U 2/sound8-unit2.mp3";
+import sound9 from "../../../assets/audio/ClassBook/U 2/sound9-unit2.mp3";
+import sound10 from "../../../assets/audio/ClassBook/U 2/sound10-unit2.mp3";
 
 import "./Unit2_Page2.css";
 import ReadChoose from "../../ReadChoose";
@@ -52,33 +55,48 @@ const Unit2_Page2 = ({ openPopup }) => {
     ],
   };
   const captionsExample = [
-    { start: 0, end: 2.0, text: "Page11. Birthdays Are Fun" },
-    { start: 2.05, end: 5.2, text: "Hi, everyone. Today is my birthday." },
-    { start: 5.24, end: 7.2, text: " I'm seven years old." },
-    { start: 7.24, end: 9.0, text: "  My friends are here. It's fun." },
+    { start: 0.54, end: 3.28, text: "Page 11. At the park." },
+    {
+      start: 4.32,
+      end: 16.86,
+      text: "Dear diary, it was fun at the park. These are pictures of our day. This is a butterfly. That is a bird. These are ducks in the pond. Those are my friends.",
+    },
   ];
 
   const captions2 = [
-    { start: 0, end: 3.18, text: "Page 11. Listen and read along. " },
-    { start: 3.2, end: 7.01, text: "P, pencil, pink, pizza. " },
+    { start: 0.52, end: 3.92, text: "Page 11. Listen and read along." },
+    { start: 5.3, end: 7.62, text: "C, K, X." },
+    { start: 8.76, end: 10.96, text: "Clock, fox." },
   ];
 
   const areas = [
-    // الصوت الأول – المنطقة الأساسية
-    { x1: 35.24, y1: 54.6, x2: 39.0, y2: 58.0, sound: 1, isPrimary: true },
+    // // الصوت الثالث – الأساسية
+    { x1: 19.8, y1: 12, sound: 1, isPrimary: true },
 
-    // // // الصوت الأول – منطقة إضافية
-    { x1: 31.3, y1: 45.4, x2: 40.12, y2: 53.4, sound: 1, isPrimary: false },
+    // // الصوت الثالث – الإضافية
+    { x1: 20.55, y1: 15.75, x2: 26.57, y2: 18.64, sound: 1, isPrimary: false },
+  //   // // الصوت الرابع – الأساسية
+    { x1: 7, y1: 63.6, sound: 2, isPrimary: true },
 
-    // // // الصوت الثاني – الأساسية
-    { x1: 43.6, y1: 54.1, x2: 47.7, y2: 57.1, sound: 2, isPrimary: true },
+  //   // // الصوت الرابع – الإضافية
+    { x1: 1.55, y1: 60.37, x2: 13.19, y2: 77.28, sound: 2, isPrimary: false },
 
-    // // // الصوت الثاني – الإضافية
-    { x1: 41.6, y1: 47.31, x2: 48.3, y2: 53.7, sound: 2, isPrimary: false },
-  ];
+  //   // // الصوت الخامس – الأساسية
+    { x1: 41, y1: 41.6, sound: 3, isPrimary: true },
+
+  //   // // الصوت الخامس – الإضافية
+    { x1: 35.87, y1: 38.14, x2: 41.50, y2: 44.99, sound: 3, isPrimary: false },
+  //   // // الصوت السادس  – الأساسية
+    { x1: 9.7, y1: 10, sound: 4, isPrimary: true },
+
+  //   // // الصوت الخامس – الإضافية
+    { x1: 12.41, y1: 7.22, x2: 13.96, y2: 21.38, sound:4, isPrimary: false },
+   ];
   const sounds = {
-    // 1: sound1,
-    // 2: sound2,
+    1: sound3,
+    2: sound6,
+    3: sound7,
+    4: sound9,
   };
 
   const handleImageClick = (e) => {
@@ -218,7 +236,7 @@ const Unit2_Page2 = ({ openPopup }) => {
               <FourImagesWithAudio
                 images={[Rabbit, img1_letter, img2_letter, img3_letter]}
                 audioSrc={letterSound}
-                checkpoints={[0, 3.4, 4, 4.9, 6]}
+                checkpoints={[0, 5.30, 8.76, 10.32]}
                 popupOpen={true}
                 titleQ={"Listen and read along."}
                 audioArr={imageSounds}
