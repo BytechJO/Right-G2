@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import img1 from "../../../assets/imgs/test.png";
-import img2 from "../../../assets/imgs/test.png";
-import img3 from "../../../assets/imgs/test.png";
-import img4 from "../../../assets/imgs/test.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 14/Ex B1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 14/Ex B2.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 14/Ex B3.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 14/Ex B 4.svg";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Unit2_Page5_Q2.css";
 

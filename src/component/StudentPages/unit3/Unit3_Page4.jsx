@@ -1,15 +1,13 @@
 import React, { useState, useRef } from "react";
-import page_4 from "../../../assets/imgs/pages/Right 2 Unit 1 Stellas Family_00001/Right 2 Unit 1 Stellas Family_00025.jpg";
+import page_4 from "../../../assets/imgs//Right 2 Unit 3 On a Picnic/Page 25.png";
 import "./unit3_Page4.css";
-import grammarSound from "../../../assets/audio/ClassBook/U 3/CD18.Pg25_Grammar2_Adult Lady.mp3";
-import sound1 from "../../../assets/audio/ClassBook/U 3/Pg25_2.1_Adult Lady.mp3";
-import sound2 from "../../../assets/audio/ClassBook/U 3/Pg25_2.2_Adult Lady.mp3";
-import sound3 from "../../../assets/audio/ClassBook/U 3/Pg25_2.3_Adult Lady.mp3";
-import sound4 from "../../../assets/audio/ClassBook/U 3/Pg25_2.4_Adult Lady.mp3";
-import sound5 from "../../../assets/audio/ClassBook/U 3/Pg25_2.5_Adult Lady.mp3";
-import sound6 from "../../../assets/audio/ClassBook/U 3/Pg25_2.6_Adult Lady.mp3";
-import sound7 from "../../../assets/audio/ClassBook/U 3/Pg25_3.1_Adult Lady.mp3";
-import sound8 from "../../../assets/audio/ClassBook/U 3/Pg25_4.1_Adult Lady.mp3";
+import grammarSound from "../../../assets/audio/ClassBook/U 3/cd18pg25-grammar2.mp3";
+import sound1 from "../../../assets/audio/ClassBook/U 3/pg25-21-marge1.mp3";
+import sound2 from "../../../assets/audio/ClassBook/U 3/pg25-22-marge2.mp3";
+import sound3 from "../../../assets/audio/ClassBook/U 3/Pg25_3.1_Adult Lady.mp3";
+import sound4 from "../../../assets/audio/ClassBook/U 3/Pg25_4.1_Adult Lady.mp3";
+import sound5 from "../../../assets/audio/ClassBook/U 3/Pg25_5.1_Boy.mp3";
+
 
 // import video from "../../../assets/img_unit3/sounds-unit3/p13.mp4";
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
@@ -22,30 +20,25 @@ const Unit3_Page4 = ({ openPopup }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeAreaIndex, setActiveAreaIndex] = useState(null);
   const captionsExample = [
-    { start: 0, end: 4.07, text: " Page 13, exercise 2. Right Grammar. " },
-    { start: 4.1, end: 5.12, text: " What is it? " },
-    { start: 5.15, end: 6.15, text: "It’s a cake." },
-    { start: 6.19, end: 7.21, text: "What are these?" },
-    { start: 7.25, end: 9.04, text: "These are presents. " },
-    { start: 9.07, end: 11.29, text: "What is it? It's a birthday cake. " },
-    { start: 11.32, end: 15.04, text: "What are these? These are presents." },
-    { start: 15.07, end: 18.22, text: "Is it a train? Yes, it is. " },
-    {
-      start: 18.26,
-      end: 21.24,
-      text: "Is it a cake? No, it isn't.",
-    },
-  ];
+  { start: 0.64, end: 6.58, text: "Page 25, exercise two. Write grammar. Can he swim?" },
+  { start: 7.64, end: 11.1, text: "No, he can't. Can she swim?" },
+  { start: 12.3, end: 14.04, text: "No, she can't." },
+  { start: 15.08, end: 16.1, text: "Can it swim?" },
+  { start: 17.28, end: 18.92, text: "No, it can't." },
+  { start: 20.0, end: 21.06, text: "Can it swim?" },
+  { start: 22.4, end: 23.98, text: "No, it can't." },
+  { start: 25.06, end: 26.12, text: "Can he sleep?" },
+  { start: 27.24, end: 28.8, text: "No, he can't." },
+  { start: 29.88, end: 32.96, text: "You can't play the guitar. Stop, please." },
+];
 
   const clickableAreas = [
-    { x1: 6.53, y1: 10.4, x2: 23.43, y2: 14.2, sound: sound1 },
-    { x1: 54.19, y1: 10.4, x2: 71.5, y2: 14.5, sound: sound2 },
-    { x1: 6.53, y1: 15.27, x2: 30.7, y2: 19.4, sound: sound3 },
-    { x1: 54.2, y1: 15.27, x2: 78.3, y2: 19.5, sound: sound4 },
-    { x1: 6.7, y1: 32.3, x2: 21.8, y2: 36.2, sound: sound5 },
-    { x1: 23.3, y1: 25.5, x2: 39.8, y2: 30.7, sound: sound6 },
-    { x1: 55.0, y1: 30.7, x2: 74.1, y2: 33.9, sound: sound7 },
-    { x1: 55.0, y1: 30.7, x2: 74.1, y2: 33.9, sound: sound8 },
+    { x1: 6.98, y1: 9.35, x2: 32.58, y2: 20.30, sound: sound1 },
+    { x1: 66.90, y1: 9.35, x2: 92.69, y2: 20.30, sound: sound2 },
+    { x1: 6.01, y1: 27.32, x2: 22.30, y2: 33.26, sound: sound3 },
+    { x1: 52.36, y1: 27.47, x2: 69.61, y2: 32.5, sound: sound4 },
+    { x1: 42.66, y1: 90.07, x2: 65.8, y2: 95.56, sound: sound5 },
+
 
   ];
 

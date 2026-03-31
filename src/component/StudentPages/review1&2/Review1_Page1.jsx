@@ -13,7 +13,7 @@ const Review1_Page1 = ({ openPopup }) => {
     >
       {/* <img src={page_1} /> */}
       <div
-        className="click-icon-review4-page1-1 hover:scale-110 transition"
+        className="click-icon-review1-page1-1 hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg
@@ -34,7 +34,7 @@ const Review1_Page1 = ({ openPopup }) => {
         </svg>
       </div>
       <div
-        className="click-icon-review4-page1-2  hover:scale-110 transition"
+        className="click-icon-review1-page1-2  hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg
@@ -54,48 +54,7 @@ const Review1_Page1 = ({ openPopup }) => {
           />
         </svg>
       </div>
-      {/* <div
-        className="click-icon-review4-page1-3 hover:scale-110 transition"
-        style={{ overflow: "visible" }}
-      >
-        <svg
-          width="22"
-          height="22"
-          viewBox="0 0 90 90"
-          onClick={() =>openPopup("exercise", { startIndex: 14 })}
-          style={{ overflow: "visible" }}
-        >
-          <image
-            className="svg-img"
-            href={arrowBtn}
-            x="0"
-            y="0"
-            width="90"
-            height="90"
-          />
-        </svg>
-      </div>
-      <div
-        className="click-icon-review4-page1-4  hover:scale-110 transition"
-        style={{ overflow: "visible" }}
-      >
-        <svg
-          width="22"
-          height="22"
-          viewBox="0 0 90 90"
-          onClick={() => openPopup("exercise", { startIndex: 45 })}
-          style={{ overflow: "visible" }}
-        >
-          <image
-            className="svg-img"
-            href={arrowBtn}
-            x="0"
-            y="0"
-            width="90"
-            height="90"
-          />
-        </svg>
-      </div> */}
+    
     </div>
   );
 };

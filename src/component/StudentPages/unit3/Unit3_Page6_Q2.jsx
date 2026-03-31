@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./Unit3_Page6_Q2.css";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import img1 from "../../../assets/imgs/test.png";
-import img2 from "../../../assets/imgs/test.png";
-import img3 from "../../../assets/imgs/test.png";
-import img4 from "../../../assets/imgs/test.png";
-import img5 from "../../../assets/imgs/test.png";
-import img6 from "../../../assets/imgs/test.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 27/Ex E 1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 27/Ex E 2.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 27/Ex E 3.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 27/Ex E 4.svg";
+import img5 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 27/Ex E 5.svg";
+import img6 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 27/Ex E 6.svg";
 
 const data = [
   {

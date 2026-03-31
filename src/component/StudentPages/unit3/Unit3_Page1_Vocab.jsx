@@ -1,30 +1,32 @@
 import React, { useState, useRef, useEffect } from "react";
-import backgroundImage from "../../../assets/imgs/test.png";
-import page2_2 from "../../../assets/imgs/test.png";
-// import vocabulary from "../../../assets/img_unit3/sounds-unit3/Pg10_Vocabulary_Adult Lady.mp3";
+import backgroundImage from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page.png";
+import page2_2 from "../../../assets/imgs/Voca.svg";
+import vocabulary from "../../../assets/audio/ClassBook/U 3/Pg22_Vocab_Adult Lady.mp3";
 import "./unit3_Page1.css";
-import num1 from "../../../assets/imgs/test.png";
-import num2 from "../../../assets/imgs/test.png";
-import num3 from "../../../assets/imgs/test.png";
-import num4 from "../../../assets/imgs/test.png";
-import num5 from "../../../assets/imgs/test.png";
-import num6 from "../../../assets/imgs/test.png";
-import num7 from "../../../assets/imgs/test.png";
-import num8 from "../../../assets/imgs/test.png";
-import num9 from "../../../assets/imgs/test.png";
-import num10 from "../../../assets/imgs/test.png";
-import num11 from "../../../assets/imgs/test.png";
-// import sound1 from "../../../assets/img_unit3/sounds-unit3/U2-01.mp3";
-// import sound2 from "../../../assets/img_unit3/sounds-unit3/U2-02.mp3";
-// import sound3 from "../../../assets/img_unit3/sounds-unit3/U2-03.mp3";
-// import sound4 from "../../../assets/img_unit3/sounds-unit3/U2-04.mp3";
-// import sound5 from "../../../assets/img_unit3/sounds-unit3/U2-05.mp3";
-// import sound6 from "../../../assets/img_unit3/sounds-unit3/U2-06.mp3";
-// import sound7 from "../../../assets/img_unit3/sounds-unit3/U2-07.mp3";
-// import sound8 from "../../../assets/img_unit3/sounds-unit3/U2-07.mp3";
-// import sound9 from "../../../assets/img_unit3/sounds-unit3/U2-07.mp3";
-// import sound10 from "../../../assets/img_unit3/sounds-unit3/U2-07.mp3";
-// import sound11 from "../../../assets/img_unit3/sounds-unit3/U2-07.mp3";
+// import num1 from "../../../assets/imgs/Num1.svg";
+import num1 from "../../../assets/imgs/Num1.svg";
+import num2 from "../../../assets/imgs/Num2.svg";
+import num3 from "../../../assets/imgs/Num3.svg";
+import num4 from "../../../assets/imgs/Num4.svg";
+import num5 from "../../../assets/imgs/Num5.svg";
+import num6 from "../../../assets/imgs/Num6.svg";
+import num7 from "../../../assets/imgs/Num7.svg";
+import num8 from "../../../assets/imgs/Num8.svg";
+import num9 from "../../../assets/imgs/Num9.svg";
+import num10 from "../../../assets/imgs/Num10.svg";
+import num11 from "../../../assets/imgs/Num11.svg";
+import sound1 from "../../../assets/audio/ClassBook/U 3/unit3-sound1.mp3";
+import sound2 from "../../../assets/audio/ClassBook/U 3/unit3-sound2.mp3";
+import sound3 from "../../../assets/audio/ClassBook/U 3/unit3-sound3.mp3";
+import sound4 from "../../../assets/audio/ClassBook/U 3/unit3-sound4.mp3";
+import sound5 from "../../../assets/audio/ClassBook/U 3/unit3-sound5.mp3";
+import sound6 from "../../../assets/audio/ClassBook/U 3/unit3-sound6.mp3";
+import sound7 from "../../../assets/audio/ClassBook/U 3/unit3-sound7.mp3";
+import sound8 from "../../../assets/audio/ClassBook/U 3/unit3-sound8.mp3";
+import sound9 from "../../../assets/audio/ClassBook/U 3/unit3-sound9.mp3";
+import sound10 from "../../../assets/audio/ClassBook/U 3/unit3-sound10.mp3";
+import sound11 from "../../../assets/audio/ClassBook/U 3/unit3-sound11.mp3";
+
 import { TbMessageCircle } from "react-icons/tb";
 import { IoMdSettings } from "react-icons/io";
 import { FaPlay, FaPause } from "react-icons/fa";
@@ -36,7 +38,7 @@ const Unit3_Page1_Vocab = () => {
   const [activeIndex, setActiveIndex] = useState(null);
   const [activeIndex2, setActiveIndex2] = useState(null);
   const [showContinue, setShowContinue] = useState(false);
-  const stopAtSecond = 3.0;
+  const stopAtSecond = 3.46;
   const [clickedIndex, setClickedIndex] = useState(null);
   // إعدادات الصوت
   const [showSettings, setShowSettings] = useState(false);
@@ -54,24 +56,31 @@ const Unit3_Page1_Vocab = () => {
   // ✔ Captions Array
   // ================================
   const captions = [
-    { start: 0, end: 3.1, text: "Page 10, Unit 2, Vocabulary." },
-    { start: 3.12, end: 5.15, text: " 1. Party Hat. " },
-    { start: 5.17, end: 7.16, text: "2. Jello." },
-    { start: 7.18, end: 9.27, text: "3. Cake. " },
-    { start: 9.29, end: 12.2, text: "4. Happy Birthday." },
-    { start: 12.22, end: 15.07, text: " 5. Balloons." },
-    { start: 15.09, end: 17.13, text: " 6. Present. " },
-    { start: 17.15, end: 19.26, text: "7.card" },
+    { start: 0.48, end: 3.46, text: "Page 22, unit 3, vocabulary." },
+    { start: 4.68, end: 6.18, text: "One: swim." },
+    { start: 7.3, end: 8.92, text: "Two: kite." },
+    { start: 10.06, end: 14.96, text: "Three: sandwich. Four: picnic table." },
+    { start: 15.98, end: 18.04, text: "Five: play the drum." },
+    { start: 19.06, end: 20.82, text: "Six: drum." },
+    { start: 21.94, end: 24.14, text: "Seven: take a photo." },
+    { start: 25.32, end: 27.24, text: "Eight: ride a bike." },
+    { start: 28.36, end: 30.22, text: "Nine: paint." },
+    { start: 31.36, end: 33.28, text: "Ten: park." },
+    { start: 34.3, end: 36.38, text: "Eleven: bench." },
   ];
   // 🎵 فترات الكلمات داخل الأوديو الرئيسي
   const wordTimings = [
-    { start: 3.2, end: 5.15 }, // party hat
-    { start: 5.22, end: 7.2 }, // jellow
-    { start: 7.23, end: 9.43 }, // cake
-    { start: 9.43, end: 12.25 }, // Hello
-    { start: 12.27, end: 15.05 }, // Good morning
-    { start: 15.04, end: 17.13 },
-    { start: 17.15, end: 19.26 },
+    { start: 4.68, end: 6.18, text: "One: swim." },
+    { start: 7.3, end: 8.92, text: "Two: kite." },
+    { start: 10.06, end: 12.03, text: "Three: sandwich. Four: picnic table." },
+    { start: 12.07, end: 14.96, text: "Three: sandwich. Four: picnic table." },
+    { start: 15.98, end: 18.04, text: "Five: play the drum." },
+    { start: 19.06, end: 20.82, text: "Six: drum." },
+    { start: 21.94, end: 24.14, text: "Seven: take a photo." },
+    { start: 25.32, end: 27.24, text: "Eight: ride a bike." },
+    { start: 28.36, end: 30.22, text: "Nine: paint." },
+    { start: 31.36, end: 33.28, text: "Ten: park." },
+    { start: 34.3, end: 36.38, text: "Eleven: bench." },
   ];
 
   // ================================
@@ -154,7 +163,19 @@ const Unit3_Page1_Vocab = () => {
       setIsPlaying(false);
     }
   };
-  const wordAudios = [sound1, sound2, sound3, sound4, sound5, sound6, sound7];
+  const wordAudios = [
+    sound1,
+    sound2,
+    sound3,
+    sound4,
+    sound5,
+    sound6,
+    sound7,
+    sound8,
+    sound9,
+    sound10,
+    sound11,
+  ];
   const playWordAudio = (index) => {
     // أوقفي الأوديو الرئيسي
     mainAudioRef.current.pause();
@@ -183,7 +204,19 @@ const Unit3_Page1_Vocab = () => {
     };
   };
 
-  const nums = [num1, num2, num3, num4, num5, num6, num7];
+  const nums = [
+    num1,
+    num2,
+    num3,
+    num4,
+    num5,
+    num6,
+    num7,
+    num8,
+    num9,
+    num10,
+    num11,
+  ];
   const wordRefs = useRef(wordAudios.map(() => React.createRef()));
 
   return (
@@ -312,7 +345,7 @@ const Unit3_Page1_Vocab = () => {
         <img
           src={page2_2}
           style={{
-            height: "210px",
+            height: "305px",
             width: "auto",
             position: "absolute",
             bottom: "0%",
@@ -358,7 +391,7 @@ const Unit3_Page1_Vocab = () => {
           <img
             key={i}
             src={num}
-            id={`num-${i + 1}`}
+            id={`num-${i + 1}-unit3`}
             className={`num-img ${
               (activeIndex2 === i && current >= 3.2) || clickedIndex === i
                 ? "active"

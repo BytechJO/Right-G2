@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
-
+import img1 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 14/Ex C 1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 14/Ex C 2.svg";
 
 const Unit2_Page5_Q3 = () => {
   const grid = [
@@ -73,7 +74,7 @@ const Unit2_Page5_Q3 = () => {
 
   const letters = grid; // نفس الـ array اللي عندك
 
-  const wordsToFind = ["the", "birds", "fly", "in" ,"the","sky"];
+  const wordsToFind = ["the", "birds", "fly", "in", "the", "sky"];
   const [sentence, setSentence] = useState("");
 
   const [selected, setSelected] = useState([]);
@@ -221,13 +222,15 @@ const Unit2_Page5_Q3 = () => {
               );
             })}
           </div>
-
+          <div className="flex">
+          <img src={img1} style={{ height: "80px", width: "80px" }} />
           <input
             className="answer-input-CB-unit3-p5-q4"
             value={sentence}
             readOnly
           />
-        </div>
+          <img src={img2} style={{ height: "80px", width: "80px" }} />
+  </div>      </div>
       </div>
 
       <div className="action-buttons-container">

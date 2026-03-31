@@ -20,30 +20,28 @@ const Unit2_Page4 = ({ openPopup }) => {
   const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeAreaIndex, setActiveAreaIndex] = useState(null);
-  const captionsExample = [
-    { start: 0, end: 4.07, text: " Page 13, exercise 2. Right Grammar. " },
-    { start: 4.1, end: 5.12, text: " What is it? " },
-    { start: 5.15, end: 6.15, text: "It’s a cake." },
-    { start: 6.19, end: 7.21, text: "What are these?" },
-    { start: 7.25, end: 9.04, text: "These are presents. " },
-    { start: 9.07, end: 11.29, text: "What is it? It's a birthday cake. " },
-    { start: 11.32, end: 15.04, text: "What are these? These are presents." },
-    { start: 15.07, end: 18.22, text: "Is it a train? Yes, it is. " },
-    {
-      start: 18.26,
-      end: 21.24,
-      text: "Is it a cake? No, it isn't.",
-    },
-  ];
+ const captionsExample = [
+  { start: 0.56, end: 5.0, text: "Page 13, exercise two, write grammar." },
+  { start: 6.18, end: 7.5, text: "This is a tree." },
+  { start: 8.8, end: 10.5, text: "That is a cloud." },
+  { start: 11.58, end: 13.22, text: "Are these red flowers?" },
+  { start: 14.46, end: 15.88, text: "Yes, they are." },
+  { start: 16.98, end: 18.24, text: "These are trees." },
+  { start: 19.56, end: 20.88, text: "Those are clouds." },
+  { start: 21.98, end: 26.18, text: "Are these yellow ducks? No, they aren't." },
+  { start: 27.34, end: 30.94, text: "These are green trees. Those are white clouds." },
+  { start: 31.98, end: 37.4, text: "Are these white ducks? Yes, they are white ducks." },
+  { start: 37.4, end: 42.8, text: "Are those black horses? No, they aren't. Those are gray horses." },
+];
 
   const clickableAreas = [
-    { x1: 6.53, y1: 10.4, x2: 23.43, y2: 14.2, sound: sound1 },
-    { x1: 54.19, y1: 10.4, x2: 71.5, y2: 14.5, sound: sound2 },
-    { x1: 6.53, y1: 15.27, x2: 30.7, y2: 19.4, sound: sound3 },
-    { x1: 54.2, y1: 15.27, x2: 78.3, y2: 19.5, sound: sound4 },
-    { x1: 6.7, y1: 32.3, x2: 21.8, y2: 36.2, sound: sound5 },
-    { x1: 23.3, y1: 25.5, x2: 39.8, y2: 30.7, sound: sound6 },
-    { x1: 55.0, y1: 30.7, x2: 74.1, y2: 33.9, sound: sound7 },
+    { x1: 6.21, y1: 8.89, x2: 29.47, y2: 14.5, sound: sound1 },
+    { x1: 49.06, y1: 8.89, x2: 92.30, y2: 14.5, sound: sound2 },
+    { x1: 6.21, y1: 15.90, x2: 29.47, y2: 21.38, sound: sound3 },
+ { x1: 49.06, y1: 15.90, x2: 92.30, y2: 21.38, sound: sound4 },
+    { x1: 5.82, y1: 39.2, x2: 32.77, y2: 44.38, sound: sound5 },
+    { x1: 62.25, y1: 30.37, x2: 91.80, y2: 36, sound: sound6 },
+     { x1: 5.30, y1: 63.9, x2: 47.40, y2: 69.35, sound: sound7 },
   ];
 
   const handleImageClick = (e) => {

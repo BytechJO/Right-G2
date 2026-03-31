@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Unit3_Page5_Q4.css";
+import img1 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 26/Ex C 1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 26/Ex C 2.svg";
 
 const Unit3_Page5_Q4 = () => {
   const grid = [
@@ -68,7 +70,7 @@ const Unit3_Page5_Q4 = () => {
     "l",
   ];
 
-const letters = grid; // نفس الـ array اللي عندك
+  const letters = grid; // نفس الـ array اللي عندك
 
   const wordsToFind = ["we", "wear", "jackets", "in", "cold", "weather"];
   const [sentence, setSentence] = useState("");
@@ -78,49 +80,46 @@ const letters = grid; // نفس الـ array اللي عندك
   const [foundWords, setFoundWords] = useState([]);
   const [coloredCells, setColoredCells] = useState([]);
 
-const handleClick = (letter, index) => {
+  const handleClick = (letter, index) => {
+    if (coloredCells.includes(index)) return;
 
-  if (coloredCells.includes(index)) return;
+    if (selected.includes(index)) {
+      const cutIndex = selected.indexOf(index);
+      const newSelected = selected.slice(0, cutIndex);
 
-  if (selected.includes(index)) {
-    const cutIndex = selected.indexOf(index);
-    const newSelected = selected.slice(0, cutIndex);
+      const newWord = newSelected.map((i) => letters[i]).join("");
 
-    const newWord = newSelected.map(i => letters[i]).join("");
+      setSelected(newSelected);
+      setCurrentWord(newWord);
+      return;
+    }
 
-    setSelected(newSelected);
-    setCurrentWord(newWord);
-    return;
-  }
+    setSelected((prev) => [...prev, index]);
+    setCurrentWord((prev) => prev + letter);
+  };
 
-  setSelected(prev => [...prev, index]);
-  setCurrentWord(prev => prev + letter);
-};
+  useEffect(() => {
+    if (
+      wordsToFind.includes(currentWord) &&
+      !foundWords.includes(currentWord)
+    ) {
+      setFoundWords((prev) => [...prev, currentWord]);
+      setColoredCells((prev) => [...prev, ...selected]);
 
+      setSentence((prev) =>
+        prev === "" ? currentWord : prev + " " + currentWord,
+      );
 
-
-useEffect(() => {
-  if (
-    wordsToFind.includes(currentWord) &&
-    !foundWords.includes(currentWord)
-  ) {
-    setFoundWords(prev => [...prev, currentWord]);
-    setColoredCells(prev => [...prev, ...selected]);
-
-    setSentence(prev =>
-      prev === "" ? currentWord : prev + " " + currentWord
-    );
-
-    setSelected([]);
-    setCurrentWord("");
-  }
-}, [currentWord]);
+      setSelected([]);
+      setCurrentWord("");
+    }
+  }, [currentWord]);
 
   const checkAnswers = () => {
     const total = wordsToFind.length;
     const score = foundWords.length;
 
-    if (foundWords.length===0) {
+    if (foundWords.length === 0) {
       ValidationAlert.info(`
         <div style="font-size:20px;text-align:center;">
           <b>Find all the words first!</b><br/>
@@ -160,28 +159,26 @@ useEffect(() => {
     setSentence(""); // 👈 مهم
   };
 
-const showAnswers = () => {
-  let allCells = [];
-  const fullString = letters.join("");
+  const showAnswers = () => {
+    let allCells = [];
+    const fullString = letters.join("");
 
-  wordsToFind.forEach(word => {
-    const startIndex = fullString.indexOf(word);
+    wordsToFind.forEach((word) => {
+      const startIndex = fullString.indexOf(word);
 
-    if (startIndex !== -1) {
-      for (let i = 0; i < word.length; i++) {
-        allCells.push(startIndex + i);
+      if (startIndex !== -1) {
+        for (let i = 0; i < word.length; i++) {
+          allCells.push(startIndex + i);
+        }
       }
-    }
-  });
+    });
 
-  setFoundWords(wordsToFind);
-  setColoredCells(allCells);
-  setSelected([]);
-  setCurrentWord("");
-  setSentence(wordsToFind.join(" "));
-};
-
-
+    setFoundWords(wordsToFind);
+    setColoredCells(allCells);
+    setSelected([]);
+    setCurrentWord("");
+    setSentence(wordsToFind.join(" "));
+  };
 
   return (
     <div style={{ display: "flex", justifyContent: "center", padding: "30px" }}>
@@ -205,31 +202,34 @@ const showAnswers = () => {
         </div>
 
         <div className="wordsearch-wrapper-CB-unit3-p5-q4">
-        <div className="grid-CB-unit3-p5-q4">
-  {letters.map((letter, index) => {
-    const isSelected = selected.includes(index);
-    const isFound = coloredCells.includes(index);
+          <div className="grid-CB-unit3-p5-q4">
+            {letters.map((letter, index) => {
+              const isSelected = selected.includes(index);
+              const isFound = coloredCells.includes(index);
 
-    return (
-      <span
-        key={index}
-        className={`cell-CB-unit3-p5-q4 
+              return (
+                <span
+                  key={index}
+                  className={`cell-CB-unit3-p5-q4 
           ${isSelected ? "selected-CB-unit3-p5-q4" : ""}
           ${isFound ? "found-cell-CB-unit3-p5-q4" : ""}`}
-        onClick={() => handleClick(letter, index)}
-      >
-        {letter}
-      </span>
-    );
-  })}
-</div>
+                  onClick={() => handleClick(letter, index)}
+                >
+                  {letter}
+                </span>
+              );
+            })}
+          </div>
+          <div className="flex">
+            <img src={img1} style={{ height: "80px", width: "80px" }} />
 
-
-          <input
-            className="answer-input-CB-unit3-p5-q4"
-            value={sentence}
-            readOnly
-          />
+            <input
+              className="answer-input-CB-unit3-p5-q4"
+              value={sentence}
+              readOnly
+            />
+            <img src={img2} style={{ height: "80px", width: "80px" }} />
+          </div>
         </div>
       </div>
 

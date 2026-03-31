@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import img from "../../../assets/imgs/test.png";
+import img from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page18/Ex D 1.svg";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
 import ValidationAlert from "../../Popup/ValidationAlert";
@@ -119,7 +119,7 @@ const Review2_Page1_Q4 = () => {
         >
           <div className="component-wrapper">
             <h3 className="header-title-page8">
-           <span style={{ marginRight: "20px" }}>D</span>  Look and write.
+              <span style={{ marginRight: "20px" }}>D</span> Look and write.
             </h3>
             <Droppable droppableId="bank" direction="horizontal">
               {(provided) => (
@@ -233,7 +233,7 @@ const Review2_Page1_Q4 = () => {
                 src={img}
                 className="shape-img-CB-review2-p1-q2"
                 alt=""
-                style={{ height: "300px", width: "auto" }}
+                style={{ height: "200px", width: "auto" }}
               />
             </div>
           </div>

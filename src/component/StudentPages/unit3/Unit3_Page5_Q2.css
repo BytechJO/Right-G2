@@ -68,8 +68,8 @@
 }
 
 .CB-unit3-p5-q2-content-container{
-   display: grid;
-   grid-template-columns: repeat(2,1fr);
+   display: flex;
+   flex-direction: column;
 }
 
 @media (max-width: 1024px) {

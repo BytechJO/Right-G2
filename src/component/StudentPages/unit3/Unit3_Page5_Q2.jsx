@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import "./Unit3_Page5_Q2.css";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import img1 from "../../../assets/imgs/test.png";
-import img2 from "../../../assets/imgs/test.png";
-import img3 from "../../../assets/imgs/test.png";
-import img4 from "../../../assets/imgs/test.png";
-import img5 from "../../../assets/imgs/test.png";
-import img6 from "../../../assets/imgs/test.png";
-import img7 from "../../../assets/imgs/test.png";
-import img8 from "../../../assets/imgs/test.png";
-import img9 from "../../../assets/imgs/test.png";
-import img10 from "../../../assets/imgs/test.png";
-import img11 from "../../../assets/imgs/test.png";
-import img12 from "../../../assets/imgs/test.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 26/Ex A2-1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 26/Ex A2-2.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 26/Ex A2-3.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 26/Ex A2-4.svg";
+import img5 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 26/Ex A2-5.svg";
+import img6 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 26/Ex A2-6.svg";
+import img7 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 26/Ex A2-7.svg";
+import img8 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 26/Ex A2-8.svg";
+import img9 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 26/Ex A2-9.svg";
+import img10 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 26/Ex A2-10.svg";
+import img11 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 26/Ex A2-11.svg";
+import img12 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 26/Ex A2-12.svg";
 const data = [
   {
     id: 1,
@@ -170,49 +170,50 @@ export default function Unit3_Page5_Q2() {
       >
         <div className="circle-wrapper-Unit5_Page5_Q2">
           <h5 className="header-title-page8">
-            <span style={{ color: "#2e3192" }}>2</span> Which pictures begin with
-            the same sound? Circle.
+            <span style={{ color: "#2e3192" }}>2</span> Which pictures begin
+            with the same sound? Circle.
           </h5>
-         <div className="CB-unit3-p5-q2-content-container">
-          {data.map((q) => (
-            <div key={q.id} className="question-row-CB-unit3-p5-q2">
-              <span
-                className="q-number"
-                style={{
-                  color: "#2c5287",
-                  fontSize: "20px",
-                  fontWeight: "700",
-                }}
-              >
-                {q.id}.
-              </span>
+          <div className="CB-unit3-p5-q2-content-container">
+            {data.map((q) => (
+              <div key={q.id} className="question-row-CB-unit3-p5-q2">
+                <span
+                  className="q-number"
+                  style={{
+                    color: "#2c5287",
+                    fontSize: "20px",
+                    fontWeight: "700",
+                  }}
+                >
+                  {q.id}.
+                </span>
 
-              <div className="images-row-CB-unit3-p5-q2">
-                {q.images.map((img) => {
-                  const isSelected = answers[q.id]?.includes(img.value);
-                  const isWrong =
-                    submitted && isSelected && !q.correct.includes(img.value);
+                <div className="images-row-CB-unit3-p5-q2">
+                  {q.images.map((img) => {
+                    const isSelected = answers[q.id]?.includes(img.value);
+                    const isWrong =
+                      submitted && isSelected && !q.correct.includes(img.value);
 
-                  return (
-                    <div
-                      key={img.id}
-                      className={`img-box-CB-unit3-p5-q2 
+                    return (
+                      <div
+                        key={img.id}
+                        className={`img-box-CB-unit3-p5-q2 
               ${isSelected ? "selected-CB-unit3-p5-q2" : ""} 
               ${isWrong ? "wrong" : ""}`}
-                      onClick={() => handleSelect(q.id, img.value)}
-                    >
-                      <img src={img.src} alt="" />
+                        onClick={() => handleSelect(q.id, img.value)}
+                      >
+                        <img src={img.src} alt="" />
 
-                      {/* علامة X تظهر فقط عند الغلط */}
-                      {!showAnswer && isWrong && (
-                        <div className="wrong-mark-CB-unit3-p5-q2">✕</div>
-                      )}
-                    </div>
-                  );
-                })}
+                        {/* علامة X تظهر فقط عند الغلط */}
+                        {!showAnswer && isWrong && (
+                          <div className="wrong-mark-CB-unit3-p5-q2">✕</div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-          ))}</div>
+            ))}
+          </div>
         </div>
       </div>
       <div className="action-buttons-container">

@@ -20,40 +20,35 @@ const Unit2_Page3 = ({ openPopup }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeAreaIndex, setActiveAreaIndex] = useState(null);
   const captionsExample = [
-    { start: 0, end: 3.22, text: "Page 12, Exercise 1. Right Grammar." },
-    { start: 3.25, end: 7.11, text: " How old are you? I'm seven years old." },
+    { start: 0.52, end: 4.74, text: "Page 12, exercise 1. Write grammar." },
+    { start: 5.86, end: 7.38, text: "This is a bird." },
+    { start: 8.48, end: 12.42, text: "That's a blue bird. Is this a flower?" },
+    { start: 13.72, end: 15.16, text: "Yes, it is." },
+    { start: 16.48, end: 17.58, text: "Is that a cloud?" },
+    { start: 18.68, end: 20.26, text: "No, it isn't." },
     {
-      start: 7.15,
-      end: 11.02,
-      text: " When is your birthday? My birthday is in August.",
+      start: 21.34,
+      end: 24.44,
+      text: "This is a butterfly. This is a red butterfly.",
     },
     {
-      start: 11.06,
-      end: 13.11,
-      text: "It is on Tuesday. ",
+      start: 25.46,
+      end: 29.8,
+      text: "Is that a yellow bird? No, it isn't. That's a blue bird.",
     },
-    { start: 13.15, end: 14.22, text: "How old are you, Sara? " },
-    { start: 14.26, end: 16.05, text: "I'm three years old. " },
-    { start: 16.09, end: 17.24, text: "When is your birthday party, Stella? " },
-    { start: 17.27, end: 19.16, text: "It is on Tuesday. " },
     {
-      start: 19.2,
-      end: 22.1,
-      text: "Happy birthday! This is for you, Stella. ",
+      start: 30.84,
+      end: 36.04,
+      text: "Is this a brown rabbit? Yes, it is. And that is a white dog.",
     },
-    { start: 22.14, end: 23.1, text: "Thank you.  " },
-    { start: 23.14, end: 25.05, text: "You're welcome. Open it." },
   ];
 
   const clickableAreas = [
-    { x1: 6.5, y1: 10.7, x2: 30.0, y2: 15.0, sound: sound1 },
-    { x1: 54.2, y1: 9.5, x2: 78.3, y2: 13.0, sound: sound2 },
-    { x1: 6.5, y1: 15.8, x2: 35.6, y2: 20.0, sound: sound3 },
-    { x1: 54.2, y1: 13.5, x2: 83.5, y2: 16.7, sound: sound4 },
-    { x1: 54.2, y1: 17.0, x2: 74.1, y2: 20.4, sound: sound5 },
-    { x1: 14.08, y1: 27.0, x2: 29.6, y2: 31.7, sound: sound6 },
-    { x1: 7.0, y1: 47.5, x2: 29.2, y2: 50.4, sound: sound7 },
-    
+    { x1: 7.27, y1: 9.65, x2: 32.48, y2: 20.32, sound: sound1 },
+    { x1: 56.52, y1: 9.5, x2: 93.36, y2: 20.32, sound: sound2 },
+    { x1: 15.99, y1: 25.65, x2: 41.02, y2: 31.50, sound: sound5 },
+    { x1: 56.33, y1: 25.04, x2: 87.93, y2: 30.37, sound: sound6 },
+    { x1: 5.72, y1: 59.31, x2: 42.36, y2: 65.09, sound: sound7 },
   ];
   const handleImageClick = (e) => {
     const rect = e.target.getBoundingClientRect();

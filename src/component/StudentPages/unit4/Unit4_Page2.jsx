@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import page_2 from "../../../assets/imgs/pages/Right 2 Unit 1 Stellas Family_00001/Right 2 Unit 1 Stellas Family_00029.jpg";
+import page_2 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 29.png";
 import img1_letter from "../../../assets/imgs/test.png";
 import img2_letter from "../../../assets/imgs/test.png";
 import img3_letter from "../../../assets/imgs/test.png";

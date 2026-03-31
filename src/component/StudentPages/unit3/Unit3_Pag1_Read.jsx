@@ -1,14 +1,14 @@
 import sound1 from "../../../assets/audio/ClassBook/U 3/Pg22_1.1_Adult Lady.mp3";
 import sound2 from "../../../assets/audio/ClassBook/U 3/Pg22_1.2_Adult Lady.mp3";
 import sound3 from "../../../assets/audio/ClassBook/U 3/Pg22_1.3_Adult Lady.mp3";
-import sound4 from "../../../assets/audio/ClassBook/U 3/Pg22_1.4_Adult Lady.mp3"
+import sound4 from "../../../assets/audio/ClassBook/U 3/Pg22_1.4_Adult Lady.mp3";
 import Rabbit from "../../../assets/Page 01/Rabbit.svg";
-import img1 from "../../../assets/imgs/test.png";
-import img2 from "../../../assets/imgs/test.png";
-import img3 from "../../../assets/imgs/test.png";
-import img4 from "../../../assets/imgs/test.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 22-23/Page22-listen1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 22-23/Page22-listen 2.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 22-23/Page22-listen3.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 22-23/Page22-listen4.svg";
 import FourImagesWithAudio from "../../FourImagesWithAudio";
-import longAudio from "../../../assets/audio/ClassBook/U 3/CD16.Pg22_Instruction1_Adult Lady.mp3";
+import longAudio from "../../../assets/audio/ClassBook/U 3/cd16pg22-instruction1.mp3";
 
 const Unit3_Page1_Read = () => {
   const imageSounds = [
@@ -16,21 +16,22 @@ const Unit3_Page1_Read = () => {
     new Audio(sound1),
     new Audio(sound2),
     new Audio(sound3),
-    new Audio(sound4)
-  
+    new Audio(sound4),
   ];
 
-const captions = [
-   { start: 0, end: 3.05, text: "Page 10. Listen and read along." },
-    { start: 3.07, end: 6.14, text: "B, bird, ball, boy " },
-    
+  const captions = [
+    { start: 0.56, end: 3.98, text: "Page 22. Listen and read along." },
+    { start: 5.02, end: 5.4, text: "J." },
+    { start: 6.48, end: 8.08, text: "Jacket." },
+    { start: 8.08, end: 8.64, text: "Jam." },
+    { start: 9.72, end: 10.2, text: "Jet." },
   ];
   return (
     <>
       <FourImagesWithAudio
-        images={[Rabbit, img1, img2, img3,img4]}
+        images={[Rabbit, img1, img2, img3, img4]}
         audioSrc={longAudio}
-        checkpoints={[0, 2.9, 3.4, 4.2, 5.1]}
+        checkpoints={[0, 3.98, 6.48, 8.08, 9.72]}
         popupOpen={true}
         titleQ={"Listen and read along."}
         audioArr={imageSounds}
