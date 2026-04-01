@@ -1,22 +1,18 @@
 import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
-import img1 from "../../../assets/imgs/test6.png";
-import img2 from "../../../assets/imgs/test6.png";
-import img3 from "../../../assets/imgs/test6.png";
-import img4 from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 68/Ex A 1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 68/Ex A 2.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 68/Ex A 3.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 68/Ex A 4.svg";
 import QuestionAudioPlayer from "../../QuestionAudioPlayer";
-import blue from "../../../assets/audio/ClassBook/U 8/Pg64_1.2_Adult Lady.mp3";
-import home from "../../../assets/audio/ClassBook/U 7/Pg58_1.4_Adult Lady.mp3";
-import caot from "../../../assets/audio/ClassBook/U 7/Pg59_1.3_Adult Lady.mp3";
-import boat from "../../../assets/audio/ClassBook/U 7/Pg58_1.2_Adult Lady.mp3";
 import sound1 from "../../../assets/audio/ClassBook/U 7/Pg58_1.2_Adult Lady.mp3";
 const Unit8_Page5_Q1 = () => {
   const items = [
-    { img: img1, audio: caot, correct: "no" },
-    { img: img2, audio: boat, correct: "no" },
-    { img: img3, audio: blue, correct: "yes" },
-    { img: img4, audio: home, correct: "yes" },
+    { img: img1, correct: "no" },
+    { img: img2, correct: "no" },
+    { img: img3, correct: "yes" },
+    { img: img4, correct: "yes" },
   ];
 
   const [selected, setSelected] = useState(Array(items.length).fill(""));

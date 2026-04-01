@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Review5_Page1_Q2.css";
 
-import img1 from "../../../assets/imgs/test6.png";
-import img2 from "../../../assets/imgs/test6.png";
-import img3 from "../../../assets/imgs/test6.png";
-import img4 from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 52/Ex B 1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 52/Ex B 2.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 52/Ex B 3.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 52/Ex B 4.svg";
 const Review5_Page1_Q2 = () => {
   const items = [
     {
@@ -128,11 +128,11 @@ Score: ${score} / ${total}
                     src={item.img}
                     alt=""
                     style={{
-                      width: "120px",
-                      height: "auto",
+                      width: "auto",
+                      height: "90px",
                       objectFit: "contain",
                       marginRight: "6px",
-                      border: "2px solid red",
+                     
                     }}
                   />
 

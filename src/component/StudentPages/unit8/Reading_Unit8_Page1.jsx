@@ -1,4 +1,4 @@
-import page24 from "../../../assets/imgs/pages/Right 2 Unit 1 Stellas Family_00001/Right 2 Unit 1 Stellas Family_00074.jpg";
+import page24 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 74.png";
 import React, { useState, useRef } from "react";
 import "./Reading_Unit8_Page1.css";
 import sound1 from "../../../assets/audio/ClassBook/U 2/CD1.Pg20_Reading_Adult Lady.mp3";

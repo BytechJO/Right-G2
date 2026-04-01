@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Unit6_Page5_Q1.css";
 import QuestionAudioPlayer from "../../QuestionAudioPlayer";
-import audio from "../../../assets/audio/ClassBook/U 6/CD36.Pg50_Instruction1_Adult Lady.mp3";
+import audio from "../../../assets/audio/ClassBook/U 6/cd36pg50-instruction1-adult-lady_FI6JMTVT.mp3";
 const Unit6_Page5_Q1 = () => {
   const questions = [
     { id: 1, optionA: "bike", optionB: "kite", correct: "A" },
@@ -13,22 +13,12 @@ const Unit6_Page5_Q1 = () => {
     { id: 6, optionA: "kite", optionB: "five", correct: "A" },
   ];
 
-  const captions = [
-    {
-      start: 0,
-      end: 4.23,
-      text: "Page 8. Right Activities. Exercise A, number 1. ",
-    },
-    {
-      start: 4.25,
-      end: 8.28,
-      text: "Listen and write the missing letters. Number the pictures.  ",
-    },
-    { start: 8.3, end: 11.05, text: "1-tiger." },
-    { start: 11.07, end: 13.12, text: "2-taxi." },
-    { start: 13.14, end: 15.14, text: "3-duck." },
-    { start: 15.16, end: 17.13, text: "4-deer." },
-  ];
+const captions = [
+  { start: 0.419, end: 8.779, text: "Page 50, Write Activities. Exercise A, Number 1. Listen, read, and write check." },
+  { start: 9.819, end: 16.34, text: "One, bike. Two, light. Three, five." },
+  { start: 17.379, end: 19.059, text: "Four, tight." },
+  { start: 20.079, end: 24.5, text: "Five, night. Six, kite" }
+];
   const [answers, setAnswers] = useState({});
   const [wrongRows, setWrongRows] = useState([]);
   const [locked, setLocked] = useState(false);

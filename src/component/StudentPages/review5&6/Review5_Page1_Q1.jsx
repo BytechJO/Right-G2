@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import "./Review5_Page1_Q1.css";
-import img1 from "../../../assets/imgs/test.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 52/Ex A 1.svg";
 
 const Review5_Page1_Q1 = () => {
   const questions = [

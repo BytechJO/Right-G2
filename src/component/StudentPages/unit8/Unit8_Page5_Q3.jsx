@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import img from "../../../assets/imgs/test6.png";
+import img from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 68/Ex B 1.svg";
 
 const Unit8_Page5_Q3 = () => {
   const questions = [

@@ -1,12 +1,12 @@
-import sound1 from "../../../assets/audio/ClassBook/U 5/Pg40b_1.1_Adult Lady.mp3";
-import sound2 from "../../../assets/audio/ClassBook/U 5/Pg40_1.2_Adult Lady.mp3";
-import sound3 from "../../../assets/audio/ClassBook/U 5/Pg40_1.3_Adult Lady.mp3";
-import sound4 from "../../../assets/audio/ClassBook/U 5/Pg40_1.4_Adult Lady.mp3"
+import sound1 from "../../../assets/audio/ClassBook/U 8/Pg64_1.1_Adult Lady.mp3";
+import sound2 from "../../../assets/audio/ClassBook/U 8/Pg64_1.2_Adult Lady.mp3";
+import sound3 from "../../../assets/audio/ClassBook/U 8/Pg64_1.3_Adult Lady.mp3";
+import sound4 from "../../../assets/audio/ClassBook/U 8/Pg64_1.4_Adult Lady.mp3"
 import Rabbit from "../../../assets/Page 01/Rabbit.svg";
-import img1 from "../../../assets/imgs/test.png";
-import img2 from "../../../assets/imgs/test.png";
-import img3 from "../../../assets/imgs/test.png";
-import img4 from "../../../assets/imgs/test.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 64-65/Un 8/List 1 un 8 p65-01.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 64-65/Un 8/List 1 un 8 p65-02.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 64-65/Un 8/List 1 un 8 p65-03.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 64-65/Un 8/List 1 un 8 p65-04.svg";
 import FourImagesWithAudio from "../../FourImagesWithAudio";
 import longAudio from "../../../assets/audio/ClassBook/U 5/CD27.Pg40.U5_Intro_Adult Lady.mp3";
 

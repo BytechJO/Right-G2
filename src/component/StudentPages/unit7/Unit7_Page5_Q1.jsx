@@ -2,19 +2,14 @@ import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Unit7_Page5_Q1.css";
 
-import img1 from "../../../assets/imgs/test6.png";
-import img2 from "../../../assets/imgs/test6.png";
-import img3 from "../../../assets/imgs/test6.png";
-import img4 from "../../../assets/imgs/test6.png";
-import img5 from "../../../assets/imgs/test6.png";
-import img6 from "../../../assets/imgs/test6.png";
-import sound1 from "../../../assets/audio/ClassBook/U 7/Pg58_1.3_Adult Lady.mp3";
-import snow from "../../../assets/audio/ClassBook/U 7/Pg58_1.3_Adult Lady.mp3";
-import home from "../../../assets/audio/ClassBook/U 7/Pg58_1.4_Adult Lady.mp3";
-import caot from "../../../assets/audio/ClassBook/U 7/Pg59_1.3_Adult Lady.mp3";
-import boat from "../../../assets/audio/ClassBook/U 7/Pg58_1.2_Adult Lady.mp3";
-// import window from "../../../assets/audio/ClassBook/U 7/Pg59_1.4_Adult Lady.mp3";
-import note from "../../../assets/audio/ClassBook/U 7/Pg59_1.5_Adult Lady.mp3";
+import img1 from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/Page 62/Ex A 1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/Page 62/Ex A 2.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/Page 62/Ex A 3.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/Page 62/Ex A 4.svg";
+import img5 from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/Page 62/Ex A 5.svg";
+import img6 from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/Page 62/Ex A 6.svg";
+import sound1 from "../../../assets/audio/ClassBook/U 7/pg62-11-adult-lady_zAZvUsum.mp3";
+
 import QuestionAudioPlayer from "../../QuestionAudioPlayer";
 
 
@@ -22,7 +17,7 @@ const Unit7_Page5_Q1 = () => {
   const items = [
     {
       img: img1,
-      audio: caot,
+      
       options: ["o_e", "ow", "oa"],
       correct: "ow",
       start: "wind",
@@ -30,7 +25,7 @@ const Unit7_Page5_Q1 = () => {
     },
     {
       img: img2,
-      audio: caot,
+  
       options: ["o_e", "ow", "oa"],
       correct: "oa",
       start: "c",
@@ -38,7 +33,7 @@ const Unit7_Page5_Q1 = () => {
     },
     {
       img: img3,
-      audio: note,
+    
       options: ["o_e", "ow", "oa"],
       correct: "o_e",
       start: "n",
@@ -46,7 +41,7 @@ const Unit7_Page5_Q1 = () => {
     },
     {
       img: img4,
-      audio: snow,
+      
       options: ["o_e", "ow", "oa"],
       correct: "ow",
       start: "sn",
@@ -54,7 +49,7 @@ const Unit7_Page5_Q1 = () => {
     },
     {
       img: img5,
-      audio: boat,
+     
       options: ["o_e", "ow", "oa"],
       correct: "oa",
       start: "b",
@@ -62,21 +57,20 @@ const Unit7_Page5_Q1 = () => {
     },
     {
       img: img6,
-      audio: home,
+     
       options: ["o_e", "ow", "oa"],
       correct: "o_e",
       start: "h",
       end: "me",
     },
   ];
-  const captions = [
-    {
-      start: 0,
-      end: 4.23,
-      text: "Page 8. Right Activities. Exercise A, number 1.",
-    },
-    { start: 4.25, end: 8.28, text: "Listen and write the missing letters." },
-  ];
+const captions = [
+  { start: 0.5, end: 8.34, text: "Page 62, Write Activities. Exercise A, number 1. Listen, circle, and write." },
+  { start: 9.639, end: 10.859, text: "1, window." },
+  { start: 12.139, end: 13.279, text: "2, coat." },
+  { start: 14.559, end: 15.799, text: "3, note." },
+  { start: 17.219, end: 18.379, text: "5, boat" }
+];
   const [selected, setSelected] = useState(Array(items.length).fill(""));
   const [answers, setAnswers] = useState(Array(items.length).fill(""));
   const [locked, setLocked] = useState(false);
@@ -163,7 +157,7 @@ const Unit7_Page5_Q1 = () => {
         <QuestionAudioPlayer
           src={sound1}
           captions={captions}
-          stopAtSecond={4}
+          stopAtSecond={8.43}
         />
         <div className="flex w-full">
           <div className="grid grid-cols-3 gap-y-10 w-full gap-x-[60px] mt-10 justify-center">

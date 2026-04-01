@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Unit6_Page5_Q4.css";
 
+import img2 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page50/Ex C 1.svg";
 const Unit4_Page5_Q4 = () => {
   const grid = [
     "f",
@@ -71,7 +72,7 @@ const Unit4_Page5_Q4 = () => {
     bed: [31, 32, 33],
     at: [39, 40],
     eight: [44, 45, 46, 47, 48],
-    oclock: [ 52, 53, 54, 55, 56,57],
+    oclock: [52, 53, 54, 55, 56, 57],
   };
   const letters = grid; // نفس الـ array اللي عندك
 
@@ -229,12 +230,14 @@ const Unit4_Page5_Q4 = () => {
               );
             })}
           </div>
-
-          <input
-            className="answer-input-CB-unit3-p5-q4"
-            value={sentence}
-            readOnly
-          />
+          <div className="flex">
+            <input
+              className="answer-input-CB-unit3-p5-q4"
+              value={sentence}
+              readOnly
+            />
+            <img src={img2} style={{ height: "80px", width: "80px" }} />
+          </div>{" "}
         </div>
       </div>
 

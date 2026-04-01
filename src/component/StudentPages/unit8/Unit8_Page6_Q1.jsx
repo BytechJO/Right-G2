@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
-import imgA from "../../../assets/imgs/test6.png";
-import imgB from "../../../assets/imgs/test6.png";
+import imgA from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 69/Ex D 1.svg";
+import imgB from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 69/Ex D 2.svg";
 
 const Unit8_Page6_Q1 = () => {
   const answersBank = [
@@ -135,9 +135,7 @@ const Unit8_Page6_Q1 = () => {
                   src={imgA}
                   className="w-[380px]! h-[230px]! object-contain"
                 />
-                <span className="absolute bottom-2 right-2 bg-yellow-300 rounded-full px-2 text-sm">
-                  A
-                </span>
+                
               </div>
 
               <div className="relative">
@@ -145,9 +143,7 @@ const Unit8_Page6_Q1 = () => {
                   src={imgB}
                   className="w-[380px]! h-[230px]! object-contain"
                 />
-                <span className="absolute bottom-2 right-2 bg-yellow-300 rounded-full px-2 text-sm">
-                  B
-                </span>
+              
               </div>
             </div>
 

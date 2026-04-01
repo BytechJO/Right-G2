@@ -3,12 +3,12 @@ import sound2 from "../../../assets/audio/ClassBook/U 5/Pg40_1.2_Adult Lady.mp3"
 import sound3 from "../../../assets/audio/ClassBook/U 5/Pg40_1.3_Adult Lady.mp3";
 import sound4 from "../../../assets/audio/ClassBook/U 5/Pg40_1.4_Adult Lady.mp3"
 import Rabbit from "../../../assets/Page 01/Rabbit.svg";
-import img1 from "../../../assets/imgs/test.png";
-import img2 from "../../../assets/imgs/test.png";
-import img3 from "../../../assets/imgs/test.png";
-import img4 from "../../../assets/imgs/test.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 40-41/Un 5/List 1 un 6 p40-01.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 40-41/Un 5/List 1 un 6 p40-02.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 40-41/Un 5/List 1 un 6 p40-03.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 40-41/Un 5/List 1 un 6 p40-04.svg";
 import FourImagesWithAudio from "../../FourImagesWithAudio";
-import longAudio from "../../../assets/audio/ClassBook/U 5/CD27.Pg40.U5_Intro_Adult Lady.mp3";
+import longAudio from "../../../assets/audio/ClassBook/U 5/cd28pg40-instruction1-adult-lady_T7fuBZhV.mp3";
 
 const Unit5_Page1_Read = () => {
   const imageSounds = [
@@ -21,16 +21,15 @@ const Unit5_Page1_Read = () => {
   ];
 
 const captions = [
-   { start: 0, end: 3.05, text: "Page 10. Listen and read along." },
-    { start: 3.07, end: 6.14, text: "B, bird, ball, boy " },
-    
-  ];
+  { start: 0.459, end: 8.319, text: "Page 40. Listen and read along. Long E. Be," },
+  { start: 8.319, end: 10.399, text: "feet, sleep" }
+];
   return (
     <>
       <FourImagesWithAudio
         images={[Rabbit, img1, img2, img3,img4]}
         audioSrc={longAudio}
-        checkpoints={[0, 2.9, 3.4, 4.2, 5.1]}
+        checkpoints={[0, 3.62, 6.80, 8.30, 9.78]}
         popupOpen={true}
         titleQ={"Listen and read along."}
         audioArr={imageSounds}

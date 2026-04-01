@@ -1,4 +1,4 @@
-import page_1 from "../../../assets/imgs/pages/Right 2 Unit 1 Stellas Family_00001/Right 2 Unit 1 Stellas Family_00072.jpg";
+import page_1 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 72.png";
 import "./Review8_Page1.css";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 

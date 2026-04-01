@@ -1,9 +1,9 @@
 import React, { useState, useRef } from "react";
-import page_4 from "../../../assets/imgs/pages/Right 2 Unit 1 Stellas Family_00001/Right 2 Unit 1 Stellas Family_00049.jpg";
+import page_4 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 49.png";
 import "./unit6_Page4.css";
 import grammarSound from "../../../assets/audio/ClassBook/U 6/CD35.Pg49_Grammar2_Adult Lady.mp3";
-import sound1 from "../../../assets/audio/ClassBook/U 6/Pg49_2.1_Adult Lady.mp3";
-import sound2 from "../../../assets/audio/ClassBook/U 6/Pg49_2.2_Adult Lady.mp3";
+import sound1 from "../../../assets/audio/ClassBook/U 6/pg49-21-adult-lady_QAwcb4YH.mp3";
+
 import sound3 from "../../../assets/audio/ClassBook/U 6/Pg49_3.1_Adult Lady.mp3";
 import sound4 from "../../../assets/audio/ClassBook/U 6/Pg49_4.1_Adult Lady.mp3";
 import sound5 from "../../../assets/audio/ClassBook/U 6/Pg49_5.1_Adult Lady.mp3";
@@ -19,28 +19,41 @@ const Unit6_Page4 = ({ openPopup }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeAreaIndex, setActiveAreaIndex] = useState(null);
   const captionsExample = [
-    { start: 0, end: 4.07, text: " Page 13, exercise 2. Right Grammar. " },
-    { start: 4.1, end: 5.12, text: " What is it? " },
-    { start: 5.15, end: 6.15, text: "It’s a cake." },
-    { start: 6.19, end: 7.21, text: "What are these?" },
-    { start: 7.25, end: 9.04, text: "These are presents. " },
-    { start: 9.07, end: 11.29, text: "What is it? It's a birthday cake. " },
-    { start: 11.32, end: 15.04, text: "What are these? These are presents." },
-    { start: 15.07, end: 18.22, text: "Is it a train? Yes, it is. " },
+    { start: 0.479, end: 4.279, text: "Page 49, exercise two. Write grammar." },
+    { start: 5.359, end: 7.819, text: "Jack eats breakfast at seven o'clock." },
     {
-      start: 18.26,
-      end: 21.24,
-      text: "Is it a cake? No, it isn't.",
+      start: 9.0,
+      end: 12.359,
+      text: "Jack eats lunch at half past four in the afternoon.",
+    },
+    {
+      start: 13.639,
+      end: 16.479,
+      text: "Jack eats dinner at nine thirty in the evening.",
+    },
+    { start: 17.68, end: 19.939, text: "They eat breakfast at seven o'clock." },
+    {
+      start: 21.0,
+      end: 34.68,
+      text: "They eat lunch at half past four in the afternoon. They eat dinner at nine thirty in the evening. What time does Jack eat breakfast? Jack eats breakfast at seven o'clock in the morning.",
+    },
+    {
+      start: 35.719,
+      end: 41.04,
+      text: "What time does Helen go home? She goes home at two o'clock in the afternoon.",
+    },
+    {
+      start: 42.159,
+      end: 47.38,
+      text: "What time does Harley go to bed? He goes to bed at nine o'clock in the evening",
     },
   ];
 
   const clickableAreas = [
-    { x1: 6.53, y1: 10.4, x2: 23.43, y2: 14.2, sound: sound1 },
-    { x1: 54.19, y1: 10.4, x2: 71.5, y2: 14.5, sound: sound2 },
-    { x1: 6.53, y1: 15.27, x2: 30.7, y2: 19.4, sound: sound3 },
-    { x1: 54.2, y1: 15.27, x2: 78.3, y2: 19.5, sound: sound4 },
-    { x1: 6.7, y1: 32.3, x2: 21.8, y2: 36.2, sound: sound5 },
-
+    { x1: 7.15, y1: 9.96, x2: 92.67, y2: 19.71, sound: sound1 },
+    { x1: 5.60, y1: 52.61, x2: 47.10, y2: 60.53, sound: sound3 },
+    { x1: 57.57, y1: 52.30, x2: 94.61, y2: 60.53, sound: sound4 },
+    { x1: 45.16, y1: 85.81, x2: 83.56, y2: 92.97, sound: sound5 },
   ];
 
   const handleImageClick = (e) => {

@@ -2,11 +2,11 @@ import React, { useState, useRef } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Unit6_Page5_Q3.css";
 
-import img1 from "../../../assets/imgs/test.png";
-import img2 from "../../../assets/imgs/test.png";
-import img3 from "../../../assets/imgs/test.png";
-import img4 from "../../../assets/imgs/test.png";
-import img5 from "../../../assets/imgs/test.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page50/Ex B 1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page50/Ex B 2.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page50/Ex B 3.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page50/Ex B 4.svg";
+import img5 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page50/Ex B 5.svg";
 
 const Unit6_Page5_Q3 = () => {
   const [selectedImg, setSelectedImg] = useState(null);
@@ -154,10 +154,10 @@ const Unit6_Page5_Q3 = () => {
                       : isWrong
                         ? "border-red-500"
                         : "border-gray-300"
-                    : "border-red-500"
+                    : "border-transparent"
                 }`}
               >
-                <img src={img.img} alt="" style={{ height: "90px" }} />
+                <img src={img.img} alt="" style={{ height: "110px" }} />
 
                 {/* ❌ X إذا الجواب غلط */}
                 {isWrong && (

@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import "./Review6_Page1_Q1.css";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
-import img1 from "../../../assets/imgs/test6.png";
-import img2 from "../../../assets/imgs/test6.png";
-import img3 from "../../../assets/imgs/test6.png";
-import img4 from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 54/Ex A 1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 54/Ex A 2.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 54/Ex A 3.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 54/Ex A 4.svg";
 
 export default function Review6_Page1_Q1() {
   const questions = [
@@ -85,7 +85,7 @@ export default function Review6_Page1_Q1() {
 
         <div className="grid grid-cols-2 gap-y-5 gap-x-[60px]">
           {images.map((img) => (
-            <div className="relative border-2 border-[#e53935] rounded-[14px] p-2.5 w-[85%] ">
+            <div className="relative rounded-[14px] p-2.5 w-[85%] ">
               <span className="absolute -left-5 -top-2.5 font-bold text-[18px]">
                 {img.id}
               </span>

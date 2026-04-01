@@ -2,12 +2,12 @@ import React, { useState, useRef } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Review6_Page2_Q2.css";
 
-import img1 from "../../../assets/imgs/test6.png";
-import img2 from "../../../assets/imgs/test6.png";
-import img3 from "../../../assets/imgs/test6.png";
-import img4 from "../../../assets/imgs/test6.png";
-import img5 from "../../../assets/imgs/test6.png";
-import img6 from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 55/EX E 1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 55/EX E 2.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 55/EX E 3.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 55/EX E 4.svg";
+import img5 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 55/EX E 5.svg";
+import img6 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 55/EX E 6.svg";
 
 const Review6_Page2_Q2 = () => {
   const [lines, setLines] = useState([]);
@@ -206,7 +206,7 @@ const Review6_Page2_Q2 = () => {
                   alt=""
                   onClick={() => handleDotClick(i, "image")}
                   style={{
-                    height: "60px",
+                    height: "90px",
                     width: "auto",
                     objectFit: "contain",
                     cursor: "pointer",

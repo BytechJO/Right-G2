@@ -1,12 +1,11 @@
 import React, { useState, useRef } from "react";
-import page_3 from "../../../assets/imgs/pages/Right 2 Unit 1 Stellas Family_00001/Right 2 Unit 1 Stellas Family_00048.jpg";
+import page_3 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 48.png";
 import "./Unit6_Page3.css";
-import grammarSound from "../../../assets/audio/ClassBook/U 6/CD34.Pg48_Grammar1_Adult Lady.mp3";
+import grammarSound from "../../../assets/audio/ClassBook/U 6/cd34pg48-grammar1-adult-lady_lw2IZGTc.mp3";
 import sound1 from "../../../assets/audio/ClassBook/U 6/Pg48_1.1_Adult Lady.mp3";
 import sound2 from "../../../assets/audio/ClassBook/U 6/Pg48_2.1_Adult Lady.mp3";
 import sound3 from "../../../assets/audio/ClassBook/U 6/Pg48_3.1_Adult Lady.mp3";
 import sound4 from "../../../assets/audio/ClassBook/U 6/Pg48_4.1_Adult Lady.mp3";
-
 
 import AudioWithCaption from "../../AudioWithCaption";
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
@@ -18,38 +17,33 @@ const Unit6_Page3 = ({ openPopup }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeAreaIndex, setActiveAreaIndex] = useState(null);
   const captionsExample = [
-    { start: 0, end: 3.22, text: "Page 12, Exercise 1. Right Grammar." },
-    { start: 3.25, end: 7.11, text: " How old are you? I'm seven years old." },
     {
-      start: 7.15,
-      end: 11.02,
-      text: " When is your birthday? My birthday is in August.",
+      start: 0.5,
+      end: 8.319,
+      text: "Page 48. Exercise one: Write grammar. What time does Tom go to school?",
     },
     {
-      start: 11.06,
-      end: 13.11,
-      text: "It is on Tuesday. ",
+      start: 9.359,
+      end: 19.139,
+      text: "What time do they have lunch? What time does Hansel come home? Hansel comes home at half past three in the afternoon.",
     },
-    { start: 13.15, end: 14.22, text: "How old are you, Sara? " },
-    { start: 14.26, end: 16.05, text: "I'm three years old. " },
-    { start: 16.09, end: 17.24, text: "When is your birthday party, Stella? " },
-    { start: 17.27, end: 19.16, text: "It is on Tuesday. " },
     {
-      start: 19.2,
-      end: 22.1,
-      text: "Happy birthday! This is for you, Stella. ",
+      start: 20.219,
+      end: 25.599,
+      text: "What time does Tom go to school? He goes to school at seven thirty in the morning.",
     },
-    { start: 22.14, end: 23.1, text: "Thank you.  " },
-    { start: 23.14, end: 25.05, text: "You're welcome. Open it." },
+    {
+      start: 26.68,
+      end: 31.52,
+      text: "What time does Stella get up? Stella gets up at six o'clock",
+    },
   ];
 
   const clickableAreas = [
-    { x1: 6.5, y1: 10.7, x2: 30.0, y2: 15.0, sound: sound1 },
-    { x1: 54.2, y1: 9.5, x2: 78.3, y2: 13.0, sound: sound2 },
-    { x1: 6.5, y1: 15.8, x2: 35.6, y2: 20.0, sound: sound3 },
-    { x1: 54.2, y1: 13.5, x2: 83.5, y2: 16.7, sound: sound4 },
- 
-    
+    { x1: 7.63, y1: 10.26, x2: 91.79, y2: 19.40, sound: sound1 },
+    { x1: 5.89, y1: 52.45, x2: 47.19, y2: 60.53, sound: sound2 },
+    { x1: 52.23, y1: 52.76, x2: 93.73, y2: 60.53, sound: sound3 },
+    { x1: 49.52, y1: 87.33, x2: 83.26, y2: 92.8, sound: sound4 },
   ];
   const handleImageClick = (e) => {
     const rect = e.target.getBoundingClientRect();

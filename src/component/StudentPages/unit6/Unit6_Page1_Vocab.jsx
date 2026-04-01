@@ -1,32 +1,29 @@
 import React, { useState, useRef, useEffect } from "react";
-import backgroundImage from "../../../assets/imgs/test.png";
-import page2_2 from "../../../assets/imgs/test.png";
+import backgroundImage from "../../../assets/imgs/Right 2 Unit 6 Helens Day/G4_U6_Pg_46_47.png";
+import page2_2 from "../../../assets/imgs/Voca.svg";
 import vocabulary from "../../../assets/audio/ClassBook/U 6/Pg46_Vocab_Adult Lady.mp3";
 import "./unit6_Page1.css";
-import num1 from "../../../assets/imgs/test.png";
-import num2 from "../../../assets/imgs/test.png";
-import num3 from "../../../assets/imgs/test.png";
-import num4 from "../../../assets/imgs/test.png";
-import num5 from "../../../assets/imgs/test.png";
-import num6 from "../../../assets/imgs/test.png";
-import num7 from "../../../assets/imgs/test.png";
-import num8 from "../../../assets/imgs/test.png";
-import num9 from "../../../assets/imgs/test.png";
-import num10 from "../../../assets/imgs/test.png";
-import num11 from "../../../assets/imgs/test.png";
-import num12 from "../../../assets/imgs/test.png";
-// import sound1 from "../../../assets/img_unit4/sounds-unit4/U2-01.mp3";
-// import sound2 from "../../../assets/img_unit4/sounds-unit4/U2-02.mp3";
-// import sound3 from "../../../assets/img_unit4/sounds-unit4/U2-03.mp3";
-// import sound4 from "../../../assets/img_unit4/sounds-unit4/U2-04.mp3";
-// import sound5 from "../../../assets/img_unit4/sounds-unit4/U2-05.mp3";
-// import sound6 from "../../../assets/img_unit4/sounds-unit4/U2-06.mp3";
-// import sound7 from "../../../assets/img_unit4/sounds-unit4/U2-07.mp3";
-// import sound8 from "../../../assets/img_unit4/sounds-unit4/U2-07.mp3";
-// import sound9 from "../../../assets/img_unit4/sounds-unit4/U2-07.mp3";
-// import sound10 from "../../../assets/img_unit4/sounds-unit4/U2-07.mp3";
-// import sound11 from "../../../assets/img_unit4/sounds-unit4/U2-07.mp3";
-// import sound12 from "../../../assets/img_unit4/sounds-unit4/U2-07.mp3";
+import num1 from "../../../assets/imgs/Num1.svg";
+import num2 from "../../../assets/imgs/Num2.svg";
+import num3 from "../../../assets/imgs/Num3.svg";
+import num4 from "../../../assets/imgs/Num4.svg";
+import num5 from "../../../assets/imgs/Num5.svg";
+import num6 from "../../../assets/imgs/Num6.svg";
+import num7 from "../../../assets/imgs/Num7.svg";
+import num8 from "../../../assets/imgs/Num8.svg";
+import num9 from "../../../assets/imgs/Num9.svg";
+import num10 from "../../../assets/imgs/Num10.svg";
+
+import sound1 from "../../../assets/audio/ClassBook/U 6/unit6-sound1.mp3";
+import sound2 from "../../../assets/audio/ClassBook/U 6/unit6-sound2.mp3";
+import sound3 from "../../../assets/audio/ClassBook/U 6/unit6-sound3.mp3";
+import sound4 from "../../../assets/audio/ClassBook/U 6/unit6-sound4.mp3";
+import sound5 from "../../../assets/audio/ClassBook/U 6/unit6-sound5.mp3";
+import sound6 from "../../../assets/audio/ClassBook/U 6/unit6-sound6.mp3";
+import sound7 from "../../../assets/audio/ClassBook/U 6/unit6-sound7.mp3";
+import sound8 from "../../../assets/audio/ClassBook/U 6/unit6-sound8.mp3";
+import sound9 from "../../../assets/audio/ClassBook/U 6/unit6-sound9.mp3";
+import sound10 from "../../../assets/audio/ClassBook/U 6/unit6-sound10.mp3";
 import { TbMessageCircle } from "react-icons/tb";
 import { IoMdSettings } from "react-icons/io";
 import { FaPlay, FaPause } from "react-icons/fa";
@@ -56,24 +53,29 @@ const Unit6_Page1_Vocab = () => {
   // ✔ Captions Array
   // ================================
   const captions = [
-    { start: 0, end: 3.1, text: "Page 10, Unit 2, Vocabulary." },
-    { start: 3.12, end: 5.15, text: " 1. Party Hat. " },
-    { start: 5.17, end: 7.16, text: "2. Jello." },
-    { start: 7.18, end: 9.27, text: "3. Cake. " },
-    { start: 9.29, end: 12.2, text: "4. Happy Birthday." },
-    { start: 12.22, end: 15.07, text: " 5. Balloons." },
-    { start: 15.09, end: 17.13, text: " 6. Present. " },
-    { start: 17.15, end: 19.26, text: "7.card" },
+  
+  { start: 0.579, end: 3.539, text: "Page 46, unit six, vocabulary." },
+  { start: 4.839, end: 9.579, text: "One: get up. Two: make the bed." },
+  { start: 10.599, end: 16.079, text: "Three: brush teeth. Four: eat breakfast." },
+  { start: 18.159, end: 20.219, text: "Five: go to school." },
+  { start: 21.479, end: 23.76, text: "Six: have a class." },
+  { start: 24.819, end: 26.839, text: "Seven: go home." },
+  { start: 27.979, end: 29.899, text: "Eight: eat lunch." },
+  { start: 30.939, end: 36.04, text: "Nine: do homework. Ten: go to sleep" }
   ];
   // 🎵 فترات الكلمات داخل الأوديو الرئيسي
   const wordTimings = [
-    { start: 3.2, end: 5.15 }, // party hat
-    { start: 5.22, end: 7.2 }, // jellow
-    { start: 7.23, end: 9.43 }, // cake
-    { start: 9.43, end: 12.25 }, // Hello
-    { start: 12.27, end: 15.05 }, // Good morning
-    { start: 15.04, end: 17.13 },
-    { start: 17.15, end: 19.26 },
+
+  { start: 4.839, end: 6.20 , text: "One: get up." },
+  { start: 7.46, end: 9.579, text: "Two: make the bed." },
+  { start: 10.599, end: 12.32, text: "Three: brush teeth." },
+  { start: 13.70, end: 16.079, text: "Four: eat breakfast." },
+  { start: 18.159, end: 20.219, text: "Five: go to school." },
+  { start: 21.479, end: 23.76, text: "Six: have a class." },
+  { start: 24.819, end: 26.839, text: "Seven: go home." },
+  { start: 27.979, end: 29.899, text: "Eight: eat lunch." },
+  { start: 30.939, end: 32.50, text: "Nine: do homework" },
+  { start: 34.06, end: 36.04, text: "Ten: go to sleep" }
   ];
 
   // ================================
@@ -338,7 +340,7 @@ const Unit6_Page1_Vocab = () => {
         <img
           src={page2_2}
           style={{
-            height: "210px",
+            height: "290px",
             width: "auto",
             position: "absolute",
             bottom: "0%",
@@ -350,7 +352,7 @@ const Unit6_Page1_Vocab = () => {
         {/* النصوص */}
         <div
           className="vocab_container"
-          style={{ bottom: "1.4%", right: "4.5%" }}
+          style={{ bottom: "2.4%", right: "3.5%" }}
         >
           {[
             "get up",
@@ -383,7 +385,7 @@ const Unit6_Page1_Vocab = () => {
           <img
             key={i}
             src={num}
-            id={`num-${i + 1}`}
+            id={`num-${i + 1}-unit6`}
             className={`num-img ${
               (activeIndex2 === i && current >= 3.2) || clickedIndex === i
                 ? "active"

@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import "./Unit6_Page6_Q1.css";
 import Button from "../../WorkBookPages/button";
-import img1 from "../../../assets/imgs/clock1.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 51/Ex D 1.svg";
 import InteractiveClock from "../../WorkBookPages/Unit6/InteractiveClock";
 import ValidationAlert from "../../Popup/ValidationAlert";
 const Unit6_Page6_Q1 = () => {
@@ -70,7 +70,7 @@ const Unit6_Page6_Q1 = () => {
         {/* MAIN */}
         <div className="flex" style={{ justifyContent: "space-between" }}>
           <div className="w-100">
-            <img src={img1} style={{ height: "90px", width: "90px" }} />
+            <img src={img1} style={{ height: "500px", width: "250px" }} />
           </div>
           <div className="flex flex-col mt-6 w-full">
             {questions.map((q) => (

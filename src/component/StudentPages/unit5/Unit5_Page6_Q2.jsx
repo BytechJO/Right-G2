@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./Unit5_Page6_Q2.css";
-import img1 from "../../../assets/imgs/test.png";
-import img2 from "../../../assets/imgs/test1.png";
-import img3 from "../../../assets/imgs/test2.png";
-import img4 from "../../../assets/imgs/test3.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 45/Ex E 1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 45/Ex E 2.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 45/Ex E 3.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 45/Ex E 4.svg";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 const questions = [
@@ -188,8 +188,8 @@ const Unit5_Page6_Q2 = () => {
                       className="CB-unit5-p6-q2-image"
                       style={{
                         cursor: "pointer",
-                        height: "100px",
-                        width: "150px",
+                        height: "auto",
+                        width: "250px",
                       }}
                     />
                   </div>

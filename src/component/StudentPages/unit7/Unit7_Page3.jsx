@@ -1,35 +1,62 @@
 import React, { useState, useRef } from "react";
-import page_3 from "../../../assets/imgs/pages/Right 2 Unit 1 Stellas Family_00001/Right 2 Unit 1 Stellas Family_00060.jpg";
+import page_3 from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/Page 60.png";
 import "./Unit7_Page3.css";
-import grammarSound from "../../../assets/audio/ClassBook/U 7/CD41.Pg60_Grammar1_Adult Lady.mp3";
-import sound1 from "../../../assets/audio/ClassBook/U 5/Pg42_1.1_Adult Lady.mp3";
-import sound2 from "../../../assets/audio/ClassBook/U 5/Pg41_1.2_Adult Lady.mp3";
-import sound3 from "../../../assets/audio/ClassBook/U 5/Pg42_2.1_Helen.mp3";
-import sound4 from "../../../assets/audio/ClassBook/U 5/Pg42_3.1_John.mp3";
-import sound5 from "../../../assets/audio/ClassBook/U 5/Pg42_4.1_Adult Lady.mp3";
-
+import grammarSound from "../../../assets/audio/ClassBook/U 7/cd41pg60-grammar1-adult-lady_TsMLtlcC.mp3";
+import sound1 from "../../../assets/audio/ClassBook/U 7/grammer1-merge1.mp3";
+import sound2 from "../../../assets/audio/ClassBook/U 7/Pg60_2.1_Woman.mp3";
+import sound3 from "../../../assets/audio/ClassBook/U 7/Pg60_3.1_Girl.mp3";
+import sound4 from "../../../assets/audio/ClassBook/U 7/Pg60_4.1_Woman.mp3";
+import sound5 from "../../../assets/audio/ClassBook/U 7/Pg60_5.1_Girl.mp3";
+import sound6 from "../../../assets/audio/ClassBook/U 7/Pg60_4.2_Woman.mp3";
 
 import AudioWithCaption from "../../AudioWithCaption";
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import pauseBtn from "../../../assets/Page 01/Right Video Button.svg";
-// import video from "../../../assets/img_unit5/sounds-unit5/p12 1920.mp4";
+// import video from "../../../assets/img_unit7/sounds-unit7/p12 1920.mp4";
 const Unit7_Page3 = ({ openPopup }) => {
   const audioRef = useRef(null);
   const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeAreaIndex, setActiveAreaIndex] = useState(null);
   const captionsExample = [
-    { start: 0, end: 3.22, text: "Page 60, Exercise 1. Right Grammar." },
+    { start: 0.5, end: 4.079, text: "Page 60, exercise one. Write grammar." },
+    { start: 5.159, end: 6.059, text: "What time is it?" },
+    { start: 7.519, end: 9.039, text: "It's 5:00 in the morning." },
+    {
+      start: 10.199,
+      end: 13.46,
+      text: "What time is it? It's 1:00 in the afternoon.",
+    },
+    {
+      start: 14.599,
+      end: 22.479,
+      text: "Hello. I'd like to book two tickets to London for Monday, August 2nd at 1:00 in the afternoon.",
+    },
+    {
+      start: 22.479,
+      end: 25.919,
+      text: "Your booking is confirmed. Thank you.",
+    },
+    {
+      start: 25.92,
+      end: 32.639,
+      text: "Good afternoon. Can I book a ticket for Saturday, August 6th to Cairo at 8:30 in the evening?",
+    },
+    {
+      start: 33.719,
+      end: 42.119,
+      text: "I'm sorry, there aren't any flights available on that day. There is a flight on August 10th. Can I book you for that day?",
+    },
+    { start: 43.159, end: 44.459, text: "Yes. Thank you" },
   ];
 
   const clickableAreas = [
-    { x1: 6.5, y1: 10.7, x2: 30.0, y2: 15.0, sound: sound1 },
-    { x1: 54.2, y1: 9.5, x2: 78.3, y2: 13.0, sound: sound2 },
-    { x1: 6.5, y1: 15.8, x2: 35.6, y2: 20.0, sound: sound3 },
-    { x1: 54.2, y1: 13.5, x2: 83.5, y2: 16.7, sound: sound4 },
-    { x1: 54.2, y1: 17.0, x2: 74.1, y2: 20.4, sound: sound5 },
-
-    
+    { x1: 6.86, y1: 9.81, x2: 65.42, y2: 17.88, sound: sound1 },
+    { x1: 16.94, y1: 22.14, x2: 55.14, y2: 29.61, sound: sound2 },
+    { x1: 55.72, y1: 45.29, x2: 86.17, y2: 50.78, sound: sound3 },
+    { x1: 16.75, y1: 55.65, x2: 57.08, y2: 62.96, sound: sound4 },
+    { x1: 51.84, y1: 71.95, x2: 93.54, y2: 81.70, sound: sound5 },
+    { x1: 19.27, y1: 81.09, x2: 38.27, y2: 84.89, sound: sound6 },
   ];
   const handleImageClick = (e) => {
     const rect = e.target.getBoundingClientRect();
@@ -92,7 +119,7 @@ const Unit7_Page3 = ({ openPopup }) => {
       ))}
 
       <div
-        className="headset-icon-CD-unit5-page3-1 hover:scale-110 transition"
+        className="headset-icon-CD-unit7-page3-1 hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg
@@ -129,7 +156,7 @@ const Unit7_Page3 = ({ openPopup }) => {
         </svg>
       </div>
       <div
-        className="pauseBtn-icon-CD-unit5-page3-1 hover:scale-110 transition"
+        className="pauseBtn-icon-CD-unit7-page3-1 hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg

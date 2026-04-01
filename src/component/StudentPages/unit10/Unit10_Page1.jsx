@@ -1,9 +1,9 @@
 import { useState, useRef } from "react";
 import page_1 from "../../../assets/imgs/pages/Right 2 Unit 1 Stellas Family_00001/Right 2 Unit 1 Stellas Family_00082.jpg";
 import "./Unit10_Page1.css";
-import Unit5_Page1_Read from "./Unit10_Pag1_Read";
-import Unit5_Page1_Vocab from "./Unit10_Page1_Vocab";
-import Unit5_Page1_find from "./Unit10_Page1_find";
+import unit10_Page1_Read from "./Unit10_Pag1_Read";
+import unit10_Page1_Vocab from "./Unit10_Page1_Vocab";
+import unit10_Page1_find from "./Unit10_Page1_find";
 import AudioWithCaption from "../../AudioWithCaption";
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
@@ -137,7 +137,7 @@ const Unit10_Page1 = ({ openPopup }) => {
       })}
 
       <div
-        className="headset-icon-CD-unit5-page1-1 hover:scale-110 transition"
+        className="headset-icon-CD-unit10-page1-1 hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg
@@ -172,7 +172,7 @@ const Unit10_Page1 = ({ openPopup }) => {
       </div>
 
       <div
-        className="click-icon-unit5-page1-1 hover:scale-110 transition"
+        className="click-icon-unit10-page1-1 hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg
@@ -183,7 +183,7 @@ const Unit10_Page1 = ({ openPopup }) => {
             openPopup(
               "html",
               <>
-                <Unit5_Page1_find />
+                <unit10_Page1_find />
               </>,
             )
           }
@@ -200,7 +200,7 @@ const Unit10_Page1 = ({ openPopup }) => {
         </svg>
       </div>
       <div
-        className="headset-icon-CD-unit5-page1-2 hover:scale-110 transition"
+        className="headset-icon-CD-unit10-page1-2 hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg
@@ -211,7 +211,7 @@ const Unit10_Page1 = ({ openPopup }) => {
             openPopup(
               "html",
               <>
-                <Unit5_Page1_Vocab />
+                <unit10_Page1_Vocab />
               </>,
             )
           }
@@ -228,7 +228,7 @@ const Unit10_Page1 = ({ openPopup }) => {
         </svg>
       </div>
       <div
-        className="click-icon-unit5-page1-2 hover:scale-110 transition"
+        className="click-icon-unit10-page1-2 hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg
@@ -239,7 +239,7 @@ const Unit10_Page1 = ({ openPopup }) => {
             openPopup(
               "html",
               <>
-                <Unit5_Page1_Read />
+                <unit10_Page1_Read />
               </>,
             )
           }

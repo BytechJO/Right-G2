@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
-import img1 from "../../../assets/imgs/test6.png";
-import img2 from "../../../assets/imgs/test6.png";
-import img3 from "../../../assets/imgs/test6.png";
-import img4 from "../../../assets/imgs/test6.png";
-import img5 from "../../../assets/imgs/test6.png";
-import img6 from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 72/Ex B 1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 72/Ex B 2.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 72/Ex B 3.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 72/Ex B 4.svg";
+import img5 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 72/Ex B 5.svg";
+import img6 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 72/Ex B 6.svg";
 
 const Review8_Page1_Q3 = () => {
   const items = [
