@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Unit8_Page5_Q4.css";
-
+import img1 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 68/Ex C 1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 68/Ex C 2.svg";
 const Unit8_Page5_Q4 = () => {
   const [locked, setLocked] = useState(false);
   const grid = [
@@ -234,11 +235,15 @@ const Unit8_Page5_Q4 = () => {
             })}
           </div>
 
+         <div className="flex">
+          <img src={img1} style={{ height: "80px", width: "80px" }} />
           <input
             className="answer-input-CB-unit3-p5-q4"
             value={sentence}
             readOnly
           />
+          <img src={img2} style={{ height: "80px", width: "80px" }} />
+        </div>{" "}
         </div>
       </div>
 

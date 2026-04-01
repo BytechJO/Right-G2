@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
-import imgA from "../../../assets/imgs/test6.png";
-import imgB from "../../../assets/imgs/test6.png";
+import imgA from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 72/Ex A 1.svg";
+import imgB from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 72/Ex A 2.svg";
 
 const Review8_Page1_Q1 = () => {
   const I_answers = ["I have pants.", "I have a cap.", "I have shorts."];

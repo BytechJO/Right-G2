@@ -1,7 +1,7 @@
-.headset-icon-CD-unit5-page1-1,
-.click-icon-unit5-page1-1,
-.headset-icon-CD-unit5-page1-2,
-.click-icon-unit5-page1-2 {
+.headset-icon-CD-unit10-page1-1,
+.click-icon-unit10-page1-1,
+.headset-icon-CD-unit10-page1-2,
+.click-icon-unit10-page1-2 {
   position: absolute;
   transform: translate(-50%, -50%);
   cursor: pointer;
@@ -13,22 +13,22 @@
 }
 
 
-.headset-icon-CD-unit5-page1-1 {
+.headset-icon-CD-unit10-page1-1 {
   top: 7%;
   right: 14%;
 }
 
-.click-icon-unit5-page1-1 {
+.click-icon-unit10-page1-1 {
   left: 19%;
   top: 37%;
 }
 
-.headset-icon-CD-unit5-page1-2 {
+.headset-icon-CD-unit10-page1-2 {
   bottom: 34.5%;
   left: 26%;
 }
 
-.click-icon-unit5-page1-2 {
+.click-icon-unit10-page1-2 {
   bottom: 11.5%;
   right: 39%;
 }
@@ -69,44 +69,44 @@
 }
 
 @media screen and (max-width: 1024px) and (max-height: 600px) {
-      .headset-icon-CD-unit5-page1-1 {
+      .headset-icon-CD-unit10-page1-1 {
         top: 7% !important;
         right: 12% !important;
     }
-        .headset-icon-CD-unit5-page1-2 {
+        .headset-icon-CD-unit10-page1-2 {
         bottom: 32% !important;
         left: 27% !important;
     }
-    .click-icon-unit5-page1-2 {
+    .click-icon-unit10-page1-2 {
         bottom: 9% !important;
         right: 35% !important;
     }
 }
 @media (max-width: 1024px) {
-  .headset-icon-CD-unit5-page1-1 {
+  .headset-icon-CD-unit10-page1-1 {
     top: 6%;
     right: 18%;
   }
-  .headset-icon-CD-unit5-page1-2 {
+  .headset-icon-CD-unit10-page1-2 {
     bottom: 38%;
     left: 25%;
   }
-  .click-icon-unit5-page1-2 {
+  .click-icon-unit10-page1-2 {
     bottom: 14.5%;
     right: 43%;
   }
 }
 
 @media (max-width: 820px) {
-  .headset-icon-CD-unit5-page1-1 {
+  .headset-icon-CD-unit10-page1-1 {
     top: 6.5%;
     right: 16%;
   }
- .headset-icon-CD-unit5-page1-2 {
+ .headset-icon-CD-unit10-page1-2 {
         bottom: 36.5%;
         left: 25%;
     }
-  .click-icon-unit5-page1-2 {
+  .click-icon-unit10-page1-2 {
     bottom: 13%;
     right: 41%;
   }

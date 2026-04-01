@@ -2,10 +2,10 @@
 import React, { useState, useRef } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
-import img1 from "../../../assets/imgs/test6.png";
-import img2 from "../../../assets/imgs/test6.png";
-import img3 from "../../../assets/imgs/test6.png";
-import img4 from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/Page 62/Ex A2-1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/Page 62/Ex A2-2.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/Page 62/Ex A2-3.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/Page 62/Ex A2-4.svg";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
 const Unit7_Page5_Q2 = () => {
@@ -229,7 +229,7 @@ const Unit7_Page5_Q2 = () => {
                         selectedImg === img.id ? "bg-red-100" : ""
                       }`}
                     >
-                      <img src={img.img} className="max-h-[60px]" />
+                      <img src={img.img} className="max-h-[120px]" />
                     </div>
                   </div>
                   <div className="w-3 h-3 bg-red-500 rounded-full"></div>

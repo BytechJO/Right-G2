@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./Unit5_Page6_Q1.css";
-import img1 from "../../../assets/imgs/test.png";
-import img2 from "../../../assets/imgs/test1.png";
-import img3 from "../../../assets/imgs/test2.png";
-import img4 from "../../../assets/imgs/test3.png";
-import img5 from "../../../assets/imgs/test4.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 45/Ex D 1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 45/Ex D 2.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 45/Ex D 3.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 45/Ex D 4.svg";
+import img5 from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 45/Ex D 5.svg";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 

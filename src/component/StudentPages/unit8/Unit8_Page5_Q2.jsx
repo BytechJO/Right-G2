@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
-import calendar from "../../../assets/imgs/test6.png";
-import glue from "../../../assets/imgs/test6.png";
-import tube from "../../../assets/imgs/test6.png";
-import blue from "../../../assets/imgs/test6.png";
-
+import calendar from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 68/Ex A2-1.svg";
+import glue from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 68/Ex A2-2.svg";
+import tube from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 68/Ex A2-3.svg";
+import blue from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 68/Ex A2-4.svg";
+import nute from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 68/Ex A2-5.svg"
 const Unit8_Page5_Q2 = () => {
   const options = ["flute", "June", "blue", "glue", "tube"];
 
@@ -20,7 +20,7 @@ const Unit8_Page5_Q2 = () => {
 
   const [answers, setAnswers] = useState({});
   const [locked, setLocked] = useState(false);
-const [showResult, setShowResult] = useState(false);
+  const [showResult, setShowResult] = useState(false);
   const onDragEnd = (result) => {
     const { destination, draggableId } = result;
 
@@ -34,11 +34,11 @@ const [showResult, setShowResult] = useState(false);
     });
   };
 
- const reset = () => {
-  setAnswers({});
-  setLocked(false);
-  setShowResult(false);
-};
+  const reset = () => {
+    setAnswers({});
+    setLocked(false);
+    setShowResult(false);
+  };
 
   const show = () => {
     setAnswers(blanks);
@@ -60,7 +60,7 @@ const [showResult, setShowResult] = useState(false);
       if (answers[key] === blanks[key]) score++;
     });
 
-   const color = score === total ? "green" : score === 0 ? "red" : "orange";
+    const color = score === total ? "green" : score === 0 ? "red" : "orange";
 
     const msg = `
       <div style="font-size:20px;text-align:center;">
@@ -75,56 +75,49 @@ const [showResult, setShowResult] = useState(false);
     else ValidationAlert.warning(msg);
 
     setLocked(true);
-setShowResult(true);
+    setShowResult(true);
   };
 
- const Blank = ({ id }) => (
-  <Droppable droppableId={id}>
-    {(provided) => (
-      <span className="relative inline-block min-w-[90px] h-[50px] mx-2 text-center">
-
-        {/* ❌ */}
-        {isWrong(id) && (
-          <span className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold border-2 border-white shadow-md">
-            ✕
-          </span>
-        )}
-
-        <span
-          ref={provided.innerRef}
-          {...provided.droppableProps}
-          className={`inline-block w-full h-full border-b-2
-            ${
-              isWrong(id)
-                ? "border-red-500"
-                : "border-black"
-            }
-          `}
-        >
-          {answers[id] && (
-            <span className="text-red-600 font-semibold">
-              {answers[id]}
+  const Blank = ({ id }) => (
+    <Droppable droppableId={id}>
+      {(provided) => (
+        <span className="relative inline-block min-w-[90px] h-[50px] mx-2 text-center">
+          {/* ❌ */}
+          {isWrong(id) && (
+            <span className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold border-2 border-white shadow-md">
+              ✕
             </span>
           )}
 
-          {provided.placeholder}
+          <span
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+            className={`inline-block w-full h-full border-b-2
+            ${isWrong(id) ? "border-red-500" : "border-black"}
+          `}
+          >
+            {answers[id] && (
+              <span className="text-red-600 font-semibold">{answers[id]}</span>
+            )}
+
+            {provided.placeholder}
+          </span>
         </span>
-      </span>
-    )}
-  </Droppable>
-);
+      )}
+    </Droppable>
+  );
   const isWordUsed = (word) => {
     return Object.values(answers).includes(word);
   };
 
   const isWrong = (id) => {
-  if (!showResult) return false;
-  return answers[id] !== blanks[id];
-};
+    if (!showResult) return false;
+    return answers[id] !== blanks[id];
+  };
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="main-container-component">
-        <div className="div-forall" >
+        <div className="div-forall">
           {" "}
           {/* ❌ الهيدر كما هو */}
           <h5 className="header-title-page8 mb-8">
@@ -180,13 +173,13 @@ setShowResult(true);
               Sue McClue likes to play her
               <Blank id="b1" />
               <img
-                src={blue}
+                src={calendar}
                 className="inline w-14! h-14! mx-2 object-contain"
               />{" "}
               in
               <Blank id="b2" />
               <img
-                src={calendar}
+                src={glue}
                 className="inline w-14! h-14! ml-2 object-contain"
               />
             </div>
@@ -196,13 +189,13 @@ setShowResult(true);
               Sue wears
               <Blank id="b3" />
               <img
-                src={blue}
+                src={tube}
                 className="inline w-14! h-14! mx-2 object-contain"
               />
               and puts a spoon in the
               <Blank id="b4" />
               <img
-                src={glue}
+                src={blue}
                 className="inline w-14! h-14! ml-2 object-contain"
               />
             </div>
@@ -211,7 +204,7 @@ setShowResult(true);
               when she plays her tune called
               <Blank id="b5" />
               <img
-                src={tube}
+                src={nute}
                 className="inline w-14! h-14! mx-2 object-contain"
               />
               on the Moon.

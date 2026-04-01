@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import page_6 from "../../../assets/imgs/pages/Right 2 Unit 1 Stellas Family_00001/Right 2 Unit 1 Stellas Family_00051.jpg";
+import page_6 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 51.png";
 // import song from "../../../assets/img_unit6/sounds-unit6/Pg15.Sing_Adult Lady.mp3";
 import "./Unit6_Page6.css";
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";

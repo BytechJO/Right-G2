@@ -1,18 +1,17 @@
 import { useState, useRef } from "react";
-import page_1 from "../../../assets/imgs/pages/Right 2 Unit 1 Stellas Family_00001/Right 2 Unit 1 Stellas Family_00058.jpg";
+import page_1 from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/Page 58.png";
 import "./Unit7_Page1.css";
-import Unit5_Page1_Read from "./Unit5_Pag1_Read";
-import Unit5_Page1_Vocab from "./Unit7_Page1_Vocab";
-import Unit5_Page1_find from "./Unit7_Page1_find";
 import AudioWithCaption from "../../AudioWithCaption";
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
-import allunit3 from "../../../assets/audio/ClassBook/U 7/CD39.Pg58.U7_Intro1.mp3.mp3";
-// import sound1 from "../../../assets/img_unit3/sounds-unit3/U2-01.mp3";
-// import sound2 from "../../../assets/img_unit3/sounds-unit3/U2-02.mp3";
-// import sound3 from "../../../assets/img_unit3/sounds-unit3/U2-03.mp3";
-// import sound4 from "../../../assets/img_unit3/sounds-unit3/U2-04.mp3";
-// import sound5 from "../../../assets/img_unit3/sounds-unit3/U2-05.mp3";
+import allunit3 from "../../../assets/audio/ClassBook/U 7/unit7-all.mp3";
+import Unit7_Page1_Read from "./Unit7_Pag1_Read";
+import Unit7_Page1_Vocab from "./Unit7_Page1_Vocab";
+import Unit7_Page1_find from "./Unit7_Page1_find";
+import sound5 from "../../../assets/audio/ClassBook/U 7/unit7-sound5.mp3";
+import sound8 from "../../../assets/audio/ClassBook/U 7/unit7-sound8.mp3";
+import sound9 from "../../../assets/audio/ClassBook/U 7/unit7-sound9.mp3";
+import sound10 from "../../../assets/audio/ClassBook/U 7/unit7-sound10.mp3";
 
 const Unit7_Page1 = ({ openPopup }) => {
   const [activeAreaIndex, setActiveAreaIndex] = useState(null);
@@ -20,47 +19,68 @@ const Unit7_Page1 = ({ openPopup }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef(null);
   const captionsExample = [
-    { start: 0, end: 4.0, text: " Page 58, Unit 7, It’s Boarding Time. " },
+    { start: 0.459, end: 4.199, text: "Page 58, Unit 7. It's boarding time." },
+    {
+      start: 5.279,
+      end: 18.759,
+      text: "Page 58, Unit 7, Vocabulary. One, airplane. Two, souvenir shop. Three, flight attendant. Four, roll.",
+    },
+    {
+      start: 19.84,
+      end: 35.02,
+      text: "Five, pilot. Six, suitcase. Seven, hold. Eight, arrival. Nine, reception. Ten, airport.",
+    },
+    { start: 36.04, end: 39.02, text: "Page 58, Listen and Read Along." },
+    { start: 40.159, end: 42.739, text: "Long O. Boat," },
+    { start: 43.759, end: 44.299, text: "snow," },
+    { start: 45.34, end: 45.84, text: "home." },
+    {
+      start: 46.86,
+      end: 61.959,
+      text: "Page 59. Helen's father is a pilot. Helen's father is a pilot. He flies airplanes. Today, Helen visits Dubai Airport with her father. She sees other people who work at the airport, too.",
+    },
+    {
+      start: 63.0,
+      end: 73.72,
+      text: "Her father has a flight at a quarter past one in the afternoon. Helen waves goodbye to her dad. Page 59, Listen and Read Along.",
+    },
+    { start: 74.959, end: 76.119, text: "Long O." },
+    { start: 77.279, end: 77.779, text: "Coat," },
+    { start: 78.86, end: 79.519, text: "window," },
+    { start: 80.619, end: 81.059, text: "note." },
   ];
 
   const areas = [
     // الصوت الأول – المنطقة الأساسية
-    { x1: 72.8, y1: 26.6, x2: 77.0, y2: 30.0, sound: 1, isPrimary: true },
+    { x1: 86.4, y1: 49.6, sound: 5, isPrimary: true },
 
     // // الصوت الأول – منطقة إضافية
-    { x1: 69.5, y1: 25.8, x2: 75.9, y2: 33.4, sound: 1, isPrimary: false },
+    { x1: 87.72, y1: 38.65, x2: 97.80, y2: 78.65, sound: 5, isPrimary: false },
 
-    // // الصوت الثاني – الأساسية
-    { x1: 63.2, y1: 56.35, x2: 67.2, y2: 59.3, sound: 2, isPrimary: true },
+  //   // // الصوت الثاني – الأساسية
+    { x1: 42.2, y1: 19.9, sound: 8, isPrimary: true },
 
-    // // الصوت الثاني – الإضافية
-    { x1: 62.9, y1: 53.5, x2: 74.8, y2: 59.9, sound: 2, isPrimary: false },
+  //   // // الصوت الثاني – الإضافية
+    { x1: 23.73, y1: 20.32, x2: 45.06, y2: 28.08, sound: 8, isPrimary: false },
 
-    // // الصوت الثالث – الأساسية
-    { x1: 60.8, y1: 47.9, x2: 64.9, y2: 50.9, sound: 3, isPrimary: true },
+  //   // // الصوت الثالث – الأساسية
+    { x1: 64.8, y1: 62.2, sound: 9, isPrimary: true },
 
-    // // الصوت الثالث – الإضافية
-    { x1: 56.4, y1: 43.5, x2: 72.8, y2: 51.1, sound: 3, isPrimary: false },
-    // // الصوت الرابع – الأساسية
-    { x1: 88.2, y1: 11.45, x2: 92.1, y2: 14.4, sound: 4, isPrimary: true },
+  //   // // الصوت الثالث – الإضافية
+    { x1: 57.86, y1: 46.21, x2: 78.02, y2: 72.71, sound: 9, isPrimary: false },
+  //   // // الصوت الرابع – الأساسية
+    { x1: 13.2, y1: 24.9, sound: 10, isPrimary: true },
 
-    // // الصوت الرابع – الإضافية
-    { x1: 23.17, y1: 11.5, x2: 99.4, y2: 20.5, sound: 4, isPrimary: false },
+  //   // // الصوت الرابع – الإضافية
+    { x1: 7.83, y1: 19.10, x2: 21.21, y2: 30.06, sound: 10, isPrimary: false },
 
-    // // الصوت الخامس – الأساسية
-    { x1: 13.4, y1: 23.7, x2: 17.3, y2: 26.7, sound: 5, isPrimary: true },
-
-    // // الصوت الخامس – الإضافية
-    { x1: 1.0, y1: 11.06, x2: 16.9, y2: 28.5, sound: 5, isPrimary: false },
-  ];
-  // const sounds = {
-  //   1: sound1,
-  //   2: sound2,
-  //   3: sound3,
-  //   4: sound4,
-  //   5: sound5,
-
-  // };
+];
+  const sounds = {
+    5: sound5,
+    8: sound8,
+    9: sound9,
+    10: sound10,
+  };
 
   const handleImageClick = (e) => {
     const rect = e.target.getBoundingClientRect();
@@ -130,14 +150,14 @@ const Unit7_Page1 = ({ openPopup }) => {
             }}
             onClick={() => {
               setActiveAreaIndex(area.sound); // 👈 يفعل الدائرة فوق الرقم
-              // playSound(sounds[area.sound]);
+              playSound(sounds[area.sound]);
             }}
           ></div>
         );
       })}
 
       <div
-        className="headset-icon-CD-unit5-page1-1 hover:scale-110 transition"
+        className="headset-icon-CD-unit7-page1-1 hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg
@@ -172,7 +192,7 @@ const Unit7_Page1 = ({ openPopup }) => {
       </div>
 
       <div
-        className="click-icon-unit5-page1-1 hover:scale-110 transition"
+        className="click-icon-unit7-page1-1 hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg
@@ -183,7 +203,7 @@ const Unit7_Page1 = ({ openPopup }) => {
             openPopup(
               "html",
               <>
-                <Unit5_Page1_find />
+                <Unit7_Page1_find />
               </>,
             )
           }
@@ -200,7 +220,7 @@ const Unit7_Page1 = ({ openPopup }) => {
         </svg>
       </div>
       <div
-        className="headset-icon-CD-unit5-page1-2 hover:scale-110 transition"
+        className="headset-icon-CD-unit7-page1-2 hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg
@@ -211,7 +231,7 @@ const Unit7_Page1 = ({ openPopup }) => {
             openPopup(
               "html",
               <>
-                <Unit5_Page1_Vocab />
+                <Unit7_Page1_Vocab />
               </>,
             )
           }
@@ -228,7 +248,7 @@ const Unit7_Page1 = ({ openPopup }) => {
         </svg>
       </div>
       <div
-        className="click-icon-unit5-page1-2 hover:scale-110 transition"
+        className="click-icon-unit7-page1-2 hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg
@@ -239,7 +259,7 @@ const Unit7_Page1 = ({ openPopup }) => {
             openPopup(
               "html",
               <>
-                <Unit5_Page1_Read />
+                <Unit7_Page1_Read />
               </>,
             )
           }

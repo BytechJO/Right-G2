@@ -1,27 +1,27 @@
 import React, { useState, useEffect, useRef } from "react";
-import page_2 from "../../../assets/imgs/pages/Right 2 Unit 1 Stellas Family_00001/Right 2 Unit 1 Stellas Family_00047.jpg";
-import img1_letter from "../../../assets/imgs/test.png";
-import img2_letter from "../../../assets/imgs/test.png";
-import img3_letter from "../../../assets/imgs/test.png";
-import img4_letter from "../../../assets/imgs/test.png";
+import page_2 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 47.png";
+import img1_letter from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 46-47/Un 6/List 2 un 6 p47-01-01.svg";
+import img2_letter from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 46-47/Un 6/List 2 un 6 p47-01-02.svg";
+import img3_letter from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 46-47/Un 6/List 2 un 6 p47-01-03.svg";
+import img4_letter from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 46-47/Un 6/List 2 un 6 p47-01-04.svg";
 import Rabbit from "../../../assets/Page 01/Rabbit.svg";
-import soundListen from "../../../assets/audio/ClassBook/U 6/Pg47_1.1_Helen.mp3";
-import img1_conversation from "../../../assets/imgs/test.png";
-import img2_conversation from "../../../assets/imgs/test.png";
+import soundListen from "../../../assets/audio/ClassBook/U 6/pg47-reading-adult-lady_jBQCwsF7.mp3";
+
 import sound1_letter from "../../../assets/audio/ClassBook/U 6/Pg47_1.1_Adult Lady.mp3";
 import sound2_letter from "../../../assets/audio/ClassBook/U 6/Pg47_1.2_Adult Lady.mp3";
 import sound3_letter from "../../../assets/audio/ClassBook/U 6/Pg47_1.3_Adult Lady.mp3";
 import sound4_letter from "../../../assets/audio/ClassBook/U 6/Pg47_1.4_Adult Lady.mp3";
 
-import letterSound from "../../../assets/audio/ClassBook/U 6/Pg47_Instruction1_Adult Lady.mp3";
+import letterSound from "../../../assets/audio/ClassBook/U 6/pg47-instruction1-adult-lady_WxO4XAUJ.mp3";
 
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 import AudioWithCaption from "../../AudioWithCaption";
 import FourImagesWithAudio from "../../FourImagesWithAudio";
-// import sound1 from "../../../assets/img_unit6/sounds-unit6/U2-06.mp3";
-// import sound2 from "../../../assets/img_unit6/sounds-unit6/U2-07.mp3";
-
+import sound7 from "../../../assets/audio/ClassBook/U 6/unit6-sound7.mp3";
+import sound8 from "../../../assets/audio/ClassBook/U 6/unit6-sound8.mp3";
+import sound9 from "../../../assets/audio/ClassBook/U 6/unit6-sound9.mp3";
+import sound10 from "../../../assets/audio/ClassBook/U 6/unit6-sound10.mp3";
 import "./Unit6_Page2.css";
 import ReadChoose from "../../ReadChoose";
 const Unit6_Page2 = ({ openPopup }) => {
@@ -43,44 +43,85 @@ const Unit6_Page2 = ({ openPopup }) => {
     questions: [
       {
         text: "When does Helen go to school?",
-        options: ["She goes to school at eight o’clock.", "She goes to school at six o’clock." ,"She goes to school at nine o’clock."],
+        options: [
+          "She goes to school at eight o’clock.",
+          "She goes to school at six o’clock.",
+          "She goes to school at nine o’clock.",
+        ],
         correct: "She goes to school at eight o’clock.",
       },
       {
         text: "When does Helen go to sleep?",
-options: ["She goes to school at eight o’clock.", "She goes to school at six o’clock." ,"She goes to school at nine o’clock."],
+        options: [
+          "She goes to school at eight o’clock.",
+          "She goes to school at six o’clock.",
+          "She goes to school at nine o’clock.",
+        ],
         correct: "She goes to school at nine o’clock.",
       },
     ],
   };
   const captionsExample = [
-    { start: 0, end: 2.0, text: "Page11. Birthdays Are Fun" },
-    { start: 2.05, end: 5.2, text: "Hi, everyone. Today is my birthday." },
-    { start: 5.24, end: 7.2, text: " I'm seven years old." },
-    { start: 7.24, end: 9.0, text: "  My friends are here. It's fun." },
+    { start: 0.599, end: 4.019, text: "Page 47. Helen's diary" },
+    {
+      start: 4.019,
+      end: 7.47,
+      text: "This is what I do every day. I get up at 6:00.",
+    },
+    {
+      start: 8.22,
+      end: 12.9,
+      text: "I eat my breakfast at 7:30. I go to school at 8:00.",
+    },
+    {
+      start: 13.06,
+      end: 16.48,
+      text: "I learn many things in class. I go home at 2:00 in the afternoon. ",
+    },
+    {
+      start: 17.44,
+      end: 22.179,
+      text: "I eat my lunch at 3:00. I go to sleep at 9:00.",
+    },
   ];
 
   const captions2 = [
-    { start: 0, end: 3.18, text: "Page 11. Listen and read along. " },
-    { start: 3.2, end: 7.01, text: "P, pencil, pink, pizza. " },
+    { start: 0.5, end: 3.819, text: "Page 47. Listen and read along." },
+    { start: 4.94, end: 6.179, text: "Long I." },
+    { start: 7.259, end: 7.779, text: "Light." },
+    { start: 8.88, end: 10.979, text: "Night. Tight." },
   ];
 
   const areas = [
     // الصوت الأول – المنطقة الأساسية
-    { x1: 35.24, y1: 54.6, x2: 39.0, y2: 58.0, sound: 1, isPrimary: true },
+    { x1: 13.24, y1: 47.4, sound: 1, isPrimary: true },
 
     // // // الصوت الأول – منطقة إضافية
-    { x1: 31.3, y1: 45.4, x2: 40.12, y2: 53.4, sound: 1, isPrimary: false },
+    { x1: 2.31, y1: 44.4, x2: 15.10, y2: 59.61, sound: 1, isPrimary: false },
 
-    // // // الصوت الثاني – الأساسية
-    { x1: 43.6, y1: 54.1, x2: 47.7, y2: 57.1, sound: 2, isPrimary: true },
+    // // // // الصوت الثاني – الأساسية
+    { x1: 15.60, y1: 64.7, sound: 2, isPrimary: true },
 
-    // // // الصوت الثاني – الإضافية
-    { x1: 41.6, y1: 47.31, x2: 48.3, y2: 53.7, sound: 2, isPrimary: false },
+    // // // // الصوت الثاني – الإضافية
+    { x1: 11.81, y1: 65.40, x2: 28.87, y2: 79.72, sound: 2, isPrimary: false },
+
+    //  // الصوت الأول – المنطقة الأساسية
+    { x1: 29, y1: 53.8, sound: 3, isPrimary: true },
+
+    // // // // الصوت الأول – منطقة إضافية
+    { x1: 24.61, y1: 45.9, x2: 42.83, y2: 60.07, sound: 3, isPrimary: false },
+
+    // // // // الصوت الثاني – الأساسية
+    { x1: 21.9, y1:30, sound: 4, isPrimary: true },
+
+    // // // // الصوت الثاني – الإضافية
+    { x1: 24.80, y1: 24.28, x2: 42.83, y2: 38.59, sound: 4, isPrimary: false },
   ];
   const sounds = {
-    // 1: sound1,
-    // 2: sound2,
+    1: sound7,
+    2: sound8,
+    3: sound9,
+    4: sound10,
   };
 
   const handleImageClick = (e) => {
@@ -226,7 +267,7 @@ options: ["She goes to school at eight o’clock.", "She goes to school at six o
                   img4_letter,
                 ]}
                 audioSrc={letterSound}
-                checkpoints={[0, 3.4, 4, 4.9, 6]}
+                checkpoints={[0, 4.94, 7.26, 8.88, 10.38]}
                 popupOpen={true}
                 titleQ={"Listen and read along."}
                 audioArr={imageSounds}

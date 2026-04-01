@@ -17,10 +17,10 @@ import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 import AudioWithCaption from "../../AudioWithCaption";
 import FourImagesWithAudio from "../../FourImagesWithAudio";
-// import sound1 from "../../../assets/img_unit5/sounds-unit5/U2-06.mp3";
-// import sound2 from "../../../assets/img_unit5/sounds-unit5/U2-07.mp3";
-// import sound3 from "../../../assets/img_unit5/sounds-unit5/U2-07.mp3";
-// import sound4 from "../../../assets/img_unit5/sounds-unit5/U2-07.mp3";
+// import sound1 from "../../../assets/img_unit10/sounds-unit10/U2-06.mp3";
+// import sound2 from "../../../assets/img_unit10/sounds-unit10/U2-07.mp3";
+// import sound3 from "../../../assets/img_unit10/sounds-unit10/U2-07.mp3";
+// import sound4 from "../../../assets/img_unit10/sounds-unit10/U2-07.mp3";
 
 import "./Unit10_Page2.css";
 import ReadChoose from "../../ReadChoose";
@@ -160,7 +160,7 @@ const Unit10_Page2 = ({ openPopup }) => {
       })}
 
       <div
-        className="headset-icon-CD-unit5-page2-1 hover:scale-110 transition"
+        className="headset-icon-CD-unit10-page2-1 hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg
@@ -186,7 +186,7 @@ const Unit10_Page2 = ({ openPopup }) => {
         </svg>
       </div>
       <div
-        className="headset-icon-CD-unit5-page2-2 hover:scale-110 transition"
+        className="headset-icon-CD-unit10-page2-2 hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg
@@ -209,7 +209,7 @@ const Unit10_Page2 = ({ openPopup }) => {
         </svg>
       </div>
       <div
-        className="click-icon-unit5-page2-1 hover:scale-110 transition"
+        className="click-icon-unit10-page2-1 hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg

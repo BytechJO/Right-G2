@@ -4,10 +4,10 @@ import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
 import "./Review5_Page2_Q3.css";
 
-import bee from "../../../assets/imgs/test6.png";
-import tea from "../../../assets/imgs/test6.png";
-import sleep from "../../../assets/imgs/test6.png";
-import read from "../../../assets/imgs/test6.png";
+import bee from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 53/EX G 1.svg";
+import tea from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 53/EX G 2.svg";
+import sleep from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 53/EX G 3.svg";
+import read from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 53/EX G 4.svg";
 
 const Review5_Page2_Q4 = () => {
   const questions = [

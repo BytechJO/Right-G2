@@ -4,15 +4,15 @@ import "./Unit5_Page5_Q2.css";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
 // Example images imports. Replace with your actual paths.
-import img1a from "../../../assets/imgs/test.png";
-import img1b from "../../../assets/imgs/test.png";
-import img1c from "../../../assets/imgs/test.png";
-import img1d from "../../../assets/imgs/test.png";
+import img1a from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 44/Ex A2-1.svg";
+import img1b from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 44/Ex A2-2.svg";
+import img1c from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 44/Ex A2-3.svg";
+import img1d from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 44/Ex A2-4.svg";
 
-import img2a from "../../../assets/imgs/test.png";
-import img2b from "../../../assets/imgs/test.png";
-import img2c from "../../../assets/imgs/test.png";
-import img2d from "../../../assets/imgs/test.png";
+import img2a from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 44/Ex A2-5.svg";
+import img2b from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 44/Ex A2-6.svg";
+import img2c from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 44/Ex A2-7.svg";
+import img2d from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 44/Ex A2-8.svg";
 
 
 const Unit5_Page5_Q2 = () => {

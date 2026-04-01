@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import "./Unit5_Page5_Q3.css";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import img1 from "../../../assets/imgs/test.png";
-import img2 from "../../../assets/imgs/test.png";
-import img3 from "../../../assets/imgs/test.png";
-import img4 from "../../../assets/imgs/test.png";
-import img5 from "../../../assets/imgs/test.png";
-import img6 from "../../../assets/imgs/test.png";
-import img7 from "../../../assets/imgs/test.png";
-import img8 from "../../../assets/imgs/test.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 44/Ex B 1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 44/Ex B 2.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 44/Ex B 3.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 44/Ex B 4.svg";
+import img5 from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 44/Ex A2-7.svg";
+import img6 from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 44/Ex B 6.svg";
+import img7 from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 44/Ex B 7.svg";
+import img8 from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 44/Ex B 8.svg";
 const grid = [
   ["k", "m", "e", "a", "t", "o", "e", "c", "s"],
   ["r", "e", "r", "c", "i", "u", "k", "r", "t"],

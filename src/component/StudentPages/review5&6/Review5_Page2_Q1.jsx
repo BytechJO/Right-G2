@@ -2,40 +2,30 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./Review5_Page2_Q2.css";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import img1 from "../../../assets/imgs/test.png";
-import img2 from "../../../assets/imgs/test.png";
-import img3 from "../../../assets/imgs/test.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 53/Ex D 1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 53/Ex D 2.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 53/Ex D 3.svg";
 import QuestionAudioPlayer from "../../QuestionAudioPlayer";
-import sound1 from "../../../assets/audio/ClassBook/U 6/Pg53_1.1_Adult Lady.mp3";
+import sound1 from "../../../assets/audio/ClassBook/U 6/cd37pg53-instruction1-adult-lady_VEAoL9d5.mp3";
 
 const Review1_Page2_Q2 = () => {
-  const audioRef = useRef(null);
-  const [showContinue, setShowContinue] = useState(false);
-  const [paused, setPaused] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(null);
   const stopAtSecond = 3.5;
   const [locked, setLocked] = useState(false); // ⭐ NEW — قفل التعديل بعد Show Answer
   // ================================
   // ✔ Captions Array
   // ================================
   const captions = [
+    { start: 0.519, end: 4.059, text: "Page 53, review five, exercise D." },
     {
-      start: 0,
-      end: 4.23,
-      text: "Page 8. Right Activities. Exercise A, number 1. ",
+      start: 5.299,
+      end: 10.399,
+      text: "Do they both have long E? Listen and write check or X.",
     },
-    {
-      start: 4.25,
-      end: 8.28,
-      text: "Listen and write the missing letters. Number the pictures.  ",
-    },
-    { start: 8.3, end: 11.05, text: "1-tiger." },
-    { start: 11.07, end: 13.12, text: "2-taxi." },
-    { start: 13.14, end: 15.14, text: "3-duck." },
-    { start: 15.16, end: 17.13, text: "4-deer." },
+    { start: 11.439, end: 14.659, text: "One, knee, tea." },
+    { start: 15.679, end: 19.02, text: "Two, tape. Three." },
+    { start: 20.1, end: 20.5, text: "Three," },
+    { start: 21.6, end: 23.34, text: "bee, sleep" },
   ];
-
-
   const questions = [
     {
       id: 1,
@@ -148,7 +138,7 @@ const Review1_Page2_Q2 = () => {
             <div key={q.id} className="CB-review1-p2-q1-question-box">
               <p
                 className="CB-review1-p2-q1-question-text"
-                style={{ fontSize: "20px" }}
+                style={{ fontSize: "20px" ,border:"none" }}
               >
                 <span style={{ color: "darkblue", fontWeight: "700" }}>
                   {q.id}.
@@ -157,7 +147,12 @@ const Review1_Page2_Q2 = () => {
 
               <div className="CB-review1-p2-q1-flex">
                 <div style={{ display: "flex" }}>
-                  <img src={q.image} alt="" className="CB-review1-p2-q1-img" />
+                  <img
+                    src={q.image}
+                    alt=""
+                    className="CB-review1-p2-q1-img"
+                    style={{ width: "auto", height: "150px" }}
+                  />
                 </div>
 
                 <div className="CB-review1-p2-q1-options-box">

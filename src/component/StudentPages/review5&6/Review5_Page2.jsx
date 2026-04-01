@@ -1,4 +1,4 @@
-import page_2 from "../../../assets/imgs/pages/Right 2 Unit 1 Stellas Family_00001/Right 2 Unit 1 Stellas Family_00053.jpg";
+import page_2 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 53.png";
 import "./Review5_Page2.css";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 // import Unit4_Page6_Q2 from "./Unit4_Page6_Q2";

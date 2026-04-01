@@ -4,7 +4,7 @@ import Rabbit from "../../../assets/Page 01/Rabbit.svg";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import MySVG from "../../../assets/imgs/test.png";
 
-const Unit5_Page1_find = () => {
+const Unit9_Page1_find = () => {
   const [clickedPoint, setClickedPoint] = useState(null);
   const [checkResult, setCheckResult] = useState(null);
   const [showAnswer, setShowAnswer] = useState(false);
@@ -142,4 +142,4 @@ const Unit5_Page1_find = () => {
   );
 };
 
-export default Unit5_Page1_find;
+export default Unit9_Page1_find;

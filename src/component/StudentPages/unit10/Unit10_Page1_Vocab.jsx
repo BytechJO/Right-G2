@@ -27,7 +27,7 @@ import num11 from "../../../assets/imgs/test.png";
 import { TbMessageCircle } from "react-icons/tb";
 import { IoMdSettings } from "react-icons/io";
 import { FaPlay, FaPause } from "react-icons/fa";
-const Unit8_Page1_Vocab = () => {
+const Unit10_Page1_Vocab = () => {
   const mainAudioRef = useRef(null);
   const clickAudioRef = useRef(null);
 
@@ -384,4 +384,4 @@ const Unit8_Page1_Vocab = () => {
   );
 };
 
-export default Unit8_Page1_Vocab;
+export default Unit10_Page1_Vocab;

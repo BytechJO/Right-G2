@@ -1,18 +1,16 @@
 import React, { useState, useRef } from "react";
-import page_4 from "../../../assets/imgs/pages/Right 2 Unit 1 Stellas Family_00001/Right 2 Unit 1 Stellas Family_00061.jpg";
+import page_4 from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/Page 61.png";
 import "./Unit7_Page4.css";
-import grammarSound from "../../../assets/audio/ClassBook/U 7/CD42.Pg61_Grammar2_Adult Lady (2).mp3";
-import sound1 from "../../../assets/audio/ClassBook/U 5/Pg43_2.1_Adult Lady.mp3";
-import sound2 from "../../../assets/audio/ClassBook/U 5/Pg43_2.2_Adult Lady.mp3";
-import sound3 from "../../../assets/audio/ClassBook/U 5/Pg43_2.3_Adult Lady.mp3";
-import sound4 from "../../../assets/audio/ClassBook/U 5/Pg43_2.4_Adult Lady.mp3";
-import sound5 from "../../../assets/audio/ClassBook/U 5/Pg43_2.5_Adult Lady.mp3";
-import sound6 from "../../../assets/audio/ClassBook/U 5/Pg43_2.6_Adult Lady.mp3";
-import sound7 from "../../../assets/audio/ClassBook/U 5/Pg43_3.1_Adult Lady.mp3";
-import sound8 from "../../../assets/audio/ClassBook/U 5/Pg43_4.1_Adult Lady.mp3";
-import sound9 from "../../../assets/audio/ClassBook/U 5/Pg43_5.1_Helen.mp3";
+import grammarSound from "../../../assets/audio/ClassBook/U 7/cd42pg61-grammar2-adult-lady-2_RSBVfrn1.mp3";
+import sound1 from "../../../assets/audio/ClassBook/U 7/Pg61_2.1_Adult Lady.mp3";
+import sound2 from "../../../assets/audio/ClassBook/U 7/Pg61_3.1_Boy.mp3";
+import sound3 from "../../../assets/audio/ClassBook/U 7/Pg61_4.1_Woman.mp3";
+import sound4 from "../../../assets/audio/ClassBook/U 7/Pg61_5.1_Girl.mp3";
+import sound5 from "../../../assets/audio/ClassBook/U 7/Pg61_5.2_Girl.mp3";
+import sound6 from "../../../assets/audio/ClassBook/U 7/Pg61_6.1_Woman.mp3";
+import sound7 from "../../../assets/audio/ClassBook/U 7/CD43.Pg62_Instruction1_Adult Lady.mp3";
 
-// import video from "../../../assets/img_unit5/sounds-unit5/p13.mp4";
+// import video from "../../../assets/img_unit7/sounds-unit7/p13.mp4";
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import pauseBtn from "../../../assets/Page 01/Right Video Button.svg";
 import AudioWithCaption from "../../AudioWithCaption";
@@ -23,20 +21,42 @@ const Unit7_Page4 = ({ openPopup }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeAreaIndex, setActiveAreaIndex] = useState(null);
   const captionsExample = [
-    { start: 0, end: 4.07, text: " Page 61, exercise 2. Right Grammar. " },
+    {
+      start: 0.479,
+      end: 8.519,
+      text: "Page 61, exercise two. Write grammar. What day is today? It's Monday.",
+    },
+    { start: 8.519, end: 11.039, text: "What month is it? It's January." },
+    {
+      start: 12.059,
+      end: 17.799,
+      text: "Hi. Can you book me two tickets to Amman for Monday, September 12th, please?",
+    },
+    {
+      start: 18.859,
+      end: 23.839,
+      text: "Sure, sir. The flight is at a quarter to 11 in the morning.",
+    },
+    {
+      start: 23.84,
+      end: 30.579,
+      text: "Good morning. I need to book six tickets to Rome for September 6th. Are there any flights available?",
+    },
+    {
+      start: 31.619,
+      end: 39.84,
+      text: "Yes, there is one, but only four seats are available. What about September 7th at a quarter past 12?",
+    },
+    { start: 40.959, end: 43.619, text: "September 7th is fine. Thank you." },
   ];
-
   const clickableAreas = [
-    { x1: 6.53, y1: 10.4, x2: 23.43, y2: 14.2, sound: sound1 },
-    { x1: 54.19, y1: 10.4, x2: 71.5, y2: 14.5, sound: sound2 },
-    { x1: 6.53, y1: 15.27, x2: 30.7, y2: 19.4, sound: sound3 },
-    { x1: 54.2, y1: 15.27, x2: 78.3, y2: 19.5, sound: sound4 },
-    { x1: 6.7, y1: 32.3, x2: 21.8, y2: 36.2, sound: sound5 },
-    { x1: 23.3, y1: 25.5, x2: 39.8, y2: 30.7, sound: sound6 },
-    { x1: 55.0, y1: 30.7, x2: 74.1, y2: 33.9, sound: sound7 },
-    { x1: 55.0, y1: 30.7, x2: 74.1, y2: 33.9, sound: sound8 },
-    { x1: 55.0, y1: 30.7, x2: 74.1, y2: 33.9, sound: sound9 },
-
+    { x1: 24.64, y1: 9.65, x2: 65.72, y2: 14.07, sound: sound1 },
+    { x1: 24.61, y1: 15.44, x2: 65.52, y2: 20.01, sound: sound2 },
+    { x1: 5.60, y1: 21.53, x2: 39.9, y2: 28.85, sound: sound3 },
+    { x1: 37.79, y1: 42.40, x2: 75.41, y2: 48.95, sound: sound4 },
+    { x1: 5.60, y1: 53.8, x2: 43.22, y2: 60.83, sound: sound6 },
+    { x1: 45.35, y1: 50.47, x2: 77.35, y2: 60.53, sound: sound5 },
+    { x1: 7.15, y1: 79.11, x2: 32.17, y2: 84.74, sound: sound7 },
   ];
 
   const handleImageClick = (e) => {
@@ -61,10 +81,11 @@ const Unit7_Page4 = ({ openPopup }) => {
   };
 
   return (
-    <div className="page1-img-wrapper"
-          onClick={handleImageClick}
-          style={{ backgroundImage: `url(${page_4})` }}>
-   
+    <div
+      className="page1-img-wrapper"
+      onClick={handleImageClick}
+      style={{ backgroundImage: `url(${page_4})` }}
+    >
       {clickableAreas.map((area, index) => (
         <div
           key={index}
@@ -93,7 +114,7 @@ const Unit7_Page4 = ({ openPopup }) => {
         ></div>
       ))}
       <div
-        className="headset-icon-CD-unit5-page4-1 hover:scale-110 transition"
+        className="headset-icon-CD-unit7-page4-1 hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg
@@ -102,7 +123,8 @@ const Unit7_Page4 = ({ openPopup }) => {
           viewBox="0 0 90 90"
           onClick={() =>
             openPopup(
-             "audio", <div
+              "audio",
+              <div
                 style={{
                   display: "flex",
                   justifyContent: "center",
@@ -113,16 +135,23 @@ const Unit7_Page4 = ({ openPopup }) => {
                   src={grammarSound}
                   captions={captionsExample}
                 />
-              </div>
+              </div>,
             )
           }
           style={{ overflow: "visible" }}
         >
-          <image className="svg-img" href={audioBtn} x="0" y="0" width="90" height="90" />
+          <image
+            className="svg-img"
+            href={audioBtn}
+            x="0"
+            y="0"
+            width="90"
+            height="90"
+          />
         </svg>
       </div>
       <div
-        className="pauseBtn-icon-CD-unit5-page4-1 hover:scale-110 transition"
+        className="pauseBtn-icon-CD-unit7-page4-1 hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg
@@ -131,7 +160,8 @@ const Unit7_Page4 = ({ openPopup }) => {
           viewBox="0 0 90 90"
           onClick={() =>
             openPopup(
-             "video", <div
+              "video",
+              <div
                 style={{
                   display: "flex",
                   justifyContent: "center",
@@ -139,7 +169,6 @@ const Unit7_Page4 = ({ openPopup }) => {
                   alignItems: "center",
                   height: "100%",
                   width: "100%",
-                
                 }}
               >
                 <video
@@ -154,12 +183,19 @@ const Unit7_Page4 = ({ openPopup }) => {
                 >
                   {/* <source src={video} type="video/mp4" /> */}
                 </video>
-              </div>
+              </div>,
             )
           }
           style={{ overflow: "visible" }}
         >
-          <image className="svg-img" href={pauseBtn} x="0" y="0" width="90" height="90" />
+          <image
+            className="svg-img"
+            href={pauseBtn}
+            x="0"
+            y="0"
+            width="90"
+            height="90"
+          />
         </svg>
       </div>
       <audio ref={audioRef} style={{ display: "none" }} />

@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import ValidationAlert from "../../Popup/ValidationAlert";
-
+import img1 from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/Page 63/Ex D 1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/Page 63/Ex D 2.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/Page 63/Ex D 3.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/Page 63/Ex D 4.svg";
 const Unit7_Page6_Q1 = () => {
   const wordBank = [
     "Sunday",
@@ -14,9 +17,9 @@ const Unit7_Page6_Q1 = () => {
   ];
   const [showResult, setShowResult] = useState(false);
   const questions = [
-    { id: 1, number: 4, answer: "Wednesday" },
-    { id: 2, number: 2, answer: "Monday" },
-    { id: 3, number: 6, answer: "Friday" },
+    { id: 1, number: 4, answer: "Wednesday", img: img1 },
+    { id: 2, number: 2, answer: "Monday", img: img2 },
+    { id: 3, number: 6, answer: "Friday", img: img3 },
   ];
 
   const [answers, setAnswers] = useState({
@@ -82,7 +85,7 @@ const Unit7_Page6_Q1 = () => {
       3: "",
     });
     setLocked(false);
-    setShowResult(false)
+    setShowResult(false);
   };
 
   const showAnswers = () => {
@@ -153,51 +156,55 @@ const Unit7_Page6_Q1 = () => {
             )}
           </Droppable>
 
-          {/* QUESTIONS */}
-          {questions.map((q) => (
-            <div key={q.id} className="flex items-center gap-6 mb-8">
-              <div className="w-20 h-20 flex items-center justify-center text-4xl border-2 border-red-400 rounded-xl">
-                {q.number}
-              </div>
+          <div className="flex w-full" style={{justifyContent:"space-between"}} >
+            {/* QUESTIONS */}
+            <div className="flex flex-col">
+            {questions.map((q) => (
+              <div key={q.id} className="flex items-center gap-6 mb-8">
+                <div className="w-20 h-20 flex items-center justify-center">
+                  <img src={q.img} style={{ height: "120px", width: "auto" }} />
+                </div>
 
-              <div className="text-lg">
-                <p>What day is it today?</p>
+                <div className="text-lg">
+                  <p>What day is it today?</p>
 
-                <Droppable droppableId={`answer-${q.id}`}>
-                  {(provided) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.droppableProps}
-                      className="relative min-w-[250px] min-h-10"
-                    >
-                      {/* ❌ */}
-                      {isWrong(q.id) && (
-                        <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold border-2 border-white shadow-md">
-                          ✕
-                        </span>
-                      )}
-
+                  <Droppable droppableId={`answer-${q.id}`}>
+                    {(provided) => (
                       <div
                         ref={provided.innerRef}
                         {...provided.droppableProps}
-                        className={`h-10 border-b-2 ${
-                          isWrong(q.id) ? "border-red-500" : "border-black"
-                        }`}
+                        className="relative min-w-[250px] min-h-10"
                       >
-                        It is
-                        <span style={{ color: "red" }}>
-                          {" "}
-                          {answers[q.id]}
-                          {provided.placeholder}
-                        </span>
-                      </div>
-                    </div>
-                  )}
-                </Droppable>
-              </div>
-            </div>
-          ))}
+                        {/* ❌ */}
+                        {isWrong(q.id) && (
+                          <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold border-2 border-white shadow-md">
+                            ✕
+                          </span>
+                        )}
 
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.droppableProps}
+                          className={`h-10 border-b-2 ${
+                            isWrong(q.id) ? "border-red-500" : "border-black"
+                          }`}
+                        >
+                          It is
+                          <span style={{ color: "red" }}>
+                            {" "}
+                            {answers[q.id]}
+                            {provided.placeholder}
+                          </span>
+                        </div>
+                      </div>
+                    )}
+                  </Droppable>
+                </div>
+              </div>
+            ))}
+</div>
+            <img src={img4} style={{ height: "450px", width: "auto" }} />
+          </div>
           {/* BUTTONS */}
           <div className="action-buttons-container">
             <button onClick={reset} className="try-again-button">

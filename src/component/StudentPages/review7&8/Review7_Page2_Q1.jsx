@@ -1,25 +1,21 @@
 import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
-import img1 from "../../../assets/imgs/test6.png";
-import img2 from "../../../assets/imgs/test6.png";
-import img3 from "../../../assets/imgs/test6.png";
-import img4 from "../../../assets/imgs/test6.png";
-import img5 from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 71/Ex C 1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 71/Ex C 2.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 71/Ex C 3.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 71/Ex C 4.svg";
+import img5 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 71/Ex C 5.svg";
 
-import blue from "../../../assets/audio/ClassBook/U 8/Pg64_1.2_Adult Lady.mp3";
-import home from "../../../assets/audio/ClassBook/U 7/Pg58_1.4_Adult Lady.mp3";
-import caot from "../../../assets/audio/ClassBook/U 7/Pg59_1.3_Adult Lady.mp3";
-import boat from "../../../assets/audio/ClassBook/U 7/Pg58_1.2_Adult Lady.mp3";
 import audio5 from "../../../assets/audio/ClassBook/U 7/Pg58_1.2_Adult Lady.mp3";
 import QuestionAudioPlayer from "../../QuestionAudioPlayer";
 const Review7_Page2_Q1 = () => {
   const items = [
-    { img: img1, audio: caot, correct: "yes" },
-    { img: img2, audio: boat, correct: "no" },
-    { img: img3, audio: blue, correct: "no" },
-    { img: img4, audio: home, correct: "yes" },
-    { img: img5, audio: audio5, correct: "yes" },
+    { img: img1, correct: "yes" },
+    { img: img2, correct: "no" },
+    { img: img3, correct: "no" },
+    { img: img4, correct: "yes" },
+    { img: img5, correct: "yes" },
   ];
   const captions = [
     {

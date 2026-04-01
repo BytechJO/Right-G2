@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import img1 from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 54/Ex c 1.svg";
 import "./Review6_Page1_Q3.css";
 
 const Review6_Page1_Q3 = () => {

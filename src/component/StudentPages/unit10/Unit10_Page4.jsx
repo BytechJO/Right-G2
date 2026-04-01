@@ -12,7 +12,7 @@ import sound7 from "../../../assets/audio/ClassBook/U 5/Pg43_3.1_Adult Lady.mp3"
 import sound8 from "../../../assets/audio/ClassBook/U 5/Pg43_4.1_Adult Lady.mp3";
 import sound9 from "../../../assets/audio/ClassBook/U 5/Pg43_5.1_Helen.mp3";
 
-// import video from "../../../assets/img_unit5/sounds-unit5/p13.mp4";
+// import video from "../../../assets/img_unit10/sounds-unit10/p13.mp4";
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import pauseBtn from "../../../assets/Page 01/Right Video Button.svg";
 import AudioWithCaption from "../../AudioWithCaption";
@@ -93,7 +93,7 @@ const Unit10_Page4 = ({ openPopup }) => {
         ></div>
       ))}
       <div
-        className="headset-icon-CD-unit5-page4-1 hover:scale-110 transition"
+        className="headset-icon-CD-unit10-page4-1 hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg
@@ -122,7 +122,7 @@ const Unit10_Page4 = ({ openPopup }) => {
         </svg>
       </div>
       <div
-        className="pauseBtn-icon-CD-unit5-page4-1 hover:scale-110 transition"
+        className="pauseBtn-icon-CD-unit10-page4-1 hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg

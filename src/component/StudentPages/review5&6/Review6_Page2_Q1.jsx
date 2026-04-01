@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import img1 from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 55/Ex D 1.svg";
 import "./Review6_Page2_Q1.css";
-import sound1 from "../../../assets/audio/ClassBook/U 6/Pg53_1.1_Adult Lady.mp3";
+import sound1 from "../../../assets/audio/ClassBook/U 6/cd38pg55-instruction1-adult-lady_rmKHQrku.mp3";
 import QuestionAudioPlayer from "../../QuestionAudioPlayer";
 
 const words = [
@@ -21,15 +21,19 @@ export default function Review6_Page2_Q1() {
   const [locked, setLocked] = useState(false);
   const [showResult, setShowResult] = useState(false); // ✅ جديد
 
-  const stopAtSecond = 3.5;
+  const stopAtSecond = 7.059;
 
   const captions = [
     {
-      start: 0,
-      end: 4.23,
-      text: "Page 8. Right Activities. Exercise A, number 1.",
+      start: 0.56,
+      end: 7.059,
+      text: "Page 55, review 6, exercise D. Listen, read, and complete the story.",
     },
-    { start: 4.25, end: 8.28, text: "Listen and write the missing letters." },
+    {
+      start: 8.179,
+      end: 15.02,
+      text: "Andrew rides his bike at 5 o'clock every evening. He has a light on his bike when he rides at night",
+    },
   ];
 
   const onDragEnd = (result) => {
@@ -280,7 +284,6 @@ export default function Review6_Page2_Q1() {
                 width: "100%",
                 maxWidth: "320px",
                 height: "auto",
-                border: "2px solid red",
                 borderRadius: "15px",
               }}
             />

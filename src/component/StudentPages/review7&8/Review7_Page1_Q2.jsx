@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
-import img1 from "../../../assets/imgs/test6.png";
-import img2 from "../../../assets/imgs/test6.png";
-import img3 from "../../../assets/imgs/test6.png";
-import img4 from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 70/Ex B 1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 70/Ex B 2.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 70/Ex B 3.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 70/Ex B 4.svg";
 
 const Review7_Page1_Q2 = () => {
   const questions = [

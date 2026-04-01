@@ -1,6 +1,6 @@
 import "./Unit6_Page5_Q2.css";
 import React, { useState } from "react";
-import mapImg from "../../../assets/imgs/mapImg.png";
+import mapImg from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page50/Ex A 1-2.svg";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
 const Unit6_Page5_Q2 = () => {
@@ -8,21 +8,21 @@ const Unit6_Page5_Q2 = () => {
   const [showResult, setShowResult] = useState(false);
   const [locked, setLocked] = useState(false);
   const wordAreas = [
-    { id: "kite", x: 28.4, y: 13, w: 6, h: 6, correct: true },
-    { id: "it", x: 30, y: 27, w: 4, h: 6, correct: false },
-    { id: "light", x: 25, y: 39, w: 6, h: 7, correct: true },
-    { id: "rain", x: 19.5, y: 52, w: 6, h: 6, correct: false },
-    { id: "sit", x: 20.5, y: 68, w: 4, h: 6, correct: false },
-    { id: "five", x: 29.5, y: 62, w: 6, h: 7, correct: true },
-    { id: "cake", x: 40.5, y: 48.5, w: 6, h: 7, correct: false },
-    { id: "bike", x: 46.4, y: 60, w: 6, h: 7, correct: true },
-    { id: "feet", x: 52.5, y: 70.5, w: 6, h: 7, correct: false },
+    { id: "kite", x: 23.4, y: 13, w: 6, h: 6, correct: true },
+    { id: "it", x: 25, y: 27, w: 4, h: 6, correct: false },
+    { id: "light", x: 20, y: 39, w: 6, h: 7, correct: true },
+    { id: "rain", x: 14.5, y: 52, w: 6, h: 6, correct: false },
+    { id: "sit", x: 15.5, y: 68, w: 4, h: 6, correct: false },
+    { id: "five", x: 24.5, y: 62, w: 6, h: 7, correct: true },
+    { id: "cake", x: 37.5, y: 48.5, w: 6, h: 7, correct: false },
+    { id: "bike", x: 45.4, y: 60, w: 6, h: 7, correct: true },
+    { id: "feet", x: 50.5, y: 70.5, w: 6, h: 7, correct: false },
     { id: "night", x: 60, y: 65, w: 7, h: 7, correct: true },
     { id: "time", x: 63, y: 53, w: 7, h: 7, correct: true },
     { id: "in", x: 64, y: 37.5, w: 5, h: 6, correct: false },
-    { id: "tight", x: 72, y: 18.5, w: 7, h: 7, correct: true },
-    { id: "tea", x: 79.5, y: 37.5, w: 6, h: 6, correct: false },
-    { id: "like", x: 79, y: 53, w: 6, h: 7, correct: true },
+    { id: "tight", x: 73, y: 18.5, w: 7, h: 7, correct: true },
+    { id: "tea", x: 81.5, y: 37.5, w: 6, h: 6, correct: false },
+    { id: "like", x: 81, y: 53, w: 6, h: 7, correct: true },
     { id: "meat", x: 73.5, y: 65.5, w: 7, h: 7, correct: false },
     { id: "six", x: 69, y: 80, w: 5, h: 6, correct: false },
   ];

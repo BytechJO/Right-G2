@@ -2,9 +2,9 @@ import React, { useState, useRef } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Review5_Page1_Q3.css";
 
-import img1 from "../../../assets/imgs/test6.png";
-import img2 from "../../../assets/imgs/test6.png";
-import img3 from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 52/EX C 1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 52/EX C 2.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 52/EX C 3.svg";
 
 const Review5_Page1_Q3 = () => {
   const [lines, setLines] = useState([]);
