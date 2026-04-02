@@ -1,4 +1,4 @@
-import page_2 from "../../../assets/imgs/pages/Right 2 Unit 1 Stellas Family_00001/Right 2 Unit 1 Stellas Family_00089.jpg";
+import page_2 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 89.png";
 import "./Review9_Page2.css";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 // import Unit4_Page6_Q2 from "./Unit4_Page6_Q2";
@@ -12,7 +12,7 @@ const Review9_Page2 = ({ openPopup }) => {
       {/* <img src={page_2} /> */}
 
       <div
-        className="click-icon-review5-page2-2 hover:scale-110 transition"
+        className="click-icon-review9-page2-2 hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg
@@ -34,7 +34,7 @@ const Review9_Page2 = ({ openPopup }) => {
       </div>
 
       <div
-        className="click-icon-review5-page2-3  hover:scale-110 transition"
+        className="click-icon-review9-page2-3  hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg
@@ -55,7 +55,7 @@ const Review9_Page2 = ({ openPopup }) => {
         </svg>
       </div>
       <div
-        className="click-icon-review5-page2-1  hover:scale-110 transition"
+        className="click-icon-review9-page2-1  hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg
@@ -76,7 +76,7 @@ const Review9_Page2 = ({ openPopup }) => {
         </svg>
       </div>
       <div
-        className="click-icon-review5-page2-4  hover:scale-110 transition"
+        className="click-icon-review9-page2-4  hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg

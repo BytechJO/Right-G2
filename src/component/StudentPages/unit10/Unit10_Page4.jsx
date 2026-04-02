@@ -1,16 +1,12 @@
 import React, { useState, useRef } from "react";
-import page_4 from "../../../assets/imgs/pages/Right 2 Unit 1 Stellas Family_00001/Right 2 Unit 1 Stellas Family_00085.jpg";
+import page_4 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 85.png";
 import "./Unit10_Page4.css";
 import grammarSound from "../../../assets/audio/ClassBook/U 7/CD42.Pg61_Grammar2_Adult Lady (2).mp3";
-import sound1 from "../../../assets/audio/ClassBook/U 5/Pg43_2.1_Adult Lady.mp3";
-import sound2 from "../../../assets/audio/ClassBook/U 5/Pg43_2.2_Adult Lady.mp3";
-import sound3 from "../../../assets/audio/ClassBook/U 5/Pg43_2.3_Adult Lady.mp3";
-import sound4 from "../../../assets/audio/ClassBook/U 5/Pg43_2.4_Adult Lady.mp3";
-import sound5 from "../../../assets/audio/ClassBook/U 5/Pg43_2.5_Adult Lady.mp3";
-import sound6 from "../../../assets/audio/ClassBook/U 5/Pg43_2.6_Adult Lady.mp3";
-import sound7 from "../../../assets/audio/ClassBook/U 5/Pg43_3.1_Adult Lady.mp3";
-import sound8 from "../../../assets/audio/ClassBook/U 5/Pg43_4.1_Adult Lady.mp3";
-import sound9 from "../../../assets/audio/ClassBook/U 5/Pg43_5.1_Helen.mp3";
+import sound1 from "../../../assets/audio/ClassBook/U 10/Pg85_2.1_Adult Lady.mp3";
+import sound2 from "../../../assets/audio/ClassBook/U 10/Pg85_2.2_Adult Lady.mp3";
+import sound3 from "../../../assets/audio/ClassBook/U 10/Pg85_3.1_Adult Lady.mp3";
+import sound4 from "../../../assets/audio/ClassBook/U 10/Pg85_4.1_Adult Lady.mp3";
+import sound5 from "../../../assets/audio/ClassBook/U 10/Pg85_5.1_Adult Lady.mp3";
 
 // import video from "../../../assets/img_unit10/sounds-unit10/p13.mp4";
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
@@ -27,15 +23,12 @@ const Unit10_Page4 = ({ openPopup }) => {
   ];
 
   const clickableAreas = [
-    { x1: 6.53, y1: 10.4, x2: 23.43, y2: 14.2, sound: sound1 },
-    { x1: 54.19, y1: 10.4, x2: 71.5, y2: 14.5, sound: sound2 },
-    { x1: 6.53, y1: 15.27, x2: 30.7, y2: 19.4, sound: sound3 },
-    { x1: 54.2, y1: 15.27, x2: 78.3, y2: 19.5, sound: sound4 },
-    { x1: 6.7, y1: 32.3, x2: 21.8, y2: 36.2, sound: sound5 },
-    { x1: 23.3, y1: 25.5, x2: 39.8, y2: 30.7, sound: sound6 },
-    { x1: 55.0, y1: 30.7, x2: 74.1, y2: 33.9, sound: sound7 },
-    { x1: 55.0, y1: 30.7, x2: 74.1, y2: 33.9, sound: sound8 },
-    { x1: 55.0, y1: 30.7, x2: 74.1, y2: 33.9, sound: sound9 },
+    { x1: 7.15, y1: 10.11, x2: 38.18, y2: 20.32, sound: sound1 },
+    { x1: 58.35, y1: 10.26, x2: 92.67, y2: 20.16, sound: sound2 },
+    { x1: 5.80, y1: 22.75, x2: 37.21, y2: 28.85, sound: sound3 },
+    { x1: 53.69, y1: 48.65, x2: 79.87, y2: 54.59, sound: sound4 },
+    { x1: 7.73, y1: 59.61, x2: 31.97, y2: 65.55, sound: sound5 },
+
 
   ];
 

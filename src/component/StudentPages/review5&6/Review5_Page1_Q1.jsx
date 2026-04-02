@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import "./Review5_Page1_Q1.css";
-import img1 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 52/Ex A 1.svg";
+import img1 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 52/p52.svg";
 
 const Review5_Page1_Q1 = () => {
   const questions = [
@@ -90,9 +90,8 @@ const Review5_Page1_Q1 = () => {
               alt=""
               style={{
                 width: "100%",
-                maxWidth: "600px",
-                height: "auto",
-                border: "4px solid purple",
+
+                height: "300px",
               }}
             />
           </div>

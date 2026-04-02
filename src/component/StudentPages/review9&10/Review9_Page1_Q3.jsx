@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
-import img1 from "../../../assets/imgs/test6.png";
-import img2 from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 88/Ex C 1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 88/Ex C 2.svg";
 
 const Review9_Page1_Q3 = () => {
   const questions = [
@@ -73,11 +73,16 @@ const Review9_Page1_Q3 = () => {
 
     const total = questions.length;
 
+    const color =
+      correctCount === total ? "green" : correctCount === 0 ? "red" : "orange";
+
     const msg = `
-    <div style="font-size:20px;text-align:center;">
-      <b>Score: ${correctCount} / ${total}</b>
-    </div>
-  `;
+      <div style="font-size:20px;text-align:center;">
+        <span style="color:${color};font-weight:bold">
+          Score: ${correctCount} / ${total}
+        </span>
+      </div>
+    `;
 
     if (correctCount === total) {
       ValidationAlert.success(msg);
@@ -89,9 +94,17 @@ const Review9_Page1_Q3 = () => {
 
     setLocked(true);
   };
+  const isWrongOption = (q, optKey) => {
+    if (!locked) return false;
+
+    const selected = answers[q.id];
+    if (!selected) return false;
+
+    return selected === optKey && optKey !== q.correct;
+  };
   return (
-    <div style={{ padding: "30px", display: "flex", justifyContent: "center" }}>
-      <div style={{ width: "70%" }}>
+    <div className="main-container-component">
+      <div className="div-forall gap-2">
         {/* HEADER */}
         <h5 className="header-title-page8 mb-10">
           <span style={{ marginRight: "20px" }}>C</span>
@@ -108,7 +121,7 @@ const Review9_Page1_Q3 = () => {
             }}
           >
             {/* TEXT */}
-            <div style={{ flex: 1, fontSize: "20px" }}>
+            <div style={{ flex: 1, fontSize: "20px"}}>
               {q.options.map((opt, i) => {
                 const isSelected = answers[q.id] === opt.key;
 
@@ -121,6 +134,8 @@ const Review9_Page1_Q3 = () => {
                       alignItems: "center",
                       marginBottom: "8px",
                       cursor: "pointer",
+                      position: "relative", // 🔥 مهم
+                      width:"50%" 
                     }}
                   >
                     {i === 0 && (
@@ -145,6 +160,30 @@ const Review9_Page1_Q3 = () => {
                     >
                       {opt.text}
                     </span>
+
+                    {isWrongOption(q, opt.key) && (
+                      <div
+                        style={{
+                          position: "absolute",
+                          top: "-8px",
+                          right: "13px",
+                          width: "25px",
+                          height: "25px",
+                          background: "red",
+                          color: "white",
+                          borderRadius: "50%",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          fontSize: "18px",
+                          fontWeight: "bold",
+                          border: "2px solid white",
+                          zIndex: 10,
+                        }}
+                      >
+                        ✕
+                      </div>
+                    )}
                   </div>
                 );
               })}
@@ -155,9 +194,10 @@ const Review9_Page1_Q3 = () => {
               src={q.img}
               style={{
                 height: "150px",
-                objectFit: "cover",
+                width: "auto",
+                // objectFit: "cover",
                 borderRadius: "10px",
-                border: "2px solid red",
+                // border: "2px solid red",
               }}
             />
           </div>

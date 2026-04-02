@@ -1,6 +1,6 @@
 import React from "react";
-import page_6 from "../../../assets/imgs/pages/Right 2 Unit 1 Stellas Family_00001/Right 2 Unit 1 Stellas Family_00081.jpg";
-// import song from "../../../assets/img_unit5/sounds-unit5/Pg15.Sing_Adult Lady.mp3";
+import page_6 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 81.png";
+// import song from "../../../assets/img_unit9/sounds-unit9/Pg15.Sing_Adult Lady.mp3";
 import "./Unit9_Page6.css";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 
@@ -15,7 +15,7 @@ const Unit9_Page6 = ({ openPopup }) => {
       {/* <img src={page_6} /> */}
 
       <div
-        className="click-icon-unit5-page6-1 hover:scale-110 transition"
+        className="click-icon-unit9-page6-1 hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg
@@ -36,7 +36,7 @@ const Unit9_Page6 = ({ openPopup }) => {
         </svg>
       </div>
       <div
-        className="click-icon-unit5-page6-2 hover:scale-110 transition"
+        className="click-icon-unit9-page6-2 hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg

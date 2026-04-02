@@ -1,18 +1,16 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+
 import "./Unit9_Page5_Q2.css";
-import sound1 from "../../../assets/audio/ClassBook/U 10/CD61.Pg86_Instruction1_Adult Lady.mp3";
-import { FaPlay, FaPause } from "react-icons/fa";
-import { IoMdSettings } from "react-icons/io";
-import { TbMessageCircle } from "react-icons/tb";
+import sound1 from "../../../assets/audio/ClassBook/U 9/CD56.Pg80_Instruction2_Adult Lady.mp3";
+import img1 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 80/Asset 48.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 80/Asset 57.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 80/Asset 50.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 80/Asset 51.svg";
+import img5 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 80/Asset 52.svg";
+import img6 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 80/Asset 53.svg";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import ValidationAlert from "../../Popup/ValidationAlert";
-
-import img1 from "../../../assets/imgs/test6.png";
-import img2 from "../../../assets/imgs/test6.png";
-import img3 from "../../../assets/imgs/test6.png";
-import img4 from "../../../assets/imgs/test6.png";
-import img5 from "../../../assets/imgs/test6.png";
-import img6 from "../../../assets/imgs/test6.png";
+import QuestionAudioPlayer from "../../QuestionAudioPlayer";
 
 const questions = [
   {
@@ -35,25 +33,14 @@ const questions = [
   },
 ];
 
-const wordBank = ["shake", "pain", "day"];
+const wordBank = ["pain", "shake", "day"];
 
 const Unit9_Page5_Q2 = () => {
   const [selected, setSelected] = useState({});
   const [droppedWords, setDroppedWords] = useState({});
   const [showResult, setShowResult] = useState(false);
   const [locked, setLocked] = useState(false);
-
-  const audioRef = useRef(null);
-  const settingsRef = useRef(null);
-
-  const [showSettings, setShowSettings] = useState(false);
-  const [volume, setVolume] = useState(1);
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [current, setCurrent] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const [showCaption, setShowCaption] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(null);
-
+  const [resetKey, setResetKey] = useState(0);
   const stopAtSecond = 14.2; // عدلها حسب طول الأوديو عندك
 
   const captions = [
@@ -66,64 +53,6 @@ const Unit9_Page5_Q2 = () => {
     { start: 9.6, end: 11.5, text: "2. cap" },
     { start: 11.6, end: 14.2, text: "3. cat" },
   ];
-
-  const updateCaption = (time) => {
-    const index = captions.findIndex(
-      (cap) => time >= cap.start && time <= cap.end,
-    );
-    setActiveIndex(index);
-  };
-
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    audio.currentTime = 0;
-    audio.play().catch(() => {});
-
-    const interval = setInterval(() => {
-      if (audio.currentTime >= stopAtSecond) {
-        audio.pause();
-        setIsPlaying(false);
-        clearInterval(interval);
-      }
-    }, 100);
-
-    const handleEnded = () => {
-      audio.currentTime = 0;
-      setActiveIndex(null);
-      setIsPlaying(false);
-    };
-
-    audio.addEventListener("ended", handleEnded);
-
-    return () => {
-      clearInterval(interval);
-      audio.removeEventListener("ended", handleEnded);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (activeIndex === -1 || activeIndex === null) return;
-
-    const el = document.getElementById(`caption-${activeIndex}`);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-  }, [activeIndex]);
-
-  const togglePlay = () => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    if (audio.paused) {
-      audio.play();
-      setIsPlaying(true);
-    } else {
-      audio.pause();
-      setIsPlaying(false);
-    }
-  };
 
   const handleSelect = (qId, index) => {
     if (locked) return;
@@ -169,10 +98,7 @@ const Unit9_Page5_Q2 = () => {
     setShowResult(false);
   };
 
-  const availableWords = useMemo(() => {
-    const usedWords = Object.values(droppedWords);
-    return wordBank.filter((word) => !usedWords.includes(word));
-  }, [droppedWords]);
+  const availableWords = wordBank;
 
   const checkAnswers = () => {
     if (locked) return;
@@ -244,151 +170,38 @@ const Unit9_Page5_Q2 = () => {
     setDroppedWords({});
     setShowResult(false);
     setLocked(false);
+    setResetKey((prev) => prev + 1); // 👈 هذا المهم
   };
 
+  const isWrongWord = (q) => {
+    if (!showResult) return false;
+
+    const word = droppedWords[`slot-${q.id}`];
+    if (!word) return false;
+
+    return word !== q.correctWord;
+  };
+
+  const isWrongImage = (q, index) => {
+    if (!showResult) return false;
+    if (selected[q.id] === undefined) return false;
+
+    return selected[q.id] === index && index !== q.correctImage;
+  };
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "30px",
-        }}
-      >
-        <div
-          className="div-forall"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "30px",
-            width: "60%",
-            justifyContent: "flex-start",
-          }}
-        >
+    <DragDropContext key={resetKey} onDragEnd={onDragEnd}>
+      <div className="main-container-component">
+        <div className="div-forall gap-2">
           <h5 className="header-title-page8">
             <span style={{ marginRight: "20px", color: "#2e3192" }}>2</span>
             Which picture has a<span style={{ color: "#2e3192" }}>long a</span>?
             Listen, circle, and write.
           </h5>
-
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              width: "100%",
-            }}
-          >
-            <div
-              className="audio-popup-read"
-              style={{
-                width: "50%",
-                marginTop: "0px",
-              }}
-            >
-              <div className="audio-inner player-ui">
-                <audio
-                  ref={audioRef}
-                  src={sound1}
-                  onTimeUpdate={(e) => {
-                    const time = e.target.currentTime;
-                    setCurrent(time);
-                    updateCaption(time);
-                  }}
-                  onLoadedMetadata={(e) => setDuration(e.target.duration)}
-                />
-
-                <div className="top-row">
-                  <span className="audio-time">
-                    {new Date(current * 1000).toISOString().substring(14, 19)}
-                  </span>
-
-                  <input
-                    type="range"
-                    className="audio-slider"
-                    min="0"
-                    max={duration || 0}
-                    value={current}
-                    onChange={(e) => {
-                      audioRef.current.currentTime = Number(e.target.value);
-                      updateCaption(Number(e.target.value));
-                    }}
-                    style={{
-                      background: `linear-gradient(to right, #430f68 ${
-                        duration ? (current / duration) * 100 : 0
-                      }%, #d9d9d9ff ${
-                        duration ? (current / duration) * 100 : 0
-                      }%)`,
-                    }}
-                  />
-
-                  <span className="audio-time">
-                    {new Date(duration * 1000).toISOString().substring(14, 19)}
-                  </span>
-                </div>
-
-                <div className="bottom-row">
-                  <div
-                    className={`round-btn ${showCaption ? "active" : ""}`}
-                    style={{ position: "relative" }}
-                    onClick={() => setShowCaption(!showCaption)}
-                  >
-                    <TbMessageCircle size={36} />
-                    <div
-                      className={`caption-inPopup ${showCaption ? "show" : ""}`}
-                      style={{ top: "100%", left: "10%" }}
-                    >
-                      {captions.map((cap, i) => (
-                        <p
-                          key={i}
-                          id={`caption-${i}`}
-                          className={`caption-inPopup-line2 ${
-                            activeIndex === i ? "active" : ""
-                          }`}
-                        >
-                          {cap.text}
-                        </p>
-                      ))}
-                    </div>
-                  </div>
-
-                  <button className="play-btn2" onClick={togglePlay}>
-                    {isPlaying ? <FaPause size={26} /> : <FaPlay size={26} />}
-                  </button>
-
-                  <div className="settings-wrapper" ref={settingsRef}>
-                    <button
-                      className={`round-btn ${showSettings ? "active" : ""}`}
-                      onClick={() => setShowSettings(!showSettings)}
-                    >
-                      <IoMdSettings size={36} />
-                    </button>
-
-                    {showSettings && (
-                      <div className="settings-popup">
-                        <label>Volume</label>
-                        <input
-                          type="range"
-                          min="0"
-                          max="1"
-                          step="0.05"
-                          value={volume}
-                          onChange={(e) => {
-                            const newVolume = Number(e.target.value);
-                            setVolume(newVolume);
-                            if (audioRef.current) {
-                              audioRef.current.volume = newVolume;
-                            }
-                          }}
-                        />
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <QuestionAudioPlayer
+            src={sound1}
+            captions={captions}
+            stopAtSecond={stopAtSecond}
+          />
 
           {/* WORD BANK */}
           <Droppable droppableId="word-bank" direction="horizontal">
@@ -396,6 +209,7 @@ const Unit9_Page5_Q2 = () => {
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
+                className="border-2 border-dashed border-gray-400 rounded-lg p-3"
                 style={{
                   display: "flex",
                   justifyContent: "center",
@@ -405,43 +219,48 @@ const Unit9_Page5_Q2 = () => {
                   minHeight: "52px",
                 }}
               >
-                {availableWords.map((word, index) => (
-                  <Draggable
-                    key={word}
-                    draggableId={`word-${word}`}
-                    index={index}
-                    isDragDisabled={locked}
-                  >
-                    {(provided) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        style={{
-                          padding: "8px 18px",
-                          borderRadius: "12px",
-                          background: "#dbeafe",
-                          color: "#1d4ed8",
-                          fontWeight: "bold",
-                          fontSize: "20px",
-                          cursor: locked ? "default" : "grab",
-                          userSelect: "none",
-                          ...provided.draggableProps.style,
-                        }}
-                      >
-                        {word}
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
+                {availableWords.map((word, index) => {
+                  const isUsed = Object.values(droppedWords).includes(word);
+                  return (
+                    <Draggable
+                      key={word}
+                      draggableId={`word-${word}`}
+                      index={index}
+                      isDragDisabled={locked || isUsed}
+                    >
+                      {(provided) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...(!isUsed && provided.dragHandleProps)}
+                          style={{
+                            padding: "8px 18px",
+                            borderRadius: "12px",
+                            fontWeight: "bold",
+                            fontSize: "20px",
+                            userSelect: "none",
+
+                            background: isUsed ? "#e5e7eb" : "#dbeafe",
+                            color: isUsed ? "#9ca3af" : "#1d4ed8",
+                            cursor: isUsed || locked ? "not-allowed" : "grab",
+
+                            ...provided.draggableProps.style,
+                          }}
+                        >
+                          {word}
+                        </div>
+                      )}
+                    </Draggable>
+                  );
+                })}
                 {provided.placeholder}
               </div>
             )}
           </Droppable>
 
           {/* QUESTIONS */}
-          <div className="flex flex-col items-center gap-6 p-6">
-            <div className="flex justify-center" style={{ gap: "6vw" }}>
+          <div className="flex flex-col items-center gap-6">
+            <div className="flex justify-center mb-20 gap-5">
               {questions.map((q) => {
                 const slotId = `slot-${q.id}`;
                 const droppedWord = droppedWords[slotId];
@@ -480,13 +299,38 @@ const Unit9_Page5_Q2 = () => {
                                 height: "100%",
                                 border: showResult
                                   ? index === q.correctImage
-                                    ? "4px solid green"
+                                    ? "4px solid red"
                                     : "4px solid red"
                                   : "4px solid red",
                                 borderRadius: "50%",
                                 pointerEvents: "none",
                               }}
                             />
+                          )}
+
+                          {isWrongImage(q, index) && (
+                            <div
+                              style={{
+                                position: "absolute",
+                                top: "6px",
+                                right: "9px",
+                                width: "30px",
+                                height: "30px",
+                                background: "red",
+                                color: "white",
+                                borderRadius: "50%",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                fontSize: "18px",
+                                fontWeight: "bold",
+                                border: "2px solid white",
+                                zIndex: 5,
+                                lineHeight: 1,
+                              }}
+                            >
+                              ✕
+                            </div>
                           )}
                         </div>
                       ))}
@@ -500,11 +344,12 @@ const Unit9_Page5_Q2 = () => {
                           style={{
                             marginTop: "12px",
                             minHeight: "38px",
-                            minWidth: "95px",
+                            width: "200px",
                             borderBottom: "2px solid #222",
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "center",
+                            position: "relative", // 🔥 مهم
                           }}
                         >
                           {droppedWord && (
@@ -524,9 +369,9 @@ const Unit9_Page5_Q2 = () => {
                                     fontWeight: "bold",
                                     color: showResult
                                       ? droppedWord === q.correctWord
-                                        ? "green"
-                                        : "red"
-                                      : "#c62828",
+                                        ? "blue"
+                                        : "blue"
+                                      : "blue",
                                     cursor: locked ? "default" : "pointer",
                                     userSelect: "none",
                                     ...provided.draggableProps.style,
@@ -538,6 +383,29 @@ const Unit9_Page5_Q2 = () => {
                             </Draggable>
                           )}
                           {provided.placeholder}
+                          {/* ❌ WRONG WORD */}
+                          {isWrongWord(q) && (
+                            <div
+                              style={{
+                                position: "absolute",
+                                top: "-8px",
+                                right: "-8px",
+                                width: "22px",
+                                height: "22px",
+                                background: "red",
+                                color: "white",
+                                borderRadius: "50%",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                fontSize: "12px",
+                                fontWeight: "bold",
+                                border: "2px solid white",
+                              }}
+                            >
+                              ✕
+                            </div>
+                          )}
                         </div>
                       )}
                     </Droppable>

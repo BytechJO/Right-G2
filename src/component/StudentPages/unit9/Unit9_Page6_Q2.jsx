@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
-import img1 from "../../../assets/imgs/test6.png";
-import img2 from "../../../assets/imgs/test6.png";
-import img3 from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 81/Ex E 1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 81/Ex E 2.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 81/Ex E 3.svg";
 
 const Unit9_Page6_Q2 = () => {
   const questions = [
@@ -69,26 +69,32 @@ const Unit9_Page6_Q2 = () => {
     questions.forEach((q) => {
       if (answers[q.id] === q.correct) score++;
     });
+const total = questions.length;
+    const color = score === total ? "green" : score === 0 ? "red" : "orange";
+    
+    const message = `
+    <div style="font-size: 20px; margin-top: 10px; text-align:center;">
+      <span style="color:${color}; font-weight:bold;">
+        Score: ${score} / ${total}
+      </span>
+    </div>
+  `;
 
-    const msg = `
-      <div style="font-size:20px;text-align:center;">
-        <span style="color:#2e7d32;font-weight:bold;">
-          Score: ${score} / ${questions.length}
-        </span>
-      </div>
-    `;
-
-    if (score === questions.length) ValidationAlert.success(msg);
-    else if (score === 0) ValidationAlert.error(msg);
-    else ValidationAlert.warning(msg);
+    if (score === questions.length) ValidationAlert.success(message);
+    else if (score === 0) ValidationAlert.error(message);
+    else ValidationAlert.warning(message);
     setChecked(true);
     setLocked(true);
     setLocked(true);
   };
+  const isWrongOption = (q, opt) => {
+    if (!checked) return false;
 
+    return answers[q.id] === opt && opt !== q.correct;
+  };
   return (
-    <div style={{ display: "flex", justifyContent: "center", padding: "30px" }}>
-      <div className="div-forall" style={{ width: "60%" }}>
+    <div className="main-container-component">
+      <div className="div-forall gap-2 mb-10">
         <h5 className="header-title-page8">
           <span className="ex-A me-4">E</span>Look, read, and write
           <span style={{ color: "#2e3192" }}>✓</span>.
@@ -120,14 +126,14 @@ const Unit9_Page6_Q2 = () => {
                   >
                     {/* checkbox */}
                     <div
-                      className={`w-8 h-8 rounded-lg border-2 flex items-center justify-center transition
+                      className={`relative w-8 h-8 rounded-lg border-2 flex items-center justify-center transition
     ${
       isSelected
         ? checked
           ? isCorrect
-            ? "border-green-600 bg-green-50"
-            : "border-red-600 bg-red-50"
-          : "border-red-500 bg-red-50"
+            ? "border-blue-800"
+            : "border-red-600"
+          : "border-blue-800 bg-blue-50"
         : "border-gray-400 bg-white"
     }
   `}
@@ -137,12 +143,28 @@ const Unit9_Page6_Q2 = () => {
                           className={`text-xl font-bold leading-none ${
                             checked
                               ? isCorrect
-                                ? "text-green-600"
-                                : "text-red-600"
-                              : "text-red-500"
+                                ? "text-blue-800"
+                                : "text-blue-800"
+                              : "text-blue-800"
                           }`}
                         >
                           ✓
+                          {isWrongOption(q, opt) && (
+                            <div
+                              className="
+      absolute -top-2 -right-2
+      w-5 h-5
+      bg-red-500 text-white
+      rounded-full
+      flex items-center justify-center
+      text-xs font-bold
+      border-2 border-white
+      z-10
+    "
+                            >
+                              ✕
+                            </div>
+                          )}
                         </span>
                       )}
                     </div>

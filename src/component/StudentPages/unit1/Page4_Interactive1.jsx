@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import backgroundImage from "../../../assets/imgs/Right 2 Unit 1 Stellas Family/Page.png";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Rabbit from "../../../assets/Page 01/Rabbit.svg";
-import MySVG from "../../../assets/imgs/interactive.svg";
+import MySVG from "../../../assets/imgs/Interactive Svg un 1.svg";
 
 const Page4_Interactive1 = () => {
   const [clickedPoint, setClickedPoint] = useState(null);
@@ -10,10 +10,10 @@ const Page4_Interactive1 = () => {
   const [showAnswer, setShowAnswer] = useState(false);
   // ✅ منطقة المطعم (بالنسب المئوية)
   const targetArea = {
-    x1: 52,
-    y1: 50,
-    x2: 100,
-    y2: 34.5,
+    x1: 36.48,
+    y1: 20.71,
+    x2: 46.66,
+    y2: 31.44,
   };
 
   const handleImageClick = (e) => {
@@ -139,9 +139,9 @@ const Page4_Interactive1 = () => {
               alt="answer highlight"
               style={{
                 position: "absolute",
-                top: `${targetArea.y1}%`,
-                left: `${targetArea.x1}%`,
-                height: `${targetArea.y2}%`,
+                top: `21%`,
+                left: `37%`,
+                height: `11%`,
                 pointerEvents: "none",
               }}
             />

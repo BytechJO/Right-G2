@@ -1,13 +1,14 @@
 import React, { useState, useRef } from "react";
-import page_3 from "../../../assets/imgs/pages/Right 2 Unit 1 Stellas Family_00001/Right 2 Unit 1 Stellas Family_00078.jpg";
+import page_3 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 78.png";
 import "./Unit9_Page3.css";
 import grammarSound from "../../../assets/audio/ClassBook/U 7/CD41.Pg60_Grammar1_Adult Lady.mp3";
-import sound1 from "../../../assets/audio/ClassBook/U 5/Pg42_1.1_Adult Lady.mp3";
-import sound2 from "../../../assets/audio/ClassBook/U 5/Pg41_1.2_Adult Lady.mp3";
-import sound3 from "../../../assets/audio/ClassBook/U 5/Pg42_2.1_Helen.mp3";
-import sound4 from "../../../assets/audio/ClassBook/U 5/Pg42_3.1_John.mp3";
-import sound5 from "../../../assets/audio/ClassBook/U 5/Pg42_4.1_Adult Lady.mp3";
-
+import sound1 from "../../../assets/audio/ClassBook/U 9/Pg78_1.1_Adult Lady.mp3";
+import sound2 from "../../../assets/audio/ClassBook/U 9/Pg78_1.2_Adult Lady.mp3";
+import sound3 from "../../../assets/audio/ClassBook/U 9/Pg78_1.3_Adult Lady.mp3";
+import sound4 from "../../../assets/audio/ClassBook/U 9/Pg78_1.4_Adult Lady.mp3";
+import sound5 from "../../../assets/audio/ClassBook/U 9/Pg78_2.1_Adult Lady.mp3";
+import sound6 from "../../../assets/audio/ClassBook/U 9/Pg78_3.1_Adult Lady.mp3";
+import sound7 from "../../../assets/audio/ClassBook/U 9/Pg78_4.1_Adult Lady.mp3";
 
 import AudioWithCaption from "../../AudioWithCaption";
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
@@ -23,11 +24,11 @@ const Unit9_Page3 = ({ openPopup }) => {
   ];
 
   const clickableAreas = [
-    { x1: 6.5, y1: 10.7, x2: 30.0, y2: 15.0, sound: sound1 },
-    { x1: 54.2, y1: 9.5, x2: 78.3, y2: 13.0, sound: sound2 },
-    { x1: 6.5, y1: 15.8, x2: 35.6, y2: 20.0, sound: sound3 },
-    { x1: 54.2, y1: 13.5, x2: 83.5, y2: 16.7, sound: sound4 },
-    { x1: 54.2, y1: 17.0, x2: 74.1, y2: 20.4, sound: sound5 },
+    { x1: 6.66, y1: 9.81, x2: 43.31, y2: 20.16, sound: sound1 },
+    { x1: 56.11, y1: 9.81, x2: 92.57, y2: 20.16, sound: sound2 },
+    { x1: 18.88, y1: 30.22, x2: 46.61, y2: 36.16, sound: sound5 },
+    { x1: 49.13, y1: 30.22, x2: 85.00, y2: 36.16, sound: sound6 },
+    { x1: 64.26, y1: 89.92, x2: 93.54, y2:95.56, sound: sound7}
 
     
   ];

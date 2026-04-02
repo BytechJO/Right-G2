@@ -2,7 +2,7 @@
 import React, { useState, useRef } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
-import img1 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 73/Ex F 2.svg";
+import img1 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 73/P 73_1.svg";
 import img2 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 73/Ex F 2.svg";
 import img3 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 73/Ex F 3.svg";
 import img4 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 73/Ex F 4.svg";
@@ -193,7 +193,7 @@ const Review8_Page2_Q2 = () => {
             Match and write.
           </h5>
 
-          <div className="w-full max-w-[1100px] mx-auto flex flex-col items-center gap-25">
+          <div className="flex flex-col items-center gap-25">
             {/* الصور */}
             <div className="grid grid-cols-4 w-full text-center">
               {images.map((img, index) => (
@@ -205,11 +205,14 @@ const Review8_Page2_Q2 = () => {
                 >
                   <div className="relative">
                     <div
-                      className={`border-2 border-red-500 rounded-lg w-[140px] h-[110px] flex items-center justify-center ${
+                      className={`rounded-lg flex items-center justify-center ${
                         selectedImg === img.id ? "bg-red-100" : ""
                       }`}
                     >
-                      <img src={img.img} className="max-h-[60px]" />
+                      <img
+                        src={img.img}
+                        style={{ height: "120px", width: "auto" }}
+                      />
                     </div>
 
                     {/* ❌ WRONG IMAGE */}

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import page_1 from "../../../assets/imgs/pages/Right 2 Unit 1 Stellas Family_00001/Right 2 Unit 1 Stellas Family_00088.jpg";
+import page_1 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 88.png";
 import "./Review9_Page1.css";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 // import Unit4_Page6_Q2 from "./Unit4_Page6_Q2";
@@ -12,7 +12,7 @@ const Review9_Page1 = ({ openPopup }) => {
     >
       {/* <img src={page_1} /> */}
       <div
-        className="click-icon-review5-page1-1 hover:scale-110 transition"
+        className="click-icon-review9-page1-1 hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg
@@ -33,7 +33,7 @@ const Review9_Page1 = ({ openPopup }) => {
         </svg>
       </div>
       <div
-        className="click-icon-review5-page1-2  hover:scale-110 transition"
+        className="click-icon-review9-page1-2  hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg
@@ -54,7 +54,7 @@ const Review9_Page1 = ({ openPopup }) => {
         </svg>
       </div>
       <div
-        className="click-icon-review5-page1-4  hover:scale-110 transition"
+        className="click-icon-review9-page1-4  hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg

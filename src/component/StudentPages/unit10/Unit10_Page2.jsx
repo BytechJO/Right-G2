@@ -1,26 +1,26 @@
 import React, { useState, useEffect, useRef } from "react";
-import page_2 from "../../../assets/imgs/pages/Right 2 Unit 1 Stellas Family_00001/Right 2 Unit 1 Stellas Family_00083.jpg";
-import img1_letter from "../../../assets/imgs/test.png";
-import img2_letter from "../../../assets/imgs/test.png";
-import img3_letter from "../../../assets/imgs/test.png";
-import img4_letter from "../../../assets/imgs/test.png";
+import page_2 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 83.png";
+import img1_letter from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 86/Un 10/List 2 un 10-01.svg";
+import img2_letter from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 86/Un 10/List 2 un 10-02.svg";
+import img3_letter from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 86/Un 10/List 2 un 10-03.svg";
+import img4_letter from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 86/Un 10/List 2 un 10-04.svg";
 import Rabbit from "../../../assets/Page 01/Rabbit.svg";
 import soundListen from "../../../assets/audio/ClassBook/U 5/Pg41_1.1_Helen.mp3";
 import img1_conversation from "../../../assets/imgs/test.png";
 import img2_conversation from "../../../assets/imgs/test.png";
-import sound1_letter from "../../../assets/audio/ClassBook/U 5/Pg41_1.1_Adult Lady.mp3";
-import sound2_letter from "../../../assets/audio/ClassBook/U 5/Pg41_1.2_Adult Lady.mp3";
-import sound3_letter from "../../../assets/audio/ClassBook/U 5/Pg41_1.3_Adult Lady.mp3";
-import sound4_letter from "../../../assets/audio/ClassBook/U 5/Pg41_1.4_Adult Lady.mp3";
+import sound1_letter from "../../../assets/audio/ClassBook/U 10/Pg83_1.2_Adult Lady.mp3";
+import sound2_letter from "../../../assets/audio/ClassBook/U 10/Pg83_1.3_Adult Lady.mp3";
+import sound3_letter from "../../../assets/audio/ClassBook/U 10/Pg83_1.4_Adult Lady.mp3";
+import sound4_letter from "../../../assets/audio/ClassBook/U 10/Pg83_1.5_Adult Lady.mp3";
 import letterSound from "../../../assets/audio/ClassBook/U 5/Pg41_Instruction1_Adult Lady.mp3";
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 import AudioWithCaption from "../../AudioWithCaption";
 import FourImagesWithAudio from "../../FourImagesWithAudio";
-// import sound1 from "../../../assets/img_unit10/sounds-unit10/U2-06.mp3";
-// import sound2 from "../../../assets/img_unit10/sounds-unit10/U2-07.mp3";
-// import sound3 from "../../../assets/img_unit10/sounds-unit10/U2-07.mp3";
-// import sound4 from "../../../assets/img_unit10/sounds-unit10/U2-07.mp3";
+import sound1 from "../../../assets/audio/ClassBook/U 10/unit10-sound7.mp3";
+import sound2 from "../../../assets/audio/ClassBook/U 10/unit10-sound8.mp3";
+import sound3 from "../../../assets/audio/ClassBook/U 10/unit10-sound9.mp3";
+import sound4 from "../../../assets/audio/ClassBook/U 10/unit10-sound10.mp3";
 
 import "./Unit10_Page2.css";
 import ReadChoose from "../../ReadChoose";
@@ -39,17 +39,25 @@ const Unit10_Page2 = ({ openPopup }) => {
   ];
 
   const readChooseData = {
-    title: "Read and circle.",
+    title: "Read and answer.",
     questions: [
       {
-        text: "Helen likes",
-        options: ["grapes.", "carrots.","rice."],
-        correct: "rice.",
+        text: "What is Sarah doing?",
+        options: [
+          "watering the flowers.",
+          "swinging on the swing set.",
+          "riding his bike",
+        ],
+        correct: "swinging on the swing set.",
       },
       {
-        text: "Tom doesn’t like",
-        options: ["meat.", "apple juice.","fish."],
-        correct: "fish.",
+        text: "What is Dad doing?",
+        options: [
+          "watering the flowers",
+          "watching from the window.",
+          "riding his bike",
+        ],
+        correct: "watching from the window.",
       },
     ],
   };
@@ -67,22 +75,34 @@ const Unit10_Page2 = ({ openPopup }) => {
 
   const areas = [
     // الصوت الأول – المنطقة الأساسية
-    { x1: 35.24, y1: 54.6, x2: 39.0, y2: 58.0, sound: 1, isPrimary: true },
+    { x1: 13.24, y1: 35.8, sound: 1, isPrimary: true },
 
     // // // الصوت الأول – منطقة إضافية
-    { x1: 31.3, y1: 45.4, x2: 40.12, y2: 53.4, sound: 1, isPrimary: false },
+    { x1: 10.45, y1: 34.94, x2: 16.27, y2: 49.56, sound: 1, isPrimary: false },
 
-    // // // الصوت الثاني – الأساسية
-    { x1: 43.6, y1: 54.1, x2: 47.7, y2: 57.1, sound: 2, isPrimary: true },
+    // // // // الصوت الثاني – الأساسية
+    { x1: 44.2, y1: 57.1, sound: 2, isPrimary: true },
 
-    // // // الصوت الثاني – الإضافية
-    { x1: 41.6, y1: 47.31, x2: 48.3, y2: 53.7, sound: 2, isPrimary: false },
+    // // // // الصوت الثاني – الإضافية
+    { x1: 41.48, y1: 52.76, x2: 44.38, y2: 61.74, sound: 2, isPrimary: false },
+
+    //   // الصوت الأول – المنطقة الأساسية
+    { x1: 7.7, y1: 64, sound: 3, isPrimary: true },
+
+    // // // // الصوت الأول – منطقة إضافية
+    { x1: 10.06, y1: 54.46, x2: 16.85, y2: 66.31, sound: 3, isPrimary: false },
+
+    // // // // الصوت الثاني – الأساسية
+    { x1: 36, y1: 63.6, sound: 4, isPrimary: true },
+
+    // // // // الصوت الثاني – الإضافية
+    { x1: 30.62, y1: 58.39, x2: 34.88, y2: 73.78, sound: 4, isPrimary: false },
   ];
   const sounds = {
-    // 1: sound1,
-    // 2: sound2,
-    // 3: sound3,
-    // 4: sound4,
+    1: sound1,
+    2: sound2,
+    3: sound3,
+    4: sound4,
   };
 
   const handleImageClick = (e) => {
@@ -200,7 +220,7 @@ const Unit10_Page2 = ({ openPopup }) => {
         >
           <image
             className="svg-img"
-            href={audioBtn}
+            href={arrowBtn}
             x="0"
             y="0"
             width="90"
@@ -220,7 +240,13 @@ const Unit10_Page2 = ({ openPopup }) => {
             openPopup(
               "html",
               <FourImagesWithAudio
-                images={[Rabbit, img1_letter, img2_letter, img3_letter,img4_letter]}
+                images={[
+                  Rabbit,
+                  img1_letter,
+                  img2_letter,
+                  img3_letter,
+                  img4_letter,
+                ]}
                 audioSrc={letterSound}
                 checkpoints={[0, 3.4, 4, 4.9, 6]}
                 popupOpen={true}

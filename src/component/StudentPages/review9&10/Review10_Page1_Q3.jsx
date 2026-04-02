@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
-import img1 from "../../../assets/imgs/test6.png";
-import img2 from "../../../assets/imgs/test6.png";
-import img3 from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 90/Ex C 1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 90/Ex C 2.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 90/Ex C 3.svg";
 
 const Review8_Page1_Q3 = () => {
   const items = [
@@ -28,6 +28,7 @@ const Review8_Page1_Q3 = () => {
   ];
 
   const [selected, setSelected] = useState(Array(items.length).fill(""));
+  const [showWrongMarks, setShowWrongMarks] = useState(false);
   const [locked, setLocked] = useState(false);
   const checkAnswers = () => {
     if (locked) return;
@@ -59,22 +60,24 @@ const Review8_Page1_Q3 = () => {
     else if (score === 0) ValidationAlert.error(msg);
     else ValidationAlert.warning(msg);
 
-    setLocked(true);
+   setShowWrongMarks(true);
+setLocked(true);
   };
 
-  const showAnswers = () => {
-    setSelected(items.map((i) => i.correct));
-    setLocked(true);
-  };
+const reset = () => {
+  setSelected(Array(items.length).fill(""));
+  setLocked(false);
+  setShowWrongMarks(false);
+};
 
-  const reset = () => {
-    setSelected(Array(items.length).fill(""));
-    setLocked(false);
-  };
-
+const showAnswers = () => {
+  setSelected(items.map((i) => i.correct));
+  setLocked(true);
+  setShowWrongMarks(false);
+};
   return (
-    <div className="flex justify-center p-8">
-      <div className="w-[80%]">
+      <div className="main-container-component">
+        <div className="div-forall gap-2">
         <h5 className="header-title-page8 mb-10">
           <span style={{ marginRight: "20px" }}>C</span>
           Look, read, and circle.
@@ -102,30 +105,45 @@ const Review8_Page1_Q3 = () => {
                   display: "block",
                   margin: "0 auto",
                   marginBottom: "1rem",
-                  width: "80%",
-                  height: "auto",
+                  width: "auto",
+                  height: "200px",
                 }}
               />
 
               {/* الخيارات */}
               <div className="bg-[#e6d1c3] p-3 rounded-xl inline-block">
-                {item.sentence.map((opt, idx) => (
-                  <div
-                    key={idx}
-                    onClick={() => {
-                      if (!locked) {
-                        const newSelected = [...selected];
-                        newSelected[i] = opt;
-                        setSelected(newSelected);
-                      }
-                    }}
-                    className={`cursor-pointer px-3 py-1 rounded-full mb-1
-              ${selected[i] === opt ? "border-2 border-red-500" : ""}
-            `}
-                  >
-                    {opt}
-                  </div>
-                ))}
+                {item.sentence.map((opt, idx) => {
+  const isSelected = selected[i] === opt;
+
+  const isWrong =
+    showWrongMarks &&
+    isSelected &&
+    opt !== item.correct;
+
+  return (
+    <div
+      key={idx}
+      onClick={() => {
+        if (!locked) {
+          const newSelected = [...selected];
+          newSelected[i] = opt;
+          setSelected(newSelected);
+        }
+      }}
+      className={`cursor-pointer px-3 py-1 rounded-full mb-1 relative
+        ${isSelected ? "border-2 border-red-500" : ""}
+      `}
+    >
+      {opt}
+
+      {isWrong && (
+        <div className="absolute -top-2 -right-2 w-5 h-5 bg-red-600 text-white rounded-full flex items-center justify-center text-xs font-bold shadow border-2 border-white">
+          ✕
+        </div>
+      )}
+    </div>
+  );
+})}
               </div>
             </div>
           ))}

@@ -1,11 +1,11 @@
-import page24 from "../../../assets/imgs/pages/Right 2 Unit 1 Stellas Family_00001/Right 2 Unit 1 Stellas Family_00092.jpg";
+import page24 from "../../../assets/imgs//Right 2 Unit 10 At Our Home/Page 92.png";
 import React, { useState, useRef } from "react";
 import "./Reading_Unit10_Page2.css";
 import sound1 from "../../../assets/audio/ClassBook/U 2/CD1.Pg20_Reading_Adult Lady.mp3";
-import sound2 from "../../../assets/audio/ClassBook/U 2/Pg20_1.1_Adult Lady.mp3";
-import sound3 from "../../../assets/audio/ClassBook/U 2/Pg20_1.2_Adult Lady.mp3";
-import sound4 from "../../../assets/audio/ClassBook/U 2/Pg20_1.3_Adult Lady.mp3";
-import sound5 from "../../../assets/audio/ClassBook/U 2/Pg20_1.4_Adult Lady.mp3";
+import sound2 from "../../../assets/audio/ClassBook/U 10/Pg92_1.1_Adult Lady.mp3";
+import sound3 from "../../../assets/audio/ClassBook/U 10/Pg92_1.2_Adult Lady.mp3";
+import sound4 from "../../../assets/audio/ClassBook/U 10/Pg92_1.3_Adult Lady.mp3";
+import sound5 from "../../../assets/audio/ClassBook/U 10/Pg93_1.4_Adult Lady.mp3";
 import AudioWithCaption from "../../AudioWithCaption";
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import pauseBtn from "../../../assets/Page 01/Right Video Button.svg";
@@ -60,9 +60,9 @@ const Reading_Unit10_Page1 = ({ openPopup }) => {
     },
   ];
   const clickableAreas = [
-    { x1: 15.9, y1: 39.4, x2: 51.14, y2: 44.0, sound: sound2 },
-    { x1: 56.0, y1: 39.1, x2: 93.9, y2: 44.0, sound: sound3 },
-    { x1: 16.0, y1: 84.0, x2: 52.9, y2: 89.5, sound: sound4 },
+    { x1: 15.9, y1: 39.4, x2: 51.14, y2: 46.8, sound: sound2 },
+    { x1: 56.0, y1: 39.1, x2: 93.9, y2: 49.5, sound: sound3 },
+    { x1: 16.0, y1: 84.0, x2: 52.9, y2: 94.64, sound: sound4 },
     { x1: 56.0, y1: 84.5, x2: 93.7, y2: 90.9, sound: sound5 },
   ];
   const handleImageClick = (e) => {

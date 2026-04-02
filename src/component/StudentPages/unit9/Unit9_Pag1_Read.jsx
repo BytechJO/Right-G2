@@ -1,12 +1,12 @@
-import sound1 from "../../../assets/audio/ClassBook/U 5/Pg40b_1.1_Adult Lady.mp3";
-import sound2 from "../../../assets/audio/ClassBook/U 5/Pg40_1.2_Adult Lady.mp3";
-import sound3 from "../../../assets/audio/ClassBook/U 5/Pg40_1.3_Adult Lady.mp3";
-import sound4 from "../../../assets/audio/ClassBook/U 5/Pg40_1.4_Adult Lady.mp3"
+import sound1 from "../../../assets/audio/ClassBook/U 9/Pg76_1.1_Adult Lady.mp3";
+import sound2 from "../../../assets/audio/ClassBook/U 9/Pg76_1.2_Adult Lady.mp3";
+import sound3 from "../../../assets/audio/ClassBook/U 9/Pg76_1.3_Adult Lady.mp3";
+import sound4 from "../../../assets/audio/ClassBook/U 9/Pg76_1.4._Adult Lady.mp3"
 import Rabbit from "../../../assets/Page 01/Rabbit.svg";
-import img1 from "../../../assets/imgs/test.png";
-import img2 from "../../../assets/imgs/test.png";
-import img3 from "../../../assets/imgs/test.png";
-import img4 from "../../../assets/imgs/test.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 76-77/Un 9/List 1 un 9 p76-01.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 76-77/Un 9/List 1 un 9 p76-02.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 76-77/Un 9/List 1 un 9 p76-03.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 76-77/Un 9/List 1 un 9 p76-04.svg";
 import FourImagesWithAudio from "../../FourImagesWithAudio";
 import longAudio from "../../../assets/audio/ClassBook/U 5/CD27.Pg40.U5_Intro_Adult Lady.mp3";
 

@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
-import imgA from "../../../assets/imgs/test6.png";
-import imgB from "../../../assets/imgs/test6.png";
-import imgC from "../../../assets/imgs/test6.png";
-import imgD from "../../../assets/imgs/test6.png";
-import imgE from "../../../assets/imgs/test6.png";
-import imgF from "../../../assets/imgs/test6.png";
+import imgA from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 87/Ex E 1.svg";
+import imgB from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 87/Ex E 2.svg";
+import imgC from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 87/Ex E 3.svg";
+import imgD from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 87/Ex E 4.svg";
+import imgE from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 87/Ex E 5.svg";
+import imgF from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 87/Ex E 6.svg";
 
 const Unit10_Page6_Q2 = () => {
   const questions = [
@@ -91,13 +91,18 @@ const Unit10_Page6_Q2 = () => {
 
     setLocked(true);
   };
+  const isWrongAnswer = (qId) => {
+    if (!locked) return false;
 
+    const userAnswer = answers[qId];
+    if (!userAnswer) return false;
+
+    return userAnswer !== correct[qId];
+  };
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div
-        style={{ display: "flex", justifyContent: "center", padding: "30px" }}
-      >
-        <div style={{ width: "70%" }}>
+      <div className="main-container-component">
+        <div className="div-forall gap-2">
           {/* HEADER */}
           <h5 className="header-title-page8">
             <span className="ex-A mr-5">E</span>Read and label.
@@ -109,6 +114,7 @@ const Unit10_Page6_Q2 = () => {
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
+                className="border-2 border-dashed border-gray-500 p-3 rounded-lg"
                 style={{
                   display: "flex",
                   gap: "15px",
@@ -116,9 +122,9 @@ const Unit10_Page6_Q2 = () => {
                   marginBottom: "30px",
                 }}
               >
-                {options
-                  .filter((l) => !Object.values(answers).includes(l)) // 👈 نفس Q1
-                  .map((l, index) => (
+                {options.map((l, index) => {
+                  const isUsed = Object.values(answers).includes(l);
+                  return (
                     <Draggable
                       key={l}
                       draggableId={l}
@@ -129,27 +135,30 @@ const Unit10_Page6_Q2 = () => {
                         <div
                           ref={provided.innerRef}
                           {...provided.draggableProps}
-                          {...provided.dragHandleProps}
+                          {...(!isUsed && provided.dragHandleProps)}
                           style={{
                             ...provided.draggableProps.style,
 
                             width: "40px",
                             height: "40px",
-                            border: "2px solid #333",
+                            border: "2px solid #0013a5ff",
                             borderRadius: "8px",
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
                             fontWeight: "bold",
-                            cursor: "grab",
-                            background: "#fff",
+
+                            background: isUsed ? "#e5e7eb" : "#fff",
+                            color: isUsed ? "#9ca3af" : "#000",
+                            cursor: isUsed ? "not-allowed" : "grab",
                           }}
                         >
                           {l}
                         </div>
                       )}
                     </Draggable>
-                  ))}
+                  );
+                })}
 
                 {provided.placeholder}
               </div>
@@ -168,11 +177,25 @@ const Unit10_Page6_Q2 = () => {
                     marginBottom: "25px",
                   }}
                 >
-                  <span style={{ width: "20px", fontWeight: "bold" }}>
+                  <span
+                    style={{
+                      width: "20px",
+                      fontWeight: "bold",
+                    }}
+                  >
                     {i + 1}
                   </span>
 
-                  <span style={{ flex: 1, marginLeft: "10px" }}>{q}</span>
+                  <span
+                    style={{
+                      flex: 1,
+                      marginLeft: "10px",
+                      fontSize: "18px",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {q}
+                  </span>
 
                   {/* DROP BOX */}
                   <Droppable droppableId={`q-${i}`}>
@@ -180,10 +203,10 @@ const Unit10_Page6_Q2 = () => {
                       <div
                         ref={provided.innerRef}
                         {...provided.droppableProps}
+                        className="relative border-2 border-blue-800"
                         style={{
                           width: "40px",
                           height: "40px",
-                          border: "2px solid #e74c3c",
                           borderRadius: "10px",
                           display: "flex",
                           alignItems: "center",
@@ -205,7 +228,7 @@ const Unit10_Page6_Q2 = () => {
                               >
                                 <span
                                   style={{
-                                    color: "#d32f2f",
+                                    color: "#0a0681ff",
                                     fontWeight: "500",
                                     fontSize: "16px",
                                     cursor: "grab",
@@ -217,7 +240,22 @@ const Unit10_Page6_Q2 = () => {
                             )}
                           </Draggable>
                         )}
-
+                        {isWrongAnswer(`q-${i}`) && (
+                          <div
+                            className="
+      absolute -top-2 -right-2
+      w-5 h-5
+      bg-red-500 text-white
+      rounded-full
+      flex items-center justify-center
+      text-xs font-bold
+      border-2 border-white
+      z-10
+    "
+                          >
+                            ✕
+                          </div>
+                        )}
                         {provided.placeholder}
                       </div>
                     )}

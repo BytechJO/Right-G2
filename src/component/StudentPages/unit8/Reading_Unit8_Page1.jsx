@@ -2,10 +2,10 @@ import page24 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 7
 import React, { useState, useRef } from "react";
 import "./Reading_Unit8_Page1.css";
 import sound1 from "../../../assets/audio/ClassBook/U 2/CD1.Pg20_Reading_Adult Lady.mp3";
-import sound2 from "../../../assets/audio/ClassBook/U 2/Pg20_1.1_Adult Lady.mp3";
-import sound3 from "../../../assets/audio/ClassBook/U 2/Pg20_1.2_Adult Lady.mp3";
-import sound4 from "../../../assets/audio/ClassBook/U 2/Pg20_1.3_Adult Lady.mp3";
-import sound5 from "../../../assets/audio/ClassBook/U 2/Pg20_1.4_Adult Lady.mp3";
+import sound2 from "../../../assets/audio/ClassBook/U 8/Pg74_1.1_Adult Lady.mp3";
+import sound3 from "../../../assets/audio/ClassBook/U 8/Pg74_1.2_Adult Lady.mp3";
+import sound4 from "../../../assets/audio/ClassBook/U 8/Pg74_1.3_Adult Lady.mp3";
+import sound5 from "../../../assets/audio/ClassBook/U 8/Pg75_1.4_Adult Lady.mp3";
 import AudioWithCaption from "../../AudioWithCaption";
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import pauseBtn from "../../../assets/Page 01/Right Video Button.svg";
@@ -60,10 +60,10 @@ const Reading_Unit8_Page1 = ({ openPopup }) => {
     },
   ];
   const clickableAreas = [
-    { x1: 15.9, y1: 39.4, x2: 51.14, y2: 44.0, sound: sound2 },
-    { x1: 56.0, y1: 39.1, x2: 93.9, y2: 44.0, sound: sound3 },
-    { x1: 16.0, y1: 84.0, x2: 52.9, y2: 89.5, sound: sound4 },
-    { x1: 56.0, y1: 84.5, x2: 93.7, y2: 90.9, sound: sound5 },
+    { x1: 15.9, y1: 39.4, x2: 51.14, y2: 46.06, sound: sound2 },
+    { x1: 56.0, y1: 39.1, x2: 93.9, y2: 46.06, sound: sound3 },
+    { x1: 16.0, y1: 85.5, x2: 52.9, y2: 94.03, sound: sound4 },
+    { x1: 56.0, y1: 85.5, x2: 93.7, y2: 94.03, sound: sound5 },
   ];
   const handleImageClick = (e) => {
     const rect = e.target.getBoundingClientRect();

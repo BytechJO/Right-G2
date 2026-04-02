@@ -333,7 +333,8 @@ const Review7_Page1_Q2 = () => {
 
                 <img
                   src={q.image}
-                  className="w-[180px]! h-[150px]! object-contain"
+                  className="object-contain"
+                  style={{ height: "130px", width: "130px" }}
                 />
               </div>
             );

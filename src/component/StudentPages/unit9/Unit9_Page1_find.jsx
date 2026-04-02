@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import find_img from "../../../assets/imgs/test.png";//======= should change ==========
+import find_img from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page.png"; //======= should change ==========
 import Rabbit from "../../../assets/Page 01/Rabbit.svg";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import MySVG from "../../../assets/imgs/test.png";
+import MySVG from "../../../assets/imgs/Interactive Svg un 9.svg";
 
 const Unit9_Page1_find = () => {
   const [clickedPoint, setClickedPoint] = useState(null);
@@ -10,16 +10,17 @@ const Unit9_Page1_find = () => {
   const [showAnswer, setShowAnswer] = useState(false);
   // ✅ منطقة المطعم (بالنسب المئوية)
   const targetArea = {
-    x1: 18,
-    y1: 69,
-    x2: 24,
-    y2: 74,
+    x1: 56,
+    y1: 40,
+    x2: 70,
+    y2: 64,
   };
 
   const handleImageClick = (e) => {
     const rect = e.target.getBoundingClientRect();
     const xPercent = ((e.clientX - rect.left) / rect.width) * 100;
     const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
+    console.log(xPercent, yPercent);
 
     setClickedPoint({
       x: xPercent,
@@ -37,7 +38,7 @@ const Unit9_Page1_find = () => {
     if (!clickedPoint) {
       ValidationAlert.info(
         "Pay attention!",
-        "Please click on the image first."
+        "Please click on the image first.",
       );
       return;
     }
@@ -78,7 +79,8 @@ const Unit9_Page1_find = () => {
         >
           <img src={Rabbit} style={{ height: "50px", width: "auto" }} />{" "}
           <h5 className="header-title-page8">
-            I need your help. Can you help me find the boat in the picture?
+            I need your help. Can you help me find the ironing board in the
+            picture?
           </h5>
         </div>
         <div style={{ position: "relative", display: "inline-block" }}>
@@ -118,12 +120,12 @@ const Unit9_Page1_find = () => {
               alt="answer highlight"
               style={{
                 position: "absolute",
-                top: `67%`,
-                left: `18.5%`,
-                height: `7%`,
+                top: `25%`,
+                left: `53.5%`,
+                height: `41.5%`,
                 pointerEvents: "none",
               }}
-            /> 
+            />
           )}
         </div>
       </div>

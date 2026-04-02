@@ -1,26 +1,26 @@
 import React, { useState, useEffect, useRef } from "react";
-import page_2 from "../../../assets/imgs/pages/Right 2 Unit 1 Stellas Family_00001/Right 2 Unit 1 Stellas Family_00077.jpg";
-import img1_letter from "../../../assets/imgs/test.png";
-import img2_letter from "../../../assets/imgs/test.png";
-import img3_letter from "../../../assets/imgs/test.png";
-import img4_letter from "../../../assets/imgs/test.png";
+import page_2 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 77.png";
+import img1_letter from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 76-77/Un 9/List 2 un 9 p77-01.svg";
+import img2_letter from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 76-77/Un 9/List 2 un 9 p77-02.svg";
+import img3_letter from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 76-77/Un 9/List 2 un 9 p77-03.svg";
+import img4_letter from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 76-77/Un 9/List 2 un 9 p77-04.svg";
 import Rabbit from "../../../assets/Page 01/Rabbit.svg";
 import soundListen from "../../../assets/audio/ClassBook/U 5/Pg41_1.1_Helen.mp3";
-import img1_conversation from "../../../assets/imgs/test.png";
-import img2_conversation from "../../../assets/imgs/test.png";
-import sound1_letter from "../../../assets/audio/ClassBook/U 5/Pg41_1.1_Adult Lady.mp3";
-import sound2_letter from "../../../assets/audio/ClassBook/U 5/Pg41_1.2_Adult Lady.mp3";
-import sound3_letter from "../../../assets/audio/ClassBook/U 5/Pg41_1.3_Adult Lady.mp3";
-import sound4_letter from "../../../assets/audio/ClassBook/U 5/Pg41_1.4_Adult Lady.mp3";
+
+import sound1_letter from "../../../assets/audio/ClassBook/U 9/Pg77_1.2_Adult Lady.mp3";
+import sound2_letter from "../../../assets/audio/ClassBook/U 9/Pg77_1.3_Adult Lady.mp3";
+import sound3_letter from "../../../assets/audio/ClassBook/U 9/Pg77_1.4_Adult Lady.mp3";
+import sound4_letter from "../../../assets/audio/ClassBook/U 9/Pg77_1.5._Adult Lady.mp3";
 import letterSound from "../../../assets/audio/ClassBook/U 5/Pg41_Instruction1_Adult Lady.mp3";
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 import AudioWithCaption from "../../AudioWithCaption";
 import FourImagesWithAudio from "../../FourImagesWithAudio";
-// import sound1 from "../../../assets/img_unit9/sounds-unit9/U2-06.mp3";
-// import sound2 from "../../../assets/img_unit9/sounds-unit9/U2-07.mp3";
-// import sound3 from "../../../assets/img_unit9/sounds-unit9/U2-07.mp3";
-// import sound4 from "../../../assets/img_unit9/sounds-unit9/U2-07.mp3";
+
+import sound7 from "../../../assets/audio/ClassBook/U 9/unit9-sound7.mp3";
+import sound8 from "../../../assets/audio/ClassBook/U 9/unit9-sound8.mp3";
+import sound9 from "../../../assets/audio/ClassBook/U 9/unit9-sound9.mp3";
+import sound10 from "../../../assets/audio/ClassBook/U 9/unit9-sound10.mp3";
 
 import "./Unit9_Page2.css";
 import ReadChoose from "../../ReadChoose";
@@ -67,22 +67,34 @@ const Unit9_Page2 = ({ openPopup }) => {
 
   const areas = [
     // الصوت الأول – المنطقة الأساسية
-    { x1: 35.24, y1: 54.6, x2: 39.0, y2: 58.0, sound: 1, isPrimary: true },
+    { x1:10.24, y1: 37.2,  sound: 1, isPrimary: true },
 
     // // // الصوت الأول – منطقة إضافية
-    { x1: 31.3, y1: 45.4, x2: 40.12, y2: 53.4, sound: 1, isPrimary: false },
+    { x1: 1.14, y1: 36.16, x2: 8.51, y2: 42.40, sound: 1, isPrimary: false },
 
-    // // // الصوت الثاني – الأساسية
-    { x1: 43.6, y1: 54.1, x2: 47.7, y2: 57.1, sound: 2, isPrimary: true },
+    // // // // الصوت الثاني – الأساسية
+    { x1: 7, y1: 48.1,  sound: 2, isPrimary: true },
 
-    // // // الصوت الثاني – الإضافية
-    { x1: 41.6, y1: 47.31, x2: 48.3, y2: 53.7, sound: 2, isPrimary: false },
+    // // // // الصوت الثاني – الإضافية
+    { x1: 12.00, y1: 46.06, x2: 19.76, y2: 67.53, sound: 2, isPrimary: false },
+
+    //  // الصوت الأول – المنطقة الأساسية
+    { x1: 29, y1: 42.4,  sound: 3, isPrimary: true },
+
+    // // // // الصوت الأول – منطقة إضافية
+    { x1: 17.24, y1: 41.33, x2: 39.15, y2: 63.57, sound: 3, isPrimary: false },
+
+    // // // // الصوت الثاني – الأساسية
+    { x1: 7.4, y1: 16.6,  sound: 4, isPrimary: true },
+
+    // // // // الصوت الثاني – الإضافية
+    { x1: 9.48, y1: 7.37, x2: 28.87, y2: 33.11, sound: 4, isPrimary: false },
   ];
   const sounds = {
-    // 1: sound1,
-    // 2: sound2,
-    // 3: sound3,
-    // 4: sound4,
+    1: sound7,
+    2: sound8,
+    3: sound9,
+    4: sound10,
   };
 
   const handleImageClick = (e) => {
@@ -200,7 +212,7 @@ const Unit9_Page2 = ({ openPopup }) => {
         >
           <image
             className="svg-img"
-            href={audioBtn}
+            href={arrowBtn}
             x="0"
             y="0"
             width="90"

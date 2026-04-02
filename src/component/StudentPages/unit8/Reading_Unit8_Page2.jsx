@@ -2,10 +2,10 @@ import React, { useRef,useState } from "react";
 import page25 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 75.png";
 import "./Reading_Unit8_Page1.css";
 import { FaHeadphones } from "react-icons/fa";
-import sound1 from "../../../assets/audio/ClassBook/U 2/Pg21_1.5_Adult Lady.mp3";
-import sound2 from "../../../assets/audio/ClassBook/U 2/Pg21_1.6_Adult Lady.mp3";
-import sound3 from "../../../assets/audio/ClassBook/U 2/Pg21_1.7_Adult Lady.mp3";
-import sound4 from "../../../assets/audio/ClassBook/U 2/Pg21_1.8_Adult Lady.mp3";
+import sound1 from "../../../assets/audio/ClassBook/U 8/Pg75_1.5_Adult Lady.mp3";
+import sound2 from "../../../assets/audio/ClassBook/U 8/Pg75_1.6_Adult Lady.mp3";
+import sound3 from "../../../assets/audio/ClassBook/U 8/Pg75_1.7_Adult Lady.mp3";
+import sound4 from "../../../assets/audio/ClassBook/U 8/Pg75_1.8_Adult Lady.mp3";
 const Reading_Unit8_Page2 = () => {
   const audioRef = useRef(null);
   const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);

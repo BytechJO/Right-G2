@@ -11,7 +11,7 @@ const Review9_Page2_Q3 = () => {
 
   const [answers, setAnswers] = useState({});
   const [locked, setLocked] = useState(false);
-
+  const [showWrongMarks, setShowWrongMarks] = useState(false);
   const toggleWord = (qId, word) => {
     if (locked) return;
 
@@ -20,9 +20,23 @@ const Review9_Page2_Q3 = () => {
 
       const exists = current.includes(word);
 
+      // إذا الكلمة موجودة → شيلها (toggle off)
+      if (exists) {
+        return {
+          ...prev,
+          [qId]: current.filter((w) => w !== word),
+        };
+      }
+
+      // إذا وصل الحد (كلمتين) → لا تضيف
+      if (current.length >= 2) {
+        return prev;
+      }
+
+      // غير ذلك → أضف الكلمة
       return {
         ...prev,
-        [qId]: exists ? current.filter((w) => w !== word) : [...current, word],
+        [qId]: [...current, word],
       };
     });
   };
@@ -30,6 +44,7 @@ const Review9_Page2_Q3 = () => {
   const reset = () => {
     setAnswers({});
     setLocked(false);
+    setShowWrongMarks(false);
   };
 
   const showAnswers = () => {
@@ -39,8 +54,8 @@ const Review9_Page2_Q3 = () => {
     });
     setAnswers(correct);
     setLocked(true);
+    setShowWrongMarks(false);
   };
-
   const checkAnswers = () => {
     if (locked) return;
 
@@ -66,21 +81,26 @@ const Review9_Page2_Q3 = () => {
 
     const total = questions.length;
 
+    const color = score === total ? "green" : score === 0 ? "red" : "orange";
+
     const msg = `
-    <div style="font-size:20px;text-align:center;">
-      <b>Score: ${score} / ${total}</b>
-    </div>
-  `;
+      <div style="font-size:20px;text-align:center;">
+        <span style="color:${color};font-weight:bold">
+          Score: ${score} / ${total}
+        </span>
+      </div>
+    `;
 
     if (score === total) ValidationAlert.success(msg);
     else if (score === 0) ValidationAlert.error(msg);
     else ValidationAlert.warning(msg);
 
+    setShowWrongMarks(true);
     setLocked(true);
   };
   return (
-    <div className="flex flex-col items-center p-8">
-      <div className="w-[60%]">
+    <div className="main-container-component">
+      <div className="div-forall gap-2">
         <h5 className="header-title-page8 mb-10">
           <span style={{ marginRight: "20px" }}>G</span>
           Read and circle the{" "}
@@ -95,7 +115,7 @@ const Review9_Page2_Q3 = () => {
 
               <div
                 style={{
-                  border: "2px solid #e53935",
+                  border: "2px solid #1100d0ff",
                   borderRadius: "12px",
                   padding: "15px 20px",
                   display: "flex",
@@ -106,6 +126,9 @@ const Review9_Page2_Q3 = () => {
                 {q.words.map((word) => {
                   const selected = answers[q.id]?.includes(word);
 
+                  const isWrong =
+                    showWrongMarks && selected && !q.correct.includes(word);
+
                   return (
                     <span
                       key={word}
@@ -115,11 +138,37 @@ const Review9_Page2_Q3 = () => {
                         padding: "2px 6px",
                         borderRadius: "10px",
                         border: selected
-                          ? "2px solid red"
+                          ? "2px solid #0a007dff"
                           : "2px solid transparent",
+                        fontSize: "20px",
+                        fontWeight: "700",
+                        position: "relative", // مهم
                       }}
                     >
                       {word}
+
+                      {isWrong && (
+                        <div
+                          style={{
+                            position: "absolute",
+                            top: "-8px",
+                            right: "-8px",
+                            width: "25px",
+                            height: "25px",
+                            background: "red",
+                            color: "white",
+                            borderRadius: "50%",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            fontSize: "16px",
+                            fontWeight: "bold",
+                            border:"2px solid white"
+                          }}
+                        >
+                          ✕
+                        </div>
+                      )}
                     </span>
                   );
                 })}

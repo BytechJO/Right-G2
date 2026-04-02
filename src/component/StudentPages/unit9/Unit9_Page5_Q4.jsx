@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Unit9_Page5_Q4.css";
-
+import img1 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 80/Ex C 1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 80/Ex C 2.svg";
 const Unit9_Page5_Q4 = () => {
   const [locked, setLocked] = useState(false);
   const grid = [
@@ -139,7 +140,8 @@ const Unit9_Page5_Q4 = () => {
       `);
       return;
     }
-
+    // 👇 أضف هذا السطر
+    setLocked(true);
     if (score === 0) {
       ValidationAlert.error(`
         <div style="font-size:20px;text-align:center;">
@@ -190,28 +192,49 @@ const Unit9_Page5_Q4 = () => {
     setSentence(wordsToFind.join(" "));
     setLocked(true);
   };
-
+  const isMissingWord = (word) => {
+    if (!locked) return false; // بعد ما يعمل check
+    return !foundWords.includes(word);
+  };
   return (
-    <div style={{ display: "flex", justifyContent: "center", padding: "30px" }}>
-      <div className="div-forall" style={{ width: "60%" }}>
+    <div className="main-container-component">
+      <div className="div-forall gap-2">
         <h5 className="header-title-page8" style={{ marginBottom: "20px" }}>
-          <span className="ex-A">C </span>What electronic item do we use to send e-mails?
+          <span className="ex-A">C </span>What electronic item do we use to send
+          e-mails?
         </h5>
 
         <div className="words-list-CB-unit3-p5-q4">
           {wordsToFind.map((word) => (
             <span
               key={word}
+              style={{ position: "relative", display: "inline-block" }}
               className={`word-CB-unit3-p5-q4 ${
                 foundWords.includes(word) ? "found-CB-unit3-p5-q4" : ""
               }`}
             >
               {word}
+              {isMissingWord(word) && (
+                <div
+                  className="
+      absolute -top-2 -right-2
+      w-5 h-5
+      bg-red-500 text-white
+      rounded-full
+      flex items-center justify-center
+      text-xs font-bold
+      border-2 border-white
+      z-10
+    "
+                >
+                  ✕
+                </div>
+              )}
             </span>
           ))}
         </div>
 
-        <div className="wordsearch-wrapper-CB-unit9-p5-q4">
+        <div className="wordsearch-wrapper-CB-unit3-p5-q4">
           <div className="grid-CB-unit3-p5-q4">
             {letters.map((letter, index) => {
               const isSelected = selected.includes(index);
@@ -230,12 +253,15 @@ const Unit9_Page5_Q4 = () => {
               );
             })}
           </div>
-
-          <input
-            className="answer-input-CB-unit3-p5-q4"
-            value={sentence}
-            readOnly
-          />
+          <div className="flex">
+            <img src={img1} style={{ height: "80px", width: "80px" }} />
+            <input
+              className="answer-input-CB-unit3-p5-q4"
+              value={sentence}
+              readOnly
+            />
+            <img src={img2} style={{ height: "80px", width: "80px" }} />
+          </div>{" "}
         </div>
       </div>
 
