@@ -1,28 +1,30 @@
 import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
-import squirrelImg from "../../../assets/imgs/test6.png";
-
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 43/Asset 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 43/Asset 1.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 43/Asset 1.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 43/Asset 1.svg";
 const exerciseData = [
   {
     id: 1,
-    clue: "It's the second month in a year.",
     correctAnswer: "February",
+    img: img1,
   },
   {
     id: 2,
-    clue: "It's the third day in the week.",
     correctAnswer: "Tuesday",
+    img: img2,
   },
   {
     id: 3,
-    clue: "It's the eleventh month in the year.",
     correctAnswer: "November",
+    img: img3,
   },
   {
     id: 4,
-    clue: "It's the seventh day in the week.",
     correctAnswer: "Saturday",
+    img: img4,
   },
 ];
 
@@ -134,13 +136,10 @@ const WB_Unit7_Page43_Q1 = () => {
             <div key={item.id} className="flex items-start gap-6 relative">
               <div className="flex flex-col items-center">
                 <div className="relative mb-4">
-                  <div className="bg-white border-2 border-gray-300 p-4 rounded-lg shadow-sm max-w-[220px] text-center font-medium text-lg leading-tight mb-2">
-                    {item.clue}
-                  </div>
                   <img
-                    src={squirrelImg}
+                    src={item.img}
                     alt="squirrel"
-                    className="max-w-32 max-h-32 object-contain mx-auto"
+                    className="max-w-50 max-h-50 object-contain mx-auto"
                   />
                 </div>
 

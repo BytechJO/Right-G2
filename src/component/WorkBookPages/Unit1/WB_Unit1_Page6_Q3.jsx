@@ -1,5 +1,9 @@
 import { useState } from "react";
-import img from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 6/Ex J 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 6/Ex J 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 6/Ex J 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 6/Ex J 4.svg";
+
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
 
@@ -15,10 +19,10 @@ const WB_Unit1_Page6_Q3 = () => {
   const [showAnswers, setShowAnswers] = useState(false);
 
   const data = [
-    { id: 1, img: img, text: "I'm Stella's uncle.", correct: "X" },
-    { id: 2, img: img, text: "I'm Stella's brother.", correct: "X" },
-    { id: 3, img: img, text: "I'm Stella's aunt.", correct: "✓" },
-    { id: 4, img: img, text: "I'm Stella's sister.", correct: "✓" },
+    { id: 1, img: img1, text: "I'm Stella's uncle.", correct: "X" },
+    { id: 2, img: img2, text: "I'm Stella's brother.", correct: "X" },
+    { id: 3, img: img3, text: "I'm Stella's aunt.", correct: "✓" },
+    { id: 4, img: img4, text: "I'm Stella's sister.", correct: "✓" },
   ];
 
   const handleSelect = (id, value) => {
@@ -98,7 +102,7 @@ const WB_Unit1_Page6_Q3 = () => {
              <span className="font-bold text-blue-900 text-2xl">{item.id}</span> <img
                 src={item.img}
                 alt=""
-                className="max-w-full max-h-full object-contain grayscale"
+                className="max-w-full max-h-full object-contain"
               />
               <div className="absolute bottom-0 right-0 flex gap-1 p-1 bg-white/80 rounded-tl-xl">
                 <button

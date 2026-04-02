@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import img from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 51/Ex B 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 51/Ex B 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 51/Ex B 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 51/Ex B 4.svg";
 
 const SentenceBuilder = ({
   id,
@@ -57,57 +60,54 @@ const SentenceBuilder = ({
     onUpdate(newChosenWords.map((w) => w.text).join(" "));
   };
 
-const getBoxClassName = () => {
-  if (!showResult) {
-    return "border-gray-300 bg-white";
-  }
+  const getBoxClassName = () => {
+    if (!showResult) {
+      return "border-gray-300 bg-white";
+    }
 
-  const userAnswer = chosenWords.map((w) => w.text).join(" ");
+    const userAnswer = chosenWords.map((w) => w.text).join(" ");
 
-  if (!userAnswer) {
-    return "border-gray-300 bg-white";
-  }
+    if (!userAnswer) {
+      return "border-gray-300 bg-white";
+    }
 
-  const userWords = userAnswer
-    .replace(/[.,!?]/g, "")
-    .trim()
-    .split(/\s+/);
+    const userWords = userAnswer
+      .replace(/[.,!?]/g, "")
+      .trim()
+      .split(/\s+/);
 
-  const correctWords = correct
-    .replace(/[.,!?]/g, "")
-    .trim()
-    .split(/\s+/);
+    const correctWords = correct
+      .replace(/[.,!?]/g, "")
+      .trim()
+      .split(/\s+/);
 
-  const isCorrect =
-    userWords.length === correctWords.length &&
-    userWords.every((word, idx) => word === correctWords[idx]);
+    const isCorrect =
+      userWords.length === correctWords.length &&
+      userWords.every((word, idx) => word === correctWords[idx]);
 
-  return isCorrect
-    ? "border-blue-400 bg-blue-50"
-    : "border-red-500"; // 👈 هون الحل
-};
-
+    return isCorrect ? "border-blue-400 bg-blue-50" : "border-red-500"; // 👈 هون الحل
+  };
   return (
     <div className="space-y-3">
       <div className="flex flex-wrap gap-10 p-3 bg-gray-100 rounded-lg min-h-[50px] items-center">
         <img src={src} className="max-w-50 max-h-24 object-contain" />
         <div className="flex flex-col justify-center gap-5 w-80">
           <h5 className="text-lg">{scrambled.split(" ").join("/")}</h5>
-       <div className="flex gap-2">
-        {availableWords.length > 0 ? (
-          availableWords.map((word) => (
-            <button
-              key={word.id}
-              onClick={() => handleWordClick(word)}
-              className="px-3 py-1 bg-white border border-gray-400 rounded-md shadow-sm hover:bg-blue-100 hover:border-blue-500 transition-all text-gray-800 font-medium"
-            >
-              {word.text}
-            </button>
-          ))
-        ) : (
-          <p className="text-gray-400 text-sm"></p>
-        )}
-         </div>
+          <div className="flex gap-2">
+            {availableWords.length > 0 ? (
+              availableWords.map((word) => (
+                <button
+                  key={word.id}
+                  onClick={() => handleWordClick(word)}
+                  className="px-3 py-1 bg-white border border-gray-400 rounded-md shadow-sm hover:bg-blue-100 hover:border-blue-500 transition-all text-gray-800 font-medium"
+                >
+                  {word.text}
+                </button>
+              ))
+            ) : (
+              <p className="text-gray-400 text-sm"></p>
+            )}
+          </div>
         </div>
       </div>
 
@@ -141,23 +141,26 @@ const WB_Unit9_Page51_Q2 = () => {
   const exerciseSentences = [
     {
       id: "s1",
-      scrambled: "are horses Those black",
-      correct: "Those are black horses.",
-      isExample: true,
+      scrambled: "they are playing soccer",
+      correct: "they are playing soccer",
     },
     {
       id: "s2",
-      scrambled: "small This rabbit is a",
-      correct: "This is a small rabbit.",
+      scrambled: "we are playing chess",
+      correct: "we are playing chess",
     },
-    { id: "s3", scrambled: "ducks These are", correct: "These are ducks." },
-    { id: "s4", scrambled: "sun That the is", correct: "That is the sun." },
     {
-      id: "s5",
-      scrambled: "white Those clouds are",
-      correct: "Those are white clouds.",
+      id: "s3",
+      scrambled: "she is helping",
+      correct: "she is helping",
+    },
+    {
+      id: "s4",
+      scrambled: "she is washing clothes",
+      correct: "she is washing clothes",
     },
   ];
+  const images = [img1, img2, img3, img4];
 
   const [userAnswers, setUserAnswers] = useState({});
   const [showResults, setShowResults] = useState(false);
@@ -263,13 +266,13 @@ const WB_Unit9_Page51_Q2 = () => {
               </span>
               <div className="flex-1">
                 <SentenceBuilder
-                key={sentence.id + resetKey} // 👈 الحل هون
+                  key={sentence.id + resetKey} // 👈 الحل هون
                   id={sentence.id}
                   scrambled={sentence.scrambled}
                   correct={sentence.correct}
                   onUpdate={(answer) => handleAnswerUpdate(sentence.id, answer)}
                   showResult={showResults}
-                  src={img}
+                  src={images[index]}
                   forceAnswer={showAnswers}
                   isWrong={
                     showResults &&

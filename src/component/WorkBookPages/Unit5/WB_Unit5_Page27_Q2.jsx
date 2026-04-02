@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 
 // استيراد الصور ومكونات الأزرار والتنبيهات
-import placeholderImg from "../../../assets/imgs/test6.png";
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";
+import placeholderImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page27/Ex B 1.svg";
 
 const exerciseData = [
   { id: "b1", sentence: "I don't like rice.", correctAnswer: "✘" },
@@ -81,7 +81,7 @@ const WB_Unit5_Page27_Q2 = () => {
           <img
             src={placeholderImg}
             alt="Boy at dinner table"
-            className="max-w-sm max-h-100 mx-auto rounded-lg shadow-md"
+            className="max-w-sm max-h-100 mx-auto "
           />
           <div className="space-y-4">
             {exerciseData.map((item, index) => (

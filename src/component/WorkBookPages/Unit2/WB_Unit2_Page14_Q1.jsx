@@ -5,16 +5,18 @@ import Button from "../button";
 import { TbMessageCircle } from "react-icons/tb";
 import { FaPlay, FaPause } from "react-icons/fa";
 import { IoMdSettings } from "react-icons/io";
-import sound from "../../../assets/audio/WorkBook/titel G2/Unit 2.mp3";
-import clockImg from "../../../assets/imgs/test6.png";
-import brickImg from "../../../assets/imgs/test6.png";
-import candyImg from "../../../assets/imgs/test6.png";
-import sockImg from "../../../assets/imgs/test6.png";
-import lockImg from "../../../assets/imgs/test6.png";
-import foxImg from "../../../assets/imgs/test6.png";
-import mugImg from "../../../assets/imgs/test6.png";
-import featherImg from "../../../assets/imgs/test6.png";
-import queenImg from "../../../assets/imgs/test6.png";
+import sound from "../../../assets/audio/WorkBook/p14Q1.mp3";
+import clockImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 14/Ex A 1.svg";
+import brickImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 14/Ex A 2.svg";
+import candyImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 14/Ex A 3.svg";
+import sockImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 14/Ex A 4.svg";
+import lockImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 14/Ex A 5.svg";
+import foxImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 14/Ex A 6.svg";
+import mugImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 14/Ex A 7.svg";
+import featherImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 14/Ex A 8.svg";
+import queenImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 14/Ex A 9.svg";
+import boxImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 14/Ex A 10.svg";
+import catImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 14/Ex A 12.svg";
 
 const listenQuestions = [
   {
@@ -48,9 +50,9 @@ const listenQuestions = [
     id: "q4",
     audioSrc: "/audio/queen.mp3",
     options: [
-      { id: "opt4_1", img: mugImg, isCorrect: false },
-      { id: "opt4_2", img: featherImg, isCorrect: false },
-      { id: "opt4_3", img: queenImg, isCorrect: true },
+      { id: "opt4_1", img: boxImg, isCorrect: false },
+      { id: "opt4_2", img: brickImg, isCorrect: false },
+      { id: "opt4_3", img: catImg, isCorrect: true },
     ],
   },
 ];
@@ -64,7 +66,7 @@ const WB_Unit2_Page14_Q1 = () => {
   const [checked, setChecked] = useState(false);
   const [wrongInputs, setWrongInputs] = useState([]);
 
-  const stopAtSecond = 9;
+  const stopAtSecond = 6.35;
   const [paused, setPaused] = useState(false);
   // إعدادات الصوت
   const [showSettings, setShowSettings] = useState(false);
@@ -140,18 +142,13 @@ const WB_Unit2_Page14_Q1 = () => {
   const captions = [
     {
       start: 0,
-      end: 4.23,
-      text: "Page 8. Right Activities. Exercise A, number 1. ",
+      end: 6.34,
+      text: "Page 14, phonics exercise A. Listen, look, and circle.",
     },
-    {
-      start: 4.25,
-      end: 8.28,
-      text: "Listen and write the missing letters. Number the pictures.  ",
-    },
-    { start: 8.3, end: 11.05, text: "1-tiger." },
-    { start: 11.07, end: 13.12, text: "2-taxi." },
-    { start: 13.14, end: 15.14, text: "3-duck." },
-    { start: 15.16, end: 17.13, text: "4-deer." },
+    { start: 7.52, end: 9, text: "1-clock." },
+    { start: 9.5, end: 11.64, text: "2-fox." },
+    { start: 12, end: 13.6, text: "3-queen." },
+    { start: 14.5, end: 16.8, text: "4-cat." },
   ];
 
   // ================================
@@ -364,19 +361,18 @@ const WB_Unit2_Page14_Q1 = () => {
               </span>
               <div className="flex-1 grid grid-cols-3 gap-4">
                 {question.options.map((option) => (
-                    <div className="relative w-24">
-                  <div
-                    key={option.id}
-                    onClick={() => handleSelectOption(question.id, option.id)}
-                    className={`w-24 h-24 rounded-full border-4 cursor-pointer overflow-hidden transition-colors ${getCircleClass(question.id, option)}`}
-                  >
-                    <img
-                      src={option.img}
-                      alt="option"
-                      className="w-full h-full object-cover"
-                    />
-                   
-                  </div> {showResults &&
+                  <div className="relative w-24">
+                    <div
+                      key={option.id}
+                      onClick={() => handleSelectOption(question.id, option.id)}
+                      className={`w-24 h-24 rounded-full border-4 cursor-pointer overflow-hidden transition-colors ${getCircleClass(question.id, option)}`}
+                    >
+                      <div
+                        className="w-20 h-20 overflow-hidden bg-center bg-contain bg-no-repeat"
+                        style={{ backgroundImage: `url(${option.img})` }}
+                      />
+                    </div>{" "}
+                    {showResults &&
                       selectedOptions[question.id] === option.id &&
                       !option.isCorrect && (
                         <div className="absolute -top-2 right-2 bg-red-500 text-white w-7 h-7 flex items-center justify-center rounded-full text-base font-bold shadow-lg border-2 border-white">

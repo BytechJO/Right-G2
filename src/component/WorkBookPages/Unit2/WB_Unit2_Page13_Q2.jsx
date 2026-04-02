@@ -1,15 +1,19 @@
 import React, { useState } from "react";
-import img from "../../../assets/imgs/test6.png";
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 13/Ex J 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 13/Ex J 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 13/Ex J 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 13/Ex J 4.svg";
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 13/Ex J 5.svg";
 
 // بيانات التمرين: الأسئلة، الصور، والإجابات الصحيحة
 const exerciseQuestions = [
-  { id: "q1", text: "Those are birds.", img: img, correctAnswer: false }, // الصورة لطائر واحد، والجملة تقول "birds"
-  { id: "q2", text: "This is a fox.", img: img, correctAnswer: true },
-  { id: "q3", text: "These are clocks.", img: img, correctAnswer: true },
-  { id: "q4", text: "This is a duck.", img: img, correctAnswer: true },
-  { id: "q5", text: "Those are clouds.", img: img, correctAnswer: true },
+  { id: "q1", text: "Those are birds.", img: img1, correctAnswer: false }, // الصورة لطائر واحد، والجملة تقول "birds"
+  { id: "q2", text: "This is a fox.", img: img2, correctAnswer: true },
+  { id: "q3", text: "These are clocks.", img: img3, correctAnswer: true },
+  { id: "q4", text: "This is a duck.", img: img4, correctAnswer: true },
+  { id: "q5", text: "Those are clouds.", img: img5, correctAnswer: true },
 ];
 
 const WB_Unit2_Page13_Q2 = () => {

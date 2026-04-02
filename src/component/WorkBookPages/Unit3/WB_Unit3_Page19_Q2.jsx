@@ -1,32 +1,35 @@
 import React, { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 19/Ex J 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 19/Ex J 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 19/Ex J 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 19/Ex J 4.svg";
 
-import placeholderImg from "../../../assets/imgs/test6.png";
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
 const answerQuestions = [
   {
     id: "j1",
-    img: placeholderImg,
+    img: img1,
     question: "Can she sing?",
     correctAnswer: "Yes, she can.",
   },
   {
     id: "j2",
-    img: placeholderImg,
+    img: img2,
     question: "Can it swim?",
     correctAnswer: "Yes, it can.",
   },
   {
     id: "j3",
-    img: placeholderImg,
+    img: img3,
     question: "Can it hop?",
     correctAnswer: "Yes, it can.",
   },
   {
     id: "j4",
-    img: placeholderImg,
+    img: img4,
     question: "Can she fly?",
     correctAnswer: "No, she can't.",
   },

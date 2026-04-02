@@ -7,13 +7,13 @@ import {
 } from "@dnd-kit/core";
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";
+import queenImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 14/Ex B 1.svg";
+import foxImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 14/Ex B 2.svg";
+import oxImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 14/Ex B 3.svg";
+import capImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 14/Ex B 4.svg";
+import sockImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 14/Ex B 5.svg";
+import boxImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 14/Ex B 6.svg";
 
-import queenImg from "../../../assets/imgs/test6.png";
-import foxImg from "../../../assets/imgs/test6.png";
-import oxImg from "../../../assets/imgs/test6.png";
-import capImg from "../../../assets/imgs/test6.png";
-import sockImg from "../../../assets/imgs/test6.png";
-import boxImg from "../../../assets/imgs/test6.png";
 
 // بيانات التمرين
 const initialWordBank = ["cap", "queen", "ox", "box", "sock", "fox"];

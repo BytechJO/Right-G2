@@ -9,11 +9,13 @@ import {
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import Button from "../button";
+import Button from "../button"
+// check
+import imgShower from "../../../assets/imgs/WorkBook/Right Int WB G2 U10 Folder/Page 57/Ex A 1.svg";
+import imgBike from "../../../assets/imgs/WorkBook/Right Int WB G2 U10 Folder/Page 57/Ex A 2.svg";
+import imgSoccer from "../../../assets/imgs/WorkBook/Right Int WB G2 U10 Folder/Page 57/Ex A 3.svg";
 
-import imgShower from "../../../assets/imgs/test6.png";
-import imgBike from "../../../assets/imgs/test6.png";
-import imgSoccer from "../../../assets/imgs/test6.png";
+
 import imgFlowers from "../../../assets/imgs/test6.png";
 import imgNewspaper from "../../../assets/imgs/test6.png";
 import imgTV from "../../../assets/imgs/test6.png";

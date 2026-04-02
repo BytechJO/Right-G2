@@ -3,25 +3,30 @@
 import { useState } from "react";
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import img from "../../../assets/imgs/test6.png";
 import QuestionAudioPlayer from "../../QuestionAudioPlayer";
-import sound from "../../../assets/audio/WorkBook/titel G2/Unit 2.mp3";
+import sound from "../../../assets/audio/WorkBook/p56q1.mp3";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 56/Ex A 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 56/Ex A 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 56/Ex A 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 56/Ex A 4.svg";
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 56/Ex A 5.svg";
+import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 56/Ex A 6.svg";
 
 const questions = [
-  { id: 1, src: img, correct: "cap" },
-  { id: 2, src: img, correct: "game" },
-  { id: 3, src: img, correct: "day" },
-  { id: 4, src: img, correct: "sad" },
-  { id: 5, src: img, correct: "pain" },
-  { id: 6, src: img, correct: "man" },
+  { id: 1, src: img1, correct: "cap" },
+  { id: 2, src: img2, correct: "game" },
+  { id: 3, src: img3, correct: "may" },
+  { id: 4, src: img4, correct: "sad" },
+  { id: 5, src: img5, correct: "pain" },
+  { id: 6, src: img6, correct: "man" },
 ];
 
-const wordBank = ["cap", "game", "day", "sad", "pain", "man"];
+const wordBank = ["cap", "game", "may", "sad", "pain", "man"];
 
 const correctAnswers = {
   1: "cap",
   2: "game",
-  3: "day",
+  3: "may",
   4: "sad",
   5: "pain",
   6: "man",
@@ -74,19 +79,33 @@ export default function ExerciseA() {
   };
   const captions = [
     {
-      start: 0,
-      end: 4.23,
-      text: "Page 8. Right Activities. Exercise A, number 1. ",
+      start: 0.6,
+      end: 3.38,
+      text: "Page 56, phonics exercise A.",
     },
     {
-      start: 4.25,
-      end: 8.28,
-      text: "Listen and write the missing letters. Number the pictures.  ",
+      start: 4.24,
+      end: 6,
+      text: "Look, listen, and write.",
     },
-    { start: 8.3, end: 11.05, text: "1-tiger." },
-    { start: 11.07, end: 13.12, text: "2-taxi." },
-    { start: 13.14, end: 15.14, text: "3-duck." },
-    { start: 15.16, end: 17.13, text: "4-deer." },
+    {
+      start: 6.5,
+      end: 8.56,
+      text: "1.cap.",
+    },
+    {
+      start: 9.72,
+      end: 11.6,
+      text: "2.game.",
+    },
+    {
+      start: 11.7,
+      end: 14.10,
+      text: "3.may.",
+    },
+    { start: 14.8, end: 16.88, text: "4.sad." },
+    { start: 17.9, end: 20.04, text: "5.pain." },
+    { start: 21.1, end: 22.96, text: "6.man." },
   ];
   return (
     <div className="main-container-component">
@@ -117,7 +136,7 @@ export default function ExerciseA() {
             );
           })}
         </div>
-        <QuestionAudioPlayer src={sound} captions={captions} stopAtSecond={9} />
+        <QuestionAudioPlayer src={sound} captions={captions} stopAtSecond={6.1} />
         {/* Questions grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
           {questions.map((q) => (

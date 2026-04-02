@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
-import page2 from "../../../assets/imgs/pages/workbook-images/42.jpg";
+import page2 from  "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 50.png";
+import "./WB_unit8.css";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 
 const WB_Unit8_Page50 = ({ openPopup }) => {
@@ -10,7 +11,7 @@ const WB_Unit8_Page50 = ({ openPopup }) => {
     >
 
       <div
-        className="wb-unit2-p3-q2 hover:scale-110 transition ml-52 mt-25"
+        className="wb-unit8-p6-q1 hover:scale-110 transition "
         style={{ overflow: "visible" }}
       >
         <svg
@@ -33,7 +34,7 @@ const WB_Unit8_Page50 = ({ openPopup }) => {
       </div>
 
       <div
-        className="wb-unit2-p3-q2 hover:scale-110 transition ml-52 mt-90"
+        className="wb-unit8-p6-q2 hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg
@@ -57,7 +58,7 @@ const WB_Unit8_Page50 = ({ openPopup }) => {
 
 
       <div
-        className="wb-unit2-p3-q2 hover:scale-110 transition ml-52 mt-120"
+        className="wb-unit8-p6-q3 hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg

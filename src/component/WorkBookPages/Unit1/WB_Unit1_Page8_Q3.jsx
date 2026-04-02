@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import img from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 8/Ex C 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 8/Ex C 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 8/Ex C 3.svg";
+
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
@@ -232,11 +235,43 @@ const WB_Unit1_Page8_Q3 = () => {
                   </div>
                 </div>
               </div>
-              <div className="w-64">
+              <div
+                style={{
+                  width: "250px",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "10px",
+                }}
+              >
                 <img
-                  src={img}
-                  alt="Rabbit"
-                  className="rounded-xl shadow-lg max-w-100 max-h-75 object-cover"
+                  src={img1}
+                  alt="Exercise 1"
+                  style={{
+                    width: "120px",
+                    height: "80px",
+                    objectFit: "contain",
+                    margin: "0 auto",
+                  }}
+                />
+                <img
+                  src={img2}
+                  alt="Exercise 2"
+                  style={{
+                    width: "120px",
+                    height: "80px",
+                    objectFit: "contain",
+                    margin: "0 auto",
+                  }}
+                />
+                <img
+                  src={img3}
+                  alt="Exercise 3"
+                  style={{
+                    width: "120px",
+                    height: "auto",
+                    objectFit: "contain",
+                    margin: "0 auto",
+                  }}
                 />
               </div>
             </div>

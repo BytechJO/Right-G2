@@ -11,7 +11,11 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
-
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 42/Ex G 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 42/Ex G 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 42/Ex G 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 42/Ex G 4.svg";
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 42/Ex G 5.svg";
 const exerciseData = {
   sentences: [
     {
@@ -39,19 +43,19 @@ const exerciseData = {
       id: "3",
       words: [
         {
-          scrambled: ["n","i","r","v","e","u","o","s"],
+          scrambled: ["n", "i", "r", "v", "e", "u", "o", "s"],
           correct: "souvenir",
         },
-        { scrambled: ["p","o","s","h"], correct: "shop" },
+        { scrambled: ["p", "o", "s", "h"], correct: "shop" },
       ],
       questionParts: ["He is looking at the things in the ", " ", "."],
     },
     {
       id: "4",
       words: [
-        { scrambled: ["l","v","a","i","r","r","a"], correct: "arrival" },
+        { scrambled: ["l", "v", "a", "i", "r", "r", "a"], correct: "arrival" },
         {
-          scrambled: ["n","e","a","l","p","r","i","a"],
+          scrambled: ["n", "e", "a", "l", "p", "r", "i", "a"],
           correct: "airplane",
         },
       ],
@@ -64,7 +68,7 @@ const exerciseData = {
     },
   ],
 };
-
+const images = [img1, img2, img3, img4, img5];
 const buildInitialAnswers = () => {
   const initial = {};
   exerciseData.sentences.forEach((sentence) => {
@@ -161,7 +165,7 @@ const WB_Unit7_Page42_Q2 = () => {
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: { distance: 4 },
-    })
+    }),
   );
 
   const handleDragEnd = (event) => {
@@ -175,10 +179,12 @@ const WB_Unit7_Page42_Q2 = () => {
 
     if (!activeId.startsWith("letter-") || !overId.startsWith("drop-")) return;
 
-    const [, fromSentenceId, fromWordIndex, fromLetterIndex] = activeId.split("-");
+    const [, fromSentenceId, fromWordIndex, fromLetterIndex] =
+      activeId.split("-");
     const [, toSentenceId, toWordIndex] = overId.split("-");
 
-    if (fromSentenceId !== toSentenceId || fromWordIndex !== toWordIndex) return;
+    if (fromSentenceId !== toSentenceId || fromWordIndex !== toWordIndex)
+      return;
 
     const sentenceId = fromSentenceId;
     const wordIndex = Number(toWordIndex);
@@ -243,7 +249,7 @@ const WB_Unit7_Page42_Q2 = () => {
     exerciseData.sentences.forEach((sentence) => {
       correctAnswers[sentence.id] = sentence.words.map((word) => word.correct);
       correctUsed[sentence.id] = sentence.words.map((word) =>
-        word.scrambled.map((_, idx) => idx)
+        word.scrambled.map((_, idx) => idx),
       );
     });
 
@@ -257,7 +263,7 @@ const WB_Unit7_Page42_Q2 = () => {
       sentence.words.some((word, wordIndex) => {
         const answer = answers[sentence.id][wordIndex] || "";
         return answer.length !== word.correct.length;
-      })
+      }),
     );
 
     if (hasIncomplete) {
@@ -278,11 +284,17 @@ const WB_Unit7_Page42_Q2 = () => {
     setShowResults(true);
 
     if (score === exerciseData.sentences.length) {
-      ValidationAlert.success(`Score: ${score} / ${exerciseData.sentences.length}`);
+      ValidationAlert.success(
+        `Score: ${score} / ${exerciseData.sentences.length}`,
+      );
     } else if (score > 0) {
-      ValidationAlert.warning(`Score: ${score} / ${exerciseData.sentences.length}`);
+      ValidationAlert.warning(
+        `Score: ${score} / ${exerciseData.sentences.length}`,
+      );
     } else {
-      ValidationAlert.error(`Score: ${score} / ${exerciseData.sentences.length}`);
+      ValidationAlert.error(
+        `Score: ${score} / ${exerciseData.sentences.length}`,
+      );
     }
   };
 
@@ -302,7 +314,10 @@ const WB_Unit7_Page42_Q2 = () => {
           <div className="p-6 space-y-8">
             {exerciseData.sentences.map((sentence, idx) => {
               return (
-                <div key={sentence.id} className="bg-blue-50 p-4 rounded-lg">
+                <div
+                  key={sentence.id}
+                  className="bg-blue-50 p-4 rounded-lg flex gap-6 items-start w-[115%]"
+                >
                   <p className="text-lg mb-5 leading-10">
                     <span className="font-bold">{idx + 1}.</span>{" "}
                     {sentence.questionParts.map((part, partIndex) => (
@@ -342,9 +357,10 @@ const WB_Unit7_Page42_Q2 = () => {
 
                           <div className="flex flex-wrap gap-2">
                             {word.scrambled.map((letter, letterIndex) => {
-                              const isUsed = usedLetters[sentence.id][wordIndex].includes(
-                                letterIndex
-                              );
+                              const isUsed =
+                                usedLetters[sentence.id][wordIndex].includes(
+                                  letterIndex,
+                                );
 
                               return (
                                 <DraggableLetter
@@ -370,13 +386,24 @@ const WB_Unit7_Page42_Q2 = () => {
                           acc.push(
                             <span key={index} className="font-medium">
                               {sentence.words[index].correct}
-                            </span>
+                            </span>,
                           );
                         }
                         return acc;
                       }, [])}
                     </div>
                   )}
+                  <div className="flex-shrink-0 ml-auto">
+                    <img
+                      src={images[idx]}
+                      alt="question"
+                      style={{
+                        width: "180px",
+                        height: "140px",
+                        objectFit: "contain",
+                      }}
+                    />
+                  </div>
                 </div>
               );
             })}

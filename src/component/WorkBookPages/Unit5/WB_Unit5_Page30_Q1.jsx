@@ -2,6 +2,11 @@ import React, { useState, useEffect } from "react";
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import img from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 30/Ex G 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 30/Ex G 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 30/Ex G 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 30/Ex G 4.svg";
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 30/Ex G 5.svg";
 
 const SentenceBuilder = ({
   id,
@@ -103,14 +108,15 @@ const isWrong = () => {
 
 const WB_Unit5_Page30_Q1 = () => {
   const exerciseSentences = [
-    { id: "s1", scrambled: "He likes fish.", correct: "He doesn't like fish." },
+    { id: "s1", scrambled: "He likes fish.", correct: "He doesn't like fish.",img: img2, },
     {
       id: "s2",
       scrambled: "He doesn’t like chicken.",
       correct: "He doesn't like meat.",
+      img: img3,
     },
-    { id: "s3", scrambled: "I like meat.", correct: "I like stew." },
-    { id: "s4", scrambled: "He likes rice.", correct: "He doesn't like rice." },
+    { id: "s3", scrambled: "I like meat.", correct: "I like stew.",img: img4, },
+    { id: "s4", scrambled: "He likes rice.", correct: "He doesn't like rice.",img: img5, },
   ];
 
   const [userAnswers, setUserAnswers] = useState({});
@@ -219,7 +225,7 @@ const WB_Unit5_Page30_Q1 = () => {
               </p>
             </div>
 
-            <img src={img} className="max-w-16 max-h-16 object-contain" />
+            <img src={img1} className="max-w-16 max-h-16 object-contain" />
           </div>
           {exerciseSentences.map((sentence, index) => (
             <div
@@ -238,7 +244,7 @@ const WB_Unit5_Page30_Q1 = () => {
                   correct={sentence.correct}
                   onUpdate={(ans) => handleAnswerUpdate(sentence.id, ans)}
                   showResult={showResults}
-                  src={img}
+                  src={sentence.img}
                   forceAnswer={showAnswers}
                 />
               </div>

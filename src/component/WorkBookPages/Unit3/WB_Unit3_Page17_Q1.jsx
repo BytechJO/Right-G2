@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 
 // استيراد الصور ومكونات الأزرار والتنبيهات
-import sandwichImg from "../../../assets/imgs/test6.png";
-import drumImg from "../../../assets/imgs/test6.png";
-import bikeImg from "../../../assets/imgs/test6.png";
-import kiteImg from "../../../assets/imgs/test6.png";
+import sandwichImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 17/Ex E 1.svg";
+import drumImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 17/Ex E 2.svg";
+import bikeImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 17/Ex E 3.svg";
+import kiteImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 17/Ex E 4.svg";
+
+
 
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";

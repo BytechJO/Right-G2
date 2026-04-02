@@ -2,24 +2,26 @@ import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
 
-import placeholderImg from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 34/Ex D 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 34/Ex D 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 34/Ex D 3.svg";
 
 const QUESTIONS = [
   {
     id: 1,
-    image: placeholderImg,
+    image: img1,
     options: ["eats breakfast", "sleeps"],
     correct: "eats breakfast",
   },
   {
     id: 2,
-    image: placeholderImg,
+    image: img2,
     options: ["does homework", "makes bed"],
     correct: "does homework",
   },
   {
     id: 3,
-    image: placeholderImg,
+    image: img3,
     options: ["gets up", "goes to school"],
     correct: "gets up",
   },

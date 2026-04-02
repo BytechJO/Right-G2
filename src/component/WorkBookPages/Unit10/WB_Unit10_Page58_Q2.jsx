@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
 
-import imgGirl from "../../../assets/imgs/test6.png";
+import imgGirl from "../../../assets/imgs/WorkBook/Right Int WB G2 U10 Folder/Page 58/Ex C 1.svg";
 import imgBoy from "../../../assets/imgs/test6.png";
-
+// check
 const WB_Unit10_Page58_Q2 = () => {
   const [answers, setAnswers] = useState({
     c1_1: "",

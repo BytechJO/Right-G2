@@ -10,7 +10,7 @@ import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
-
+// check
 import imgMath from "../../../assets/imgs/test6.png";
 import imgSoccer from "../../../assets/imgs/test6.png";
 import imgEnglish from "../../../assets/imgs/test6.png";

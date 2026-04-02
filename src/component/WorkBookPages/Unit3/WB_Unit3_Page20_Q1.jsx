@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 20/Ex A 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 20/Ex A 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 20/Ex A 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 20/Ex A 4.svg";
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 20/Ex A 5.svg";
+import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 20/Ex A 6.svg";
 
-import placeholderImg from "../../../assets/imgs/test6.png";
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
@@ -70,12 +75,12 @@ const targetWords = {
 };
 
 const writeList = [
-  { id: "w1", word: "jeans", img: placeholderImg },
-  { id: "w2", word: "yoyo", img: placeholderImg },
-  { id: "w3", word: "juice", img: placeholderImg },
-  { id: "w4", word: "jet", img: placeholderImg },
-  { id: "w5", word: "yarn", img: placeholderImg },
-  { id: "w6", word: "jam", img: placeholderImg },
+  { id: "w1", word: "jeans", img: img1 },
+  { id: "w2", word: "yoyo", img: img2},
+  { id: "w3", word: "juice", img: img3 },
+  { id: "w4", word: "jet", img: img4 },
+  { id: "w5", word: "yarn", img: img5 },
+  { id: "w6", word: "jam", img: img6 },
 ];
 
 const WB_Unit3_Page20_Q1 = () => {

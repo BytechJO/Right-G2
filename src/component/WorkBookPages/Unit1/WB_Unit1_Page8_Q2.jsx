@@ -13,15 +13,21 @@ import { CSS } from "@dnd-kit/utilities";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
 
-import img from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 8/Ex B 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 8/Ex B 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 8/Ex B 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 8/Ex B 4.svg";
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 8/Ex B 5.svg";
+import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 8/Ex B 6.svg";
+import img7 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 8/Ex B 7.svg";
 const ALL_IMAGES = [
-  { id: "rat", src: img, letter: "r" },
-  { id: "rabbit", src: img, letter: "r" },
-  { id: "robot", src: img, letter: "r" },
-  { id: "rose", src: img, letter: "r" },
-  { id: "lamp", src: img, letter: "l" },
-  { id: "lemon", src: img, letter: "l" },
-  { id: "leaf", src: img, letter: "l" },
+  { id: "rat", src: img1, letter: "r" },
+  { id: "rabbit", src: img2, letter: "r" },
+  { id: "robot", src: img3, letter: "r" },
+  { id: "rose", src: img4, letter: "r" },
+  { id: "lamp", src: img5, letter: "l" },
+  { id: "lemon", src: img6, letter: "l" },
+  { id: "leaf", src: img7, letter: "l" },
 ];
 
 // مكون الصورة القابلة للسحب
@@ -178,10 +184,10 @@ const WB_Unit1_Page8_Q2_DND = () => {
 
     if (correctCount === total) {
       ValidationAlert.success(`Score: ${correctCount}/${total}`);
-    } else if (correctCount > 0){
+    } else if (correctCount > 0) {
       ValidationAlert.warning(`Score: ${correctCount}/${total}`);
-    }else{
-       ValidationAlert.error(`Score: ${correctCount}/${total}`);
+    } else {
+      ValidationAlert.error(`Score: ${correctCount}/${total}`);
     }
   };
 
@@ -265,12 +271,13 @@ const WB_Unit1_Page8_Q2_DND = () => {
 
         <DragOverlay>
           {activeItem ? (
-            <><img
-              src={activeItem.src}
-              alt={activeItem.id}
-              className="max-w-24 max-h-24 object-contain bg-white border rounded-md shadow-lg"
-            />
-            <h5>{activeItem.id}</h5>
+            <>
+              <img
+                src={activeItem.src}
+                alt={activeItem.id}
+                className="max-w-24 max-h-24 object-contain bg-white border rounded-md shadow-lg"
+              />
+              <h5>{activeItem.id}</h5>
             </>
           ) : null}
         </DragOverlay>

@@ -2,13 +2,17 @@ import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
 import img from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 41/Ex E 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 41/Ex E 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 41/Ex E 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 41/Ex E 4.svg";
 
 const exerciseDataM = {
   questions: [
-    { id: "m1", number: 2, correctMonth: "February", image: img },
-    { id: "m2", number: 7, correctMonth: "July", image: img },
-    { id: "m3", number: 11, correctMonth: "November", image: img },
-    { id: "m4", number: 5, correctMonth: "May", image: img },
+    { id: "m1", number: 2, correctMonth: "February", image: img1 },
+    { id: "m2", number: 7, correctMonth: "July", image: img2 },
+    { id: "m3", number: 11, correctMonth: "November", image: img3 },
+    { id: "m4", number: 5, correctMonth: "May", image: img4 },
   ],
   months: [
     "January","February","March","April","May","June",

@@ -1,7 +1,18 @@
 import React, { useState, useRef } from "react";
-import img from "../../../assets/imgs/test6.png";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page27/Ex A 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page27/Ex A 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page27/Ex A 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page27/Ex A 4.svg";
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page27/Ex A 5.svg";
+import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page27/Ex A 6.svg";
+import img7 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page27/Ex A 7.svg";
+import img8 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page27/Ex A 8.svg";
+import img9 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page27/Ex A 9.svg";
+import img10 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page27/Ex A 10.svg";
+import img11 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page27/Ex A 11.svg";
+import img12 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page27/Ex A 12.svg";
 
 const leftParts = [
   { id: 1, text: "burgers" },
@@ -13,21 +24,21 @@ const leftParts = [
 ];
 
 const images = [
-  { id: "img1", src: img },
-  { id: "img2", src: img },
-  { id: "img3", src: img },
-  { id: "img4", src: img },
-  { id: "img5", src: img },
-  { id: "img6", src: img },
+  { id: "img1", src: img1 },
+  { id: "img2", src: img2 },
+  { id: "img3", src: img3 },
+  { id: "img4", src: img4 },
+  { id: "img5", src: img5 },
+  { id: "img6", src: img6 },
 ];
 
 const rightParts = [
-  { id: "r1", src: img },
-  { id: "r2", src: img },
-  { id: "r3", src: img },
-  { id: "r4", src: img },
-  { id: "r5", src: img },
-  { id: "r6", src: img },
+  { id: "r1", src: img7 },
+  { id: "r2", src: img8 },
+  { id: "r3", src: img9 },
+  { id: "r4", src: img10 },
+  { id: "r5", src: img11 },
+  { id: "r6", src: img12 },
 ];
 
 const correctMatches = [
@@ -324,7 +335,7 @@ const WB_Unit5_Page27_Q1 = () => {
                   <img
                     src={img.src}
                     alt=""
-                    className="max-w-24 max-h-24 object-cover"
+                    className="max-w-25 max-h-25 object-contain"
                   />
                 </div>
               ))}
@@ -360,7 +371,7 @@ const WB_Unit5_Page27_Q1 = () => {
                   <img
                     src={r.src}
                     alt=""
-                    className="max-w-24 max-h-24 object-cover"
+                    className="max-w-25 max-h-25 object-contain"
                   />
                 </div>
               ))}

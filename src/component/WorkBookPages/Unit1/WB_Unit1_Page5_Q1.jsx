@@ -1,5 +1,8 @@
 import { useState } from "react";
-import img from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 5/Ex F 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 5/Ex F 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 5/Ex F 3.svg";
+
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
 
@@ -14,9 +17,9 @@ const WB_Unit1_Page5_Q1 = () => {
   const [showAnswers, setShowAnswers] = useState(false);
   const [checked, setChecked] = useState(false);
   const data = [
-    { id: 1, img: img, options: ["brother.", "sister."], correct: "sister." },
-    { id: 2, img: img, options: ["uncle.", "aunt."], correct: "uncle." },
-    { id: 3, img: img, options: ["mother.", "aunt."], correct: "aunt." },
+    { id: 1, img: img1, options: ["brother.", "sister."], correct: "sister." },
+    { id: 2, img: img2, options: ["uncle.", "aunt."], correct: "uncle." },
+    { id: 3, img: img3, options: ["mother.", "aunt."], correct: "aunt." },
   ];
 
   const handleSelect = (id, option) => {

@@ -2,14 +2,14 @@ import React, { useState, useRef, useEffect } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
 import QuestionAudioPlayer from "../../QuestionAudioPlayer";
-import sound from "../../../assets/audio/WorkBook/titel G2/Unit 2.mp3";
+import sound from "../../../assets/audio/WorkBook/p50q1.mp3";
 
-import imgElephant from "../../../assets/imgs/test6.png";
-import imgTube from "../../../assets/imgs/test6.png";
-import imgGlue from "../../../assets/imgs/test6.png";
-import imgBlue from "../../../assets/imgs/test6.png";
-import imgCube from "../../../assets/imgs/test6.png";
-import imgTune from "../../../assets/imgs/test6.png";
+import imgElephant from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 50/Ex A 1.svg";
+import imgTube from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 50/Ex A 2.svg";
+import imgGlue from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 50/Ex A 3.svg";
+import imgBlue from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 50/Ex A 4.svg";
+import imgCube from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 50/Ex A 5.svg";
+import imgTune from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 50/Ex A 6.svg";
 
 const CORRECT_A = {
   q1_1: "u",
@@ -85,20 +85,18 @@ const WB_Unit8_Page50_Q1 = () => {
     setShowResults(false);
   };
   const captions = [
-    {
-      start: 0,
-      end: 4.23,
-      text: "Page 8. Right Activities. Exercise A, number 1. ",
-    },
-    {
-      start: 4.25,
-      end: 8.28,
-      text: "Listen and write the missing letters. Number the pictures.  ",
-    },
-    { start: 8.3, end: 11.05, text: "1-tiger." },
-    { start: 11.07, end: 13.12, text: "2-taxi." },
-    { start: 13.14, end: 15.14, text: "3-duck." },
-    { start: 15.16, end: 17.13, text: "4-deer." },
+    { start: 0.56, end: 3.18, text: "Page 50, Phonics Exercise A." },
+
+    { start: 4.34, end: 6.34, text: "Listen and write the missing letters." },
+
+    { start: 7.46, end: 9.32, text: "1.huge." },
+    { start: 10.22, end: 12.14, text: "2.tube." },
+
+    { start: 13.2, end: 15.21, text: "3.glue" },
+    { start: 16, end: 18, text: "4.blue." },
+
+    { start: 18.78, end: 21.39, text: "5.cube." },
+    { start: 22, end: 23.96, text: "6.tune." },
   ];
 
   return (
@@ -108,7 +106,7 @@ const WB_Unit8_Page50_Q1 = () => {
           <span className="WB-ex-A">A</span> Listen and write the missing
           letters.
         </h1>
-        <QuestionAudioPlayer src={sound} captions={captions} stopAtSecond={9} />
+        <QuestionAudioPlayer src={sound} captions={captions} stopAtSecond={6.35} />
         <div className="grid grid-cols-2 md:grid-cols-3 gap-10">
           {[1, 2, 3, 4, 5, 6].map((num, idx) => {
             const parts = WORD_PARTS[idx];

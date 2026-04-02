@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 
 // استيراد الصور ومكونات الأزرار والتنبيهات
-import placeholderImg from "../../../assets/imgs/test6.png";
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";
+import placeholderImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page26/Ex B 1.svg";
 
 // بيانات التمرين
 const scrambledWords = [

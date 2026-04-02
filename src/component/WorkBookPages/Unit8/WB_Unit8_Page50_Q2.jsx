@@ -12,8 +12,8 @@ import {
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
 
-import imgBlueInk from "../../../assets/imgs/test6.png";
-import imgTubeItem from "../../../assets/imgs/test6.png";
+import imgBlueInk from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 50/Ex B 1.svg";
+import imgTubeItem from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 50/Ex B 2.svg";
 
 const WORDS = ["cute", "cube", "chute", "Sue", "glue", "true", "mute"];
 

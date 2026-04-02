@@ -3,15 +3,20 @@ import { Volume2 } from "lucide-react";
 import { TbMessageCircle } from "react-icons/tb";
 import { FaPlay, FaPause } from "react-icons/fa";
 import { IoMdSettings } from "react-icons/io";
-import sound from "../../../assets/audio/WorkBook/titel G2/Unit 2.mp3";
-import placeholderImg from "../../../assets/imgs/test6.png";
+import sound from "../../../assets/audio/WorkBook/p26q1.mp3";
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page26/Ex A 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page26/Ex A 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page26/Ex A 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page26/Ex A 4.svg";
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page26/Ex A 5.svg";
+import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page26/Ex A 6.svg";
 
 const exerciseData = [
   {
     id: "a1",
-    img: placeholderImg,
+    img: img1,
     word: "rain",
     options: ["ay", "ai"],
     correctAnswer: "ai",
@@ -19,7 +24,7 @@ const exerciseData = [
   },
   {
     id: "a2",
-    img: placeholderImg,
+    img: img2,
     word: "play",
     options: ["a-e", "ay"],
     correctAnswer: "ay",
@@ -27,7 +32,7 @@ const exerciseData = [
   },
   {
     id: "a3",
-    img: placeholderImg,
+    img: img3,
     word: "cake",
     options: ["ay", "a-e"],
     correctAnswer: "a-e",
@@ -35,7 +40,7 @@ const exerciseData = [
   },
   {
     id: "a4",
-    img: placeholderImg,
+    img: img4,
     word: "paint",
     options: ["ai", "ay"],
     correctAnswer: "ai",
@@ -43,7 +48,7 @@ const exerciseData = [
   },
   {
     id: "a5",
-    img: placeholderImg,
+    img: img5,
     word: "May",
     options: ["ay", "a-e"],
     correctAnswer: "ay",
@@ -51,7 +56,7 @@ const exerciseData = [
   },
   {
     id: "a6",
-    img: placeholderImg,
+    img: img6,
     word: "lake",
     options: ["a-e", "ai"],
     correctAnswer: "a-e",
@@ -64,7 +69,7 @@ const WB_Unit4_Page26_Q1 = () => {
   const [showResults, setShowResults] = useState(false);
   const clickAudioRef = useRef(null);
   const audioRef = useRef(null);
-  const stopAtSecond = 9;
+  const stopAtSecond = 8;
   const [paused, setPaused] = useState(false);
   // إعدادات الصوت
   const [showSettings, setShowSettings] = useState(false);
@@ -84,18 +89,20 @@ const WB_Unit4_Page26_Q1 = () => {
   const captions = [
     {
       start: 0,
-      end: 4.23,
-      text: "Page 8. Right Activities. Exercise A, number 1. ",
+      end: 3.7,
+      text: "Page 26, phonics, exercise A.  ",
     },
     {
-      start: 4.25,
-      end: 8.28,
-      text: "Listen and write the missing letters. Number the pictures.  ",
+      start: 4.28,
+      end: 7.92,
+      text: "Listen and circle the correct long A sound.  ",
     },
-    { start: 8.3, end: 11.05, text: "1-tiger." },
-    { start: 11.07, end: 13.12, text: "2-taxi." },
-    { start: 13.14, end: 15.14, text: "3-duck." },
-    { start: 15.16, end: 17.13, text: "4-deer." },
+    { start: 9.06, end: 10.721, text: "1-rain." },
+    { start: 10.72, end: 12.08, text: "2-play." },
+    { start: 14.38, end: 15.68, text: "3-cake." },
+    { start: 16.5, end: 18.49, text: "4-paint." },
+    { start: 19.5, end: 21.8, text: "5-may." },
+    { start: 22.5, end: 24.92, text: "6-lake." },
   ];
 
   // ================================

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import page_4 from "../../../assets/imgs/pages/WB_Right Int.  WB  G2_Content_00001/WB_Right Int.  WB  G2_Content_00004.jpg";
+import page_4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 4.png";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 import "./WB_Unit1_Page4.css"
 const WB_Unit1_Page4 = ({ openPopup }) => {

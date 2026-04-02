@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import img from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 13/Ex I 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 13/Ex I 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 13/Ex I 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 13/Ex I 4.svg";
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 13/Ex I 5.svg";
 
 const SentenceBuilder = ({
   id,
@@ -119,18 +123,31 @@ const WB_Unit2_Page13_Q1 = () => {
       scrambled: "are horses Those black",
       correct: "Those are black horses.",
       isExample: true, // 👈 هذا المهم
+      img: img1,
     },
     {
       id: "s2",
       scrambled: "small This rabbit is a",
       correct: "This is a small rabbit.",
+      img: img2,
     },
-    { id: "s3", scrambled: "ducks These are", correct: "These are ducks." },
-    { id: "s4", scrambled: "sun That the is", correct: "That is the sun." },
+    {
+      id: "s3",
+      scrambled: "ducks These are",
+      correct: "These are ducks.",
+      img: img3,
+    },
+    {
+      id: "s4",
+      scrambled: "sun That the is",
+      correct: "That is the sun.,",
+      img: img4,
+    },
     {
       id: "s5",
       scrambled: "white Those clouds are",
       correct: "Those are white clouds.",
+      img: img5,
     },
   ];
 
@@ -181,19 +198,19 @@ const WB_Unit2_Page13_Q1 = () => {
 
     setScore({ correct: correctCount, total: exerciseSentences.length });
 
- if (correctCount === exerciseSentences.length) {
-  ValidationAlert.success(
-    `Score: ${correctCount}/${exerciseSentences.length}`,
-  );
-} else if (correctCount > 0) {
-  ValidationAlert.warning(
-    `Score: ${correctCount}/${exerciseSentences.length}`,
-  );
-} else {
-  ValidationAlert.error(
-    `Score: ${correctCount}/${exerciseSentences.length}`,
-  );
-}
+    if (correctCount === exerciseSentences.length) {
+      ValidationAlert.success(
+        `Score: ${correctCount}/${exerciseSentences.length}`,
+      );
+    } else if (correctCount > 0) {
+      ValidationAlert.warning(
+        `Score: ${correctCount}/${exerciseSentences.length}`,
+      );
+    } else {
+      ValidationAlert.error(
+        `Score: ${correctCount}/${exerciseSentences.length}`,
+      );
+    }
   };
 
   const handleStartAgain = () => {
@@ -229,7 +246,7 @@ const WB_Unit2_Page13_Q1 = () => {
         </h1>
 
         <div className="space-y-4">
-     {exerciseSentences.map((sentence, index) => (
+          {exerciseSentences.map((sentence, index) => (
             <div
               key={sentence.id}
               className="flex items-start gap-4 p-4 rounded-xl transition-all hover:bg-gray-50"
@@ -244,7 +261,7 @@ const WB_Unit2_Page13_Q1 = () => {
                   correct={sentence.correct}
                   onUpdate={(answer) => handleAnswerUpdate(sentence.id, answer)}
                   showResult={showResults}
-                  src={img}
+                  src={sentence.img}
                   forceAnswer={showAnswers}
                   isWrong={
                     showResults &&

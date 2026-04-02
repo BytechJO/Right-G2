@@ -1,16 +1,21 @@
 import { useState, useRef, useLayoutEffect } from "react";
-import img from "../../../assets/imgs/test6.png";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 36/Ex G 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 36/Ex G 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 36/Ex G 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 36/Ex G 4.svg";
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 36/Ex G 5.svg";
+import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 36/Ex G 6.svg";
 
 const exerciseData = {
   right: [
-    { id: 1, img: img },
-    { id: 2, img: img },
-    { id: 3, img: img },
-    { id: 4, img: img },
-    { id: 5, img: img },
-    { id: 6, img: img },
+    { id: 1, img: img1 },
+    { id: 2, img: img2 },
+    { id: 3, img: img3 },
+    { id: 4, img: img4 },
+    { id: 5, img: img5 },
+    { id: 6, img: img6 },
   ],
   left: [
     { id: 1, text: "It’s half past three." },
@@ -20,7 +25,7 @@ const exerciseData = {
     { id: 5, text: "It’s four o’clock." },
     { id: 6, text: "It’s half past eight." },
   ],
-  correctMatches: { 1: 2, 2: 3, 3: 1, 4: 4, 5: 5, 6: 6 },
+  correctMatches: { 1: 4, 2: 5, 3: 3, 4: 2, 5: 6, 6: 1 },
 };
 
 const WB_Unit6_Page36_Q1 = () => {
@@ -222,7 +227,7 @@ const WB_Unit6_Page36_Q1 = () => {
                 <img
                   src={item.img}
                   alt={`Person ${item.id}`}
-                  className="max-w-45 max-h-24 rounded-lg object-cover shadow-md"
+                  className="max-w-45 max-h-24  object-contain "
                 />
               </div>
             ))}

@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import img1 from "../../../assets/imgs/test6.png";
-import img3 from "../../../assets/imgs/test6.png";
-import img2 from "../../../assets/imgs/test6.png";
-import img4 from "../../../assets/imgs/test6.png";
-import img5 from "../../../assets/imgs/test6.png";
-import img6 from "../../../assets/imgs/test6.png";
+
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 48/Ex H 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 48/Ex H 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 48/Ex H 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 48/Ex H 4.svg";
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 48/Ex H 5.svg";
+import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 48/Ex H 6.svg";
 
 const questions = [
   {
@@ -74,16 +75,16 @@ const LookAndFind = () => {
       ValidationAlert.error(message);
     }
   };
-const handleShowAnswer = () => {
-  const correct = {};
+  const handleShowAnswer = () => {
+    const correct = {};
 
-  questions.forEach((q) => {
-    correct[q.id] = q.correctAnswer;
-  });
+    questions.forEach((q) => {
+      correct[q.id] = q.correctAnswer;
+    });
 
-  setAnswers(correct);
-  setShowResults(true);
-};
+    setAnswers(correct);
+    setShowResults(true);
+  };
   const handleStartAgain = () => {
     setAnswers({});
     setShowResults(false);
@@ -121,26 +122,26 @@ const handleShowAnswer = () => {
         <div className="flex justify-center gap-10">
           <div className="text-center">
             <p className="font-bold mb-2">A</p>
-            <div className="w-48 h-48 bg-gray-200 rounded-lg flex items-center justify-center">
+            <div className=" flex items-center justify-center">
               {/* حطي SVG تبعك هون */}
 
               <img
                 src={img1}
-                style={{ height: "90px" }}
-                className="w-20 h-20 flex items-center justify-center text-lg font-bold border-2 rounded-lg cursor-pointer transition-all"
+                style={{ height: "190px", width: "200px" }}
+                className=" flex items-center justify-center text-lg font-bold  cursor-pointer transition-all"
               />
             </div>
           </div>
 
           <div className="text-center">
             <p className="font-bold mb-2">B</p>
-            <div className="w-48 h-48 bg-gray-200 rounded-lg flex items-center justify-center">
+            <div className=" flex items-center justify-center">
               {/* حطي SVG تبعك هون */}
 
               <img
                 src={img2}
-                style={{ height: "90px" }}
-                className="w-20 h-20 flex items-center justify-center text-lg font-bold border-2 rounded-lg cursor-pointer transition-all"
+                style={{ height: "190px", width: "200px" }}
+                className=" flex items-center justify-center text-lg font-bold  cursor-pointer transition-all"
               />
             </div>
           </div>
@@ -202,7 +203,7 @@ const handleShowAnswer = () => {
           <Button
             handleStartAgain={handleStartAgain}
             checkAnswers={checkAnswers}
-             handleShowAnswer={handleShowAnswer}
+            handleShowAnswer={handleShowAnswer}
           />
         </div>
       </div>

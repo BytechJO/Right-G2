@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
 
-import imgA from "../../../assets/imgs/test6.png";
-import imgB from "../../../assets/imgs/test6.png";
+import imgA from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 54/Ex G 1.svg";
+import imgB from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 54/Ex G 2.svg";
 
 const exerciseGData = [
   {
@@ -204,26 +204,20 @@ const WB_Unit9_Page54_Q1 = () => {
           <span className="WB-ex-A">G</span> What is different? Look and write.
         </h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-2">
           <div className="relative ">
             <img
               src={imgA}
               alt="Scene A"
-              className="max-w-full max-h-64 object-cover"
+              className="max-w-full max-h-64 object-contain"
             />
-            <div className="absolute top-2 left-2 bg-white w-8 h-8 rounded-full flex items-center justify-center font-bold border-2 border-gray-800">
-              A
-            </div>
           </div>
           <div className="relative">
             <img
               src={imgB}
               alt="Scene B"
-              className="max-w-full max-h-64 object-cover"
+              className="max-w-full max-h-64 object-contain"
             />
-            <div className="absolute top-2 left-2 bg-white w-8 h-8 rounded-full flex items-center justify-center font-bold border-2 border-gray-800">
-              B
-            </div>
           </div>
         </div>
 

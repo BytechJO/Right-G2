@@ -1,20 +1,19 @@
 import React, { useState, useRef } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
+import imgJohn from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 48/Ex I 1.svg";
+import imgBike from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 48/Ex I 2.svg";
+import imgMomAunt from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 48/Ex I 3.svg";
+import imgDress from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 48/Ex I 4.svg";
+import imgDad from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 48/Ex I 5.svg";
+import imgTie from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 48/Ex I 6.svg";
+import imgGrandpa from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 48/Ex I 7.svg";
+import imgGlasses from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 48/Ex I 8.svg";
+import imgSarahJack from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 48/Ex I 9.svg";
+import imgDollRobot from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 48/Ex I 10.svg";
+import imgHelenStella from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 48/Ex I 11.svg";
+import imgDresses from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 48/Ex I 12.svg";
 
-import imgJohn from "../../../assets/imgs/test6.png";
-import imgMomAunt from "../../../assets/imgs/test6.png";
-import imgDad from "../../../assets/imgs/test6.png";
-import imgGrandpa from "../../../assets/imgs/test6.png";
-import imgSarahJack from "../../../assets/imgs/test6.png";
-import imgHelenStella from "../../../assets/imgs/test6.png";
-
-import imgBike from "../../../assets/imgs/test6.png";
-import imgDress from "../../../assets/imgs/test6.png";
-import imgTie from "../../../assets/imgs/test6.png";
-import imgGlasses from "../../../assets/imgs/test6.png";
-import imgDollRobot from "../../../assets/imgs/test6.png";
-import imgDresses from "../../../assets/imgs/test6.png";
 
 const CORRECT_ANSWERS = {
   q1: "chip1",

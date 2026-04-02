@@ -12,8 +12,9 @@ import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
 
 // استيراد الصور
-import imgRoomA from "../../../assets/imgs/test6.png";
-import imgRoomB from "../../../assets/imgs/test6.png";
+
+import imgRoomA from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 49/Asset 56.svg";
+import imgRoomB from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 49/Asset 55.svg";
 
 const OPTIONS_K = [
   { id: "k1", text: "She has six crayons." },
@@ -158,7 +159,7 @@ const WB_Unit8_Page49_Q2 = () => {
                 <img
                   src={imgRoomA}
                   alt="Room A"
-                  className="max-w-full max-h-48 object-cover rounded-xl shadow-sm"
+                  className="max-w-full max-h-40 object-contain "
                 />
                 <span className="absolute top-2 left-2 bg-white w-8 h-8 rounded-full flex items-center justify-center font-bold shadow-md">
                   A
@@ -189,7 +190,7 @@ const WB_Unit8_Page49_Q2 = () => {
                 <img
                   src={imgRoomB}
                   alt="Room B"
-                  className="max-w-full max-h-48 object-cover rounded-xl shadow-sm"
+                  className="max-w-full max-h-40 object-contain"
                 />
                 <span className="absolute top-2 left-2 bg-white w-8 h-8 rounded-full flex items-center justify-center font-bold shadow-md">
                   B

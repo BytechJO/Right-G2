@@ -1,5 +1,11 @@
 import { useState } from "react";
-import img from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 9/Ex A 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 9/Ex A 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 9/Ex A 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 9/Ex A 4.svg";
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 9/Ex A 5.svg";
+import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 9/Ex A 6.svg";
+
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
 import "./WB_Unit2_Page9_Q1.css";
@@ -17,13 +23,13 @@ const WB_Unit2_Page9_Q1 = () => {
   const [showAnswers, setShowAnswers] = useState(false);
   const [wrongAnswers, setWrongAnswers] = useState({});
   const data = [
-    { id: 1, img: img, options: ["tree", "sun"], correct: "sun" },
-    { id: 2, img: img, options: ["cloud", "bird"], correct: "cloud" },
-    { id: 3, img: img, options: ["flower", "sun"], correct: "flower" },
+    { id: 1, img: img1, options: ["tree", "sun"], correct: "sun" },
+    { id: 2, img: img2, options: ["cloud", "bird"], correct: "cloud" },
+    { id: 3, img: img3, options: ["flower", "sun"], correct: "flower" },
 
-    { id: 4, img: img, options: ["duck", "bird"], correct: "duck" },
-    { id: 5, img: img, options: ["cloud", "butterfly"], correct: "butterfly" },
-    { id: 6, img: img, options: ["flower", "bird"], correct: "bird" },
+    { id: 4, img: img4, options: ["duck", "bird"], correct: "duck" },
+    { id: 5, img: img5, options: ["cloud", "butterfly"], correct: "butterfly" },
+    { id: 6, img: img6, options: ["flower", "bird"], correct: "bird" },
   ];
 
   const handleSelect = (id, option) => {

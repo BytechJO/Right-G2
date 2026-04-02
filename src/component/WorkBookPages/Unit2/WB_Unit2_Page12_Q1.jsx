@@ -1,5 +1,12 @@
 import React, { useState } from "react";
 import img from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 12/Ex G 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 12/Ex G 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 12/Ex G 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 12/Ex G 4.svg";
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 12/Ex G 5.svg";
+import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 12/Ex G 6.svg";
+
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
@@ -84,7 +91,7 @@ const WB_Unit2_Page12_Q1 = () => {
           <div className="sentences ">
             <div className="flex items-center gap-4 p-5 rounded-xl ">
               <span className="font-semibold text-blue-600 mr-2">1.</span>
-              <img src={img} className="max-w-24 max-h-24 object-contain" />
+              <img src={img1} className="max-w-24 max-h-24 object-contain" />
               <div className="flex-1">
                 <p className="relative text-xl text-gray-800 curesor-pointer">
                   <select
@@ -112,7 +119,7 @@ const WB_Unit2_Page12_Q1 = () => {
             </div>
             <div className="flex items-center gap-4 p-5 rounded-xl ">
               <span className="font-semibold text-blue-600 mr-2">2.</span>
-              <img src={img} className="max-w-24 max-h-24 object-contain" />
+              <img src={img2} className="max-w-24 max-h-24 object-contain" />
               <div className="flex-1">
                 <p className="relative text-xl text-gray-800">
                   <select
@@ -128,7 +135,7 @@ const WB_Unit2_Page12_Q1 = () => {
                     <option value="These">These</option>
                     <option value="Those">Those</option>
                   </select>
-                   {/* ❌ علامة الخطأ */}
+                  {/* ❌ علامة الخطأ */}
                   {checked && isWrong("sentence2") && (
                     <div className="absolute -top-2 left-26 bg-red-500 text-white w-5 h-5 flex items-center justify-center rounded-full text-sm font-bold shadow">
                       ✕
@@ -140,7 +147,7 @@ const WB_Unit2_Page12_Q1 = () => {
             </div>
             <div className="flex items-center gap-4 p-5 rounded-xl ">
               <span className="font-semibold text-blue-600 mr-2">3.</span>
-              <img src={img} className="max-w-24 max-h-24 object-contain" />
+              <img src={img3} className="max-w-24 max-h-24 object-contain" />
               <div className="flex-1">
                 <p className="relative text-xl text-gray-800">
                   <select
@@ -168,7 +175,7 @@ const WB_Unit2_Page12_Q1 = () => {
             </div>
             <div className="flex items-center gap-4 p-5 rounded-xl ">
               <span className="font-semibold text-blue-600 mr-2">4.</span>
-              <img src={img} className="max-w-24 max-h-24 object-contain" />
+              <img src={img4} className="max-w-24 max-h-24 object-contain" />
               <div className="flex-1">
                 <p className="relative text-xl text-gray-800">
                   <select
@@ -196,7 +203,7 @@ const WB_Unit2_Page12_Q1 = () => {
             </div>
             <div className="flex items-center gap-4 p-5 rounded-xl ">
               <span className="font-semibold text-blue-600 mr-2">5.</span>
-              <img src={img} className="max-w-24 max-h-24 object-contain" />
+              <img src={img5} className="max-w-24 max-h-24 object-contain" />
               <div className="flex-1">
                 <p className="relative text-xl text-gray-800">
                   <select
@@ -224,7 +231,7 @@ const WB_Unit2_Page12_Q1 = () => {
             </div>
             <div className="flex items-center gap-4 p-5 rounded-xl ">
               <span className="font-semibold text-blue-600 mr-2">6.</span>
-              <img src={img} className="max-w-24 max-h-24 object-contain" />
+              <img src={img6} className="max-w-24 max-h-24 object-contain" />
               <div className="flex-1">
                 <p className="relative text-xl text-gray-800">
                   <select

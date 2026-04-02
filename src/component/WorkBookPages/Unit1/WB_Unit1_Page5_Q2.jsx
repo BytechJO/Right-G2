@@ -1,5 +1,9 @@
 import { useState } from "react";
-import img from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 5/Ex G 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 5/Ex G 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 5/Ex G 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 5/Ex G 4.svg";
+
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
@@ -98,10 +102,10 @@ const WB_Unit1_Page5_Q2 = () => {
     setChecked(false);
   };
   const data = [
-    { id: 1, img: img, name: "Stella." },
-    { id: 2, img: img, name: "Sarah." },
-    { id: 3, img: img, name: "John." },
-    { id: 4, img: img, name: "Jack." },
+    { id: 1, img: img1, name: "Stella." },
+    { id: 2, img: img2, name: "Sarah." },
+    { id: 3, img: img3, name: "John." },
+    { id: 4, img: img4, name: "Jack." },
   ];
 
   return (

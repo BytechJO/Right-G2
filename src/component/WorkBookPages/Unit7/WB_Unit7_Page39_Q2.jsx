@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import img from "../../../assets/imgs/test6.png";
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 39/Ex B 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 39/Ex B 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 39/Ex B 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 39/Ex B 4.svg";
 
 const exerciseDataL = {
   sentences: [
@@ -164,6 +168,7 @@ const WB_Unit7_Page39_Q2 = () => {
     setUserAnswers(correctAnswers);
     setShowResults(true);
   };
+const images = [img1, img2, img3, img4];
 
   return (
     <div className="main-container-component">
@@ -184,7 +189,7 @@ const WB_Unit7_Page39_Q2 = () => {
                   </span>
                   <div className="w-90 h-45 bg-gray-200 rounded-lg flex items-center justify-center mb-4">
                     <img
-                      src={img}
+                      src={images[idx ]}
                       alt={`Clock ${idx + 1}`}
                       className="max-w-85 max-h-40 object-cover"
                     />

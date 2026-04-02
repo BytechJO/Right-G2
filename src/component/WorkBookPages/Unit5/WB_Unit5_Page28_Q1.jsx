@@ -5,15 +5,18 @@ import {
   useDroppable,
   closestCenter,
 } from "@dnd-kit/core";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page28/Ex C 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page28/Ex C 3.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page28/Ex C 2.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page28/Ex C 4.svg";
 
-import placeholderImg from "../../../assets/imgs/test6.png";
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
 const exerciseData = [
   {
     id: "q1",
-    img: placeholderImg,
+    img: img1,
     correctQuestion: "Dose he like chicken?",
     correctAnswer: "No, he doesn't.",
     questionWords: ["Dose", "like", "chicken?","he"],
@@ -21,7 +24,7 @@ const exerciseData = [
   },
   {
     id: "q2",
-    img: placeholderImg,
+    img: img2,
     correctQuestion: "Dose she like fruit?",
     correctAnswer: "No, she doesn't.",
     questionWords: ["she", "Dose", "fruit?","like"],
@@ -29,7 +32,7 @@ const exerciseData = [
   },
   {
     id: "q3",
-    img: placeholderImg,
+    img: img3,
     correctQuestion: "Dose he like cheese?",
     correctAnswer: "No, he doesn't",
     questionWords: ["cheese?", "like", "Dose","he"],
@@ -37,7 +40,7 @@ const exerciseData = [
   },
   {
     id: "q4",
-    img: placeholderImg,
+    img: img4,
     correctQuestion: "Dose she like tea?",
     correctAnswer: "Yes, she does",
     questionWords: ["she", "Dose", "like","tea?"],

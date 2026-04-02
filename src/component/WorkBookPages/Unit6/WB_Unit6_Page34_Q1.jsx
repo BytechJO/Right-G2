@@ -11,7 +11,12 @@ import { CSS } from "@dnd-kit/utilities";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
 
-import placeholderImg from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 34/Ex C 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 34/Ex C 4.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 34/Ex C 2.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 34/Ex C 5.svg";
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 34/Ex C 3.svg";
+import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 34/Ex C 6.svg";
 
 const NUMBERS = [
   { id: "n1", val: "1" },
@@ -205,7 +210,7 @@ const WB_Unit6_Page34_Q1 = () => {
               <div className="grid grid-cols-2 gap-6">
                 <ImageSlot
                   id="slot_brushteeth"
-                  imgSrc={placeholderImg}
+                  imgSrc={img1}
                   content={placedNumbers.slot_brushteeth}
                   isCorrect={
                     placedNumbers.slot_brushteeth ===
@@ -215,7 +220,7 @@ const WB_Unit6_Page34_Q1 = () => {
                 />
                 <ImageSlot
                   id="slot_getup"
-                  imgSrc={placeholderImg}
+                  imgSrc={img2}
                   content={placedNumbers.slot_getup}
                   isCorrect={
                     placedNumbers.slot_getup === CORRECT_ANSWERS.slot_getup
@@ -224,7 +229,7 @@ const WB_Unit6_Page34_Q1 = () => {
                 />
                 <ImageSlot
                   id="slot_brushhair"
-                  imgSrc={placeholderImg}
+                  imgSrc={img3}
                   content={placedNumbers.slot_brushhair}
                   isCorrect={
                     placedNumbers.slot_brushhair ===
@@ -234,7 +239,7 @@ const WB_Unit6_Page34_Q1 = () => {
                 />
                 <ImageSlot
                   id="slot_washface"
-                  imgSrc={placeholderImg}
+                  imgSrc={img4}
                   content={placedNumbers.slot_washface}
                   isCorrect={
                     placedNumbers.slot_washface ===
@@ -244,7 +249,7 @@ const WB_Unit6_Page34_Q1 = () => {
                 />
                 <ImageSlot
                   id="slot_goschool"
-                  imgSrc={placeholderImg}
+                  imgSrc={img5}
                   content={placedNumbers.slot_goschool}
                   isCorrect={
                     placedNumbers.slot_goschool ===
@@ -254,7 +259,7 @@ const WB_Unit6_Page34_Q1 = () => {
                 />
                 <ImageSlot
                   id="slot_eatbreakfast"
-                  imgSrc={placeholderImg}
+                  imgSrc={img6}
                   content={placedNumbers.slot_eatbreakfast}
                   isCorrect={
                     placedNumbers.slot_eatbreakfast ===

@@ -12,9 +12,9 @@ import {
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
 
-import img1 from "../../../assets/imgs/test6.png";
-import img2 from "../../../assets/imgs/test6.png";
-import img3 from "../../../assets/imgs/test6.png";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 54/Ex H 1.svg";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 54/Ex H 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 54/Ex H 3.svg";
 
 const exerciseHData = [
   {
@@ -164,7 +164,7 @@ const WB_Unit9_Page54_Q2 = () => {
     setLocked(true);
 
     ValidationAlert[
-      correctCount === exerciseHData.length *2
+      correctCount === exerciseHData.length * 2
         ? "success"
         : correctCount > 0
           ? "warning"

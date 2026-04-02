@@ -1,5 +1,10 @@
 import React, { useState } from "react";
 import img from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 10/Ex D 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 10/Ex D 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 10/Ex D 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 10/Ex D 4.svg";
+
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
@@ -11,7 +16,7 @@ const exerciseData = [
     correctQuestion: "Is this a bird?",
     options: ["Yes, it is.", "No, it isn't."],
     correctOption: "No, it isn't.",
-    image: img,
+    image: img1,
   },
   {
     id: 2,
@@ -19,7 +24,7 @@ const exerciseData = [
     correctQuestion: "Are these dogs?",
     options: ["Yes, they are.", "No, they aren't."],
     correctOption: "No, they aren't.",
-    image: img,
+    image: img2,
   },
   {
     id: 3,
@@ -27,7 +32,7 @@ const exerciseData = [
     correctQuestion: "Are those clouds?",
     options: ["Yes, they are.", "No, they aren't."],
     correctOption: "Yes, they are.",
-    image: img,
+    image: img3,
   },
   {
     id: 4,
@@ -35,7 +40,7 @@ const exerciseData = [
     correctQuestion: "Is that a pond?",
     options: ["Yes, it is.", "No, it isn't."],
     correctOption: "No, it isn't.",
-    image: img,
+    image: img4,
   },
 ];
 

@@ -3,12 +3,12 @@ import ValidationAlert from "../../Popup/ValidationAlert"; // تأكد من صح
 import Button from "../button"; // تأكد من صحة المسار في مشروعك
 
 // استيراد الصور (تأكد من تغيير المسارات لتناسب مشروعك)
-import imgA from "../../../assets/imgs/test6.png";
-import imgB from "../../../assets/imgs/test6.png";
-import imgC from "../../../assets/imgs/test6.png";
-import imgD from "../../../assets/imgs/test6.png";
-import imgE from "../../../assets/imgs/test6.png";
-import imgF from "../../../assets/imgs/test6.png";
+import imgA from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 53/Ex F 1.svg";
+import imgB from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 53/Ex F 2.svg";
+import imgC from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 53/Ex F 3.svg";
+import imgD from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 53/Ex F 4.svg";
+import imgE from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 53/Ex F 5.svg";
+import imgF from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 53/Ex F 6.svg";
 
 const exerciseFData = [
   { id: 1, sentence: "She isn't playing chess with her friend.", correct: "e" },

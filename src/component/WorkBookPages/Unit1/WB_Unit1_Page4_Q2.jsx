@@ -2,11 +2,12 @@ import React, { useState, useEffect, useRef } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./WB_Unit1_Page4_Q2.css";
 
-import img1 from "../../../assets/imgs/test.png";
-import img2 from "../../../assets/imgs/test.png";
-import img3 from "../../../assets/imgs/test.png";
-import img4 from "../../../assets/imgs/test.png";
-import img5 from "../../../assets/imgs/test.png";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 4/Ex D 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 4/Ex D 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 4/Ex D 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 4/Ex D 4.svg";
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 4/Ex D 5.svg";
+
 import img6 from "../../../assets/imgs/test.png";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 

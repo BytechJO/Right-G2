@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
-
-import coatImg from "../../../assets/imgs/test6.png";
-import boneImg from "../../../assets/imgs/test6.png";
-import bowImg from "../../../assets/imgs/test6.png";
+import coatImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 44/Ex B 1.svg";
+import boneImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 44/Ex B 2.svg";
+import bowImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 44/Ex B 3.svg";
 
 const exerciseBWords = [
   "row",

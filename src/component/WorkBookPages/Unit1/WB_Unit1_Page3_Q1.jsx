@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import img1 from "../../../assets/imgs/test.png";
-import img2 from "../../../assets/imgs/test.png";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 3/Ex A 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 3/Ex A 2.svg";
 import img3 from "../../../assets/imgs/test.png";
 import img4 from "../../../assets/imgs/test.png";
 import ValidationAlert from "../../Popup/ValidationAlert";

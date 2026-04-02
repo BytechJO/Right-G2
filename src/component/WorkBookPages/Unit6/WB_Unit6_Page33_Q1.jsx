@@ -8,10 +8,15 @@ import {
 } from "@dnd-kit/core";
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 33/Ex A 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 33/Ex A 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 33/Ex A 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 33/Ex A 4.svg";
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 33/Ex A 5.svg";
+import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 33/Ex A 6.svg";
 
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
-import placeholderImg from "../../../assets/imgs/test6.png";
 
 const WORDS = [
   { id: "wash", text: "wash" },
@@ -188,19 +193,19 @@ const WB_Unit6_Page33_Q1 = () => {
             <div className="space-y-8">
               <div className="grid grid-cols-3 gap-4">
                 <img
-                  src={placeholderImg}
+                  src={img1}
                   alt="get up"
-                  className="rounded shadow max-w-24 max-h-24"
+                  className="max-w-50 max-h-28 object-contain"
                 />
                 <img
-                  src={placeholderImg}
+                  src={img2}
                   alt="brush"
-                  className="rounded shadow max-w-24 max-h-24"
+                  className="max-w-50 max-h-28 object-contain"
                 />
                 <img
-                  src={placeholderImg}
+                  src={img3}
                   alt="wash"
-                  className="rounded shadow max-w-24 max-h-24"
+                  className="max-w-50 max-h-28 object-contain"
                 />
               </div>
 
@@ -231,19 +236,19 @@ const WB_Unit6_Page33_Q1 = () => {
 
               <div className="grid grid-cols-3 gap-4">
                 <img
-                  src={placeholderImg}
+                  src={img4}
                   alt="eat"
-                  className="rounded shadow max-w-24 max-h-24"
+                  className="max-w-50 max-h-28 object-contain"
                 />
                 <img
-                  src={placeholderImg}
+                  src={img5}
                   alt="say"
-                  className="rounded shadow max-w-24 max-h-24"
+                  className="max-w-50 max-h-28 object-contain"
                 />
                 <img
-                  src={placeholderImg}
+                  src={img6}
                   alt="go"
-                  className="rounded shadow max-w-24 max-h-24"
+                  className="max-w-50 max-h-28 object-contain"
                 />
               </div>
 

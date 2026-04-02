@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
 
-import img1 from "../../../assets/imgs/test6.png";
-import img2 from "../../../assets/imgs/test6.png";
-import img3 from "../../../assets/imgs/test6.png";
-import img4 from "../../../assets/imgs/test6.png";
+
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 55/Ex I 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 55/Ex I 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 55/Ex I 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 55/Ex I 4.svg";
 
 const exerciseIData = [
   { id: 1, image: img1, correct: "drawing" },
@@ -152,7 +153,7 @@ const WB_Unit9_Page55_Q1 = () => {
                 <img
                   src={item.image}
                   alt=""
-                  className="w-full h-full object-cover"
+                  className="max-h-40 max-w-60 object-contain"
                 />
               </div>
             </div>

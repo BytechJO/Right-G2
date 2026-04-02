@@ -1,7 +1,10 @@
 import { useState } from "react";
-import img from "../../../assets/imgs/test6.png";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page25/Ex J 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page25/Ex J 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page25/Ex J 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page25/Ex J 4.svg";
 
 const WB_Unit4_Page25_Q2 = () => {
   const initialSelections = {
@@ -18,28 +21,28 @@ const WB_Unit4_Page25_Q2 = () => {
   const data = [
     {
       id: 1,
-      img: img,
+      img: img1,
       per: "He's",
       relations: ["grows food", "fixes cars"],
       correctRelation: "grows food",
     },
     {
       id: 2,
-      img: img,
+      img: img2,
       per: "They're",
       relations: ["teachers.", "policemen"],
       correctRelation: "policemen",
     },
     {
       id: 3,
-      img: img,
+      img: img3,
       per: "He's",
       relations: ["grows food", "fixes cars"],
       correctRelation: "fixes cars",
     },
     {
       id: 4,
-      img: img,
+      img: img4,
       per: "She's",
       relations: ["vet", "photographer."],
       correctRelation: "photographer.",
@@ -135,7 +138,7 @@ const WB_Unit4_Page25_Q2 = () => {
                 <img
                   src={item.img}
                   alt=""
-                  className="max-w-24 max-h-24 object-contain rounded-xl grayscale"
+                  className="max-w-24 max-h-24 object-contain rounded-xl "
                 />
               </div>
 

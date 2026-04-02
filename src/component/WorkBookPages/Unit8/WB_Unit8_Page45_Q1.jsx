@@ -10,13 +10,12 @@ import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";
-
-import imgTie from "../../../assets/imgs/test6.png";
-import imgSocks from "../../../assets/imgs/test6.png";
-import imgCap from "../../../assets/imgs/test6.png";
-import imgDress from "../../../assets/imgs/test6.png";
-import imgCloset from "../../../assets/imgs/test6.png";
-import imgJacket from "../../../assets/imgs/test6.png";
+import imgTie from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex A 1.svg";
+import imgSocks from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex A 2.svg";
+import imgCap from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex A 3.svg";
+import imgDress from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex A 4.svg";
+import imgCloset from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex A 5.svg";
+import imgJacket from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex A 6.svg";
 
 const CLOTHES = [
   { id: "c1", text: "tie" },

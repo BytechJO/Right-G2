@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import "./WB_Unit1_Page8_Q1.css";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import img1 from "../../../assets/imgs/test.png";
-import img2 from "../../../assets/imgs/test.png";
-import img3 from "../../../assets/imgs/test.png";
-import img4 from "../../../assets/imgs/test.png";
+
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 8/Ex A 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 8/Ex A 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 8/Ex A 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 8/Ex A 4.svg";
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 8/Ex A 5.svg";
+import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 8/Ex A 6.svg";
+
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
 const data = [
@@ -18,8 +22,8 @@ const data = [
   },
 
   { img: img4, scrambled: "obot", answer: "r", pattern: "obot" },
-  { img: img4, scrambled: "amp", answer: "l", pattern: "amp" },
-  { img: img4, scrambled: "uler", answer: "r", pattern: "uler" },
+  { img: img5, scrambled: "amp", answer: "l", pattern: "amp" },
+  { img: img6, scrambled: "uler", answer: "r", pattern: "uler" },
 ];
 
 const WB_Unit1_Page8_Q1 = () => {

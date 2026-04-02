@@ -1,14 +1,17 @@
 import { useState, useRef, useLayoutEffect } from "react";
-import img from "../../../assets/imgs/test6.png";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page29/Ex E 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page29/Ex E 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page29/Ex E 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page29/Ex E 4.svg";
 
 const exerciseData = {
   right: [
-    { id: 1, img: img },
-    { id: 2, img: img },
-    { id: 3, img: img },
-    { id: 4, img: img },
+    { id: 1, img: img1 },
+    { id: 2, img: img2 },
+    { id: 3, img: img3 },
+    { id: 4, img: img4 },
   ],
   left: [
     { id: 1, text: "What does he like?", answer: "He likes burgers." },
@@ -186,7 +189,7 @@ const WB_Unit5_Page29_Q1 = () => {
               <img
                 src={item.img}
                 alt={`Person ${item.id}`}
-                className="max-w-24 max-h-24 rounded-lg object-cover shadow-md"
+                className="max-w-26 max-h-26  object-contain "
               />
             </div>
           ))}
