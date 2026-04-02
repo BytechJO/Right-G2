@@ -1,43 +1,47 @@
 import React, { useState } from "react";
 
 // استيراد الصور ومكونات الأزرار والتنبيهات
-import placeholderImg from "../../../assets/imgs/test6.png";
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page28/Ex D 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page28/Ex D 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page28/Ex D 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page28/Ex D 4.svg";
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page28/Ex D 5.svg";
 
 // بيانات التمرين
 const exerciseDataD = [
   {
     id: "d1",
-    img: placeholderImg,
+    img: img1,
     options: ["Does she like fish?", "Does she like chicken?"],
     correctOption: "Does she like fish?",
     correctAnswer: "No, she doesn't.",
   },
   {
     id: "d2",
-    img: placeholderImg,
+    img: img2,
     options: ["Does he like stew?", "Does he like fruit?"],
     correctOption: "Does he like stew?",
     correctAnswer: "No, he doesn't.",
   },
   {
     id: "d3",
-    img: placeholderImg,
+    img: img3,
     options: ["Does he like meat?", "Does he like rice?"],
     correctOption: "Does he like meat?",
     correctAnswer: "No, he doesn't.",
   },
   {
     id: "d4",
-    img: placeholderImg,
+    img: img4,
     options: ["Does she like fish?", "Does she like fruit?"],
     correctOption: "Does she like fruit?",
     correctAnswer: "Yes, she does.",
   },
   {
     id: "d5",
-    img: placeholderImg,
+    img: img5,
     options: ["Does she like soup?", "Does she like chicken?"],
     correctOption: "Does she like chicken?",
     correctAnswer: "Yes, she does.",

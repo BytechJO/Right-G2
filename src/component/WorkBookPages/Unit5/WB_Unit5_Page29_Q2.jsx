@@ -1,7 +1,11 @@
 import { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
-import placeholderImg from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page29/Ex F 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page29/Ex F 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page29/Ex F 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page29/Ex F 4.svg";
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page29/Ex F 5.svg";
 
 const questions = [
   {
@@ -9,30 +13,35 @@ const questions = [
     option1: "He likes fruit. He is happy.",
     option2: "He likes chicken. He is happy.",
     correct: "yes",
+    img: img1,
   },
   {
     id: 2,
     option1: "He doesn’t like fish. He isn’t happy.",
     option2: "He doesn’t like rice. He isn’t happy.",
     correct: "no",
+    img: img2,
   },
   {
     id: 3,
     option1: "She likes stew. She is happy.",
     option2: "She likes meat. She is happy.",
     correct: "yes",
+    img: img3,
   },
   {
     id: 4,
     option1: "She doesn’t like chicken.",
     option2: "She doesn’t like meat.",
     correct: "yes",
+    img: img4,
   },
   {
     id: 5,
     option1: "He likes fish.",
     option2: "He likes burgers.",
     correct: "no",
+    img: img5,
   },
 ];
 
@@ -106,7 +115,7 @@ const WB_Unit5_Page29_Q2 = () => {
             <div key={q.id} className="flex flex-col">
               <div className="grid grid-cols-[300px_300px] items-center gap-25">
                 <img
-                  src={placeholderImg}
+                  src={q.img}
                   alt=""
                   className="max-w-28 max-h-24 object-contain"
                 />

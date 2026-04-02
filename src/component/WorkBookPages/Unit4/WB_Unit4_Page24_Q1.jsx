@@ -1,7 +1,12 @@
 import { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
-import placeholderImg from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page24/Ex G 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page24/Ex G 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page24/Ex G 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page24/Ex G 4.svg";
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page24/Ex G 5.svg";
+import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page24/Ex G 6.svg";
 
 const questions = [
   {
@@ -24,7 +29,11 @@ const questions = [
 const WB_Unit4_Page24_Q1 = () => {
   const [answers, setAnswers] = useState({});
   const [showResults, setShowResults] = useState(false);
-
+  const pairedImages = [
+    [img1, img4],
+    [img2, img5],
+    [img3, img6],
+  ];
   const handleChange = (id, value) => {
     setAnswers({ ...answers, [id]: value });
     setShowResults(false);
@@ -93,11 +102,26 @@ const WB_Unit4_Page24_Q1 = () => {
               </p>
 
               <div className="grid grid-cols-2 items-center gap-45">
-                <img
-                  src={placeholderImg}
-                  className="max-w-28 max-h-24 object-contain"
-                  alt="question"
-                />
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px",
+                  }}
+                >
+                  {pairedImages[q.id - 1].map((img, i) => (
+                    <img
+                      key={i}
+                      src={img}
+                      alt="pair"
+                      style={{
+                        width: i === 1 ? "140px" : "100px",
+                        height: i === 1 ? "140px" : "100px",
+                        objectFit: "contain",
+                      }}
+                    />
+                  ))}
+                </div>
                 <div>
                   <div className="relative">
                     <label className="flex items-center gap-2 cursor-pointer">

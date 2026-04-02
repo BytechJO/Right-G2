@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import page2 from "../../../assets/imgs/pages/WB_Right Int.  WB  G2_Content_00001/WB_Right Int.  WB  G2_Content_00002.jpg";
+import page2 from "../../../assets/imgs/WorkBook/WB_Right Int.  WB  G2_Content Folder/WB_Right Int.  WB  G2_Content2.png";
 
 const WB_Unit1_Page2 = () => {
   return (

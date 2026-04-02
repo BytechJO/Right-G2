@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
 
-import imgClown from "../../../assets/imgs/test6.png";
+import imgClown from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 46/Ex E 1_1.svg";
 
 const VERB_CHIPS = [
   { id: "has", label: "has" },

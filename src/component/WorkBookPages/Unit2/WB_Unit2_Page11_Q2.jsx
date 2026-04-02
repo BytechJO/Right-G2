@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import img from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 11/Ex F 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 11/Ex F 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 11/Ex F 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 11/Ex F 4.svg";
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 11/Asset 1.svg";
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
@@ -15,11 +19,26 @@ const correctAnswers = {
 };
 
 const sentenceData = [
-  { id: "sentence1", textBefore: "Those are", textAfter: "in the tree." },
-  { id: "sentence2", textBefore: "Those are", textAfter: "in the sky." },
-  { id: "sentence3", textBefore: "Those are", textAfter: "in the pond." },
-  { id: "sentence4", textBefore: "That is a", textAfter: "." },
-  { id: "sentence5", textBefore: "Those are dark", textAfter: "." },
+  {
+    id: "sentence1",
+    textBefore: "Those are",
+    textAfter: "in the tree.",
+    img: img1,
+  },
+  {
+    id: "sentence2",
+    textBefore: "Those are",
+    textAfter: "in the sky.",
+    img: img2,
+  },
+  {
+    id: "sentence3",
+    textBefore: "Those are",
+    textAfter: "in the pond.",
+    img: img3,
+  },
+  { id: "sentence4", textBefore: "That is a", textAfter: ".", img: img5 },
+  { id: "sentence5", textBefore: "Those are dark", textAfter: ".", img: img4 }, // عدل حسب صورتك
 ];
 
 const WB_Unit2_Page11_Q2 = () => {
@@ -52,35 +71,35 @@ const WB_Unit2_Page11_Q2 = () => {
     setChecked(true);
   };
 
- const checkAnswers = () => {
-  const allFilled = Object.values(answers).every(
-    (answer) => answer.trim() !== ""
-  );
+  const checkAnswers = () => {
+    const allFilled = Object.values(answers).every(
+      (answer) => answer.trim() !== "",
+    );
 
-  if (!allFilled) {
-    ValidationAlert.info("Please complete all blanks first!");
-    return;
-  }
-
-  let correct = 0;
-  const total = 5;
-
-  Object.keys(correctAnswers).forEach((key) => {
-    if (answers[key] === correctAnswers[key]) {
-      correct++;
+    if (!allFilled) {
+      ValidationAlert.info("Please complete all blanks first!");
+      return;
     }
-  });
 
-  setChecked(true);
+    let correct = 0;
+    const total = 5;
 
-  if (correct === total) {
-    ValidationAlert.success(`Score: ${correct}/${total}`);
-  } else if (correct >0) {
-    ValidationAlert.warning(`Score: ${correct}/${total}`);
-  }   else  {
-    ValidationAlert.error(`Score: ${correct}/${total}`);
-  }
-};
+    Object.keys(correctAnswers).forEach((key) => {
+      if (answers[key] === correctAnswers[key]) {
+        correct++;
+      }
+    });
+
+    setChecked(true);
+
+    if (correct === total) {
+      ValidationAlert.success(`Score: ${correct}/${total}`);
+    } else if (correct > 0) {
+      ValidationAlert.warning(`Score: ${correct}/${total}`);
+    } else {
+      ValidationAlert.error(`Score: ${correct}/${total}`);
+    }
+  };
 
   const onDragEnd = (result) => {
     const { source, destination } = result;
@@ -253,7 +272,7 @@ const WB_Unit2_Page11_Q2 = () => {
 
                   <div className="relative">
                     <img
-                      src={img}
+                      src={sentence.img}
                       className="max-w-24 max-h-24 object-contain"
                       alt="exercise"
                     />

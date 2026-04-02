@@ -3,13 +3,16 @@
 import { useState } from "react";
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import img from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 31/Ex I 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 31/Ex I 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 31/Ex I 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 31/Ex I 4.svg";
 
 const questions = [
-  { id: 1, src: img, subject: "She", food: "cheese", correct: "likes" },
-  { id: 2, src: img, subject: "He", food: "cake", correct: "doesn't like" },
-  { id: 3, src: img, subject: "She", food: "yogurt", correct: "doesn't like" },
-  { id: 4, src: img, subject: "She", food: "pizza", correct: "likes" },
+  { id: 1, src: img1, subject: "She", food: "cheese", correct: "likes" },
+  { id: 2, src: img2, subject: "He", food: "cake", correct: "doesn't like" },
+  { id: 3, src: img3, subject: "She", food: "yogurt", correct: "doesn't like" },
+  { id: 4, src: img4, subject: "She", food: "pizza", correct: "likes" },
 ];
 
 const correctAnswers = {
@@ -99,7 +102,7 @@ export default function WB_Unit5_Page31_Q1() {
                 <img
                   src={q.src}
                   alt="exercise"
-                  className="max-w-12 max-h-12 object-contain ml-auto rounded-lg"
+                  className="max-w-28 max-h-28 object-contain "
                 />
 
                 <div className="relative flex flex-wrap items-center gap-2 flex-1">

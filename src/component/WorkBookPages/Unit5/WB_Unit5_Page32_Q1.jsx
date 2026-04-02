@@ -4,11 +4,17 @@ import { useState } from "react";
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import img from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 32/Ex A 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 32/Ex A 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 32/Ex A 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 32/Ex A 4.svg";
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 32/Ex A 5.svg";
+import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 32/Ex A 6.svg";
 
 const questions = [
   {
     id: 1,
-    src: img,
+    src: img1,
     prefix: "b",
     suffix: "",
     blank: "ee",
@@ -17,7 +23,7 @@ const questions = [
   },
   {
     id: 2,
-    src: img,
+    src: img2,
     prefix: "f",
     suffix: "t",
     blank: "ee",
@@ -26,7 +32,7 @@ const questions = [
   },
   {
     id: 3,
-    src: img,
+    src: img3,
     prefix: "m",
     suffix: "t",
     blank: "ea",
@@ -35,7 +41,7 @@ const questions = [
   },
   {
     id: 4,
-    src: img,
+    src: img4,
     prefix: "t",
     suffix: "",
     blank: "ea",
@@ -44,7 +50,7 @@ const questions = [
   },
   {
     id: 5,
-    src: img,
+    src: img5,
     prefix: "sl",
     suffix: "p",
     blank: "ee",
@@ -53,7 +59,7 @@ const questions = [
   },
   {
     id: 6,
-    src: img,
+    src: img6,
     prefix: "r",
     suffix: "d",
     blank: "ea",

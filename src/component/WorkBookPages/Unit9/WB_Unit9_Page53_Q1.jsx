@@ -2,12 +2,11 @@ import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
 
-import img1 from "../../../assets/imgs/test6.png";
-import img2 from "../../../assets/imgs/test6.png";
-import img3 from "../../../assets/imgs/test6.png";
-import img4 from "../../../assets/imgs/test6.png";
-import img5 from "../../../assets/imgs/test6.png";
-
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 53/Ex E 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 53/Ex E 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 53/Ex E 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 53/Ex E 4.svg";
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 53/Ex E 5.svg";
 const exerciseData = [
   {
     id: 1,
@@ -215,11 +214,11 @@ const WB_Unit9_Page53_Q2 = () => {
               </span>
 
               <div className="flex items-center gap-4 w-full">
-                <div className="w-24 h-20 rounded-lg border border-gray-200 overflow-hidden flex-shrink-0 shadow-sm">
+                <div className="overflow-hidden shrink-0">
                   <img
                     src={item.image}
                     alt=""
-                    className="w-full h-full object-cover"
+                    className="max-w-[100px] max-h-[100px] object-contain"
                   />
                 </div>
 

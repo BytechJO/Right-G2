@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
-import page2 from "../../../assets/imgs/pages/workbook-images/18.jpg";
+import page2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page 26.png";
+import "./WB_unit4.css";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 
 const WB_Unit4_Page26 = ({ openPopup }) => {
@@ -8,54 +9,53 @@ const WB_Unit4_Page26 = ({ openPopup }) => {
       className="page1-img-wrapper"
       style={{ backgroundImage: `url(${page2})` }}
     >
+      <div
+        className="wb-unit4-p6-q1 hover:scale-110 transition "
+        style={{ overflow: "visible" }}
+      >
+        <svg
+          width="22"
+          height="22"
+          viewBox="0 0 90 90"
+          onClick={() => openPopup("exercise", { startIndex: 50 })}
+          style={{ overflow: "visible" }}
+          // className="click-icon-page8-2 hover:scale-110 transition"
+        >
+          <image
+            className="svg-img"
+            href={arrowBtn}
+            x="0"
+            y="0"
+            width="100%"
+            height="100%"
+            preserveAspectRatio="xMidYMid meet"
+          />
+        </svg>
+      </div>
 
       <div
-              className="wb-unit2-p3-q2 hover:scale-110 transition ml-52 mt-10"
-              style={{ overflow: "visible" }}
-            >
-              <svg
-                width="22"
-                height="22"
-                viewBox="0 0 90 90"
-                onClick={() => openPopup("exercise", { startIndex: 50 })}
-                style={{ overflow: "visible" }}
-              // className="click-icon-page8-2 hover:scale-110 transition"
-              >
-                <image className="svg-img"
-                  href={arrowBtn}
-                  x="0"
-                  y="0"
-                  width="100%"
-                  height="100%"
-                  preserveAspectRatio="xMidYMid meet"
-                />
-              </svg>
-            </div>
-
-            <div
-                    className="wb-unit2-p3-q2 hover:scale-110 transition ml-52 mt-100"
-                    style={{ overflow: "visible" }}
-                  >
-                    <svg
-                      width="22"
-                      height="22"
-                      viewBox="0 0 90 90"
-                      onClick={() => openPopup("exercise", { startIndex: 51 })}
-                      style={{ overflow: "visible" }}
-                    // className="click-icon-page8-2 hover:scale-110 transition"
-                    >
-                      <image className="svg-img"
-                        href={arrowBtn}
-                        x="0"
-                        y="0"
-                        width="100%"
-                        height="100%"
-                        preserveAspectRatio="xMidYMid meet"
-                      />
-                    </svg>
-                  </div>
-
-
+        className="wb-unit4-p6-q2 hover:scale-110 transition "
+        style={{ overflow: "visible" }}
+      >
+        <svg
+          width="22"
+          height="22"
+          viewBox="0 0 90 90"
+          onClick={() => openPopup("exercise", { startIndex: 51 })}
+          style={{ overflow: "visible" }}
+          // className="click-icon-page8-2 hover:scale-110 transition"
+        >
+          <image
+            className="svg-img"
+            href={arrowBtn}
+            x="0"
+            y="0"
+            width="100%"
+            height="100%"
+            preserveAspectRatio="xMidYMid meet"
+          />
+        </svg>
+      </div>
     </div>
   );
 };

@@ -2,23 +2,27 @@ import { useState, useRef, useLayoutEffect } from "react";
 import img from "../../../assets/imgs/test6.png";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 43/Ex J 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 43/Ex J 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 43/Ex J 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 43/Ex J 4.svg";
 
 const exerciseData = {
   right: [
-    { id: 1, img: img },
-    { id: 2, img: img },
-    { id: 3, img: img },
-    { id: 4, img: img },
+    { id: 1, img: img1 },
+    { id: 2, img: img2 },
+    { id: 3, img: img3 },
+    { id: 4, img: img4 },
   ],
 
   left: [
-    { id: 1, text: "It’s half past three." },
-    { id: 2, text: "It’s eleven o’clock." },
-    { id: 3, text: "It’s half past nine." },
-    { id: 4, text: "It’s seven o’clock." },
+    { id: 1, text: "She talks at the reception desk." },
+    { id: 2, text: " She rolls her suitcase in the airport." },
+    { id: 3, text: "I carry the suitcase in my hand." },
+    { id: 4, text: "The flight attendant smiles." },
   ],
 
-  correctMatches: { 1: 2, 2: 3, 3: 1, 4: 4 },
+  correctMatches: { 1: 4, 2: 3, 3: 1, 4: 2 },
 };
 
 const WB_Unit7_Page43_Q2 = () => {
@@ -186,11 +190,14 @@ const WB_Unit7_Page43_Q2 = () => {
                     </div>
                   )}
 
-                  <div className="flex items-center gap-3">
-                    <span className="text-2xl text-blue-900 font-bold">{item.id}</span>
-                    <p className="text-xl text-gray-700">{item.text}</p>
+                  <div className="flex items-center gap-3 w-[400px] justify-start">
+                    <span className="text-2xl text-blue-900 font-bold">
+                      {item.id}
+                    </span>
+                    <p className="text-xl text-gray-700 text-right">
+                      {item.text}
+                    </p>
                   </div>
-
                   <div
                     ref={(el) => (elementRefs.current[`left-${item.id}`] = el)}
                     onClick={() => handleLeftClick(item.id)}
@@ -215,7 +222,7 @@ const WB_Unit7_Page43_Q2 = () => {
                 <img
                   src={item.img}
                   alt={`Person ${item.id}`}
-                  className="max-w-24 max-h-24 rounded-lg object-cover shadow-md"
+                  className="max-w-24 max-h-24 object-contain"
                 />
               </div>
             ))}

@@ -8,6 +8,9 @@ import img1 from "../../../assets/imgs/test1.png";
 import img2 from "../../../assets/imgs/test1.png";
 import img3 from "../../../assets/imgs/test1.png";
 import img4 from "../../../assets/imgs/test1.png";
+import QuestionAudioPlayer from "../../QuestionAudioPlayer";
+import sound from "../../../assets/audio/WorkBook/p62q3.mp3";
+
 const questions = [
   { id: 1, emoji: img1, options: ["seal", "sell"], correct: "seal" },
   { id: 2, emoji: img2, options: ["ben", "bean"], correct: "bean" },
@@ -22,7 +25,27 @@ export default function WB_Unit10_Page62_Q3() {
   const [showResult, setShowResult] = useState(false);
   const [score, setScore] = useState(null);
   const [resetKey, setResetKey] = useState(0);
+  const captions = [
+    { start: 0.56, end: 3.52, text: "Page 62, phonics exercise C." },
 
+    {
+      start: 4.7,
+      end: 7.62,
+      text: "Listen, look, and circle the correct word.",
+    },
+    {
+      start: 8.62,
+      end: 10.8,
+      text: "1.seal.",
+    },
+    {
+      start: 11.10,
+      end: 13.6,
+      text: "2.bean.",
+    },
+    { start: 14.6, end: 16.3, text: "3.seat." },
+    { start: 16.9, end: 18.66, text: " 4.ten." },
+  ];
   const handleCircle = (qId, val) => {
     if (showResult) return;
     setAnswers((prev) => ({ ...prev, [qId]: val }));
@@ -82,6 +105,11 @@ export default function WB_Unit10_Page62_Q3() {
           <span className="WB-ex-A">C</span> Listen, look, and circle the
           correct word.
         </h1>
+        <QuestionAudioPlayer
+          src={sound}
+          captions={captions}
+          stopAtSecond={7.8}
+        />
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
           {questions.map((q) => (
             <div

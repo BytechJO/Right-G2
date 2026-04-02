@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
 
-import img1 from "../../../assets/imgs/test6.png";
-import img2 from "../../../assets/imgs/test6.png";
-import img3 from "../../../assets/imgs/test6.png";
-import img4 from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 55/Ex J 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 55/Ex J 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 55/Ex J 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 55/Ex J 4.svg";
 
 const exerciseJData = [
   { id: 1, image: img1, before: "He's", after: "TV.", correct: "watching" },
@@ -122,11 +122,11 @@ const WB_Unit9_Page55_Q2 = () => {
                   {item.id}
                 </span>
 
-                <div className="w-48 h-40 rounded-2xl overflow-hidden border border-gray-200 shadow-sm">
+                <div className="w-[200px] h-[100px] rounded-2xl overflow-hidden  flex items-center justify-center">
                   <img
                     src={item.image}
                     alt=""
-                    className="w-full h-full object-cover"
+                    className="max-w-full max-h-full object-contain"
                   />
                 </div>
               </div>

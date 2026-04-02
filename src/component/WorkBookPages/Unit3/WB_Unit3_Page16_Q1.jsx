@@ -6,7 +6,6 @@ import {
   closestCenter,
 } from "@dnd-kit/core";
 
-import mainPic from "../../../assets/imgs/test6.png";
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 

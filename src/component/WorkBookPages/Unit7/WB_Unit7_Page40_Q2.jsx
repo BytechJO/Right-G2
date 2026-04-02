@@ -10,13 +10,16 @@ import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
-import img from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 40/Ex D 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 40/Ex D 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 40/Ex D 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 40/Ex D 4.svg";
 
 const images = [
-  { id: "img1", src: img },
-  { id: "img2", src: img },
-  { id: "img3", src: img },
-  { id: "img4", src: img },
+  { id: "img1", src: img1 },
+  { id: "img2", src: img2 },
+  { id: "img3", src: img3 },
+  { id: "img4", src: img4 },
 ];
 
 const QUESTIONS = [
@@ -185,7 +188,7 @@ const WB_Unit7_Page40_Q2 = () => {
                   <div key={q.id} className="flex items-center gap-4 pl-4">
                     <img
                       src={image.src}
-                      className="max-w-24 max-h-24 object-cover"
+                      className="max-w-45 max-h-24 object-contain"
                     />
 
                     <div className="flex-1">

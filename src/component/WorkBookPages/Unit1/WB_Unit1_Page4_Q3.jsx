@@ -1,5 +1,8 @@
 import { useState, useRef, useEffect } from "react";
-import img from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 4/Ex E 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 4/Ex E 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 4/Ex E 3.svg";
+
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
 
@@ -16,9 +19,9 @@ const WB_Unit1_Page4_Q3 = () => {
   const [checked, setChecked] = useState(false);
   const data = {
     left: [
-      { id: 1, text: "I'm Stella's ...", img: img },
-      { id: 2, text: "I'm Stella's ...", img: img },
-      { id: 3, text: "I'm Stella's ...", img: img },
+      { id: 1, text: "I'm Stella's ...", img: img1 },
+      { id: 2, text: "I'm Stella's ...", img: img2 },
+      { id: 3, text: "I'm Stella's ...", img: img3 },
     ],
     right: [
       { id: 1, text: "cousin." },

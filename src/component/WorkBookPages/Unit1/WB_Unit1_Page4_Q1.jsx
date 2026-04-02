@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 // import "./WB_Unit1_Page4_Q1.css";
-import img1 from "../../../assets/imgs/test.png";
-import img2 from "../../../assets/imgs/test1.png";
-import img3 from "../../../assets/imgs/test2.png";
-import img4 from "../../../assets/imgs/test3.png";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 4/Ex E 3.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 4/Ex C 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 4/Ex C 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 4/Ex C 4.svg";
 import img5 from "../../../assets/imgs/test4.png";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";

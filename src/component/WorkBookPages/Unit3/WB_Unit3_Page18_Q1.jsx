@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 
-import placeholderImg from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 18/Ex G 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 18/Ex G 4.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 18/Ex G 2.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 18/Ex G 5.svg";
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 18/Ex G 3.svg";
+import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 18/Ex G 6.svg";
 
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";
@@ -9,7 +14,7 @@ import ValidationAlert from "../../Popup/ValidationAlert";
 const writeQuestions = [
   {
     id: "g1",
-    img: placeholderImg,
+    img: img1,
     modal: "can",
     correctBefore: "I",
     correctAfter: "fly a kite.",
@@ -18,7 +23,7 @@ const writeQuestions = [
   },
   {
     id: "g2",
-    img: placeholderImg,
+    img: img2,
     modal: "can",
     correctBefore: "I",
     correctAfter: "paint a picture.",
@@ -27,7 +32,7 @@ const writeQuestions = [
   },
   {
     id: "g3",
-    img: placeholderImg,
+    img: img3,
     modal: "can",
     correctBefore: "I",
     correctAfter: "climb a tree.",
@@ -36,7 +41,7 @@ const writeQuestions = [
   },
   {
     id: "g4",
-    img: placeholderImg,
+    img: img4,
     modal: "can't",
     correctBefore: "I",
     correctAfter: "ride a bike.",
@@ -45,7 +50,7 @@ const writeQuestions = [
   },
   {
     id: "g5",
-    img: placeholderImg,
+    img: img5,
     modal: "can",
     correctBefore: "I",
     correctAfter: "sleep.",
@@ -54,7 +59,7 @@ const writeQuestions = [
   },
   {
     id: "g6",
-    img: placeholderImg,
+    img: img6,
     modal: "can't",
     correctBefore: "It",
     correctAfter: "swim.",

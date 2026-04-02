@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import img from "../../../assets/imgs/test6.png";
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 40/Ex C 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 40/Ex C 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 40/Ex C 3.svg";
 
 const WB_Unit7_Page40_Q1 = () => {
   const [showAlert, setShowAlert] = useState(false);
@@ -99,7 +101,7 @@ const WB_Unit7_Page40_Q1 = () => {
           <div className="sentences">
             <div className="flex items-center gap-4 p-5">
               <span className="font-semibold text-blue-600 mr-2">1.</span>
-              <img src={img} className="max-w-40 max-h-30 object-contain" />
+              <img src={img1} className="max-w-40 max-h-30 object-contain" />
               <div className="flex-1">
                 <p className="text-xl text-black curesor-pointer">
                   what day is it today?
@@ -139,7 +141,7 @@ const WB_Unit7_Page40_Q1 = () => {
 
             <div className="flex items-center gap-4 p-5 rounded-xl">
               <span className="font-semibold text-blue-600 mr-2">2.</span>
-              <img src={img} className="max-w-40 max-h-30 object-contain" />
+              <img src={img2} className="max-w-40 max-h-30 object-contain" />
               <div className="flex-1">
                 <p className="text-xl text-black curesor-pointer">
                   what day is it today?
@@ -179,7 +181,7 @@ const WB_Unit7_Page40_Q1 = () => {
 
             <div className="flex items-center gap-4 p-5 rounded-xl">
               <span className="font-semibold text-blue-600 mr-2">3.</span>
-              <img src={img} className="max-w-40 max-h-30 object-contain" />
+              <img src={img3} className="max-w-40 max-h-30 object-contain" />
               <div className="flex-1">
                 <p className="text-xl text-black curesor-pointer">
                   what day is it today?

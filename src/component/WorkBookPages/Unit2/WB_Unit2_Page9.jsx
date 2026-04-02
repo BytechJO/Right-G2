@@ -1,5 +1,5 @@
 import React from 'react'
-import page_1 from "../../../assets/imgs/pages/workbook-images/1.jpg";
+import page_1 from "./../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 9.png";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 import "./WB_Unit2_Page9.css";
 
@@ -10,7 +10,7 @@ const WB_Unit2_Page9 = ({ openPopup }) => {
       style={{ backgroundImage: `url(${page_1})` }} >
 
       <div
-        className="wb-unit2-p3-q1 hover:scale-110 transition ml-52 mt-25"
+        className="wb-unit2-p9-q1 hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg
@@ -32,7 +32,7 @@ const WB_Unit2_Page9 = ({ openPopup }) => {
         </svg>
       </div>
       <div
-        className="wb-unit2-p3-q2 hover:scale-110 transition ml-52 mt-75"
+        className="wb-unit2-p9-q2 hover:scale-110 transition "
         style={{ overflow: "visible" }}
       >
         <svg

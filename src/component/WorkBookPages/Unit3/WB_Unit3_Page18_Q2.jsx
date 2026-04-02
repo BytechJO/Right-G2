@@ -1,8 +1,10 @@
 import React, { useState, useRef } from "react";
-import img1 from "../../../assets/imgs/test.png";
-import img2 from "../../../assets/imgs/test.png";
-import img3 from "../../../assets/imgs/test.png";
-import img4 from "../../../assets/imgs/test.png";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 18/Ex H 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 18/Ex H 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 18/Ex H 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 18/Ex H 4.svg";
+
+
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./WB_Unit3_Page18_Q2.css";
 

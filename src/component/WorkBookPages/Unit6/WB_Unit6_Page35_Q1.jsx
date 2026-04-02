@@ -11,7 +11,10 @@ import { CSS } from "@dnd-kit/utilities";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
 
-import placeholderImg from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 35/Ex E 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 35/Ex E 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 35/Ex E 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 35/Ex E 4.svg";
 
 const SENTENCES = [
   { id: "s1", text: "John goes to school at eight o'clock in the morning." },
@@ -74,7 +77,16 @@ function PictureDropZone({
   return (
     <div className="relative flex flex-col items-center space-y-3 bg-gray-50 p-4 rounded-2xl border border-gray-100 shadow-sm">
       <div className="relative w-full h-40 overflow-hidden rounded-xl border-2 border-white shadow-inner">
-        <img src={imgSrc} alt={title} className="w-full h-full object-cover" />
+        <div className="w-full h-40 flex items-center justify-center">
+          <img
+            src={imgSrc}
+            style={{
+              width: "70%",
+              height: "140%",
+              objectFit: "contain",
+            }}
+          />
+        </div>
         <div className="absolute top-2 left-2 bg-white/90 px-3 py-1 rounded-lg text-xs font-bold text-gray-700 shadow-sm border border-gray-200">
           {title}
         </div>
@@ -182,7 +194,7 @@ const WB_Unit6_Page35_Q1 = () => {
               <div className="flex-1 grid grid-cols-1 md:grid-cols-1 gap-6">
                 <PictureDropZone
                   id="drop_school"
-                  imgSrc={placeholderImg}
+                  imgSrc={img1}
                   title="morning"
                   content={placed.drop_school}
                   isCorrect={placed.drop_school === CORRECT_ANSWERS.drop_school}
@@ -190,7 +202,7 @@ const WB_Unit6_Page35_Q1 = () => {
                 />
                 <PictureDropZone
                   id="drop_home"
-                  imgSrc={placeholderImg}
+                  imgSrc={img2}
                   title="afternoon"
                   content={placed.drop_home}
                   isCorrect={placed.drop_home === CORRECT_ANSWERS.drop_home}
@@ -198,7 +210,7 @@ const WB_Unit6_Page35_Q1 = () => {
                 />
                 <PictureDropZone
                   id="drop_homework"
-                  imgSrc={placeholderImg}
+                  imgSrc={img3}
                   title="afternoon"
                   content={placed.drop_homework}
                   isCorrect={
@@ -208,7 +220,7 @@ const WB_Unit6_Page35_Q1 = () => {
                 />
                 <PictureDropZone
                   id="drop_bed"
-                  imgSrc={placeholderImg}
+                  imgSrc={img4}
                   title="evening"
                   content={placed.drop_bed}
                   isCorrect={placed.drop_bed === CORRECT_ANSWERS.drop_bed}

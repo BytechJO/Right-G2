@@ -3,6 +3,14 @@ import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import img from "../../../assets/imgs/test6.png";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page22/Ex C 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page22/Ex C 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page22/Ex C 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page22/Ex C 4.svg";
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page22/Ex C 5.svg";
+import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page22/Ex C 6.svg";
+import img7 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page22/Ex C 7.svg";
+import img8 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page22/Ex C 8.svg";
 
 const WB_Unit4_Page22_Q1 = () => {
   const [selectedLeft, setSelectedLeft] = useState(null);
@@ -19,36 +27,36 @@ const WB_Unit4_Page22_Q1 = () => {
         id: 1,
         correct: "He is a pilot",
         text: "pilot he a is",
-        img: img,
+        img: img5,
       },
       {
         id: 2,
         correct: "I am a clerk",
         text: "a clerk I am",
-        img: img,
+        img: img6,
       },
       {
         id: 3,
         correct: "He is a photographer",
         text: "photographer a is he",
-        img: img,
+        img: img7,
       },
       {
         id: 4,
         correct: "You are a vet",
         text: "are vet you a",
-        img: img,
+        img: img8,
       },
     ],
     answers: [
-      { id: 1, img: img },
-      { id: 2, img: img },
-      { id: 3, img: img },
-      { id: 4, img: img },
+      { id: 1, img: img1 },
+      { id: 2, img: img2 },
+      { id: 3, img: img3 },
+      { id: 4, img: img4 },
     ],
   };
 
-  const correctMatches = { 1: 4, 2: 2, 3: 3, 4: 1 };
+  const correctMatches = { 1: 3, 2: 1, 3: 4, 4: 2 };
 
   const buildInitialWords = () => {
     const state = {};

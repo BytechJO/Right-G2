@@ -5,15 +5,18 @@ import {
   useDroppable,
   closestCenter,
 } from "@dnd-kit/core";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page22/Ex D 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page22/Ex D 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page22/Ex D 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page22/Ex D 4.svg";
 
-import placeholderImg from "../../../assets/imgs/test6.png";
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
 const exerciseData = [
   {
     id: "q1",
-    img: placeholderImg,
+    img: img1,
     correctQuestion: "What's their job?",
     correctAnswer: "They're police officers.",
     questionWords: ["What's", "their", "job?"],
@@ -21,7 +24,7 @@ const exerciseData = [
   },
   {
     id: "q2",
-    img: placeholderImg,
+    img: img2,
     correctQuestion: "What's his job?",
     correctAnswer: "He's a taxi driver.",
     questionWords: ["What's", "his", "job?"],
@@ -29,7 +32,7 @@ const exerciseData = [
   },
   {
     id: "q3",
-    img: placeholderImg,
+    img: img3,
     correctQuestion: "What's his job?",
     correctAnswer: "He's a teacher.",
     questionWords: ["What's", "his", "job?"],
@@ -37,7 +40,7 @@ const exerciseData = [
   },
   {
     id: "q4",
-    img: placeholderImg,
+    img: img4,
     correctQuestion: "What's his job?",
     correctAnswer: "He's a farmer.",
     questionWords: ["What's", "his", "job?"],

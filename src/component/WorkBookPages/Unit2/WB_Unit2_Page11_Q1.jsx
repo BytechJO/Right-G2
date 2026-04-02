@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
-import img from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 11/Ex E 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 11/Ex E 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 11/Ex E 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 11/Ex E 4.svg";
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 11/Ex E 5.svg";
+
 import "./WB_Unit2_Page11_Q1.css"
 
 // بيانات التمرين
@@ -11,35 +16,35 @@ const exerciseData = [
     questionText: "Is that a duck?",
     correctQuestion: "yes, it is.",
     correctOption: "option1",
-    src: img,
+    src: img1,
   },
   {
     id: 2,
     questionText: "Is that a bird?",
     correctQuestion: "No, it isn't",
     correctOption: "option2",
-    src: img,
+    src: img2,
   },
   {
     id: 3,
     questionText: "Is that a sun?",
     correctQuestion: "No, it isn't",
     correctOption: "option1",
-    src: img,
+    src: img3,
   },
   {
     id: 4,
     questionText: "Is that a flower?",
     correctQuestion: "No, it isn't",
     correctOption: "option2",
-    src: img,
+    src: img4,
   },
   {
     id: 5,
     questionText: "Is that a pond?",
     correctQuestion: "yes, it is.",
     correctOption: "option1",
-    src: img,
+    src: img5,
   },
 ];
 
@@ -167,7 +172,7 @@ const WB_Unit2_Page11_Q1 = () => {
               </div>
               <img
                 src={item.src}
-                className="max-w-20 max-h-20 object-cover rounded-md border"
+                className="max-w-25 max-h-20 object-contain "
               />
             </div>
           );

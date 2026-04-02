@@ -1,5 +1,12 @@
 import { useState } from "react";
 import img from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 10/Ex C 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 10/Ex C 4.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 10/Ex C 2.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 10/Ex C 5.svg";
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 10/Ex C 3.svg";
+import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 10/Ex C 6.svg";
+
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
 import "./WB_Unit2_Page10_Q1.css"
@@ -19,21 +26,21 @@ const WB_Unit2_Page10_Q1 = () => {
   const data = [
     {
       id: 1,
-      img: img,
+      img: img1,
       options: ["This", "That"],
       correct: "This",
       sentence: "is a flower.",
     },
     {
       id: 2,
-      img: img,
+      img: img2,
       options: ["This", "That"],
       correct: "This",
       sentence: "is a clock.",
     },
     {
       id: 3,
-      img: img,
+      img: img3,
       options: ["Those", "These"],
       correct: "These",
       sentence: "are queens.",
@@ -41,21 +48,21 @@ const WB_Unit2_Page10_Q1 = () => {
 
     {
       id: 4,
-      img: img,
+      img: img4,
       options: ["Those", "These"],
       correct: "Those",
       sentence: "are trees.",
     },
     {
       id: 5,
-      img: img,
+      img: img5,
       options: ["This", "That"],
       correct: "That",
       sentence: "is a dog.",
     },
     {
       id: 6,
-      img: img,
+      img: img6,
       options: ["That", "This"],
       correct: "That",
       sentence: "is a fox.",

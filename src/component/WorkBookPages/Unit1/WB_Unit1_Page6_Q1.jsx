@@ -1,5 +1,6 @@
 import { useState } from "react";
-import img from "../../../assets/imgs/test6.png";
+import img from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 6/Ex H 1.svg";
+
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
@@ -191,8 +192,8 @@ const WB_Unit1_Page6_Q1 = () => {
           </Droppable>
           <div className="flex flex-col lg:flex-row gap-8 items-start">
             {/* Family Image with Numbers */}
-            <div className="relative flex-1 border-4 border-gray-200 rounded-2xl overflow-hidden">
-              <img src={img} className="max-w-full max-h-87 grayscale" />
+            <div className="relative  border-4 border-gray-200 rounded-2xl overflow-hidden">
+              <img src={img} className="max-w-full max-h-87" />
               {/* Simplified representation of numbers on image */}
               <div className="absolute inset-0 pointer-events-none"></div>
             </div>

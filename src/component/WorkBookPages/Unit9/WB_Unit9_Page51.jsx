@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
-import page2 from "../../../assets/imgs/pages/workbook-images/43.jpg";
+import page2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 51.png";
+import "./WB_unit9.css";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 
 const WB_Unit9_Page51 = ({ openPopup }) => {
@@ -8,9 +9,8 @@ const WB_Unit9_Page51 = ({ openPopup }) => {
       className="page1-img-wrapper"
       style={{ backgroundImage: `url(${page2})` }}
     >
-
       <div
-        className="wb-unit2-p3-q2 hover:scale-110 transition ml-52 mt-25"
+        className="wb-unit9-p1-q1 hover:scale-110 transition "
         style={{ overflow: "visible" }}
       >
         <svg
@@ -19,9 +19,10 @@ const WB_Unit9_Page51 = ({ openPopup }) => {
           viewBox="0 0 90 90"
           onClick={() => openPopup("exercise", { startIndex: 103 })}
           style={{ overflow: "visible" }}
-        // className="click-icon-page8-2 hover:scale-110 transition"
+          // className="click-icon-page8-2 hover:scale-110 transition"
         >
-          <image className="svg-img"
+          <image
+            className="svg-img"
             href={arrowBtn}
             x="0"
             y="0"
@@ -33,7 +34,7 @@ const WB_Unit9_Page51 = ({ openPopup }) => {
       </div>
 
       <div
-        className="wb-unit2-p3-q2 hover:scale-110 transition ml-52 mt-90"
+        className="wb-unit9-p1-q2 hover:scale-110 "
         style={{ overflow: "visible" }}
       >
         <svg
@@ -42,9 +43,10 @@ const WB_Unit9_Page51 = ({ openPopup }) => {
           viewBox="0 0 90 90"
           onClick={() => openPopup("exercise", { startIndex: 104 })}
           style={{ overflow: "visible" }}
-        // className="click-icon-page8-2 hover:scale-110 transition"
+          // className="click-icon-page8-2 hover:scale-110 transition"
         >
-          <image className="svg-img"
+          <image
+            className="svg-img"
             href={arrowBtn}
             x="0"
             y="0"
@@ -54,7 +56,6 @@ const WB_Unit9_Page51 = ({ openPopup }) => {
           />
         </svg>
       </div>
-
     </div>
   );
 };

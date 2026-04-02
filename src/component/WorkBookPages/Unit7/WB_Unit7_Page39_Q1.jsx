@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import img from "../../../assets/imgs/test6.png";
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 39/Ex A 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 39/Ex A 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 39/Ex A 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 39/Ex A 4.svg";
 
 const exerciseDataK = {
   questions: [
@@ -15,7 +19,7 @@ const exerciseDataK = {
     { id: "k4", text: "It's half past ten in the morning.", correctNumber: 4 },
   ],
 };
-
+const images = [img1, img2, img3, img4];
 export default function WB_Unit7_Page39_Q1() {
   const [answers, setAnswers] = useState({});
   const [showResults, setShowResults] = useState(false);
@@ -103,11 +107,11 @@ export default function WB_Unit7_Page39_Q1() {
         <div className="grid grid-cols-4 gap-4 mb-8">
           {[1, 2, 3, 4].map((num) => (
             <div key={num} className="flex flex-col items-center">
-              <div className="w-40 h-40 bg-gray-200 rounded-lg flex items-center justify-center mb-2">
+              <div className="w-40 h-40 flex items-center justify-center mb-2">
                 <img
-                  src={img}
+                  src={images[num - 1]}
                   alt={`Clock ${num}`}
-                  className="max-w-35 max-h-35 object-cover"
+                  className="max-w-45 max-h-45 object-contain"
                 />
               </div>
               <span className="font-bold text-lg text-gray-700">{num}</span>

@@ -2,28 +2,35 @@ import React, { useState } from "react";
 import img from "../../../assets/imgs/test6.png";
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 51/Ex A 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 51/Ex A 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 51/Ex A 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 51/Ex A 4.svg";
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 51/Ex A 5.svg";
+import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 51/Ex A 6.svg";
+import img7 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 51/Ex A 7.svg";
 
 const exerciseQuestions = [
-  { id: "q1", text: "Mom is cooking.", img: img, correctAnswer: false },
+  { id: "q1", text: "Mom is cooking.", img: img1, correctAnswer: false },
   {
     id: "q2",
     text: "Grandpa is listening to the radio.",
-    img: img,
+    img: img2,
     correctAnswer: false,
   },
-  { id: "q3", text: "They are watching TV.", img: img, correctAnswer: true },
-  { id: "q4", text: "She is eating an apple.", img: img, correctAnswer: true },
-  { id: "q5", text: "They aren’t studying.", img: img, correctAnswer: true },
+  { id: "q3", text: "They are watching TV.", img: img3, correctAnswer: true },
+  { id: "q4", text: "She is eating an apple.", img: img4, correctAnswer: true },
+  { id: "q5", text: "They aren’t studying.", img: img5, correctAnswer: true },
   {
     id: "q6",
     text: "Helen is working on the computer.",
-    img: img,
+    img: img6,
     correctAnswer: true,
   },
   {
     id: "q7",
     text: "They aren’t eating corn.",
-    img: img,
+    img: img7,
     correctAnswer: false,
   },
 ];

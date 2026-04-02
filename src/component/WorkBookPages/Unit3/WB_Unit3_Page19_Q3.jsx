@@ -1,6 +1,11 @@
 import React, { useState } from "react";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 19/Ex K 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 19/Ex K 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 19/Ex K 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 19/Ex K 4.svg";
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 19/Ex K 5.svg";
+import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 19/Ex K 6.svg";
 
-import placeholderImg from "../../../assets/imgs/test6.png";
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
@@ -9,24 +14,24 @@ const checkQuestions = [
     id: "k1",
     sentence: "He can swim.",
     options: [
-      { id: "opt1", img: placeholderImg, isCorrect: true },
-      { id: "opt2", img: placeholderImg, isCorrect: false },
+      { id: "opt1", img: img1, isCorrect: true },
+      { id: "opt2", img: img2, isCorrect: false },
     ],
   },
   {
     id: "k2",
     sentence: "He can take a photo.",
     options: [
-      { id: "opt3", img: placeholderImg, isCorrect: true },
-      { id: "opt4", img: placeholderImg, isCorrect: false },
+      { id: "opt3", img: img3, isCorrect: true },
+      { id: "opt4", img: img4, isCorrect: false },
     ],
   },
   {
     id: "k3",
     sentence: "It can fly.",
     options: [
-      { id: "opt5", img: placeholderImg, isCorrect: true },
-      { id: "opt6", img: placeholderImg, isCorrect: false },
+      { id: "opt5", img: img5, isCorrect: true },
+      { id: "opt6", img: img6, isCorrect: false },
     ],
   },
 ];

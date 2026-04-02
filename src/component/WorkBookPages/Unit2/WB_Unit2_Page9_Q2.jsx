@@ -1,5 +1,17 @@
 import React, { useState, useRef } from "react";
-import img from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 9/Ex B 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 9/Ex B 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 9/Ex B 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 9/Ex B 4.svg";
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 9/Ex B 5.svg";
+import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 9/Ex B 6.svg";
+import img7 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 9/Ex B 7.svg";
+import img8 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 9/Ex B 8.svg";
+import img9 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 9/Ex B 9.svg";
+import img10 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 9/Ex B 10.svg";
+import img11 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 9/Ex B 11.svg";
+import img12 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 9/Ex B 12.svg";
+
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
 
@@ -13,21 +25,21 @@ const leftParts = [
 ];
 
 const images = [
-  { id: "img1", src: img },
-  { id: "img2", src: img },
-  { id: "img3", src: img },
-  { id: "img4", src: img },
-  { id: "img5", src: img },
-  { id: "img6", src: img },
+  { id: "img1", src: img1 },
+  { id: "img2", src: img2 },
+  { id: "img3", src: img3 },
+  { id: "img4", src: img4 },
+  { id: "img5", src: img5 },
+  { id: "img6", src: img6 },
 ];
 
 const rightParts = [
-  { id: "r1", src: img },
-  { id: "r2", src: img },
-  { id: "r3", src: img },
-  { id: "r4", src: img },
-  { id: "r5", src: img },
-  { id: "r6", src: img },
+  { id: "r1", src: img7 },
+  { id: "r2", src: img8 },
+  { id: "r3", src: img9 },
+  { id: "r4", src: img10 },
+  { id: "r5", src: img11 },
+  { id: "r6", src: img12 },
 ];
 
 const correctMatches = [

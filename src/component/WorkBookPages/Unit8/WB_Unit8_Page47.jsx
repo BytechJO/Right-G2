@@ -1,15 +1,16 @@
-import React from 'react'
-import page_1 from "../../../assets/imgs/pages/workbook-images/39.jpg";
+import React from "react";
+import page_1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 47.png";
+import "./WB_unit8.css";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 
 const WB_Unit8_Page47 = ({ openPopup }) => {
   return (
-    <div className="page1-img-wrapper"
-
-      style={{ backgroundImage: `url(${page_1})` }} >
-
+    <div
+      className="page1-img-wrapper"
+      style={{ backgroundImage: `url(${page_1})` }}
+    >
       <div
-        className="wb-unit2-p3-q2 hover:scale-110 transition ml-52 mt-25"
+        className="wb-unit8-p3-q1 hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg
@@ -18,9 +19,10 @@ const WB_Unit8_Page47 = ({ openPopup }) => {
           viewBox="0 0 90 90"
           onClick={() => openPopup("exercise", { startIndex: 94 })}
           style={{ overflow: "visible" }}
-        // className="click-icon-page8-2 hover:scale-110 transition"
+          // className="click-icon-page8-2 hover:scale-110 transition"
         >
-          <image className="svg-img"
+          <image
+            className="svg-img"
             href={arrowBtn}
             x="0"
             y="0"
@@ -32,7 +34,7 @@ const WB_Unit8_Page47 = ({ openPopup }) => {
       </div>
 
       <div
-        className="wb-unit2-p3-q2 hover:scale-110 transition ml-52 mt-90"
+        className="wb-unit8-p3-q2 hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg
@@ -41,9 +43,10 @@ const WB_Unit8_Page47 = ({ openPopup }) => {
           viewBox="0 0 90 90"
           onClick={() => openPopup("exercise", { startIndex: 95 })}
           style={{ overflow: "visible" }}
-        // className="click-icon-page8-2 hover:scale-110 transition"
+          // className="click-icon-page8-2 hover:scale-110 transition"
         >
-          <image className="svg-img"
+          <image
+            className="svg-img"
             href={arrowBtn}
             x="0"
             y="0"
@@ -53,9 +56,8 @@ const WB_Unit8_Page47 = ({ openPopup }) => {
           />
         </svg>
       </div>
-
     </div>
-  )
-}
+  );
+};
 
 export default WB_Unit8_Page47;

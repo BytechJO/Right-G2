@@ -1,5 +1,9 @@
 import { useState } from "react";
-import img from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 6/Ex I 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 6/Ex I 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 6/Ex I 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 6/Ex I 4.svg";
+
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
 
@@ -17,7 +21,7 @@ const WB_Unit1_Page6_Q2 = () => {
   const data = [
     {
       id: 1,
-      img: img,
+      img: img1,
       pronouns: ["She's", "He's"],
       relations: ["uncle.", "aunt."],
       correctPronoun: "He's",
@@ -25,7 +29,7 @@ const WB_Unit1_Page6_Q2 = () => {
     },
     {
       id: 2,
-      img: img,
+      img: img2,
       pronouns: ["I'm", "He's"],
       relations: ["sister.", "brother."],
       correctPronoun: "He's",
@@ -33,7 +37,7 @@ const WB_Unit1_Page6_Q2 = () => {
     },
     {
       id: 3,
-      img: img,
+      img: img3,
       pronouns: ["They're", "He's"],
       relations: ["mother and father.", "uncle and aunt."],
       correctPronoun: "They're",
@@ -41,7 +45,7 @@ const WB_Unit1_Page6_Q2 = () => {
     },
     {
       id: 4,
-      img: img,
+      img: img4,
       pronouns: ["She's", "He's"],
       relations: ["sister.", "brother."],
       correctPronoun: "She's",
@@ -160,7 +164,7 @@ const WB_Unit1_Page6_Q2 = () => {
                 <img
                   src={item.img}
                   alt=""
-                  className="max-w-24 max-h-24 object-contain rounded-xl grayscale"
+                  className="max-w-24 max-h-24 object-contain rounded-xl "
                 />
               </div>
 

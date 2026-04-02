@@ -4,6 +4,8 @@ import { useState } from "react";
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import img from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 32/Ex C 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 32/Ex C 2.svg";
 
 const wordBank = [
   "bee",
@@ -224,35 +226,44 @@ export default function WB_Unit5_Page32_Q3() {
 
         {/* Columns */}
         <div className="grid grid-cols-2 gap-6 mb-6">
-          {["feet", "beak"].map((col) => (
-            <div key={col}>
+          {[
+            { key: "feet", img: img1 },
+            { key: "beak", img: img2 },
+          ].map((col, id) => (
+            <div key={id}>
               <div className="flex items-center gap-2 mb-3">
-                <img src={img} alt={col} className="max-w-20 max-h-20" />
+                <img
+                  src={col.img}
+                  alt={col.key}
+                  className="max-w-20 max-h-20"
+                />
 
-                <span className="font-bold text-gray-700 text-lg">{col}</span>
+                <span className="font-bold text-gray-700 text-lg">
+                  {col.key}
+                </span>
                 <span className="text-xs text-gray-400">
-                  ({col === "feet" ? "ee" : "ea"})
+                  ({col.key === "feet" ? "ee" : "ea"})
                 </span>
               </div>
 
               <div
-                className={getColClass(col)}
+                className={getColClass(col.key)}
                 onDragOver={(e) => e.preventDefault()}
-                onDrop={() => handleDropOnColumn(col)}
+                onDrop={() => handleDropOnColumn(col.key)}
               >
                 <div className="flex flex-wrap gap-2">
-                  {columns[col].map((word) => (
+                  {columns[col.key].map((word) => (
                     <button
                       key={word}
                       draggable={!showResult}
-                      onDragStart={() => handleDragStart(word, col)}
+                      onDragStart={() => handleDragStart(word, col.key)}
                       onDragEnd={handleDragEnd}
                       onClick={() => {
                         if (!showResult) {
-                          returnWordToBank(col, word);
+                          returnWordToBank(col.key, word);
                         }
                       }}
-                      className={getWordClass(col, word)}
+                      className={getWordClass(col.key, word)}
                       title={
                         showResult
                           ? ""
@@ -264,7 +275,7 @@ export default function WB_Unit5_Page32_Q3() {
                   ))}
                 </div>
 
-                {columns[col].length === 0 && (
+                {columns[col.key].length === 0 && (
                   <div className="text-gray-400 text-sm mt-2">
                     Drag words here
                   </div>

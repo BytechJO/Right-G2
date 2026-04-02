@@ -10,13 +10,13 @@ import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";
+import p1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex B 7.svg";
+import p2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex B 8.svg";
+import p3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex B 9.svg";
+import p4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex B 10.svg";
+import p5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex B 11.svg";
+import p6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex B 12.svg";
 
-import p1 from "../../../assets/imgs/test6.png";
-import p2 from "../../../assets/imgs/test6.png";
-import p3 from "../../../assets/imgs/test6.png";
-import p4 from "../../../assets/imgs/test6.png";
-import p5 from "../../../assets/imgs/test6.png";
-import p6 from "../../../assets/imgs/test6.png";
 
 const SENTENCES = [
   { id: "s1", text: "He has a tie." },

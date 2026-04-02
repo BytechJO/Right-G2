@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import img from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 7/Ex L 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 7/Ex L 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 7/Ex L 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 7/Ex L 4.svg";
+
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
@@ -201,7 +205,7 @@ const WB_Unit1_Page7_Q2 = () => {
                   </p>
                 </div>
                 <img
-                  src={img}
+                  src={img1}
                   alt="sentence1"
                   className="max-w-16 max-h-16 object-contain"
                 />
@@ -216,7 +220,7 @@ const WB_Unit1_Page7_Q2 = () => {
                   </p>
                 </div>
                 <img
-                  src={img}
+                  src={img2}
                   alt="sentence2"
                   className="max-w-16 max-h-16 object-contain"
                 />
@@ -231,7 +235,7 @@ const WB_Unit1_Page7_Q2 = () => {
                   </p>
                 </div>
                 <img
-                  src={img}
+                  src={img3}
                   alt="sentence3"
                   className="max-w-16 max-h-16 object-contain"
                 />
@@ -246,7 +250,7 @@ const WB_Unit1_Page7_Q2 = () => {
                   </p>
                 </div>
                 <img
-                  src={img}
+                  src={img4}
                   alt="sentence4"
                   className="max-w-16 max-h-16 object-contain"
                 />

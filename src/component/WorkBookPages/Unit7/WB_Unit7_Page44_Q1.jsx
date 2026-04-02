@@ -4,12 +4,11 @@ import Button from "../button";
 import { TbMessageCircle } from "react-icons/tb";
 import { FaPlay, FaPause } from "react-icons/fa";
 import { IoMdSettings } from "react-icons/io";
-import sound from "../../../assets/audio/WorkBook/titel G2/Unit 2.mp3";
-
-import boatImg from "../../../assets/imgs/test6.png";
-import snowImg from "../../../assets/imgs/test6.png";
-import examImg from "../../../assets/imgs/test6.png";
-import bowImg from "../../../assets/imgs/test6.png";
+import sound from "../../../assets/audio/WorkBook/p44q1.mp3";
+import boatImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 44/Ex A 1.svg";
+import snowImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 44/Ex A 2.svg";
+import examImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 44/Ex A 3.svg";
+import bowImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 44/Ex A 4.svg";
 
 const exerciseAData = [
   { id: 1, image: boatImg, options: ["o-e", "oa", "ow"], correct: "oa" },
@@ -69,7 +68,7 @@ const WB_Unit7_Page44_Q1 = () => {
 
   const clickAudioRef = useRef(null);
   const audioRef = useRef(null);
-  const stopAtSecond = 9;
+  const stopAtSecond = 6.15;
   const [paused, setPaused] = useState(false);
 
   const [showSettings, setShowSettings] = useState(false);
@@ -86,18 +85,18 @@ const WB_Unit7_Page44_Q1 = () => {
   const captions = [
     {
       start: 0,
-      end: 4.23,
-      text: "Page 8. Right Activities. Exercise A, number 1. ",
+      end: 3.48,
+      text: "Page 44, phonics exercise A.",
     },
     {
-      start: 4.25,
-      end: 8.28,
-      text: "Listen and write the missing letters. Number the pictures.  ",
+      start: 3.5,
+      end: 6.14,
+      text: "Listen and write check.",
     },
-    { start: 8.3, end: 11.05, text: "1-tiger." },
-    { start: 11.07, end: 13.12, text: "2-taxi." },
-    { start: 13.14, end: 15.14, text: "3-duck." },
-    { start: 15.16, end: 17.13, text: "4-deer." },
+    { start: 6.3, end: 7.12, text: "Boat." },
+    { start: 7.5, end: 8.89, text: "snow." },
+    { start: 10.16, end: 10.56, text: "note." },
+    { start: 11.76, end: 12.24, text: "bow." },
   ];
 
   const updateCaption = (time) => {
@@ -301,12 +300,12 @@ const WB_Unit7_Page44_Q1 = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {exerciseAData.map((item) => (
             <div key={item.id} className="flex items-center gap-10 p-6">
-              <img
-                src={item.image}
-                alt=""
-                className="max-w-50 max-h-32 object-contain"
-              />
-
+              <div className="w-[120px] h-[100px] flex items-center justify-center">
+                <img
+                  src={item.image}
+                  className="max-w-full max-h-full object-contain"
+                />
+              </div>
               <div className="flex flex-col gap-3">
                 {item.options.map((opt) => {
                   const isSelected = answersA[item.id] === opt;

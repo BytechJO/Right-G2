@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import img from "../../../assets/imgs/test6.png";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
+import img from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 38/Ex A 1.svg";
 
 const WB_Unit6_Page38_Q1 = () => {
   const [answers, setAnswers] = useState({
@@ -140,7 +140,7 @@ const WB_Unit6_Page38_Q1 = () => {
             <img
               src={img}
               alt="Exercise"
-              className="w-full rounded-lg shadow-md max-w-95 max-h-85"
+              className="w-full object-contain max-w-120 max-h-85"
             />
           </div>
 

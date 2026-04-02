@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 
 // استيراد الصور ومكونات الأزرار والتنبيهات
-import placeholderImg from "../../../assets/imgs/test6.png";
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page24/Ex H 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page24/Ex H 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page24/Ex H 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page24/Ex H 4.svg";
 
 // بيانات التمرين
 const chartData = [
@@ -37,10 +40,10 @@ const questions = [
 ];
 
 const jobImages = [
-  { job: "pilot", img: placeholderImg },
-  { job: "teacher", img: placeholderImg },
-  { job: "vet", img: placeholderImg },
-  { job: "graphic designer", img: placeholderImg },
+  { job: "pilot", img: img1 },
+  { job: "teacher", img: img2 },
+  { job: "vet", img: img3 },
+  { job: "graphic designer", img: img4 },
 ];
 const answerOptions = [
   "Larry is a teacher.",
@@ -154,22 +157,21 @@ const ReadChartAndAnswer = () => {
                 ))}
               </tbody>
             </table>
-             <div className="grid grid-cols-2 gap-4 mb-10">
+            <div className="grid grid-cols-2 gap-4 mb-10">
               {jobImages.map((job) => (
                 <img
                   key={job.job}
                   src={job.img}
                   alt={job.job}
-                  className="max-w-full max-h-24 object-contain bg-gray-100 p-2 rounded-lg"
+                  className="max-w-full max-h-24 object-contain "
                 />
               ))}
             </div>
-            
           </div>
 
           {/* الجزء الأيمن: الأسئلة والأجوبة */}
           <div className="space-y-6">
-           {questions.map((q, index) => (
+            {questions.map((q, index) => (
               <div key={q.id} className="flex gap-2">
                 <div className="flex items-baseline gap-2">
                   <span className="font-bold text-blue-600">{index + 1}</span>

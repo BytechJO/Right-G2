@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import page2 from "../../../assets/imgs/pages/workbook-images/10.jpg";
+import page2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 18.png";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 const WB_Unit2_Page18 = ({ openPopup }) => {
   return (
@@ -7,8 +7,8 @@ const WB_Unit2_Page18 = ({ openPopup }) => {
       className="page1-img-wrapper"
       style={{ backgroundImage: `url(${page2})` }}
     >
-       <div
-        className="wb-unit2-p3-q2 hover:scale-110 transition ml-52 mt-25"
+      <div
+        className="wb-unit3-p4-q1 hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg
@@ -17,9 +17,10 @@ const WB_Unit2_Page18 = ({ openPopup }) => {
           viewBox="0 0 90 90"
           onClick={() => openPopup("exercise", { startIndex: 33 })}
           style={{ overflow: "visible" }}
-        // className="click-icon-page8-2 hover:scale-110 transition"
+          // className="click-icon-page8-2 hover:scale-110 transition"
         >
-          <image className="svg-img"
+          <image
+            className="svg-img"
             href={arrowBtn}
             x="0"
             y="0"
@@ -29,8 +30,8 @@ const WB_Unit2_Page18 = ({ openPopup }) => {
           />
         </svg>
       </div>
-       <div
-        className="wb-unit2-p3-q2 hover:scale-110 transition ml-52 mt-95"
+      <div
+        className="wb-unit3-p4-q2 hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
         <svg
@@ -39,9 +40,10 @@ const WB_Unit2_Page18 = ({ openPopup }) => {
           viewBox="0 0 90 90"
           onClick={() => openPopup("exercise", { startIndex: 34 })}
           style={{ overflow: "visible" }}
-        // className="click-icon-page8-2 hover:scale-110 transition"
+          // className="click-icon-page8-2 hover:scale-110 transition"
         >
-          <image className="svg-img"
+          <image
+            className="svg-img"
             href={arrowBtn}
             x="0"
             y="0"

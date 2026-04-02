@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-import "./WB_Unit3_Page19_Q1.css"
-import placeholderImg from "../../../assets/imgs/test6.png";
+import "./WB_Unit3_Page19_Q1.css";
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 19/Ex I 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 19/Ex I 3.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 19/Ex I 2.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 19/Ex I 4.svg";
 
 const fillInQuestions = [
   {
     id: "i1",
-    img: placeholderImg,
+    img: img1,
     startText: "",
     endText: "fly?",
     answer: "No, it can't.",
@@ -16,7 +19,7 @@ const fillInQuestions = [
   },
   {
     id: "i2",
-    img: placeholderImg,
+    img: img2,
     startText: "",
     endText: "run?",
     answer: "Yes, they can.",
@@ -24,7 +27,7 @@ const fillInQuestions = [
   },
   {
     id: "i3",
-    img: placeholderImg,
+    img: img3,
     startText: "",
     endText: "walk?",
     answer: "No, they can't.",
@@ -32,7 +35,7 @@ const fillInQuestions = [
   },
   {
     id: "i4",
-    img: placeholderImg,
+    img: img4,
     startText: "",
     endText: "swim?",
     answer: "Yes, it can.",

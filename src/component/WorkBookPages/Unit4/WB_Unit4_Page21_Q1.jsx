@@ -1,14 +1,16 @@
 import { useState, useRef, useLayoutEffect } from "react";
-import img from "../../../assets/imgs/test6.png";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page21/Ex A 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page21/Ex A 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page21/Ex A 3.svg";
 
 // بيانات التمرين
 const exerciseData = {
   right: [
-    { id: 1, img: img },
-    { id: 2, img: img },
-    { id: 3, img: img },
+    { id: 1, img: img1 },
+    { id: 2, img: img2 },
+    { id: 3, img: img3 },
   ],
   left: [
     { id: 1, text: "I am a clerk." },

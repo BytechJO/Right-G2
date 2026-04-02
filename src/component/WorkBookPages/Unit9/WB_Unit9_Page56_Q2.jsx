@@ -1,10 +1,13 @@
 import { useState } from "react";
-import img from "../../../assets/imgs/test6.png";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
 import "../Unit2/WB_Unit2_Page9_Q1.css";
-import sound from "../../../assets/audio/WorkBook/titel G2/Unit 10.mp3";
+import sound from "../../../assets/audio/WorkBook/p56q2.mp3";
 import QuestionAudioPlayer from "../../QuestionAudioPlayer";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 56/Ex B 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 56/Ex B 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 56/Ex B 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 56/Ex B 4.svg";
 const WB_Unit9_Page56_Q2 = () => {
   const [userSelections, setUserSelections] = useState({
     1: null,
@@ -17,10 +20,10 @@ const WB_Unit9_Page56_Q2 = () => {
   const [showAnswers, setShowAnswers] = useState(false);
   const [wrongAnswers, setWrongAnswers] = useState({});
   const data = [
-    { id: 1, img: img, options: ["long a", "short a"], correct: "short a" },
-    { id: 2, img: img, options: ["long a", "short a"], correct: "long a" },
-    { id: 3, img: img, options: ["long a", "short a"], correct: "long a" },
-    { id: 4, img: img, options: ["long a", "short a"], correct: "long a" },
+    { id: 1, img: img1, options: ["long a", "short a"], correct: "short a" },
+    { id: 2, img: img2, options: ["long a", "short a"], correct: "long a" },
+    { id: 3, img: img3, options: ["long a", "short a"], correct: "long a" },
+    { id: 4, img: img4, options: ["long a", "short a"], correct: "long a" },
   ];
 
   const handleSelect = (id, option) => {
@@ -80,20 +83,32 @@ const WB_Unit9_Page56_Q2 = () => {
     setWrongAnswers({});
   };
   const captions = [
+    { start: 0.42, end: 3.32, text: "Page 56, phonics exercise B." },
+
+    { start: 4.72, end: 7.86, text: "Does it have a long A or short A?" },
+
+    { start: 9.8, end: 11.58, text: "Listen, look, and circle." },
+
     {
-      start: 0,
-      end: 4.23,
-      text: "Page 8. Right Activities. Exercise A, number 1. ",
+      start: 12.64,
+      end: 14.2,
+      text: "1.cap.",
     },
     {
-      start: 4.25,
-      end: 8.28,
-      text: "Listen and write the missing letters. Number the pictures.  ",
+      start: 15.14,
+      end: 17.26,
+      text: "2.train.",
     },
-    { start: 8.3, end: 11.05, text: "1-tiger." },
-    { start: 11.07, end: 13.12, text: "2-taxi." },
-    { start: 13.14, end: 15.14, text: "3-duck." },
-    { start: 15.16, end: 17.13, text: "4-deer." },
+    {
+      start: 17.86,
+      end: 19.81,
+      text: "3.cake.",
+    },
+    {
+      start: 20,
+      end: 22.16,
+      text: "4.rain.",
+    },
   ];
 
   return (
@@ -105,7 +120,7 @@ const WB_Unit9_Page56_Q2 = () => {
           <span className="text-blue-900">short a</span>? Listen, look, and
           circle.
         </h1>
-        <QuestionAudioPlayer src={sound} captions={captions} stopAtSecond={9} />
+        <QuestionAudioPlayer src={sound} captions={captions} stopAtSecond={11.60} />
         <div className="grid grid-cols-2 gap-12">
           {data.map((item) => (
             <div key={item.id} className="flex flex-col items-center gap-6">

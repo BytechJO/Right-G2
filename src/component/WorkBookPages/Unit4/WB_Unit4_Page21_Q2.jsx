@@ -1,15 +1,18 @@
 import { useState } from "react";
-import img from "../../../assets/imgs/test6.png";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page21/Ex B 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page21/Ex B 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page21/Ex B 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page21/Ex B 4.svg";
 
 const WB_Unit4_Page21_Q2 = () => {
   const data = [
-    { id: 1, img: img, options: ["nurse", "clerk"], correct: "nurse" },
-    { id: 2, img: img, options: ["pilot", "taxi driver"], correct: "pilot" },
+    { id: 1, img: img1, options: ["nurse", "clerk"], correct: "nurse" },
+    { id: 2, img: img2, options: ["pilot", "taxi driver"], correct: "pilot" },
 
-    { id: 4, img: img, options: ["vet", "mechanic"], correct: "mechanic" },
-    { id: 5, img: img, options: ["clerk", "vet"], correct: "vet" },
+    { id: 4, img: img3, options: ["vet", "mechanic"], correct: "mechanic" },
+    { id: 5, img: img4, options: ["clerk", "vet"], correct: "vet" },
   ];
   const initialSelections = Object.fromEntries(
     data.map((item) => [item.id, null]),

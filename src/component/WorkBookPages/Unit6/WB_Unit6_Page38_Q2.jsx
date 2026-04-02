@@ -8,15 +8,19 @@ import img from "../../../assets/imgs/test6.png";
 import { TbMessageCircle } from "react-icons/tb";
 import { FaPlay, FaPause } from "react-icons/fa";
 import { IoMdSettings } from "react-icons/io";
-import sound from "../../../assets/audio/WorkBook/titel G2/Unit 2.mp3";
+import sound from "../../../assets/audio/WorkBook/p38q3.mp3";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 38/Ex B 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 38/Ex B 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 38/Ex B 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 38/Ex B 4.svg";
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 38/Ex B 5.svg";
 
 const exerciseData = [
-  { id: "b1", src: img, correctAnswer: "✘" },
-  { id: "b2", src: img, correctAnswer: "✘" },
-  { id: "b3", src: img, correctAnswer: "✓" },
-  { id: "b4", src: img, correctAnswer: "✓" },
-  { id: "b5", src: img, correctAnswer: "✘" },
-  { id: "b6", src: img, correctAnswer: "✘" },
+  { id: "b1", src: img1, correctAnswer: "✘" },
+  { id: "b2", src: img2, correctAnswer: "✘" },
+  { id: "b3", src: img3, correctAnswer: "✓" },
+  { id: "b4", src: img4, correctAnswer: "✓" },
+  { id: "b5", src: img5, correctAnswer: "✘" },
 ];
 
 const WB_Unit6_Page38_Q2 = () => {
@@ -100,7 +104,7 @@ const WB_Unit6_Page38_Q2 = () => {
 
   const clickAudioRef = useRef(null);
   const audioRef = useRef(null);
-  const stopAtSecond = 9;
+  const stopAtSecond = 10;
   const [paused, setPaused] = useState(false);
 
   const [showSettings, setShowSettings] = useState(false);
@@ -115,20 +119,22 @@ const WB_Unit6_Page38_Q2 = () => {
   const [activeIndex, setActiveIndex] = useState(null);
 
   const captions = [
+    { start: 0.52, end: 3.24, text: "Page 38, phonics exercise C." },
+
     {
-      start: 0,
-      end: 4.23,
-      text: "Page 8. Right Activities. Exercise A, number 1. ",
+      start: 4.54,
+      end: 9.32,
+      text: "Does it have a long I? Listen and write check or X.",
     },
-    {
-      start: 4.25,
-      end: 8.28,
-      text: "Listen and write the missing letters. Number the pictures.  ",
-    },
-    { start: 8.3, end: 11.05, text: "1-tiger." },
-    { start: 11.07, end: 13.12, text: "2-taxi." },
-    { start: 13.14, end: 15.14, text: "3-duck." },
-    { start: 15.16, end: 17.13, text: "4-deer." },
+
+    { start: 10.46, end: 12.06, text: "1.bike." },
+
+    { start: 13.22, end: 14.98, text: "2.write." },
+
+    { start: 16.06, end: 18.12, text: "3.nine." },
+
+    { start: 19.14, end: 21.1, text: "4.neat." },
+    { start: 21.15, end: 23.46, text: "5.pipe." },
   ];
 
   const updateCaption = (time) => {

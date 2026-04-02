@@ -7,7 +7,19 @@ import img from "../../../assets/imgs/test6.png";
 import { TbMessageCircle } from "react-icons/tb";
 import { FaPlay, FaPause } from "react-icons/fa";
 import { IoMdSettings } from "react-icons/io";
-import sound from "../../../assets/audio/WorkBook/titel G2/Unit 2.mp3";
+import sound from "../../../assets/audio/WorkBook/p32q2.mp3";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 32/Ex B 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 32/Ex B 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 32/Ex B 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 32/Ex B 4.svg";
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 32/Ex B 5.svg";
+import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 32/Ex B 6.svg";
+import img7 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 32/Ex B 7.svg";
+import img8 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 32/Ex B 8.svg";
+import img9 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 32/Ex B 9.svg";
+import img10 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 32/Ex B 10.svg";
+import img11 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 32/Ex B 11.svg";
+import img12 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 32/Ex B 12.svg";
 
 const questions = [
   {
@@ -15,9 +27,9 @@ const questions = [
     word: "bee",
     sound: "ee",
     options: [
-      { src: img, label: "sleep" },
-      { src: img, label: "meat" },
-      { src: img, label: "sleep" },
+      { src: img1, label: "sleep" },
+      { src: img2, label: "meat" },
+      { src: img3, label: "sleep" },
     ],
     correct: [0, 2],
   },
@@ -26,9 +38,9 @@ const questions = [
     word: "tree",
     sound: "ee",
     options: [
-      { src: img, label: "bread" },
-      { src: img, label: "green" },
-      { src: img, label: "feet" },
+      { src: img4, label: "bread" },
+      { src: img5, label: "green" },
+      { src: img6, label: "feet" },
     ],
     correct: [1, 2],
   },
@@ -37,9 +49,9 @@ const questions = [
     word: "bread",
     sound: "ea",
     options: [
-      { src: img, label: "sleep" },
-      { src: img, label: "bee" },
-      { src: img, label: "green" },
+      { src: img7, label: "sleep" },
+      { src: img8, label: "bee" },
+      { src: img9, label: "green" },
     ],
     correct: [], // هذا السؤال لا يوجد له إجابة صحيحة
   },
@@ -48,9 +60,9 @@ const questions = [
     word: "meat",
     sound: "ea",
     options: [
-      { src: img, label: "feet" },
-      { src: img, label: "sheep" },
-      { src: img, label: "bread" },
+      { src: img10, label: "feet" },
+      { src: img11, label: "sheep" },
+      { src: img12, label: "bread" },
     ],
     correct: [2],
   },
@@ -80,19 +92,30 @@ export default function WB_Unit5_Page32_Q2() {
 
   const captions = [
     {
-      start: 0,
-      end: 4.23,
-      text: "Page 8. Right Activities. Exercise A, number 1. ",
+      start: 0.58,
+      end: 3.26,
+      text: "Page 32, Phonics Exercise B. ",
     },
     {
-      start: 4.25,
-      end: 8.28,
-      text: "Listen and write the missing letters. Number the pictures.  ",
+      start: 4.46,
+      end: 8.26,
+      text: "Listen and circle the pictures that have the same vowel sound.",
     },
-    { start: 8.3, end: 11.05, text: "1-tiger." },
-    { start: 11.07, end: 13.12, text: "2-taxi." },
-    { start: 13.14, end: 15.14, text: "3-duck." },
-    { start: 15.16, end: 17.13, text: "4-deer." },
+    { start: 9.44, end: 10.88, text: "1.bee" },
+
+    { start: 12.14, end: 16.8, text: "bed, meat, sleep." },
+
+    { start: 16.9, end: 18.22, text: "2.tree" },
+
+    { start: 18.14, end: 20.22, text: "bread, thread, feet." },
+
+    { start: 21.34, end: 23.28, text: "3.bread" },
+
+    { start: 24.42, end: 30.06, text: "sleep, bee, thread." },
+
+    { start: 30, end: 31.34, text: "4.meat" },
+
+    { start: 31.28, end: 33.34, text: "feet, sheep, bread." },
   ];
 
   const updateCaption = (time) => {

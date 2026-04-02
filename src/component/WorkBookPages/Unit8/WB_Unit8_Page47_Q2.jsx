@@ -12,11 +12,11 @@ import { CSS } from "@dnd-kit/utilities";
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import { useDroppable } from "@dnd-kit/core";
-
+// check
 // استيراد الصور
-import imgSue from "../../../assets/imgs/test6.png";
-import imgSueClosetG from "../../../assets/imgs/test6.png";
-import imgJohnClosetG from "../../../assets/imgs/test6.png";
+import imgSueClosetG from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 47/Ex G 1.svg";
+import imgJohnClosetG from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 47/Ex G 2.svg";
+import imgSue from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 47/Ex G 3.svg";
 
 const WORDS_G = [
   { id: "g1", text: "two" },

@@ -1,15 +1,19 @@
 import { useState, useRef, useLayoutEffect } from "react";
-import img from "../../../assets/imgs/test6.png";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../button";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page25/Ex I 1.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page25/Ex I 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page25/Ex I 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page25/Ex I 4.svg";
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page25/Ex I 5.svg";
 
 const exerciseData = {
   right: [
-    { id: 1, img: img },
-    { id: 2, img: img },
-    { id: 3, img: img },
-    { id: 4, img: img },
-    { id: 5, img: img },
+    { id: 1, img: img1 },
+    { id: 2, img: img2 },
+    { id: 3, img: img3 },
+    { id: 4, img: img4 },
+    { id: 5, img: img5 },
   ],
   left: [
     { id: 1, text: "I want a skateboard." },
@@ -207,7 +211,7 @@ const checkAnswers = () => {
                 <img
                   src={item.img}
                   alt={`Person ${item.id}`}
-                  className="max-w-24 max-h-24 rounded-lg object-cover shadow-md"
+                  className="max-w-24 max-h-24 object-contain"
                 />
               </div>
             ))}

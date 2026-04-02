@@ -10,9 +10,9 @@ import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";
-
+// check 
 // استيراد صورة الخزانة
-import imgSueCloset from "../../../assets/imgs/test6.png";
+import imgSueCloset from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 47/Ex F 1.svg";
 
 const PHRASES_F = [
   { id: "f1", text: "She doesn't have any" },

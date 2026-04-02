@@ -5,9 +5,9 @@ import { TbMessageCircle } from "react-icons/tb";
 import { FaPlay, FaPause } from "react-icons/fa";
 import { IoMdSettings } from "react-icons/io";
 import sound from "../../../assets/audio/WorkBook/titel G2/Unit 2.mp3";
-import placeholderImg from "../../../assets/imgs/test6.png";
 import Button from "../button";
 import ValidationAlert from "../../Popup/ValidationAlert";
+import placeholderImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 20/Ex B 1.svg";
 
 const conversations = [
   {
