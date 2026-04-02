@@ -104,11 +104,11 @@ const Review8_Page1_Q3 = () => {
                     <img
                       src={item.img}
                       style={{
-                        width: "120px",
-                        height: "120px",
-                        border: "2px solid red",
+                        width: "auto",
+                        height: "100px",
+                        // border: "2px solid red",
                       }}
-                      className=" border-2 border-red-400 rounded-lg"
+                      className="rounded-lg"
                     />
                   </div>
                   {/* sentence */}

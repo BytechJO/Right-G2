@@ -2,10 +2,10 @@ import React, { useState, useRef } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Unit9_Page5_Q3.css";
 
-import img1 from "../../../assets/imgs/test.png";
-import img2 from "../../../assets/imgs/test.png";
-import img3 from "../../../assets/imgs/test.png";
-import img4 from "../../../assets/imgs/test.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 80/Ex B 1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 80/Ex B 2.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 80/Ex B 3.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 80/Ex B 4.svg";
 
 const Unit9_Page5_Q3 = () => {
   const [selectedImg, setSelectedImg] = useState(null);
@@ -34,9 +34,9 @@ const Unit9_Page5_Q3 = () => {
 
   const correct = {
     0: 0,
-    1: 3,
-    2: 1,
-    3: 2,
+    1:2,
+    2: 3,
+    3: 1,
   };
 
   const selectImage = (id) => {
@@ -106,14 +106,16 @@ const Unit9_Page5_Q3 = () => {
 
     const total = images.length;
 
+    const color =
+      correctCount === total ? "green" : correctCount === 0 ? "red" : "orange";
+
     const message = `
-    <div style="font-size:20px;text-align:center;">
-      <span style="color:#2e7d32;font-weight:bold;">
+    <div style="font-size: 20px; margin-top: 10px; text-align:center;">
+      <span style="color:${color}; font-weight:bold;">
         Score: ${correctCount} / ${total}
       </span>
     </div>
   `;
-
     if (correctCount === total) {
       ValidationAlert.success(message);
     } else if (correctCount === 0) {
@@ -139,28 +141,17 @@ const Unit9_Page5_Q3 = () => {
     setShowResult(false);
     setLocked(false);
   };
+  const isWrongMatch = (imgId) => {
+    if (!showResult) return false;
 
+    const selectedSentence = matches[imgId];
+    if (selectedSentence === undefined) return false;
+
+    return correct[imgId] !== selectedSentence;
+  };
   return (
-    <div
-      ref={containerRef}
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        padding: "30px",
-        position: "relative",
-      }}
-    >
-      <div
-        className="div-forall"
-        style={{
-          width: "100%",
-          maxWidth: "900px",
-          display: "flex",
-          flexDirection: "column",
-          gap: "30px",
-        }}
-      >
+    <div ref={containerRef} className="main-container-component relative">
+      <div className="div-forall gap-10">
         <h5 className="header-title-page8">
           <span className="ex-A mr-5">B</span> Look, read, and match.
         </h5>
@@ -185,18 +176,43 @@ const Unit9_Page5_Q3 = () => {
             <div
               key={img.id}
               ref={(el) => (imageRefs.current[index] = el)}
-              className={`border-2 border-red-500 rounded-lg p-2 cursor-pointer transition
-        ${selectedImg === img.id ? "bg-red-100" : ""}`}
+              className={`rounded-lg cursor-pointer transition
+    ${selectedImg === img.id ? "bg-red-100" : ""}`}
               onClick={() => selectImage(img.id)}
+              style={{ position: "relative" }} // 👈 مهم
             >
               <img
                 src={img.img}
                 alt=""
                 style={{
-                  height: "100%",
-                  objectFit: "contain",
+                  height: "130px",
                 }}
               />
+
+              {isWrongMatch(img.id) && (
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "-8px",
+                    right: "-8px",
+                    width: "22px",
+                    height: "22px",
+                    background: "#ef4444",
+                    color: "white",
+                    borderRadius: "50%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: "13px",
+                    fontWeight: "bold",
+                    border: "2px solid white",
+                    zIndex: 10,
+                    lineHeight: 1,
+                  }}
+                >
+                  ✕
+                </div>
+              )}
             </div>
           ))}
         </div>

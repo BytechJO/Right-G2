@@ -1,16 +1,12 @@
 import React, { useState, useRef } from "react";
-import page_4 from "../../../assets/imgs/pages/Right 2 Unit 1 Stellas Family_00001/Right 2 Unit 1 Stellas Family_00079.jpg";
+import page_4 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 79.png";
 import "./Unit9_Page4.css";
 import grammarSound from "../../../assets/audio/ClassBook/U 7/CD42.Pg61_Grammar2_Adult Lady (2).mp3";
-import sound1 from "../../../assets/audio/ClassBook/U 5/Pg43_2.1_Adult Lady.mp3";
-import sound2 from "../../../assets/audio/ClassBook/U 5/Pg43_2.2_Adult Lady.mp3";
-import sound3 from "../../../assets/audio/ClassBook/U 5/Pg43_2.3_Adult Lady.mp3";
-import sound4 from "../../../assets/audio/ClassBook/U 5/Pg43_2.4_Adult Lady.mp3";
-import sound5 from "../../../assets/audio/ClassBook/U 5/Pg43_2.5_Adult Lady.mp3";
-import sound6 from "../../../assets/audio/ClassBook/U 5/Pg43_2.6_Adult Lady.mp3";
-import sound7 from "../../../assets/audio/ClassBook/U 5/Pg43_3.1_Adult Lady.mp3";
-import sound8 from "../../../assets/audio/ClassBook/U 5/Pg43_4.1_Adult Lady.mp3";
-import sound9 from "../../../assets/audio/ClassBook/U 5/Pg43_5.1_Helen.mp3";
+import sound1 from "../../../assets/audio/ClassBook/U 9/Pg79_2.1_Adult Lady.mp3";
+import sound2 from "../../../assets/audio/ClassBook/U 9/Pg79_2.2_Adult Lady.mp3";
+import sound3 from "../../../assets/audio/ClassBook/U 9/Pg79_3.1_Girl.mp3";
+import sound4 from "../../../assets/audio/ClassBook/U 9/Pg79_4.1_Grandparents.mp3";
+import sound5 from "../../../assets/audio/ClassBook/U 9/Pg79_5.1_Adult Lady.mp3";
 
 // import video from "../../../assets/img_unit5/sounds-unit5/p13.mp4";
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
@@ -27,16 +23,11 @@ const Unit9_Page4 = ({ openPopup }) => {
   ];
 
   const clickableAreas = [
-    { x1: 6.53, y1: 10.4, x2: 23.43, y2: 14.2, sound: sound1 },
-    { x1: 54.19, y1: 10.4, x2: 71.5, y2: 14.5, sound: sound2 },
-    { x1: 6.53, y1: 15.27, x2: 30.7, y2: 19.4, sound: sound3 },
-    { x1: 54.2, y1: 15.27, x2: 78.3, y2: 19.5, sound: sound4 },
-    { x1: 6.7, y1: 32.3, x2: 21.8, y2: 36.2, sound: sound5 },
-    { x1: 23.3, y1: 25.5, x2: 39.8, y2: 30.7, sound: sound6 },
-    { x1: 55.0, y1: 30.7, x2: 74.1, y2: 33.9, sound: sound7 },
-    { x1: 55.0, y1: 30.7, x2: 74.1, y2: 33.9, sound: sound8 },
-    { x1: 55.0, y1: 30.7, x2: 74.1, y2: 33.9, sound: sound9 },
-
+    { x1: 6.66, y1: 9.81, x2: 39.54, y2: 20.16, sound: sound1 },
+    { x1: 60.09, y1: 9.81, x2: 92.57, y2: 20.16, sound: sound2 },
+    { x1: 12.39, y1: 57.78, x2: 35.08, y2: 63.57, sound: sound3 },
+    { x1: 66.88, y1:57.63, x2: 88.60, y2: 63.42, sound: sound4 },
+    { x1: 70.95, y1: 69.05, x2: 93.83, y2: 74.54, sound: sound5 },
   ];
 
   const handleImageClick = (e) => {
@@ -61,10 +52,11 @@ const Unit9_Page4 = ({ openPopup }) => {
   };
 
   return (
-    <div className="page1-img-wrapper"
-          onClick={handleImageClick}
-          style={{ backgroundImage: `url(${page_4})` }}>
-   
+    <div
+      className="page1-img-wrapper"
+      onClick={handleImageClick}
+      style={{ backgroundImage: `url(${page_4})` }}
+    >
       {clickableAreas.map((area, index) => (
         <div
           key={index}
@@ -102,7 +94,8 @@ const Unit9_Page4 = ({ openPopup }) => {
           viewBox="0 0 90 90"
           onClick={() =>
             openPopup(
-             "audio", <div
+              "audio",
+              <div
                 style={{
                   display: "flex",
                   justifyContent: "center",
@@ -113,12 +106,19 @@ const Unit9_Page4 = ({ openPopup }) => {
                   src={grammarSound}
                   captions={captionsExample}
                 />
-              </div>
+              </div>,
             )
           }
           style={{ overflow: "visible" }}
         >
-          <image className="svg-img" href={audioBtn} x="0" y="0" width="90" height="90" />
+          <image
+            className="svg-img"
+            href={audioBtn}
+            x="0"
+            y="0"
+            width="90"
+            height="90"
+          />
         </svg>
       </div>
       <div
@@ -131,7 +131,8 @@ const Unit9_Page4 = ({ openPopup }) => {
           viewBox="0 0 90 90"
           onClick={() =>
             openPopup(
-             "video", <div
+              "video",
+              <div
                 style={{
                   display: "flex",
                   justifyContent: "center",
@@ -139,7 +140,6 @@ const Unit9_Page4 = ({ openPopup }) => {
                   alignItems: "center",
                   height: "100%",
                   width: "100%",
-                
                 }}
               >
                 <video
@@ -154,12 +154,19 @@ const Unit9_Page4 = ({ openPopup }) => {
                 >
                   {/* <source src={video} type="video/mp4" /> */}
                 </video>
-              </div>
+              </div>,
             )
           }
           style={{ overflow: "visible" }}
         >
-          <image className="svg-img" href={pauseBtn} x="0" y="0" width="90" height="90" />
+          <image
+            className="svg-img"
+            href={pauseBtn}
+            x="0"
+            y="0"
+            width="90"
+            height="90"
+          />
         </svg>
       </div>
       <audio ref={audioRef} style={{ display: "none" }} />

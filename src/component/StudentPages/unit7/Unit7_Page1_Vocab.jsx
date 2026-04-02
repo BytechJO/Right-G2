@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import backgroundImage from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/Page.png";
+import backgroundImage from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/P58.png";
 import page2_2 from "../../../assets/imgs/Voca.svg";
 import vocabulary from "../../../assets/audio/ClassBook/U 7/Pg58_Vocab_Adult Lady.mp3";
 import "./unit7_Page1.css";

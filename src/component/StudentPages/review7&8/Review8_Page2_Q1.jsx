@@ -325,23 +325,23 @@ const Review8_Page2_Q1 = () => {
             </div>
           </div>
         </div>
-        <div className="flex justify-center gap-8 overflow-x-auto mt-4">
+        <div className="flex justify-center gap-8 mt-4">
           {questions.map((q, index) => (
             <div
               key={q.id}
-              className="w-[260px] h-[200px] border-2 border-red-400 rounded-xl p-4 flex flex-col justify-between"
+              className="rounded-xl p-4 flex flex-col justify-between"
             >
               <p className="text-[20px] font-bold text-blue-900">{q.id}.</p>
 
-              <div className="flex flex-col items-center gap-4">
+              <div className="flex flex-col items-center">
                 <img
                   src={q.image}
                   alt=""
                   style={{
-                    width: "80px",
-                    height: "80px",
+                    width: "auto",
+                    height: "180px",
                   }}
-                  className="w-full! h-full! object-cover rounded-md"
+                  className="rounded-md"
                 />
 
                 <div className="flex gap-4">

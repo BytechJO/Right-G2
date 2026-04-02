@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import find_img from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page.png";//======= should change ==========
+import find_img from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page.png"; //======= should change ==========
 import Rabbit from "../../../assets/Page 01/Rabbit.svg";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import MySVG from "../../../assets/imgs/Interactive Svg un 3.svg";
@@ -20,7 +20,7 @@ const Unit3_Page1_find = () => {
     const rect = e.target.getBoundingClientRect();
     const xPercent = ((e.clientX - rect.left) / rect.width) * 100;
     const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
-console.log(xPercent ,yPercent);
+    console.log(xPercent, yPercent);
 
     setClickedPoint({
       x: xPercent,
@@ -38,7 +38,7 @@ console.log(xPercent ,yPercent);
     if (!clickedPoint) {
       ValidationAlert.info(
         "Pay attention!",
-        "Please click on the image first."
+        "Please click on the image first.",
       );
       return;
     }
@@ -79,7 +79,8 @@ console.log(xPercent ,yPercent);
         >
           <img src={Rabbit} style={{ height: "50px", width: "auto" }} />{" "}
           <h5 className="header-title-page8">
-            I need your help. Can you help me find the boat in the picture?
+            I need your help. Can you help me find the camera in the
+            picture?{" "}
           </h5>
         </div>
         <div style={{ position: "relative", display: "inline-block" }}>
@@ -124,7 +125,7 @@ console.log(xPercent ,yPercent);
                 height: `42%`,
                 pointerEvents: "none",
               }}
-            /> 
+            />
           )}
         </div>
       </div>

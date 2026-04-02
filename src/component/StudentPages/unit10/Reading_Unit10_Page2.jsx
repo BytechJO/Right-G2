@@ -1,21 +1,21 @@
-import React, { useRef,useState } from "react";
-import page25 from "../../../assets/imgs/pages/Right 2 Unit 1 Stellas Family_00001/Right 2 Unit 1 Stellas Family_00093.jpg";
+import React, { useRef, useState } from "react";
+import page25 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 93.png";
 import "./Reading_Unit10_Page2.css";
 import { FaHeadphones } from "react-icons/fa";
-import sound1 from "../../../assets/audio/ClassBook/U 2/Pg21_1.5_Adult Lady.mp3";
-import sound2 from "../../../assets/audio/ClassBook/U 2/Pg21_1.6_Adult Lady.mp3";
-import sound3 from "../../../assets/audio/ClassBook/U 2/Pg21_1.7_Adult Lady.mp3";
-import sound4 from "../../../assets/audio/ClassBook/U 2/Pg21_1.8_Adult Lady.mp3";
+import sound1 from "../../../assets/audio/ClassBook/U 10/Pg93_1.5_Adult Lady.mp3";
+import sound2 from "../../../assets/audio/ClassBook/U 10/Pg93_1.6_Adult Lady.mp3";
+import sound3 from "../../../assets/audio/ClassBook/U 10/Pg93_1.7_Adult Lady.mp3";
+import sound4 from "../../../assets/audio/ClassBook/U 10/Pg93_1.8_Adult Lady.mp3";
 const Reading_Unit10_Page2 = () => {
   const audioRef = useRef(null);
   const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeAreaIndex, setActiveAreaIndex] = useState(null);
   const clickableAreas = [
-    { x1: 9.0, y1: 39.0, x2: 45.8, y2: 43.9, sound: sound1 },
-    { x1: 49.0, y1: 39.2, x2: 85.4, y2: 43.1, sound: sound2 },
-    { x1: 9.0, y1: 84.5, x2: 45.0, y2: 91.2, sound: sound3 },
-    { x1: 49.0, y1: 84.5, x2: 86.5, y2: 91.0, sound: sound4 },
+    { x1: 9.0, y1: 39.0, x2: 45.8, y2: 48.34, sound: sound1 },
+    { x1: 49.0, y1: 39.2, x2: 85.4, y2: 48.34, sound: sound2 },
+    { x1: 9.0, y1: 84.5, x2: 45.0, y2: 93.58, sound: sound3 },
+    { x1: 49.0, y1: 84.5, x2: 86.5, y2: 93.42, sound: sound4 },
   ];
   const handleImageClick = (e) => {
     const rect = e.target.getBoundingClientRect();
@@ -39,9 +39,11 @@ const Reading_Unit10_Page2 = () => {
   };
 
   return (
-    <div className="page1-img-wrapper"
-          onClick={handleImageClick}
-          style={{ backgroundImage: `url(${page25})` }}>
+    <div
+      className="page1-img-wrapper"
+      onClick={handleImageClick}
+      style={{ backgroundImage: `url(${page25})` }}
+    >
       {/* <img
         src={page25}
         style={{ display: "block" }}

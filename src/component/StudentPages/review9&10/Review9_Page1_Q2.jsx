@@ -2,10 +2,10 @@ import React, { useState, useRef } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Review9_Page1.css";
 
-import img1 from "../../../assets/imgs/test6.png";
-import img2 from "../../../assets/imgs/test6.png";
-import img3 from "../../../assets/imgs/test6.png";
-import img4 from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 88/Ex B 1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 88/Ex B 2.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 88/Ex B 3.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 88/Ex B 4.svg";
 
 const Review9_Page1 = () => {
   const [selectedImg, setSelectedImg] = useState(null);
@@ -103,13 +103,16 @@ const Review9_Page1 = () => {
 
     const total = images.length;
 
+    const color =
+      correctCount === total ? "green" : correctCount === 0 ? "red" : "orange";
+
     const message = `
-    <div style="font-size:20px;text-align:center;">
-      <span style="color:#2e7d32;font-weight:bold;">
-        Score: ${correctCount} / ${total}
-      </span>
-    </div>
-  `;
+      <div style="font-size:20px;text-align:center;">
+        <span style="color:${color};font-weight:bold">
+          Score: ${correctCount} / ${total}
+        </span>
+      </div>
+    `;
 
     if (correctCount === total) {
       ValidationAlert.success(message);
@@ -137,27 +140,24 @@ const Review9_Page1 = () => {
     setLocked(false);
   };
 
+  const isWrongMatch = (sentId) => {
+    if (!showResult) return false;
+
+    // نلاقي الصورة المرتبطة بهالجملة
+    const entry = Object.entries(matches).find(
+      ([imgId, sId]) => sId === sentId,
+    );
+
+    if (!entry) return false;
+
+    const [imgId] = entry;
+
+    return correct[imgId] !== sentId;
+  };
+
   return (
-    <div
-      ref={containerRef}
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        padding: "30px",
-        position: "relative",
-      }}
-    >
-      <div
-        className="div-forall"
-        style={{
-          width: "100%",
-          maxWidth: "900px",
-          display: "flex",
-          flexDirection: "column",
-          gap: "30px",
-        }}
-      >
+    <div ref={containerRef} className="main-container-component relative">
+      <div className="div-forall gap-2">
         <h5 className="header-title-page8 mb-10">
           <span style={{ marginRight: "20px" }}>B</span> Read and match.
         </h5>
@@ -180,13 +180,29 @@ const Review9_Page1 = () => {
                   position: "absolute",
                   ...style,
                 }}
-                className={`
+                className={`relative
           bg-[#f4e9e2] px-6 py-3 rounded-full cursor-pointer font-medium text-center whitespace-nowrap transition
           ${selectedSentence === sent.id ? "bg-blue-200" : ""}
         `}
               >
                 <span>{sent.id + 1}. </span>
                 {sent.text}
+                {isWrongMatch(sent.id) && (
+                  <div
+                    className="
+      absolute -top-2 -right-2
+      w-5 h-5
+      bg-red-500 text-white
+      rounded-full
+      flex items-center justify-center
+      text-xs font-bold
+      border-2 border-white
+      z-10
+    "
+                  >
+                    ✕
+                  </div>
+                )}
               </div>
             );
           })}
@@ -197,7 +213,7 @@ const Review9_Page1 = () => {
             <div
               key={img.id}
               ref={(el) => (imageRefs.current[index] = el)}
-              className={`border-2 border-red-500 rounded-lg p-2 cursor-pointer transition
+              className={`rounded-lg cursor-pointer transition
         ${selectedImg === img.id ? "bg-red-100" : ""}`}
               onClick={() => selectImage(img.id)}
             >
@@ -205,8 +221,9 @@ const Review9_Page1 = () => {
                 src={img.img}
                 alt=""
                 style={{
-                  height: "100%",
-                  objectFit: "cover",
+                  height: "150px",
+                  width: "auto",
+                  // objectFit: "cover",
                 }}
               />
             </div>

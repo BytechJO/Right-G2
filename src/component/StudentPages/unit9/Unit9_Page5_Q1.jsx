@@ -4,12 +4,12 @@ import sound1 from "../../../assets/audio/ClassBook/U 10/CD61.Pg86_Instruction1_
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
-import img1 from "../../../assets/imgs/test6.png";
-import img2 from "../../../assets/imgs/test6.png";
-import img3 from "../../../assets/imgs/test6.png";
-import img4 from "../../../assets/imgs/test6.png";
-import img5 from "../../../assets/imgs/test6.png";
-import img6 from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 80/Asset 41.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 80/Asset 42.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 80/Asset 44.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 80/Asset 45.svg";
+import img5 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 80/Asset 46.svg";
+import img6 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 80/Asset 47.svg";
 import QuestionAudioPlayer from "../../QuestionAudioPlayer";
 
 const questions = [
@@ -40,7 +40,7 @@ const Unit9_Page5_Q1 = () => {
   const [droppedWords, setDroppedWords] = useState({});
   const [showResult, setShowResult] = useState(false);
   const [locked, setLocked] = useState(false);
-
+  const [resetKey, setResetKey] = useState(0);
   const stopAtSecond = 14.2; // عدلها حسب طول الأوديو عندك
 
   const captions = [
@@ -170,6 +170,7 @@ const Unit9_Page5_Q1 = () => {
     setDroppedWords({});
     setShowResult(false);
     setLocked(false);
+    setResetKey((prev) => prev + 1); // 👈 هذا المهم
   };
 
   const isWrongWord = (q) => {
@@ -180,8 +181,15 @@ const Unit9_Page5_Q1 = () => {
 
     return word !== q.correctWord;
   };
+
+  const isWrongImage = (q, index) => {
+    if (!showResult) return false;
+    if (selected[q.id] === undefined) return false;
+
+    return selected[q.id] === index && index !== q.correctImage;
+  };
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
+    <DragDropContext key={resetKey} onDragEnd={onDragEnd}>
       <div className="main-container-component">
         <div className="div-forall gap-2">
           <h5 className="header-title-page8">
@@ -255,10 +263,7 @@ const Unit9_Page5_Q1 = () => {
 
           {/* QUESTIONS */}
           <div className="flex flex-col items-center gap-6">
-            <div
-              className="flex justify-center flex-wrap mb-20 gap-5"
-              
-            >
+            <div className="flex justify-center mb-20 gap-5">
               {questions.map((q) => {
                 const slotId = `slot-${q.id}`;
                 const droppedWord = droppedWords[slotId];
@@ -286,7 +291,7 @@ const Unit9_Page5_Q1 = () => {
                               objectFit: "contain",
                             }}
                           />
-
+                          
                           {selected[q.id] === index && (
                             <div
                               style={{
@@ -297,13 +302,38 @@ const Unit9_Page5_Q1 = () => {
                                 height: "100%",
                                 border: showResult
                                   ? index === q.correctImage
-                                    ? "4px solid green"
+                                    ? "4px solid red"
                                     : "4px solid red"
                                   : "4px solid red",
                                 borderRadius: "50%",
                                 pointerEvents: "none",
                               }}
                             />
+                          )}
+
+                          {isWrongImage(q, index) && (
+                            <div
+                              style={{
+                                position: "absolute",
+                                top: "6px",
+                                right: "9px",
+                                width: "30px",
+                                height: "30px",
+                                background: "red",
+                                color: "white",
+                                borderRadius: "50%",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                fontSize: "18px",
+                                fontWeight: "bold",
+                                border: "2px solid white",
+                                zIndex: 5,
+                                lineHeight: 1,
+                              }}
+                            >
+                              ✕
+                            </div>
                           )}
                         </div>
                       ))}
@@ -317,7 +347,7 @@ const Unit9_Page5_Q1 = () => {
                           style={{
                             marginTop: "12px",
                             minHeight: "38px",
-                            minWidth: "95px",
+                            width: "200px",
                             borderBottom: "2px solid #222",
                             display: "flex",
                             justifyContent: "center",
@@ -342,9 +372,9 @@ const Unit9_Page5_Q1 = () => {
                                     fontWeight: "bold",
                                     color: showResult
                                       ? droppedWord === q.correctWord
-                                        ? "green"
-                                        : "red"
-                                      : "#c62828",
+                                        ? "blue"
+                                        : "blue"
+                                      : "blue",
                                     cursor: locked ? "default" : "pointer",
                                     userSelect: "none",
                                     ...provided.draggableProps.style,
@@ -363,9 +393,9 @@ const Unit9_Page5_Q1 = () => {
                                 position: "absolute",
                                 top: "-8px",
                                 right: "-8px",
-                                width: "20px",
-                                height: "20px",
-                                background: "#ef4444",
+                                width: "22px",
+                                height: "22px",
+                                background: "red",
                                 color: "white",
                                 borderRadius: "50%",
                                 display: "flex",

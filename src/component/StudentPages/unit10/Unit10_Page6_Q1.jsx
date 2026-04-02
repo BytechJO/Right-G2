@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
-import img1 from "../../../assets/imgs/test6.png";
-import img2 from "../../../assets/imgs/test6.png";
-import img3 from "../../../assets/imgs/test6.png";
-import img4 from "../../../assets/imgs/test6.png";
-import img5 from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 87/Ex D 1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 87/Ex D 2.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 87/Ex D 3.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 87/Ex D 4.svg";
+import img5 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 87/Ex D 5.svg";
 
 const Unit10_Page6_Q1 = () => {
   const questions = [
@@ -101,27 +101,36 @@ const Unit10_Page6_Q1 = () => {
       }
     });
 
-    const msg = `
-    <div style="font-size:20px;text-align:center;">
-      <span style="color:#2e7d32;font-weight:bold;">
-        Score: ${score} / ${questions.length}
-      </span>
-    </div>
-  `;
+    const color =
+      score === questions.length ? "green" : score === 0 ? "red" : "orange";
 
+    const msg = `
+      <div style="font-size:20px;text-align:center;">
+        <span style="color:${color};font-weight:bold">
+          Score: ${score} / ${questions.length}
+        </span>
+      </div>
+    `;
     if (score === questions.length) ValidationAlert.success(msg);
     else if (score === 0) ValidationAlert.error(msg);
     else ValidationAlert.warning(msg);
 
     setLocked(true);
   };
+  const isWrongAnswer = (qId) => {
+    if (!locked) return false;
 
+    const userAnswer = answers[`slot-${qId}`];
+    if (!userAnswer) return false;
+
+    const correctAnswer = questions.find((q) => q.id === qId)?.correct;
+
+    return userAnswer !== correctAnswer;
+  };
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div
-        style={{ display: "flex", justifyContent: "center", padding: "30px" }}
-      >
-        <div className="div-forall" style={{ width: "60%" }}>
+      <div className="main-container-component">
+        <div className="div-forall gap-2">
           {/* ❌ الهيدر كما هو */}
           <h5 className="header-title-page8">
             <span className="ex-A mr-5">D</span>Look and write .
@@ -131,29 +140,31 @@ const Unit10_Page6_Q1 = () => {
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="flex gap-3 justify-center flex-wrap mb-5"
+                className="flex gap-3 justify-center flex-wrap mb-5 border-2 border-dashed border-gray-500 p-3 rounded-lg"
               >
-                {sentences
-                  .filter((s) => !Object.values(answers).includes(s))
-                  .map((s, index) => (
+                {sentences.map((s, index) => {
+                  const isUsed = Object.values(answers).includes(s);
+                  return (
                     <Draggable
                       key={s}
                       draggableId={s}
                       index={index}
-                      isDragDisabled={locked}
+                      isDragDisabled={locked || isUsed}
                     >
                       {(provided) => (
                         <div
                           ref={provided.innerRef}
                           {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          className="bg-blue-200 px-4 py-2 rounded-full cursor-grab text-center"
+                          {...(!isUsed && provided.dragHandleProps)}
+                          className={`px-4 py-2 rounded-full text-center
+                            ${isUsed ? "bg-gray-300 text-gray-500 cursor-not-allowed" : "bg-blue-200 cursor-grab"}`}
                         >
                           {s}
                         </div>
                       )}
                     </Draggable>
-                  ))}
+                  );
+                })}
 
                 {provided.placeholder}
               </div>
@@ -181,10 +192,9 @@ const Unit10_Page6_Q1 = () => {
               <img
                 src={q.img}
                 style={{
-                  height: "95px",
-                  width: "180px",
-                  objectFit: "cover",
-                  border: "2px solid #e74c3c",
+                  height: "120px",
+                  width: "auto",
+
                   borderRadius: "12px",
                   marginRight: "20px",
                 }}
@@ -195,6 +205,7 @@ const Unit10_Page6_Q1 = () => {
                   <div
                     ref={provided.innerRef}
                     {...provided.droppableProps}
+                    className="relative"
                     style={{
                       flex: 1,
                       borderBottom: "2px solid #333",
@@ -218,7 +229,7 @@ const Unit10_Page6_Q1 = () => {
                           >
                             <span
                               style={{
-                                color: "#d32f2f",
+                                
                                 fontWeight: "500",
                                 fontSize: "16px",
                                 cursor: "grab",
@@ -230,7 +241,22 @@ const Unit10_Page6_Q1 = () => {
                         )}
                       </Draggable>
                     )}
-
+                    {isWrongAnswer(q.id) && (
+                      <div
+                        className="
+      absolute -top-2 -right-2
+      w-7 h-7
+      bg-red-500 text-white
+      rounded-full
+      flex items-center justify-center
+      text-sm font-bold
+      border-2 border-white
+      z-10
+    "
+                      >
+                        ✕
+                      </div>
+                    )}
                     {provided.placeholder}
                   </div>
                 )}

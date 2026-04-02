@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import find_img from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/Page.png"; //======= should change ==========
+import find_img from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/P58.png"; //======= should change ==========
 import Rabbit from "../../../assets/Page 01/Rabbit.svg";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import MySVG from "../../../assets/imgs/Interactive Svg un 7.svg";
@@ -120,9 +120,9 @@ const Unit7_Page1_find = () => {
               alt="answer highlight"
               style={{
                 position: "absolute",
-                top: `41%`,
+                top: `46%`,
                 left: `50.5%`,
-                height: `35%`,
+                height: `41%`,
                 pointerEvents: "none",
               }}
             />

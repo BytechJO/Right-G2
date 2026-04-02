@@ -1,10 +1,10 @@
 import React, { useState, useRef } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
-import img1 from "../../../assets/imgs/test6.png";
-import img2 from "../../../assets/imgs/test6.png";
-import img3 from "../../../assets/imgs/test6.png";
-import img4 from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 86/Ex B 1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 86/Ex B 2.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 86/Ex B 3.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 86/Ex B 4.svg";
 
 const Unit10_Page5_Q3 = () => {
   const [lines, setLines] = useState([]);
@@ -141,18 +141,27 @@ She’s watering the flowers.`,
     else ValidationAlert.warning(msg);
   };
 
+  const isWrongMatch = (textIndex) => {
+    if (!isChecked) return false;
+
+    // دور على الخط اللي مربوط لهالكلمة
+    const line = lines.find((l) => {
+      const txt = l.from.type === "text" ? l.from.index : l.to.index;
+      return txt === textIndex;
+    });
+
+    if (!line) return false;
+
+    const imageIndex =
+      line.from.type === "image" ? line.from.index : line.to.index;
+
+    return correctMatches[imageIndex] !== textIndex;
+  };
+
   return (
-    <div
-      ref={containerRef}
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        padding: "30px",
-        position: "relative",
-      }}
-    >
-      <div className="w-[80%]">
+    <div ref={containerRef} className="main-container-component relative">
+      <div className="div-forall gap-2">
+        {" "}
         <h5 className="header-title-page8 ">
           <span className="ex-A mr-5">B</span> Look, read, and match.
         </h5>
@@ -162,17 +171,32 @@ She’s watering the flowers.`,
             <div className="w-[45%] flex justify-start">
               <div className="relative inline-block">
                 <p
-                  className={`px-5 py-1.5 rounded-[20px] font-semibold text-[20px] cursor-pointer min-w-20 whitespace-pre-line
+                  className={`px-5 py-1.5 rounded-[20px] font-semibold text-[20px] w-[290px] cursor-pointer min-w-20 whitespace-pre-line
           ${
-           startDot?.index === i && startDot?.type === "text"
-           ? "border-2 border-[#e74c3c] bg-[#fdecea]"
-    : "bg-[#f6e6de]"
-             }`}
+            startDot?.index === i && startDot?.type === "text"
+              ? "border-2 border-[#e74c3c] bg-[#fdecea]"
+              : "bg-[#f6e6de]"
+          }`}
                   onClick={() => handleDotClick(i, "text")}
                 >
                   {words[i]}
                 </p>
-
+                {isWrongMatch(i) && (
+                  <div
+                    className="
+      absolute -top-2 -right-2
+      w-7 h-7
+      bg-red-500 text-white
+      rounded-full
+      flex items-center justify-center
+      text-lg font-bold
+      border-2 border-white
+      z-10
+    "
+                  >
+                    ✕
+                  </div>
+                )}
                 <div
                   ref={(el) => (textDotRefs.current[i] = el)}
                   onClick={() => handleDotClick(i, "text")}

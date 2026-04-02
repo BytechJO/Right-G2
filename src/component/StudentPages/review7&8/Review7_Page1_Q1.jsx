@@ -94,7 +94,8 @@ const Review7_Page1_Q1 = () => {
         <div className="flex justify-center mb-8">
           <img
             src={img1}
-            className="w-[900px]! h-[250px]! object-contain border border-red-400 rounded-xl"
+            className="object-contain rounded-xl"
+            style={{ height: "235px", width: "auto" }}
           />
         </div>
 

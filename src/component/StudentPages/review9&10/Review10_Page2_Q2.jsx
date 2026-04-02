@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
-import img1 from "../../../assets/imgs/test6.png";
-import img2 from "../../../assets/imgs/test6.png";
-import img3 from "../../../assets/imgs/test6.png";
-import img4 from "../../../assets/imgs/test6.png";
+import img1 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 91/Ex F 1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 91/Ex F 2.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 91/Ex F 3.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 91/Ex F 4.svg";
 
 const Review10_Page2_Q2 = () => {
   const [selectedImages, setSelectedImages] = useState([]);

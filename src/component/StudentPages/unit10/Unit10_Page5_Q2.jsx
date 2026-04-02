@@ -7,13 +7,13 @@ const Unit10_Page5_Q3 = () => {
       id: 1,
       base: "nest",
       words: ["feet", "rest", "eat", "desk"],
-      correct: [ "rest", "desk"],
+      correct: ["rest", "desk"],
     },
     {
       id: 2,
       base: "egg",
       words: ["beg", "meat", "vet", "seal"],
-      correct: [ "beg", "vet"],
+      correct: ["beg", "vet"],
     },
     {
       id: 3,
@@ -93,9 +93,11 @@ const Unit10_Page5_Q3 = () => {
       });
     });
 
+    const color = score === total ? "green" : score === 0 ? "red" : "orange";
+
     const msg = `
-    <div style="font-size:20px;text-align:center;">
-      <span style="color:#2e7d32;font-weight:bold;">
+    <div style="font-size: 20px; margin-top: 10px; text-align:center;">
+      <span style="color:${color}; font-weight:bold;">
         Score: ${score} / ${total}
       </span>
     </div>
@@ -109,9 +111,17 @@ const Unit10_Page5_Q3 = () => {
     setLocked(true);
   };
 
+  const isWrongWord = (q, word) => {
+    if (!checked) return false;
+
+    const isSelected = (selected[q.id] || []).includes(word);
+    const isCorrect = q.correct.includes(word);
+
+    return isSelected && !isCorrect;
+  };
   return (
-    <div style={{ display: "flex", justifyContent: "center", padding: "30px" }}>
-      <div className="div-forall" style={{ width: "60%" }}>
+    <div className="main-container-component">
+      <div className="div-forall gap-2">
         <h5 className="header-title-page8 mb-8">
           <span style={{ color: "#2e3192", marginRight: "20px" }}>2</span>
           Read and circle the words with the same vowel sound.
@@ -142,19 +152,35 @@ const Unit10_Page5_Q3 = () => {
                     key={i}
                     onClick={() => toggleWord(q.id, word)}
                     className={`
-                      px-3 py-1 rounded-full cursor-pointer transition text-[17px]
+                      relative px-3 py-1 rounded-full cursor-pointer transition text-[17px]
                       ${
                         isSelected
                           ? checked
                             ? isCorrect
-                              ? "border-2 border-green-500 text-green-600 bg-green-50"
-                              : "border-2 border-gray-300 text-gray-400"   
-                            : "border-2 border-red-400"
+                              ? "border-2 border-blue-800 text-black"
+                              : "border-2 border-red-500"
+                            : "border-2 border-blue-800"
                           : "border-2 border-transparent hover:bg-gray-100"
                       }
                     `}
                   >
                     {word}
+                    {isWrongWord(q, word) && (
+                      <div
+                        className="
+      absolute -top-2 -right-2
+      w-5 h-5
+      bg-red-500 text-white
+      rounded-full
+      flex items-center justify-center
+      text-xs font-bold
+      border-2 border-white
+      z-10
+    "
+                      >
+                        ✕
+                      </div>
+                    )}
                   </div>
                 );
               })}
