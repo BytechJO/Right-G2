@@ -22,7 +22,7 @@ import sound5 from "../../../assets/audio/ClassBook/U 3/unit3-sound5.mp3";
 import sound6 from "../../../assets/audio/ClassBook/U 3/unit3-sound6.mp3";
 import sound8 from "../../../assets/audio/ClassBook/U 3/unit3-sound8.mp3";
 
-import "./unit3_Page2.css";
+import "./Unit3_Page2.css";
 import ReadChoose from "../../ReadChoose";
 const Unit3_Page2 = ({ openPopup }) => {
   const [activeAreaIndex, setActiveAreaIndex] = useState(null);

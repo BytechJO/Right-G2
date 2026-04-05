@@ -1,6 +1,6 @@
 
 import page_5 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 50.png";
-import "./unit6_Page5.css";
+import "./Unit6_Page5.css";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 const Unit6_Page5 = ({ openPopup }) => {
   return (
