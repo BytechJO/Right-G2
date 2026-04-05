@@ -1,6 +1,6 @@
 import React from "react";
 import page_1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 31.png";
-import "./Wb_unit5.css";
+// import "./Wb_unit5.css";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 
 const WB_Unit5_Page31 = ({ openPopup }) => {
