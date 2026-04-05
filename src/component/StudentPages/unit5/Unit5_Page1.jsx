@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import page_1 from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 40.png";
-import "./unit5_Page1.css";
+import "./Unit5_Page1.css";
 import Unit5_Page1_Read from "./Unit5_Pag1_Read";
 import Unit5_Page1_Vocab from "./Unit5_Page1_Vocab";
 import Unit5_Page1_find from "./Unit5_Page1_find";

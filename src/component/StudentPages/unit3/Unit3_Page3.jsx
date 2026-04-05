@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import page_3 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 24.png";
-import "./unit3_Page3.css";
+import "./Unit3_Page3.css";
 import grammarSound from "../../../assets/audio/ClassBook/U 3/cd17pg24-grammar1.mp3";
 import sound1 from "../../../assets/audio/ClassBook/U 3/Pg24_1.1_Adult Lady.mp3";
 import sound2 from "../../../assets/audio/ClassBook/U 3/Pg24_1.2_Adult Lady.mp3";

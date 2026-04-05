@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import page_1 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 22.png";
-import "./unit3_Page1.css";
+import "./Unit3_Page1.css";
 import Unit3_Page1_Read from "./Unit3_Pag1_Read";
 import Unit3_Page1_Vocab from "./Unit3_Page1_Vocab";
 import Unit3_Page1_find from "./Unit3_Page1_find";
