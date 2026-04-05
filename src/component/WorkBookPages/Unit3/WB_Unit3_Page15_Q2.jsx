@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Button from "../button";
+import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
 const questions = [

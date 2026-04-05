@@ -5,7 +5,7 @@ import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 6
 import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 6/Ex J 4.svg";
 
 import ValidationAlert from "../../Popup/ValidationAlert";
-import Button from "../button";
+import Button from "../Button";
 
 const WB_Unit1_Page6_Q3 = () => {
   const [userAnswers, setUserAnswers] = useState({

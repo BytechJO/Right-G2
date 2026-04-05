@@ -10,7 +10,7 @@ import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page22
 import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page22/Ex D 3.svg";
 import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page22/Ex D 4.svg";
 
-import Button from "../button";
+import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
 const exerciseData = [

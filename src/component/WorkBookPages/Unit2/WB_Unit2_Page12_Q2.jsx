@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import img from "../../../assets/imgs/test6.png";
-import Button from "../button";
+import Button from "../Button";
 import ValidationAlert from '../../Popup/ValidationAlert';
 
 const correctAnswers = {

@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { toPng } from "html-to-image";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import Button from "../button";
+import Button from "../Button";
 import { FaDownload } from "react-icons/fa6";
 import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page23/Ex E 1.svg";
 import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page23/Ex E 2.svg";

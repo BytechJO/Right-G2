@@ -1,7 +1,7 @@
 // ExerciseB.jsx
 
 import { useState } from "react";
-import Button from "../button";
+import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import img from "../../../assets/imgs/test6.png";
 import img1 from "../../../assets/imgs/test1.png";

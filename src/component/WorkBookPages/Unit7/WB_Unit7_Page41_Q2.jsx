@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import Button from "../button";
+import Button from "../Button";
 
 const exerciseDataN = {
   story: `"What time is it?" Tina asked her mom one day. "It is eleven o'clock in the morning," replied Mom. "We are going to the store at twelve thirty. When we are finished shopping, we will go to your grandmother's house. I told your grandfather that we would be there at two o'clock. We should get home by seven o'clock in the evening," said her mom while looking at a checklist of things to do. "When will we have dinner?" asked Tina. Her mom replied, "We will have dinner at a quarter to eight. We'll stop by the pizza place at a quarter past six and pick up some pizza on the way home." "Yummy, I can't wait!"`,

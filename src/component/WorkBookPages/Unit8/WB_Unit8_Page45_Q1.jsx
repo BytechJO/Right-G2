@@ -8,7 +8,7 @@ import {
 } from "@dnd-kit/core";
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import Button from "../button";
+import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import imgTie from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex A 1.svg";
 import imgSocks from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex A 2.svg";

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import Button from "../button";
+import Button from "../Button";
 
 
 import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 55/Ex I 1.svg";

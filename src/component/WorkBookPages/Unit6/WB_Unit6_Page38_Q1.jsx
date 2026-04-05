@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import Button from "../button";
+import Button from "../Button";
 import img from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 38/Ex A 1.svg";
 
 const WB_Unit6_Page38_Q1 = () => {

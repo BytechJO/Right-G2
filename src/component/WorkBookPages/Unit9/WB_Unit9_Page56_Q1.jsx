@@ -1,7 +1,7 @@
 // ExerciseA.jsx — Look, listen, and write (Select version)
 
 import { useState } from "react";
-import Button from "../button";
+import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import QuestionAudioPlayer from "../../QuestionAudioPlayer";
 import sound from "../../../assets/audio/WorkBook/p56q1.mp3";

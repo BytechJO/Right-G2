@@ -5,7 +5,7 @@ import {
   useDroppable,
   closestCenter,
 } from "@dnd-kit/core";
-import Button from "../button";
+import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import queenImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 14/Ex B 1.svg";
 import foxImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 14/Ex B 2.svg";

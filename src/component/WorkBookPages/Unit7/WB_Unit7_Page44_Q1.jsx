@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import Button from "../button";
+import Button from "../Button";
 import { TbMessageCircle } from "react-icons/tb";
 import { FaPlay, FaPause } from "react-icons/fa";
 import { IoMdSettings } from "react-icons/io";

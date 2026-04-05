@@ -10,7 +10,7 @@ import {
 } from "@dnd-kit/core";
 
 import ValidationAlert from "../../Popup/ValidationAlert";
-import Button from "../button";
+import Button from "../Button";
 
 import imgBlueInk from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 50/Ex B 1.svg";
 import imgTubeItem from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 50/Ex B 2.svg";

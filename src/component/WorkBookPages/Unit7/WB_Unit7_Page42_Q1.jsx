@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import Button from "../button";
+import Button from "../Button";
 
 const exerciseDataO = {
   words: [

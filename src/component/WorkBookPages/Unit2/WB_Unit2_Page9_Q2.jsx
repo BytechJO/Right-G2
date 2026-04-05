@@ -13,7 +13,7 @@ import img11 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 
 import img12 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 9/Ex B 12.svg";
 
 import ValidationAlert from "../../Popup/ValidationAlert";
-import Button from "../button";
+import Button from "../Button";
 
 const leftParts = [
   { id: 1, text: "rabbit" },

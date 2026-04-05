@@ -1,6 +1,6 @@
 import { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import Button from "../button";
+import Button from "../Button";
 import "../Unit2/WB_Unit2_Page9_Q1.css";
 import sound from "../../../assets/audio/WorkBook/p56q2.mp3";
 import QuestionAudioPlayer from "../../QuestionAudioPlayer";

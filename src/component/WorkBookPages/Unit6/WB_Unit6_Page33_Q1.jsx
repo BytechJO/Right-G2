@@ -16,7 +16,7 @@ import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 3
 import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 33/Ex A 6.svg";
 
 import ValidationAlert from "../../Popup/ValidationAlert";
-import Button from "../button";
+import Button from "../Button";
 
 const WORDS = [
   { id: "wash", text: "wash" },

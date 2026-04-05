@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import Button from "../button";
+import Button from "../Button";
 import QuestionAudioPlayer from "../../QuestionAudioPlayer";
 import sound from "../../../assets/audio/WorkBook/p50q1.mp3";
 

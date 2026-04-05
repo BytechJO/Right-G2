@@ -4,7 +4,7 @@ import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 7
 import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 7/Ex L 3.svg";
 import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 7/Ex L 4.svg";
 
-import Button from "../button";
+import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 

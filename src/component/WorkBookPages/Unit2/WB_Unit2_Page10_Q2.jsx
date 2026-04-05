@@ -6,7 +6,7 @@ import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 1
 import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 10/Ex D 4.svg";
 
 import ValidationAlert from "../../Popup/ValidationAlert";
-import Button from "../button";
+import Button from "../Button";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
 const exerciseData = [

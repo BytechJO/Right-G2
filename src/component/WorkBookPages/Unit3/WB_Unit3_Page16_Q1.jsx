@@ -6,7 +6,7 @@ import {
   closestCenter,
 } from "@dnd-kit/core";
 
-import Button from "../button";
+import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
 // بيانات التمرين

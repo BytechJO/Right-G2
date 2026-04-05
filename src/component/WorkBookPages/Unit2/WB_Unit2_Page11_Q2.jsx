@@ -4,7 +4,7 @@ import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 1
 import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 11/Ex F 3.svg";
 import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 11/Ex F 4.svg";
 import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 11/Asset 1.svg";
-import Button from "../button";
+import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
