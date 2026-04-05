@@ -13,8 +13,8 @@ import Button from "../Button";
 
 // استيراد الصور
 
-import imgRoomA from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 49/Asset 56.svg";
-import imgRoomB from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 49/Asset 55.svg";
+import imgRoomA from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 49/Asset56.svg";
+import imgRoomB from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 49/Asset55.svg";
 
 const OPTIONS_K = [
   { id: "k1", text: "She has six crayons." },
