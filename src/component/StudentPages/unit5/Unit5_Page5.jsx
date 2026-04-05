@@ -1,6 +1,6 @@
 
 import page_5 from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 44.png";
-import "./unit5_Page5.css";
+import "./Unit5_Page5.css";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 const Unit5_Page5 = ({ openPopup }) => {
   return (
