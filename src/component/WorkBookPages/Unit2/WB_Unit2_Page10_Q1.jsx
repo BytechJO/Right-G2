@@ -8,7 +8,7 @@ import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 1
 import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 10/Ex C 6.svg";
 
 import ValidationAlert from "../../Popup/ValidationAlert";
-import Button from "../button";
+import Button from "../Button";
 import "./WB_Unit2_Page10_Q1.css"
 const WB_Unit2_Page10_Q1 = () => {
   const [userSelections, setUserSelections] = useState({

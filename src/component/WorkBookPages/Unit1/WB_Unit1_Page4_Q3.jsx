@@ -4,7 +4,7 @@ import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 4
 import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 4/Ex E 3.svg";
 
 import ValidationAlert from "../../Popup/ValidationAlert";
-import Button from "../button";
+import Button from "../Button";
 
 const WB_Unit1_Page4_Q3 = () => {
   const [selectedLeft, setSelectedLeft] = useState(null);

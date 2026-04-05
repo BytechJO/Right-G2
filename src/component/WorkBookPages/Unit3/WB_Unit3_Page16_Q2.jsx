@@ -7,7 +7,7 @@ import swimImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Pag
 import chopsticksImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 16/Ex D 4.svg";
 
 
-import Button from "../button";
+import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
 // بيانات التمرين

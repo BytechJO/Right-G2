@@ -5,7 +5,7 @@ import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 1
 import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 19/Ex J 3.svg";
 import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 19/Ex J 4.svg";
 
-import Button from "../button";
+import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
 const answerQuestions = [

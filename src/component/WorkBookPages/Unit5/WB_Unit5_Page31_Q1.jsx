@@ -1,7 +1,7 @@
 // ExerciseI.jsx  —  Look, Read and Circle
 
 import { useState } from "react";
-import Button from "../button";
+import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 31/Ex I 1.svg";
 import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 31/Ex I 2.svg";

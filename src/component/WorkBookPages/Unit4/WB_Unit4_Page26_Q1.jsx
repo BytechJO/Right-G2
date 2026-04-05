@@ -4,7 +4,7 @@ import { TbMessageCircle } from "react-icons/tb";
 import { FaPlay, FaPause } from "react-icons/fa";
 import { IoMdSettings } from "react-icons/io";
 import sound from "../../../assets/audio/WorkBook/p26q1.mp3";
-import Button from "../button";
+import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page26/Ex A 1.svg";
 import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page26/Ex A 2.svg";

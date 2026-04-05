@@ -9,7 +9,7 @@ import {
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import Button from "../button";
+import Button from "../Button";
 
 const QUESTIONS = [
   { id: "q1", text: "1 What time does she have lunch?" },

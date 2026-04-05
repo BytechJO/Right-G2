@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import img from "../../../assets/imgs/test6.png";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import Button from "../button";
+import Button from "../Button";
 import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page22/Ex C 1.svg";
 import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page22/Ex C 2.svg";
 import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page22/Ex C 3.svg";

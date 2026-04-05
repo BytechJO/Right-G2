@@ -8,7 +8,7 @@ import kiteImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Pag
 
 
 
-import Button from "../button";
+import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
 // بيانات التمرين

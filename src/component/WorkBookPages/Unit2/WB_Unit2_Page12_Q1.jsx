@@ -7,7 +7,7 @@ import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 1
 import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 12/Ex G 5.svg";
 import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 12/Ex G 6.svg";
 
-import Button from "../button";
+import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
 const WB_Unit2_Page12_Q1 = () => {

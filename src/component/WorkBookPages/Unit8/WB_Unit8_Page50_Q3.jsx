@@ -10,7 +10,7 @@ import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
 import ValidationAlert from "../../Popup/ValidationAlert";
-import Button from "../button";
+import Button from "../Button";
 
 const SENTENCES_C = [
   { id: "c1", prefix: "1. His favorite color is", suffix: "." },

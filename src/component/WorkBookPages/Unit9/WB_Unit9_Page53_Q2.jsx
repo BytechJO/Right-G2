@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert"; // تأكد من صحة المسار في مشروعك
-import Button from "../button"; // تأكد من صحة المسار في مشروعك
+import Button from "../Button"; // تأكد من صحة المسار في مشروعك
 
 // استيراد الصور (تأكد من تغيير المسارات لتناسب مشروعك)
 import imgA from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 53/Ex F 1.svg";

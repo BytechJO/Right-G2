@@ -1,7 +1,7 @@
 import { useState, useRef, useLayoutEffect } from "react";
 import img from "../../../assets/imgs/test6.png";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import Button from "../button";
+import Button from "../Button";
 import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 43/Ex J 1.svg";
 import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 43/Ex J 2.svg";
 import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 43/Ex J 3.svg";

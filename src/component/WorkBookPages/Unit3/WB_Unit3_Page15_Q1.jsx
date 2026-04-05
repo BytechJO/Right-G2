@@ -6,7 +6,7 @@ import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 1
 
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./WB_Unit3_Page15_Q1.css";
-import Button from "../button";
+import Button from "../Button";
 const rows = [
   {
     id: 1,

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import Button from "../button";
+import Button from "../Button";
 
 import imgRun from "../../../assets/imgs/test6.png";
 import imgDrink from "../../../assets/imgs/test6.png";

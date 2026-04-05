@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 
 // استيراد الصور ومكونات الأزرار والتنبيهات
 import placeholderImg from "../../../assets/imgs/test6.png";
-import Button from "../button";
+import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import img from "../../../assets/imgs/test6.png";
 import { TbMessageCircle } from "react-icons/tb";

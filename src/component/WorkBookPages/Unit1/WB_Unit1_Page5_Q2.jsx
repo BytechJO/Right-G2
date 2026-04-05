@@ -5,7 +5,7 @@ import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 5
 import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 5/Ex G 4.svg";
 
 import ValidationAlert from "../../Popup/ValidationAlert";
-import Button from "../button";
+import Button from "../Button";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
 const WB_Unit1_Page5_Q2 = () => {

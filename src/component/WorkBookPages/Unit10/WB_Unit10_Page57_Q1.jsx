@@ -9,7 +9,7 @@ import {
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import Button from "../button"
+import Button from "../Button"
 // check
 import imgShower from "../../../assets/imgs/WorkBook/Right Int WB G2 U10 Folder/Page 57/Ex A 1.svg";
 import imgBike from "../../../assets/imgs/WorkBook/Right Int WB G2 U10 Folder/Page 57/Ex A 2.svg";

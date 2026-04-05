@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import Button from "../button";
+import Button from "../Button";
 
 const WB_Unit10_Page60_Q2 = () => {
   const [answers, setAnswers] = useState({

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Button from "../button";
+import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 40/Ex C 1.svg";
 import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 40/Ex C 2.svg";

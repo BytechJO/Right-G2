@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Button from "../button";
+import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
 export default function WB_Unit5_Page30_Q2() {

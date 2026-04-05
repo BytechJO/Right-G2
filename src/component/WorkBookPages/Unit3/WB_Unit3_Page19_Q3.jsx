@@ -6,7 +6,7 @@ import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 1
 import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 19/Ex K 5.svg";
 import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 19/Ex K 6.svg";
 
-import Button from "../button";
+import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
 const checkQuestions = [

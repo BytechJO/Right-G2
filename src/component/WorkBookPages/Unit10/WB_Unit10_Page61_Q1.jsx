@@ -1,7 +1,7 @@
 // ExerciseH.jsx — Look and write sentences
 
 import { useState } from "react";
-import Button from "../button";
+import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import img from "../../../assets/imgs/test6.png";
 

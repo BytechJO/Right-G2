@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import Button from "../button";
+import Button from "../Button";
 const topItems = [
   { id: "dress", label: "Dress", x: 90, y: 90 },
   { id: "bag", label: "Bag", x: 220, y: 90 },

@@ -1,7 +1,7 @@
 import { useState, useRef, useLayoutEffect } from "react";
 import img from "../../../assets/imgs/test6.png";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import Button from "../button";
+import Button from "../Button";
 
 const exerciseData = {
   right: [
