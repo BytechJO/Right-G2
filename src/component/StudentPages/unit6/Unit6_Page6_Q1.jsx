@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import "./Unit6_Page6_Q1.css";
-import Button from "../../WorkBookPages/button";
+import Button from "../../WorkBookPages/Button";
 import img1 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 51/Ex D 1.svg";
 import InteractiveClock from "../../WorkBookPages/Unit6/InteractiveClock";
 import ValidationAlert from "../../Popup/ValidationAlert";
