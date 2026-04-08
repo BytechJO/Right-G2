@@ -1,0 +1,6 @@
+.CB-review4-p2-q1-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 11px;
+    margin-top: 20px;
+}

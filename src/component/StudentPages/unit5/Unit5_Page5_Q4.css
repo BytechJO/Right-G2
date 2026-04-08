@@ -1,0 +1,133 @@
+/* ================== WORD LIST ================== */
+
+.words-list-CB-unit3-p5-q4 {
+  font-size: 18px;
+  margin-bottom: 12px;
+  color: #000;
+}
+
+/* بدون styling خاص */
+.word-CB-unit3-p5-q4 {
+  margin-right: 5px;
+}
+
+/* لما تنوجد */
+.found-CB-unit3-p5-q4 {
+  text-decoration: line-through;
+  color: green;
+}
+
+/* ================== OUTER ORANGE BOX ================== */
+
+.wordsearch-wrapper-CB-unit3-p5-q4 {
+  border: 2px solid #f28c63;
+  padding: 25px 35px 30px 35px;
+  background: transparent;
+}
+
+/* ================== INNER BLUE AREA ================== */
+
+.grid-CB-unit3-p5-q4 {
+    background: #daf5ff;
+    border-radius: 15px;
+    padding: 15px 25px;
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+/* ================== ROW STYLE ================== */
+
+/* الصف */
+.row-CB-unit3-p5-q4 {
+  display: flex;
+  font-size: 25px;
+  font-weight: 400;
+  color: #000;
+}
+
+/* الحرف */
+.cell-CB-unit3-p5-q4 {
+  width: 35px;          /* عرض ثابت */
+  height: 35px; 
+   font-size: 20px;        /* ارتفاع ثابت */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-right: 8px;    /* بدل letter-spacing */
+  transition: background 0.15s ease;
+}
+
+/* عند التحديد */
+.selected-CB-unit3-p5-q4 {
+  background: #ffd54f;
+  border-radius: 4px;
+      padding: 10px;
+}
+
+/* عند إيجاد الكلمة */
+.found-cell-CB-unit3-p5-q4 {
+  background: #4caf50;
+  color: white;
+  border-radius: 4px;
+   padding: 10px;
+}
+
+/* ================== ANSWER LINE ================== */
+
+.answer-line-CB-unit3-p5-q4 {
+  width: 85%;
+  height: 3px;
+  background: #000;
+  margin-top: 35px;
+}
+
+/* ===== كلمات البحث ===== */
+
+/* ===== Container الكلمات ===== */
+.words-list-CB-unit3-p5-q4 {
+  border: 2px dashed #cfcfcf;
+  border-radius: 14px;
+  padding: 10px;
+  /* background: #f5f5f5; */
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+/* ===== كل كلمة ===== */
+.word-CB-unit3-p5-q4 {
+  padding: 8px 18px;
+  border-radius: 10px;
+  background: white;
+  border: 2px solid #2c5287;
+  font-weight: 600;
+  font-size: 15px;
+  color: #000;
+  transition: 0.2s ease;
+}
+
+/* عند إيجاد الكلمة */
+.found-CB-unit3-p5-q4 {
+  background: #2c5287;
+  color: white;
+  border-color: #2c5287;
+  text-decoration: none;
+}
+
+
+/* ===== Input الجواب ===== */
+
+.answer-input-CB-unit3-p5-q4 {
+  width: 85%;
+  margin-top: 15px;
+  border: none;
+  border-bottom: 2px solid black;
+  font-size: 18px;
+  padding: 5px;
+  background: transparent;
+  outline: none;
+}

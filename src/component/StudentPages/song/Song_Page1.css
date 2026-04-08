@@ -1,0 +1,34 @@
+.click-icon-writing-page {
+  position: absolute;
+  padding: 5px;
+  top: 3%;
+  left: 21%;
+  cursor: pointer;
+}
+
+.headset-icon-CD-song-page1-1 {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  padding: 5px;
+  top: 5%;
+  left: 16%;
+}
+
+.headset-icon-CD-song-page2-1 {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  padding: 5px;
+  top: 5%;
+  right: 5%;
+}
+
+.headset-icon-CD-song-page3-1 {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  padding: 5px;
+  top: 5%;
+  left: 16%;
+}

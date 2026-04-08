@@ -1,0 +1,9 @@
+.row-content10-CB-review3-p2-q1 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.q-input-CB-review2-p2-q1 {
+   position: relative;
+}

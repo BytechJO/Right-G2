@@ -1,0 +1,167 @@
+/* ===============================
+   GENERAL LAYOUT
+================================ */
+
+.component-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ===============================
+   WORD BANK (RIGHT STYLE)
+================================ */
+.word-list-box {
+  border: 3px solid #d74c3a;
+  border-radius: 16px;
+  padding: 14px 16px;
+  background: #fffac2;
+  width: 123px;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+}
+.CB-unit1-p9-q2-rightSide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.word-item {
+  font-weight: bold;
+  font-size: 15px;
+  color: #333;
+  cursor: grab;
+  user-select: none;
+}
+
+/* ===============================
+   SENTENCE BUBBLE
+================================ */
+.missing-bubble {
+  margin-top: 18px;
+  border: 3px solid #383b97;
+  border-radius: 50%;
+  padding: 14px 22px;
+  background: #e4e6f4;
+  font-size: 16px;
+  height: 125px;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  position: relative;
+  flex-direction: column;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.15);
+}
+
+.blank-space {
+  min-width: 100%;
+  display: inline-block;
+  border-bottom: 2px solid #333;
+  height: 25px;
+}
+
+/* ===============================
+   CONTENT LAYOUT
+================================ */
+/* .CB-unit1-p9-q2-content {
+display: grid;
+grid-template-rows: repeat(2,1fr);
+} */
+
+/* ===============================
+   QUESTIONS LIST
+================================ */
+.CB-unit1-p9-q2-group-input {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.CB-unit1-p9-q2-question-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.CB-unit1-p9-q2-q-number {
+  color: #0d47a1;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.CB-unit1-p9-q2-top-container {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+/* ===============================
+   INPUT SLOT
+================================ */
+.CB-unit1-p9-q2-input {
+  min-width: 110px;
+  height: 32px;
+  border-bottom: 2px solid #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.CB-unit1-p9-q2-drag-over {
+  background: #e3f2fd;
+}
+
+/* ===============================
+   WRONG ICON
+================================ */
+.CB-unit1-p9-q2-wrong-icon {
+  width: 25px;
+  height: 25px;
+  background: red;
+  color: #ffffff;
+  border-radius: 50%;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
+  position: absolute;
+  right: -4px;
+  top: -10px;
+}
+.CB-unit1-p9-q2-wrong-icon1 {
+  width: 25px;
+  height: 25px;
+  background: red;
+  color: #ffffff;
+  border-radius: 50%;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
+  position: absolute;
+  right: 16px;
+  top: 22px;
+}
+
+/* ===============================
+   IMAGE
+================================ */
+.family-image-wrapper {
+  /* border: 3px solid #ff6b6b; */
+  border-radius: 16px;
+  padding: 12px;
+  /* width: 65%; */
+}
+
+.CB-unit1-p9-q2-shape-img {
+  height: 325px;
+  width: auto;
+  display: block;
+}

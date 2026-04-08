@@ -1,0 +1,354 @@
+import React, { useState, useRef, useEffect } from "react";
+import {
+  DndContext,
+  useDraggable,
+  useDroppable,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import ValidationAlert from "../../Popup/ValidationAlert";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U10 Folder/Page 61/SVG/Asset 2.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U10 Folder/Page 61/SVG/Asset 3.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U10 Folder/Page 61/SVG/Asset 5.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U10 Folder/Page 61/SVG/Asset 6.svg";
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U10 Folder/Page 61/SVG/Asset 7.svg";
+import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U10 Folder/Page 61/SVG/Asset 8.svg";
+import Button from "../Button";
+
+/* 🔹 Draggable */
+function DraggableWord({ word, disabled }) {
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id: word,
+    disabled, // 👈 هذا المهم
+  });
+
+  const style = transform
+    ? { transform: `translate3d(${transform.x}px, ${transform.y}px, 0)` }
+    : undefined;
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...(!disabled ? listeners : {})}
+      {...attributes}
+      className={`p-4 rounded-lg font-bold text-center transition-all
+        ${
+          disabled
+            ? "bg-gray-200 text-gray-400 cursor-not-allowed opacity-60"
+            : "cursor-pointer bg-indigo-100 text-indigo-700 hover:bg-indigo-200 hover:scale-105"
+        }
+      `}
+    >
+      {word}
+    </div>
+  );
+}
+
+/* 🔹 Drop */
+function DropInput({ id, value, onChange, submitted, feedback, isWrong }) {
+  const { setNodeRef } = useDroppable({
+    id: `drop-${id}`,
+  });
+
+  return (
+    <div ref={setNodeRef} className="flex-1 relative">
+      <input
+        type="text"
+        value={value}
+        onChange={onChange}
+        disabled={submitted}
+        placeholder="Type your answer..."
+        className={`flex-1 px-4 py-2 border-2 rounded-lg font-semibold focus:outline-none transition-all ${
+          submitted
+            ? !isWrong
+              ? "border-gray-300 focus:border-blue-500"
+              : "border-red-500 bg-red-50"
+            : "border-gray-300 focus:border-blue-500"
+        }`}
+        readOnly
+      />
+
+      {/* ❌ */}
+      {isWrong && (
+        <div className="absolute -top-2 -right-2 bg-red-500 text-white w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold border-2 border-white shadow">
+          ✕
+        </div>
+      )}
+    </div>
+  );
+}
+
+const DrawAndAnswerQuestion = () => {
+  const words = ["reading", "wearing", "watching", "carrying"];
+
+  const images = [
+    {
+      id: 1,
+      src: img1,
+      question: "What's he reading?",
+      correctAnswer: "a book",
+      hint: "reading",
+    },
+    {
+      id: 2,
+      src: img2,
+      question: "What's he wearing?",
+      correctAnswer: "a hat",
+      hint: "wearing",
+    },
+    {
+      id: 3,
+      src: img3,
+      question: "What's he watching?",
+      correctAnswer: "a computer",
+      hint: "watching",
+    },
+    {
+      id: 4,
+      src: img4,
+      question: "What's he carrying?",
+      correctAnswer: "a bag",
+      hint: "carrying",
+    },
+  ];
+
+  const canvasRefs = useRef({});
+  const [isDrawing, setIsDrawing] = useState({});
+  const [answers, setAnswers] = useState({});
+  const [submitted, setSubmitted] = useState(false);
+  const [feedback, setFeedback] = useState({});
+  const [showAnswers, setShowAnswers] = useState(false);
+
+  const sensors = useSensors(useSensor(PointerSensor));
+
+  /* ================= CANVAS ================= */
+
+  useEffect(() => {
+    Object.keys(canvasRefs.current).forEach((id) => {
+      const canvas = canvasRefs.current[id];
+      if (canvas) {
+        const ctx = canvas.getContext("2d");
+        const img = new Image();
+        img.src = images.find((i) => i.id === parseInt(id))?.src;
+        img.onload = () => {
+          canvas.width = 200;
+          canvas.height = 180;
+          ctx.drawImage(img, 0, 0, 200, 180);
+        };
+      }
+    });
+  }, []);
+
+  const handleMouseDown = (e, imageId) => {
+    setIsDrawing({ ...isDrawing, [imageId]: true });
+    const canvas = canvasRefs.current[imageId];
+    const rect = canvas.getBoundingClientRect();
+    const ctx = canvas.getContext("2d");
+
+    ctx.beginPath();
+    ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+  };
+
+  const handleMouseMove = (e, imageId) => {
+    if (!isDrawing[imageId]) return;
+
+    const canvas = canvasRefs.current[imageId];
+    const rect = canvas.getBoundingClientRect();
+    const ctx = canvas.getContext("2d");
+
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "#FF6B6B";
+    ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+    ctx.stroke();
+  };
+
+  const handleMouseUp = () => setIsDrawing({});
+
+  const clearCanvas = (imageId) => {
+    const canvas = canvasRefs.current[imageId];
+    const ctx = canvas.getContext("2d");
+    const img = new Image();
+
+    img.src = images.find((i) => i.id === imageId)?.src;
+    img.onload = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0, 200, 180);
+    };
+  };
+
+  /* ================= DND ================= */
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+    if (!over) return;
+
+    const word = active.id;
+    const dropId = over.id.split("-")[1];
+
+    setAnswers((prev) => ({
+      ...prev,
+      [dropId]: word,
+    }));
+  };
+
+  /* ================= CHECK ================= */
+
+  const handleCheckAnswers = () => {
+    // 🔴 VALIDATION
+    if (Object.keys(answers).length < images.length) {
+      ValidationAlert.warning(
+        "Please complete all answers before checking your answers.",
+      );
+      return;
+    }
+
+    let correct = 0;
+
+    images.forEach((img) => {
+      const user = answers[img.id]?.toLowerCase().trim();
+      const correctAnswer = img.correctAnswer.toLowerCase();
+
+      if (user === correctAnswer) correct++;
+    });
+
+    setSubmitted(true); // 👈 عشان يشتغل ❌
+
+    const msg = `Score: ${score} / ${images.length}`;
+
+    if (score === images.length) ValidationAlert.success(msg);
+    else if (score > 0) ValidationAlert.warning(msg);
+    else ValidationAlert.error(msg);
+  };
+  /* ================= SHOW ANSWER ================= */
+
+  const handleShowAnswer = () => {
+    const correctAnswers = {};
+
+    images.forEach((img) => {
+      correctAnswers[img.id] = img.hint; // 👈 بس الكلمة
+    });
+
+    setAnswers(correctAnswers);
+    setShowAnswers(true);
+    setSubmitted(true);
+  };
+
+  const handleReset = () => {
+    setAnswers({});
+    setFeedback({});
+    setSubmitted(false);
+    setShowAnswers(false);
+
+    Object.keys(canvasRefs.current).forEach((id) => clearCanvas(parseInt(id)));
+  };
+  const usedWords = Object.values(answers);
+  return (
+    <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
+      <div className="main-container-component">
+        <div
+          className="div-forall flex flex-row"
+          style={{ gap: "10px", marginBottom: "30px" }}
+        >
+          {/* Header */}
+          <div className="mb-8">
+            <h1 className="WB-header-title-page8">
+              <span className="WB-ex-A">I</span>Draw, and then ask and answer.
+            </h1>
+          </div>
+
+          {/* Word Bank */}
+          <div>
+            <div className="bg-white border-3 border-gray-400 rounded-2xl p-4 inline-block shadow-md w-full">
+              <div className="flex gap-4 flex-wrap flex justify-center items-center">
+                {images.map((word) => (
+                  <DraggableWord
+                    key={word.correctAnswer}
+                    word={word.correctAnswer}
+                    disabled={usedWords.includes(word.correctAnswer)}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Drawing + Questions */}
+          <div className="grid grid-cols-2 gap-8 mb-8">
+            {images.map((image) => (
+              <div
+                key={image.id}
+                className="bg-white rounded-xl shadow-lg p-6 border-2 border-gray-200"
+              >
+                {/* Canvas */}
+                <div className="mb-4">
+                  <p className="text-sm font-semibold text-gray-600 mb-2">
+                    Draw and Connect the Dots:
+                  </p>
+                  <canvas
+                    ref={(el) => (canvasRefs.current[image.id] = el)}
+                    onMouseDown={(e) => handleMouseDown(e, image.id)}
+                    onMouseMove={(e) => handleMouseMove(e, image.id)}
+                    onMouseUp={handleMouseUp}
+                    onMouseLeave={handleMouseUp}
+                    className="border-2 border-gray-300 rounded-lg cursor-crosshair bg-gray-50"
+                  />
+                </div>
+
+                {/* Input */}
+                <div className="bg-gray-50 rounded-lg p-4 border-2 border-gray-300">
+                  <p className="text-base font-bold text-gray-800 mb-3">
+                    {image.question}
+                  </p>
+
+                  <div className="flex gap-2">
+                    <DropInput
+                      id={image.id}
+                      value={answers[image.id] || ""}
+                      onChange={(e) => {
+                        const newValue = e.target.value;
+
+                        setAnswers((prev) => {
+                          const updated = { ...prev };
+
+                          if (!newValue) {
+                            delete updated[image.id]; // 👈 هذا المهم
+                          } else {
+                            updated[image.id] = newValue;
+                          }
+
+                          return updated;
+                        });
+                      }}
+                     
+                      submitted={submitted}
+                      feedback={feedback[image.id]}
+                      isWrong={
+                        submitted &&
+                        !showAnswers &&
+                        answers[image.id]?.trim() &&
+                        answers[image.id].toLowerCase().trim() !==
+                          image.correctAnswer.toLowerCase()
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="flex gap-2">
+            <img src={img5} style={{ height: "160px" }} />
+            <img src={img6} style={{ height: "160px" }} />
+          </div>
+          <Button
+            handleShowAnswer={handleShowAnswer}
+            handleStartAgain={handleReset}
+            checkAnswers={handleCheckAnswers}
+          />
+        </div>
+      </div>
+    </DndContext>
+  );
+};
+
+export default DrawAndAnswerQuestion;

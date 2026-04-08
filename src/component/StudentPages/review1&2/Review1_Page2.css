@@ -1,0 +1,29 @@
+.click-icon-review1-page2-2 {
+  position: absolute;
+  padding: 5px;
+  top: 3.8%;
+  left: 33.5%;
+  cursor: pointer;
+}
+
+.click-icon-review1-page2-3 {
+  position: absolute;
+  padding: 5px;
+  top: 32.5%;
+    left: 20%;
+  cursor: pointer;
+}
+.click-icon-review1-page2-1 {
+  position: absolute;
+  padding: 5px;
+  bottom: 21.7%;
+  left: 33%;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 1024px) and (max-height: 600px) {
+ 
+}
+@media (max-width: 1024px) {
+  
+}

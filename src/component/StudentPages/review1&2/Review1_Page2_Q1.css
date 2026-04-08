@@ -1,0 +1,158 @@
+/* ====== MAIN WRAPPER ====== */
+.match-wrapper2-CB-review1-p2-q1 {
+  position: relative;
+  margin-top: 20px;
+  width: 100%;
+}
+
+/* ====== IMAGES ROW ====== */
+.CB-review1-p2-q1-images {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+  margin-bottom: 150px;
+}
+
+.CB-review1-p2-q1-img-box {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.CB-review1-p2-q1-img {
+  width: auto;
+  height: 150px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+/* ====== DOTS ====== */
+.CB-review1-p2-q1-dot {
+  width: 10px;
+  height: 10px;
+  background: red;
+  border-radius: 50%;
+  position: absolute;
+}
+
+.CB-review1-p2-q1-dot-start {
+  bottom: -14px;
+}
+
+.CB-review1-p2-q1-dot-end {
+  top: -14px;
+}
+
+/* ====== ERROR X ====== */
+.CB-review1-p2-q1-error {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+
+  background: red;
+  color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 14px;
+  font-weight: bold;
+  border: 2px solid white;
+  /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25); */
+  z-index: 3;
+}
+
+/* ====== WORDS ====== */
+.CB-review1-p2-q1-words {
+  display: flex;
+  justify-content: center;
+  gap: 100px;
+  margin-top: 20px;
+}
+
+.CB-review1-p2-q1-word-box {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.CB-review1-p2-q1-word {
+  width: 100px;
+  height: 60px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+/* ====== COLORS (حسب الصورة) ====== */
+.CB-review1-p2-q1-word.l {
+  background: #f9e6dc;
+  /* border: 2px solid #e53935; */
+}
+
+.CB-review1-p2-q1-word.r {
+  background: #f9e6dc;
+  /* border: 2px solid #e53935; */
+}
+
+/* ====== LINES ====== */
+.lines-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.CB-review1-p2-q1-img {
+  width: auto;
+  height: 150px;
+  object-fit: contain;
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.CB-review1-p2-q1-img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.CB-review1-p2-q1-img:active {
+  transform: scale(0.96);
+}
+.CB-review1-p2-q1-word {
+  width: 60px;
+  height: 32px;
+  border-radius: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: bold;
+  cursor: pointer;
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.CB-review1-p2-q1-word:hover {
+  transform: scale(1.05);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+.CB-review1-p2-q1-word:active {
+  transform: scale(0.95);
+}

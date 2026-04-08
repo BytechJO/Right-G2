@@ -1,0 +1,118 @@
+/* ================= WORD BANK ================= */
+
+.CB-unit2-p6-q2-word-bank {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  border: 2px dashed #cfcfcf;
+  border-radius: 12px;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+
+.CB-unit2-p6-q2-word {
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 2px solid #2c5287;
+  font-weight: 700;
+  background: #fff;
+  font-size: 14px;
+  cursor: grab;
+  user-select: none;
+}
+
+/* ================= QUESTIONS LAYOUT ================= */
+
+.CB-unit2-p6-q2-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.CB-unit2-p6-q2-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* ================= LEFT SIDE (NUMBER + IMAGE) ================= */
+
+.CB-unit2-p6-q2-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.CB-unit2-p6-q2-index {
+  font-weight: bold;
+  font-size: 15px;
+  width: 20px;
+  text-align: center;
+}
+
+.CB-unit2-p6-q2-img {
+  width: 140px;
+  height: 120px;
+  object-fit: contain;
+  /* border: 2px solid #e53935; */
+  border-radius: 10px;
+  padding: 6px;
+}
+
+/* ================= SENTENCE ================= */
+
+.CB-unit2-p6-q2-sentence {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+}
+
+.CB-unit2-p6-q2-text {
+  font-size: 15px;
+}
+
+/* ================= INPUT LINE ================= */
+
+.CB-unit2-p6-q2-input {
+  flex: 1;
+  min-height: 22px;
+  border-bottom: 1.5px solid #000;
+  display: inline-flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 2px 4px;
+  position: relative;
+}
+
+.CB-unit2-p6-q2-input.drag-over-cell {
+  background: #e8f4ff;
+}
+
+/* ❌ خطأ */
+.CB-unit2-p6-q2-input-error {
+  position: absolute;
+    top: -10px;
+  right: -14px;
+  width: 26px;
+  height: 26px;
+  background: red;
+  color: white;
+  border-radius: 50%;
+  font-size: 18px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 999999;
+  border: 2px solid white;
+}
+
+/* ================= LOCKED ================= */
+
+.CB-unit2-p6-q2-word[aria-disabled="true"],
+.CB-unit2-p6-q2-input {
+  cursor: default;
+}

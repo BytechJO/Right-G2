@@ -1,0 +1,68 @@
+.CB-unit6-p5-q1-blank {
+  width: 50px;           /* طول الخط */
+  border: none;
+  border-bottom: 2px solid #000;
+  background: transparent;
+  outline: none;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  height: 30px;
+
+  color: red;
+}
+
+/* إزالة ستايل المتصفح */
+.CB-unit6-p5-q1-blank:focus {
+  outline: none;
+  border-bottom: 2px solid #000;
+}
+.CB-unit6-p5-q1-container{
+  margin-top: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+/* لما يكون مختار */
+.CB-unit6-p5-q1-blank.selected {
+  font-weight: bold;
+}
+
+.CB-unit6-p5-q1-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 12px;
+}
+
+.CB-unit6-p5-q1-options{
+    width: 130px;
+    font-size: 22px;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+
+}
+.CB-unit6-p5-q1-input-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.CB-unit6-p5-q1-wrong-icon {
+  position: absolute;
+  top: -10px;
+  right: -12px;
+  background: red;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
+  align-content: center;
+  font-weight: bold;
+}

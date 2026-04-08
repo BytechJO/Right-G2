@@ -1,0 +1,253 @@
+import React, { useState } from "react";
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+import ValidationAlert from "../../Popup/ValidationAlert";
+
+const items = [
+  {
+    sentence: "He has four pairs of",
+    scrambled: ["neerg", "strohs"],
+    correct: ["green", "shorts"],
+  },
+  {
+    sentence: "She has five pairs of",
+    scrambled: ["lube", "skcos"],
+    correct: ["blue", "socks"],
+  },
+  {
+    sentence: "They have nine",
+    scrambled: ["kcalb", "stekcaj"],
+    correct: ["black", "jackets"],
+  },
+  {
+    sentence: "You have six",
+    scrambled: ["etihw", "seit"],
+    correct: ["white", "ties"],
+  },
+  {
+    sentence: "I have three",
+    scrambled: ["knip", "sesserd"],
+    correct: ["pink", "dresses"],
+  },
+];
+
+export default function Review8_Page1_Q3() {
+  const [answers, setAnswers] = useState(items.map(() => ["", ""]));
+  const [locked, setLocked] = useState(false);
+  const [showResult, setShowResult] = useState(false);
+  const [usedLetterIds, setUsedLetterIds] = useState([]);
+  const onDragEnd = (result) => {
+    const { destination, draggableId } = result;
+    if (!destination || locked) return;
+
+    const parts = draggableId.split("-");
+    const letter = parts[1];
+    const sourceQ = parts[2];
+    const sourceWord = parts[3];
+
+    const id = draggableId.replace("letter-", "");
+
+    const [qIndex, wordIndex] = destination.droppableId.split("-").slice(1);
+
+    if (sourceQ !== qIndex || sourceWord !== wordIndex) return;
+
+    if (usedLetterIds.includes(id)) return;
+
+    const updated = [...answers];
+
+    if (
+      updated[qIndex][wordIndex].length >=
+      items[qIndex].correct[wordIndex].length
+    )
+      return;
+
+    updated[qIndex][wordIndex] += letter;
+
+    setAnswers(updated);
+    setUsedLetterIds((prev) => [...prev, id]);
+  };
+
+  const resetAll = () => {
+    setAnswers(items.map(() => ["", ""]));
+    setLocked(false);
+    setShowResult(false);
+  };
+
+  const showAnswers = () => {
+    setAnswers(items.map((item) => item.correct));
+    setLocked(true);
+    setShowResult(true);
+  };
+
+  const checkAnswers = () => {
+    if (locked) return;
+
+    const empty = answers.some((row) => row.some((word) => word === ""));
+
+    if (empty) {
+      ValidationAlert.info("Please complete all answers.");
+      return;
+    }
+
+    let score = 0;
+
+    answers.forEach((row, i) => {
+      if (row.join(" ") === items[i].correct.join(" ")) {
+        score++;
+      }
+    });
+
+    const total = items.length;
+
+    const color = score === total ? "green" : score === 0 ? "red" : "orange";
+
+    const message = `
+      <div style="font-size:20px;text-align:center;">
+        <span style="color:${color};font-weight:bold">
+        Score: ${score} / ${total}
+        </span>
+      </div>
+    `;
+
+    if (score === total) ValidationAlert.success(message);
+    else if (score === 0) ValidationAlert.error(message);
+    else ValidationAlert.warning(message);
+
+    setShowResult(true);
+    setLocked(true);
+  };
+  const usedLetters = answers.flatMap((row) => row.join("").split(""));
+  return (
+    <DragDropContext onDragEnd={onDragEnd}>
+      <div className="main-container-component">
+        <div className="div-forall">
+          <h5 className="header-title-page8">
+            <span style={{ marginRight: "20px" }}>B</span>
+            Unscramble the words and write the sentences.
+          </h5>
+
+          {items.map((item, i) => (
+            <div key={i} className="mb-8 mt-4">
+              <div className="flex items-center gap-4 flex-wrap">
+                <span className="font-bold text-lg w-5">{i + 1}</span>
+                <span className="text-lg">{item.sentence}</span>
+
+                {/* الكلمات */}
+                <div className="flex gap-8">
+                  {item.scrambled.map((word, wordIndex) => {
+                    const letters = word.split("");
+                    const dropId = `slot-${i}-${wordIndex}`;
+
+                    return (
+                      <div
+                        key={wordIndex}
+                        className="flex flex-col items-center gap-2"
+                      >
+                        {/* 🔤 الحروف */}
+                        <Droppable
+                          droppableId={`bank-${i}-${wordIndex}`}
+                          direction="horizontal"
+                        >
+                          {(provided) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.droppableProps}
+                              className="flex gap-1"
+                            >
+                              {letters.map((letter, letterIndex) => {
+                                const id = `${letter}-${i}-${wordIndex}-${letterIndex}`;
+
+                                const isUsed = usedLetterIds.includes(id);
+                                return (
+                                  <Draggable
+                                    key={id}
+                                    draggableId={`letter-${id}`}
+                                    index={letterIndex}
+                                    isDragDisabled={locked || isUsed}
+                                  >
+                                    {(provided) => (
+                                      <span
+                                        ref={provided.innerRef}
+                                        {...provided.draggableProps}
+                                        {...provided.dragHandleProps}
+                                        className={`
+  w-8 h-8 flex items-center justify-center rounded border
+  ${
+    isUsed
+      ? "bg-gray-300 cursor-not-allowed opacity-50"
+      : "bg-yellow-200 cursor-grab"
+  }
+`}
+                                      >
+                                        {letter}
+                                      </span>
+                                    )}
+                                  </Draggable>
+                                );
+                              })}
+
+                              {provided.placeholder}
+                            </div>
+                          )}
+                        </Droppable>
+
+                        {/* ✏️ input */}
+                        <Droppable droppableId={dropId}>
+                          {(provided) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.droppableProps}
+                              className={`min-w-[120px] h-10 relative border-0 border-b-2 border-black px-3 py-2 text-lg text-center
+  ${
+    answers[i][wordIndex] === item.correct[wordIndex]
+      ? "border-black"
+      : showResult
+        ? "border-red-500"
+        : "border-black"
+  }
+`}
+                            >
+                              {answers[i][wordIndex]}
+                              {showResult &&
+                                answers[i][wordIndex] !==
+                                  item.correct[wordIndex] && (
+                                  <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold shadow border-2 border-white">
+                                    ✕
+                                  </div>
+                                )}
+                              {provided.placeholder}
+                            </div>
+                          )}
+                        </Droppable>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="mt-3 ml-8">
+                <div className="w-full max-w-[500px] border-2 border-gray-400 rounded-lg px-3 py-2 text-lg text-center">
+                  {item.sentence} {answers[i].join(" ")}
+                </div>
+              </div>
+            </div>
+          ))}
+
+          {/* buttons */}
+          <div className="action-buttons-container">
+            <button className="try-again-button" onClick={resetAll}>
+              Start Again ↻
+            </button>
+
+            <button onClick={showAnswers} className="show-answer-btn">
+              Show Answer
+            </button>
+
+            <button className="check-button2" onClick={checkAnswers}>
+              Check Answer ✓
+            </button>
+          </div>
+        </div>
+      </div>
+    </DragDropContext>
+  );
+}

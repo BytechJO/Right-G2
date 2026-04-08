@@ -1,0 +1,133 @@
+.CB-review3-p2-q2-wrapper {
+  font-size: 1.4rem;
+}
+
+.CB-review3-p2-q2-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 20px;
+}
+
+/* ⭐ مكان الدروب داخل الجملة */
+.CB-review3-p2-q2-drop-slot {
+  display: inline-block;
+  min-width: 120px;
+  height: 28px;
+  border-bottom: 2px solid #000;
+  margin: 0 6px;
+  text-align: center;
+  vertical-align: middle;
+  font-weight: bold;
+  line-height: 28px;
+}
+
+/* أثناء السحب فوقه */
+.CB-review3-p2-q2-drop-slot.CB-review3-p2-q2-drag-over {
+  background-color: #eef5ff;
+}
+
+/* wrapper للتموضع */
+.CB-review3-p2-q2-drop-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+/* 🏷️ بنك الكلمات */
+.CB-review3-p2-q2-word-bank {
+  display: flex;
+  gap: 5px;
+  margin: 15px 0 25px;
+  flex-wrap: wrap;
+  border: 2px solid #4b74ff;
+  background-color: #f2f6ff;
+  justify-content: center;
+  border-radius: 8px;
+  padding: 10px;
+  flex-direction: row;
+  align-items: center;
+}
+
+/* 🟦 الكلمة القابلة للسحب */
+.CB-review3-p2-q2-word-item {
+  padding: 8px 14px;
+  background-color: #f2f6ff;
+  border: 2px solid #2c5287;
+  border-radius: 8px;
+  font-size: 20px;
+  cursor: grab;
+  user-select: none;
+  transition: all 0.2s ease;
+}
+
+/* ✨ Hover */
+.CB-review3-p2-q2-word-item:hover {
+  background-color: #e1e9ff;
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* ✋ أثناء السحب */
+.CB-review3-p2-q2-word-item:active {
+  cursor: grabbing;
+}
+
+/* 🔒 كلمة مستخدمة */
+.CB-review3-p2-q2-word-item.used {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background-color: #eee;
+  border-color: #999;
+  color: #777;
+  pointer-events: none;
+  transform: none;
+  box-shadow: none;
+}
+
+.CB-review3-p2-q2-check-btn {
+  margin-top: 20px;
+  padding: 8px 20px;
+  /* border: none; */
+  background: #38bdf8;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.CB-review3-p2-q2-score {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.CB-review3-p2-q2-row-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 30px;
+}
+
+.CB-review3-p2-q2-num {
+  color: black;
+  font-weight: 700;
+  margin-right: 20px;
+}
+
+.CB-review3-p2-q2-error-mark {
+  position: absolute;
+  top: -10px;
+  right: 5px;
+  width: 26px;
+  height: 26px;
+  background: red;
+  color: white;
+  border-radius: 50%;
+  font-size: 18px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 999999;
+  border: 2px solid white;
+}

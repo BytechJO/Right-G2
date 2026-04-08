@@ -1,0 +1,75 @@
+/* ===== Container ===== */
+.container-CB-unit1-p8-q3 {
+  display: flex;
+  justify-content: space-between;
+  gap: 60px;
+}
+
+/* ===== Question ===== */
+.question-CB-unit1-p8-q3 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ===== Image wrapper ===== */
+.img-div-CB-unit1-p8-q3 {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 3px solid red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== Image ===== */
+.q3-image-CB-unit1-p8-q3 {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* ===== Options ===== */
+.options-row-CB-unit1-p8-q3 {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-left: 12px;
+}
+
+/* ===== Word ===== */
+.option-word-CB-unit1-p8-q3 {
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 12px;
+  border-radius: 20px;
+  position: relative;
+}
+
+/* ===== Selected ===== */
+.option-word-CB-unit1-p8-q3.selected {
+  border: 2px solid #2563eb;
+}
+
+
+/* ===== Wrong X ===== */
+.wrong-x-CB-unit1-p8-q3 {
+ position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 25px;
+  height: 25px;
+  background: red;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+  pointer-events: none;
+  border: 2px solid white;
+}

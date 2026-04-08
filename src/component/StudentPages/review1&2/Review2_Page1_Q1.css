@@ -1,0 +1,35 @@
+.CB-review2-p1-q1-question {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-direction: column;
+}
+
+.CB-review2-p1-q1-image-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.CB-review2-p1-q1-options {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.CB-review2-p1-q1-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.CB-review2-p1-q1-text{
+  /* font-weight: 800; */
+    font-size: 22px;
+    color: #000;
+    /* width: 20px; */
+    text-align: right;
+}

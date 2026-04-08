@@ -1,0 +1,84 @@
+.match-row-q2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 12px 0;
+}
+/* ===== WORD SIDE ===== */
+
+.word-side-q2 {
+  width: 45%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.word-box-q2 {
+  position: relative;
+  display: inline-block;
+  gap: 10px;
+}
+
+.word-text-q2 {
+  background: #f6e6de;
+  padding: 6px 20px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 18px;
+  cursor: pointer;
+  min-width: 80px;
+}
+
+/* ===== IMAGE SIDE ===== */
+
+.image-side-q2 {
+  width: 35%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.match-image-q2 {
+  height: 60px;
+  width: auto;
+  object-fit: contain;
+  cursor: pointer;
+
+}
+
+/* ===== DOT ===== */
+
+.dot-q2 {
+  width: 12px;
+  height: 12px;
+  background: #d82b2b;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* ===== SVG LINES ===== */
+
+.lines-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.word-box-q2 .dot-q2 {
+  position: absolute;
+  right: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.active-word {
+  border: 2px solid #e74c3c;
+  background: #fdecea;
+}
+
+.active-image {
+  border: 3px solid #e74c3c;
+  transform: scale(1.05);
+}

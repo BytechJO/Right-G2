@@ -1,0 +1,159 @@
+/* ============page 4=============== */
+.page {
+  position: relative;
+  width: 100%;
+  max-width: 900px; /* حجم مناسب */
+  margin: auto;
+}
+
+.page-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.num-img,
+.num-img-posterVocab,
+.vocab_container_poster_vocab h6,
+.vocab_container h6 {
+  transition:
+    transform 0.4s ease,
+    color 0.4s ease;
+}
+
+.num-img.active,
+.num-img-posterVocab.active {
+  transform: scale(1.4);
+  filter: drop-shadow(0 0 6px gold);
+}
+
+.vocab_container h6,
+.vocab_container_poster_vocab h6 {
+  transition:
+    transform 0.2s ease,
+    color 0.2s;
+  cursor: pointer;
+}
+
+.vocab_container h6.active,
+.vocab_container_poster_vocab h6.active {
+  transform: scale(1.2); /* تكبير بدون ما يتحرك */
+  color: red;
+  font-weight: 600;
+  filter: drop-shadow(0 0 6px gold);
+}
+
+.vocab_container {
+  position: absolute;
+  bottom: 5%;
+  right: 8%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.number-icon,
+.headset-icon-CD-page4-1,
+.headset-icon-CD-page4-2,
+.click-icon-page4 {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  padding: 5px;
+}
+.headset-icon-CD-page4-1 {
+  top: 7%;
+  right: 18.2%;
+}
+
+.headset-icon-CD-page4-2 {
+  position: absolute;
+  top: 59.5%;
+  left: 26%;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.click-icon-page4 {
+  position: absolute;
+  /* background-color: #6bcff6;
+  border-radius: 20px;
+  border: rgb(255, 255, 255) solid 3px; */
+  padding: 5px;
+  bottom: 11.5%;
+  right: 39%;
+
+  cursor: pointer;
+}
+
+.header-title-page4 {
+  font-family: "Fredoka", sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  text-shadow:
+    -1px -1px 0 #46b8e6,
+    1px -1px 0 #46b8e6,
+    -1px 1px 0 #46b8e6,
+    1px 1px 0 #46b8e6;
+  color: white;
+  background: #46b8e6;
+  width: fit-content;
+  border-radius: 20px 20px 0px 0px;
+  padding: 5px;
+  position: absolute;
+  top: 19%;
+  left: 26%;
+}
+.click-icon-page4-1 {
+  position: absolute;
+  /* background-color: #6bcff6;
+  border-radius: 20px;
+  border: rgb(255, 255, 255) solid 3px; */
+  padding: 5px;
+  top: 35%;
+  left: 16%;
+  cursor: pointer;
+}
+
+#num-1-unit1 {
+  top: 28%;
+  left: 13%;
+}
+
+#num-2-unit1 {
+  top: 22%;
+  left: 24%;
+}
+
+#num-3-unit1 {
+  top: 48%;
+  left: 24%;
+}
+
+#num-4-unit1 {
+  top: 30%;
+  left: 36%;
+}
+
+#num-5-unit1 {
+  top: 65%;
+  left: 16%;
+}
+
+#num-6-unit1 {
+  top: 65%;
+  left: 26%;
+}
+#num-7-unit1 {
+  top: 71%;
+  left: 35%;
+}
+
+#num-8-unit1 {
+  top: 54%;
+  left: 56%;
+}
+
+#num-9-unit1 {
+  top: 59%;
+  left: 66%;
+}

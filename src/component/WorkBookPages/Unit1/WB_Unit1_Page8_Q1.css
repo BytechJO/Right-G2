@@ -1,0 +1,56 @@
+.input-wrapper-wb-unit1-page8-q1{
+width: 30px;
+position: relative;
+
+}
+
+.unscramble-row-wb-unit1-p8-q1 {
+  display: grid;
+  gap: 50px;
+  justify-content: space-around;
+  width: 100%;
+  margin-top: 30px;
+  grid-template-columns: repeat(3, 1fr);
+}
+.img-box-wb-unit1-p8-q1 img {
+    width: 90px;
+    height: 90px;
+    /* object-fit: fill; */
+}
+
+.WB-unit1-p8-q1-input {
+    flex: 1;
+    min-height: 22px;
+    border-bottom: 1.5px solid #000;
+    display: inline-flex;
+    align-items: center;
+    font-weight: 600;
+    font-size: 20px;
+    padding: 2px 4px;
+    position: relative;
+    width: 100%;
+}
+.input-row-wb-unit1-p8-q1{
+    display: flex;
+    gap: 10px;
+        align-items: center;
+}
+
+.error-icon-wb-unit1-p8-q1{
+     position: absolute;
+  right: -12px;       /* يظهر بجانب الصندوق */
+  top: -3%;
+  transform: translateY(-50%);
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  background: red;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: 2px solid white;
+  font-size: 14px;
+  font-weight: bold; 
+}

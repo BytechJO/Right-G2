@@ -1,0 +1,76 @@
+.container-CB-unit5-p5-q1 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.CB-unit5-p5-q1-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.CB-unit5-p5-q1-choice {
+  width: 140px;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  padding: 10px;
+  cursor: pointer;
+  text-align: center;
+  transition: 0.25s ease;
+}
+
+.CB-unit5-p5-q1-options {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.CB-unit5-p5-q1-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.CB-unit5-p5-q1-img {
+  width: 130px;
+  height: 90px;
+  object-fit: contain;
+}
+
+.CB-unit5-p5-q1-word {
+  margin-top: 8px;
+  font-size: 20px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border: 3px solid transparent;
+  border-radius: 50px;
+  cursor: pointer;
+  position: relative;
+  transition: 0.25s ease;
+}
+
+/* لما الطالب يختار الكلمة */
+.CB-unit5-p5-q1-word.selected {
+  border-color: #1d4f7b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: black;
+  width:130px;
+  height: 90px;
+}
+
+/* علامة الغلط */
+.CB-unit5-p5-q1-wrong-x {
+  position: absolute;
+  right: -12px;
+  top: -3px;
+  background: red;
+  color: white;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid white;
+}

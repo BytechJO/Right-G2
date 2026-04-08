@@ -1,0 +1,249 @@
+import React, { useState } from "react";
+import ValidationAlert from "../../Popup/ValidationAlert";
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+
+import img1 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 81/Ex D 1.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 81/Ex D 2.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 81/Ex D 3.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 81/Ex D 4.svg";
+
+const Unit9_Page6_Q1 = () => {
+  const questions = [
+    {
+      id: 1,
+      img: img1,
+      correct: "He's riding a bike.",
+    },
+    {
+      id: 2,
+      img: img2,
+      correct: "She is eating an apple.",
+    },
+    {
+      id: 3,
+      img: img3,
+      correct: "They're eating corn.",
+    },
+    {
+      id: 4,
+      img: img4,
+      correct: "They're playing soccer.",
+    },
+  ];
+
+  const sentences = [
+    "He's riding a bike.",
+    "They're playing soccer.",
+    "They're eating corn.",
+    "She is eating an apple.",
+  ];
+
+  const [answers, setAnswers] = useState({});
+  const [locked, setLocked] = useState(false);
+
+  const onDragEnd = (result) => {
+    const { destination, draggableId } = result;
+    if (!destination || locked) return;
+
+    // إذا رجع للبنك
+    if (destination.droppableId === "bank") return;
+
+    setAnswers((prev) => {
+      const updated = { ...prev };
+
+      // حذف الجملة من أي مكان سابق
+      Object.keys(updated).forEach((key) => {
+        if (updated[key] === draggableId) delete updated[key];
+      });
+
+      updated[destination.droppableId] = draggableId;
+      return updated;
+    });
+  };
+  const reset = () => {
+    setAnswers({});
+    setLocked(false);
+  };
+
+  const showAnswers = () => {
+    const correctAnswers = {};
+
+    questions.forEach((q) => {
+      correctAnswers[`slot-${q.id}`] = q.correct;
+    });
+
+    setAnswers(correctAnswers);
+    setLocked(true);
+  };
+
+  const checkAnswers = () => {
+    if (locked) return;
+
+    const empty = questions.some((q) => !answers[`slot-${q.id}`]);
+
+    if (empty) {
+      ValidationAlert.info("Please complete all answers.");
+      return;
+    }
+
+    let score = 0;
+
+    questions.forEach((q) => {
+      if (answers[`slot-${q.id}`] === q.correct) {
+        score++;
+      }
+    });
+
+    const color =
+      score === questions.length ? "green" : score === 0 ? "red" : "orange";
+
+    const message = `
+    <div style="font-size: 20px; margin-top: 10px; text-align:center;">
+      <span style="color:${color}; font-weight:bold;">
+        Score: ${score} / ${questions.length}
+      </span>
+    </div>
+  `;
+
+    if (score === questions.length) ValidationAlert.success(msg);
+    else if (score === 0) ValidationAlert.error(msg);
+    else ValidationAlert.warning(msg);
+
+    setLocked(true);
+  };
+
+  const isWrongAnswer = (qId) => {
+    if (!locked) return false;
+
+    const userAnswer = answers[`slot-${qId}`];
+    if (!userAnswer) return false;
+
+    const correctAnswer = questions.find((q) => q.id === qId).correct;
+
+    return userAnswer !== correctAnswer;
+  };
+  return (
+    <DragDropContext onDragEnd={onDragEnd}>
+      <div className="main-container-component">
+        <div className="div-forall gap-2 mb-10">
+          {/* ❌ الهيدر كما هو */}
+          <h5 className="header-title-page8">
+            <span className="ex-A mr-4">D</span>Look and write .
+          </h5>
+          <Droppable droppableId="bank" direction="horizontal">
+            {(provided) => (
+              <div
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+                className="flex gap-4 justify-center flex-wrap mb-3 border-2 border-dashed border-gray-400 p-4 rounded-lg"
+              >
+                {sentences.map((s, index) => {
+                  const isUsed = Object.values(answers).includes(s);
+                  return (
+                    <Draggable
+                      key={s}
+                      draggableId={s}
+                      index={index}
+                      isDragDisabled={locked || isUsed}
+                    >
+                      {(provided) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...(!isUsed && provided.dragHandleProps)}
+                          className={`px-4 py-2 rounded-full text-center
+                            ${isUsed ? "bg-gray-300 text-gray-500 cursor-not-allowed" : "bg-blue-200 cursor-grab"}`}
+                        >
+                          {s}
+                        </div>
+                      )}
+                    </Draggable>
+                  );
+                })}
+
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+          <div className="flex flex-col gap-2">
+            {questions.map((q) => (
+              <div key={q.id} className="flex items-center gap-4 ">
+                <span className="font-bold w-5">{q.id}</span>
+
+                <img
+                  src={q.img}
+                  style={{ height: "130px", width: "auto" }}
+                  className=" object-contain"
+                />
+
+                <Droppable droppableId={`slot-${q.id}`}>
+                  {(provided) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.droppableProps}
+                      className="relative border-b-2 flex-1 min-h-[35px]"
+                    >
+                      {answers[`slot-${q.id}`] && (
+                        <Draggable
+                          draggableId={answers[`slot-${q.id}`]}
+                          index={0}
+                          isDragDisabled={locked}
+                        >
+                          {(provided) => (
+                            <span
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              className="text-blue-800 cursor-pointer text-xl"
+                            >
+                              {answers[`slot-${q.id}`]}
+                            </span>
+                          )}
+                        </Draggable>
+                      )}
+
+                      {isWrongAnswer(q.id) && (
+                        <div
+                          className="
+      absolute -top-2 -right-2
+      w-7 h-7
+      bg-red-500 text-white
+      rounded-full
+      flex items-center justify-center
+      text-sm font-bold
+      border-2 border-white
+      z-10
+    "
+                        >
+                          ✕
+                        </div>
+                      )}
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="action-buttons-container">
+          <button onClick={reset} className="try-again-button">
+            Start Again ↻
+          </button>
+          <button
+            onClick={showAnswers}
+            className="show-answer-btn swal-continue"
+          >
+            Show Answer
+          </button>
+          <button onClick={checkAnswers} className="check-button2">
+            Check Answer ✓
+          </button>
+        </div>
+      </div>
+    </DragDropContext>
+  );
+};
+
+export default Unit9_Page6_Q1;

@@ -1,0 +1,107 @@
+/* ====== CONTAINER ====== */
+.CB-review1-p2-q1-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 كروت بالصف */
+  gap: 30px;
+  margin-top: 20px;
+}
+
+/* ====== QUESTION CARD ====== */
+.CB-review1-p2-q1-question-box {
+  border: 2px solid #ff6b57;
+  border-radius: 16px;
+  padding: 16px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+}
+
+/* رقم السؤال */
+.CB-review1-p2-q1-question-text {
+  width: 100%;
+  text-align: left;
+}
+
+/* ====== IMAGES ====== */
+.CB-review1-p2-q1-flex {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+/* صورتين جنب بعض */
+.CB-review1-p2-q1-flex > div:first-child {
+  display: flex;
+  gap: 14px;
+}
+
+.CB-review1-p2-q1-img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+/* ====== OPTIONS ====== */
+.CB-review1-p2-q1-options-box {
+  display: flex;
+  gap: 20px;
+}
+
+/* wrapper لكل زر */
+.CB-review1-p2-q1-option-wrapper {
+  position: relative;
+}
+
+/* زر ✓ و ✗ */
+.CB-review1-p2-q1-option-btn {
+    width: 45px;
+    height: 45px;
+    border: 2px solid #ff6b57;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 22px;
+    font-weight: bold;
+    background: #fff;
+    transition: all 0.15s ease;
+}
+
+.CB-review1-p2-q1-option-btn:hover {
+  background: #ffe3df;
+}
+
+/* لما يختار الطالب */
+.CB-review1-p2-q1-option-btn.is-selected {
+  background: #777cfd;
+  color: white;
+}
+
+/* ====== WRONG ICON ====== */
+.CB-review1-p2-q1-wrong-icon {
+  position: absolute;
+ top: -10px;
+  right: -10px;
+
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+
+  background: red;
+  color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 14px;
+  font-weight: bold;
+  border: 2px solid white;
+  /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25); */
+  z-index: 3;
+}
