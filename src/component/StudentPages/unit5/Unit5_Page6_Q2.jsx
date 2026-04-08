@@ -22,7 +22,7 @@ const questions = [
   {
     id: 3,
     image: img3,
-    scrambled: ["he", "meat", "like"],
+    scrambled: ["he", "meat", "likes"],
     correct: "he likes meat",
   },
   {

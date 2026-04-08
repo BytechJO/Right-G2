@@ -9,10 +9,10 @@ import QuestionAudioPlayer from "../../QuestionAudioPlayer";
 import sound1 from "../../../assets/audio/ClassBook/U 8/cd48pg68-instruction1-adult-lady_IL6QUJR1.mp3";
 const Unit8_Page5_Q1 = () => {
   const items = [
-    { img: img1, correct: "no" },
+    { img: img1, correct: "yes" },
     { img: img2, correct: "no" },
     { img: img3, correct: "yes" },
-    { img: img4, correct: "yes" },
+    { img: img4, correct: "no" },
   ];
 
   const [selected, setSelected] = useState(Array(items.length).fill(""));
@@ -22,10 +22,10 @@ const Unit8_Page5_Q1 = () => {
     {
       start: 0.539,
       end: 10.739,
-      text: "Page 68, write activities. Exercise A, number one. Does it have a long U? Listen and write check or X.",
+      text: "Page 68, write activities. Exercise A, number 1. Does it have a long U? Listen and write check or X.",
     },
-    { start: 11.88, end: 15.739, text: "One, mule. Two, sun." },
-    { start: 16.819, end: 20.979, text: "Three, blue. Four, ice" },
+    { start: 11.88, end: 15.739, text: "1, mule. 2, sun." },
+    { start: 16.819, end: 20.979, text: "3, blue. 4, ice" },
   ];
 
   const choose = (i, value) => {

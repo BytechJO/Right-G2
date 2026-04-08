@@ -97,7 +97,7 @@ const Unit9_Page6_Q1 = () => {
     const color =
       score === questions.length ? "green" : score === 0 ? "red" : "orange";
 
-    const message = `
+    const msg = `
     <div style="font-size: 20px; margin-top: 10px; text-align:center;">
       <span style="color:${color}; font-weight:bold;">
         Score: ${score} / ${questions.length}
@@ -212,7 +212,7 @@ const Unit9_Page6_Q1 = () => {
       flex items-center justify-center
       text-sm font-bold
       border-2 border-white
-      z-10
+      z-10 shadow-lg
     "
                         >
                           ✕

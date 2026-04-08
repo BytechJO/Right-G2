@@ -178,7 +178,7 @@ const Unit8_Page5_Q4 = () => {
     });
 
     wordsToFind.forEach((word) => {
-      const startIndex = fullString.indexOf(word);
+      const startIndex = sentence.indexOf(word);
 
       if (startIndex !== -1) {
         for (let i = 0; i < word.length; i++) {

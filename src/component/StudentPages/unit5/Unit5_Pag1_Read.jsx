@@ -29,7 +29,7 @@ const captions = [
       <FourImagesWithAudio
         images={[Rabbit, img1, img2, img3,img4]}
         audioSrc={longAudio}
-        checkpoints={[0, 3.62, 6.80, 8.30, 9.78]}
+        checkpoints={[0, 4.60, 6.80, 8.30, 9.78]}
         popupOpen={true}
         titleQ={"Listen and read along."}
         audioArr={imageSounds}

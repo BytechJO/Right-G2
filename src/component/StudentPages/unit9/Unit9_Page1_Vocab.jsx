@@ -342,7 +342,7 @@ const Unit9_Page1_Vocab = () => {
         {/* النصوص */}
         <div
           className="vocab_container"
-          style={{ bottom: "2.4%", right: "1.5%" }}
+          style={{ bottom: "3.4%", right: "1.5%",width:"145px" }}
         >
           {[
             "soccer",

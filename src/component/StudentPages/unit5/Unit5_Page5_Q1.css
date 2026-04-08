@@ -6,7 +6,8 @@
 
 .CB-unit5-p5-q1-container {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 10px;
 }
 .CB-unit5-p5-q1-choice {
   width: 140px;
@@ -20,7 +21,7 @@
 
 .CB-unit5-p5-q1-options {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-evenly;
 }
 
 .CB-unit5-p5-q1-box {
@@ -30,21 +31,23 @@
 }
 
 .CB-unit5-p5-q1-img {
-  width: 130px;
+  width: auto;
   height: 90px;
   object-fit: contain;
 }
 
 .CB-unit5-p5-q1-word {
-  margin-top: 8px;
+  /* margin-top: 8px; */
   font-size: 20px;
-  font-weight: 600;
+
   padding: 6px 14px;
   border: 3px solid transparent;
-  border-radius: 50px;
+  border-radius: 50%;
   cursor: pointer;
   position: relative;
   transition: 0.25s ease;
+  height: 130px;
+  width: 130px;
 }
 
 /* لما الطالب يختار الكلمة */
@@ -55,8 +58,8 @@
   justify-content: center;
   background: transparent;
   color: black;
-  width:130px;
-  height: 90px;
+  /* width: 130px;
+  height: 130px; */
 }
 
 /* علامة الغلط */

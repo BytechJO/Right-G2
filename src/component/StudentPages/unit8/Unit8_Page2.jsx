@@ -34,32 +34,47 @@ const Unit8_Page2 = ({ openPopup }) => {
   ];
 
   const readChooseData = {
-    title: "Read and circle.",
+    title: "Read and complete the sentences.",
     questions: [
       {
-        text: "Helen likes",
-        options: ["grapes.", "carrots.","rice."],
-        correct: "rice.",
+        text: "Hansel has?",
+        options: [
+          "black jacket, blue jeans, green cap",
+          "green jacket and black jeans",
+          "green jeans, white cap",
+        ],
+        correct: "black jacket, blue jeans, green cap",
       },
       {
-        text: "Tom doesn’t like",
-        options: ["meat.", "apple juice.","fish."],
-        correct: "fish.",
+        text: "Helen doesn’t have?",
+        options: ["green jacket", "T-shirt or a tie", "white cap"],
+        correct: "T-shirt or a tie",
       },
     ],
   };
-const captionsExample = [
-  { start: 0.140, end: 5.619, text: "Page 65. What do you have in your closet?" },
-  { start: 5.619, end: 14.799, text: "I have a black jacket and blue jeans in my closet. I also have a green cap for hot days. I don't have a T-shirt or a tie." },
-  { start: 14.799, end: 25.340, text: "That's great, Hansel. I have a green dress and a white T-shirt. I also have a pink hat and blue shoes. The blue shoes are my favorite." },
-  { start: 26.399, end: 28.520, text: "I don't have a skirt or a scarf" }
-];
- const captions2 = [
-  { start: 0.539, end: 3.500, text: "Page 65. Listen and read along." },
-  { start: 4.659, end: 5.699, text: "Long U." },
-  { start: 6.980, end: 10.500, text: "Tune. June. Tube" }
-];
-
+  const captionsExample = [
+    {
+      start: 0.14,
+      end: 5.619,
+      text: "Page 65. What do you have in your closet?",
+    },
+    {
+      start: 5.619,
+      end: 14.799,
+      text: "I have a black jacket and blue jeans in my closet. I also have a green cap for hot days. I don't have a T-shirt or a tie.",
+    },
+    {
+      start: 14.799,
+      end: 25.34,
+      text: "That's great, Hansel. I have a green dress and a white T-shirt. I also have a pink hat and blue shoes. The blue shoes are my favorite.",
+    },
+    { start: 26.399, end: 28.52, text: "I don't have a skirt or a scarf" },
+  ];
+  const captions2 = [
+    { start: 0.539, end: 3.5, text: "Page 65. Listen and read along." },
+    { start: 4.659, end: 5.699, text: "Long U." },
+    { start: 6.98, end: 10.5, text: "Tune. June. Tube" },
+  ];
 
   const handleImageClick = (e) => {
     const rect = e.target.getBoundingClientRect();
@@ -67,14 +82,13 @@ const captionsExample = [
     const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
     console.log("X%:", xPercent.toFixed(2), "Y%:", yPercent.toFixed(2));
   };
-  
+
   return (
     <div
       className="page1-img-wrapper"
       onClick={handleImageClick}
       style={{ backgroundImage: `url(${page_2})` }}
     >
-   
       <div
         className="headset-icon-CD-unit8-page2-1 hover:scale-110 transition"
         style={{ overflow: "visible" }}
@@ -136,9 +150,15 @@ const captionsExample = [
             openPopup(
               "html",
               <FourImagesWithAudio
-                images={[Rabbit, img1_letter, img2_letter, img3_letter,img4_letter]}
+                images={[
+                  Rabbit,
+                  img1_letter,
+                  img2_letter,
+                  img3_letter,
+                  img4_letter,
+                ]}
                 audioSrc={letterSound}
-                checkpoints={[0, 4.66,6.98, 8.32, 9.82]}
+                checkpoints={[0, 4.66, 6.98, 8.32, 9.82]}
                 popupOpen={true}
                 titleQ={"Listen and read along."}
                 audioArr={imageSounds}

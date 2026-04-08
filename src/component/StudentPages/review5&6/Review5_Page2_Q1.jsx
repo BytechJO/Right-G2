@@ -9,22 +9,22 @@ import QuestionAudioPlayer from "../../QuestionAudioPlayer";
 import sound1 from "../../../assets/audio/ClassBook/U 6/cd37pg53-instruction1-adult-lady_VEAoL9d5.mp3";
 
 const Review1_Page2_Q2 = () => {
-  const stopAtSecond = 3.5;
+  const stopAtSecond = 10.399;
   const [locked, setLocked] = useState(false); // ⭐ NEW — قفل التعديل بعد Show Answer
   // ================================
   // ✔ Captions Array
   // ================================
   const captions = [
-    { start: 0.519, end: 4.059, text: "Page 53, review five, exercise D." },
+    { start: 0.519, end: 4.059, text: "Page 53, review 5, exercise D." },
     {
       start: 5.299,
       end: 10.399,
       text: "Do they both have long E? Listen and write check or X.",
     },
-    { start: 11.439, end: 14.659, text: "One, knee, tea." },
-    { start: 15.679, end: 19.02, text: "Two, tape. Three." },
-    { start: 20.1, end: 20.5, text: "Three," },
-    { start: 21.6, end: 23.34, text: "bee, sleep" },
+    { start: 11.439, end: 14.659, text: "1, knee, tea." },
+    { start: 15.679, end: 19.02, text: "2, tape. Three." },
+    { start: 20.1, end: 23.34, text: "3, bee, sleep" },
+   
   ];
   const questions = [
     {
@@ -32,10 +32,10 @@ const Review1_Page2_Q2 = () => {
       image: img1,
       correct: "✓",
     },
-    { id: 2, image: img2, correct: "✗" },
+    { id: 2, image: img3, correct: "✗" },
     {
       id: 3,
-      image: img3,
+      image: img2,
       correct: "✓",
     },
   ];

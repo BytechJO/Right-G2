@@ -10,7 +10,7 @@ const Review5_Page1_Q3 = () => {
   const [lines, setLines] = useState([]);
   const [startDot, setStartDot] = useState(null);
   const [showResult, setShowResult] = useState(false);
-
+  const [locked, setLocked] = useState(false);
   const [selected, setSelected] = useState({
     image: null,
     text: null,
@@ -20,7 +20,7 @@ const Review5_Page1_Q3 = () => {
   const textDotRefs = useRef([]);
   const containerRef = useRef(null);
 
-  const images = [{ image: img1 }, { image: img2 }, { image: img3 }];
+  const images = [{ image: img3 }, { image: img1 }, { image: img2 }];
 
   const texts = [
     "She likes cheese. She doesn’t like rice.",
@@ -64,8 +64,7 @@ const Review5_Page1_Q3 = () => {
       });
 
       updatedLines = updatedLines.filter((line) => {
-        const txt =
-          line.from.type === "text" ? line.from.index : line.to.index;
+        const txt = line.from.type === "text" ? line.from.index : line.to.index;
         return txt !== textIndex;
       });
 
@@ -90,6 +89,7 @@ const Review5_Page1_Q3 = () => {
     setLines(answerLines);
     setSelected({ image: null, text: null });
     setShowResult(true);
+    setLocked(true);
   };
 
   const resetAll = () => {
@@ -97,13 +97,15 @@ const Review5_Page1_Q3 = () => {
     setStartDot(null);
     setSelected({ image: null, text: null });
     setShowResult(false);
+    setLocked(false);
   };
 
   const checkAnswers = () => {
+    if (locked) return;
     if (lines.length !== images.length) {
       ValidationAlert.info(
         "Oops!",
-        "Please complete all matches before checking."
+        "Please complete all matches before checking.",
       );
       return;
     }
@@ -138,6 +140,7 @@ const Review5_Page1_Q3 = () => {
     else ValidationAlert.warning(msg);
 
     setShowResult(true);
+    setLocked(true);
   };
 
   return (
@@ -172,7 +175,10 @@ const Review5_Page1_Q3 = () => {
             correctMatches[i] === selectedTextIndex;
 
           return (
-            <div key={i} className="flex items-center justify-between my-[35px]">
+            <div
+              key={i}
+              className="flex items-center justify-between my-[15px]"
+            >
               <div className="flex items-center gap-2.5 w-[45%]">
                 <span className="text-[22px] font-bold">{i + 1}</span>
 
@@ -189,12 +195,12 @@ const Review5_Page1_Q3 = () => {
                       borderRadius: "12px",
                       border: showResult
                         ? isCorrect
-                          ? "4px solid green"
+                          ? "3px solid #e74c3c"
                           : isWrong
-                            ? "4px solid red"
+                            ? "3px solid red"
                             : "3px solid #e74c3c"
                         : selected.image === i
-                          ? "4px solid #7e1d12"
+                          ? "3px solid #7e1d12"
                           : "3px solid #e74c3c",
                       display: "block",
                     }}

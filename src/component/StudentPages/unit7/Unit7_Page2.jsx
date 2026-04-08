@@ -7,10 +7,10 @@ import img4_letter from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/P
 import Rabbit from "../../../assets/Page 01/Rabbit.svg";
 import soundListen from "../../../assets/audio/ClassBook/U 7/pg59-reading-adult-lady_FZYPz290.mp3";
 
-import sound1_letter from "../../../assets/audio/ClassBook/U 5/Pg41_1.1_Adult Lady.mp3";
-import sound2_letter from "../../../assets/audio/ClassBook/U 5/Pg41_1.2_Adult Lady.mp3";
-import sound3_letter from "../../../assets/audio/ClassBook/U 5/Pg41_1.3_Adult Lady.mp3";
-import sound4_letter from "../../../assets/audio/ClassBook/U 5/Pg41_1.4_Adult Lady.mp3";
+import sound1_letter from "../../../assets/audio/ClassBook/U 7/Pg59_1.2_Adult Lady.mp3";
+import sound2_letter from "../../../assets/audio/ClassBook/U 7/Pg59_1.3_Adult Lady.mp3";
+import sound3_letter from "../../../assets/audio/ClassBook/U 7/Pg59_1.4_Adult Lady.mp3";
+import sound4_letter from "../../../assets/audio/ClassBook/U 7/Pg59_1.5_Adult Lady.mp3";
 import letterSound from "../../../assets/audio/ClassBook/U 7/pg59-instruction1-adult-lady_rMGjo58y.mp3";
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
@@ -44,12 +44,12 @@ const Unit7_Page2 = ({ openPopup }) => {
   ];
 
   const readChooseData = {
-    title: "Read and circle.",
+    title: "Read and complete the sentences.",
     questions: [
       {
         text: "What does Helen hope to be?",
         options: ["pilot", "doctor", "nurse"],
-        correct: "pilot.",
+        correct: "pilot",
       },
       {
         text: "At what time is her father’s flight?",
@@ -89,41 +89,43 @@ const Unit7_Page2 = ({ openPopup }) => {
     // // // الصوت الأول – منطقة إضافية
     { x1: 10.26, y1: 16.66, x2: 33.33, y2: 29.9, sound: 1, isPrimary: false },
 
-  //   // // // الصوت الثاني – الأساسية
+    //   // // // الصوت الثاني – الأساسية
     { x1: 6.6, y1: 22.3, sound: 2, isPrimary: true },
 
-  //   // // // الصوت الثاني – الإضافية
+    //   // // // الصوت الثاني – الإضافية
     { x1: 1.72, y1: 25.91, x2: 15.88, y2: 40.57, sound: 2, isPrimary: false },
 
-  //   // الصوت الأول – المنطقة الأساسية
-    { x1: 21.5, y1: 42.2 , sound: 3, isPrimary: true },
+    //   // الصوت الأول – المنطقة الأساسية
+    { x1: 21.5, y1: 42.2, sound: 3, isPrimary: true },
 
-  //   // // // الصوت الأول – منطقة إضافية
+    //   // // // الصوت الأول – منطقة إضافية
     { x1: 17.82, y1: 32.8, x2: 25.77, y2: 48.65, sound: 3, isPrimary: false },
 
-  //   // // // الصوت الثاني – الأساسية
+    //   // // // الصوت الثاني – الأساسية
     { x1: 28, y1: 64, sound: 4, isPrimary: true },
 
-  //   // // // الصوت الثاني – الإضافية
+    //   // // // الصوت الثاني – الإضافية
     { x1: 24.22, y1: 59.46, x2: 32.75, y2: 65.25, sound: 4, isPrimary: false },
 
-  //   // الصوت الأول – المنطقة الأساسية
+    //   // الصوت الأول – المنطقة الأساسية
     { x1: 48.4, y1: 54.1, sound: 6, isPrimary: true },
 
-  //   // // // الصوت الأول – منطقة إضافية
+    //   // // // الصوت الأول – منطقة إضافية
     { x1: 39.73, y1: 53.06, x2: 53.11, y2: 57.02, sound: 6, isPrimary: false },
 
-  //   // // // الصوت الثاني – الأساسية
+    //   // // // الصوت الثاني – الأساسية
     { x1: 26.6, y1: 71, sound: 7, isPrimary: true },
 
-  //   // // // الصوت الثاني – الإضافية
-    { x1: 12.19, y1: 52.00, x2: 30.23, y2: 79.26, sound: 7, isPrimary: false },
+    //   // // // الصوت الثاني – الإضافية
+    { x1: 12.19, y1: 52.0, x2: 30.23, y2: 79.26, sound: 7, isPrimary: false },
   ];
   const sounds = {
     1: sound1,
     2: sound2,
     3: sound3,
     4: sound4,
+    6: sound6,
+    7: sound7,
   };
 
   const handleImageClick = (e) => {

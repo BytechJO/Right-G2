@@ -16,9 +16,9 @@ const Review10_Page2_Q1 = () => {
   // ================================
 const captions = [
   { start: 0.379, end: 9.479, text: "Page 91, review 10, exercise D. Do they both have the same vowel sound? Listen and write check or X." },
-  { start: 10.599, end: 17.079, text: "One, leaf, ten. Two, jeep, bean." },
-  { start: 18.139, end: 20.899, text: "Three, tent, jet." },
-  { start: 21.979, end: 24.920, text: "Four, green, reed." }
+  { start: 10.599, end: 17.079, text: "1, leaf, ten. 2, jeep, bean." },
+  { start: 18.139, end: 20.899, text: "3, tent, jet." },
+  { start: 21.979, end: 24.920, text: "4, green, reed." }
 ];
   const questions = [
     {

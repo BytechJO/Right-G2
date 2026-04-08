@@ -223,7 +223,7 @@ const Review10_Page1_Q2 = () => {
                         )}
                       </Droppable>
 
-                      <span className="text-gray-400 text-sm">
+                      <span className="text-gray-400 text-lg">
                         {q.sentence}
                       </span>
                     </div>

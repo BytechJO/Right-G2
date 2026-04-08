@@ -3,80 +3,31 @@ import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Unit4_Page5_Q4.css";
 import img1 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 32/Ex C 1.svg";
 import img2 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 32/Ex C 2.svg";
+
 const Unit4_Page5_Q4 = () => {
   const grid = [
-    "w",
-    "x",
-    "t",
-    "h",
-    "e",
-    "o",
-    "s",
-    "d",
-    "t",
-    "p",
-    "h",
-    "o",
-    "t",
-    "o",
-    "g",
-    "r",
-    "a",
-    "p",
-    "h",
-    "e",
-    "r",
-    "s",
-    "x",
-    "d",
-    "u",
-    "l",
-    "t",
-    "h",
-    "a",
-    "x",
-    "m",
-    "k",
-    "l",
-    "i",
-    "o",
-    "p",
-    "a",
-    "s",
-    "e",
-    "i",
-    "j",
-    "u",
-    "s",
-    "e",
-    "x",
-    "s",
-    "q",
-    "w",
-    "z",
-    "f",
-    "h",
-    "c",
-    "a",
-    "m",
-    "e",
-    "r",
-    "a",
-    "s",
-    "x",
-    "s",
-    "y",
-    "p",
+    "w","x","t","h","e","o","s","d","t","p","h","o","t","o","g","r","a","p","h","e","r","s","x","d",
+    "u","l","t","h","a","x","m","k","l","i","o","p","a","s","e","i","j","u","s","e","x","s","q","w",
+    "z","f","h","c","a","m","e","r","a","s","x","s","y","p",
   ];
 
-  const letters = grid; // نفس الـ array اللي عندك
+  const letters = grid;
 
   const wordsToFind = ["the", "photographers", "use", "cameras"];
-  const [sentence, setSentence] = useState("");
 
+  // ✅ الحل بالـ index
+  const correctAnswers = [
+    { word: "the", indexes: [2, 3, 4] },
+    { word: "photographers", indexes: [9,10,11,12,13,14,15,16,17,18,19,20,21] },
+    { word: "use", indexes: [41,42,43] },
+    { word: "cameras", indexes: [50,51,52,53,54,55,56] },
+  ];
+
+  const [sentence, setSentence] = useState("");
+  const [locked, setLocked] = useState(false);
   const [selected, setSelected] = useState([]);
   const [currentWord, setCurrentWord] = useState("");
-  const [foundWords, setFoundWords] = useState([]);
+  const [foundWords, setFoundWords] = useState([]); // ⬅️ indexes
   const [coloredCells, setColoredCells] = useState([]);
 
   const handleClick = (letter, index) => {
@@ -98,11 +49,14 @@ const Unit4_Page5_Q4 = () => {
   };
 
   useEffect(() => {
-    if (
-      wordsToFind.includes(currentWord) &&
-      !foundWords.includes(currentWord)
-    ) {
-      setFoundWords((prev) => [...prev, currentWord]);
+    const matchedIndex = correctAnswers.findIndex(
+      (item) =>
+        item.word === currentWord &&
+        JSON.stringify(item.indexes) === JSON.stringify(selected)
+    );
+
+    if (matchedIndex !== -1 && !foundWords.includes(matchedIndex)) {
+      setFoundWords((prev) => [...prev, matchedIndex]);
       setColoredCells((prev) => [...prev, ...selected]);
 
       setSentence((prev) =>
@@ -115,6 +69,7 @@ const Unit4_Page5_Q4 = () => {
   }, [currentWord]);
 
   const checkAnswers = () => {
+    if (locked) return;
     const total = wordsToFind.length;
     const score = foundWords.length;
 
@@ -129,6 +84,8 @@ const Unit4_Page5_Q4 = () => {
       `);
       return;
     }
+
+    setLocked(true);
 
     if (score === 0) {
       ValidationAlert.error(`
@@ -150,54 +107,51 @@ const Unit4_Page5_Q4 = () => {
       `);
     }
   };
+
   const reset = () => {
     setSelected([]);
     setCurrentWord("");
     setFoundWords([]);
     setColoredCells([]);
-    setSentence(""); // 👈 مهم
+    setLocked(false);
+    setSentence("");
   };
 
   const showAnswers = () => {
     let allCells = [];
-    const fullString = letters.join("");
 
-    wordsToFind.forEach((word) => {
-      const startIndex = fullString.indexOf(word);
-
-      if (startIndex !== -1) {
-        for (let i = 0; i < word.length; i++) {
-          allCells.push(startIndex + i);
-        }
-      }
+    correctAnswers.forEach((item) => {
+      allCells.push(...item.indexes);
     });
 
-    setFoundWords(wordsToFind);
+    setFoundWords(correctAnswers.map((_, i) => i)); // ✅ مهم
     setColoredCells(allCells);
     setSelected([]);
     setCurrentWord("");
-    setSentence(wordsToFind.join(" "));
+    setSentence(correctAnswers.map((w) => w.word).join(" "));
+    setLocked(true);
   };
 
   return (
     <div style={{ display: "flex", justifyContent: "center", padding: "30px" }}>
       <div className="div-forall" style={{ width: "60%" }}>
-        {/* ❌ الهيدر كما هو */}
         <h5 className="header-title-page8">
           <span className="ex-A">C</span>What do photographers use?
         </h5>
+
         <div className="words-list-CB-unit3-p5-q4">
-          {wordsToFind.map((word) => (
+          {wordsToFind.map((word, i) => (
             <span
-              key={word}
+              key={i}
               className={`word-CB-unit3-p5-q4 ${
-                foundWords.includes(word) ? "found-CB-unit3-p5-q4" : ""
+                foundWords.includes(i) ? "found-CB-unit3-p5-q4" : ""
               }`}
             >
               {word}
             </span>
           ))}
         </div>
+
         <div className="wordsearch-wrapper-CB-unit3-p5-q4">
           <div className="grid-CB-unit3-p5-q4">
             {letters.map((letter, index) => {
@@ -217,16 +171,17 @@ const Unit4_Page5_Q4 = () => {
               );
             })}
           </div>
+
+          <div className="flex">
+            <img src={img1} style={{ height: "80px", width: "80px" }} />
+            <input
+              className="answer-input-CB-unit3-p5-q4"
+              value={sentence}
+              readOnly
+            />
+            <img src={img2} style={{ height: "80px", width: "80px" }} />
+          </div>
         </div>
-        <div className="flex">
-          <img src={img1} style={{ height: "80px", width: "80px" }} />
-          <input
-            className="answer-input-CB-unit3-p5-q4"
-            value={sentence}
-            readOnly
-          />
-          <img src={img2} style={{ height: "80px", width: "80px" }} />
-        </div>{" "}
       </div>
 
       <div className="action-buttons-container">

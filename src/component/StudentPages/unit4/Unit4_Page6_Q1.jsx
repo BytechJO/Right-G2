@@ -178,7 +178,13 @@ const Unit4_Page6_Q1 = () => {
     else if (score === 0) ValidationAlert.error(msg);
     else ValidationAlert.warning(msg);
   };
+  const isQuestionWrong = (qIndex, idx) =>
+    wrongMarks.some(
+      (w) => w.type === "question" && w.qIndex === qIndex && w.idx === idx,
+    );
 
+  const isAnswerWrong = (qIndex) =>
+    wrongMarks.some((w) => w.type === "answer" && w.qIndex === qIndex);
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div
@@ -211,7 +217,20 @@ const Unit4_Page6_Q1 = () => {
                 }}
               >
                 {wordBank.map((word, index) => {
-                  const isUsed = answers.some((row) => row.includes(word));
+                  const countInAnswers = answers.filter(
+                    (ans) => ans === word,
+                  ).length;
+
+                  const countInQuestions = questionInputs.reduce((acc, row) => {
+                    return acc + row.filter((val) => val === word).length;
+                  }, 0);
+
+                  const totalUsed = countInAnswers + countInQuestions;
+
+                  // 👇 فقط Yes, I do. لها limit = 3
+                  const limit = word === "Yes, I do." ? 3 : 1;
+
+                  const isUsed = totalUsed >= limit;
                   return (
                     <Draggable
                       key={word}
@@ -251,7 +270,7 @@ const Unit4_Page6_Q1 = () => {
                 <div className="CB-unit4-p6-q1-img-container">
                   <span className="CB-unit4-p6-q1-index">{i + 1}</span>
                   <img
-                    src={farmImg}
+                    src={item.image}
                     alt=""
                     style={{ height: "150px", width: "200px" }}
                   />
@@ -274,18 +293,24 @@ const Unit4_Page6_Q1 = () => {
                               isDropDisabled={showCorrect}
                             >
                               {(provided, snapshot) => (
-                                <span
-                                  ref={provided.innerRef}
-                                  {...provided.droppableProps}
-                                  className={`question-blank-CB-unit4-p6-q1 ${
-                                    snapshot.isDraggingOver
-                                      ? "drag-over-cell"
-                                      : ""
-                                  }`}
-                                >
-                                  {questionInputs[i][blankIndex]}
-                                  {provided.placeholder}
-                                </span>
+                                <div className="input-wrapper">
+                                  <span
+                                    ref={provided.innerRef}
+                                    {...provided.droppableProps}
+                                    className={`question-blank-CB-unit4-p6-q1 ${
+                                      isQuestionWrong(i, blankIndex)
+                                        ? "input-error"
+                                        : ""
+                                    }`}
+                                  >
+                                    {questionInputs[i][blankIndex]}
+                                    {provided.placeholder}
+                                  </span>
+
+                                  {isQuestionWrong(i, blankIndex) && (
+                                    <span className="error-icon">✕</span>
+                                  )}
+                                </div>
                               )}
                             </Droppable>
                           );
@@ -308,15 +333,21 @@ const Unit4_Page6_Q1 = () => {
                     isDropDisabled={showCorrect}
                   >
                     {(provided, snapshot) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                        className={`answer-input-CB-unit4-p6-q1  ${
-                          snapshot.isDraggingOver ? "drag-over-cell" : ""
-                        }`}
-                      >
-                        {answers[i]}
-                        {provided.placeholder}
+                      <div className="input-wrapper">
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.droppableProps}
+                          className={`answer-input-CB-unit4-p6-q1 ${
+                            isAnswerWrong(i) ? "input-error" : ""
+                          }`}
+                        >
+                          {answers[i]}
+                          {provided.placeholder}
+                        </div>
+
+                        {isAnswerWrong(i) && (
+                          <span className="error-icon">✕</span>
+                        )}
                       </div>
                     )}
                   </Droppable>

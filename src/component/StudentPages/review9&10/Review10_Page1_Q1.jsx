@@ -9,32 +9,32 @@ import imgD from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 90/Ex A 
 
 const Review10_Page1_Q1 = () => {
   const answersBank = [
-    "They're watching TV.",
-    "She’s cooking",
-    "They're eating corn.",
-    "They’re playing a game.",
+    "setting the table",
+    "He's taking a shower",
+    "She's watering the flowers",
+    "He's watching from the window",
   ];
 
   const questions = [
     {
       id: 1,
       img: imgA,
-      answer: "They're watching TV.",
+      answer: "setting the table",
     },
     {
       id: 2,
       img: imgB,
-      answer: "She’s cooking",
+      answer: "He's taking a shower",
     },
     {
       id: 3,
       img: imgC,
-      answer: "They're eating corn.",
+      answer: "She's watering the flowers",
     },
     {
       id: 4,
       img: imgD,
-      answer: "They’re playing a game.",
+      answer: "He's watching from the window",
     },
   ];
 

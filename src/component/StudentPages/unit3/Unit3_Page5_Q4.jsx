@@ -88,7 +88,7 @@ const Unit3_Page5_Q4 = () => {
   const [currentWord, setCurrentWord] = useState("");
   const [foundWords, setFoundWords] = useState([]);
   const [coloredCells, setColoredCells] = useState([]);
-
+  const [locked, setLocked] = useState(false);
   const handleClick = (letter, index) => {
     if (coloredCells.includes(index)) return;
 
@@ -111,7 +111,7 @@ const Unit3_Page5_Q4 = () => {
     const matchedIndex = correctAnswers.findIndex(
       (item) =>
         item.word === currentWord &&
-        JSON.stringify(item.indexes) === JSON.stringify(selected)
+        JSON.stringify(item.indexes) === JSON.stringify(selected),
     );
 
     if (matchedIndex !== -1 && !foundWords.includes(matchedIndex)) {
@@ -128,6 +128,7 @@ const Unit3_Page5_Q4 = () => {
   }, [currentWord, selected, foundWords]);
 
   const checkAnswers = () => {
+    if (locked) return;
     const total = wordsToFind.length;
     const score = foundWords.length;
 
@@ -142,6 +143,7 @@ const Unit3_Page5_Q4 = () => {
       `);
       return;
     }
+    setLocked(true);
 
     if (score === 0) {
       ValidationAlert.error(`
@@ -170,6 +172,7 @@ const Unit3_Page5_Q4 = () => {
     setFoundWords([]);
     setColoredCells([]);
     setSentence("");
+    setLocked(false);
   };
 
   const showAnswers = () => {
@@ -183,6 +186,7 @@ const Unit3_Page5_Q4 = () => {
     setColoredCells(allCells);
     setSelected([]);
     setCurrentWord("");
+    setLocked(true);
     setSentence(correctAnswers.map((w) => w.word).join(" "));
   };
 

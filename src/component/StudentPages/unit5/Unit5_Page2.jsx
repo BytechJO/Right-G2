@@ -81,16 +81,16 @@ const Unit5_Page2 = ({ openPopup }) => {
 
 
     // // الصوت الأول – المنطقة الأساسية
-    { x1: 6.90, y1: 47.8, sound: 1, isPrimary: true },
+    { x1: 6.90, y1: 47.8, sound: 3, isPrimary: true },
 
     // // // // الصوت الأول – منطقة إضافية
-    { x1: 2.69, y1: 44.99, x2: 13.16, y2: 48.95, sound: 1, isPrimary: false },
+    { x1: 2.69, y1: 44.99, x2: 13.16, y2: 48.95, sound: 3, isPrimary: false },
 
     // // // // الصوت الثاني – الأساسية
-    { x1: 15.6, y1: 42, sound: 2, isPrimary: true },
+    { x1: 15.6, y1: 42, sound: 4, isPrimary: true },
 
     // // // // الصوت الثاني – الإضافية
-    { x1: 14.52, y1: 41.03, x2: 25.57, y2: 67.07, sound: 2, isPrimary: false },
+    { x1: 14.52, y1: 41.03, x2: 25.57, y2: 67.07, sound: 4, isPrimary: false },
   ];
   const sounds = {
     1: sound1,
@@ -242,7 +242,7 @@ const Unit5_Page2 = ({ openPopup }) => {
                   img4_letter,
                 ]}
                 audioSrc={letterSound}
-                checkpoints={[0, 3.4, 4, 4.9, 6]}
+                checkpoints={[0, 5.04, 7.18, 8.54, 9.92]}
                 popupOpen={true}
                 titleQ={"Listen and read along."}
                 audioArr={imageSounds}

@@ -30,8 +30,10 @@ const Unit6_Page6_Q1 = () => {
     setAnswers({});
     setShowResult(false);
     setResetTrigger((prev) => prev + 1);
+    setLocked(false);
   };
   const checkAnswers = () => {
+    if (locked) return;
     const total = questions.length;
     const correctCount = Object.values(answers).filter(Boolean).length;
 
@@ -51,14 +53,16 @@ const Unit6_Page6_Q1 = () => {
     else ValidationAlert.warning(message);
 
     setShowResult(true);
+    setLocked(true)
   };
 
   const showAnswers = () => {
     setShowAnswerTrigger((prev) => prev + 1);
+    setLocked(true)
     setShowResult(true);
   };
   return (
-     <div className="main-container-component">
+    <div className="main-container-component">
       <div className="div-forall" style={{ gap: "20px" }}>
         <h5 className="header-title-page8">
           <span style={{ marginRight: "15px" }} className="ex-A">

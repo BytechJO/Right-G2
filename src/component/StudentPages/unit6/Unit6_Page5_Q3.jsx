@@ -35,11 +35,11 @@ const Unit6_Page5_Q3 = () => {
   ];
 
   const correct = {
-    0: 3,
-    1: 4,
+    0: 4,
+    1: 3,
     2: 0,
-    3: 1,
-    4: 2,
+    3: 2,
+    4: 1,
   };
 
   const selectImage = (id) => {

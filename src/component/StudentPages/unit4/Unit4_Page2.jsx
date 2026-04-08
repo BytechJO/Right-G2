@@ -10,9 +10,7 @@ import sound1_letter from "../../../assets/audio/ClassBook/U 4/Pg29_1.1_Adult La
 import sound2_letter from "../../../assets/audio/ClassBook/U 4/Pg29_1.2_Adult Lady.mp3";
 import sound3_letter from "../../../assets/audio/ClassBook/U 4/Pg29_1.3_Adult Lady.mp3";
 import sound4_letter from "../../../assets/audio/ClassBook/U 4/Pg29_1.4_Adult Lady.mp3";
-
 import letterSound from "../../../assets/audio/ClassBook/U 4/pg29-instruction1-adult-lady_wI6B8Mcm (1).mp3";
-
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 import AudioWithCaption from "../../AudioWithCaption";
@@ -84,10 +82,10 @@ const Unit4_Page2 = ({ openPopup }) => {
     { x1: 16.09, y1: 42.40, x2: 32.58, y2: 57.7, sound: 2, isPrimary: false },
 
     // // // // الصوت الثاني – الأساسية
-    { x1: 14.7, y1: 69.7, sound: 2, isPrimary: true },
+    { x1: 14.7, y1: 69.7, sound: 3, isPrimary: true },
 
     // // // // الصوت الثاني – الإضافية
-    { x1: 19.00, y1: 67.99, x2: 21.91, y2: 76.21, sound: 2, isPrimary: false },
+    { x1: 19.00, y1: 67.99, x2: 21.91, y2: 76.21, sound: 3, isPrimary: false },
   ];
   const sounds = {
     1: sound8,

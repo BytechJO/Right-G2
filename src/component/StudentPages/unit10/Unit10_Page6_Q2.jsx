@@ -8,6 +8,7 @@ import imgC from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 87/Ex E 
 import imgD from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 87/Ex E 4.svg";
 import imgE from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 87/Ex E 5.svg";
 import imgF from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 87/Ex E 6.svg";
+import Button from "../../WorkBookPages/Button";
 
 const Unit10_Page6_Q2 = () => {
   const questions = [
@@ -33,43 +34,57 @@ const Unit10_Page6_Q2 = () => {
   const [answers, setAnswers] = useState({});
   const [locked, setLocked] = useState(false);
 
+  // =========================
+  // DRAG END (🔥 FIXED)
+  // =========================
   const onDragEnd = (result) => {
     const { destination, draggableId } = result;
     if (!destination || locked) return;
 
-    // إذا رجع للبنك
-    if (destination.droppableId === "bank") return;
+    // استخرج القيمة الحقيقية (a,b,c...)
+    const value = draggableId.split("-").pop();
 
     setAnswers((prev) => {
       const updated = { ...prev };
 
-      // حذف من أي مكان سابق
+      // 🧹 احذف من أي مكان سابق
       Object.keys(updated).forEach((key) => {
-        if (updated[key] === draggableId) delete updated[key];
+        if (updated[key] === value) delete updated[key];
       });
 
-      updated[destination.droppableId] = draggableId;
+      // 🟡 إذا رجع للبنك → بس احذفه
+      if (destination.droppableId === "bank") {
+        return updated;
+      }
+
+      // 🟢 ضيفه للمكان الجديد
+      updated[destination.droppableId] = value;
+
       return updated;
     });
   };
 
+  // =========================
+  // RESET
+  // =========================
   const reset = () => {
     setAnswers({});
     setLocked(false);
   };
 
+  // =========================
+  // SHOW ANSWERS
+  // =========================
   const showAnswers = () => {
     setAnswers(correct);
     setLocked(true);
   };
 
+  // =========================
+  // CHECK
+  // =========================
   const checkAnswers = () => {
     if (locked) return;
-    let score = 0;
-
-    Object.keys(correct).forEach((key) => {
-      if (answers[key] === correct[key]) score++;
-    });
 
     const empty = questions.some((_, i) => !answers[`q-${i}`]);
 
@@ -77,11 +92,22 @@ const Unit10_Page6_Q2 = () => {
       ValidationAlert.info("Please complete all answers.");
       return;
     }
+
+    let score = 0;
+
+    Object.keys(correct).forEach((key) => {
+      if (answers[key] === correct[key]) score++;
+    });
+
     const total = questions.length;
+
+    const color = score === total ? "green" : score === 0 ? "red" : "orange";
 
     const msg = `
       <div style="font-size:20px;text-align:center;">
-        <b>Score: ${score} / ${total}</b>
+        <span style="color:${color};font-weight:bold">
+          Score: ${score} / ${total}
+        </span>
       </div>
     `;
 
@@ -91,43 +117,43 @@ const Unit10_Page6_Q2 = () => {
 
     setLocked(true);
   };
+
   const isWrongAnswer = (qId) => {
     if (!locked) return false;
-
-    const userAnswer = answers[qId];
-    if (!userAnswer) return false;
-
-    return userAnswer !== correct[qId];
+    return answers[qId] && answers[qId] !== correct[qId];
   };
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="main-container-component">
         <div className="div-forall gap-2">
-          {/* HEADER */}
           <h5 className="header-title-page8">
             <span className="ex-A mr-5">E</span>Read and label.
           </h5>
 
-          {/* 🔥 BANK (نفس Q1 بالزبط) */}
+          {/* ================= BANK ================= */}
           <Droppable droppableId="bank" direction="horizontal">
             {(provided) => (
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="border-2 border-dashed border-gray-500 p-3 rounded-lg"
                 style={{
                   display: "flex",
                   gap: "15px",
                   justifyContent: "center",
                   marginBottom: "30px",
+                  border: "2px dashed gray",
+                  padding: "10px",
+                  borderRadius: "10px",
                 }}
               >
                 {options.map((l, index) => {
                   const isUsed = Object.values(answers).includes(l);
+
                   return (
                     <Draggable
-                      key={l}
-                      draggableId={l}
+                      key={`bank-${l}`}
+                      draggableId={`bank-${l}`} // 🔥 UNIQUE
                       index={index}
                       isDragDisabled={locked}
                     >
@@ -135,22 +161,19 @@ const Unit10_Page6_Q2 = () => {
                         <div
                           ref={provided.innerRef}
                           {...provided.draggableProps}
-                          {...(!isUsed && provided.dragHandleProps)}
+                          {...provided.dragHandleProps}
                           style={{
                             ...provided.draggableProps.style,
-
                             width: "40px",
                             height: "40px",
-                            border: "2px solid #0013a5ff",
+                            border: "2px solid #0013a5",
                             borderRadius: "8px",
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
                             fontWeight: "bold",
-
                             background: isUsed ? "#e5e7eb" : "#fff",
                             color: isUsed ? "#9ca3af" : "#000",
-                            cursor: isUsed ? "not-allowed" : "grab",
                           }}
                         >
                           {l}
@@ -159,14 +182,13 @@ const Unit10_Page6_Q2 = () => {
                     </Draggable>
                   );
                 })}
-
                 {provided.placeholder}
               </div>
             )}
           </Droppable>
 
+          {/* ================= QUESTIONS ================= */}
           <div style={{ display: "flex", gap: "40px" }}>
-            {/* LEFT SIDE */}
             <div style={{ flex: 1 }}>
               {questions.map((q, i) => (
                 <div
@@ -177,12 +199,7 @@ const Unit10_Page6_Q2 = () => {
                     marginBottom: "25px",
                   }}
                 >
-                  <span
-                    style={{
-                      width: "20px",
-                      fontWeight: "bold",
-                    }}
-                  >
+                  <span style={{ width: "20px", fontWeight: "bold" }}>
                     {i + 1}
                   </span>
 
@@ -191,31 +208,33 @@ const Unit10_Page6_Q2 = () => {
                       flex: 1,
                       marginLeft: "10px",
                       fontSize: "18px",
-                      fontWeight: "bold",
+                      fontWeight: "700",
                     }}
                   >
                     {q}
                   </span>
 
-                  {/* DROP BOX */}
                   <Droppable droppableId={`q-${i}`}>
                     {(provided) => (
                       <div
                         ref={provided.innerRef}
                         {...provided.droppableProps}
-                        className="relative border-2 border-blue-800"
                         style={{
                           width: "40px",
                           height: "40px",
+                          border: "2px solid #0013a5",
                           borderRadius: "10px",
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
+                          position: "relative",
+                          fontSize: "18px",
+                          fontWeight: "700",
                         }}
                       >
                         {answers[`q-${i}`] && (
                           <Draggable
-                            draggableId={answers[`q-${i}`]}
+                            draggableId={`q-${i}-${answers[`q-${i}`]}`} // 🔥 UNIQUE
                             index={0}
                             isDragDisabled={locked}
                           >
@@ -226,36 +245,34 @@ const Unit10_Page6_Q2 = () => {
                                 {...provided.dragHandleProps}
                                 style={provided.draggableProps.style}
                               >
-                                <span
-                                  style={{
-                                    color: "#0a0681ff",
-                                    fontWeight: "500",
-                                    fontSize: "16px",
-                                    cursor: "grab",
-                                  }}
-                                >
-                                  {answers[`q-${i}`]}
-                                </span>
+                                {answers[`q-${i}`]}
                               </div>
                             )}
                           </Draggable>
                         )}
+
                         {isWrongAnswer(`q-${i}`) && (
                           <div
-                            className="
-      absolute -top-2 -right-2
-      w-5 h-5
-      bg-red-500 text-white
-      rounded-full
-      flex items-center justify-center
-      text-xs font-bold
-      border-2 border-white
-      z-10
-    "
+                            style={{
+                              position: "absolute",
+                              top: "-6px",
+                              right: "-6px",
+                              width: "18px",
+                              height: "18px",
+                              background: "red",
+                              color: "white",
+                              borderRadius: "50%",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              fontSize: "12px",
+                              border: "2px solid white",
+                            }}
                           >
                             ✕
                           </div>
                         )}
+
                         {provided.placeholder}
                       </div>
                     )}
@@ -264,7 +281,7 @@ const Unit10_Page6_Q2 = () => {
               ))}
             </div>
 
-            {/* RIGHT SIDE (صور فقط) */}
+            {/* الصور */}
             <div
               style={{
                 display: "grid",
@@ -273,42 +290,21 @@ const Unit10_Page6_Q2 = () => {
               }}
             >
               {[imgA, imgB, imgC, imgD, imgE, imgF].map((img, i) => (
-                <div
-                  key={i}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "10px",
-                  }}
-                >
-                  <span style={{ fontWeight: "bold" }}>{options[i]}</span>
-
-                  <img
-                    src={img}
-                    style={{
-                      height: "120px",
-                      objectFit: "cover",
-                    }}
-                  />
+                <div key={i} style={{ display: "flex", gap: "10px" }}>
+                  <span>{options[i]}</span>
+                  <img src={img} style={{ height: "120px" }} />
                 </div>
               ))}
             </div>
           </div>
 
-          {/* BUTTONS */}
-          <div className="action-buttons-container">
-            <button onClick={reset} className="try-again-button">
-              Start Again ↻
-            </button>
+          {/* ================= BUTTONS ================= */}
 
-            <button onClick={showAnswers} className="show-answer-btn">
-              Show Answer
-            </button>
-
-            <button onClick={checkAnswers} className="check-button2">
-              Check Answer ✓
-            </button>
-          </div>
+          <Button
+            handleStartAgain={reset}
+            handleShowAnswer={showAnswers}
+            checkAnswers={checkAnswers}
+          />
         </div>
       </div>
     </DragDropContext>

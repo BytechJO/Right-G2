@@ -10,8 +10,8 @@ const Unit8_Page6_Q1 = () => {
     "He has two pairs of socks.",
     "He has two pairs of shoes.",
     "He has three caps.",
-    "She has three shirts.",
-    "She has three skirts.",
+    "She has five shirts.",
+    "She has two skirts.",
     "She has three dresses.",
   ];
 
@@ -34,12 +34,12 @@ const Unit8_Page6_Q1 = () => {
     {
       id: 4,
       text: "How many shirts does she have?",
-      answer: "She has three shirts.",
+      answer: "She has five shirts.",
     },
     {
       id: 5,
       text: "How many skirts does she have?",
-      answer: "She has three skirts.",
+      answer: "She has two skirts.",
     },
     {
       id: 6,

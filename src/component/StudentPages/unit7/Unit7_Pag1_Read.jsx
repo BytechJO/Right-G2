@@ -1,7 +1,7 @@
-import sound1 from "../../../assets/audio/ClassBook/U 5/Pg40b_1.1_Adult Lady.mp3";
-import sound2 from "../../../assets/audio/ClassBook/U 5/Pg40_1.2_Adult Lady.mp3";
-import sound3 from "../../../assets/audio/ClassBook/U 5/Pg40_1.3_Adult Lady.mp3";
-import sound4 from "../../../assets/audio/ClassBook/U 5/Pg40_1.4_Adult Lady.mp3";
+import sound1 from "../../../assets/audio/ClassBook/U 7/Pg58_1.1_Adult Lady.mp3";
+import sound2 from "../../../assets/audio/ClassBook/U 7/Pg58_1.2_Adult Lady.mp3";
+import sound3 from "../../../assets/audio/ClassBook/U 7/Pg58_1.3_Adult Lady.mp3";
+import sound4 from "../../../assets/audio/ClassBook/U 7/Pg58_1.4_Adult Lady.mp3";
 import Rabbit from "../../../assets/Page 01/Rabbit.svg";
 import img1 from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/Page 58-59/1-01.svg";
 import img2 from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/Page 58-59/1-02.svg";

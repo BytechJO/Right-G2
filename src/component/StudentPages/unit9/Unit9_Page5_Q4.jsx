@@ -3,8 +3,10 @@ import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Unit9_Page5_Q4.css";
 import img1 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 80/Ex C 1.svg";
 import img2 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 80/Ex C 2.svg";
+
 const Unit9_Page5_Q4 = () => {
   const [locked, setLocked] = useState(false);
+
   const grid = [
     "i",
     "t",
@@ -77,15 +79,25 @@ const Unit9_Page5_Q4 = () => {
     "t",
     "x",
   ];
+
+  const wordsToFind = ["we", "send", "emails", "using", "a", "computer"];
+
+  // ✅ الحل بالـ index
+  const correctAnswers = [
+    { word: "we", indexes: [10, 11] },
+    { word: "send", indexes: [20, 21, 22, 23] },
+    { word: "emails", indexes: [36, 37, 38, 39, 40, 41] },
+    { word: "using", indexes: [49, 50, 51, 52, 53] },
+    { word: "a", indexes: [56] },
+    { word: "computer", indexes: [60, 61, 62, 63, 64, 65, 66, 67] },
+  ];
+
   const letters = grid;
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const wordsToFind = ["we", "send", "emails", "using", "a", "computer"];
   const [sentence, setSentence] = useState("");
-
   const [selected, setSelected] = useState([]);
   const [currentWord, setCurrentWord] = useState("");
-  const [foundWords, setFoundWords] = useState([]);
+  const [foundWords, setFoundWords] = useState([]); // ⬅️ index
   const [coloredCells, setColoredCells] = useState([]);
 
   const handleClick = (letter, index) => {
@@ -107,11 +119,14 @@ const Unit9_Page5_Q4 = () => {
   };
 
   useEffect(() => {
-    if (
-      wordsToFind.includes(currentWord) &&
-      !foundWords.includes(currentWord)
-    ) {
-      setFoundWords((prev) => [...prev, currentWord]);
+    const matchedIndex = correctAnswers.findIndex(
+      (item) =>
+        item.word === currentWord &&
+        JSON.stringify(item.indexes) === JSON.stringify(selected),
+    );
+
+    if (matchedIndex !== -1 && !foundWords.includes(matchedIndex)) {
+      setFoundWords((prev) => [...prev, matchedIndex]);
       setColoredCells((prev) => [...prev, ...selected]);
 
       setSentence((prev) =>
@@ -121,7 +136,7 @@ const Unit9_Page5_Q4 = () => {
       setSelected([]);
       setCurrentWord("");
     }
-  }, [currentWord, foundWords, selected, wordsToFind]);
+  }, [currentWord]);
 
   const checkAnswers = () => {
     if (locked) return;
@@ -129,39 +144,20 @@ const Unit9_Page5_Q4 = () => {
     const total = wordsToFind.length;
     const score = foundWords.length;
 
-    if (foundWords.length === 0) {
-      ValidationAlert.info(`
-        <div style="font-size:20px;text-align:center;">
-          <b>Find all the words first!</b><br/>
-          <span style="color:#1d4f7b;font-weight:bold;">
-            Current Score: ${score} / ${total}
-          </span>
-        </div>
-      `);
+    if (score === 0) {
+      ValidationAlert.info(`Find all the words first!`);
       return;
     }
-    // 👇 أضف هذا السطر
+
     setLocked(true);
-    if (score === 0) {
-      ValidationAlert.error(`
-        <div style="font-size:20px;text-align:center;">
-          <b style="color:red;">Score: 0 / ${total}</b>
-        </div>
-      `);
-    } else if (score < total) {
-      ValidationAlert.warning(`
-        <div style="font-size:20px;text-align:center;">
-          <b style="color:orange;">Score: ${score} / ${total}</b>
-        </div>
-      `);
+
+    if (score === total) {
+      ValidationAlert.success(`<b>Score: ${score} / ${total}</b>`);
     } else {
-      ValidationAlert.success(`
-        <div style="font-size:20px;text-align:center;">
-          <b style="color:green;">Score: ${score} / ${total}</b>
-        </div>
-      `);
+      ValidationAlert.warning(`<b>Score: ${score} / ${total}</b>`);
     }
   };
+
   const reset = () => {
     setSelected([]);
     setCurrentWord("");
@@ -173,60 +169,45 @@ const Unit9_Page5_Q4 = () => {
 
   const showAnswers = () => {
     let allCells = [];
-    const fullString = letters.join("");
 
-    wordsToFind.forEach((word) => {
-      const startIndex = fullString.indexOf(word);
-
-      if (startIndex !== -1) {
-        for (let i = 0; i < word.length; i++) {
-          allCells.push(startIndex + i);
-        }
-      }
+    correctAnswers.forEach((item) => {
+      allCells.push(...item.indexes);
     });
 
-    setFoundWords(wordsToFind);
+    setFoundWords(correctAnswers.map((_, i) => i));
     setColoredCells(allCells);
     setSelected([]);
     setCurrentWord("");
-    setSentence(wordsToFind.join(" "));
+    setSentence(correctAnswers.map((w) => w.word).join(" "));
     setLocked(true);
   };
-  const isMissingWord = (word) => {
-    if (!locked) return false; // بعد ما يعمل check
-    return !foundWords.includes(word);
+
+  const isMissingWord = (index) => {
+    if (!locked) return false;
+    return !foundWords.includes(index);
   };
+
   return (
     <div className="main-container-component">
       <div className="div-forall gap-2">
-        <h5 className="header-title-page8" style={{ marginBottom: "20px" }}>
+        <h5 className="header-title-page8">
           <span className="ex-A">C </span>What electronic item do we use to send
           e-mails?
         </h5>
 
         <div className="words-list-CB-unit3-p5-q4">
-          {wordsToFind.map((word) => (
+          {wordsToFind.map((word, i) => (
             <span
-              key={word}
+              key={i}
               style={{ position: "relative", display: "inline-block" }}
               className={`word-CB-unit3-p5-q4 ${
-                foundWords.includes(word) ? "found-CB-unit3-p5-q4" : ""
+                foundWords.includes(i) ? "found-CB-unit3-p5-q4" : ""
               }`}
             >
               {word}
-              {isMissingWord(word) && (
-                <div
-                  className="
-      absolute -top-2 -right-2
-      w-5 h-5
-      bg-red-500 text-white
-      rounded-full
-      flex items-center justify-center
-      text-xs font-bold
-      border-2 border-white
-      z-10
-    "
-                >
+
+              {isMissingWord(i) && (
+                <div className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold border-2 border-white z-10">
                   ✕
                 </div>
               )}
@@ -244,8 +225,8 @@ const Unit9_Page5_Q4 = () => {
                 <span
                   key={index}
                   className={`cell-CB-unit3-p5-q4 
-          ${isSelected ? "selected-CB-unit3-p5-q4" : ""}
-          ${isFound ? "found-cell-CB-unit3-p5-q4" : ""}`}
+                  ${isSelected ? "selected-CB-unit3-p5-q4" : ""}
+                  ${isFound ? "found-cell-CB-unit3-p5-q4" : ""}`}
                   onClick={() => handleClick(letter, index)}
                 >
                   {letter}
@@ -253,6 +234,7 @@ const Unit9_Page5_Q4 = () => {
               );
             })}
           </div>
+
           <div className="flex">
             <img src={img1} style={{ height: "80px", width: "80px" }} />
             <input
@@ -261,7 +243,7 @@ const Unit9_Page5_Q4 = () => {
               readOnly
             />
             <img src={img2} style={{ height: "80px", width: "80px" }} />
-          </div>{" "}
+          </div>
         </div>
       </div>
 
@@ -269,7 +251,7 @@ const Unit9_Page5_Q4 = () => {
         <button onClick={reset} className="try-again-button">
           Start Again ↻
         </button>
-        <button onClick={showAnswers} className="show-answer-btn swal-continue">
+        <button onClick={showAnswers} className="show-answer-btn">
           Show Answer
         </button>
         <button onClick={checkAnswers} className="check-button2">

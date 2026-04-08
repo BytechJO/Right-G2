@@ -57,9 +57,9 @@ const Unit5_Page5_Q1 = () => {
       end: 11.019,
       text: "Which picture has long E? Listen and circle.",
     },
-    { start: 12.099, end: 16.5, text: "One, bee, pen. Two," },
-    { start: 17.879, end: 21.34, text: "bed, read. Three," },
-    { start: 22.42, end: 24.34, text: "tea, hen" },
+    { start: 12.099, end: 16.5, text: "1, bee, pen." },
+    { start: 17.879, end: 21.34, text: "2, bed, read." },
+    { start: 22.42, end: 24.34, text: "3, tea, hen" },
   ];
 
   const handleSelect = (index, value) => {

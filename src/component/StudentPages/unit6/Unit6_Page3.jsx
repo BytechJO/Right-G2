@@ -6,7 +6,6 @@ import sound1 from "../../../assets/audio/ClassBook/U 6/Pg48_1.1_Adult Lady.mp3"
 import sound2 from "../../../assets/audio/ClassBook/U 6/Pg48_2.1_Adult Lady.mp3";
 import sound3 from "../../../assets/audio/ClassBook/U 6/Pg48_3.1_Adult Lady.mp3";
 import sound4 from "../../../assets/audio/ClassBook/U 6/Pg48_4.1_Adult Lady.mp3";
-
 import AudioWithCaption from "../../AudioWithCaption";
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import pauseBtn from "../../../assets/Page 01/Right Video Button.svg";
