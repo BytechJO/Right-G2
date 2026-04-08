@@ -19,8 +19,8 @@ const Page8_Q4 = () => {
   const correctAnswers = [
     { word: "they", indexes: [1, 2, 3, 4] },
     { word: "like", indexes: [14, 15, 16, 17] },
-    { word: "to", indexes: [23, 24] },
-    { word: "eat", indexes: [27, 28, 29] },
+    { word: "to", indexes:  [24,25] },
+    { word: "eat", indexes: [ 28, 29,30] },
     { word: "grass", indexes: [37, 38, 39, 40, 41] },
   ];
 

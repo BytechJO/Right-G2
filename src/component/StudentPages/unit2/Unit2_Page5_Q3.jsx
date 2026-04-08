@@ -22,7 +22,7 @@ const Unit2_Page5_Q3 = () => {
     { word: "fly", indexes: [15, 16, 17] },
     { word: "in", indexes: [25, 26] },
     { word: "the", indexes: [36, 37, 38] },
-    { word: "sky", indexes: [60, 61, 62] },
+    { word: "sky", indexes: [59,60,61] },
   ];
 
   const [sentence, setSentence] = useState("");

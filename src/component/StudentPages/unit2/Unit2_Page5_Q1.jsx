@@ -15,7 +15,7 @@ import img6 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 14
 
 const leftParts = [
   { id: 1, text: "-x" },
-  { id: 2, text: "-ch" },
+  { id: 2, text: "-ck" },
   { id: 3, text: "q" },
   { id: 4, text: "-ck" },
   { id: 5, text: "-x" },
@@ -47,6 +47,11 @@ const correctMatches = [
   { leftId: 4, right: "so_ _", image: "img3" },
   { leftId: 5, right: "fo_", image: "img6" },
   { leftId: 6, right: "_ow", image: "img2" },
+  { leftId: 1, right: "fo_", image: "img6" },
+  { leftId: 5, right: "bo_", image: "img4" },
+  { leftId: 4, right: "lo_ _", image: "img1" },
+  { leftId: 2, right: "so_ _", image: "img3" },
+
 ];
 /* ================= COMPONENT ================= */
 
