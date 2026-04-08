@@ -1,11 +1,11 @@
 import page24 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 56.png";
 import React, { useState, useRef } from "react";
 import "./Reading_Unit6_Page1.css";
-import sound1 from "../../../assets/audio/ClassBook/U 6/pg56-11-adult-lady_iKVtVrs2.mp3";
-import sound2 from "../../../assets/audio/ClassBook/U 6/Pg56_1.1_Adult Lady.mp3";
-import sound3 from "../../../assets/audio/ClassBook/U 6/Pg56_1.2_Adult Lady.mp3";
-import sound4 from "../../../assets/audio/ClassBook/U 6/Pg56_1.3_Adult Lady.mp3";
-import sound5 from "../../../assets/audio/ClassBook/U 6/Pg56_1.4_Adult Lady.mp3";
+import sound1 from "../../../assets/audio/ClassBook/U 6/pg56-11-adult-lady_gOidhXGA.mp3";
+import sound2 from "../../../assets/audio/ClassBook/U 6/Pg56_1.2_Adult Lady.mp3";
+import sound3 from "../../../assets/audio/ClassBook/U 6/Pg56_1.3_Adult Lady.mp3";
+import sound4 from "../../../assets/audio/ClassBook/U 6/Pg56_1.4_Adult Lady.mp3";
+import sound5 from "../../../assets/audio/ClassBook/U 6/Pg57_1.5_Adult Lady.mp3";
 import AudioWithCaption from "../../AudioWithCaption";
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import pauseBtn from "../../../assets/Page 01/Right Video Button.svg";
@@ -32,8 +32,8 @@ const Reading_Unit6_Page1 = ({ openPopup }) => {
     },
     {
       start: 45.599,
-      end: 59.739,
-      text: "Helen isn't happy at lunchtime. There is no rice with the chicken or fish. Helen doesn't like bread. Hansel likes fish. Fish is his favorite dish. Hansel is very happy at lunchtime.",
+      end: 69.739,
+      text: "Helen isn't happy at lunchtime. There is no rice with the chicken or fish. Helen doesn't like bread. Hansel likes fish. Fish is his favorite dish. Hansel is very happy at lunchtime.There is rice. Helen, Harley, and Hansel thank Mom for the delicious food. Mom cooked everyone's favorite dish.",
     },
   ];
   const clickableAreas = [
