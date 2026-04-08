@@ -43,12 +43,16 @@ const Unit9_Page5_Q1 = () => {
   const [resetKey, setResetKey] = useState(0);
   const stopAtSecond = 10.199; // عدلها حسب طول الأوديو عندك
 
- const captions = [
-  { start: 0.419, end: 6.879, text: "Page 80, Write Activities. Exercise A, Number 1. Which picture has a short A?" },
-  { start: 8.000, end: 10.199, text: "Listen, circle, and write." },
-  { start: 11.279, end: 18.199, text: "One, game, sad. Two, cap, chain." },
-  { start: 19.260, end: 22.319, text: "Three, rake, cat" }
-];
+  const captions = [
+    {
+      start: 0.419,
+      end: 6.879,
+      text: "Page 80, Write Activities. Exercise A, Number 1. Which picture has a short A?",
+    },
+    { start: 8.0, end: 10.199, text: "Listen, circle, and write." },
+    { start: 11.279, end: 18.199, text: "One, game, sad. Two, cap, chain." },
+    { start: 19.26, end: 22.319, text: "Three, rake, cat" },
+  ];
 
   const handleSelect = (qId, index) => {
     if (locked) return;
@@ -60,11 +64,15 @@ const Unit9_Page5_Q1 = () => {
     const { destination, draggableId } = result;
     if (!destination || locked) return;
 
-    const word = draggableId.replace("word-", "");
+    // 🔥 استخراج الكلمة الحقيقية
+    const word = draggableId.startsWith("bank-")
+      ? draggableId.replace("bank-", "")
+      : draggableId.split("-").slice(2).join("-");
 
     setDroppedWords((prev) => {
       const updated = { ...prev };
 
+      // حذف من أي مكان
       Object.keys(updated).forEach((slotId) => {
         if (updated[slotId] === word) {
           delete updated[slotId];
@@ -223,7 +231,7 @@ const Unit9_Page5_Q1 = () => {
                   return (
                     <Draggable
                       key={word}
-                      draggableId={`word-${word}`}
+                      draggableId={`bank-${word}`}
                       index={index}
                       isDragDisabled={locked || isUsed}
                     >
@@ -231,7 +239,7 @@ const Unit9_Page5_Q1 = () => {
                         <div
                           ref={provided.innerRef}
                           {...provided.draggableProps}
-                          {...(!isUsed && provided.dragHandleProps)}
+                          {...provided.dragHandleProps}
                           style={{
                             padding: "8px 18px",
                             borderRadius: "12px",
@@ -287,7 +295,7 @@ const Unit9_Page5_Q1 = () => {
                               objectFit: "contain",
                             }}
                           />
-                          
+
                           {selected[q.id] === index && (
                             <div
                               style={{
@@ -353,7 +361,7 @@ const Unit9_Page5_Q1 = () => {
                         >
                           {droppedWord && (
                             <Draggable
-                              draggableId={`word-${droppedWord}`}
+                              draggableId={`slot-${q.id}-${droppedWord}`}
                               index={0}
                               isDragDisabled={locked}
                             >

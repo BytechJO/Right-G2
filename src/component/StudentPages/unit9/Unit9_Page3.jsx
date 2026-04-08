@@ -9,13 +9,14 @@ import sound4 from "../../../assets/audio/ClassBook/U 9/Pg78_1.4_Adult Lady.mp3"
 import sound5 from "../../../assets/audio/ClassBook/U 9/Pg78_2.1_Adult Lady.mp3";
 import sound6 from "../../../assets/audio/ClassBook/U 9/Pg78_3.1_Adult Lady.mp3";
 import sound7 from "../../../assets/audio/ClassBook/U 9/Pg78_4.1_Adult Lady.mp3";
-
+import { useContext } from "react";
+import { AudioContext } from "../../../AudioContext";
 import AudioWithCaption from "../../AudioWithCaption";
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import pauseBtn from "../../../assets/Page 01/Right Video Button.svg";
 import video from "../../../assets/video/grade2-unit9-page78.mp4";
 const Unit9_Page3 = ({ openPopup }) => {
-  const audioRef = useRef(null);
+   const { audioRef, activeId, setActiveId } = useContext(AudioContext);
   const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeAreaIndex, setActiveAreaIndex] = useState(null);
@@ -26,11 +27,11 @@ const Unit9_Page3 = ({ openPopup }) => {
   { start: 23.959, end: 42.040, text: "She isn't cooking lunch. She isn't playing soccer. Mom is ironing clothes. She isn't cooking lunch. Dad is listening to the radio. He isn't reading the newspaper. The hens are eating corn. They aren't eating grass" }
 ];
   const clickableAreas = [
-    { x1: 6.66, y1: 9.81, x2: 43.31, y2: 20.16, sound: sound1 },
-    { x1: 56.11, y1: 9.81, x2: 92.57, y2: 20.16, sound: sound2 },
-    { x1: 18.88, y1: 30.22, x2: 46.61, y2: 36.16, sound: sound5 },
-    { x1: 49.13, y1: 30.22, x2: 85.00, y2: 36.16, sound: sound6 },
-    { x1: 64.26, y1: 89.92, x2: 93.54, y2:95.56, sound: sound7}
+    { id: "pg17-1",x1: 6.66, y1: 9.81, x2: 43.31, y2: 20.16, sound: sound1 },
+    { id: "pg17-2",x1: 56.11, y1: 9.81, x2: 92.57, y2: 20.16, sound: sound2 },
+    { id: "pg17-3",x1: 18.88, y1: 30.22, x2: 46.61, y2: 36.16, sound: sound5 },
+    { id: "pg17-4",x1: 49.13, y1: 30.22, x2: 85.00, y2: 36.16, sound: sound6 },
+    { id: "pg17-5",x1: 64.26, y1: 89.92, x2: 93.54, y2:95.56, sound: sound7}
 
     
   ];
@@ -40,21 +41,22 @@ const Unit9_Page3 = ({ openPopup }) => {
     const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
     console.log("X%:", xPercent.toFixed(2), "Y%:", yPercent.toFixed(2));
   };
-  const playSound = (soundPath) => {
-    if (audioRef.current) {
-      audioRef.current.src = soundPath;
-      audioRef.current.play();
-      setIsPlaying(true);
-      setHoveredAreaIndex(null); // إزالة الهايلايت عند بدء الصوت
+const playSound = (soundPath, id) => {
+    if (!audioRef.current) return;
 
-      audioRef.current.onended = () => {
-        setIsPlaying(false);
-        setHoveredAreaIndex(null);
-        setActiveAreaIndex(null); // مسح الهايلايت بعد انتهاء الصوت
-      };
-    }
+    // 🔥 وقف أي صوت شغال بأي صفحة
+    audioRef.current.pause();
+    audioRef.current.currentTime = 0;
+
+    audioRef.current.src = soundPath;
+    audioRef.current.play();
+
+    setActiveId(id); // 🔥 هذا المهم
+
+    audioRef.current.onended = () => {
+      setActiveId(null);
+    };
   };
-
   return (
     <div
       className="page1-img-wrapper"
@@ -70,9 +72,7 @@ const Unit9_Page3 = ({ openPopup }) => {
         <div
           key={index}
           className={`clickable-area ${
-            hoveredAreaIndex === index || activeAreaIndex === index
-              ? "highlight"
-              : ""
+            activeId === area.id ? "highlight" : ""
           }`}
           style={{
             position: "absolute",
@@ -82,14 +82,13 @@ const Unit9_Page3 = ({ openPopup }) => {
             height: `${area.y2 - area.y1}%`,
           }}
           onClick={() => {
-            setActiveAreaIndex(index); // لتثبيت الهايلايت أثناء الصوت
-            playSound(area.sound);
+            playSound(area.sound, area.id);
           }}
           onMouseEnter={() => {
             if (!isPlaying) setHoveredAreaIndex(index);
           }}
           onMouseLeave={() => {
-            if (!isPlaying) setHoveredAreaIndex(null);
+            if (!isPlaying ) setHoveredAreaIndex(null);
           }}
         ></div>
       ))}

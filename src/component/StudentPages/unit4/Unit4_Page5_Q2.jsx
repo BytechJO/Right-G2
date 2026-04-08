@@ -3,7 +3,7 @@ import "./Unit4_Page5_Q2.css";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import img1 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 32/Ex A 1.svg";
 import img2 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 32/Ex A 3.svg";
-import img3 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 32/Ex A 3.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 32/Ex A 2.svg";
 
 import sound1 from "../../../assets/audio/ClassBook/U 4/cd24pg32-instruction1-adult-lady_rQFKnvRt.mp3";
 

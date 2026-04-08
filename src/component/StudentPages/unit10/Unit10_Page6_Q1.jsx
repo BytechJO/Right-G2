@@ -52,18 +52,25 @@ const Unit10_Page6_Q1 = () => {
     const { destination, draggableId } = result;
     if (!destination || locked) return;
 
-    // إذا رجع للبنك
-    if (destination.droppableId === "bank") return;
+    // 🧠 نجيب الجملة الأصلية
+    const value = draggableId.includes("bank-")
+      ? draggableId.replace("bank-", "")
+      : draggableId.split("-").slice(2).join("-");
 
     setAnswers((prev) => {
       const updated = { ...prev };
 
-      // حذف الجملة من أي مكان سابق
+      // حذف من أي مكان
       Object.keys(updated).forEach((key) => {
-        if (updated[key] === draggableId) delete updated[key];
+        if (updated[key] === value) delete updated[key];
       });
 
-      updated[destination.droppableId] = draggableId;
+      if (destination.droppableId === "bank") {
+        return updated;
+      }
+
+      updated[destination.droppableId] = value;
+
       return updated;
     });
   };
@@ -146,8 +153,8 @@ const Unit10_Page6_Q1 = () => {
                   const isUsed = Object.values(answers).includes(s);
                   return (
                     <Draggable
-                      key={s}
-                      draggableId={s}
+                      key={`bank-${s}`}
+                      draggableId={`bank-${s}`}
                       index={index}
                       isDragDisabled={locked || isUsed}
                     >
@@ -155,9 +162,9 @@ const Unit10_Page6_Q1 = () => {
                         <div
                           ref={provided.innerRef}
                           {...provided.draggableProps}
-                          {...(!isUsed && provided.dragHandleProps)}
+                          {...provided.dragHandleProps} // 🔥 دايمًا موجودة
                           className={`px-4 py-2 rounded-full text-center
-                            ${isUsed ? "bg-gray-300 text-gray-500 cursor-not-allowed" : "bg-blue-200 cursor-grab"}`}
+        ${isUsed ? "bg-gray-300 text-gray-500 cursor-not-allowed" : "bg-blue-200 cursor-grab"}`}
                         >
                           {s}
                         </div>
@@ -217,7 +224,7 @@ const Unit10_Page6_Q1 = () => {
                   >
                     {answers[`slot-${q.id}`] && (
                       <Draggable
-                        draggableId={answers[`slot-${q.id}`]}
+                        draggableId={`slot-${q.id}-${answers[`slot-${q.id}`]}`}
                         index={0}
                         isDragDisabled={locked}
                       >
@@ -229,7 +236,6 @@ const Unit10_Page6_Q1 = () => {
                           >
                             <span
                               style={{
-                                
                                 fontWeight: "500",
                                 fontSize: "16px",
                                 cursor: "grab",

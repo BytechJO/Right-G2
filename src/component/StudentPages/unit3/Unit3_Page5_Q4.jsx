@@ -6,96 +6,40 @@ import img2 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 26/Ex C 2
 
 const Unit3_Page5_Q4 = () => {
   const grid = [
-    "w",
-    "e",
-    "y",
-    "u",
-    "t",
-    "b",
-    "w",
-    "e",
-    "a",
-    "r",
-    "e",
-    "r",
-    "l",
-    "p",
-    "l",
-    "j",
-    "a",
-    "c",
-    "k",
-    "e",
-    "t",
-    "s",
-    "i",
-    "o",
-    "h",
-    "v",
-    "n",
-    "x",
-    "h",
-    "e",
-    "a",
-    "i",
-    "n",
-    "y",
-    "o",
-    "y",
-    "c",
-    "o",
-    "l",
-    "d",
-    "t",
-    "d",
-    "t",
-    "x",
-    "d",
-    "y",
-    "r",
-    "w",
-    "e",
-    "a",
-    "t",
-    "h",
-    "e",
-    "r",
-    "p",
-    "x",
-    "y",
-    "v",
-    "t",
-    "f",
-    "o",
-    "l",
+    "w","e","y","u","t","b","w","e","a","r","e","r","l","p","l","j","a","c","k","e","t","s",
+    "i","o","h","v","n","x","h","e","a","i","n","y","o","y","c","o","l","d","t","d","t","x",
+    "d","y","r","w","e","a","t","h","e","r","p","x","y","v","t","f","o","l"
   ];
 
   const letters = grid;
 
   const wordsToFind = ["we", "wear", "jackets", "in", "cold", "weather"];
 
+  // 🔥 تعديل 1: أضفنا order
   const correctAnswers = [
-    { word: "we", indexes: [0, 1] },
-    { word: "wear", indexes: [6, 7, 8, 9] },
-    { word: "jackets", indexes: [15, 16, 17, 18, 19, 20, 21] },
-    { word: "in", indexes: [31, 32] },
-    { word: "cold", indexes: [36, 37, 38, 39] },
-    { word: "weather", indexes: [47, 48, 49, 50, 51, 52, 53] },
+    { word: "we", indexes: [0, 1], order: 0 },
+    { word: "wear", indexes: [6, 7, 8, 9], order: 1 },
+    { word: "jackets", indexes: [15, 16, 17, 18, 19, 20, 21], order: 2 },
+    { word: "in", indexes: [31, 32], order: 3 },
+    { word: "cold", indexes: [36, 37, 38, 39], order: 4 },
+    { word: "weather", indexes: [47, 48, 49, 50, 51, 52, 53], order: 5 },
   ];
 
-  const [sentence, setSentence] = useState("");
+  // 🔥 تعديل 2: الجملة الكاملة
+  const fullSentence = ["we", "wear", "jackets", "in", "cold", "weather"];
+
   const [selected, setSelected] = useState([]);
   const [currentWord, setCurrentWord] = useState("");
   const [foundWords, setFoundWords] = useState([]);
   const [coloredCells, setColoredCells] = useState([]);
   const [locked, setLocked] = useState(false);
+
   const handleClick = (letter, index) => {
     if (coloredCells.includes(index)) return;
 
     if (selected.includes(index)) {
       const cutIndex = selected.indexOf(index);
       const newSelected = selected.slice(0, cutIndex);
-
       const newWord = newSelected.map((i) => letters[i]).join("");
 
       setSelected(newSelected);
@@ -111,59 +55,53 @@ const Unit3_Page5_Q4 = () => {
     const matchedIndex = correctAnswers.findIndex(
       (item) =>
         item.word === currentWord &&
-        JSON.stringify(item.indexes) === JSON.stringify(selected),
+        JSON.stringify(item.indexes) === JSON.stringify(selected)
     );
 
     if (matchedIndex !== -1 && !foundWords.includes(matchedIndex)) {
       setFoundWords((prev) => [...prev, matchedIndex]);
       setColoredCells((prev) => [...prev, ...selected]);
 
-      setSentence((prev) =>
-        prev === "" ? currentWord : prev + " " + currentWord,
-      );
+      // 🔥 تعديل 3: حذفنا setSentence
 
       setSelected([]);
       setCurrentWord("");
     }
-  }, [currentWord, selected, foundWords]);
+  }, [currentWord]);
+
+  // 🔥 تعديل 4 (المهم):
+  const displayedSentence = fullSentence.map((word, index) => {
+    const isFound = foundWords.some(
+      (i) => correctAnswers[i].order === index
+    );
+
+    const SLOT_LENGTH = 10; // ممكن تغيرها حسب التصميم
+
+    if (isFound) {
+      return word.padEnd(SLOT_LENGTH, "");
+    }
+
+    return "_".repeat(SLOT_LENGTH);
+  });
 
   const checkAnswers = () => {
     if (locked) return;
+
     const total = wordsToFind.length;
     const score = foundWords.length;
 
     if (foundWords.length === 0) {
-      ValidationAlert.info(`
-        <div style="font-size:20px;text-align:center;">
-          <b>Find all the words first!</b><br/>
-          <span style="color:#1d4f7b;font-weight:bold;">
-            Current Score: ${score} / ${total}
-          </span>
-        </div>
-      `);
+      ValidationAlert.info(`Find all the words first!`);
       return;
     }
-    setLocked(true);
 
-    if (score === 0) {
-      ValidationAlert.error(`
-        <div style="font-size:20px;text-align:center;">
-          <b style="color:red;">Score: 0 / ${total}</b>
-        </div>
-      `);
-    } else if (score < total) {
-      ValidationAlert.warning(`
-        <div style="font-size:20px;text-align:center;">
-          <b style="color:orange;">Score: ${score} / ${total}</b>
-        </div>
-      `);
+    if (score === total) {
+      ValidationAlert.success(`<b>Score: ${score} / ${total}</b>`);
     } else {
-      ValidationAlert.success(`
-        <div style="font-size:20px;text-align:center;">
-          <b style="color:green;">Score: ${score} / ${total}</b>
-        </div>
-      `);
+      ValidationAlert.warning(`<b>Score: ${score} / ${total}</b>`);
     }
+
+    setLocked(true);
   };
 
   const reset = () => {
@@ -171,7 +109,6 @@ const Unit3_Page5_Q4 = () => {
     setCurrentWord("");
     setFoundWords([]);
     setColoredCells([]);
-    setSentence("");
     setLocked(false);
   };
 
@@ -187,7 +124,8 @@ const Unit3_Page5_Q4 = () => {
     setSelected([]);
     setCurrentWord("");
     setLocked(true);
-    setSentence(correctAnswers.map((w) => w.word).join(" "));
+
+    // 🔥 تعديل 5: ما في setSentence
   };
 
   return (
@@ -220,8 +158,8 @@ const Unit3_Page5_Q4 = () => {
                 <span
                   key={index}
                   className={`cell-CB-unit3-p5-q4 
-          ${isSelected ? "selected-CB-unit3-p5-q4" : ""}
-          ${isFound ? "found-cell-CB-unit3-p5-q4" : ""}`}
+                  ${isSelected ? "selected-CB-unit3-p5-q4" : ""}
+                  ${isFound ? "found-cell-CB-unit3-p5-q4" : ""}`}
                   onClick={() => handleClick(letter, index)}
                 >
                   {letter}
@@ -229,14 +167,18 @@ const Unit3_Page5_Q4 = () => {
               );
             })}
           </div>
+
           <div className="flex">
             <img src={img1} style={{ height: "80px", width: "80px" }} />
 
+            {/* 🔥 تعديل 6: استخدمنا displayedSentence */}
             <input
               className="answer-input-CB-unit3-p5-q4"
-              value={sentence}
+              value={displayedSentence.join(" ")}
               readOnly
+              style={{ fontFamily: "monospace" }}
             />
+
             <img src={img2} style={{ height: "80px", width: "80px" }} />
           </div>
         </div>

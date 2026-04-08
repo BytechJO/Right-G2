@@ -3,93 +3,34 @@ import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Unit8_Page5_Q4.css";
 import img1 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 68/Ex C 1.svg";
 import img2 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 68/Ex C 2.svg";
+
 const Unit8_Page5_Q4 = () => {
-  const [locked, setLocked] = useState(false);
   const grid = [
-    "e",
-    "d",
-    "t",
-    "h",
-    "e",
-    "f",
-    "g",
-    "f",
-    "t",
-    "e",
-    "i",
-    "m",
-    "t",
-    "s",
-    "u",
-    "m",
-    "m",
-    "e",
-    "r",
-    "s",
-    "u",
-    "e",
-    "e",
-    "i",
-    "x",
-    "n",
-    "b",
-    "n",
-    "s",
-    "s",
-    "e",
-    "e",
-    "v",
-    "a",
-    "c",
-    "a",
-    "t",
-    "i",
-    "o",
-    "n",
-    "x",
-    "e",
-    "r",
-    "s",
-    "t",
-    "a",
-    "r",
-    "t",
-    "s",
-    "v",
-    "f",
-    "i",
-    "n",
-    "s",
-    "k",
-    "j",
-    "u",
-    "n",
-    "e",
-    "n",
-    "b",
-    "g",
-    "f",
-    "s",
-    "k",
-    "r",
+    "e","d","t","h","e","f","g","f","t","e","i","m","t","s","u","m","m","e","r","s",
+    "u","e","e","i","x","n","b","n","s","s","e","e","v","a","c","a","t","i","o","n",
+    "x","e","r","s","t","a","r","t","s","v","f","i","n","s","k","j","u","n","e","n",
+    "b","g","f","s","k","r",
   ];
-  const letters = grid;
-  const wordPositions = {
+
+  const correctPositions = {
     the: [2, 3, 4],
-    summer: [ 13, 14, 15, 16, 17,18],
+    summer: [13, 14, 15, 16, 17, 18],
     vacation: [32, 33, 34, 35, 36, 37, 38, 39],
     starts: [43, 44, 45, 46, 47, 48],
     in: [51, 52],
     june: [55, 56, 57, 58],
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const wordsToFind = ["the", "summer", "vacation", "starts", "in", "june"];
-  const [sentence, setSentence] = useState("");
 
+  const fullSentence = ["the", "summer", "vacation", "starts", "in", "june"];
+
+  const letters = grid;
+
+  const [locked, setLocked] = useState(false);
   const [selected, setSelected] = useState([]);
   const [currentWord, setCurrentWord] = useState("");
-  const [foundWords, setFoundWords] = useState([]);
+  const [foundWords, setFoundWords] = useState([]); // 🔥 index
   const [coloredCells, setColoredCells] = useState([]);
 
   const handleClick = (letter, index) => {
@@ -98,30 +39,55 @@ const Unit8_Page5_Q4 = () => {
     if (selected.includes(index)) {
       const cutIndex = selected.indexOf(index);
       const newSelected = selected.slice(0, cutIndex);
+
+      const newWord = newSelected.map((i) => letters[i]).join("");
+
       setSelected(newSelected);
+      setCurrentWord(newWord);
       return;
     }
 
     setSelected((prev) => [...prev, index]);
+    setCurrentWord((prev) => prev + letter);
   };
 
   useEffect(() => {
-    const sortedSelected = [...selected].sort((a, b) => a - b);
+    const keys = Object.keys(correctPositions);
 
-    const foundWord = Object.keys(wordPositions).find((word) => {
-      const positions = wordPositions[word];
-      return JSON.stringify(positions) === JSON.stringify(sortedSelected);
+    const matchedIndex = keys.findIndex((word) => {
+      const correctIdx = correctPositions[word];
+
+      if (correctIdx.length !== selected.length) return false;
+
+      for (let i = 0; i < correctIdx.length; i++) {
+        if (correctIdx[i] !== selected[i]) return false;
+      }
+
+      return word === currentWord;
     });
 
-    if (foundWord && !foundWords.includes(foundWord)) {
-      setFoundWords((prev) => [...prev, foundWord]);
+    if (matchedIndex !== -1 && !foundWords.includes(matchedIndex)) {
+      setFoundWords((prev) => [...prev, matchedIndex]);
       setColoredCells((prev) => [...prev, ...selected]);
-
-      setSentence((prev) => (prev === "" ? foundWord : prev + " " + foundWord));
-
       setSelected([]);
+      setCurrentWord("");
     }
-  }, [selected]);
+  }, [currentWord]);
+
+  // 🔥 نفس Unit6 slots
+  const displayedSentence = fullSentence.map((word, index) => {
+    const isFound = foundWords.some(
+      (i) => Object.keys(correctPositions)[i] === word
+    );
+
+    const SLOT_LENGTH = 12;
+
+    if (isFound) {
+      return word.padEnd(SLOT_LENGTH, "");
+    }
+
+    return "_".repeat(SLOT_LENGTH);
+  });
 
   const checkAnswers = () => {
     if (locked) return;
@@ -130,84 +96,55 @@ const Unit8_Page5_Q4 = () => {
     const score = foundWords.length;
 
     if (foundWords.length === 0) {
-      ValidationAlert.info(`
-        <div style="font-size:20px;text-align:center;">
-          <b>Find all the words first!</b><br/>
-          <span style="color:#1d4f7b;font-weight:bold;">
-            Current Score: ${score} / ${total}
-          </span>
-        </div>
-      `);
+      ValidationAlert.info(`Find all the words first!`);
       return;
     }
 
-    if (score === 0) {
-      ValidationAlert.error(`
-        <div style="font-size:20px;text-align:center;">
-          <b style="color:red;">Score: 0 / ${total}</b>
-        </div>
-      `);
-    } else if (score < total) {
-      ValidationAlert.warning(`
-        <div style="font-size:20px;text-align:center;">
-          <b style="color:orange;">Score: ${score} / ${total}</b>
-        </div>
-      `);
+    if (score === total) {
+      ValidationAlert.success(`<b>Score: ${score} / ${total}</b>`);
     } else {
-      ValidationAlert.success(`
-        <div style="font-size:20px;text-align:center;">
-          <b style="color:green;">Score: ${score} / ${total}</b>
-        </div>
-      `);
+      ValidationAlert.warning(`<b>Score: ${score} / ${total}</b>`);
     }
+
+    setLocked(true);
   };
+
   const reset = () => {
     setSelected([]);
-    // setCurrentWord("");
+    setCurrentWord("");
     setFoundWords([]);
     setColoredCells([]);
-    setSentence("");
     setLocked(false);
   };
 
   const showAnswers = () => {
     let allCells = [];
+    const keys = Object.keys(correctPositions);
 
-    Object.values(wordPositions).forEach((positions) => {
-      allCells.push(...positions);
+    keys.forEach((word) => {
+      allCells.push(...correctPositions[word]);
     });
 
-    wordsToFind.forEach((word) => {
-      const startIndex = sentence.indexOf(word);
-
-      if (startIndex !== -1) {
-        for (let i = 0; i < word.length; i++) {
-          allCells.push(startIndex + i);
-        }
-      }
-    });
-
-    setFoundWords(wordsToFind);
+    setFoundWords(keys.map((_, i) => i));
     setColoredCells(allCells);
     setSelected([]);
     setCurrentWord("");
-    setSentence(wordsToFind.join(" "));
     setLocked(true);
   };
 
   return (
     <div className="main-container-component">
       <div className="div-forall">
-        <h5 className="header-title-page8" style={{ marginBottom: "20px" }}>
+        <h5 className="header-title-page8">
           <span className="ex-A">C </span>When does summer vacation start?
         </h5>
 
         <div className="words-list-CB-unit3-p5-q4">
-          {wordsToFind.map((word) => (
+          {wordsToFind.map((word, i) => (
             <span
-              key={word}
+              key={i}
               className={`word-CB-unit3-p5-q4 ${
-                foundWords.includes(word) ? "found-CB-unit3-p5-q4" : ""
+                foundWords.includes(i) ? "found-CB-unit3-p5-q4" : ""
               }`}
             >
               {word}
@@ -225,8 +162,8 @@ const Unit8_Page5_Q4 = () => {
                 <span
                   key={index}
                   className={`cell-CB-unit3-p5-q4 
-          ${isSelected ? "selected-CB-unit3-p5-q4" : ""}
-          ${isFound ? "found-cell-CB-unit3-p5-q4" : ""}`}
+                  ${isSelected ? "selected-CB-unit3-p5-q4" : ""}
+                  ${isFound ? "found-cell-CB-unit3-p5-q4" : ""}`}
                   onClick={() => handleClick(letter, index)}
                 >
                   {letter}
@@ -235,15 +172,18 @@ const Unit8_Page5_Q4 = () => {
             })}
           </div>
 
-         <div className="flex">
-          <img src={img1} style={{ height: "80px", width: "80px" }} />
-          <input
-            className="answer-input-CB-unit3-p5-q4"
-            value={sentence}
-            readOnly
-          />
-          <img src={img2} style={{ height: "80px", width: "80px" }} />
-        </div>{" "}
+          <div className="flex">
+            <img src={img1} style={{ height: "80px", width: "80px" }} />
+
+            <input
+              className="answer-input-CB-unit3-p5-q4"
+              value={displayedSentence.join(" ")}
+              readOnly
+              style={{ fontFamily: "monospace" }}
+            />
+
+            <img src={img2} style={{ height: "80px", width: "80px" }} />
+          </div>
         </div>
       </div>
 

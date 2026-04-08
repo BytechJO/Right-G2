@@ -36,30 +36,39 @@ const FourImagesWithAudio = ({
   // ================================
   const updateCaption = (time) => {
     const index = captions.findIndex(
-      (cap) => time >= cap.start && time <= cap.end
+      (cap) => time >= cap.start && time <= cap.end,
     );
     setActiveIndex2(index);
   };
-
   const playImageSound = (index) => {
     const sound = audioArr[index];
-    if (sound) {
-      setClickedIndex(index); // 🔥 فعل الأنيميشن
+    const mainAudio = audioRef.current;
 
-      sound.currentTime = 0;
-      sound.play();
+    if (!sound || !mainAudio) return;
 
-      sound.onended = () => {
-        setClickedIndex(null); // 🔥 لما يخلص الصوت يشيل الأنيميشن
-      };
-    }
+    // 🔥 وقف الصوت الرئيسي
+    mainAudio.pause();
+    setIsPlaying(false); // ✅ يخلي الزر يتحول لـ Play
+
+    // 🔥 شغل صوت الصورة
+    sound.currentTime = 0;
+    sound.play();
+
+    setClickedIndex(index);
+
+    sound.onended = () => {
+      setClickedIndex(null);
+    };
   };
-
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
+    // 🔥 تأكد توقف أي صوت قبل
+    audio.pause();
     audio.currentTime = 0;
+
+    audio.src = audioSrc;
     audio.play();
 
     const interval = setInterval(() => {
@@ -72,10 +81,8 @@ const FourImagesWithAudio = ({
       }
     }, 100);
 
-    // عند انتهاء الأوديو يرجع يبطل أنيميشن + يظهر Continue
     const handleEnded = () => {
-      const audio = audioRef.current;
-      audio.currentTime = 0; // ← يرجع للبداية
+      audio.currentTime = 0;
       setActiveIndex(null);
       setActiveIndex2(null);
       setPaused(true);
@@ -132,7 +139,8 @@ const FourImagesWithAudio = ({
           {titleQ}
         </h5>
       </div>
-      <div className="audio-popup-read-container"
+      <div
+        className="audio-popup-read-container"
         style={{
           display: "flex",
           flexDirection: "column",
@@ -152,7 +160,7 @@ const FourImagesWithAudio = ({
                 setCurrent(time);
 
                 const idx = checkpoints.findIndex(
-                  (cp) => time >= cp && time < cp + 0.8
+                  (cp) => time >= cp && time < cp + 0.8,
                 );
                 setActiveIndex(idx !== -1 ? idx : null);
                 updateCaption(time);
@@ -196,8 +204,10 @@ const FourImagesWithAudio = ({
                 onClick={() => setShowCaption(!showCaption)}
               >
                 <TbMessageCircle size={36} />
-                <div className={`caption-inPopup ${showCaption ? "show" : ""}`}
-                     style={{ top: "100%", left: "10%" }}>
+                <div
+                  className={`caption-inPopup ${showCaption ? "show" : ""}`}
+                  style={{ top: "100%", left: "10%" }}
+                >
                   {captions.map((cap, i) => (
                     <p
                       key={i}

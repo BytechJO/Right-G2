@@ -3,75 +3,31 @@ import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Unit10_Page5_Q4.css";
 import img1 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 86/Ex C 1.svg";
 import img2 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 86/Ex C 2.svg";
+
 const Unit10_Page5_Q4 = () => {
-  const [locked, setLocked] = useState(false);
   const grid = [
-    "r",
-    "x",
-    "s",
-    "t",
-    "h",
-    "e",
-    "y",
-    "a",
-    "l",
-    "a",
-    "y",
-    "n",
-    "b",
-    "m",
-    "a",
-    "l",
-    "y",
-    "h",
-    "w",
-    "o",
-    "t",
-    "h",
-    "e",
-    "i",
-    "r",
-    "q",
-    "g",
-    "r",
-    "e",
-    "g",
-    "g",
-    "s",
-    "g",
-    "s",
-    "h",
-    "k",
-    "j",
-    "i",
-    "n",
-    "t",
-    "p",
-    "t",
-    "x",
-    "a",
-    "y",
-    "c",
-    "j",
-    "n",
-    "e",
-    "s",
-    "t",
-    "x",
-    "w",
-    "q",
-    "p",
-    "o",
+    "r","x","s","t","h","e","y","a","l","a","y","n","b","m","a","l","y","h","w","o",
+    "t","h","e","i","r","q","g","r","e","g","g","s","g","s","h","k","j","i","n","t",
+    "p","t","x","a","y","c","j","n","e","s","t","x","w","q","p","o",
   ];
-  const letters = grid;
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const correctPositions = {
+    they: [3,4,5,6],
+    lay: [7,8,9],
+    their: [20,21,22,23,24],
+    eggs: [27,28,29,30],
+    in: [37,38],
+    a: [43],
+    nest: [47,48,49,50],
+  };
+
   const wordsToFind = ["they", "lay", "their", "eggs", "in", "a", "nest"];
-  const [sentence, setSentence] = useState("");
+  const fullSentence = ["they", "lay", "their", "eggs", "in", "a", "nest"];
 
+  const [locked, setLocked] = useState(false);
   const [selected, setSelected] = useState([]);
   const [currentWord, setCurrentWord] = useState("");
-  const [foundWords, setFoundWords] = useState([]);
+  const [foundWords, setFoundWords] = useState([]); // index
   const [coloredCells, setColoredCells] = useState([]);
 
   const handleClick = (letter, index) => {
@@ -80,8 +36,7 @@ const Unit10_Page5_Q4 = () => {
     if (selected.includes(index)) {
       const cutIndex = selected.indexOf(index);
       const newSelected = selected.slice(0, cutIndex);
-
-      const newWord = newSelected.map((i) => letters[i]).join("");
+      const newWord = newSelected.map((i) => grid[i]).join("");
 
       setSelected(newSelected);
       setCurrentWord(newWord);
@@ -93,21 +48,41 @@ const Unit10_Page5_Q4 = () => {
   };
 
   useEffect(() => {
-    if (
-      wordsToFind.includes(currentWord) &&
-      !foundWords.includes(currentWord)
-    ) {
-      setFoundWords((prev) => [...prev, currentWord]);
-      setColoredCells((prev) => [...prev, ...selected]);
+    const keys = Object.keys(correctPositions);
 
-      setSentence((prev) =>
-        prev === "" ? currentWord : prev + " " + currentWord,
-      );
+    const matchedIndex = keys.findIndex((word) => {
+      const correctIdx = correctPositions[word];
+
+      if (correctIdx.length !== selected.length) return false;
+
+      for (let i = 0; i < correctIdx.length; i++) {
+        if (correctIdx[i] !== selected[i]) return false;
+      }
+
+      return word === currentWord;
+    });
+
+    if (matchedIndex !== -1 && !foundWords.includes(matchedIndex)) {
+      setFoundWords((prev) => [...prev, matchedIndex]);
+      setColoredCells((prev) => [...prev, ...selected]);
 
       setSelected([]);
       setCurrentWord("");
     }
-  }, [currentWord, foundWords, selected, wordsToFind]);
+  }, [currentWord]);
+
+  // 🔥 slots
+  const displayedSentence = fullSentence.map((word) => {
+    const isFound = foundWords.some(
+      (i) => Object.keys(correctPositions)[i] === word
+    );
+
+    const SLOT_LENGTH = 10;
+
+    return isFound
+      ? word.padEnd(SLOT_LENGTH, "")
+      : "_".repeat(SLOT_LENGTH);
+  });
 
   const checkAnswers = () => {
     if (locked) return;
@@ -116,119 +91,65 @@ const Unit10_Page5_Q4 = () => {
     const score = foundWords.length;
 
     if (foundWords.length === 0) {
-      ValidationAlert.info(`
-        <div style="font-size:20px;text-align:center;">
-          <b>Find all the words first!</b><br/>
-          <span style="color:#1d4f7b;font-weight:bold;">
-            Current Score: ${score} / ${total}
-          </span>
-        </div>
-      `);
+      ValidationAlert.info(`Find all the words first!`);
       return;
     }
-    // 👇 أهم سطر
-    setLocked(true);
-    if (score === 0) {
-      ValidationAlert.error(`
-        <div style="font-size:20px;text-align:center;">
-          <b style="color:red;">Score: 0 / ${total}</b>
-        </div>
-      `);
-    } else if (score < total) {
-      ValidationAlert.warning(`
-        <div style="font-size:20px;text-align:center;">
-          <b style="color:orange;">Score: ${score} / ${total}</b>
-        </div>
-      `);
+
+    if (score === total) {
+      ValidationAlert.success(`<b>Score: ${score} / ${total}</b>`);
     } else {
-      ValidationAlert.success(`
-        <div style="font-size:20px;text-align:center;">
-          <b style="color:green;">Score: ${score} / ${total}</b>
-        </div>
-      `);
+      ValidationAlert.warning(`<b>Score: ${score} / ${total}</b>`);
     }
+
+    setLocked(true);
   };
+
   const reset = () => {
     setSelected([]);
     setCurrentWord("");
     setFoundWords([]);
     setColoredCells([]);
-    setSentence("");
     setLocked(false);
   };
 
   const showAnswers = () => {
     let allCells = [];
-    const fullString = letters.join("");
+    const keys = Object.keys(correctPositions);
 
-    wordsToFind.forEach((word) => {
-      let startIndex;
-
-      if (word === "a") {
-        // خذ آخر a فقط
-        startIndex = fullString.lastIndexOf(word);
-      } else {
-        // باقي الكلمات عادي أول ظهور
-        startIndex = fullString.indexOf(word);
-      }
-
-      if (startIndex !== -1) {
-        for (let i = 0; i < word.length; i++) {
-          allCells.push(startIndex + i);
-        }
-      }
+    keys.forEach((word) => {
+      allCells.push(...correctPositions[word]);
     });
 
-    setFoundWords(wordsToFind);
+    setFoundWords(keys.map((_, i) => i));
     setColoredCells(allCells);
     setSelected([]);
     setCurrentWord("");
-    setSentence(wordsToFind.join(" "));
     setLocked(true);
   };
-  const isMissingWord = (word) => {
-    if (!locked) return false;
-    return !foundWords.includes(word);
-  };
+
   return (
     <div style={{ display: "flex", justifyContent: "center", padding: "30px" }}>
       <div className="div-forall" style={{ width: "60%" }}>
-        <h5 className="header-title-page8" style={{ marginBottom: "20px" }}>
-          <span className="ex-A mr-5">C </span>Where do birds lay their eggs?
+        <h5 className="header-title-page8">
+          <span className="ex-A">C </span>Where do birds lay their eggs?
         </h5>
 
         <div className="words-list-CB-unit3-p5-q4">
-          {wordsToFind.map((word) => (
+          {wordsToFind.map((word, i) => (
             <span
-              key={word}
-              className={`relative inline-block word-CB-unit3-p5-q4 ${
-                foundWords.includes(word) ? "found-CB-unit3-p5-q4" : ""
+              key={i}
+              className={`word-CB-unit3-p5-q4 ${
+                foundWords.includes(i) ? "found-CB-unit3-p5-q4" : ""
               }`}
             >
               {word}
-              {isMissingWord(word) && (
-                <div
-                  className="
-      absolute -top-2 -right-2
-      w-5 h-5
-      bg-red-500 text-white
-      rounded-full
-      flex items-center justify-center
-      text-xs font-bold
-      border-2 border-white
-      z-10
-    "
-                >
-                  ✕
-                </div>
-              )}
             </span>
           ))}
         </div>
 
         <div className="wordsearch-wrapper-CB-unit3-p5-q4">
           <div className="grid-CB-unit3-p5-q4">
-            {letters.map((letter, index) => {
+            {grid.map((letter, index) => {
               const isSelected = selected.includes(index);
               const isFound = coloredCells.includes(index);
 
@@ -236,8 +157,8 @@ const Unit10_Page5_Q4 = () => {
                 <span
                   key={index}
                   className={`cell-CB-unit3-p5-q4 
-          ${isSelected ? "selected-CB-unit3-p5-q4" : ""}
-          ${isFound ? "found-cell-CB-unit3-p5-q4" : ""}`}
+                  ${isSelected ? "selected-CB-unit3-p5-q4" : ""}
+                  ${isFound ? "found-cell-CB-unit3-p5-q4" : ""}`}
                   onClick={() => handleClick(letter, index)}
                 >
                   {letter}
@@ -245,15 +166,19 @@ const Unit10_Page5_Q4 = () => {
               );
             })}
           </div>
+
           <div className="flex">
             <img src={img1} style={{ height: "80px", width: "80px" }} />
+
             <input
               className="answer-input-CB-unit3-p5-q4"
-              value={sentence}
+              value={displayedSentence.join(" ")}
               readOnly
+              style={{ fontFamily: "monospace" }}
             />
+
             <img src={img2} style={{ height: "80px", width: "80px" }} />
-          </div>{" "}
+          </div>
         </div>
       </div>
 
@@ -261,7 +186,7 @@ const Unit10_Page5_Q4 = () => {
         <button onClick={reset} className="try-again-button">
           Start Again ↻
         </button>
-        <button onClick={showAnswers} className="show-answer-btn swal-continue">
+        <button onClick={showAnswers} className="show-answer-btn">
           Show Answer
         </button>
         <button onClick={checkAnswers} className="check-button2">

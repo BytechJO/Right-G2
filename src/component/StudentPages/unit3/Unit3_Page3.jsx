@@ -7,17 +7,16 @@ import sound2 from "../../../assets/audio/ClassBook/U 3/Pg24_1.2_Adult Lady.mp3"
 import sound3 from "../../../assets/audio/ClassBook/U 3/Pg24_2.1_Adult Lady.mp3";
 import sound4 from "../../../assets/audio/ClassBook/U 3/Pg24_3.1_Adult Lady.mp3";
 import sound5 from "../../../assets/audio/ClassBook/U 3/Pg24_4.1_Adult Lady.mp3";
-
-
+import { useContext } from "react";
+import { AudioContext } from "../../../AudioContext";
 import AudioWithCaption from "../../AudioWithCaption";
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import pauseBtn from "../../../assets/Page 01/Right Video Button.svg";
 import video from "../../../assets/video/grade2-unit3-page24.mp4";
 const Unit3_Page3 = ({ openPopup }) => {
-  const audioRef = useRef(null);
+  const { audioRef, activeId, setActiveId } = useContext(AudioContext);
   const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [activeAreaIndex, setActiveAreaIndex] = useState(null);
   const captionsExample = [
  { start: 0.58, end: 5.72, text: "Page 24. Write grammar. Can he ride a bike?" },
   { start: 6.76, end: 8.3, text: "Yes, he can." },
@@ -30,11 +29,11 @@ const Unit3_Page3 = ({ openPopup }) => {
   ];
 
   const clickableAreas = [
-    { x1: 6.88, y1: 9.35, x2: 35.58, y2: 20.01, sound: sound1 },
-    { x1: 68.74, y1: 9.35, x2: 92.59, y2: 20.01, sound: sound2 },
-    { x1: 6.30, y1: 27.17, x2: 29.18, y2: 32.99, sound: sound3 },
-    { x1: 50.32, y1: 26.87, x2: 76.88, y2: 32.35, sound: sound4 },
-    { x1: 9.40, y1: 59.61, x2: 31.31, y2: 65.40, sound: sound5 },
+    { id: "pg5-1",x1: 6.88, y1: 9.35, x2: 35.58, y2: 20.01, sound: sound1 },
+    { id: "pg5-2",x1: 68.74, y1: 9.35, x2: 92.59, y2: 20.01, sound: sound2 },
+    { id: "pg5-3",x1: 6.30, y1: 27.17, x2: 29.18, y2: 32.99, sound: sound3 },
+    { id: "pg5-4",x1: 50.32, y1: 26.87, x2: 76.88, y2: 32.35, sound: sound4 },
+    { id: "pg5-5",x1: 9.40, y1: 59.61, x2: 31.31, y2: 65.40, sound: sound5 },
 
     
   ];
@@ -44,19 +43,21 @@ const Unit3_Page3 = ({ openPopup }) => {
     const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
     console.log("X%:", xPercent.toFixed(2), "Y%:", yPercent.toFixed(2));
   };
-  const playSound = (soundPath) => {
-    if (audioRef.current) {
-      audioRef.current.src = soundPath;
-      audioRef.current.play();
-      setIsPlaying(true);
-      setHoveredAreaIndex(null); // إزالة الهايلايت عند بدء الصوت
+  const playSound = (soundPath, id) => {
+    if (!audioRef.current) return;
 
-      audioRef.current.onended = () => {
-        setIsPlaying(false);
-        setHoveredAreaIndex(null);
-        setActiveAreaIndex(null); // مسح الهايلايت بعد انتهاء الصوت
-      };
-    }
+    // 🔥 وقف أي صوت شغال بأي صفحة
+    audioRef.current.pause();
+    audioRef.current.currentTime = 0;
+
+    audioRef.current.src = soundPath;
+    audioRef.current.play();
+
+    setActiveId(id); // 🔥 هذا المهم
+
+    audioRef.current.onended = () => {
+      setActiveId(null);
+    };
   };
 
   return (
@@ -74,9 +75,7 @@ const Unit3_Page3 = ({ openPopup }) => {
         <div
           key={index}
           className={`clickable-area ${
-            hoveredAreaIndex === index || activeAreaIndex === index
-              ? "highlight"
-              : ""
+            activeId === area.id ? "highlight" : ""
           }`}
           style={{
             position: "absolute",
@@ -85,15 +84,14 @@ const Unit3_Page3 = ({ openPopup }) => {
             width: `${area.x2 - area.x1}%`,
             height: `${area.y2 - area.y1}%`,
           }}
-          onClick={() => {
-            setActiveAreaIndex(index); // لتثبيت الهايلايت أثناء الصوت
-            playSound(area.sound);
+         onClick={() => {
+            playSound(area.sound, area.id);
           }}
           onMouseEnter={() => {
             if (!isPlaying) setHoveredAreaIndex(index);
           }}
           onMouseLeave={() => {
-            if (!isPlaying) setHoveredAreaIndex(null);
+            if (!isPlaying ) setHoveredAreaIndex(null);
           }}
         ></div>
       ))}

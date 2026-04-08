@@ -40,18 +40,38 @@ const rightParts = [
   { id: "r6", text: "lo_ _" },
 ];
 
-const correctMatches = [
-  { leftId: 1, right: "bo_", image: "img4" },
-  { leftId: 2, right: "lo_ _", image: "img1" },
-  { leftId: 3, right: "_ueen", image: "img5" },
-  { leftId: 4, right: "so_ _", image: "img3" },
-  { leftId: 5, right: "fo_", image: "img6" },
-  { leftId: 6, right: "_ow", image: "img2" },
-  { leftId: 1, right: "fo_", image: "img6" },
-  { leftId: 5, right: "bo_", image: "img4" },
-  { leftId: 4, right: "lo_ _", image: "img1" },
-  { leftId: 2, right: "so_ _", image: "img3" },
-
+// 🔥 استبدل correctMatches بهذا:
+const correctGroups = [
+  {
+    image: "img4",
+    right: "bo_",
+    leftIds: [1, 5],
+  },
+  {
+    image: "img6",
+    right: "fo_",
+    leftIds: [5, 1],
+  },
+  {
+    image: "img1",
+    right: "lo_ _",
+    leftIds: [2, 4],
+  },
+  {
+    image: "img3",
+    right: "so_ _",
+    leftIds: [4, 2],
+  },
+  {
+    image: "img5",
+    right: "_ueen",
+    leftIds: [3],
+  },
+  {
+    image: "img2",
+    right: "_ow",
+    leftIds: [6],
+  },
 ];
 /* ================= COMPONENT ================= */
 
@@ -172,11 +192,10 @@ const Unit2_Page5_Q1 = () => {
   };
 
   /* ================= CHECK ================= */
-
   const checkAnswers = () => {
     if (checked || locked) return;
 
-    if (lines.length < correctMatches.length * 2) {
+    if (lines.length === 0) {
       ValidationAlert.info(
         "Pay attention!",
         "Please connect all the pairs before checking.",
@@ -186,23 +205,24 @@ const Unit2_Page5_Q1 = () => {
 
     let score = 0;
     let wrong = [];
-    let wrongInputsArr = [];
 
-    setWrongInputs(wrongInputsArr);
+    correctGroups.forEach((group) => {
+      const hasCorrectConnection = group.leftIds.some((leftId) => {
+        const leftToImg = lines.some(
+          (l) => l.leftId === leftId && l.image === group.image,
+        );
 
-    correctMatches.forEach((c) => {
-      const leftToImg = lines.some(
-        (l) => l.leftId === c.leftId && l.image === c.image,
-      );
+        const imgToRight = lines.some(
+          (l) => l.image === group.image && l.right === group.right,
+        );
 
-      const imgToRight = lines.some(
-        (l) => l.image === c.image && l.right === c.right,
-      );
+        return leftToImg && imgToRight;
+      });
 
-      if (leftToImg && imgToRight) {
+      if (hasCorrectConnection) {
         score++;
       } else {
-        wrong.push(c.leftId);
+        wrong.push(...group.leftIds);
       }
     });
 
@@ -210,15 +230,15 @@ const Unit2_Page5_Q1 = () => {
     setChecked(true);
     setLocked(true);
 
-    const total = correctMatches.length;
+    const total = correctGroups.length;
     const color = score === total ? "green" : score === 0 ? "red" : "orange";
 
     ValidationAlert[
       score === total ? "success" : score === 0 ? "error" : "warning"
     ](
       `<div style="font-size:20px;text-align:center;color:${color}">
-        <b>Score: ${score} / ${total}</b>
-      </div>`,
+      <b>Score: ${score} / ${total}</b>
+    </div>`,
     );
   };
 
@@ -228,10 +248,13 @@ const Unit2_Page5_Q1 = () => {
     requestAnimationFrame(() => {
       const finalLines = [];
 
-      correctMatches.forEach((c) => {
-        const leftEl = document.querySelector(`[data-left-id="${c.leftId}"]`);
-        const imgEl = document.querySelector(`[data-image="${c.image}"]`);
-        const rightEl = document.querySelector(`[data-right="${c.right}"]`);
+      correctGroups.forEach((group) => {
+        // 🔥 ناخذ أول خيار فقط
+        const leftId = group.leftIds[0];
+
+        const leftEl = document.querySelector(`[data-left-id="${leftId}"]`);
+        const imgEl = document.querySelector(`[data-image="${group.image}"]`);
+        const rightEl = document.querySelector(`[data-right="${group.right}"]`);
 
         if (!leftEl || !imgEl || !rightEl) return;
 
@@ -240,6 +263,7 @@ const Unit2_Page5_Q1 = () => {
         const imgStartDot = imgEl.querySelector(".start-dot");
         const rightDot = rightEl.querySelector(".end-dot");
 
+        // left → image
         if (leftDot && imgEndDot) {
           const p1 = getCenter(leftDot);
           const p2 = getCenter(imgEndDot);
@@ -251,6 +275,7 @@ const Unit2_Page5_Q1 = () => {
           });
         }
 
+        // image → right
         if (imgStartDot && rightDot) {
           const p1 = getCenter(imgStartDot);
           const p2 = getCenter(rightDot);

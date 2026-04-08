@@ -6,28 +6,86 @@ import img2 from "../../../assets/imgs/Right 2 Unit 1 Stellas Family/Page 8/Page
 
 const Page8_Q4 = () => {
   const grid = [
-    "d","t","h","e","y","t","a","d","g","b","n","m","v","g","l","i","k","e","x","n","s","r","o","l","t","o",
-    "h","f","e","a","t","b","x","a","z","b","k","g","r","a","s","s","h","a","f","g","h","r","t","f","b","i",
-    "p","m","o","l","k","i"
+    "d",
+    "t",
+    "h",
+    "e",
+    "y",
+    "t",
+    "a",
+    "d",
+    "g",
+    "b",
+    "n",
+    "m",
+    "v",
+    "g",
+    "l",
+    "i",
+    "k",
+    "e",
+    "x",
+    "n",
+    "s",
+    "r",
+    "o",
+    "l",
+    "t",
+    "o",
+    "h",
+    "f",
+    "e",
+    "a",
+    "t",
+    "b",
+    "x",
+    "a",
+    "z",
+    "b",
+    "k",
+    "g",
+    "r",
+    "a",
+    "s",
+    "s",
+    "h",
+    "a",
+    "f",
+    "g",
+    "h",
+    "r",
+    "t",
+    "f",
+    "b",
+    "i",
+    "p",
+    "m",
+    "o",
+    "l",
+    "k",
+    "i",
   ];
 
   const letters = grid;
 
   const wordsToFind = ["they", "like", "to", "eat", "grass"];
 
-  // ✅ الحل بالـ index
+  // 🔥 تعديل 1: أضفنا order لكل كلمة عشان نعرف مكانها بالجملة
   const correctAnswers = [
-    { word: "they", indexes: [1, 2, 3, 4] },
-    { word: "like", indexes: [14, 15, 16, 17] },
-    { word: "to", indexes:  [24,25] },
-    { word: "eat", indexes: [ 28, 29,30] },
-    { word: "grass", indexes: [37, 38, 39, 40, 41] },
+    { word: "they", indexes: [1, 2, 3, 4], order: 0 },
+    { word: "like", indexes: [14, 15, 16, 17], order: 1 },
+    { word: "to", indexes: [24, 25], order: 2 },
+    { word: "eat", indexes: [28, 29, 30], order: 3 },
+    { word: "grass", indexes: [37, 38, 39, 40, 41], order: 4 },
   ];
 
-  const [sentence, setSentence] = useState("");
+  // 🔥 تعديل 2: عرفنا الجملة الكاملة بدل ما نبنيها ديناميك
+  const fullSentence = ["they", "like", "to", "eat", "grass"];
+
   const [selected, setSelected] = useState([]);
+  const [locked, setLocked] = useState(false);
   const [currentWord, setCurrentWord] = useState("");
-  const [foundWords, setFoundWords] = useState([]); // ⬅️ index
+  const [foundWords, setFoundWords] = useState([]);
   const [coloredCells, setColoredCells] = useState([]);
 
   const handleClick = (letter, index) => {
@@ -36,7 +94,6 @@ const Page8_Q4 = () => {
     if (selected.includes(index)) {
       const cutIndex = selected.indexOf(index);
       const newSelected = selected.slice(0, cutIndex);
-
       const newWord = newSelected.map((i) => letters[i]).join("");
 
       setSelected(newSelected);
@@ -52,23 +109,37 @@ const Page8_Q4 = () => {
     const matchedIndex = correctAnswers.findIndex(
       (item) =>
         item.word === currentWord &&
-        JSON.stringify(item.indexes) === JSON.stringify(selected)
+        JSON.stringify(item.indexes) === JSON.stringify(selected),
     );
 
     if (matchedIndex !== -1 && !foundWords.includes(matchedIndex)) {
       setFoundWords((prev) => [...prev, matchedIndex]);
       setColoredCells((prev) => [...prev, ...selected]);
 
-      setSentence((prev) =>
-        prev === "" ? currentWord : prev + " " + currentWord
-      );
+      // 🔥 تعديل 3: حذفنا setSentence بالكامل (ما عاد نستخدم sentence state)
 
       setSelected([]);
       setCurrentWord("");
     }
   }, [currentWord]);
 
+  // 🔥 تعديل 4 (أهم جزء):
+  // هون بنبني الجملة المخفية / المنكشفة حسب الكلمات اللي انوجدت
+  const displayedSentence = fullSentence.map((word, index) => {
+    const isFound = foundWords.some((i) => correctAnswers[i].order === index);
+
+    const SLOT_LENGTH = 8; // 🔥 طول ثابت لكل كلمة
+
+    if (isFound) {
+      return word.padEnd(SLOT_LENGTH, "");
+    }
+
+    return "_".repeat(SLOT_LENGTH);
+  });
+
   const checkAnswers = () => {
+    if (locked) return;
+
     const total = wordsToFind.length;
     const score = foundWords.length;
 
@@ -82,6 +153,8 @@ const Page8_Q4 = () => {
     } else {
       ValidationAlert.warning(`<b>Score: ${score} / ${total}</b>`);
     }
+
+    setLocked(true);
   };
 
   const reset = () => {
@@ -89,7 +162,7 @@ const Page8_Q4 = () => {
     setCurrentWord("");
     setFoundWords([]);
     setColoredCells([]);
-    setSentence("");
+    setLocked(false);
   };
 
   const showAnswers = () => {
@@ -103,7 +176,9 @@ const Page8_Q4 = () => {
     setColoredCells(allCells);
     setSelected([]);
     setCurrentWord("");
-    setSentence(correctAnswers.map((w) => w.word).join(" "));
+    setLocked(true);
+
+    // 🔥 تعديل 5: حذفنا setSentence هون كمان
   };
 
   return (
@@ -148,10 +223,13 @@ const Page8_Q4 = () => {
 
           <div className="flex justify-center items-center">
             <img src={img1} style={{ height: "90px", width: "90px" }} />
+
+            {/* 🔥 تعديل 6: بدل sentence استخدمنا displayedSentence */}
             <input
               className="answer-input-CB-unit3-p5-q4"
-              value={sentence}
+              value={displayedSentence.join(" ")}
               readOnly
+              style={{ fontFamily: "monospace" }} // 🔥 مهم جدا
             />
             <img src={img2} style={{ height: "90px", width: "90px" }} />
           </div>

@@ -3,23 +3,20 @@ import page_3 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photog
 import "./Unit4_Page3.css";
 import grammarSound from "../../../assets/audio/ClassBook/U 4/cd22pg30-grammar1-adult-lady_zqCjverC.mp3";
 import sound1 from "../../../assets/audio/ClassBook/U 4/pg30-11-grammer1Marge1.mp3";
-import sound2 from "../../../assets/audio/ClassBook/U 4/Pg30_1.2_Adult Lady.mp3";
-import sound3 from "../../../assets/audio/ClassBook/U 4/Pg30_1.3_Adult Lady.mp3";
-import sound4 from "../../../assets/audio/ClassBook/U 4/Pg30_1.4_Adult Lady.mp3";
 import sound5 from "../../../assets/audio/ClassBook/U 4/Pg30_2.1_Harley.mp3";
 import sound6 from "../../../assets/audio/ClassBook/U 4/Pg30_2.2_Stella.mp3";
 import sound7 from "../../../assets/audio/ClassBook/U 4/Pg30_3.1_Hansel.mp3";
 import sound8 from "../../../assets/audio/ClassBook/U 4/Pg30_3.2_Helen.mp3";
-
+import { useContext } from "react";
+import { AudioContext } from "../../../AudioContext";
 import AudioWithCaption from "../../AudioWithCaption";
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import pauseBtn from "../../../assets/Page 01/Right Video Button.svg";
 import video from "../../../assets/video/grade2-unit4-page30.mp4";
 const Unit4_Page3 = ({ openPopup }) => {
-  const audioRef = useRef(null);
+  const { audioRef, activeId, setActiveId } = useContext(AudioContext);
   const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [activeAreaIndex, setActiveAreaIndex] = useState(null);
   const captionsExample = [
     {
       start: 0.52,
@@ -46,13 +43,11 @@ const Unit4_Page3 = ({ openPopup }) => {
   ];
 
   const clickableAreas = [
-    { x1: 7.27, y1: 9.5, x2: 92.59, y2: 20.32, sound: sound1 },
-
-    { x1: 5.72, y1: 53.37, x2: 31.7, y2: 60.53, sound: sound5 },
-
-    { x1: 58.85, y1: 30.67, x2: 84.83, y2: 33.72, sound: sound6 },
-    { x1: 8.62, y1: 63.72, x2: 31.89, y2: 70.88, sound: sound7 },
-    { x1: 47.79, y1: 89.16, x2: 62.34, y2: 92.05, sound: sound8 },
+    { id: "pg7-1", x1: 7.27, y1: 9.5, x2: 92.59, y2: 20.32, sound: sound1 },
+    { id: "pg7-2", x1: 5.72, y1: 53.37, x2: 31.7, y2: 60.53, sound: sound5 },
+    { id: "pg7-3", x1: 58.85, y1: 30.67, x2: 84.83, y2: 33.72, sound: sound6 },
+    { id: "pg7-4", x1: 8.62, y1: 63.72, x2: 31.89, y2: 70.88, sound: sound7 },
+    { id: "pg7-5", x1: 47.79, y1: 89.16, x2: 62.34, y2: 92.05, sound: sound8 },
   ];
   const handleImageClick = (e) => {
     const rect = e.target.getBoundingClientRect();
@@ -60,21 +55,22 @@ const Unit4_Page3 = ({ openPopup }) => {
     const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
     console.log("X%:", xPercent.toFixed(2), "Y%:", yPercent.toFixed(2));
   };
-  const playSound = (soundPath) => {
-    if (audioRef.current) {
-      audioRef.current.src = soundPath;
-      audioRef.current.play();
-      setIsPlaying(true);
-      setHoveredAreaIndex(null); // إزالة الهايلايت عند بدء الصوت
+const playSound = (soundPath, id) => {
+    if (!audioRef.current) return;
 
-      audioRef.current.onended = () => {
-        setIsPlaying(false);
-        setHoveredAreaIndex(null);
-        setActiveAreaIndex(null); // مسح الهايلايت بعد انتهاء الصوت
-      };
-    }
+    // 🔥 وقف أي صوت شغال بأي صفحة
+    audioRef.current.pause();
+    audioRef.current.currentTime = 0;
+
+    audioRef.current.src = soundPath;
+    audioRef.current.play();
+
+    setActiveId(id); // 🔥 هذا المهم
+
+    audioRef.current.onended = () => {
+      setActiveId(null);
+    };
   };
-
   return (
     <div
       className="page1-img-wrapper"
@@ -90,9 +86,7 @@ const Unit4_Page3 = ({ openPopup }) => {
         <div
           key={index}
           className={`clickable-area ${
-            hoveredAreaIndex === index || activeAreaIndex === index
-              ? "highlight"
-              : ""
+            activeId === area.id ? "highlight" : ""
           }`}
           style={{
             position: "absolute",
@@ -102,14 +96,13 @@ const Unit4_Page3 = ({ openPopup }) => {
             height: `${area.y2 - area.y1}%`,
           }}
           onClick={() => {
-            setActiveAreaIndex(index); // لتثبيت الهايلايت أثناء الصوت
-            playSound(area.sound);
+            playSound(area.sound, area.id);
           }}
           onMouseEnter={() => {
             if (!isPlaying) setHoveredAreaIndex(index);
           }}
           onMouseLeave={() => {
-            if (!isPlaying) setHoveredAreaIndex(null);
+            if (!isPlaying ) setHoveredAreaIndex(null);
           }}
         ></div>
       ))}

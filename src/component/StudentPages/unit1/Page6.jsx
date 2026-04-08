@@ -7,70 +7,70 @@ import sound6 from "../../../assets/audio/ClassBook/U 1/Pg6_2.2_Stella.mp3";
 import sound7 from "../../../assets/audio/ClassBook/U 1/Pg6_3.2_Stella.mp3";
 import sound9 from "../../../assets/audio/ClassBook/U 1/Pg6_4.2_Stella.mp3";
 import AudioWithCaption from "../../AudioWithCaption";
+import { useContext } from "react";
+import { AudioContext } from "../../../AudioContext";
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import pauseBtn from "../../../assets/Page 01/Right Video Button.svg";
 import video from "../../../assets/video/grade2-unit1-page6.mp4";
-import "./Page6.css"
+import "./Page6.css";
 const Page6 = ({ openPopup }) => {
-  const audioRef = useRef(null);
+  const { audioRef, activeId, setActiveId } = useContext(AudioContext);
   const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [activeAreaIndex, setActiveAreaIndex] = useState(null);
-const captionsExample = [
-  {
-    start: 0.539,
-    end: 4.819,
-    text: "Page 6, exercise 1. Right grammar."
-  },
-  {
-    start: 5.920,
-    end: 8.840,
-    text: "Who's he? Who's she?"
-  },
-  {
-    start: 9.939,
-    end: 10.739,
-    text: "Who's he?"
-  },
-  {
-    start: 11.840,
-    end: 12.960,
-    text: "He's my uncle."
-  },
-  {
-    start: 14.019,
-    end: 17.039,
-    text: "He's my brother. Who's she?"
-  },
-  {
-    start: 18.159,
-    end: 21.399,
-    text: "She's my mother. She's my sister."
-  },
-  {
-    start: 22.439,
-    end: 24.299,
-    text: "Who's she?"
-  },
-  {
-    start: 24.299,
-    end: 29.779,
-    text: "She's my sister. She's Sarah. He's my brother. He's John."
-  },
-  {
-    start: 30.920,
-    end: 34.000,
-    text: "She's my mother. She's Mrs. Dalton."
-  }
-];
+  const captionsExample = [
+    {
+      start: 0.539,
+      end: 4.819,
+      text: "Page 6, exercise 1. Right grammar.",
+    },
+    {
+      start: 5.92,
+      end: 8.84,
+      text: "Who's he? Who's she?",
+    },
+    {
+      start: 9.939,
+      end: 10.739,
+      text: "Who's he?",
+    },
+    {
+      start: 11.84,
+      end: 12.96,
+      text: "He's my uncle.",
+    },
+    {
+      start: 14.019,
+      end: 17.039,
+      text: "He's my brother. Who's she?",
+    },
+    {
+      start: 18.159,
+      end: 21.399,
+      text: "She's my mother. She's my sister.",
+    },
+    {
+      start: 22.439,
+      end: 24.299,
+      text: "Who's she?",
+    },
+    {
+      start: 24.299,
+      end: 29.779,
+      text: "She's my sister. She's Sarah. He's my brother. He's John.",
+    },
+    {
+      start: 30.92,
+      end: 34.0,
+      text: "She's my mother. She's Mrs. Dalton.",
+    },
+  ];
   // 🟩 مناطق مستطيلة (x1,y1,x2,y2)
   const clickableAreas = [
-    { x1: 5.91, y1:8.44, x2: 30.54, y2: 20.01, sound: sound1 },
-    { x1: 58.65, y1: 8.28, x2: 93.56, y2: 20.01, sound: sound2 },
-    { x1: 7.46, y1: 24.43, x2: 26.08, y2: 31.59, sound: sound6 },
-    { x1: 56.91, y1: 24.73, x2: 77.66, y2: 32.2, sound: sound7 },
-    { x1: 8.82, y1: 62.66, x2: 41.40, y2: 68.14, sound: sound9 },
-
+    { id: "pg1-1",x1: 5.91, y1: 8.44, x2: 30.54, y2: 20.01, sound: sound1 },
+    { id: "pg1-2",x1: 58.65, y1: 8.28, x2: 93.56, y2: 20.01, sound: sound2 },
+    { id: "pg1-3",x1: 7.46, y1: 24.43, x2: 26.08, y2: 31.59, sound: sound6 },
+    { id: "pg1-4",x1: 56.91, y1: 24.73, x2: 77.66, y2: 32.2, sound: sound7 },
+    { id: "pg1-5",x1: 8.82, y1: 62.66, x2: 41.4, y2: 68.14, sound: sound9 },
   ];
   const handleImageClick = (e) => {
     const rect = e.target.getBoundingClientRect();
@@ -78,19 +78,21 @@ const captionsExample = [
     const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
     console.log("X%:", xPercent.toFixed(2), "Y%:", yPercent.toFixed(2));
   };
-  const playSound = (soundPath) => {
-    if (audioRef.current) {
-      audioRef.current.src = soundPath;
-      audioRef.current.play();
-      setIsPlaying(true);
-      setHoveredAreaIndex(null); // إزالة الهايلايت عند بدء الصوت
+const playSound = (soundPath, id) => {
+    if (!audioRef.current) return;
 
-      audioRef.current.onended = () => {
-        setIsPlaying(false);
-        setHoveredAreaIndex(null);
-        setActiveAreaIndex(null); // مسح الهايلايت بعد انتهاء الصوت
-      };
-    }
+    // 🔥 وقف أي صوت شغال بأي صفحة
+    audioRef.current.pause();
+    audioRef.current.currentTime = 0;
+
+    audioRef.current.src = soundPath;
+    audioRef.current.play();
+
+    setActiveId(id); // 🔥 هذا المهم
+
+    audioRef.current.onended = () => {
+      setActiveId(null);
+    };
   };
 
   return (
@@ -99,16 +101,12 @@ const captionsExample = [
       onClick={handleImageClick}
       style={{ backgroundImage: `url(${page_6})` }}
     >
-   
-
       {/* رسم المستطيلات التفاعلية */}
       {clickableAreas.map((area, index) => (
         <div
           key={index}
           className={`clickable-area ${
-            hoveredAreaIndex === index || activeAreaIndex === index
-              ? "highlight"
-              : ""
+            activeId === area.id ? "highlight" : ""
           }`}
           style={{
             position: "absolute",
@@ -118,14 +116,13 @@ const captionsExample = [
             height: `${area.y2 - area.y1}%`,
           }}
           onClick={() => {
-            setActiveAreaIndex(index); // لتثبيت الهايلايت أثناء الصوت
-            playSound(area.sound);
+            playSound(area.sound, area.id);
           }}
           onMouseEnter={() => {
             if (!isPlaying) setHoveredAreaIndex(index);
           }}
           onMouseLeave={() => {
-            if (!isPlaying) setHoveredAreaIndex(null);
+            if (!isPlaying ) setHoveredAreaIndex(null);
           }}
         ></div>
       ))}

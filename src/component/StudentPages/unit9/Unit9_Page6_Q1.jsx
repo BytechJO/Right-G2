@@ -45,18 +45,27 @@ const Unit9_Page6_Q1 = () => {
     const { destination, draggableId } = result;
     if (!destination || locked) return;
 
-    // إذا رجع للبنك
-    if (destination.droppableId === "bank") return;
+    // 🔥 استخراج النص الحقيقي
+    const value = draggableId.startsWith("bank-")
+      ? draggableId.replace("bank-", "")
+      : draggableId.split("-").slice(2).join("-");
 
     setAnswers((prev) => {
       const updated = { ...prev };
 
-      // حذف الجملة من أي مكان سابق
+      // 🧹 احذف من أي مكان
       Object.keys(updated).forEach((key) => {
-        if (updated[key] === draggableId) delete updated[key];
+        if (updated[key] === value) delete updated[key];
       });
 
-      updated[destination.droppableId] = draggableId;
+      // 🟡 إذا رجع للبنك
+      if (destination.droppableId === "bank") {
+        return updated;
+      }
+
+      // 🟢 غير هيك
+      updated[destination.droppableId] = value;
+
       return updated;
     });
   };
@@ -141,8 +150,8 @@ const Unit9_Page6_Q1 = () => {
                   const isUsed = Object.values(answers).includes(s);
                   return (
                     <Draggable
-                      key={s}
-                      draggableId={s}
+                      key={`bank-${s}`}
+                      draggableId={`bank-${s}`}
                       index={index}
                       isDragDisabled={locked || isUsed}
                     >
@@ -150,7 +159,7 @@ const Unit9_Page6_Q1 = () => {
                         <div
                           ref={provided.innerRef}
                           {...provided.draggableProps}
-                          {...(!isUsed && provided.dragHandleProps)}
+                          {...provided.dragHandleProps}
                           className={`px-4 py-2 rounded-full text-center
                             ${isUsed ? "bg-gray-300 text-gray-500 cursor-not-allowed" : "bg-blue-200 cursor-grab"}`}
                         >
@@ -185,7 +194,7 @@ const Unit9_Page6_Q1 = () => {
                     >
                       {answers[`slot-${q.id}`] && (
                         <Draggable
-                          draggableId={answers[`slot-${q.id}`]}
+                          draggableId={`slot-${q.id}-${answers[`slot-${q.id}`]}`}
                           index={0}
                           isDragDisabled={locked}
                         >

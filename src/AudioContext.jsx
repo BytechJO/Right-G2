@@ -1,12 +1,14 @@
-import { createContext, useState } from "react";
+import { createContext, useRef, useState } from "react";
 
 export const AudioContext = createContext();
 
 export const AudioProvider = ({ children }) => {
-  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+  const audioRef = useRef(null);
+  const [activeId, setActiveId] = useState(null);
 
   return (
-    <AudioContext.Provider value={{ isAudioPlaying, setIsAudioPlaying }}>
+    <AudioContext.Provider value={{ audioRef, activeId, setActiveId }}>
+      <audio ref={audioRef} style={{ display: "none" }} /> {/* ✅ هون */}
       {children}
     </AudioContext.Provider>
   );

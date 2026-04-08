@@ -58,11 +58,15 @@ const captions = [
     const { destination, draggableId } = result;
     if (!destination || locked) return;
 
-    const word = draggableId.replace("word-", "");
+    // 🔥 استخراج الكلمة الحقيقية
+    const word = draggableId.startsWith("bank-")
+      ? draggableId.replace("bank-", "")
+      : draggableId.split("-").slice(2).join("-");
 
     setDroppedWords((prev) => {
       const updated = { ...prev };
 
+      // حذف من أي مكان
       Object.keys(updated).forEach((slotId) => {
         if (updated[slotId] === word) {
           delete updated[slotId];
@@ -79,7 +83,6 @@ const captions = [
 
     setShowResult(false);
   };
-
   const removeWordFromSlot = (slotId) => {
     if (locked) return;
 
@@ -218,7 +221,7 @@ const captions = [
                   return (
                     <Draggable
                       key={word}
-                      draggableId={`word-${word}`}
+                      draggableId={`bank-${word}`}
                       index={index}
                       isDragDisabled={locked || isUsed}
                     >
@@ -226,7 +229,7 @@ const captions = [
                         <div
                           ref={provided.innerRef}
                           {...provided.draggableProps}
-                          {...(!isUsed && provided.dragHandleProps)}
+                          {...(provided.dragHandleProps)}
                           style={{
                             padding: "8px 18px",
                             borderRadius: "12px",
@@ -348,7 +351,7 @@ const captions = [
                         >
                           {droppedWord && (
                             <Draggable
-                              draggableId={`word-${droppedWord}`}
+                              draggableId={`slot-${q.id}-${droppedWord}`}
                               index={0}
                               isDragDisabled={locked}
                             >

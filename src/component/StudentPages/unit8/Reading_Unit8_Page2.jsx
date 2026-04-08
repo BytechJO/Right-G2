@@ -8,16 +8,16 @@ import sound2 from "../../../assets/audio/ClassBook/U 8/Pg75_1.6_Adult Lady.mp3"
 import sound3 from "../../../assets/audio/ClassBook/U 8/Pg75_1.7_Adult Lady.mp3";
 import sound4 from "../../../assets/audio/ClassBook/U 8/Pg75_1.8_Adult Lady.mp3";
 const Reading_Unit8_Page2 = () => {
-  const audioRef = useRef(null);
+  const { audioRef, activeId, setActiveId } = useContext(AudioContext);
+
   const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeAreaIndex, setActiveAreaIndex] = useState(null);
-  const { isAudioPlaying, setIsAudioPlaying } = useContext(AudioContext);
   const clickableAreas = [
-    { x1: 9.0, y1: 39.0, x2: 45.8, y2: 43.9, sound: sound1 },
-    { x1: 49.0, y1: 39.2, x2: 85.4, y2: 43.1, sound: sound2 },
-    { x1: 9.0, y1: 84.5, x2: 45.0, y2: 91.2, sound: sound3 },
-    { x1: 49.0, y1: 84.5, x2: 86.5, y2: 91.0, sound: sound4 },
+    { id: "p8-1", x1: 9.0, y1: 39.0, x2: 45.8, y2: 43.9, sound: sound1 },
+    { id: "p8-2", x1: 49.0, y1: 39.2, x2: 85.4, y2: 43.1, sound: sound2 },
+    { id: "p8-3", x1: 9.0, y1: 84.5, x2: 45.0, y2: 91.2, sound: sound3 },
+    { id: "p8-4", x1: 49.0, y1: 84.5, x2: 86.5, y2: 91.0, sound: sound4 },
   ];
   const handleImageClick = (e) => {
     const rect = e.target.getBoundingClientRect();
@@ -25,23 +25,21 @@ const Reading_Unit8_Page2 = () => {
     const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
     console.log("X%:", xPercent.toFixed(2), "Y%:", yPercent.toFixed(2));
   };
-  const playSound = (soundPath) => {
-    if (isAudioPlaying) return; // 🚫 امنع صوت جديد
+  const playSound = (soundPath, id) => {
+    if (!audioRef.current) return;
 
-    if (audioRef.current) {
-      audioRef.current.src = soundPath;
-      audioRef.current.play();
+    // 🔥 وقف أي صوت شغال بأي صفحة
+    audioRef.current.pause();
+    audioRef.current.currentTime = 0;
 
-      setIsPlaying(true);
-      setIsAudioPlaying(true); // 🔥 مهم
+    audioRef.current.src = soundPath;
+    audioRef.current.play();
 
-      audioRef.current.onended = () => {
-        setIsPlaying(false);
-        setIsAudioPlaying(false); // 🔥 رجعها
-        setHoveredAreaIndex(null);
-        setActiveAreaIndex(null);
-      };
-    }
+    setActiveId(id); // 🔥 هذا المهم
+
+    audioRef.current.onended = () => {
+      setActiveId(null);
+    };
   };
 
   return (
@@ -60,9 +58,7 @@ const Reading_Unit8_Page2 = () => {
         <div
           key={index}
           className={`clickable-area ${
-            hoveredAreaIndex === index || activeAreaIndex === index
-              ? "highlight"
-              : ""
+            activeId === area.id ? "highlight" : ""
           }`}
           style={{
             position: "absolute",
@@ -72,16 +68,13 @@ const Reading_Unit8_Page2 = () => {
             height: `${area.y2 - area.y1}%`,
           }}
           onClick={() => {
-            if (isAudioPlaying || isPlaying) return; // 🚫 لا تعمل شيء إذا في صوت شغال
-
-            setActiveAreaIndex(index); // لتثبيت الهايلايت أثناء الصوت
-            playSound(area.sound);
+            playSound(area.sound, area.id);
           }}
           onMouseEnter={() => {
-            if (!isPlaying || !isAudioPlaying) setHoveredAreaIndex(index);
+            if (!isPlaying) setHoveredAreaIndex(index);
           }}
           onMouseLeave={() => {
-            if (!isPlaying || !isAudioPlaying) setHoveredAreaIndex(null);
+            if (!isPlaying) setHoveredAreaIndex(null);
           }}
         ></div>
       ))}

@@ -7,14 +7,15 @@ import sound2 from "../../../assets/audio/ClassBook/U 5/pg43-22-adult-lady_uzzpi
 import sound7 from "../../../assets/audio/ClassBook/U 5/Pg43_3.1_Adult Lady.mp3";
 import sound8 from "../../../assets/audio/ClassBook/U 5/Pg43_4.1_Adult Lady.mp3";
 import sound9 from "../../../assets/audio/ClassBook/U 5/Pg43_5.1_Helen.mp3";
-
+import { useContext } from "react";
+import { AudioContext } from "../../../AudioContext";
 import video from "../../../assets/video/grade2-unit5-page43.mp4";
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import pauseBtn from "../../../assets/Page 01/Right Video Button.svg";
 import AudioWithCaption from "../../AudioWithCaption";
 
 const Unit5_Page4 = ({ openPopup }) => {
-  const audioRef = useRef(null);
+  const { audioRef, activeId, setActiveId } = useContext(AudioContext);
   const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeAreaIndex, setActiveAreaIndex] = useState(null);
@@ -44,11 +45,11 @@ const Unit5_Page4 = ({ openPopup }) => {
   ];
 
   const clickableAreas = [
-    { x1: 7.15, y1: 9.00, x2: 39.73, y2: 19.86, sound: sound1 },
-    { x1: 61.06, y1: 9.00, x2: 92.67, y2: 19.86, sound: sound2 },
-    { x1: 8.90, y1: 26.41, x2: 33.9, y2: 31.28, sound: sound7 },
-    { x1: 68.44, y1: 26.26, x2: 89.76, y2: 31.29, sound: sound8 },
-    { x1: 63.00, y1: 65.55, x2: 81.81, y2: 70.73, sound: sound9 },
+    { id: "pg10-1",x1: 7.15, y1: 9.00, x2: 39.73, y2: 19.86, sound: sound1 },
+    { id: "pg10-2",x1: 61.06, y1: 9.00, x2: 92.67, y2: 19.86, sound: sound2 },
+    { id: "pg10-3",x1: 8.90, y1: 26.41, x2: 33.9, y2: 31.28, sound: sound7 },
+    { id: "pg10-4",x1: 68.44, y1: 26.26, x2: 89.76, y2: 31.29, sound: sound8 },
+    { id: "pg10-5",x1: 63.00, y1: 65.55, x2: 81.81, y2: 70.73, sound: sound9 },
   ];
 
   const handleImageClick = (e) => {
@@ -57,21 +58,22 @@ const Unit5_Page4 = ({ openPopup }) => {
     const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
     console.log("X%:", xPercent.toFixed(2), "Y%:", yPercent.toFixed(2));
   };
-  const playSound = (soundPath) => {
-    if (audioRef.current) {
-      audioRef.current.src = soundPath;
-      audioRef.current.play();
-      setIsPlaying(true);
-      setHoveredAreaIndex(null); // إزالة الهايلايت عند بدء الصوت
+const playSound = (soundPath, id) => {
+    if (!audioRef.current) return;
 
-      audioRef.current.onended = () => {
-        setIsPlaying(false);
-        setHoveredAreaIndex(null);
-        setActiveAreaIndex(null); // مسح الهايلايت بعد انتهاء الصوت
-      };
-    }
+    // 🔥 وقف أي صوت شغال بأي صفحة
+    audioRef.current.pause();
+    audioRef.current.currentTime = 0;
+
+    audioRef.current.src = soundPath;
+    audioRef.current.play();
+
+    setActiveId(id); // 🔥 هذا المهم
+
+    audioRef.current.onended = () => {
+      setActiveId(null);
+    };
   };
-
   return (
     <div
       className="page1-img-wrapper"
@@ -82,9 +84,7 @@ const Unit5_Page4 = ({ openPopup }) => {
         <div
           key={index}
           className={`clickable-area ${
-            hoveredAreaIndex === index || activeAreaIndex === index
-              ? "highlight"
-              : ""
+            activeId === area.id ? "highlight" : ""
           }`}
           style={{
             position: "absolute",
@@ -93,15 +93,14 @@ const Unit5_Page4 = ({ openPopup }) => {
             width: `${area.x2 - area.x1}%`,
             height: `${area.y2 - area.y1}%`,
           }}
-          onClick={() => {
-            setActiveAreaIndex(index); // لتثبيت الهايلايت أثناء الصوت
-            playSound(area.sound);
+         onClick={() => {
+            playSound(area.sound, area.id);
           }}
           onMouseEnter={() => {
             if (!isPlaying) setHoveredAreaIndex(index);
           }}
           onMouseLeave={() => {
-            if (!isPlaying) setHoveredAreaIndex(null);
+            if (!isPlaying ) setHoveredAreaIndex(null);
           }}
         ></div>
       ))}

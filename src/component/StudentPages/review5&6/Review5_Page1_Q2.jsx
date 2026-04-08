@@ -9,28 +9,28 @@ import img4 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 52/Ex B 4.
 const Review5_Page1_Q2 = () => {
   const items = [
     {
-      img: img1,
+      img: img4,
       start: "He likes",
       options: ["fruit", "burgers"],
       correct: "fruit",
       sentence: "He likes fruit.",
     },
     {
-      img: img2,
+      img: img3,
       start: "She likes",
       options: ["burgers", "rice"],
       correct: "burgers",
       sentence: "She likes burgers.",
     },
     {
-      img: img3,
+      img: img2,
       start: "She likes",
       options: ["fish", "cheese"],
       correct: "cheese",
       sentence: "She likes cheese.",
     },
     {
-      img: img4,
+      img: img1,
       start: "He likes",
       options: ["rice", "chicken"],
       correct: "chicken",

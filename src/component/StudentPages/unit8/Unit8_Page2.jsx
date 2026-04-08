@@ -47,8 +47,8 @@ const Unit8_Page2 = ({ openPopup }) => {
       },
       {
         text: "Helen doesn’t have?",
-        options: ["green jacket", "T-shirt or a tie", "white cap"],
-        correct: "T-shirt or a tie",
+        options: ["green jacket", "skirt or a scarf.", "white cap"],
+        correct: "skirt or a scarf.",
       },
     ],
   };

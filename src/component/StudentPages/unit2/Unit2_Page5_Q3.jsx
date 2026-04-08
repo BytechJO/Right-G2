@@ -15,21 +15,23 @@ const Unit2_Page5_Q3 = () => {
 
   const wordsToFind = ["the", "birds", "fly", "in", "the", "sky"];
 
-  // ✅ الحل بالـ index
+  // 🔥 تعديل 1: أضفنا order عشان نحدد مكان كل كلمة بالجملة
   const correctAnswers = [
-    { word: "the", indexes: [1, 2, 3] },
-    { word: "birds", indexes: [7, 8, 9, 10, 11] },
-    { word: "fly", indexes: [15, 16, 17] },
-    { word: "in", indexes: [25, 26] },
-    { word: "the", indexes: [36, 37, 38] },
-    { word: "sky", indexes: [59,60,61] },
+    { word: "the", indexes: [1, 2, 3], order: 0 },
+    { word: "birds", indexes: [7, 8, 9, 10, 11], order: 1 },
+    { word: "fly", indexes: [15, 16, 17], order: 2 },
+    { word: "in", indexes: [25, 26], order: 3 },
+    { word: "the", indexes: [36, 37, 38], order: 4 },
+    { word: "sky", indexes: [59,60,61], order: 5 },
   ];
 
-  const [sentence, setSentence] = useState("");
+  // 🔥 تعديل 2: الجملة الكاملة (بدل sentence state)
+  const fullSentence = ["the", "birds", "fly", "in", "the", "sky"];
+
   const [locked, setLocked] = useState(false);
   const [selected, setSelected] = useState([]);
   const [currentWord, setCurrentWord] = useState("");
-  const [foundWords, setFoundWords] = useState([]); // ⬅️ صار indexes
+  const [foundWords, setFoundWords] = useState([]);
   const [coloredCells, setColoredCells] = useState([]);
 
   const handleClick = (letter, index) => {
@@ -60,51 +62,44 @@ const Unit2_Page5_Q3 = () => {
       setFoundWords((prev) => [...prev, matchedIndex]);
       setColoredCells((prev) => [...prev, ...selected]);
 
-      setSentence((prev) =>
-        prev === "" ? currentWord : prev + " " + currentWord
-      );
-
+      // 🔥 تعديل 3: حذفنا setSentence
       setSelected([]);
       setCurrentWord("");
     }
   }, [currentWord]);
 
+  // 🔥 تعديل 4 (أهم شي): بناء الجملة بالـ slots
+  const displayedSentence = fullSentence.map((word, index) => {
+    const isFound = foundWords.some(
+      (i) => correctAnswers[i].order === index
+    );
+
+    const SLOT_LENGTH = 8; // طول ثابت لكل كلمة
+
+    if (isFound) {
+      return word.padEnd(SLOT_LENGTH, "");
+    }
+
+    return "_".repeat(SLOT_LENGTH);
+  });
+
   const checkAnswers = () => {
     if (locked) return;
+
     const total = wordsToFind.length;
     const score = foundWords.length;
 
     if (foundWords.length === 0) {
-      ValidationAlert.info(`
-        <div style="font-size:20px;text-align:center;">
-          <b>Find all the words first!</b><br/>
-          <span style="color:#1d4f7b;font-weight:bold;">
-            Current Score: ${score} / ${total}
-          </span>
-        </div>
-      `);
+      ValidationAlert.info(`Find all the words first!`);
       return;
     }
 
-    if (score === 0) {
-      ValidationAlert.error(`
-        <div style="font-size:20px;text-align:center;">
-          <b style="color:red;">Score: 0 / ${total}</b>
-        </div>
-      `);
-    } else if (score < total) {
-      ValidationAlert.warning(`
-        <div style="font-size:20px;text-align:center;">
-          <b style="color:orange;">Score: ${score} / ${total}</b>
-        </div>
-      `);
+    if (score === total) {
+      ValidationAlert.success(`<b>Score: ${score} / ${total}</b>`);
     } else {
-      ValidationAlert.success(`
-        <div style="font-size:20px;text-align:center;">
-          <b style="color:green;">Score: ${score} / ${total}</b>
-        </div>
-      `);
+      ValidationAlert.warning(`<b>Score: ${score} / ${total}</b>`);
     }
+
     setLocked(true);
   };
 
@@ -113,7 +108,6 @@ const Unit2_Page5_Q3 = () => {
     setCurrentWord("");
     setFoundWords([]);
     setColoredCells([]);
-    setSentence("");
     setLocked(false);
   };
 
@@ -124,12 +118,13 @@ const Unit2_Page5_Q3 = () => {
       allCells.push(...item.indexes);
     });
 
-    setFoundWords(correctAnswers.map((_, i) => i)); // ✅ حل التكرار
+    setFoundWords(correctAnswers.map((_, i) => i));
     setColoredCells(allCells);
     setSelected([]);
     setCurrentWord("");
-    setSentence(correctAnswers.map((w) => w.word).join(" "));
     setLocked(true);
+
+    // 🔥 تعديل 5: ما في setSentence
   };
 
   return (
@@ -162,8 +157,8 @@ const Unit2_Page5_Q3 = () => {
                 <span
                   key={index}
                   className={`cell-CB-unit3-p5-q4 
-          ${isSelected ? "selected-CB-unit3-p5-q4" : ""}
-          ${isFound ? "found-cell-CB-unit3-p5-q4" : ""}`}
+                  ${isSelected ? "selected-CB-unit3-p5-q4" : ""}
+                  ${isFound ? "found-cell-CB-unit3-p5-q4" : ""}`}
                   onClick={() => handleClick(letter, index)}
                 >
                   {letter}
@@ -174,11 +169,15 @@ const Unit2_Page5_Q3 = () => {
 
           <div className="flex">
             <img src={img1} style={{ height: "80px", width: "80px" }} />
+
+            {/* 🔥 تعديل 6: استخدمنا displayedSentence بدل sentence */}
             <input
               className="answer-input-CB-unit3-p5-q4"
-              value={sentence}
+              value={displayedSentence.join(" ")}
               readOnly
+              style={{ fontFamily: "monospace" }} // مهم عشان يصطف صح
             />
+
             <img src={img2} style={{ height: "80px", width: "80px" }} />
           </div>
         </div>

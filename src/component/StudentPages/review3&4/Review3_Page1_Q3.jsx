@@ -33,9 +33,6 @@ const Review3_Page1_Q3 = () => {
   const [showCorrect, setShowCorrect] = useState(false);
   const [wrongMarks, setWrongMarks] = useState([]);
 
-  // =========================
-  // DRAG END (🔥 FIXED)
-  // =========================
   const onDragEnd = (result) => {
     const { destination, draggableId } = result;
     if (!destination || showCorrect) return;
@@ -59,9 +56,6 @@ const Review3_Page1_Q3 = () => {
     }
   };
 
-  // =========================
-  // SHOW ANSWERS (🔥 FIXED)
-  // =========================
   const showAnswers = () => {
     setQuestionInputs(
       items.map((item) =>
@@ -74,9 +68,6 @@ const Review3_Page1_Q3 = () => {
     setWrongMarks([]);
   };
 
-  // =========================
-  // RESET
-  // =========================
   const resetAll = () => {
     setQuestionInputs(items.map((item) => Array(item.blanksCount).fill("")));
     setAnswers(items.map(() => ""));
@@ -84,25 +75,10 @@ const Review3_Page1_Q3 = () => {
     setWrongMarks([]);
   };
 
-  // =========================
-  // CHECK ANSWERS (🔥 FIXED)
-  // =========================
   const checkAnswers = () => {
     if (showCorrect) return;
 
-    // 1️⃣ Check blanks
     for (let i = 0; i < items.length; i++) {
-      for (let j = 0; j < questionInputs[i].length; j++) {
-        if (!questionInputs[i][j]?.trim()) {
-          ValidationAlert.info(
-            "Oops!",
-            "Please complete all question blanks before checking.",
-          );
-          return;
-        }
-      }
-
-      // 2️⃣ Check answers
       if (!answers[i]?.trim()) {
         ValidationAlert.info(
           "Oops!",
@@ -117,7 +93,6 @@ const Review3_Page1_Q3 = () => {
     let wrong = [];
 
     items.forEach((item, i) => {
-      // blanks
       item.questionAnswers.forEach((correctWord, idx) => {
         total++;
         if (
@@ -130,7 +105,6 @@ const Review3_Page1_Q3 = () => {
         }
       });
 
-      // answers
       total++;
       if (answers[i]?.trim().toLowerCase() === item.answer.toLowerCase()) {
         score++;
@@ -174,7 +148,6 @@ const Review3_Page1_Q3 = () => {
             questions.
           </h5>
 
-          {/* WORD BANK */}
           <Droppable droppableId="bank" isDropDisabled={showCorrect}>
             {(provided) => (
               <div
@@ -222,9 +195,11 @@ const Review3_Page1_Q3 = () => {
             )}
           </Droppable>
 
-          {/* CONTENT */}
-
           {items.map((item, i) => {
+            const isWrong = wrongMarks.some(
+              (w) => w.type === "answer" && w.qIndex === i
+            );
+
             return (
               <div className="content-CB-unit4-p6-q1">
                 <div className="CB-unit4-p6-q1-img-container">
@@ -282,6 +257,7 @@ const Review3_Page1_Q3 = () => {
                       })}
                     </p>
                   </div>
+
                   <Droppable
                     droppableId={`a-${i}`}
                     isDropDisabled={showCorrect}
@@ -293,8 +269,16 @@ const Review3_Page1_Q3 = () => {
                         className={`answer-input-CB-unit4-p6-q1  ${
                           snapshot.isDraggingOver ? "drag-over-cell" : ""
                         }`}
+                        style={{ position: "relative" }}
                       >
                         {answers[i]}
+
+                        {isWrong && (
+                          <span className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold border-2 border-white">
+                            ✕
+                          </span>
+                        )}
+
                         {provided.placeholder}
                       </div>
                     )}
@@ -305,7 +289,6 @@ const Review3_Page1_Q3 = () => {
           })}
         </div>
 
-        {/* BUTTONS */}
         <div className="action-buttons-container">
           <button onClick={resetAll} className="try-again-button">
             Start Again ↻

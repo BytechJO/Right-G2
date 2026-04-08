@@ -1,9 +1,9 @@
-
 import React, { useState, useEffect } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Unit7_Page5_Q4.css";
 import img1 from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/Page 62/Ex C 1.svg";
 import img2 from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/Page 62/Ex C 2.svg";
+
 const Unit7_Page5_Q4 = () => {
   const [locked, setLocked] = useState(false);
 
@@ -18,16 +18,18 @@ const Unit7_Page5_Q4 = () => {
 
   const wordsToFind = ["pilots", "fly", "planes"];
 
-  // ✅ أماكن الكلمات (حسب الاندكس)
-  const wordPositions = {
+  // 🔥 نفس فكرة Unit4 → object positions
+  const correctPositions = {
     pilots: [2, 3, 4, 5, 6, 7],
     fly: [31, 32, 33],
-    planes: [ 53, 54, 55, 56, 57,58],
+    planes: [53, 54, 55, 56, 57, 58],
   };
 
-  const [sentence, setSentence] = useState("");
+  // 🔥 الجملة الكاملة
+  const fullSentence = ["pilots", "fly", "planes"];
+
   const [selected, setSelected] = useState([]);
-  const [foundWords, setFoundWords] = useState([]);
+  const [foundWords, setFoundWords] = useState([]); // index
   const [coloredCells, setColoredCells] = useState([]);
 
   const handleClick = (letter, index) => {
@@ -35,12 +37,11 @@ const Unit7_Page5_Q4 = () => {
 
     if (selected.includes(index)) {
       const cutIndex = selected.indexOf(index);
-      const newSelected = selected.slice(0, cutIndex);
-      setSelected(newSelected);
+      setSelected(selected.slice(0, cutIndex));
       return;
     }
 
-    // ✅ فقط حروف قريبة (يمين/يسار)
+    // 🔥 نفس Unit4 → حركة متجاورة
     if (selected.length > 0) {
       const last = selected[selected.length - 1];
       if (Math.abs(last - index) !== 1) return;
@@ -49,26 +50,41 @@ const Unit7_Page5_Q4 = () => {
     setSelected((prev) => [...prev, index]);
   };
 
-  // ✅ التصحيح بالـ index
+  // 🔥 نفس Unit4 → تشييك index فقط (بدون currentWord)
   useEffect(() => {
-    const sortedSelected = [...selected].sort((a, b) => a - b);
+    const keys = Object.keys(correctPositions);
 
-    const foundWord = Object.keys(wordPositions).find((word) => {
-      const positions = wordPositions[word];
-      return JSON.stringify(positions) === JSON.stringify(sortedSelected);
+    const matchedIndex = keys.findIndex((word) => {
+      const correctIdx = correctPositions[word];
+
+      if (correctIdx.length !== selected.length) return false;
+
+      for (let i = 0; i < correctIdx.length; i++) {
+        if (correctIdx[i] !== selected[i]) return false;
+      }
+
+      return true;
     });
 
-    if (foundWord && !foundWords.includes(foundWord)) {
-      setFoundWords((prev) => [...prev, foundWord]);
+    if (matchedIndex !== -1 && !foundWords.includes(matchedIndex)) {
+      setFoundWords((prev) => [...prev, matchedIndex]);
       setColoredCells((prev) => [...prev, ...selected]);
-
-      setSentence((prev) =>
-        prev === "" ? foundWord : prev + " " + foundWord
-      );
-
       setSelected([]);
     }
   }, [selected]);
+
+  // 🔥 slots مثل Unit4
+  const displayedSentence = fullSentence.map((word, index) => {
+    const isFound = foundWords.some(
+      (i) => Object.keys(correctPositions)[i] === word
+    );
+
+    const SLOT_LENGTH = 10;
+
+    return isFound
+      ? word.padEnd(SLOT_LENGTH, " ")
+      : "_".repeat(SLOT_LENGTH);
+  });
 
   const checkAnswers = () => {
     if (locked) return;
@@ -77,29 +93,15 @@ const Unit7_Page5_Q4 = () => {
     const score = foundWords.length;
 
     if (score === 0) {
-      ValidationAlert.info(`
-        <div style="font-size:20px;text-align:center;">
-          <b>Find all the words first!</b><br/>
-          <span style="color:#1d4f7b;font-weight:bold;">
-            Score: ${score} / ${total}
-          </span>
-        </div>
-      `);
+      ValidationAlert.info(`Find all the words first!`);
       return;
     }
 
-    const color =
-      score === total ? "green" : score === 0 ? "red" : "orange";
-
-    const msg = `
-      <div style="font-size:20px;text-align:center;">
-        <b style="color:${color};">Score: ${score} / ${total}</b>
-      </div>
-    `;
-
-    if (score === total) ValidationAlert.success(msg);
-    else if (score === 0) ValidationAlert.error(msg);
-    else ValidationAlert.warning(msg);
+    if (score === total) {
+      ValidationAlert.success(`<b>Score: ${score} / ${total}</b>`);
+    } else {
+      ValidationAlert.warning(`<b>Score: ${score} / ${total}</b>`);
+    }
 
     setLocked(true);
   };
@@ -108,37 +110,36 @@ const Unit7_Page5_Q4 = () => {
     setSelected([]);
     setFoundWords([]);
     setColoredCells([]);
-    setSentence("");
     setLocked(false);
   };
 
   const showAnswers = () => {
     let allCells = [];
+    const keys = Object.keys(correctPositions);
 
-    Object.values(wordPositions).forEach((positions) => {
-      allCells.push(...positions);
+    keys.forEach((word) => {
+      allCells.push(...correctPositions[word]);
     });
 
-    setFoundWords(wordsToFind);
+    setFoundWords(keys.map((_, i) => i));
     setColoredCells(allCells);
     setSelected([]);
-    setSentence(wordsToFind.join(" "));
     setLocked(true);
   };
 
   return (
     <div className="main-container-component">
       <div className="div-forall" style={{ gap: "20px" }}>
-        <h5 className="header-title-page8" style={{ marginBottom: "20px" }}>
+        <h5 className="header-title-page8">
           <span className="ex-A">C </span>What do pilots do?
         </h5>
 
         <div className="words-list-CB-unit3-p5-q4">
-          {wordsToFind.map((word) => (
+          {wordsToFind.map((word, i) => (
             <span
-              key={word}
+              key={i}
               className={`word-CB-unit3-p5-q4 ${
-                foundWords.includes(word) ? "found-CB-unit3-p5-q4" : ""
+                foundWords.includes(i) ? "found-CB-unit3-p5-q4" : ""
               }`}
             >
               {word}
@@ -146,7 +147,7 @@ const Unit7_Page5_Q4 = () => {
           ))}
         </div>
 
-        <div className="wordsearch-wrapper-CB-unit7-p5-q4">
+        <div className="wordsearch-wrapper-CB-unit3-p5-q4">
           <div className="grid-CB-unit3-p5-q4">
             {letters.map((letter, index) => {
               const isSelected = selected.includes(index);
@@ -156,9 +157,8 @@ const Unit7_Page5_Q4 = () => {
                 <span
                   key={index}
                   className={`cell-CB-unit3-p5-q4 
-                    ${isSelected ? "selected-CB-unit3-p5-q4" : ""}
-                    ${isFound ? "found-cell-CB-unit3-p5-q4" : ""}
-                  `}
+                  ${isSelected ? "selected-CB-unit3-p5-q4" : ""}
+                  ${isFound ? "found-cell-CB-unit3-p5-q4" : ""}`}
                   onClick={() => handleClick(letter, index)}
                 >
                   {letter}
@@ -168,14 +168,17 @@ const Unit7_Page5_Q4 = () => {
           </div>
 
           <div className="flex">
-          <img src={img1} style={{ height: "80px", width: "80px" }} />
-          <input
-            className="answer-input-CB-unit3-p5-q4"
-            value={sentence}
-            readOnly
-          />
-          <img src={img2} style={{ height: "80px", width: "80px" }} />
-        </div>{" "}
+            <img src={img1} style={{ height: "80px", width: "80px" }} />
+
+            <input
+              className="answer-input-CB-unit3-p5-q4"
+              value={displayedSentence.join(" ")}
+              readOnly
+              style={{ fontFamily: "monospace" }}
+            />
+
+            <img src={img2} style={{ height: "80px", width: "80px" }} />
+          </div>
         </div>
       </div>
 

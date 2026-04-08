@@ -1,6 +1,8 @@
 import page24 from "../../../assets/imgs//Right 2 Unit 10 At Our Home/Page 92.png";
 import React, { useState, useRef } from "react";
 import "./Reading_Unit10_Page2.css";
+import { useContext } from "react";
+import { AudioContext } from "../../../AudioContext";
 import sound1 from "../../../assets/audio/ClassBook/U 10/cd65pg92-reading-adult-lady_pZU1BSn3.mp3";
 import sound2 from "../../../assets/audio/ClassBook/U 10/Pg92_1.1_Adult Lady.mp3";
 import sound3 from "../../../assets/audio/ClassBook/U 10/Pg92_1.2_Adult Lady.mp3";
@@ -12,7 +14,7 @@ import pauseBtn from "../../../assets/Page 01/Right Video Button.svg";
 import video3 from "../../../assets/video/reading/grade2-unit10-page92-93reading.mp4";
 
 const Reading_Unit10_Page1 = ({ openPopup }) => {
-  const audioRef = useRef(null);
+const { audioRef, activeId, setActiveId } = useContext(AudioContext);
   const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeAreaIndex, setActiveAreaIndex] = useState(null);
@@ -52,10 +54,10 @@ const captionsExample = [
   { start: 88.923, end: 93.259, text: "\"Aunt is drinking coffee. Uncle is drinking juice,\" Dad says. \"What are you doing, children?\" Mom asks. \"We are having fun,\" Sarah says. \"We are having fun with ice cream,\" Jack adds. \"You are so funny,\" Dad laughs." }
 ];
   const clickableAreas = [
-    { x1: 15.9, y1: 39.4, x2: 51.14, y2: 46.8, sound: sound2 },
-    { x1: 56.0, y1: 39.1, x2: 93.9, y2: 49.5, sound: sound3 },
-    { x1: 16.0, y1: 84.0, x2: 52.9, y2: 94.64, sound: sound4 },
-    { x1: 56.0, y1: 84.5, x2: 93.7, y2: 90.9, sound: sound5 },
+    { id: "p9-1",x1: 15.9, y1: 39.4, x2: 51.14, y2: 46.8, sound: sound2 },
+    { id: "p9-2",x1: 56.0, y1: 39.1, x2: 93.9, y2: 49.5, sound: sound3 },
+    { id: "p9-3",x1: 16.0, y1: 84.0, x2: 52.9, y2: 94.64, sound: sound4 },
+    { id: "p9-4",x1: 56.0, y1: 84.5, x2: 93.7, y2: 90.9, sound: sound5 },
   ];
   const handleImageClick = (e) => {
     const rect = e.target.getBoundingClientRect();
@@ -63,19 +65,21 @@ const captionsExample = [
     const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
     console.log("X%:", xPercent.toFixed(2), "Y%:", yPercent.toFixed(2));
   };
-  const playSound = (soundPath) => {
-    if (audioRef.current) {
-      audioRef.current.src = soundPath;
-      audioRef.current.play();
-      setIsPlaying(true);
-      setHoveredAreaIndex(null); // إزالة الهايلايت عند بدء الصوت
+  const playSound = (soundPath, id) => {
+    if (!audioRef.current) return;
 
-      audioRef.current.onended = () => {
-        setIsPlaying(false);
-        setHoveredAreaIndex(null);
-        setActiveAreaIndex(null); // مسح الهايلايت بعد انتهاء الصوت
-      };
-    }
+    // 🔥 وقف أي صوت شغال بأي صفحة
+    audioRef.current.pause();
+    audioRef.current.currentTime = 0;
+
+    audioRef.current.src = soundPath;
+    audioRef.current.play();
+
+    setActiveId(id); // 🔥 هذا المهم
+
+    audioRef.current.onended = () => {
+      setActiveId(null);
+    };
   };
 
   return (
@@ -94,9 +98,7 @@ const captionsExample = [
         <div
           key={index}
           className={`clickable-area ${
-            hoveredAreaIndex === index || activeAreaIndex === index
-              ? "highlight"
-              : ""
+            activeId === area.id ? "highlight" : ""
           }`}
           style={{
             position: "absolute",
@@ -106,14 +108,13 @@ const captionsExample = [
             height: `${area.y2 - area.y1}%`,
           }}
           onClick={() => {
-            setActiveAreaIndex(index); // لتثبيت الهايلايت أثناء الصوت
-            playSound(area.sound);
+            playSound(area.sound, area.id);
           }}
           onMouseEnter={() => {
             if (!isPlaying) setHoveredAreaIndex(index);
           }}
           onMouseLeave={() => {
-            if (!isPlaying) setHoveredAreaIndex(null);
+            if (!isPlaying ) setHoveredAreaIndex(null);
           }}
         ></div>
       ))}

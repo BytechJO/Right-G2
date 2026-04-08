@@ -3,21 +3,20 @@ import page_4 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 49.png";
 import "./Unit6_Page4.css";
 import grammarSound from "../../../assets/audio/ClassBook/U 6/CD35.Pg49_Grammar2_Adult Lady.mp3";
 import sound1 from "../../../assets/audio/ClassBook/U 6/pg49-21-adult-lady_QAwcb4YH.mp3";
-
 import sound3 from "../../../assets/audio/ClassBook/U 6/Pg49_3.1_Adult Lady.mp3";
 import sound4 from "../../../assets/audio/ClassBook/U 6/Pg49_4.1_Adult Lady.mp3";
 import sound5 from "../../../assets/audio/ClassBook/U 6/Pg49_5.1_Adult Lady.mp3";
-
+import { useContext } from "react";
+import { AudioContext } from "../../../AudioContext";
 import video from "../../../assets/video/grade2-unit6-page49.mp4";
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import pauseBtn from "../../../assets/Page 01/Right Video Button.svg";
 import AudioWithCaption from "../../AudioWithCaption";
 
 const Unit6_Page4 = ({ openPopup }) => {
-  const audioRef = useRef(null);
+  const { audioRef, activeId, setActiveId } = useContext(AudioContext);
   const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [activeAreaIndex, setActiveAreaIndex] = useState(null);
   const captionsExample = [
     { start: 0.479, end: 4.279, text: "Page 49, exercise two. Write grammar." },
     { start: 5.359, end: 7.819, text: "Jack eats breakfast at seven o'clock." },
@@ -50,10 +49,10 @@ const Unit6_Page4 = ({ openPopup }) => {
   ];
 
   const clickableAreas = [
-    { x1: 7.15, y1: 9.96, x2: 92.67, y2: 19.71, sound: sound1 },
-    { x1: 5.60, y1: 52.61, x2: 47.10, y2: 60.53, sound: sound3 },
-    { x1: 57.57, y1: 52.30, x2: 94.61, y2: 60.53, sound: sound4 },
-    { x1: 45.16, y1: 85.81, x2: 83.56, y2: 92.97, sound: sound5 },
+    { id: "pg12-1",x1: 7.15, y1: 9.96, x2: 92.67, y2: 19.71, sound: sound1 },
+    { id: "pg12-2",x1: 5.60, y1: 52.61, x2: 47.10, y2: 60.53, sound: sound3 },
+    { id: "pg12-3",x1: 57.57, y1: 52.30, x2: 94.61, y2: 60.53, sound: sound4 },
+    { id: "pg12-4",x1: 45.16, y1: 85.81, x2: 83.56, y2: 92.97, sound: sound5 },
   ];
 
   const handleImageClick = (e) => {
@@ -62,19 +61,21 @@ const Unit6_Page4 = ({ openPopup }) => {
     const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
     console.log("X%:", xPercent.toFixed(2), "Y%:", yPercent.toFixed(2));
   };
-  const playSound = (soundPath) => {
-    if (audioRef.current) {
-      audioRef.current.src = soundPath;
-      audioRef.current.play();
-      setIsPlaying(true);
-      setHoveredAreaIndex(null); // إزالة الهايلايت عند بدء الصوت
+ const playSound = (soundPath, id) => {
+    if (!audioRef.current) return;
 
-      audioRef.current.onended = () => {
-        setIsPlaying(false);
-        setHoveredAreaIndex(null);
-        setActiveAreaIndex(null); // مسح الهايلايت بعد انتهاء الصوت
-      };
-    }
+    // 🔥 وقف أي صوت شغال بأي صفحة
+    audioRef.current.pause();
+    audioRef.current.currentTime = 0;
+
+    audioRef.current.src = soundPath;
+    audioRef.current.play();
+
+    setActiveId(id); // 🔥 هذا المهم
+
+    audioRef.current.onended = () => {
+      setActiveId(null);
+    };
   };
 
   return (
@@ -92,9 +93,7 @@ const Unit6_Page4 = ({ openPopup }) => {
         <div
           key={index}
           className={`clickable-area ${
-            hoveredAreaIndex === index || activeAreaIndex === index
-              ? "highlight"
-              : ""
+            activeId === area.id ? "highlight" : ""
           }`}
           style={{
             position: "absolute",
@@ -103,15 +102,14 @@ const Unit6_Page4 = ({ openPopup }) => {
             width: `${area.x2 - area.x1}%`,
             height: `${area.y2 - area.y1}%`,
           }}
-          onClick={() => {
-            setActiveAreaIndex(index); // لتثبيت الهايلايت أثناء الصوت
-            playSound(area.sound);
+        onClick={() => {
+            playSound(area.sound, area.id);
           }}
           onMouseEnter={() => {
             if (!isPlaying) setHoveredAreaIndex(index);
           }}
           onMouseLeave={() => {
-            if (!isPlaying) setHoveredAreaIndex(null);
+            if (!isPlaying ) setHoveredAreaIndex(null);
           }}
         ></div>
       ))}

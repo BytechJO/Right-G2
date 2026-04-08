@@ -3,7 +3,7 @@ import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Unit6_Page5_Q4.css";
 import img2 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page50/Ex C 1.svg";
 
-const Unit4_Page5_Q4 = () => {
+const Unit6_Page5_Q4 = () => {
   const grid = [
     "f","t","e","r","y","u","w","e","o","b","n","x","n","m","j","h","g","o","k","n",
     "j","l","k","m","g","t","o","s","x","d","o","b","e","d","f","o","n","g","u","a",
@@ -22,14 +22,15 @@ const Unit4_Page5_Q4 = () => {
 
   const wordsToFind = ["we", "go", "to", "bed", "at", "eight", "oclock"];
 
+  // 🔥 تعديل 1: الجملة الكاملة بالترتيب الصحيح
+  const fullSentence = ["we", "go", "to", "bed", "at", "eight", "oclock"];
+
   const letters = grid;
 
-  const [sentence, setSentence] = useState("");
   const [locked, setLocked] = useState(false);
   const [selected, setSelected] = useState([]);
   const [currentWord, setCurrentWord] = useState("");
-
-  const [foundWords, setFoundWords] = useState([]); // ⬅️ صار index
+  const [foundWords, setFoundWords] = useState([]); // index
   const [coloredCells, setColoredCells] = useState([]);
 
   const handleClick = (letter, index) => {
@@ -53,33 +54,52 @@ const Unit4_Page5_Q4 = () => {
   useEffect(() => {
     const keys = Object.keys(correctPositions);
 
-    const matchedIndex = keys.findIndex((word) => {
-      const correctIdx = correctPositions[word];
+   const matchedIndex = keys.findIndex((word) => {
+  const correctIdx = correctPositions[word];
 
-      return (
-        word === currentWord &&
-        correctIdx.length === selected.length &&
-        correctIdx.every((idx, i) => idx === selected[i])
-      );
-    });
+  // 🔥 لازم يكون نفس الطول
+  if (correctIdx.length !== selected.length) return false;
+
+  // 🔥 لازم كل index يكون مطابق 100%
+  for (let i = 0; i < correctIdx.length; i++) {
+    if (correctIdx[i] !== selected[i]) {
+      return false;
+    }
+  }
+
+  // 🔥 الكلمة نفسها لازم تطابق
+  return word === currentWord;
+});
 
     if (matchedIndex !== -1 && !foundWords.includes(matchedIndex)) {
-      const matchedWord = keys[matchedIndex];
-
       setFoundWords((prev) => [...prev, matchedIndex]);
       setColoredCells((prev) => [...prev, ...selected]);
 
-      setSentence((prev) =>
-        prev === "" ? matchedWord : prev + " " + matchedWord
-      );
+      // 🔥 تعديل 2: حذفنا setSentence
 
       setSelected([]);
       setCurrentWord("");
     }
   }, [currentWord]);
 
+  // 🔥 تعديل 3 (المهم جداً)
+  const displayedSentence = fullSentence.map((word, index) => {
+    const isFound = foundWords.some(
+      (i) => Object.keys(correctPositions)[i] === word
+    );
+
+    const SLOT_LENGTH = 10;
+
+    if (isFound) {
+      return word.padEnd(SLOT_LENGTH, "");
+    }
+
+    return "_".repeat(SLOT_LENGTH);
+  });
+
   const checkAnswers = () => {
     if (locked) return;
+
     const total = wordsToFind.length;
     const score = foundWords.length;
 
@@ -88,13 +108,13 @@ const Unit4_Page5_Q4 = () => {
       return;
     }
 
-    setLocked(true);
-
     if (score === total) {
       ValidationAlert.success(`<b>Score: ${score} / ${total}</b>`);
     } else {
       ValidationAlert.warning(`<b>Score: ${score} / ${total}</b>`);
     }
+
+    setLocked(true);
   };
 
   const reset = () => {
@@ -102,25 +122,24 @@ const Unit4_Page5_Q4 = () => {
     setCurrentWord("");
     setFoundWords([]);
     setColoredCells([]);
-    setSentence("");
     setLocked(false);
   };
 
   const showAnswers = () => {
     let allCells = [];
-
     const keys = Object.keys(correctPositions);
 
     keys.forEach((word) => {
       allCells.push(...correctPositions[word]);
     });
 
-    setFoundWords(keys.map((_, i) => i)); // ✅ مهم
+    setFoundWords(keys.map((_, i) => i));
     setColoredCells(allCells);
     setSelected([]);
     setCurrentWord("");
     setLocked(true);
-    setSentence(keys.join(" "));
+
+    // 🔥 تعديل 4: ما في setSentence
   };
 
   return (
@@ -153,8 +172,8 @@ const Unit4_Page5_Q4 = () => {
                 <span
                   key={index}
                   className={`cell-CB-unit3-p5-q4 
-          ${isSelected ? "selected-CB-unit3-p5-q4" : ""}
-          ${isFound ? "found-cell-CB-unit3-p5-q4" : ""}`}
+                  ${isSelected ? "selected-CB-unit3-p5-q4" : ""}
+                  ${isFound ? "found-cell-CB-unit3-p5-q4" : ""}`}
                   onClick={() => handleClick(letter, index)}
                 >
                   {letter}
@@ -164,11 +183,14 @@ const Unit4_Page5_Q4 = () => {
           </div>
 
           <div className="flex">
+            {/* 🔥 تعديل 5: عرض الجملة بالـ slots */}
             <input
               className="answer-input-CB-unit3-p5-q4"
-              value={sentence}
+              value={displayedSentence.join(" ")}
               readOnly
+              style={{ fontFamily: "monospace" }}
             />
+
             <img src={img2} style={{ height: "80px", width: "80px" }} />
           </div>
         </div>
@@ -189,4 +211,4 @@ const Unit4_Page5_Q4 = () => {
   );
 };
 
-export default Unit4_Page5_Q4;
+export default Unit6_Page5_Q4;

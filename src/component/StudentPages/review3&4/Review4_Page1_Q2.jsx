@@ -9,21 +9,21 @@ import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 const Review4_Page1_Q2 = () => {
   const items = [
     {
-      img: img1,
+      img: img3,
       correct: "mechanic",
       correctInput: "mechanic",
       option: ["nurse", "mechanic"],
       first: "He is",
     },
     {
-      img: img2,
+      img: img1,
       correct: "fisherman",
       correctInput: "fisherman",
       option: ["teacher", "fisherman"],
       first: "He is",
     },
     {
-      img: img3,
+      img: img2,
       correct: "clerk",
       correctInput: "clerk",
       option: ["clerk", "police officer"],

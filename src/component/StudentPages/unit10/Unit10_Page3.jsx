@@ -6,34 +6,33 @@ import sound1 from "../../../assets/audio/ClassBook/U 10/Pg84_1.1_Adult Lady.mp3
 import sound2 from "../../../assets/audio/ClassBook/U 10/Pg84_2.1_Adult Lady.mp3";
 import sound3 from "../../../assets/audio/ClassBook/U 10/Pg84_3.1_Adult Lady.mp3";
 import sound4 from "../../../assets/audio/ClassBook/U 10/Pg84_4.1_Adult Lady.mp3";
-
-
+import { useContext } from "react";
+import { AudioContext } from "../../../AudioContext";
 import AudioWithCaption from "../../AudioWithCaption";
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import pauseBtn from "../../../assets/Page 01/Right Video Button.svg";
 import video from "../../../assets/video/grade2-unit10-page84.mp4";
 const Unit10_Page3 = ({ openPopup }) => {
-  const audioRef = useRef(null);
+    const { audioRef, activeId, setActiveId } = useContext(AudioContext);
   const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeAreaIndex, setActiveAreaIndex] = useState(null);
- const captionsExample = [
-  { start: 0.479, end: 3.839, text: "Page 84, exercise one. Write grammar." },
-  { start: 4.880, end: 7.639, text: "What's he doing? He's taking a shower." },
-  { start: 8.659, end: 11.279, text: "What's she doing? She's cooking." },
-  { start: 12.340, end: 15.259, text: "What's it doing? It's drinking milk." },
-  { start: 16.279, end: 18.899, text: "What's she doing? She's cooking." },
-  { start: 20.000, end: 22.760, text: "What's he doing? He's taking a shower." },
-  { start: 23.840, end: 26.760, text: "What's it doing? It's drinking milk" }
-];
+  const captionsExample = [
+    { start: 0.479, end: 3.839, text: "Page 84, exercise one. Write grammar." },
+    { start: 4.88, end: 7.639, text: "What's he doing? He's taking a shower." },
+    { start: 8.659, end: 11.279, text: "What's she doing? She's cooking." },
+    { start: 12.34, end: 15.259, text: "What's it doing? It's drinking milk." },
+    { start: 16.279, end: 18.899, text: "What's she doing? She's cooking." },
+    { start: 20.0, end: 22.76, text: "What's he doing? He's taking a shower." },
+    { start: 23.84, end: 26.76, text: "What's it doing? It's drinking milk" },
+  ];
 
   const clickableAreas = [
-    { x1: 6.66, y1: 10.42, x2: 35.75, y2: 20.16, sound: sound1 },
-    { x1: 60.96, y1: 10.42, x2: 93.34, y2: 20.16, sound: sound1 },
-    { x1: 5.50, y1: 48.49, x2: 27.61, y2: 54.43, sound: sound2 },
-    { x1: 69.10, y1: 48.49, x2: 93.54, y2: 54.59, sound: sound3 },
-    { x1: 5.69, y1: 59.76, x2: 25.67, y2: 65.70, sound: sound4 },
-   
+    { id: "pg19-1",x1: 6.66, y1: 10.42, x2: 35.75, y2: 20.16, sound: sound1 },
+    { id: "pg19-2",x1: 60.96, y1: 10.42, x2: 93.34, y2: 20.16, sound: sound1 },
+    { id: "pg19-3",x1: 5.5, y1: 48.49, x2: 27.61, y2: 54.43, sound: sound2 },
+    { id: "pg19-4",x1: 69.1, y1: 48.49, x2: 93.54, y2: 54.59, sound: sound3 },
+    { id: "pg19-5",x1: 5.69, y1: 59.76, x2: 25.67, y2: 65.7, sound: sound4 },
   ];
   const handleImageClick = (e) => {
     const rect = e.target.getBoundingClientRect();
@@ -41,19 +40,21 @@ const Unit10_Page3 = ({ openPopup }) => {
     const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
     console.log("X%:", xPercent.toFixed(2), "Y%:", yPercent.toFixed(2));
   };
-  const playSound = (soundPath) => {
-    if (audioRef.current) {
-      audioRef.current.src = soundPath;
-      audioRef.current.play();
-      setIsPlaying(true);
-      setHoveredAreaIndex(null); // إزالة الهايلايت عند بدء الصوت
+const playSound = (soundPath, id) => {
+    if (!audioRef.current) return;
 
-      audioRef.current.onended = () => {
-        setIsPlaying(false);
-        setHoveredAreaIndex(null);
-        setActiveAreaIndex(null); // مسح الهايلايت بعد انتهاء الصوت
-      };
-    }
+    // 🔥 وقف أي صوت شغال بأي صفحة
+    audioRef.current.pause();
+    audioRef.current.currentTime = 0;
+
+    audioRef.current.src = soundPath;
+    audioRef.current.play();
+
+    setActiveId(id); // 🔥 هذا المهم
+
+    audioRef.current.onended = () => {
+      setActiveId(null);
+    };
   };
 
   return (
@@ -70,10 +71,8 @@ const Unit10_Page3 = ({ openPopup }) => {
       {clickableAreas.map((area, index) => (
         <div
           key={index}
-          className={`clickable-area ${
-            hoveredAreaIndex === index || activeAreaIndex === index
-              ? "highlight"
-              : ""
+         className={`clickable-area ${
+            activeId === area.id ? "highlight" : ""
           }`}
           style={{
             position: "absolute",
@@ -82,15 +81,14 @@ const Unit10_Page3 = ({ openPopup }) => {
             width: `${area.x2 - area.x1}%`,
             height: `${area.y2 - area.y1}%`,
           }}
-          onClick={() => {
-            setActiveAreaIndex(index); // لتثبيت الهايلايت أثناء الصوت
-            playSound(area.sound);
+            onClick={() => {
+            playSound(area.sound, area.id);
           }}
           onMouseEnter={() => {
             if (!isPlaying) setHoveredAreaIndex(index);
           }}
           onMouseLeave={() => {
-            if (!isPlaying) setHoveredAreaIndex(null);
+            if (!isPlaying ) setHoveredAreaIndex(null);
           }}
         ></div>
       ))}

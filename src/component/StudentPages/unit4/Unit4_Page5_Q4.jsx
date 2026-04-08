@@ -15,19 +15,21 @@ const Unit4_Page5_Q4 = () => {
 
   const wordsToFind = ["the", "photographers", "use", "cameras"];
 
-  // ✅ الحل بالـ index
+  // 🔥 تعديل 1: أضفنا order
   const correctAnswers = [
-    { word: "the", indexes: [2, 3, 4] },
-    { word: "photographers", indexes: [9,10,11,12,13,14,15,16,17,18,19,20,21] },
-    { word: "use", indexes: [41,42,43] },
-    { word: "cameras", indexes: [50,51,52,53,54,55,56] },
+    { word: "the", indexes: [2, 3, 4], order: 0 },
+    { word: "photographers", indexes: [9,10,11,12,13,14,15,16,17,18,19,20,21], order: 1 },
+    { word: "use", indexes: [41,42,43], order: 2 },
+    { word: "cameras", indexes: [50,51,52,53,54,55,56], order: 3 },
   ];
 
-  const [sentence, setSentence] = useState("");
+  // 🔥 تعديل 2: الجملة الكاملة
+  const fullSentence = ["the", "photographers", "use", "cameras"];
+
   const [locked, setLocked] = useState(false);
   const [selected, setSelected] = useState([]);
   const [currentWord, setCurrentWord] = useState("");
-  const [foundWords, setFoundWords] = useState([]); // ⬅️ indexes
+  const [foundWords, setFoundWords] = useState([]);
   const [coloredCells, setColoredCells] = useState([]);
 
   const handleClick = (letter, index) => {
@@ -36,7 +38,6 @@ const Unit4_Page5_Q4 = () => {
     if (selected.includes(index)) {
       const cutIndex = selected.indexOf(index);
       const newSelected = selected.slice(0, cutIndex);
-
       const newWord = newSelected.map((i) => letters[i]).join("");
 
       setSelected(newSelected);
@@ -59,53 +60,46 @@ const Unit4_Page5_Q4 = () => {
       setFoundWords((prev) => [...prev, matchedIndex]);
       setColoredCells((prev) => [...prev, ...selected]);
 
-      setSentence((prev) =>
-        prev === "" ? currentWord : prev + " " + currentWord,
-      );
+      // 🔥 تعديل 3: حذفنا setSentence
 
       setSelected([]);
       setCurrentWord("");
     }
   }, [currentWord]);
 
+  // 🔥 تعديل 4 (المهم)
+  const displayedSentence = fullSentence.map((word, index) => {
+    const isFound = foundWords.some(
+      (i) => correctAnswers[i].order === index
+    );
+
+    const SLOT_LENGTH = 14; // أكبر لأنه في كلمة طويلة (photographers)
+
+    if (isFound) {
+      return word.padEnd(SLOT_LENGTH, "");
+    }
+
+    return "_".repeat(SLOT_LENGTH);
+  });
+
   const checkAnswers = () => {
     if (locked) return;
+
     const total = wordsToFind.length;
     const score = foundWords.length;
 
     if (foundWords.length === 0) {
-      ValidationAlert.info(`
-        <div style="font-size:20px;text-align:center;">
-          <b>Find all the words first!</b><br/>
-          <span style="color:#1d4f7b;font-weight:bold;">
-            Current Score: ${score} / ${total}
-          </span>
-        </div>
-      `);
+      ValidationAlert.info(`Find all the words first!`);
       return;
     }
 
-    setLocked(true);
-
-    if (score === 0) {
-      ValidationAlert.error(`
-        <div style="font-size:20px;text-align:center;">
-          <b style="color:red;">Score: 0 / ${total}</b>
-        </div>
-      `);
-    } else if (score < total) {
-      ValidationAlert.warning(`
-        <div style="font-size:20px;text-align:center;">
-          <b style="color:orange;">Score: ${score} / ${total}</b>
-        </div>
-      `);
+    if (score === total) {
+      ValidationAlert.success(`<b>Score: ${score} / ${total}</b>`);
     } else {
-      ValidationAlert.success(`
-        <div style="font-size:20px;text-align:center;">
-          <b style="color:green;">Score: ${score} / ${total}</b>
-        </div>
-      `);
+      ValidationAlert.warning(`<b>Score: ${score} / ${total}</b>`);
     }
+
+    setLocked(true);
   };
 
   const reset = () => {
@@ -114,7 +108,6 @@ const Unit4_Page5_Q4 = () => {
     setFoundWords([]);
     setColoredCells([]);
     setLocked(false);
-    setSentence("");
   };
 
   const showAnswers = () => {
@@ -124,12 +117,13 @@ const Unit4_Page5_Q4 = () => {
       allCells.push(...item.indexes);
     });
 
-    setFoundWords(correctAnswers.map((_, i) => i)); // ✅ مهم
+    setFoundWords(correctAnswers.map((_, i) => i));
     setColoredCells(allCells);
     setSelected([]);
     setCurrentWord("");
-    setSentence(correctAnswers.map((w) => w.word).join(" "));
     setLocked(true);
+
+    // 🔥 تعديل 5: حذفنا setSentence
   };
 
   return (
@@ -162,8 +156,8 @@ const Unit4_Page5_Q4 = () => {
                 <span
                   key={index}
                   className={`cell-CB-unit3-p5-q4 
-          ${isSelected ? "selected-CB-unit3-p5-q4" : ""}
-          ${isFound ? "found-cell-CB-unit3-p5-q4" : ""}`}
+                  ${isSelected ? "selected-CB-unit3-p5-q4" : ""}
+                  ${isFound ? "found-cell-CB-unit3-p5-q4" : ""}`}
                   onClick={() => handleClick(letter, index)}
                 >
                   {letter}
@@ -174,11 +168,15 @@ const Unit4_Page5_Q4 = () => {
 
           <div className="flex">
             <img src={img1} style={{ height: "80px", width: "80px" }} />
+
+            {/* 🔥 تعديل 6: عرض الجملة بالـ slots */}
             <input
               className="answer-input-CB-unit3-p5-q4"
-              value={sentence}
+              value={displayedSentence.join(" ")}
               readOnly
+              style={{ fontFamily: "monospace" }}
             />
+
             <img src={img2} style={{ height: "80px", width: "80px" }} />
           </div>
         </div>

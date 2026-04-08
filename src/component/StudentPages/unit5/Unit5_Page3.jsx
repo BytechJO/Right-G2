@@ -7,19 +7,17 @@ import sound2 from "../../../assets/audio/ClassBook/U 5/Pg42_1.2_Adult Lady.mp3"
 import sound3 from "../../../assets/audio/ClassBook/U 5/Pg42_2.1_Helen.mp3";
 import sound4 from "../../../assets/audio/ClassBook/U 5/Pg42_3.1_John.mp3";
 import sound5 from "../../../assets/audio/ClassBook/U 5/Pg42_4.1_Adult Lady.mp3";
-
-
+import { useContext } from "react";
+import { AudioContext } from "../../../AudioContext";
 import AudioWithCaption from "../../AudioWithCaption";
 import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import pauseBtn from "../../../assets/Page 01/Right Video Button.svg";
 import video from "../../../assets/video/grade2-unit5-page42.mp4";
 const Unit5_Page3 = ({ openPopup }) => {
-  const audioRef = useRef(null);
+  const { audioRef, activeId, setActiveId } = useContext(AudioContext);
   const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [activeAreaIndex, setActiveAreaIndex] = useState(null);
   const captionsExample = [
-
   { start: 0.439, end: 4.759, text: "Page 42, exercise 1. Write grammar." },
   { start: 5.9, end: 11.239, text: "He likes chicken. She likes chicken. It likes chicken." },
   { start: 12.359, end: 21.199, text: "He doesn't like burgers. She doesn't like burgers. It doesn't like burgers." },
@@ -30,11 +28,11 @@ const Unit5_Page3 = ({ openPopup }) => {
 ];
 
   const clickableAreas = [
-    { x1: 6.66, y1: 9.05, x2: 34.97, y2: 19.86, sound: sound1 },
-    { x1: 61.35, y1: 9.05, x2: 92.37, y2: 19.86, sound: sound2 },
-    { x1: 8.21, y1: 26.71, x2: 33.5, y2: 32.5, sound: sound3 },
-    { x1: 64.84, y1: 25.34, x2: 92.76, y2: 31.28, sound: sound4 },
-    { x1: 7.83, y1: 64.94, x2: 28.38, y2: 70.27, sound: sound5 },
+    { id: "pg9-1",x1: 6.66, y1: 9.05, x2: 34.97, y2: 19.86, sound: sound1 },
+    { id: "pg9-2",x1: 61.35, y1: 9.05, x2: 92.37, y2: 19.86, sound: sound2 },
+    { id: "pg9-3",x1: 8.21, y1: 26.71, x2: 33.5, y2: 32.5, sound: sound3 },
+    { id: "pg9-4",x1: 64.84, y1: 25.34, x2: 92.76, y2: 31.28, sound: sound4 },
+    { id: "pg9-5",x1: 7.83, y1: 64.94, x2: 28.38, y2: 70.27, sound: sound5 },
 
     
   ];
@@ -44,19 +42,21 @@ const Unit5_Page3 = ({ openPopup }) => {
     const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
     console.log("X%:", xPercent.toFixed(2), "Y%:", yPercent.toFixed(2));
   };
-  const playSound = (soundPath) => {
-    if (audioRef.current) {
-      audioRef.current.src = soundPath;
-      audioRef.current.play();
-      setIsPlaying(true);
-      setHoveredAreaIndex(null); // إزالة الهايلايت عند بدء الصوت
+ const playSound = (soundPath, id) => {
+    if (!audioRef.current) return;
 
-      audioRef.current.onended = () => {
-        setIsPlaying(false);
-        setHoveredAreaIndex(null);
-        setActiveAreaIndex(null); // مسح الهايلايت بعد انتهاء الصوت
-      };
-    }
+    // 🔥 وقف أي صوت شغال بأي صفحة
+    audioRef.current.pause();
+    audioRef.current.currentTime = 0;
+
+    audioRef.current.src = soundPath;
+    audioRef.current.play();
+
+    setActiveId(id); // 🔥 هذا المهم
+
+    audioRef.current.onended = () => {
+      setActiveId(null);
+    };
   };
 
   return (
@@ -74,9 +74,7 @@ const Unit5_Page3 = ({ openPopup }) => {
         <div
           key={index}
           className={`clickable-area ${
-            hoveredAreaIndex === index || activeAreaIndex === index
-              ? "highlight"
-              : ""
+            activeId === area.id ? "highlight" : ""
           }`}
           style={{
             position: "absolute",
@@ -86,14 +84,13 @@ const Unit5_Page3 = ({ openPopup }) => {
             height: `${area.y2 - area.y1}%`,
           }}
           onClick={() => {
-            setActiveAreaIndex(index); // لتثبيت الهايلايت أثناء الصوت
-            playSound(area.sound);
+            playSound(area.sound, area.id);
           }}
           onMouseEnter={() => {
             if (!isPlaying) setHoveredAreaIndex(index);
           }}
           onMouseLeave={() => {
-            if (!isPlaying) setHoveredAreaIndex(null);
+            if (!isPlaying ) setHoveredAreaIndex(null);
           }}
         ></div>
       ))}
