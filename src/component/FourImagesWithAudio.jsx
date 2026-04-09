@@ -41,25 +41,33 @@ const FourImagesWithAudio = ({
     setActiveIndex2(index);
   };
   const playImageSound = (index) => {
-    const sound = audioArr[index];
-    const mainAudio = audioRef.current;
+  const sound = audioArr[index];
+  const mainAudio = audioRef.current;
 
-    if (!sound || !mainAudio) return;
+  if (!sound || !mainAudio) return;
 
-    // 🔥 وقف الصوت الرئيسي
-    mainAudio.pause();
-    setIsPlaying(false); // ✅ يخلي الزر يتحول لـ Play
+  // 🔥 وقف الصوت الرئيسي
+  mainAudio.pause();
+  setIsPlaying(false);
 
-    // 🔥 شغل صوت الصورة
-    sound.currentTime = 0;
-    sound.play();
+  // ✅ 🔥 وقف كل أصوات الصور الثانية
+  audioArr.forEach((audio, i) => {
+    if (audio && i !== index) {
+      audio.pause();
+      audio.currentTime = 0;
+    }
+  });
 
-    setClickedIndex(index);
+  // 🔥 شغل صوت الصورة الحالية
+  sound.currentTime = 0;
+  sound.play();
 
-    sound.onended = () => {
-      setClickedIndex(null);
-    };
+  setClickedIndex(index);
+
+  sound.onended = () => {
+    setClickedIndex(null);
   };
+};
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;

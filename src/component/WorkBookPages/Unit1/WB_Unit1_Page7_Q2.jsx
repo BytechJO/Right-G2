@@ -161,7 +161,7 @@ const WB_Unit1_Page7_Q2 = () => {
           </h1>
 
           <div
-            className="family-completion-activity p-6 max-w-4xl mx-auto"
+            className="family-completion-activity p-6"
             dir="ltr"
           >
             <Droppable droppableId="words" direction="horizontal">
