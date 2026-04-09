@@ -15,16 +15,15 @@ import sound4 from "../../../assets/audio/ClassBook/U 9/unit9-sound4.mp3";
 import sound5 from "../../../assets/audio/ClassBook/U 9/unit9-sound5.mp3";
 import sound6 from "../../../assets/audio/ClassBook/U 9/unit9-sound6.mp3";
 
-
+import { useContext } from "react";
+import { AudioContext } from "../../../AudioContext";
 const Unit9_Page1 = ({ openPopup }) => {
-  const [activeAreaIndex, setActiveAreaIndex] = useState(null);
-  const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef(null);
+    const { audioRef, activeId, setActiveId } = useContext(AudioContext);
+ 
 const captionsExample = [
   { start: 0.560, end: 8.420, text: "Page 76, Unit 9. Visiting our grandparents. Page 76, Unit 9, vocabulary." },
-  { start: 9.719, end: 30.219, text: "One, soccer. Two, hen. Three, chess. Four, thinking. Five, sending an email. Six, listening to the radio. Seven, glasses. Eight, looking." },
-  { start: 31.279, end: 35.959, text: "Nine, ironing clothes. Ten, cooking." },
+  { start: 9.719, end: 30.219, text: "1, soccer. 2, hen. 3, chess. 4, thinking. 5, sending an email. 6, listening to the radio. 7, glasses. 8, looking." },
+  { start: 31.279, end: 35.959, text: "9, ironing clothes. 10, cooking." },
   { start: 37.059, end: 40.159, text: "Page 76, listen and read along." },
   { start: 41.239, end: 42.259, text: "Short A." },
   { start: 43.360, end: 43.779, text: "Cap," },
@@ -68,10 +67,10 @@ const captionsExample = [
     { x1: 33.04, y1: 26.26, x2: 47.38, y2: 54.89, sound: 5, isPrimary: false },
 
     //     // // الصوت الخامس – الأساسية
-    { x1: 69, y1: 24.9,sound: 5, isPrimary: true },
+    { x1: 69, y1: 24.9,sound: 6, isPrimary: true },
 
     // // // الصوت الخامس – الإضافية
-    { x1: 71.82, y1: 15.44, x2: 87.33, y2: 39.81, sound: 5, isPrimary: false },
+    { x1: 71.82, y1: 15.44, x2: 87.33, y2: 39.81, sound: 6, isPrimary: false },
   ];
   const sounds = {
     1: sound1,
@@ -89,19 +88,21 @@ const captionsExample = [
     const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
     console.log("X%:", xPercent.toFixed(2), "Y%:", yPercent.toFixed(2));
   };
-  const playSound = (path) => {
-    if (audioRef.current) {
-      audioRef.current.src = path;
-      audioRef.current.play();
-      setIsPlaying(true);
-      setHoveredAreaIndex(null); // إزالة الهايلايت عند بدء الصوت
+  const playSound = (path, id) => {
+    if (!audioRef.current) return;
 
-      audioRef.current.onended = () => {
-        setIsPlaying(false);
-        setHoveredAreaIndex(null);
-        setActiveAreaIndex(null); // مسح الهايلايت بعد انتهاء الصوت
-      };
-    }
+    // 🔥 وقف أي صوت شغال بأي صفحة
+    audioRef.current.pause();
+    audioRef.current.currentTime = 0;
+
+    audioRef.current.src = path;
+    audioRef.current.play();
+
+    setActiveId(id); // 🔥 مهم للهايلايت
+
+    audioRef.current.onended = () => {
+      setActiveId(null);
+    };
   };
   return (
     <div
@@ -112,7 +113,7 @@ const captionsExample = [
       <audio ref={audioRef} style={{ display: "none" }} />
 
       {areas.map((area, index) => {
-        const isActive = activeAreaIndex === area.sound;
+       const isActive = activeId === `p76-${area.sound}`;
 
         // ============================
         // 1️⃣ المنطقة الأساسية → دائرة تظهر فقط عندما تكون Active
@@ -126,10 +127,9 @@ const captionsExample = [
                 left: `${area.x1}%`,
                 top: `${area.y1}%`,
               }}
-              onClick={() => {
-                setActiveAreaIndex(area.sound);
-                playSound(sounds[area.sound]);
-              }}
+             onClick={() => {
+                  playSound(sounds[area.sound], `p76-${area.sound}`);
+                }}
             ></div>
           );
         }
@@ -149,10 +149,9 @@ const captionsExample = [
               width: `${area.x2 - area.x1}%`,
               height: `${area.y2 - area.y1}%`,
             }}
-            onClick={() => {
-              setActiveAreaIndex(area.sound); // 👈 يفعل الدائرة فوق الرقم
-              playSound(sounds[area.sound]);
-            }}
+           onClick={() => {
+                  playSound(sounds[area.sound], `p76-${area.sound}`);
+                }}
           ></div>
         );
       })}

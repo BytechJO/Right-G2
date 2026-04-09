@@ -101,6 +101,7 @@ const Review7_Page1_Q2 = () => {
   const [answers, setAnswers] = useState({});
   const [locked, setLocked] = useState(false);
   const [usedWords, setUsedWords] = useState([]);
+  const [hovered, setHovered] = useState(null);
   const onDragEnd = (result) => {
     if (!result.destination || locked) return;
 
@@ -261,7 +262,51 @@ const Review7_Page1_Q2 = () => {
                           {...provided.droppableProps}
                           className="border-b-2 border-black h-10 mb-4 text-blue-600"
                         >
-                          {answers[`q-${i}`]}
+                          {(answers[`q-${i}`] || "")
+                            .split(" ")
+                            .map((word, idx) => {
+                              if (!word) return null;
+
+                              const key = `q-${i}-${idx}`;
+
+                              return (
+                                <span
+                                  key={key}
+                                  onMouseEnter={() => setHovered(key)}
+                                  onMouseLeave={() => setHovered(null)}
+                                  onClick={() => {
+                                    if (locked) return;
+
+                                    const words = answers[`q-${i}`].split(" ");
+
+                                    const removedWord = q.questionWords.find(
+                                      (w) => w.text === word,
+                                    )?.id;
+
+                                    setAnswers((prev) => ({
+                                      ...prev,
+                                      [`q-${i}`]: words
+                                        .filter((_, j) => j !== idx)
+                                        .join(" "),
+                                    }));
+
+                                    // رجّع الكلمة للـ word bank
+                                    setUsedWords((prev) =>
+                                      prev.filter((id) => id !== removedWord),
+                                    );
+                                  }}
+                                  style={{
+                                    marginRight: "6px",
+                                    cursor: "pointer",
+                                    color: hovered === key ? "red" : "black",
+                                    padding: "2px 6px",
+                                    borderRadius: "6px",
+                                  }}
+                                >
+                                  {word}
+                                </span>
+                              );
+                            })}
                           {provided.placeholder}
                         </div>
                       )}
@@ -317,7 +362,51 @@ const Review7_Page1_Q2 = () => {
                           {...provided.droppableProps}
                           className="border-b-2 border-black h-10 text-blue-600"
                         >
-                          {answers[`a-${i}`]}
+                          {(answers[`a-${i}`] || "")
+                            .split(" ")
+                            .map((word, idx) => {
+                              if (!word) return null;
+
+                              const key = `q-${i}-${idx}`;
+
+                              return (
+                                <span
+                                  key={key}
+                                  onMouseEnter={() => setHovered(key)}
+                                  onMouseLeave={() => setHovered(null)}
+                                  onClick={() => {
+                                    if (locked) return;
+
+                                    const words = answers[`q-${i}`].split(" ");
+
+                                    const removedWord = q.questionWords.find(
+                                      (w) => w.text === word,
+                                    )?.id;
+
+                                    setAnswers((prev) => ({
+                                      ...prev,
+                                      [`q-${i}`]: words
+                                        .filter((_, j) => j !== idx)
+                                        .join(" "),
+                                    }));
+
+                                    // رجّع الكلمة للـ word bank
+                                    setUsedWords((prev) =>
+                                      prev.filter((id) => id !== removedWord),
+                                    );
+                                  }}
+                                  style={{
+                                    marginRight: "6px",
+                                    cursor: "pointer",
+                                    color: hovered === key ? "red" : "black",
+                                    padding: "2px 6px",
+                                    borderRadius: "6px",
+                                  }}
+                                >
+                                  {word}
+                                </span>
+                              );
+                            })}
                           {provided.placeholder}
                         </div>
                       )}

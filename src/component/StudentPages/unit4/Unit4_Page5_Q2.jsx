@@ -3,7 +3,7 @@ import "./Unit4_Page5_Q2.css";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import img1 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 32/Ex A 1.svg";
 import img2 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 32/Ex A 3.svg";
-import img3 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 32/Ex A 2.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 32/Asset 5 (1).svg";
 
 import sound1 from "../../../assets/audio/ClassBook/U 4/cd24pg32-instruction1-adult-lady_rQFKnvRt.mp3";
 
@@ -72,8 +72,8 @@ const Unit4_Page5_Q2 = () => {
       end: 7.9,
       text: "Page 32, write activities. Exercise A, number 2. Listen and circle.",
     },
-    { start: 8.96, end: 10.36, text: "One, snake." },
-    { start: 11.4, end: 15.94, text: "Two, train. Three, day." },
+    { start: 8.96, end: 10.36, text: "1, snake." },
+    { start: 11.4, end: 15.94, text: "2, train. 3, day." },
   ];
 
 

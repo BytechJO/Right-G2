@@ -36,6 +36,7 @@ export default function Review6_Page1_Q1() {
   const reset = () => {
     setAnswers(["", "", "", ""]);
     setLocked(false);
+    setShowResult(false); // 🔥 هذا الناقص
   };
 
   const handleShowAnswers = () => {

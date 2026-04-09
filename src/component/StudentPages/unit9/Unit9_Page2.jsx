@@ -21,14 +21,13 @@ import sound7 from "../../../assets/audio/ClassBook/U 9/unit9-sound7.mp3";
 import sound8 from "../../../assets/audio/ClassBook/U 9/unit9-sound8.mp3";
 import sound9 from "../../../assets/audio/ClassBook/U 9/unit9-sound9.mp3";
 import sound10 from "../../../assets/audio/ClassBook/U 9/unit9-sound10.mp3";
-
+import { useContext } from "react";
+import { AudioContext } from "../../../AudioContext";
 import "./Unit9_Page2.css";
 import ReadChoose from "../../ReadChoose";
 const Unit9_Page2 = ({ openPopup }) => {
-  const [activeAreaIndex, setActiveAreaIndex] = useState(null);
-  const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef(null);
+    const { audioRef, activeId, setActiveId } = useContext(AudioContext);
+ 
   // أصوات الصور
   const imageSounds = [
     null, // الصورة الأولى الكبيرة (إن ما بدك صوت إلها)
@@ -106,19 +105,21 @@ const Unit9_Page2 = ({ openPopup }) => {
     const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
     console.log("X%:", xPercent.toFixed(2), "Y%:", yPercent.toFixed(2));
   };
-  const playSound = (path) => {
-    if (audioRef.current) {
-      audioRef.current.src = path;
-      audioRef.current.play();
-      setIsPlaying(true);
-      setHoveredAreaIndex(null); // إزالة الهايلايت عند بدء الصوت
+   const playSound = (path, id) => {
+    if (!audioRef.current) return;
 
-      audioRef.current.onended = () => {
-        setIsPlaying(false);
-        setHoveredAreaIndex(null);
-        setActiveAreaIndex(null); // مسح الهايلايت بعد انتهاء الصوت
-      };
-    }
+    // 🔥 وقف أي صوت شغال بأي صفحة
+    audioRef.current.pause();
+    audioRef.current.currentTime = 0;
+
+    audioRef.current.src = path;
+    audioRef.current.play();
+
+    setActiveId(id); // 🔥 مهم للهايلايت
+
+    audioRef.current.onended = () => {
+      setActiveId(null);
+    };
   };
   return (
     <div
@@ -129,7 +130,7 @@ const Unit9_Page2 = ({ openPopup }) => {
       <audio ref={audioRef} style={{ display: "none" }} />
 
       {areas.map((area, index) => {
-        const isActive = activeAreaIndex === area.sound;
+       const isActive = activeId === `p77-${area.sound}`;
 
         // ============================
         // 1️⃣ المنطقة الأساسية → دائرة تظهر فقط عندما تكون Active
@@ -143,10 +144,9 @@ const Unit9_Page2 = ({ openPopup }) => {
                 left: `${area.x1}%`,
                 top: `${area.y1}%`,
               }}
-              onClick={() => {
-                setActiveAreaIndex(area.sound);
-                playSound(sounds[area.sound]);
-              }}
+             onClick={() => {
+                  playSound(sounds[area.sound], `p77-${area.sound}`);
+                }}
             ></div>
           );
         }
@@ -166,10 +166,9 @@ const Unit9_Page2 = ({ openPopup }) => {
               width: `${area.x2 - area.x1}%`,
               height: `${area.y2 - area.y1}%`,
             }}
-            onClick={() => {
-              setActiveAreaIndex(area.sound); // 👈 يفعل الدائرة فوق الرقم
-              playSound(sounds[area.sound]);
-            }}
+           onClick={() => {
+                  playSound(sounds[area.sound], `p77-${area.sound}`);
+                }}
           ></div>
         );
       })}

@@ -21,7 +21,7 @@ const Unit9_Page3 = ({ openPopup }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeAreaIndex, setActiveAreaIndex] = useState(null);
  const captionsExample = [
-  { start: 0.479, end: 10.880, text: "Page 78, exercise one. Write grammar. He's ironing clothes. He's playing chess. He's listening to the radio." },
+  { start: 0.479, end: 10.880, text: "Page 78, exercise 1. Right Grammar. He's ironing clothes. He's playing chess. He's listening to the radio." },
   { start: 11.920, end: 18.039, text: "She's ironing clothes. She's playing chess. She's listening to the radio." },
   { start: 19.139, end: 22.899, text: "He isn't cooking lunch. He isn't playing soccer." },
   { start: 23.959, end: 42.040, text: "She isn't cooking lunch. She isn't playing soccer. Mom is ironing clothes. She isn't cooking lunch. Dad is listening to the radio. He isn't reading the newspaper. The hens are eating corn. They aren't eating grass" }

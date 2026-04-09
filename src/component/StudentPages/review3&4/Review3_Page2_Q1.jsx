@@ -21,7 +21,7 @@ const Review3_Page2_Q1 = () => {
 
   /* ================ audio logic =========================*/
 
-  const stopAtSecond = 10.14;
+  const stopAtSecond = 8.0;
 
   // ================================
   // ✔ Captions Array
@@ -29,12 +29,12 @@ const Review3_Page2_Q1 = () => {
   const captions = [
     {
       start: 0.52,
-      end: 10.14,
-      text: "Page 35, review 3, exercise E. Look, listen, and write. One, yo-yo.",
+      end:8.00,
+      text: "Page 35, review 3, exercise E. Look, listen, and write.",
     },
-    { start: 11.2, end: 18.08, text: "Two, jam. Three, yogurt. Four, jet." },
-    { start: 19.12, end: 20.78, text: "Five, jacket." },
-    { start: 21.82, end: 23.3, text: "Six, yellow." },
+    { start: 8.20, end: 18.08, text: " 1, yo-yo. 2, jam. 3, yogurt. 4, jet." },
+    { start: 19.12, end: 20.78, text: "5, jacket." },
+    { start: 21.82, end: 23.3, text: "6, yellow." },
   ];
 
   /* ================= Drag Logic ================= */
@@ -122,7 +122,7 @@ const Review3_Page2_Q1 = () => {
           style={{
             display: "flex",
             flexDirection: "column",
-            // gap: "30px",
+            gap: "20px",
             width: "60%",
           }}
         >

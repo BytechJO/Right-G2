@@ -22,7 +22,7 @@ const Review7_Page1_Q1 = () => {
     },
     {
       options: ["suitcase", "souvenir shop", "roll"],
-      answer: "souvenir shop",
+      answer: "roll",
     },
     {
       options: ["reception", "hold", "airplane"],

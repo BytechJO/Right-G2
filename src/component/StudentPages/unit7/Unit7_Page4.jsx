@@ -24,7 +24,7 @@ const Unit7_Page4 = ({ openPopup }) => {
     {
       start: 0.479,
       end: 8.519,
-      text: "Page 61, exercise two. Write grammar. What day is today? It's Monday.",
+      text: "Page 61, exercise 2. Right Grammar. What day is today? It's Monday.",
     },
     { start: 8.519, end: 11.039, text: "What month is it? It's January." },
     {

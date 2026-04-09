@@ -21,11 +21,13 @@ import sound10 from "../../../assets/audio/ClassBook/U 4/unit4-sound10.mp3";
 import sound11 from "../../../assets/audio/ClassBook/U 4/unit4-sound11.mp3";
 import sound12 from "../../../assets/audio/ClassBook/U 4/unit4-sound12.mp3";
 import { TbMessageCircle } from "react-icons/tb";
+import { useContext } from "react";
+import { AudioContext } from "../../../AudioContext";
 const Unit4_Page1 = ({ openPopup }) => {
   const [activeAreaIndex, setActiveAreaIndex] = useState(null);
   const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef(null);
+  const { audioRef, activeId, setActiveId } = useContext(AudioContext);
   const captionsExample = [
     {
       start: 0.54,
@@ -35,18 +37,18 @@ const Unit4_Page1 = ({ openPopup }) => {
     {
       start: 10.72,
       end: 18.26,
-      text: "One, nurse. Two, pilot. Three, grow food.",
+      text: "1, nurse. 2, pilot. 3, grow food.",
     },
-    { start: 19.32, end: 21.62, text: "Four, taxi driver." },
-    { start: 22.68, end: 24.5, text: "Five, vet." },
-    { start: 25.76, end: 27.72, text: "Six, clerk." },
-    { start: 28.74, end: 34.48, text: "Seven, photographer. Eight, fix cars." },
-    { start: 35.58, end: 37.88, text: "Nine, police officer." },
-    { start: 38.9, end: 40.78, text: "Ten, farmer." },
+    { start: 19.32, end: 21.62, text: "4, taxi driver." },
+    { start: 22.68, end: 24.5, text: "5, vet." },
+    { start: 25.76, end: 27.72, text: "6, clerk." },
+    { start: 28.74, end: 34.48, text: "7, photographer. 8, fix cars." },
+    { start: 35.58, end: 37.88, text: "9, police officer." },
+    { start: 38.9, end: 40.78, text: "10, farmer." },
     {
       start: 41.82,
       end: 50.7,
-      text: "Eleven, mechanic. Twelve, chef. Page 28, listen and read along.",
+      text: "11, mechanic. 12, chef. Page 28, listen and read along.",
     },
     { start: 51.9, end: 52.98, text: "Long A." },
     { start: 54.1, end: 54.6, text: "May," },
@@ -67,19 +69,19 @@ const Unit4_Page1 = ({ openPopup }) => {
     { x1: 22.3, y1: 44.4, sound: 1, isPrimary: true },
 
     // // // الصوت الأول – منطقة إضافية
-    { x1: 26.46, y1: 38.75, x2: 31.70, y2: 57.48, sound: 1, isPrimary: false },
+    { x1: 26.46, y1: 38.75, x2: 31.7, y2: 57.48, sound: 1, isPrimary: false },
 
     // // // // الصوت الثاني – الأساسية
     { x1: 55.8, y1: 38.35, sound: 2, isPrimary: true },
 
     // // // // الصوت الثاني – الإضافية
-    { x1: 50.70, y1: 25.15, x2: 57.10, y2: 43.01, sound:2, isPrimary: false },
+    { x1: 50.7, y1: 25.15, x2: 57.1, y2: 43.01, sound: 2, isPrimary: false },
 
     // // // // الصوت الثالث – الأساسية
     { x1: 87.9, y1: 33.1, sound: 3, isPrimary: true },
 
     // // // // الصوت الثالث – الإضافية
-    { x1: 86.19, y1: 29.00, x2: 91.23, y2: 32.35, sound: 3, isPrimary: false },
+    { x1: 86.19, y1: 29.0, x2: 91.23, y2: 32.35, sound: 3, isPrimary: false },
     // // // // الصوت الرابع – الأساسية
     { x1: 66.5, y1: 48.3, sound: 4, isPrimary: true },
 
@@ -96,29 +98,27 @@ const Unit4_Page1 = ({ openPopup }) => {
     { x1: 36.5, y1: 61.3, sound: 6, isPrimary: true },
 
     // // // // الصوت السادس – الإضافية
-    { x1: 31.31, y1: 63.42, x2: 45.86, y2: 78.80, sound: 6, isPrimary: false },
-
+    { x1: 31.31, y1: 63.42, x2: 45.86, y2: 78.8, sound: 6, isPrimary: false },
 
     // // // // الصوت السابع – الأساسية
     { x1: 63, y1: 73, sound: 7, isPrimary: true },
 
     // // // // الصوت السابع – الإضافية
-    { x1: 57.3, y1: 68.44, x2: 63.50, y2: 82.76, sound: 7, isPrimary: false },
-    
-    
+    { x1: 57.3, y1: 68.44, x2: 63.5, y2: 82.76, sound: 7, isPrimary: false },
+
     // // // // الصوت السادس – الأساسية
     { x1: 87, y1: 19.3, sound: 8, isPrimary: true },
 
     // // // // الصوت السادس – الإضافية
-    { x1: 80.37, y1:19.40, x2: 85.3, y2: 25.80, sound: 8, isPrimary: false },
+    { x1: 80.37, y1: 19.4, x2: 85.3, y2: 25.8, sound: 8, isPrimary: false },
 
     // // // // // الصوت السابع – الأساسية
     { x1: 79, y1: 75.5, sound: 9, isPrimary: true },
 
     // // // // // الصوت السابع – الإضافية
-    { x1: 80.95, y1: 71.58, x2: 95.30, y2: 87.33, sound: 9, isPrimary: false },
+    { x1: 80.95, y1: 71.58, x2: 95.3, y2: 87.33, sound: 9, isPrimary: false },
   ];
- 
+
   const sounds = {
     1: sound1,
     2: sound2,
@@ -137,19 +137,21 @@ const Unit4_Page1 = ({ openPopup }) => {
     const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
     console.log("X%:", xPercent.toFixed(2), "Y%:", yPercent.toFixed(2));
   };
-  const playSound = (path) => {
-    if (audioRef.current) {
-      audioRef.current.src = path;
-      audioRef.current.play();
-      setIsPlaying(true);
-      setHoveredAreaIndex(null); // إزالة الهايلايت عند بدء الصوت
+  const playSound = (path, id) => {
+    if (!audioRef.current) return;
 
-      audioRef.current.onended = () => {
-        setIsPlaying(false);
-        setHoveredAreaIndex(null);
-        setActiveAreaIndex(null); // مسح الهايلايت بعد انتهاء الصوت
-      };
-    }
+    // 🔥 وقف أي صوت شغال بأي صفحة
+    audioRef.current.pause();
+    audioRef.current.currentTime = 0;
+
+    audioRef.current.src = path;
+    audioRef.current.play();
+
+    setActiveId(id); // 🔥 مهم للهايلايت
+
+    audioRef.current.onended = () => {
+      setActiveId(null);
+    };
   };
   return (
     <div
@@ -164,7 +166,7 @@ const Unit4_Page1 = ({ openPopup }) => {
         style={{ display: "block" }}
       /> */}
       {areas.map((area, index) => {
-        const isActive = activeAreaIndex === area.sound;
+        const isActive = activeId === `p28-${area.sound}`;
 
         // ============================
         // 1️⃣ المنطقة الأساسية → دائرة تظهر فقط عندما تكون Active
@@ -179,9 +181,8 @@ const Unit4_Page1 = ({ openPopup }) => {
                 top: `${area.y1}%`,
               }}
               onClick={() => {
-                setActiveAreaIndex(area.sound);
-                playSound(sounds[area.sound]);
-              }}
+                  playSound(sounds[area.sound], `p28-${area.sound}`);
+                }}
             ></div>
           );
         }
@@ -202,9 +203,8 @@ const Unit4_Page1 = ({ openPopup }) => {
               height: `${area.y2 - area.y1}%`,
             }}
             onClick={() => {
-              setActiveAreaIndex(area.sound); // 👈 يفعل الدائرة فوق الرقم
-              playSound(sounds[area.sound]);
-            }}
+                playSound(sounds[area.sound], `p28-${area.sound}`);
+              }}
           ></div>
         );
       })}

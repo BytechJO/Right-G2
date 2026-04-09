@@ -44,8 +44,8 @@ const Unit9_Page5_Q2 = () => {
   const stopAtSecond = 9.899; // عدلها حسب طول الأوديو عندك
 
 const captions = [
-  { start: 0.479, end: 9.899, text: "Page 80, write activities. Exercise A, number 2. Which picture has a long A? Listen, circle, and write." },
-  { start: 10.979, end: 21.659, text: "One, pain, bat. Two, rat, shake. Three, hat, day" }
+  { start: 0.479, end: 9.899, text: "Page 80, Right Activities. Exercise A, number 2. Which picture has a long A? Listen, circle, and write." },
+  { start: 10.979, end: 21.659, text: "1, pain, bat. 2, rat, shake. 3, hat, day" }
 ];
 
   const handleSelect = (qId, index) => {
@@ -167,7 +167,7 @@ const captions = [
     setDroppedWords({});
     setShowResult(false);
     setLocked(false);
-    setResetKey((prev) => prev + 1); // 👈 هذا المهم
+    // setResetKey((prev) => prev + 1); // 👈 هذا المهم
   };
 
   const isWrongWord = (q) => {

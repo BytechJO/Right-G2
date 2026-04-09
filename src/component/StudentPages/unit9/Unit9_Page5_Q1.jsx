@@ -47,11 +47,11 @@ const Unit9_Page5_Q1 = () => {
     {
       start: 0.419,
       end: 6.879,
-      text: "Page 80, Write Activities. Exercise A, Number 1. Which picture has a short A?",
+      text: "Page 80, Right Activities. Exercise A, Number 1. Which picture has a short A?",
     },
     { start: 8.0, end: 10.199, text: "Listen, circle, and write." },
-    { start: 11.279, end: 18.199, text: "One, game, sad. Two, cap, chain." },
-    { start: 19.26, end: 22.319, text: "Three, rake, cat" },
+    { start: 11.279, end: 18.199, text: "1, game, sad. 2, cap, chain." },
+    { start: 19.26, end: 22.319, text: "3, rake, cat" },
   ];
 
   const handleSelect = (qId, index) => {
@@ -174,7 +174,7 @@ const Unit9_Page5_Q1 = () => {
     setDroppedWords({});
     setShowResult(false);
     setLocked(false);
-    setResetKey((prev) => prev + 1); // 👈 هذا المهم
+    // setResetKey((prev) => prev + 1); // 👈 هذا المهم
   };
 
   const isWrongWord = (q) => {

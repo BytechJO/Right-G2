@@ -47,12 +47,12 @@ const Review2_Page2_Q3 = () => {
   // ✔ Captions Array
   // ================================
   const captions = [
-    { start: 0.52, end: 5.0, text: "Page 19, review two. Exercise G." },
+    { start: 0.52, end: 5.0, text: "Page 19, review 2. Exercise G." },
     { start: 6.06, end: 8.38, text: "Listen, circle, and write." },
-    { start: 9.54, end: 10.94, text: "One, cat." },
-    { start: 11.98, end: 13.66, text: "Two, box." },
-    { start: 14.84, end: 16.48, text: "Three, clock." },
-    { start: 17.5, end: 19.04, text: "Four, queen." },
+    { start: 9.54, end: 10.94, text: "1, cat." },
+    { start: 11.98, end: 13.66, text: "2, box." },
+    { start: 14.84, end: 16.48, text: "3, clock." },
+    { start: 17.5, end: 19.04, text: "4, queen." },
   ];
 
   const onDragEnd = (result) => {

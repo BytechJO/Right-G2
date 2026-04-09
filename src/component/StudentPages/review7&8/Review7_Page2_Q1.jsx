@@ -21,10 +21,10 @@ const Review7_Page2_Q1 = () => {
     {
       start: 0.539,
       end: 9.939,
-      text: "Page 71. Review seven. Exercise C. Does it have a long O? Listen and write check or X.",
+      text: "Page 71. Review 7. Exercise C. Does it have a long O? Listen and write ✓ or X.",
     },
-    { start: 11.179, end: 15.319, text: "One: bone. Two: key." },
-    { start: 16.34, end: 23.199, text: "Three: bike. Four: snow. Five: soap" },
+    { start: 11.179, end: 15.319, text: "1: bone. 2: key." },
+    { start: 16.34, end: 23.199, text: "3: bike. 4: snow. 5: soap" },
   ];
   const [selected, setSelected] = useState(Array(items.length).fill(""));
   const [locked, setLocked] = useState(false);

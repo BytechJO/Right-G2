@@ -22,7 +22,7 @@ const Unit8_Page4 = ({ openPopup }) => {
     {
       start: 0.459,
       end: 18.959,
-      text: "Page 67, exercise two. Write grammar. Does she have any skirts? Yes, she has four skirts. Does he have any ties? Yes, he has 10 ties. No, he doesn't have any ties.",
+      text: "Page 67, exercise 2. Right Grammar. Does she have any skirts? Yes, she has four skirts. Does he have any ties? Yes, he has 10 ties. No, he doesn't have any ties.",
     },
     { start: 20.18, end: 24.299, text: "She has four skirts. He has 10 ties." },
     { start: 25.379, end: 26.92, text: "She has one scarf" },

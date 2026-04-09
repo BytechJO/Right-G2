@@ -148,13 +148,22 @@
 /* ===============================
    WRONG MARK
 ================================ */
-.wrong-mark-wb-unit6-p2-q2 {
+.wrong-mark-sb-unit2-p5-q1 {
   position: absolute;
   right: -14px;
   top: 6px;
-  color: red;
+  background-color: red;
   font-weight: 900;
   font-size: 14px;
+  height: 25px;
+  width: 25px;
+  border: 2px solid white;
+  border-radius: 50%;
+  box-shadow: 2px black;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 

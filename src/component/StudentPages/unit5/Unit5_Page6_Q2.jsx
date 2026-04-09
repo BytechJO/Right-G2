@@ -40,7 +40,7 @@ const Unit5_Page6_Q2 = () => {
   const [wrongInputs, setWrongInputs] = useState([]);
   const [locked, setLocked] = useState(false);
   const [showAnswer, setShowAnswer] = useState(false);
-
+const [hoveredWord, setHoveredWord] = useState(null);
   const [userInputs, setUserInputs] = useState({
     1: "",
     2: "",
@@ -259,7 +259,7 @@ const Unit5_Page6_Q2 = () => {
                     {/* Input */}
                     <Droppable droppableId={`blank-${q.id}`}>
                       {(provided, snapshot) => (
-                        <input
+                        <div
                           ref={provided.innerRef}
                           {...provided.droppableProps}
                           className={`CB-unit5-p6-q2-input ${
@@ -267,9 +267,59 @@ const Unit5_Page6_Q2 = () => {
                               ? "CB-unit5-p6-q2-drag-over"
                               : ""
                           }`}
-                          value={userInputs[q.id]}
-                          disabled={showAnswer || locked}
-                        />
+                          style={{
+                            minHeight: "40px",
+                            display: "flex",
+                            alignItems: "center",
+                            flexWrap: "wrap",
+                            padding: "5px",
+                          }}
+                        >
+                          {(userInputs[q.id] || "")
+                            .split(" ")
+                            .map((word, index) => {
+                              if (!word) return null;
+
+                              const key = `${q.id}-${index}`;
+
+                              return (
+                                <span
+                                  key={key}
+                                  onMouseEnter={() => setHoveredWord(key)}
+                                  onMouseLeave={() => setHoveredWord(null)}
+                                  onClick={() => {
+                                    if (locked || showAnswer) return;
+
+                                    const words = userInputs[q.id].split(" ");
+
+                                    const updated = words.filter(
+                                      (_, i) => i !== index,
+                                    );
+
+                                    setUserInputs((prev) => ({
+                                      ...prev,
+                                      [q.id]: updated.join(" "),
+                                    }));
+                                  }}
+                                  style={{
+                                    marginRight: "6px",
+                                    cursor: locked ? "default" : "pointer",
+                                    padding: "2px 6px",
+                                    borderRadius: "6px",
+                                    color:
+                                      hoveredWord === key
+                                        ? "red"
+                                        : "black",
+                                    transition: "0.2s",
+                                  }}
+                                >
+                                  {word}
+                                </span>
+                              );
+                            })}
+
+                          {provided.placeholder}
+                        </div>
                       )}
                     </Droppable>
 

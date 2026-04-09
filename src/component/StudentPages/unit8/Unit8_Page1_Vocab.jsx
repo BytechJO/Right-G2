@@ -52,17 +52,17 @@ const Unit8_Page1_Vocab = () => {
   // ✔ Captions Array
   // ================================
   const captions = [
-    { start: 0.48, end: 3.20, text: "Page 64, unit eight, vocabulary" },
-    { start: 4.58, end: 5.58, text: "One, pay." }, // party hat
-    { start: 6.8, end: 8.52, text: "Two, find." }, // jellow
-    { start: 9.22, end: 10.34, text: "Three, cap." }, // cake
-    { start: 10.8, end: 12.84, text: "Four, jacket." }, // Hello
-    { start: 13.8, end: 15.34, text: "Five, shorts." }, // Good morning
-    { start: 16.74, end: 17.8, text: "Six, tie." },
-    { start: 19.24, end: 20.28, text: "Seven, socks." },
-    { start: 21.7, end: 22.74, text: "Eight, closet." }, // Good morning
-    { start: 24.3, end: 25.5, text: "Nine, dress." },
-    { start: 26.94, end: 28.56, text: "Ten, clothing store." },
+    { start: 0.48, end: 3.20, text: "Page 64, unit 8, vocabulary" },
+    { start: 4.58, end: 5.58, text: "1, pay." }, // party hat
+    { start: 6.8, end: 8.52, text: "2, find." }, // jellow
+    { start: 9.22, end: 10.34, text: "3, cap." }, // cake
+    { start: 10.8, end: 12.84, text: "4, jacket." }, // Hello
+    { start: 13.8, end: 15.34, text: "5, shorts." }, // Good morning
+    { start: 16.74, end: 17.8, text: "6, tie." },
+    { start: 19.24, end: 20.28, text: "7, socks." },
+    { start: 21.7, end: 22.74, text: "8, closet." }, // Good morning
+    { start: 24.3, end: 25.5, text: "9, dress." },
+    { start: 26.94, end: 28.56, text: "10, clothing store." },
   ];
   // 🎵 فترات الكلمات داخل الأوديو الرئيسي
   const wordTimings = [

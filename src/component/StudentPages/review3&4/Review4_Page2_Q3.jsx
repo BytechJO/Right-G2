@@ -302,7 +302,7 @@ const Review4_Page2_Q3 = () => {
                     answers[i].trim().toLowerCase() !==
                       item.correctInput.toLowerCase() &&
                     wrongInputs.includes(i) && (
-                      <div className="wrong-mark-CB-review2-p2-q3 ">✕</div>
+                      <div className="wrong-mark-CB-review4-p2-q3">✕</div>
                     )}
                 </div>
               </div>

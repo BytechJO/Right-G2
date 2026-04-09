@@ -19,30 +19,32 @@ import sound8 from "../../../assets/audio/ClassBook/U 3/unit3-sound8.mp3";
 import sound9 from "../../../assets/audio/ClassBook/U 3/unit3-sound9.mp3";
 import sound10 from "../../../assets/audio/ClassBook/U 3/unit3-sound10.mp3";
 import sound11 from "../../../assets/audio/ClassBook/U 3/unit3-sound11.mp3";
+import { useContext } from "react";
+import { AudioContext } from "../../../AudioContext";
 const Unit3_Page1 = ({ openPopup }) => {
   const [activeAreaIndex, setActiveAreaIndex] = useState(null);
   const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef(null);
+ const { audioRef, activeId, setActiveId } = useContext(AudioContext);
   const captionsExample = [
     {
       start: 0.46,
       end: 8.58,
       text: "Page 22, Unit 3. On a picnic. Page 22, Unit 3, Vocabulary.",
     },
-    { start: 9.8, end: 11.3, text: "One, swim." },
-    { start: 12.42, end: 14.06, text: "Two, kite." },
-    { start: 15.2, end: 20.1, text: "Three, sandwich. Four, picnic table." },
-    { start: 21.1, end: 23.14, text: "Five, play the drum." },
-    { start: 24.18, end: 25.94, text: "Six, drum." },
-    { start: 27.06, end: 29.3, text: "Seven, take a photo." },
-    { start: 30.44, end: 32.38, text: "Eight, ride a bike." },
-    { start: 33.5, end: 35.34, text: "Nine, paint." },
-    { start: 36.48, end: 38.4, text: "Ten, park." },
+    { start: 9.8, end: 11.3, text: "1, swim." },
+    { start: 12.42, end: 14.06, text: "2, kite." },
+    { start: 15.2, end: 20.1, text: "3, sandwich. 4, picnic table." },
+    { start: 21.1, end: 23.14, text: "5, play the drum." },
+    { start: 24.18, end: 25.94, text: "6, drum." },
+    { start: 27.06, end: 29.3, text: "7, take a photo." },
+    { start: 30.44, end: 32.38, text: "8, ride a bike." },
+    { start: 33.5, end: 35.34, text: "9, paint." },
+    { start: 36.48, end: 38.4, text: "10, park." },
     {
       start: 39.46,
       end: 45.88,
-      text: "Eleven, bench. Page 22. Listen and read along.",
+      text: "11, bench. Page 22. Listen and read along.",
     },
     { start: 46.92, end: 47.28, text: "J." },
     { start: 48.38, end: 48.96, text: "Jacket," },
@@ -122,20 +124,22 @@ const Unit3_Page1 = ({ openPopup }) => {
     const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
     console.log("X%:", xPercent.toFixed(2), "Y%:", yPercent.toFixed(2));
   };
-  const playSound = (path) => {
-    if (audioRef.current) {
-      audioRef.current.src = path;
-      audioRef.current.play();
-      setIsPlaying(true);
-      setHoveredAreaIndex(null); // إزالة الهايلايت عند بدء الصوت
+  const playSound = (path, id) => {
+  if (!audioRef.current) return;
 
-      audioRef.current.onended = () => {
-        setIsPlaying(false);
-        setHoveredAreaIndex(null);
-        setActiveAreaIndex(null); // مسح الهايلايت بعد انتهاء الصوت
-      };
-    }
+  // 🔥 وقف أي صوت شغال بأي صفحة
+  audioRef.current.pause();
+  audioRef.current.currentTime = 0;
+
+  audioRef.current.src = path;
+  audioRef.current.play();
+
+  setActiveId(id); // 🔥 مهم للهايلايت
+
+  audioRef.current.onended = () => {
+    setActiveId(null);
   };
+};
   return (
     <div
       className="page1-img-wrapper"
@@ -145,7 +149,7 @@ const Unit3_Page1 = ({ openPopup }) => {
       <audio ref={audioRef} style={{ display: "none" }} />
 
       {areas.map((area, index) => {
-        const isActive = activeAreaIndex === area.sound;
+         const isActive = activeId === `p22-${area.sound}`;
 
         // ============================
         // 1️⃣ المنطقة الأساسية → دائرة تظهر فقط عندما تكون Active
@@ -160,9 +164,8 @@ const Unit3_Page1 = ({ openPopup }) => {
                 top: `${area.y1}%`,
               }}
               onClick={() => {
-                setActiveAreaIndex(area.sound);
-                playSound(sounds[area.sound]);
-              }}
+  playSound(sounds[area.sound], `p22-${area.sound}`);
+}}
             ></div>
           );
         }
@@ -182,10 +185,9 @@ const Unit3_Page1 = ({ openPopup }) => {
               width: `${area.x2 - area.x1}%`,
               height: `${area.y2 - area.y1}%`,
             }}
-            onClick={() => {
-              setActiveAreaIndex(area.sound); // 👈 يفعل الدائرة فوق الرقم
-              playSound(sounds[area.sound]);
-            }}
+           onClick={() => {
+  playSound(sounds[area.sound], `p22-${area.sound}`);
+}}
           ></div>
         );
       })}

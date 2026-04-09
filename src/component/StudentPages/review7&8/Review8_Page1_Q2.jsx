@@ -65,12 +65,32 @@ export default function Review8_Page1_Q3() {
     setAnswers(updated);
     setUsedLetterIds((prev) => [...prev, id]);
   };
+  const removeLetter = (qIndex, wordIndex, letterIndex) => {
+    if (locked) return;
 
-  const resetAll = () => {
-    setAnswers(items.map(() => ["", ""]));
-    setLocked(false);
-    setShowResult(false);
+    const updated = [...answers];
+    const word = updated[qIndex][wordIndex];
+
+    const newWord = word.slice(0, letterIndex) + word.slice(letterIndex + 1);
+
+    updated[qIndex][wordIndex] = newWord;
+
+    // لازم كمان نحذف من usedLetterIds
+    const letter = word[letterIndex];
+
+    const idToRemove = usedLetterIds.find((id) =>
+      id.startsWith(`${letter}-${qIndex}-${wordIndex}`),
+    );
+
+    setAnswers(updated);
+    setUsedLetterIds((prev) => prev.filter((id) => id !== idToRemove));
   };
+ const resetAll = () => {
+  setAnswers(items.map(() => ["", ""]));
+  setUsedLetterIds([]); // ✅ مهم
+  setLocked(false);
+  setShowResult(false);
+};
 
   const showAnswers = () => {
     setAnswers(items.map((item) => item.correct));
@@ -206,7 +226,19 @@ export default function Review8_Page1_Q3() {
   }
 `}
                             >
-                              {answers[i][wordIndex]}
+                              {answers[i][wordIndex]
+                                .split("")
+                                .map((char, idx) => (
+                                  <span
+                                    key={idx}
+                                    onClick={() =>
+                                      removeLetter(i, wordIndex, idx)
+                                    }
+                                    className="cursor-pointer hover:text-red-500"
+                                  >
+                                    {char}
+                                  </span>
+                                ))}
                               {showResult &&
                                 answers[i][wordIndex] !==
                                   item.correct[wordIndex] && (

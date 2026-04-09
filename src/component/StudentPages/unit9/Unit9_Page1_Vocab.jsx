@@ -52,19 +52,19 @@ const Unit9_Page1_Vocab = () => {
   // ✔ Captions Array
   // ================================
   const captions = [
-    { start: 0.56, end: 2.5, text: "Page 76, Unit Nine vocabulary." },
+    { start: 0.56, end: 2.5, text: "Page 76, Unit 9 vocabulary." },
 
-    { start: 4.6, end: 5.92, text: "One, soccer." },
-    { start: 6.76, end: 8.24, text: "Two, hen." },
-    { start: 9.1, end: 10.18, text: "Three, chess." },
-    { start: 11.7, end: 12.8, text: "Four, thinking." },
-    { start: 14.3, end: 16.3, text: "Five, sending an email." },
-    { start: 17.68, end: 19.46, text: "Six, listening to the radio." },
-    { start: 20.92, end: 21.9, text: "Seven, glasses." },
-    { start: 23.54, end: 25.08, text: "Eight, looking." },
+    { start: 4.6, end: 5.92, text: "1, soccer." },
+    { start: 6.76, end: 8.24, text: "2, hen." },
+    { start: 9.1, end: 10.18, text: "3, chess." },
+    { start: 11.7, end: 12.8, text: "4, thinking." },
+    { start: 14.3, end: 16.3, text: "5, sending an email." },
+    { start: 17.68, end: 19.46, text: "6, listening to the radio." },
+    { start: 20.92, end: 21.9, text: "7, glasses." },
+    { start: 23.54, end: 25.08, text: "8, looking." },
 
-    { start: 26.16, end: 28.08, text: "Nine, ironing clothes." },
-    { start: 29.36, end: 30.82, text: "Ten, cooking." },
+    { start: 26.16, end: 28.08, text: "9, ironing clothes." },
+    { start: 29.36, end: 30.82, text: "10, cooking." },
   ];
   // 🎵 فترات الكلمات داخل الأوديو الرئيسي
   const wordTimings = [

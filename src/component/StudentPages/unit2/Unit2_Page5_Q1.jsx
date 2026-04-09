@@ -83,9 +83,7 @@ const Unit2_Page5_Q1 = () => {
   const [written, setWritten] = useState({});
   const [locked, setLocked] = useState(false);
   const [checked, setChecked] = useState(false);
-  const [wrongInputs, setWrongInputs] = useState([]);
 
-  const stopAtSecond = 9;
 
   /* ================= HELPERS ================= */
 
@@ -104,93 +102,146 @@ const Unit2_Page5_Q1 = () => {
   };
 
   /* ================= CLICK HANDLERS ================= */
-  const handleStart = (e) => {
-    if (locked) return;
+ const handleStart = (e) => {
+  if (locked) return;
 
-    const data = e.currentTarget.dataset;
+  const data = e.currentTarget.dataset;
 
-    let type = null;
-    if (data.leftId) type = "left";
-    else if (data.image) type = "image";
-    else if (data.right) type = "right";
+  let type = null;
+  if (data.leftId) type = "left";
+  else if (data.image) type = "image";
+  else if (data.right) type = "right";
 
-    let pos = null;
+  let pos = null;
 
-    if (type === "left") {
-      pos = getDotCenterFromParent(e.currentTarget, ".start-dot");
-    } else if (type === "image") {
-      pos = getDotCenterFromParent(e.currentTarget, ".start-dot");
-    } else {
+  // 🔴 منع استخدام نفس left أكثر من مرة
+  if (type === "left") {
+    const alreadyUsed = lines.some(
+      (l) => l.leftId === Number(data.leftId)
+    );
+    if (alreadyUsed) return;
+
+    pos = getDotCenterFromParent(e.currentTarget, ".start-dot");
+  }
+
+  // 🔴 منع استخدام نفس الصورة كبداية (image → right)
+  else if (type === "image") {
+    const alreadyUsed = lines.some(
+      (l) => l.image === data.image && l.right !== null
+    );
+    if (alreadyUsed) return;
+
+    pos = getDotCenterFromParent(e.currentTarget, ".start-dot");
+  } else {
+    return;
+  }
+
+  if (!pos) return;
+
+  setFirstPoint({
+    type,
+    leftId: data.leftId ? Number(data.leftId) : null,
+    image: data.image || null,
+    x: pos.x,
+    y: pos.y,
+  });
+};
+const handleEnd = (e) => {
+  if (!firstPoint || locked) return;
+
+  const data = e.currentTarget.dataset;
+
+  let endType = null;
+  if (data.leftId) endType = "left";
+  else if (data.image) endType = "image";
+  else if (data.right) endType = "right";
+
+  // 🔴 السماح فقط بالمسارات الصحيحة
+  if (firstPoint.type === "left" && endType !== "image") {
+    setFirstPoint(null);
+    return;
+  }
+
+  if (firstPoint.type === "image" && endType !== "right") {
+    setFirstPoint(null);
+    return;
+  }
+
+  let pos = null;
+  if (endType === "image" || endType === "right") {
+    pos = getDotCenterFromParent(e.currentTarget, ".end-dot");
+  }
+
+  if (!pos) return;
+
+  // =========================
+  // 🔴 منع تكرار left
+  // =========================
+  if (firstPoint.leftId) {
+    const alreadyUsed = lines.some(
+      (l) => l.leftId === firstPoint.leftId
+    );
+    if (alreadyUsed) {
+      setFirstPoint(null);
       return;
     }
+  }
 
-    if (!pos) return;
+  // =========================
+  // 🔴 منع الصورة تستقبل أكثر من left
+  // =========================
+  if (endType === "image") {
+    const alreadyUsed = lines.some(
+      (l) => l.image === data.image && l.right === null
+    );
+    if (alreadyUsed) {
+      setFirstPoint(null);
+      return;
+    }
+  }
+
+  // =========================
+  // 🔴 منع الصورة تطلع أكثر من خط لـ right
+  // =========================
+  if (firstPoint.image && endType === "right") {
+    const alreadyUsed = lines.some(
+      (l) => l.image === firstPoint.image && l.right !== null
+    );
+    if (alreadyUsed) {
+      setFirstPoint(null);
+      return;
+    }
+  }
+
+  const newLine = {
+    x1: firstPoint.x,
+    y1: firstPoint.y,
+    x2: pos.x,
+    y2: pos.y,
+    leftId: firstPoint.leftId,
+    image: firstPoint.image || data.image,
+    right: data.right || null,
+  };
+
+  setLines((prev) => [...prev, newLine]);
+
+  // 🔁 استمرار الرسم من الصورة
+  if (firstPoint.type === "left" && endType === "image") {
+    const startFromImagePos = getDotCenterFromParent(
+      e.currentTarget,
+      ".start-dot"
+    );
 
     setFirstPoint({
-      type,
-      leftId: data.leftId ? Number(data.leftId) : null,
-      image: data.image || null,
-      x: pos.x,
-      y: pos.y,
+      type: "image",
+      image: data.image,
+      x: startFromImagePos?.x ?? pos.x,
+      y: startFromImagePos?.y ?? pos.y,
     });
-  };
-
-  const handleEnd = (e) => {
-    if (!firstPoint || locked) return;
-
-    const data = e.currentTarget.dataset;
-
-    let endType = null;
-    if (data.leftId) endType = "left";
-    else if (data.image) endType = "image";
-    else if (data.right) endType = "right";
-
-    if (firstPoint.type === "left" && endType !== "image") {
-      setFirstPoint(null);
-      return;
-    }
-
-    if (firstPoint.type === "image" && endType !== "right") {
-      setFirstPoint(null);
-      return;
-    }
-
-    let pos = null;
-    if (endType === "image" || endType === "right") {
-      pos = getDotCenterFromParent(e.currentTarget, ".end-dot");
-    }
-
-    if (!pos) return;
-
-    const newLine = {
-      x1: firstPoint.x,
-      y1: firstPoint.y,
-      x2: pos.x,
-      y2: pos.y,
-      leftId: firstPoint.leftId,
-      image: firstPoint.image || data.image,
-      right: data.right || null,
-    };
-
-    setLines((prev) => [...prev, newLine]);
-
-    if (firstPoint.type === "left" && endType === "image") {
-      const startFromImagePos = getDotCenterFromParent(
-        e.currentTarget,
-        ".start-dot",
-      );
-
-      setFirstPoint({
-        type: "image",
-        image: data.image,
-        x: startFromImagePos?.x ?? pos.x,
-        y: startFromImagePos?.y ?? pos.y,
-      });
-    } else {
-      setFirstPoint(null);
-    }
-  };
-
+  } else {
+    setFirstPoint(null);
+  }
+};
   /* ================= CHECK ================= */
   const checkAnswers = () => {
     if (checked || locked) return;
@@ -202,31 +253,35 @@ const Unit2_Page5_Q1 = () => {
       );
       return;
     }
+let score = 0;
+let wrong = [];
 
-    let score = 0;
-    let wrong = [];
+correctGroups.forEach((group) => {
+  // 🔍 نجيب كل التوصيلات اللي راحت لهالصورة
+  const usedLeftConnections = lines.filter(
+    (l) => l.image === group.image && l.leftId !== null
+  );
 
-    correctGroups.forEach((group) => {
-      const hasCorrectConnection = group.leftIds.some((leftId) => {
-        const leftToImg = lines.some(
-          (l) => l.leftId === leftId && l.image === group.image,
-        );
+  const imgToRight = lines.find(
+    (l) => l.image === group.image && l.right === group.right
+  );
 
-        const imgToRight = lines.some(
-          (l) => l.image === group.image && l.right === group.right,
-        );
+  let isCorrect = false;
 
-        return leftToImg && imgToRight;
-      });
+  usedLeftConnections.forEach((conn) => {
+    // ✅ إذا الحرف المستخدم واحد من الصح
+    if (group.leftIds.includes(conn.leftId) && imgToRight) {
+      isCorrect = true;
+    } else {
+      // ❌ هذا الحرف هو الغلط → نحطه لحاله
+      wrong.push(conn.leftId);
+    }
+  });
 
-      if (hasCorrectConnection) {
-        score++;
-      } else {
-        wrong.push(...group.leftIds);
-      }
-    });
-
-    setWrongLeft(wrong);
+  if (isCorrect) {
+    score++;
+  }
+}); setWrongLeft(wrong);
     setChecked(true);
     setLocked(true);
 
@@ -311,12 +366,12 @@ const Unit2_Page5_Q1 = () => {
   // ✔ Captions Array
   // ================================
   const captions = [
-    { start: 1.1, end: 4.12, text: "Page 14, write activities." },
+    { start: 1.1, end: 4.12, text: "Page 14, Right Activities." },
     { start: 5.2, end: 10.24, text: "Exercise A, listen, write, and match." },
-    { start: 11.44, end: 13.1, text: "One, box." },
-    { start: 14.16, end: 18.96, text: "Two, lock. Three, queen." },
-    { start: 20.08, end: 24.62, text: "Four, sock. Five, fox." },
-    { start: 25.74, end: 27.46, text: "Six, cow." },
+    { start: 11.44, end: 13.1, text: "1, box." },
+    { start: 14.16, end: 18.96, text: "2, lock. 3, queen." },
+    { start: 20.08, end: 24.62, text: "4, sock. 5, fox." },
+    { start: 25.74, end: 27.46, text: "6, cow." },
   ];
 
   return (
@@ -367,7 +422,7 @@ const Unit2_Page5_Q1 = () => {
                 </span>
                 <div className="dot-wb-unit6-p2-q2 start-dot" />
                 {wrongLeft.includes(l.id) && checked && (
-                  <span className="wrong-mark-wb-unit6-p2-q2">✕</span>
+                  <span className="wrong-mark-sb-unit2-p5-q1">✕</span>
                 )}
               </div>
             ))}

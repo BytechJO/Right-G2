@@ -13,7 +13,7 @@ const Review8_Page2_Q2 = () => {
   const [matches, setMatches] = useState({});
   const [showResult, setShowResult] = useState(false);
   const [locked, setLocked] = useState(false);
-
+  const [selectedImage, setSelectedImage] = useState(null);
   const [filledLetters, setFilledLetters] = useState({});
   const [activeBlank, setActiveBlank] = useState(null);
 
@@ -57,8 +57,8 @@ const Review8_Page2_Q2 = () => {
   ];
 
   const correct = {
-    0: 3,
-    1: 2,
+    0: 2,
+    1: 3,
     2: 0,
     3: 1,
   };
@@ -75,6 +75,19 @@ const Review8_Page2_Q2 = () => {
       if (!updated[sentId]) updated[sentId] = [...sentences[sentId].word];
 
       updated[sentId][index] = letter;
+
+      return updated;
+    });
+  };
+  const removeLetter = (sentId, index) => {
+    if (locked) return;
+
+    setFilledLetters((prev) => {
+      const updated = { ...prev };
+
+      if (!updated[sentId]) return prev;
+
+      updated[sentId][index] = "";
 
       return updated;
     });
@@ -211,7 +224,29 @@ const Review8_Page2_Q2 = () => {
                     >
                       <img
                         src={img.img}
-                        style={{ height: "120px", width: "auto" }}
+                        onClick={() => {
+                          if (locked) return;
+                          setSelectedImage(index);
+                        }}
+                        style={{
+                          height: "130px",
+                          width: "auto",
+                          cursor: "pointer",
+                          borderRadius: "10px",
+                          transition: "0.2s",
+                          border:
+                            selectedImage === index
+                              ? "3px solid #ef4444"
+                              : "2px solid transparent",
+                          background:
+                            selectedImage === index ? "#fee2e2" : "transparent",
+                          transform:
+                            selectedImage === index ? "scale(1.05)" : "scale(1)",
+                          boxShadow:
+                            selectedImage === index
+                              ? "0 4px 12px rgba(0,0,0,0.2)"
+                              : "none",
+                        }}
                       />
                     </div>
 
@@ -275,7 +310,16 @@ const Review8_Page2_Q2 = () => {
                                   {...provided.droppableProps}
                                   className="w-6 h-8 border-b-2 text-center"
                                 >
-                                  {filledLetters[sent.id]?.[idx] || "_"}
+                                  {filledLetters[sent.id]?.[idx] ? (
+                                    <span
+                                      onClick={() => removeLetter(sent.id, idx)}
+                                      className="cursor-pointer hover:text-red-500"
+                                    >
+                                      {filledLetters[sent.id][idx]}
+                                    </span>
+                                  ) : (
+                                    "_"
+                                  )}
                                   {provided.placeholder}
                                 </span>
                               )}

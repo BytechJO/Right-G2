@@ -19,7 +19,7 @@ const Review1_Page2_Q2 = () => {
     {
       start: 5.299,
       end: 10.399,
-      text: "Do they both have long E? Listen and write check or X.",
+      text: "Do they both have long E? Listen and write ✓ or X.",
     },
     { start: 11.439, end: 14.659, text: "1, knee, tea." },
     { start: 15.679, end: 19.02, text: "2, tape. Three." },

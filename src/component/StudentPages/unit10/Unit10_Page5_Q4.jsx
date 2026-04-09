@@ -13,9 +13,9 @@ const Unit10_Page5_Q4 = () => {
 
   const correctPositions = {
     they: [3,4,5,6],
-    lay: [7,8,9],
+    lay: [8,9,10],
     their: [20,21,22,23,24],
-    eggs: [27,28,29,30],
+    eggs: [28,29,30,31],
     in: [37,38],
     a: [43],
     nest: [47,48,49,50],

@@ -7,9 +7,13 @@ import QuestionAudioPlayer from "../../QuestionAudioPlayer";
 const Review9_Page2_Q2 = () => {
   const stopAtSecond = 3.5;
 
-const captions = [
-  { start: 0.519, end: 16.159, text: "Page 89, review nine, exercise F. Listen, read, and circle. One, main. Two, mad. Three, cape. Four, mat." }
-];
+  const captions = [
+    {
+      start: 0.519,
+      end: 16.159,
+      text: "Page 89, review 9, exercise F. Listen, read, and circle. 1, main. 2, mad. 3, cape. 4, mat.",
+    },
+  ];
 
   const questions = [
     { answer: "main" },
@@ -155,7 +159,7 @@ const captions = [
                         justifyContent: "center",
                         fontSize: "18px",
                         fontWeight: "bold",
-                        border:"2px solid white"
+                        border: "2px solid white",
                       }}
                     >
                       ✕
@@ -195,7 +199,7 @@ const captions = [
                         justifyContent: "center",
                         fontSize: "18px",
                         fontWeight: "bold",
-                        border:"2px solid white"
+                        border: "2px solid white",
                       }}
                     >
                       ✕

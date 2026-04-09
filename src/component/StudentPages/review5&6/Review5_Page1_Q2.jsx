@@ -58,6 +58,7 @@ const Review5_Page1_Q2 = () => {
     setSelected(["", "", "", ""]);
     setSentences(["", "", "", ""]);
     setLocked(false);
+    setShowResult(false);
   };
 
   const showAnswers = () => {
@@ -132,7 +133,6 @@ Score: ${score} / ${total}
                       height: "90px",
                       objectFit: "contain",
                       marginRight: "6px",
-                     
                     }}
                   />
 

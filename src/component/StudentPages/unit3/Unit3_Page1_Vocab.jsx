@@ -57,16 +57,16 @@ const Unit3_Page1_Vocab = () => {
   // ================================
   const captions = [
     { start: 0.48, end: 3.46, text: "Page 22, unit 3, vocabulary." },
-    { start: 4.68, end: 6.18, text: "One: swim." },
-    { start: 7.3, end: 8.92, text: "Two: kite." },
-    { start: 10.06, end: 14.96, text: "Three: sandwich. Four: picnic table." },
-    { start: 15.98, end: 18.04, text: "Five: play the drum." },
-    { start: 19.06, end: 20.82, text: "Six: drum." },
-    { start: 21.94, end: 24.14, text: "Seven: take a photo." },
-    { start: 25.32, end: 27.24, text: "Eight: ride a bike." },
-    { start: 28.36, end: 30.22, text: "Nine: paint." },
-    { start: 31.36, end: 33.28, text: "Ten: park." },
-    { start: 34.3, end: 36.38, text: "Eleven: bench." },
+    { start: 4.68, end: 6.18, text: "1: swim." },
+    { start: 7.3, end: 8.92, text: "2: kite." },
+    { start: 10.06, end: 14.96, text: "3: sandwich. 4: picnic table." },
+    { start: 15.98, end: 18.04, text: "5: play the drum." },
+    { start: 19.06, end: 20.82, text: "6: drum." },
+    { start: 21.94, end: 24.14, text: "7: take a photo." },
+    { start: 25.32, end: 27.24, text: "8: ride a bike." },
+    { start: 28.36, end: 30.22, text: "9: paint." },
+    { start: 31.36, end: 33.28, text: "10: park." },
+    { start: 34.3, end: 36.38, text: "11: bench." },
   ];
   // 🎵 فترات الكلمات داخل الأوديو الرئيسي
   const wordTimings = [

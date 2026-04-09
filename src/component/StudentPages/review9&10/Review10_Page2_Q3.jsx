@@ -13,7 +13,7 @@ const items = [
 
 export default function Review10_Page2_Q3() {
   const [answers, setAnswers] = useState(items.map(() => []));
-
+  const [hoveredWord, setHoveredWord] = useState(null);
   // ✅ بنك الحروف مع حالة used
   const [letterBank, setLetterBank] = useState(
     items.map((item) =>
@@ -225,21 +225,31 @@ export default function Review10_Page2_Q3() {
                               : ""
                           }`}
                         >
-                          {answers[i].map((letter, letterIndex) => (
-                            <span
-                              key={`${letter}-${letterIndex}`}
-                              onClick={() => handleRemoveLetter(i, letterIndex)}
-                              className={`
-    text-xl font-semibold
-    ${locked ? "cursor-default" : "cursor-pointer"}
-  `}
-                              style={{
-                                marginRight: "2px",
-                              }}
-                            >
-                              {letter}
-                            </span>
-                          ))}
+                          {answers[i].map((letter, letterIndex) => {
+                            const key = `${i}-${letterIndex}`;
+
+                            return (
+                              <span
+                                key={key}
+                                onMouseEnter={() => setHoveredWord(key)}
+                                onMouseLeave={() => setHoveredWord(null)}
+                                onClick={() =>
+                                  handleRemoveLetter(i, letterIndex)
+                                }
+                                className={`
+        text-xl font-semibold
+        ${locked ? "cursor-default" : "cursor-pointer"}
+      `}
+                                style={{
+                                  marginRight: "2px",
+                                  color: hoveredWord === key ? "red" : "black",
+                                  transition: "0.2s",
+                                }}
+                              >
+                                {letter}
+                              </span>
+                            );
+                          })}
                           {provided.placeholder}
                           {checked &&
                             answers[i].join("") !== item.correct[0] && (
@@ -259,10 +269,10 @@ export default function Review10_Page2_Q3() {
                                   fontWeight: "bold",
                                   fontSize: "16px",
                                   boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
-                                  border:"2px solid white"
+                                  border: "2px solid white",
                                 }}
                               >
-                               ✕
+                                ✕
                               </div>
                             )}
                         </div>

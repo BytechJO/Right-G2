@@ -30,12 +30,12 @@ const Review6_Page2_Q2 = () => {
   const words = ["light", "five", "kite", "tight", "night", "bike"];
 
   const correctMatches = {
-    0: 2,
-    1: 4,
-    2: 3,
-    3: 0,
-    4: 5,
-    5: 1,
+    0: 3,
+    1: 5,
+    2: 0,
+    3: 2,
+    4: 1,
+    5: 4,
   };
 
   const handleDotClick = (index, type) => {

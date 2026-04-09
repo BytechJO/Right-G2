@@ -65,7 +65,7 @@ const Unit7_Page5_Q1 = () => {
     },
   ];
 const captions = [
-  { start: 0.5, end: 8.34, text: "Page 62, Write Activities. Exercise A, number 1. Listen, circle, and write." },
+  { start: 0.5, end: 8.34, text: "Page 62, Right Activities. Exercise A, number 1. Listen, circle, and write." },
   { start: 9.639, end: 10.859, text: "1, window." },
   { start: 12.139, end: 13.279, text: "2, coat." },
   { start: 14.559, end: 15.799, text: "3, note." },

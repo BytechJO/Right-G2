@@ -55,13 +55,17 @@
 /* ================= OPTION WORD ================= */
 
 .CB-review1-p1-q1-option {
-  font-size: 20px;
-  cursor: pointer;
-  padding: 2px 6px;
-  border-radius: 50%;
-  width: 70px;
-  position: relative;
-  transition: all 0.2s ease;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 50%;
+    width: 100px;
+    height: 60px;
+    display: flex;
+    position: relative;
+    transition: all 0.2s ease;
+    align-items: center;
+    justify-content: center;
 }
 
 /* hover (before select) */

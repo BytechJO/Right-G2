@@ -20,7 +20,7 @@ const Unit6_Page3 = ({ openPopup }) => {
     {
       start: 0.5,
       end: 8.319,
-      text: "Page 48. Exercise one: Write grammar. What time does Tom go to school?",
+      text: "Page 48. Exercise 1: Right Grammar. What time does Tom go to school?",
     },
     {
       start: 9.359,

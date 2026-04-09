@@ -19,7 +19,7 @@ const Unit9_Page4 = ({ openPopup }) => {
   const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const captionsExample = [
-    { start: 0.5, end: 3.959, text: "Page 79, exercise two, write grammar." },
+    { start: 0.5, end: 3.959, text: "Page 79, exercise 2, Right Grammar." },
     {
       start: 5.159,
       end: 9.679,

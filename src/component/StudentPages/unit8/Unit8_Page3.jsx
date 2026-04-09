@@ -19,7 +19,7 @@ const Unit8_Page3 = ({ openPopup }) => {
   const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
  const captionsExample = [
-  { start: 0.219, end: 14.960, text: "Page 66, exercise one, write grammar. How many dresses do you have? I have two dresses. How many caps do we have? We have three caps." },
+  { start: 0.219, end: 14.960, text: "Page 66, exercise 1, Right Grammar. How many dresses do you have? I have two dresses. How many caps do we have? We have three caps." },
   { start: 14.960, end: 19.379, text: "How many pairs of shorts do they have? They have five pairs of shorts." },
   { start: 20.600, end: 25.039, text: "I have two dresses, but I don't have any skirts." },
   { start: 25.039, end: 31.699, text: "You have two caps and two hats, and we only have two caps  We don't have any hats" }

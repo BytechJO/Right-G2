@@ -22,9 +22,9 @@ const Review4_Page2_Q1 = () => {
       end: 11.0,
       text: "Does it have long A? Listen and write ✓ or X.",
     },
-    { start: 12.28, end: 14.2, text: "One, pie." },
-    { start: 15.26, end: 20.08, text: "Two, train. Three, grapes." },
-    { start: 21.12, end: 25.34, text: "Four, eight. Five, tree." },
+    { start: 12.28, end: 14.2, text: "1, pie." },
+    { start: 15.26, end: 20.08, text: "2, train. 3, grapes." },
+    { start: 21.12, end: 25.34, text: "4, eight. 5, tree." },
   ];
 
   const questions = [

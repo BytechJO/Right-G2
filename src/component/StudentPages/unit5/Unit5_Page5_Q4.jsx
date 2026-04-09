@@ -6,26 +6,87 @@ import img2 from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 44/Ex
 
 const Unit5_Page5_Q4 = () => {
   const grid = [
-    "s","n","q","i","b","e","e","s","r","e","n","m","k","j","u","t","e","u","s","e","o","r","i","t","e",
-    "p","o","k","j","i","w","s","f","l","o","w","e","r","s","h","s","t","o","s","k","m","a","k","e","e",
-    "x","h","o","n","e","y","a","t","p","l","k","o"
+    "s",
+    "n",
+    "q",
+    "i",
+    "b",
+    "e",
+    "e",
+    "s",
+    "r",
+    "e",
+    "n",
+    "m",
+    "k",
+    "j",
+    "u",
+    "t",
+    "e",
+    "u",
+    "s",
+    "e",
+    "o",
+    "r",
+    "i",
+    "t",
+    "e",
+    "p",
+    "o",
+    "k",
+    "j",
+    "i",
+    "w",
+    "s",
+    "f",
+    "l",
+    "o",
+    "w",
+    "e",
+    "r",
+    "s",
+    "h",
+    "s",
+    "t",
+    "o",
+    "s",
+    "k",
+    "m",
+    "a",
+    "k",
+    "e",
+    "e",
+    "x",
+    "h",
+    "o",
+    "n",
+    "e",
+    "y",
+    "a",
+    "t",
+    "p",
+    "l",
+    "k",
+    "o",
   ];
 
   const letters = grid;
 
   const wordsToFind = ["bees", "use", "flowers", "to", "make", "honey"];
-// 🔥 تعديل 1: تحديد البوزيشن الصحيح لكل كلمة
-const correctPositions = {
-  bees: [4,5,6,7],
-  use: [17,18,19],
-  flowers: [33,34,35,36,37,38,39],
-  to: [41,42],
-  make: [46,47,48,49],
-  honey: [52,53,54,55,56],
-};
+
   // 🔥 تعديل 1: الجملة الكاملة بالترتيب الصحيح
   const fullSentence = ["bees", "use", "flowers", "to", "make", "honey"];
+  // 🔥 تعديل 1: أضفنا order
+  const correctAnswers = [
+    { word: "bees", indexes: [4, 5, 6, 7], order: 0 },
+    { word: "use", indexes: [17, 18, 19], order: 1 },
+    { word: "flowers", indexes: [32,33, 34, 35, 36, 37, 38], order: 2 },
+    { word: "to", indexes: [41, 42], order: 3 },
+    { word: "make", indexes: [45,46, 47, 48], order: 4 },
+    { word: "honey", indexes: [51,52, 53, 54, 55], order: 5 },
+  ];
 
+  const [locked, setLocked] = useState(false);
   const [selected, setSelected] = useState([]);
   const [currentWord, setCurrentWord] = useState("");
   const [foundWords, setFoundWords] = useState([]);
@@ -37,7 +98,6 @@ const correctPositions = {
     if (selected.includes(index)) {
       const cutIndex = selected.indexOf(index);
       const newSelected = selected.slice(0, cutIndex);
-
       const newWord = newSelected.map((i) => letters[i]).join("");
 
       setSelected(newSelected);
@@ -49,37 +109,29 @@ const correctPositions = {
     setCurrentWord((prev) => prev + letter);
   };
 
-useEffect(() => {
-  const matchedWord = Object.keys(correctPositions).find((word) => {
-    const correctIdx = correctPositions[word];
+  useEffect(() => {
+    const matchedIndex = correctAnswers.findIndex(
+      (item) =>
+        item.word === currentWord &&
+        JSON.stringify(item.indexes) === JSON.stringify(selected),
+    );
 
-    // لازم نفس الطول
-    if (correctIdx.length !== selected.length) return false;
+    if (matchedIndex !== -1 && !foundWords.includes(matchedIndex)) {
+      setFoundWords((prev) => [...prev, matchedIndex]);
+      setColoredCells((prev) => [...prev, ...selected]);
 
-    // لازم نفس البوزيشن 100%
-    for (let i = 0; i < correctIdx.length; i++) {
-      if (correctIdx[i] !== selected[i]) {
-        return false;
-      }
+      // 🔥 تعديل 3: حذفنا setSentence
+
+      setSelected([]);
+      setCurrentWord("");
     }
+  }, [currentWord]);
 
-    // لازم نفس الكلمة
-    return word === currentWord;
-  });
+  // 🔥 تعديل 4 (المهم)
+  const displayedSentence = fullSentence.map((word, index) => {
+    const isFound = foundWords.some((i) => correctAnswers[i].order === index);
 
-  if (matchedWord && !foundWords.includes(matchedWord)) {
-    setFoundWords((prev) => [...prev, matchedWord]);
-    setColoredCells((prev) => [...prev, ...selected]);
-
-    setSelected([]);
-    setCurrentWord("");
-  }
-}, [currentWord]);
-  // 🔥 تعديل 3 (أهم شي):
-  const displayedSentence = fullSentence.map((word) => {
-    const isFound = foundWords.includes(word);
-
-    const SLOT_LENGTH = 10;
+    const SLOT_LENGTH = 14; // أكبر لأنه في كلمة طويلة (photographers)
 
     if (isFound) {
       return word.padEnd(SLOT_LENGTH, "");
@@ -89,6 +141,8 @@ useEffect(() => {
   });
 
   const checkAnswers = () => {
+    if (locked) return;
+
     const total = wordsToFind.length;
     const score = foundWords.length;
 
@@ -102,6 +156,8 @@ useEffect(() => {
     } else {
       ValidationAlert.warning(`<b>Score: ${score} / ${total}</b>`);
     }
+
+    setLocked(true);
   };
 
   const reset = () => {
@@ -109,28 +165,23 @@ useEffect(() => {
     setCurrentWord("");
     setFoundWords([]);
     setColoredCells([]);
+    setLocked(false);
   };
 
   const showAnswers = () => {
     let allCells = [];
-    const fullString = letters.join("");
 
-    wordsToFind.forEach((word) => {
-      const startIndex = fullString.indexOf(word);
-
-      if (startIndex !== -1) {
-        for (let i = 0; i < word.length; i++) {
-          allCells.push(startIndex + i);
-        }
-      }
+    correctAnswers.forEach((item) => {
+      allCells.push(...item.indexes);
     });
 
-    setFoundWords(wordsToFind);
+    setFoundWords(correctAnswers.map((_, i) => i));
     setColoredCells(allCells);
     setSelected([]);
     setCurrentWord("");
+    setLocked(true);
 
-    // 🔥 تعديل 4: ما في setSentence
+    // 🔥 تعديل 5: حذفنا setSentence
   };
 
   return (
@@ -141,11 +192,11 @@ useEffect(() => {
         </h5>
 
         <div className="words-list-CB-unit3-p5-q4">
-          {wordsToFind.map((word) => (
+          {wordsToFind.map((word, i) => (
             <span
-              key={word}
+              key={i}
               className={`word-CB-unit3-p5-q4 ${
-                foundWords.includes(word) ? "found-CB-unit3-p5-q4" : ""
+                foundWords.includes(i) ? "found-CB-unit3-p5-q4" : ""
               }`}
             >
               {word}
@@ -176,7 +227,7 @@ useEffect(() => {
           <div className="flex">
             <img src={img1} style={{ height: "80px", width: "80px" }} />
 
-            {/* 🔥 تعديل 5: عرض الجملة بالـ slots */}
+            {/* 🔥 تعديل 6: عرض الجملة بالـ slots */}
             <input
               className="answer-input-CB-unit3-p5-q4"
               value={displayedSentence.join(" ")}

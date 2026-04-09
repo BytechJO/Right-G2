@@ -57,14 +57,14 @@ const Unit5_Page1_Vocab = () => {
     {
       start: 4.239,
       end: 10.659,
-      text: "One, kitchen. Two, carry. Three, fruit.",
+      text: "1, kitchen. 2, carry. 3, fruit.",
     },
-    { start: 11.719, end: 13.399, text: "Four, meat." },
-    { start: 14.42, end: 16.18, text: "Five, fish." },
-    { start: 17.299, end: 19.219, text: "Six, rice." },
-    { start: 20.299, end: 22.079, text: "Seven, chicken." },
-    { start: 23.139, end: 25.0, text: "Eight, happy." },
-    { start: 26.059, end: 30.719, text: "Nine, look. Ten, tablecloth." },
+    { start: 11.719, end: 13.399, text: "4, meat." },
+    { start: 14.42, end: 16.18, text: "5, fish." },
+    { start: 17.299, end: 19.219, text: "6, rice." },
+    { start: 20.299, end: 22.079, text: "7, chicken." },
+    { start: 23.139, end: 25.0, text: "8, happy." },
+    { start: 26.059, end: 30.719, text: "9, look. 10, tablecloth." },
   ];
   // 🎵 فترات الكلمات داخل الأوديو الرئيسي
   const wordTimings = [

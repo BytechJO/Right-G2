@@ -30,11 +30,11 @@ const Review8_Page2_Q1 = () => {
   // ✔ Captions Array
   // ================================
   const captions = [
-  { start: 0.560, end: 10.199, text: "Page 73, review 8, exercise D. Do they both have long U? Listen and write check or X." },
-  { start: 11.239, end: 14.159, text: "One, shoes, tube." },
-  { start: 15.239, end: 18.34, text: "Two,sue, blue." },
-  { start: 19.22, end: 21.78, text: "Three, tune, cup." },
-  { start: 23.08, end: 26.040, text: "Four, glue, June." },
+  { start: 0.560, end: 10.199, text: "Page 73, review 8, exercise D. Do they both have long U? Listen and write ✓ or X." },
+  { start: 11.239, end: 14.159, text: "1, shoes, tube." },
+  { start: 15.239, end: 18.34, text: "2,sue, blue." },
+  { start: 19.22, end: 21.78, text: "3, tune, cup." },
+  { start: 23.08, end: 26.040, text: "4, glue, June." },
 ];
 
   // ================================
@@ -113,13 +113,13 @@ const Review8_Page2_Q1 = () => {
     {
       id: 1,
       image: img1,
-      correct: "✓",
+      correct: "✗",
     },
-    { id: 2, image: img2, correct: "✗" },
+    { id: 2, image: img2, correct: "✓" },
     {
       id: 3,
       image: img3,
-      correct: "✓",
+      correct: "✗",
     },
     {
       id: 4,

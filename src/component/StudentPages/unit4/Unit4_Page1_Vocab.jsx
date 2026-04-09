@@ -56,14 +56,14 @@ const Unit4_Page1_Vocab = () => {
   // ✔ Captions Array
   // ================================
 const captions = [
-  { start: 0.5, end: 3.34, text: "Page 28, unit four, vocabulary." },
-  { start: 4.46, end: 12.0, text: "One: nurse. Two: pilot. Three: grow food." },
-  { start: 13.06, end: 15.38, text: "Four: taxi driver." },
-  { start: 16.44, end: 18.26, text: "Five: vet." },
-  { start: 19.52, end: 21.46, text: "Six: clerk." },
-  { start: 22.48, end: 28.2, text: "Seven: photographer. Eight: fix cars." },
-  { start: 29.32, end: 31.58, text: "Nine: police officer." },
-  { start: 32.66, end: 40.16, text: "Ten: farmer. Eleven: mechanic. Twelve: chef." },
+  { start: 0.5, end: 3.34, text: "Page 28, unit 4, vocabulary." },
+  { start: 4.46, end: 12.0, text: "1: nurse. 2: pilot. 3: grow food." },
+  { start: 13.06, end: 15.38, text: "4: taxi driver." },
+  { start: 16.44, end: 18.26, text: "5: vet." },
+  { start: 19.52, end: 21.46, text: "6: clerk." },
+  { start: 22.48, end: 28.2, text: "7: photographer. 8: fix cars." },
+  { start: 29.32, end: 31.58, text: "9: police officer." },
+  { start: 32.66, end: 40.16, text: "10: farmer. 11: mechanic. 12: chef." },
 ];
   // 🎵 فترات الكلمات داخل الأوديو الرئيسي
   const wordTimings = [

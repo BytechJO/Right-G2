@@ -54,14 +54,14 @@ const Unit6_Page1_Vocab = () => {
   // ================================
   const captions = [
   
-  { start: 0.579, end: 3.539, text: "Page 46, unit six, vocabulary." },
-  { start: 4.839, end: 9.579, text: "One: get up. Two: make the bed." },
-  { start: 10.599, end: 16.079, text: "Three: brush teeth. Four: eat breakfast." },
-  { start: 18.159, end: 20.219, text: "Five: go to school." },
-  { start: 21.479, end: 23.76, text: "Six: have a class." },
-  { start: 24.819, end: 26.839, text: "Seven: go home." },
-  { start: 27.979, end: 29.899, text: "Eight: eat lunch." },
-  { start: 30.939, end: 36.04, text: "Nine: do homework. Ten: go to sleep" }
+  { start: 0.579, end: 3.539, text: "Page 46, unit 6, vocabulary." },
+  { start: 4.839, end: 9.579, text: "1: get up. 2: make the bed." },
+  { start: 10.599, end: 16.079, text: "3: brush teeth. 4: eat breakfast." },
+  { start: 18.159, end: 20.219, text: "5: go to school." },
+  { start: 21.479, end: 23.76, text: "6: have a class." },
+  { start: 24.819, end: 26.839, text: "7: go home." },
+  { start: 27.979, end: 29.899, text: "8: eat lunch." },
+  { start: 30.939, end: 36.04, text: "9: do homework. 10: go to sleep" }
   ];
   // 🎵 فترات الكلمات داخل الأوديو الرئيسي
   const wordTimings = [

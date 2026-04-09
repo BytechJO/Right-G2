@@ -56,19 +56,19 @@ const Unit10_Page1_Vocab = () => {
   const captions = [
     { start: 0.459, end: 3.02, text: "Page 82, unit 10 vocabulary." },
 
-    { start: 4.18, end: 6.1, text: "One, putting on a jacket." },
-    { start: 6.76, end: 8.16, text: "Two, taking a shower." },
-    { start: 9.52, end: 11.28, text: "Three, bathroom." },
+    { start: 4.18, end: 6.1, text: "1, putting on a jacket." },
+    { start: 6.76, end: 8.16, text: "2, taking a shower." },
+    { start: 9.52, end: 11.28, text: "3, bathroom." },
 
-    { start: 12.32, end: 14.58, text: "Four, watching TV." },
-    { start: 15.62, end: 16.86, text: "Five, reading." },
-    { start: 18.4, end: 20.18, text: "Six, bedroom." },
+    { start: 12.32, end: 14.58, text: "4, watching TV." },
+    { start: 15.62, end: 16.86, text: "5, reading." },
+    { start: 18.4, end: 20.18, text: "6, bedroom." },
 
-    { start: 21.4, end: 22.36, text: "Seven, swinging." },
-    { start: 23.84, end: 25.4, text: "Eight, yard." },
-    { start: 26.34, end: 28.0, text: "Nine, kicking." },
+    { start: 21.4, end: 22.36, text: "7, swinging." },
+    { start: 23.84, end: 25.4, text: "8, yard." },
+    { start: 26.34, end: 28.0, text: "9, kicking." },
 
-    { start: 29.0, end: 31.76, text: "Ten, watering the flowers." },
+    { start: 29.0, end: 31.76, text: "10, watering the flowers." },
   ];
   // 🎵 فترات الكلمات داخل الأوديو الرئيسي
   const wordTimings = [

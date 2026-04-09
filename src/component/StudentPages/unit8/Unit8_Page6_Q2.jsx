@@ -17,15 +17,14 @@ const Unit8_Page6_Q2 = () => {
 
   const images = [{ image: img1 }, { image: img2 }, { image: img3 }];
   const texts = [
-    "You have popsicles. You don’t have popcorn.",
-    "It likes chicken. It doesn’t like salad.",
-    "He likes fruit. He doesn’t like bread.",
+    "You have popsicles.\nYou don’t have popcorn.",
+    "They have chips.\nThey don’t have candy.",
+    "We have juice.\nWe don’t have burgers.",
   ];
-
   const correctMatches = {
-    0: 2,
-    1: 0,
-    2: 1,
+    0: 1,
+    1: 2,
+    2: 0,
   };
 
   const handleDotClick = (index, type) => {
@@ -201,6 +200,7 @@ const Unit8_Page6_Q2 = () => {
 
               <div
                 onClick={() => handleDotClick(i, "text")}
+                style={{ whiteSpace: "pre-line" }}
                 className={`px-5 py-3 rounded-xl text-[17px] leading-6 cursor-pointer
   ${
     startDot?.index === i && startDot?.type === "text"

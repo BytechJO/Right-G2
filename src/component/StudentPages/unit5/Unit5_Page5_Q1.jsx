@@ -50,7 +50,7 @@ const Unit5_Page5_Q1 = () => {
     {
       start: 0.539,
       end: 5.799,
-      text: "Page 44. Write activities. Exercise A, Number 1.",
+      text: "Page 44. Right Activities. Exercise A, Number 1.",
     },
     {
       start: 6.839,

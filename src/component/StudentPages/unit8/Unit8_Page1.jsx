@@ -18,16 +18,14 @@ import sound7 from "../../../assets/audio/ClassBook/U 8/unit8-sound7.mp3";
 import sound8 from "../../../assets/audio/ClassBook/U 8/unit8-sound8.mp3";
 import sound9 from "../../../assets/audio/ClassBook/U 8/unit8-sound9.mp3";
 import sound10 from "../../../assets/audio/ClassBook/U 8/unit8-sound10.mp3";
-
+import { useContext } from "react";
+import { AudioContext } from "../../../AudioContext";
 const Unit8_Page1 = ({ openPopup }) => {
-  const [activeAreaIndex, setActiveAreaIndex] = useState(null);
-  const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef(null);
+    const { audioRef, activeId, setActiveId } = useContext(AudioContext);
  const captionsExample = [
   { start: 0.579, end: 4.699, text: "Page 64, Unit 8. It's shopping time." },
   { start: 5.739, end: 8.460, text: "Page 64, Unit 8 vocabulary." },
-  { start: 9.819, end: 34.219, text: "One: pay. Two: find. Three: cap. Four: jacket. Five: shorts. Six: tie. Seven: socks. Eight: closet. Nine: dress. Ten: clothing store." },
+  { start: 9.819, end: 34.219, text: "1: pay. 2: find. 3: cap. 4: jacket. 5: shorts. 6: tie. 7: socks. 8: closet. 9: dress. 10: clothing store." },
   { start: 35.239, end: 38.179, text: "Page 64. Listen and read along." },
   { start: 39.319, end: 40.399, text: "Long U." },
   { start: 41.479, end: 42.079, text: "Blue." },
@@ -119,19 +117,21 @@ const Unit8_Page1 = ({ openPopup }) => {
     const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
     console.log("X%:", xPercent.toFixed(2), "Y%:", yPercent.toFixed(2));
   };
-  const playSound = (path) => {
-    if (audioRef.current) {
-      audioRef.current.src = path;
-      audioRef.current.play();
-      setIsPlaying(true);
-      setHoveredAreaIndex(null); // إزالة الهايلايت عند بدء الصوت
+const playSound = (path, id) => {
+    if (!audioRef.current) return;
 
-      audioRef.current.onended = () => {
-        setIsPlaying(false);
-        setHoveredAreaIndex(null);
-        setActiveAreaIndex(null); // مسح الهايلايت بعد انتهاء الصوت
-      };
-    }
+    // 🔥 وقف أي صوت شغال بأي صفحة
+    audioRef.current.pause();
+    audioRef.current.currentTime = 0;
+
+    audioRef.current.src = path;
+    audioRef.current.play();
+
+    setActiveId(id); // 🔥 مهم للهايلايت
+
+    audioRef.current.onended = () => {
+      setActiveId(null);
+    };
   };
   return (
     <div
@@ -142,7 +142,8 @@ const Unit8_Page1 = ({ openPopup }) => {
       <audio ref={audioRef} style={{ display: "none" }} />
 
       {areas.map((area, index) => {
-        const isActive = activeAreaIndex === area.sound;
+        const isActive = activeId === `p64-${area.sound}`;
+
 
         // ============================
         // 1️⃣ المنطقة الأساسية → دائرة تظهر فقط عندما تكون Active
@@ -156,10 +157,9 @@ const Unit8_Page1 = ({ openPopup }) => {
                 left: `${area.x1}%`,
                 top: `${area.y1}%`,
               }}
-              onClick={() => {
-                setActiveAreaIndex(area.sound);
-                playSound(sounds[area.sound]);
-              }}
+             onClick={() => {
+                  playSound(sounds[area.sound], `p64-${area.sound}`);
+                }}
             ></div>
           );
         }
@@ -180,9 +180,8 @@ const Unit8_Page1 = ({ openPopup }) => {
               height: `${area.y2 - area.y1}%`,
             }}
             onClick={() => {
-              setActiveAreaIndex(area.sound); // 👈 يفعل الدائرة فوق الرقم
-              playSound(sounds[area.sound]);
-            }}
+                  playSound(sounds[area.sound], `p64-${area.sound}`);
+                }}
           ></div>
         );
       })}

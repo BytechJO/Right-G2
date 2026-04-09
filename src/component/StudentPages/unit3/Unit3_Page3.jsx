@@ -18,7 +18,7 @@ const Unit3_Page3 = ({ openPopup }) => {
   const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const captionsExample = [
- { start: 0.58, end: 5.72, text: "Page 24. Write grammar. Can he ride a bike?" },
+ { start: 0.58, end: 5.72, text: "Page 24. Right Grammar. Can he ride a bike?" },
   { start: 6.76, end: 8.3, text: "Yes, he can." },
   { start: 9.34, end: 10.96, text: "Can she fly a kite?" },
   { start: 12.14, end: 16.1, text: "Yes, she can. Can he ride a bike?" },

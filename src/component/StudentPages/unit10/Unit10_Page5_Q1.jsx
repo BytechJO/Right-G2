@@ -18,10 +18,10 @@ const Unit10_Page5_Q1 = () => {
     {
       start: 0.5,
       end: 11.019,
-      text: "Page 86, Write Activities. Exercise A, number 1. Do they both have the same vowel sound? Listen and write check or X.",
+      text: "Page 86, Right Activities. Exercise A, number 1. Do they both have the same vowel sound? Listen and write ✓ or X.",
     },
-    { start: 12.159, end: 13.619, text: "One, nest." },
-    { start: 14.719, end: 20.739, text: "Two, green desk. Three, seal, eat." },
+    { start: 12.159, end: 13.619, text: "1, nest." },
+    { start: 14.719, end: 20.739, text: "2, green desk. 3, seal, eat." },
   ];
   const questions = [
     {

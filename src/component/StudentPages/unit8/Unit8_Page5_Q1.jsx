@@ -22,7 +22,7 @@ const Unit8_Page5_Q1 = () => {
     {
       start: 0.539,
       end: 10.739,
-      text: "Page 68, write activities. Exercise A, number 1. Does it have a long U? Listen and write check or X.",
+      text: "Page 68, Right Activities. Exercise A, number 1. Does it have a long U? Listen and write ✓ or X.",
     },
     { start: 11.88, end: 15.739, text: "1, mule. 2, sun." },
     { start: 16.819, end: 20.979, text: "3, blue. 4, ice" },

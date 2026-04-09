@@ -18,7 +18,7 @@ const Unit10_Page3 = ({ openPopup }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeAreaIndex, setActiveAreaIndex] = useState(null);
   const captionsExample = [
-    { start: 0.479, end: 3.839, text: "Page 84, exercise one. Write grammar." },
+    { start: 0.479, end: 3.839, text: "Page 84, exercise 1. Right Grammar." },
     { start: 4.88, end: 7.639, text: "What's he doing? He's taking a shower." },
     { start: 8.659, end: 11.279, text: "What's she doing? She's cooking." },
     { start: 12.34, end: 15.259, text: "What's it doing? It's drinking milk." },

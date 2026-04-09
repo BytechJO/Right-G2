@@ -25,10 +25,10 @@ const Unit3_Page5_Q1 = () => {
     {
       start: 0.44,
       end: 11.5,
-      text: "Page 26, write activities. Exercise A, number one. Does it begin with J or Y? Listen and write.",
+      text: "Page 26, Right Activities. Exercise A, number 1. Does it begin with J or Y? Listen and write.",
     },
-    { start: 12.68, end: 14.04, text: "One, jump." },
-    { start: 15.08, end: 21.92, text: "Two, juice. Three, jeep. Four, yarn." },
+    { start: 12.68, end: 14.04, text: "1, jump." },
+    { start: 15.08, end: 21.92, text: "2, juice. 3, jeep. 4, yarn." },
   ];
 
   /* ================= Drag Logic ================= */

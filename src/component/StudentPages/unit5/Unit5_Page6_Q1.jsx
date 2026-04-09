@@ -17,6 +17,7 @@ const Unit5_Page6_Q1 = () => {
   const [locked, setLocked] = useState(false);
   const [firstDot, setFirstDot] = useState(null);
   const [showAnswer, setShowAnswer] = useState(false);
+  const [hoveredWord, setHoveredWord] = useState(null);
   const questions = [
     {
       id: 1,
@@ -280,7 +281,7 @@ const Unit5_Page6_Q1 = () => {
                         >
                           {q.scrambled.map((word, i) => {
                             const isUsed = userInputs[q.id]?.includes(word);
-                            
+
                             return (
                               <Draggable
                                 key={word}
@@ -327,7 +328,35 @@ const Unit5_Page6_Q1 = () => {
                               : ""
                           }`}
                         >
-                          {userInputs[q.id].join(" ")}
+                         {userInputs[q.id].map((word, index) => {
+  const key = `${q.id}-${index}`;
+
+  return (
+    <span
+      key={key}
+      onMouseEnter={() => setHoveredWord(key)}
+      onMouseLeave={() => setHoveredWord(null)}
+      onClick={() => {
+        if (locked || showAnswer) return;
+
+        setUserInputs((prev) => ({
+          ...prev,
+          [q.id]: prev[q.id].filter((_, i) => i !== index),
+        }));
+      }}
+      style={{
+        marginRight: "6px",
+        cursor: locked ? "default" : "pointer",
+        // padding: "2px 6px",
+        borderRadius: "6px",
+       color: hoveredWord === key ? "red" : "black",
+        transition: "0.2s",
+      }}
+    >
+      {word}
+    </span>
+  );
+})}
                           {provided.placeholder}
                         </div>
                       )}

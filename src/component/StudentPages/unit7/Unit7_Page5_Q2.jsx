@@ -39,14 +39,14 @@ const Unit7_Page5_Q2 = () => {
     {
       id: 1,
       word: ["d", "", "m", ""],
-      letters: ["r", "u", "a"],
-      answer: ["d", "r", "u", "m"],
+      letters: ["o", "u", "e"],
+      answer: ["d", "o", "m", "e"],
     },
     {
       id: 2,
       word: ["f", "", "", "m"],
       letters: ["a", "r", "o"],
-      answer: ["f", "a", "r", "m"],
+      answer: ["f", "o", "a", "m"],
     },
     {
       id: 3,
@@ -78,6 +78,23 @@ const Unit7_Page5_Q2 = () => {
       if (updated[sentId][index]) return prev;
 
       updated[sentId][index] = letter;
+
+      return updated;
+    });
+  };
+
+  const removeLetter = (sentId, idx) => {
+    if (locked) return;
+
+    setFilledLetters((prev) => {
+      const updated = { ...prev };
+
+      if (!updated[sentId]) return prev;
+
+      // إذا كان هذا المكان حرف ثابت من الكلمة الأصلية، لا تعملي شيء
+      if (sentences[sentId].word[idx] !== "") return prev;
+
+      updated[sentId][idx] = "";
 
       return updated;
     });
@@ -201,7 +218,7 @@ const Unit7_Page5_Q2 = () => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       {/* كل الكود تبعك */}
-      <div className="main-container-component" ref={containerRef}>
+      <div className="main-container-component relative" ref={containerRef}>
         <div className="div-forall" style={{ gap: "20px" }}>
           <h5 className="header-title-page8">
             <span style={{ color: "#2e3192" }}>2</span>
@@ -224,9 +241,12 @@ const Unit7_Page5_Q2 = () => {
                         ✕
                       </span>
                     )}
+
                     <div
-                      className={`border-2 border-red-500 rounded-lg w-[140px] h-[110px] flex items-center justify-center ${
-                        selectedImg === img.id ? "bg-red-100" : ""
+                      className={`border-2 rounded-lg w-[140px] h-[110px] flex items-center justify-center transition-all duration-200 ${
+                        selectedImg === img.id
+                          ? "bg-red-100 border-red-600 scale-105 shadow-lg"
+                          : "border-red-300"
                       }`}
                     >
                       <img src={img.img} className="max-h-[120px]" />
@@ -258,20 +278,42 @@ const Unit7_Page5_Q2 = () => {
                       <div className="bg-[#f9e5dd] px-4 py-2 rounded-xl text-lg">
                         {/* الكلمة */}
                         <div className="flex gap-1 justify-center">
-                          {sent.word.map((char, idx) => (
-                            <Droppable droppableId={`blank-${sent.id}-${idx}`}>
-                              {(provided) => (
-                                <span
-                                  ref={provided.innerRef}
-                                  {...provided.droppableProps}
-                                  className="w-6 h-8 border-b-2 text-center"
-                                >
-                                  {filledLetters[sent.id]?.[idx] || char || "_"}
-                                  {provided.placeholder}
-                                </span>
-                              )}
-                            </Droppable>
-                          ))}
+                          {sent.word.map((char, idx) => {
+                            const filledChar = filledLetters[sent.id]?.[idx];
+                            const isBlank = char === "";
+
+                            return (
+                              <Droppable
+                                key={idx}
+                                droppableId={`blank-${sent.id}-${idx}`}
+                              >
+                                {(provided) => (
+                                  <span
+                                    ref={provided.innerRef}
+                                    {...provided.droppableProps}
+                                    className="w-6 h-8 border-b-2 text-center"
+                                  >
+                                    {filledChar ? (
+                                      <span
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          removeLetter(sent.id, idx);
+                                        }}
+                                        className="cursor-pointer hover:text-red-500"
+                                      >
+                                        {filledChar}
+                                      </span>
+                                    ) : char ? (
+                                      char
+                                    ) : (
+                                      "_"
+                                    )}
+                                    {provided.placeholder}
+                                  </span>
+                                )}
+                              </Droppable>
+                            );
+                          })}
                         </div>
 
                         {/* الحروف */}

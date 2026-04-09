@@ -27,8 +27,8 @@ import QuestionAudioPlayer from "../../QuestionAudioPlayer";
 const Page8_Q2 = () => {
   const groups = [
     { images: [img1a, img1b, img1c], different: 2 },
-    { images: [img2a, img2b, img2c], different: 1 },
-    { images: [img3a, img3b, img3c], different: 0 },
+    { images: [img2a, img2b, img2c], different: 0 },
+    { images: [img3a, img3b, img3c], different: 1 },
     { images: [img4a, img4b, img4c], different: 2 },
   ];
   const [showResult2, setShowResult2] = useState(false);
@@ -43,12 +43,12 @@ const Page8_Q2 = () => {
     {
       start: 0.579,
       end: 3.379,
-      text: "Page 8. Write activities.",
+      text: "Page 8. Right Activities.",
     },
     {
       start: 4.519,
       end: 6.859,
-      text: "Exercise A, number two.",
+      text: "Exercise A, number 2.",
     },
     {
       start: 7.919,
@@ -57,54 +57,28 @@ const Page8_Q2 = () => {
     },
     {
       start: 13.5,
-      end: 13.84,
-      text: "One:",
-    },
-    {
-      start: 15.259,
       end: 19.739,
-      text: "run, rabbit, lemon.",
+      text: "1:run, rabbit, lemon.",
     },
+   
     {
       start: 19.739,
-      end: 20.959,
-      text: "Two:",
-    },
-    {
-      start: 20.959,
-      end: 21.379,
-      text: "leg,",
-    },
-    {
-      start: 22.5,
       end: 26.26,
-      text: "railroad track, red.",
+      text: "2:leg,railroad track, red",
     },
+   
     {
       start: 26.26,
-      end: 27.439,
-      text: "Three:",
-    },
-    {
-      start: 27.439,
       end: 32.34,
-      text: "laugh, rain, lock.",
+      text: "3:laugh, rain, lock.",
     },
+   
     {
       start: 32.34,
-      end: 34.34,
-      text: "Four:",
-    },
-    {
-      start: 34.34,
-      end: 36.34,
-      text: "lion, lamp,",
-    },
-    {
-      start: 37.36,
       end: 37.84,
-      text: "ring",
+      text: "4: lion, lamp,ring",
     },
+   
   ];
 
   const handleSelect = (groupIndex, imageIndex) => {

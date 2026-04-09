@@ -21,7 +21,7 @@ const Unit4_Page3 = ({ openPopup }) => {
     {
       start: 0.52,
       end: 8.4,
-      text: "Page 30, exercise one. Write grammar. What's his job? He's a nurse.",
+      text: "Page 30, exercise 1. Right Grammar. What's his job? He's a nurse.",
     },
     { start: 9.52, end: 10.58, text: "What's her job?" },
     { start: 11.82, end: 14.78, text: "She's a nurse. What's your job?" },

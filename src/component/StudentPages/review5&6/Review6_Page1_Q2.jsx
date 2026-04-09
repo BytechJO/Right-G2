@@ -54,7 +54,16 @@ export default function Review6_Page1_Q2() {
     setAnswers(updated);
     setShowResult(false);
   };
+  const removeLetter = (qIndex, wordIndex, slotIndex) => {
+    if (locked) return;
 
+    const updated = [...answers];
+
+    updated[qIndex][wordIndex][slotIndex] = null;
+
+    setAnswers(updated);
+    setShowResult(false);
+  };
   const resetAll = () => {
     setAnswers(
       items.map((item) =>
@@ -211,13 +220,16 @@ export default function Review6_Page1_Q2() {
                                     <div
                                       ref={provided.innerRef}
                                       {...provided.droppableProps}
-                                      className={`w-7 h-7 text-center text-lg transition-all duration-200
-                                        ${
-                                          snapshot.isDraggingOver
-                                            ? "border-b-2 border-blue-500 bg-blue-100 scale-110"
-                                            : "border-b-2 border-black"
-                                        }
-                                      `}
+                                      onClick={() =>
+                                        removeLetter(i, wordIndex, slotIndex)
+                                      }
+                                      className={`w-7 h-7 text-center text-lg transition-all duration-200 cursor-pointer
+    ${
+      snapshot.isDraggingOver
+        ? "border-b-2 border-blue-500 bg-blue-100 scale-110"
+        : "border-b-2 border-black"
+    }
+  `}
                                     >
                                       {slot?.letter}
                                       {provided.placeholder}

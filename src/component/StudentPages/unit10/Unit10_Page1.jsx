@@ -14,24 +14,23 @@ import sound3 from "../../../assets/audio/ClassBook/U 10/unit10-sound3.mp3";
 import sound4 from "../../../assets/audio/ClassBook/U 10/unit10-sound4.mp3";
 import sound5 from "../../../assets/audio/ClassBook/U 10/unit10-sound5.mp3";
 import sound6 from "../../../assets/audio/ClassBook/U 10/unit10-sound6.mp3";
-
+import { useContext } from "react";
+import { AudioContext } from "../../../AudioContext";
 const Unit10_Page1 = ({ openPopup }) => {
-  const [activeAreaIndex, setActiveAreaIndex] = useState(null);
-  const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef(null);
+   const { audioRef, activeId, setActiveId } = useContext(AudioContext);
+
 const captionsExample = [
-  { start: 0.599, end: 8.019, text: "Page eighty-two, unit ten. At our home. Page eighty-two, unit ten vocabulary." },
-  { start: 9.179, end: 16.279, text: "One, putting on a jacket. Two, taking a shower. Three, bathroom." },
-  { start: 17.319, end: 19.599, text: "Four, watching TV." },
-  { start: 20.619, end: 22.359, text: "Five, reading." },
-  { start: 23.399, end: 25.219, text: "Six, bedroom." },
-  { start: 26.420, end: 34.399, text: "Seven, swinging. Eight, yard. Nine, kicking. Ten," },
-  { start: 35.459, end: 40.379, text: "watering the flowers. Page eighty-two, listen and read along." },
+  { start: 0.599, end: 8.019, text: "Page 82, unit 10. At our home. Page 82, unit 10 vocabulary." },
+  { start: 9.179, end: 16.279, text: "1, putting on a jacket. 2, taking a shower. 3, bathroom." },
+  { start: 17.319, end: 19.599, text: "4, watching TV." },
+  { start: 20.619, end: 22.359, text: "5, reading." },
+  { start: 23.399, end: 25.219, text: "6, bedroom." },
+  { start: 26.420, end: 34.399, text: "7, swinging. 8, yard. 9, kicking. 10," },
+  { start: 35.459, end: 40.379, text: "watering the flowers. Page 82, listen and read along." },
   { start: 41.479, end: 42.399, text: "Short E." },
   { start: 43.479, end: 43.939, text: "Net." },
-  { start: 45.059, end: 51.099, text: "Nest. Egg. Page eighty-three. This is what we do at home." },
-  { start: 52.139, end: 74.619, text: "Stella, John, Sarah, and Jack are in the yard in front of the house. Stella is watering the flowers. Sarah is swinging on the swing set. John is riding his bike. Jack is kicking his ball. What is Dad doing? He is watching from the window. Page eighty-three, listen and read along." },
+  { start: 45.059, end: 51.099, text: "Nest. Egg. Page 83. This is what we do at home." },
+  { start: 52.139, end: 74.619, text: "Stella, John, Sarah, and Jack are in the yard in front of the house. Stella is watering the flowers. Sarah is swinging on the swing set. John is riding his bike. Jack is kicking his ball. What is Dad doing? He is watching from the window. Page 83, listen and read along." },
   { start: 75.639, end: 79.339, text: "Long E. Eat. Green." },
   { start: 80.519, end: 80.979, text: "Seal" }
 ];
@@ -86,19 +85,21 @@ const captionsExample = [
     const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
     console.log("X%:", xPercent.toFixed(2), "Y%:", yPercent.toFixed(2));
   };
-  const playSound = (path) => {
-    if (audioRef.current) {
-      audioRef.current.src = path;
-      audioRef.current.play();
-      setIsPlaying(true);
-      setHoveredAreaIndex(null); // إزالة الهايلايت عند بدء الصوت
+    const playSound = (path, id) => {
+    if (!audioRef.current) return;
 
-      audioRef.current.onended = () => {
-        setIsPlaying(false);
-        setHoveredAreaIndex(null);
-        setActiveAreaIndex(null); // مسح الهايلايت بعد انتهاء الصوت
-      };
-    }
+    // 🔥 وقف أي صوت شغال بأي صفحة
+    audioRef.current.pause();
+    audioRef.current.currentTime = 0;
+
+    audioRef.current.src = path;
+    audioRef.current.play();
+
+    setActiveId(id); // 🔥 مهم للهايلايت
+
+    audioRef.current.onended = () => {
+      setActiveId(null);
+    };
   };
   return (
     <div
@@ -109,7 +110,7 @@ const captionsExample = [
       <audio ref={audioRef} style={{ display: "none" }} />
 
       {areas.map((area, index) => {
-        const isActive = activeAreaIndex === area.sound;
+          const isActive = activeId === `p82-${area.sound}`;
 
         // ============================
         // 1️⃣ المنطقة الأساسية → دائرة تظهر فقط عندما تكون Active
@@ -123,10 +124,9 @@ const captionsExample = [
                 left: `${area.x1}%`,
                 top: `${area.y1}%`,
               }}
-              onClick={() => {
-                setActiveAreaIndex(area.sound);
-                playSound(sounds[area.sound]);
-              }}
+             onClick={() => {
+                  playSound(sounds[area.sound], `p82-${area.sound}`);
+                }}
             ></div>
           );
         }
@@ -146,10 +146,9 @@ const captionsExample = [
               width: `${area.x2 - area.x1}%`,
               height: `${area.y2 - area.y1}%`,
             }}
-            onClick={() => {
-              setActiveAreaIndex(area.sound); // 👈 يفعل الدائرة فوق الرقم
-              playSound(sounds[area.sound]);
-            }}
+             onClick={() => {
+                  playSound(sounds[area.sound], `p82-${area.sound}`);
+                }}
           ></div>
         );
       })}

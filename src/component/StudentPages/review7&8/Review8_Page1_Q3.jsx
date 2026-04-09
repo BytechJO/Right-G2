@@ -11,10 +11,10 @@ import img6 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 72/
 const Review8_Page1_Q3 = () => {
   const items = [
     { img: img1, text: "I have three dresses.", correct: "yes" },
-    { img: img2, text: "She has two pairs of shoes.", correct: "yes" },
-    { img: img3, text: "She has two skirts.", correct: "no" },
-    { img: img4, text: "She has six skirts.", correct: "no" },
-    { img: img5, text: "I have two caps.", correct: "yes" },
+    { img: img4, text: "She has two pairs of shoes.", correct: "yes" },
+    { img: img2, text: "She has two skirts.", correct: "no" },
+    { img: img5, text: "She has six skirts.", correct: "no" },
+    { img: img3, text: "I have two caps.", correct: "yes" },
     { img: img6, text: "He has five pairs of pants.", correct: "no" },
   ];
 

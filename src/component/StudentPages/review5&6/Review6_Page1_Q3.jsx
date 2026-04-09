@@ -63,11 +63,12 @@ She goes to bed at nine.
     });
 
     const total = questions.length;
+   const color = score === total ? "green" : score === 0 ? "red" : "orange";
 
     const message = `
       <div style="font-size:20px;text-align:center;">
-        <span style="color:#2e7d32;font-weight:bold;">
-          Score: ${score} / ${total}
+        <span style="color:${color};font-weight:bold">
+        Score: ${score} / ${total}
         </span>
       </div>
     `;

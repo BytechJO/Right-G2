@@ -53,19 +53,19 @@ const Unit7_Page1_Vocab = () => {
   // ✔ Captions Array
   // ================================
   const captions = [
-    { start: 0.519, end: 4.0, text: "Page 58, unit seven vocabulary." },
+    { start: 0.519, end: 4.0, text: "Page 58, unit 7 vocabulary." },
 
-    { start: 4.22, end: 5.22, text: "One, airplane." },
-    { start: 6.68, end: 8.32, text: "Two, souvenir shop." },
-    { start: 9.5, end: 10.96, text: "Three, flight attendant." },
-    { start: 11.58, end: 13.54, text: "Four, roll." },
+    { start: 4.22, end: 5.22, text: "1, airplane." },
+    { start: 6.68, end: 8.32, text: "2, souvenir shop." },
+    { start: 9.5, end: 10.96, text: "3, flight attendant." },
+    { start: 11.58, end: 13.54, text: "4, roll." },
 
-    { start: 14.5, end: 16.22, text: "Five, pilot." },
-    { start: 17.68, end: 18.82, text: "Six, suitcase." },
-    { start: 20.48, end: 21.74, text: "Seven, hold." },
-    { start: 22.6, end: 24.02, text: "Eight, arrival." },
-    { start: 25.0, end: 26.74, text: "Nine, reception." },
-    { start: 28.34, end: 30.219, text: "Ten, airport." },
+    { start: 14.5, end: 16.22, text: "5, pilot." },
+    { start: 17.68, end: 18.82, text: "6, suitcase." },
+    { start: 20.48, end: 21.74, text: "7, hold." },
+    { start: 22.6, end: 24.02, text: "8, arrival." },
+    { start: 25.0, end: 26.74, text: "9, reception." },
+    { start: 28.34, end: 30.219, text: "10, airport." },
   ];
   // 🎵 فترات الكلمات داخل الأوديو الرئيسي
   const wordTimings = [

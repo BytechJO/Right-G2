@@ -38,6 +38,8 @@ const Review5_Page2_Q3 = () => {
     setSelected(Array(items.length).fill(""));
     setAnswers(Array(items.length).fill(""));
     setLocked(false);
+setShowResult(false); // 🔥 هذا الناقص
+
   };
 
   const showAnswers = () => {

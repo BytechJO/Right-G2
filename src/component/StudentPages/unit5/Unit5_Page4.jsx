@@ -23,7 +23,7 @@ const Unit5_Page4 = ({ openPopup }) => {
     {
       start: 0.599,
       end: 8.5,
-      text: "Page 43, exercise two, write grammar. Does he like fruit? Does he like tea?",
+      text: "Page 43, exercise 2, Right Grammar. Does he like fruit? Does he like tea?",
     },
     { start: 9.599, end: 11.0, text: "Yes, he does." },
     { start: 12.099, end: 13.539, text: "No, he doesn't." },

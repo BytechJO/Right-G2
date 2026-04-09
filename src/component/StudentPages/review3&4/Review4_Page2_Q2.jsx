@@ -25,7 +25,6 @@ const items = [
       y2: 85.19,
     },
   },
- 
 ];
 
 /* ================= COMPONENT ================= */
@@ -34,7 +33,7 @@ const Review4_Page2_Q2 = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [circles, setCircles] = useState({});
   const [checked, setChecked] = useState(false);
-
+  const [wrongItems, setWrongItems] = useState([]);
   /* ================= IMAGE CLICK ================= */
 
   const handleImageClick = (e) => {
@@ -43,7 +42,7 @@ const Review4_Page2_Q2 = () => {
     const rect = e.target.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
-  console.log(`x: ${x.toFixed(4)}, y: ${y.toFixed(4)}`);
+    console.log(`x: ${x.toFixed(4)}, y: ${y.toFixed(4)}`);
     setCircles((prev) => ({
       ...prev,
       [selectedItem]: { x, y },
@@ -60,10 +59,14 @@ const Review4_Page2_Q2 = () => {
     }
 
     let score = 0;
+    let wrong = [];
 
     items.forEach((item) => {
       const p = circles[item.key];
-      if (!p) return;
+      if (!p) {
+        wrong.push(item.key);
+        return;
+      }
 
       if (
         p.x >= item.area.x1 &&
@@ -72,13 +75,17 @@ const Review4_Page2_Q2 = () => {
         p.y <= item.area.y2
       ) {
         score++;
+      } else {
+        wrong.push(item.key);
       }
     });
 
+    setWrongItems(wrong); // 🔥 هون المهم
     setChecked(true);
 
     const color =
       score === items.length ? "green" : score === 0 ? "red" : "orange";
+
     const scoreMessage = `
     <div style="font-size: 20px; margin-top: 10px; text-align:center;">
       <span style="color:${color}; font-weight:bold;">
@@ -86,11 +93,11 @@ const Review4_Page2_Q2 = () => {
       </span>
     </div>
   `;
+
     if (score === items.length) ValidationAlert.success(scoreMessage);
     else if (score === 0) ValidationAlert.error(scoreMessage);
     else ValidationAlert.warning(scoreMessage);
   };
-
   /* ================= SHOW ANSWER ================= */
 
   const handleShowAnswer = () => {
@@ -134,31 +141,56 @@ const Review4_Page2_Q2 = () => {
           gap: "20px",
         }}
       >
-       <h5 className="header-title-page8">
+        <h5 className="header-title-page8">
           <span style={{ marginRight: "20px" }}>E</span> Does it have{" "}
           <span style={{ color: "#2e3192" }}>long a</span>?Look and circle.
-
         </h5>
 
         {/* WORD BUTTONS */}
         <div style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
           {items.map((item) => (
-            <button
-              key={item.key}
-              onClick={() => setSelectedItem(item.key)}
-              style={{
-                padding: "6px 16px",
-                borderRadius: "12px",
-                background: "white",
-                border:
-                  selectedItem === item.key
-                    ? "2px solid #007bff"
-                    : "1px solid #999",
-                cursor: "pointer",
-              }}
-            >
-              {item.label}
-            </button>
+            <div key={item.key} style={{ position: "relative" }}>
+              {/* ❌ علامة X */}
+              {checked && wrongItems.includes(item.key) && (
+                <span
+                  style={{
+                    position: "absolute",
+                    top: "-6px",
+                    right: "-6px",
+                    background: "red",
+                    color: "white",
+                    borderRadius: "50%",
+                    width: "18px",
+                    height: "18px",
+                    fontSize: "14px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontWeight: "bold",
+                    border: "1px solid white",
+                    zIndex: 2,
+                  }}
+                >
+                 ✕
+                </span>
+              )}
+
+              <button
+                onClick={() => setSelectedItem(item.key)}
+                style={{
+                  padding: "6px 16px",
+                  borderRadius: "12px",
+                  background: "white",
+                  border:
+                    selectedItem === item.key
+                      ? "2px solid #007bff"
+                      : "1px solid #999",
+                  cursor: "pointer",
+                }}
+              >
+                {item.label}
+              </button>
+            </div>
           ))}
         </div>
       </div>

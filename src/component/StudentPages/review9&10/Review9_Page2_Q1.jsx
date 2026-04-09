@@ -13,9 +13,9 @@ const Review9_Page2_Q1 = () => {
   const stopAtSecond = 9.10;
 
 const captions = [
-  { start: 0.500, end: 9.099, text: "Page eighty-nine, review nine, exercise D. Does it have a short or long A? Listen, read, and circle." },
-  { start: 10.179, end: 11.619, text: "One, train." },
-  { start: 12.719, end: 21.899, text: "Two, ant. Three, cane. Four, cap. Five, hat." }
+  { start: 0.500, end: 9.099, text: "Page eighty-nine, review 9, exercise D. Does it have a short or long A? Listen, read, and circle." },
+  { start: 10.179, end: 11.619, text: "1, train." },
+  { start: 12.719, end: 21.899, text: "2, ant. 3, cane. 4, cap. 5, hat." }
 ];
   const questions = [
     { img: img1, answer: "long" },

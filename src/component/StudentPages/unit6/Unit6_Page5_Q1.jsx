@@ -14,10 +14,10 @@ const Unit6_Page5_Q1 = () => {
   ];
 
 const captions = [
-  { start: 0.419, end: 8.779, text: "Page 50, Write Activities. Exercise A, Number 1. Listen, read, and write check." },
-  { start: 9.819, end: 16.34, text: "One, bike. Two, light. Three, five." },
-  { start: 17.379, end: 19.059, text: "Four, tight." },
-  { start: 20.079, end: 24.5, text: "Five, night. Six, kite" }
+  { start: 0.419, end: 8.779, text: "Page 50, Right Activities. Exercise A, Number 1. Listen, read, and write ✓." },
+  { start: 9.819, end: 16.34, text: "1, bike. 2, light. 3, five." },
+  { start: 17.379, end: 19.059, text: "4, tight." },
+  { start: 20.079, end: 24.5, text: "5, night. 6, kite" }
 ];
   const [answers, setAnswers] = useState({});
   const [wrongRows, setWrongRows] = useState([]);

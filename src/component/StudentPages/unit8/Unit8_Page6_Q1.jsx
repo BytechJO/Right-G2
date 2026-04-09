@@ -78,6 +78,7 @@ const Unit8_Page6_Q1 = () => {
   };
 
   const checkAnswers = () => {
+    if (locked) return;
     if (Object.keys(answers).length < questions.length) {
       ValidationAlert.info("Please complete all answers.");
       return;
@@ -135,7 +136,6 @@ const Unit8_Page6_Q1 = () => {
                   src={imgA}
                   className="w-[380px]! h-[230px]! object-contain"
                 />
-                
               </div>
 
               <div className="relative">
@@ -143,7 +143,6 @@ const Unit8_Page6_Q1 = () => {
                   src={imgB}
                   className="w-[380px]! h-[230px]! object-contain"
                 />
-              
               </div>
             </div>
 

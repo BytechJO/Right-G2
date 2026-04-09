@@ -20,7 +20,7 @@ const Unit4_Page5_Q4 = () => {
     { word: "the", indexes: [2, 3, 4], order: 0 },
     { word: "photographers", indexes: [9,10,11,12,13,14,15,16,17,18,19,20,21], order: 1 },
     { word: "use", indexes: [41,42,43], order: 2 },
-    { word: "cameras", indexes: [50,51,52,53,54,55,56], order: 3 },
+    { word: "cameras", indexes: [51,52,53,54,55,56,57], order: 3 },
   ];
 
   // 🔥 تعديل 2: الجملة الكاملة

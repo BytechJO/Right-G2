@@ -3,9 +3,9 @@ import page_6 from "../../../assets/imgs/Right 2 Unit 1 Stellas Family/Page 6.pn
 import grammarSound from "../../../assets/audio/ClassBook/U 1/grammar-1.mp3";
 import sound1 from "../../../assets/audio/ClassBook/U 1/pg6a-31-adult-lady_58h0hPTj.mp3";
 import sound2 from "../../../assets/audio/ClassBook/U 1/pg6-11-adult-lady_h6tzN1h4.mp3";
-import sound6 from "../../../assets/audio/ClassBook/U 1/Pg6_2.2_Stella.mp3";
-import sound7 from "../../../assets/audio/ClassBook/U 1/Pg6_3.2_Stella.mp3";
-import sound9 from "../../../assets/audio/ClassBook/U 1/Pg6_4.2_Stella.mp3";
+import sound6 from "../../../assets/audio/ClassBook/U 1/pg6-21-box-1.mp3";
+import sound7 from "../../../assets/audio/ClassBook/U 1/pg6-21-box-2.mp3";
+import sound9 from "../../../assets/audio/ClassBook/U 1/pg6-21-box-3.mp3";
 import AudioWithCaption from "../../AudioWithCaption";
 import { useContext } from "react";
 import { AudioContext } from "../../../AudioContext";

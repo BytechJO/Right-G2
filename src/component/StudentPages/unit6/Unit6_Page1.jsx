@@ -18,12 +18,13 @@ import sound7 from "../../../assets/audio/ClassBook/U 6/unit6-sound7.mp3";
 import sound8 from "../../../assets/audio/ClassBook/U 6/unit6-sound8.mp3";
 import sound9 from "../../../assets/audio/ClassBook/U 6/unit6-sound9.mp3";
 import sound10 from "../../../assets/audio/ClassBook/U 6/unit6-sound10.mp3";
-
+import { useContext } from "react";
+import { AudioContext } from "../../../AudioContext";
 const Unit6_Page1 = ({ openPopup }) => {
   const [activeAreaIndex, setActiveAreaIndex] = useState(null);
   const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef(null);
+  const { audioRef, activeId, setActiveId } = useContext(AudioContext);
   const captionsExample = [
     {
       start: 0.599,
@@ -33,16 +34,16 @@ const Unit6_Page1 = ({ openPopup }) => {
     {
       start: 9.599,
       end: 20.819,
-      text: "One, get up. Two, make the bed. Three, brush teeth. Four, eat breakfast.",
+      text: "1, get up. 2, make the bed. 3, brush teeth. 4, eat breakfast.",
     },
-    { start: 22.899, end: 24.959, text: "Five, go to school." },
-    { start: 26.239, end: 28.539, text: "Six, have a class." },
-    { start: 29.599, end: 31.599, text: "Seven, go home." },
-    { start: 32.739, end: 34.639, text: "Eight, eat lunch." },
+    { start: 22.899, end: 24.959, text: "5, go to school." },
+    { start: 26.239, end: 28.539, text: "6, have a class." },
+    { start: 29.599, end: 31.599, text: "7, go home." },
+    { start: 32.739, end: 34.639, text: "8, eat lunch." },
     {
       start: 35.68,
       end: 44.68,
-      text: "Nine, do homework. Ten, go to sleep. Page 46, listen and read along.",
+      text: "9, do homework. 10, go to sleep. Page 46, listen and read along.",
     },
     { start: 45.7, end: 46.899, text: "Long I." },
     { start: 47.939, end: 51.419, text: "Bike. Five. Kite." },
@@ -92,7 +93,7 @@ const Unit6_Page1 = ({ openPopup }) => {
     { x1: 91.8, y1: 26.3, sound: 6, isPrimary: true },
 
     //   // // الصوت الخامس – الإضافية
-    { x1: 786.75, y1: 27.93, x2: 98.19, y2: 40.88, sound: 6, isPrimary: false },
+    { x1: 86.75, y1: 27.93, x2: 98.19, y2: 40.88, sound: 6, isPrimary: false },
   ];
   const sounds = {
     1: sound1,
@@ -110,19 +111,21 @@ const Unit6_Page1 = ({ openPopup }) => {
     const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
     console.log("X%:", xPercent.toFixed(2), "Y%:", yPercent.toFixed(2));
   };
-  const playSound = (path) => {
-    if (audioRef.current) {
-      audioRef.current.src = path;
-      audioRef.current.play();
-      setIsPlaying(true);
-      setHoveredAreaIndex(null); // إزالة الهايلايت عند بدء الصوت
+  const playSound = (path, id) => {
+    if (!audioRef.current) return;
 
-      audioRef.current.onended = () => {
-        setIsPlaying(false);
-        setHoveredAreaIndex(null);
-        setActiveAreaIndex(null); // مسح الهايلايت بعد انتهاء الصوت
-      };
-    }
+    // 🔥 وقف أي صوت شغال بأي صفحة
+    audioRef.current.pause();
+    audioRef.current.currentTime = 0;
+
+    audioRef.current.src = path;
+    audioRef.current.play();
+
+    setActiveId(id); // 🔥 مهم للهايلايت
+
+    audioRef.current.onended = () => {
+      setActiveId(null);
+    };
   };
   return (
     <div
@@ -137,7 +140,7 @@ const Unit6_Page1 = ({ openPopup }) => {
         style={{ display: "block" }}
       /> */}
       {areas.map((area, index) => {
-        const isActive = activeAreaIndex === area.sound;
+      const isActive = activeId === `p46-${area.sound}`;
 
         // ============================
         // 1️⃣ المنطقة الأساسية → دائرة تظهر فقط عندما تكون Active
@@ -152,9 +155,8 @@ const Unit6_Page1 = ({ openPopup }) => {
                 top: `${area.y1}%`,
               }}
               onClick={() => {
-                setActiveAreaIndex(area.sound);
-                playSound(sounds[area.sound]);
-              }}
+                  playSound(sounds[area.sound], `p46-${area.sound}`);
+                }}
             ></div>
           );
         }
@@ -174,10 +176,9 @@ const Unit6_Page1 = ({ openPopup }) => {
               width: `${area.x2 - area.x1}%`,
               height: `${area.y2 - area.y1}%`,
             }}
-            onClick={() => {
-              setActiveAreaIndex(area.sound); // 👈 يفعل الدائرة فوق الرقم
-              playSound(sounds[area.sound]);
-            }}
+           onClick={() => {
+                  playSound(sounds[area.sound], `p46-${area.sound}`);
+                }}
           ></div>
         );
       })}

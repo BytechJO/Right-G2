@@ -251,7 +251,7 @@ const Review3_Page1_Q1 = () => {
                         {showResult &&
                           selected[i] === `${op}` &&
                           selected[i] !== item.correct && (
-                            <div className="wrong-mark-CB-review3-p1-q17">
+                            <div className="wrong-mark-CB-review3-p1-q1">
                               ✕
                             </div>
                           )}
@@ -300,7 +300,7 @@ const Review3_Page1_Q1 = () => {
                     answers[i].trim().toLowerCase() !==
                       item.correctInput.toLowerCase() &&
                     wrongInputs.includes(i) && (
-                      <div className="wrong-mark-CB-review2-p2-q3 ">✕</div>
+                      <div className="wrong-mark-CB-review3-p1-q1-2">✕</div>
                     )}
                 </div>
               </div>

@@ -20,7 +20,7 @@ const Unit2_Page3 = ({ openPopup }) => {
   const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const captionsExample = [
-    { start: 0.52, end: 4.74, text: "Page 12, exercise 1. Write grammar." },
+    { start: 0.52, end: 4.74, text: "Page 12, exercise 1. Right Grammar." },
     { start: 5.86, end: 7.38, text: "This is a bird." },
     { start: 8.48, end: 12.42, text: "That's a blue bird. Is this a flower?" },
     { start: 13.72, end: 15.16, text: "Yes, it is." },

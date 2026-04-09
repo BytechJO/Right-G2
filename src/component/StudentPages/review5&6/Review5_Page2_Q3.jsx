@@ -66,6 +66,7 @@ const Review5_Page2_Q4 = () => {
   const reset = () => {
     setAnswers({});
     setLocked(false);
+    setShowResult(false); // 🔥 هذا الناقص
   };
 
   const show = () => {

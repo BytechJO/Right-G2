@@ -18,7 +18,7 @@ const Unit5_Page3 = ({ openPopup }) => {
   const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const captionsExample = [
-  { start: 0.439, end: 4.759, text: "Page 42, exercise 1. Write grammar." },
+  { start: 0.439, end: 4.759, text: "Page 42, exercise 1. Right Grammar." },
   { start: 5.9, end: 11.239, text: "He likes chicken. She likes chicken. It likes chicken." },
   { start: 12.359, end: 21.199, text: "He doesn't like burgers. She doesn't like burgers. It doesn't like burgers." },
   { start: 22.5, end: 25.34, text: "He likes cheese. He doesn't like meat." },

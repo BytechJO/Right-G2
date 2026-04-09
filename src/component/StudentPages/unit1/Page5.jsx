@@ -12,6 +12,8 @@ import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 import ReadChoose from "../../ReadChoose";
 import FourImagesWithAudio from "../../FourImagesWithAudio";
 import AudioWithCaption from "../../AudioWithCaption";
+import { useContext } from "react";
+import { AudioContext } from "../../../AudioContext";
 import sound1_letter from "../../../assets/audio/ClassBook/U 1/Pg5_1.1_Adult Lady.mp3";
 import sound2_letter from "../../../assets/audio/ClassBook/U 1/Pg5_1.2_Adult Lady.mp3";
 import sound3_letter from "../../../assets/audio/ClassBook/U 1/Pg5_Instruction2_Adult Lady.mp3";
@@ -20,15 +22,13 @@ import sound8 from "../../../assets/audio/ClassBook/U 1/sound8.mp3";
 import sound9 from "../../../assets/audio/ClassBook/U 1/sound9.mp3";
 import "./Page5.css";
 const Page5 = ({ openPopup }) => {
-  const audioRef = useRef(null);
-  const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [activeAreaIndex, setActiveAreaIndex] = useState(null);
+   const { audioRef, activeId, setActiveId } = useContext(AudioContext);
+
   const captionsExample = [
     {
       start: 0.56,
       end: 3.599,
-      text: "Page five. Meet my family",
+      text: "Page 5. Meet my family",
     },
     {
       start: 4.739,
@@ -95,24 +95,19 @@ const Page5 = ({ openPopup }) => {
     new Audio(sound3_letter),
     new Audio(sound4_letter),
   ];
-  const imageSounds2 = [
-    null, // الصورة الأولى الكبيرة (إن ما بدك صوت إلها)
-    // new Audio(sound1_conversation),
-    // new Audio(sound2_conversation),
-  ];
 
   const areas = [
     // الصوت الأول – المنطقة الأساسية
-    { x1: 10.9, y1: 49, sound: 1, isPrimary: true },
+    { id: "pn1-8",x1: 10.9, y1: 49, sound: 1, isPrimary: true },
 
     // الصوت الأول – منطقة إضافية
-    { x1: 1.94, y1: 39.2, x2: 9.7, y2: 60.8, sound: 1, isPrimary: false },
+    { id: "pn1-8",x1: 1.94, y1: 39.2, x2: 9.7, y2: 60.8, sound: 1, isPrimary: false },
 
     // الصوت الثاني – الأساسية
-    { x1: 30.7, y1: 59.9, sound: 2, isPrimary: true },
+    { id: "pn1-9",x1: 30.7, y1: 59.9, sound: 2, isPrimary: true },
 
     // الصوت الثاني – الإضافية
-    { x1: 22.5, y1: 38.44, x2: 30.8, y2: 68.9, sound: 2, isPrimary: false },
+    { id: "pn1-9",x1: 22.5, y1: 38.44, x2: 30.8, y2: 68.9, sound: 2, isPrimary: false },
   ];
   const sounds = {
     1: sound8,
@@ -124,20 +119,22 @@ const Page5 = ({ openPopup }) => {
     const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
     console.log("X%:", xPercent.toFixed(2), "Y%:", yPercent.toFixed(2));
   };
-  const playSound = (path) => {
-    if (audioRef.current) {
-      audioRef.current.src = path;
-      audioRef.current.play();
-      setIsPlaying(true);
-      setHoveredAreaIndex(null); // إزالة الهايلايت عند بدء الصوت
+const playSound = (path, id) => {
+  if (!audioRef.current) return;
 
-      audioRef.current.onended = () => {
-        setIsPlaying(false);
-        setHoveredAreaIndex(null);
-        setActiveAreaIndex(null); // مسح الهايلايت بعد انتهاء الصوت
-      };
-    }
+  // 🔥 وقف أي صوت شغال بأي صفحة
+  audioRef.current.pause();
+  audioRef.current.currentTime = 0;
+
+  audioRef.current.src = path;
+  audioRef.current.play();
+
+  setActiveId(id); // 🔥 مهم للهايلايت
+
+  audioRef.current.onended = () => {
+    setActiveId(null);
   };
+};
   return (
     <div
       className="page1-img-wrapper"
@@ -147,7 +144,7 @@ const Page5 = ({ openPopup }) => {
       <audio ref={audioRef} style={{ display: "none" }} />
 
       {areas.map((area, index) => {
-        const isActive = activeAreaIndex === area.sound;
+         const isActive = activeId === `p5-${area.sound}`;
 
         // ============================
         // 1️⃣ المنطقة الأساسية → دائرة تظهر فقط عندما تكون Active
@@ -161,10 +158,9 @@ const Page5 = ({ openPopup }) => {
                 left: `${area.x1}%`,
                 top: `${area.y1}%`,
               }}
-              onClick={() => {
-                setActiveAreaIndex(area.sound);
-                playSound(sounds[area.sound]);
-              }}
+               onClick={() => {
+  playSound(sounds[area.sound], `p5-${area.sound}`);
+}}
             ></div>
           );
         }
@@ -184,10 +180,9 @@ const Page5 = ({ openPopup }) => {
               width: `${area.x2 - area.x1}%`,
               height: `${area.y2 - area.y1}%`,
             }}
-            onClick={() => {
-              setActiveAreaIndex(area.sound); // 👈 يفعل الدائرة فوق الرقم
-              playSound(sounds[area.sound]);
-            }}
+           onClick={() => {
+  playSound(sounds[area.sound], `p5-${area.sound}`);
+}}
           ></div>
         );
       })}
