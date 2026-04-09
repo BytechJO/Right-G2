@@ -160,10 +160,7 @@ const WB_Unit1_Page7_Q2 = () => {
             words from the box.
           </h1>
 
-          <div
-            className="family-completion-activity p-6"
-            dir="ltr"
-          >
+          <div className="family-completion-activity p-6" dir="ltr">
             <Droppable droppableId="words" direction="horizontal">
               {(provided) => (
                 <div
@@ -174,19 +171,26 @@ const WB_Unit1_Page7_Q2 = () => {
                   {words.map((word, index) => {
                     const isUsed = Object.values(answers).includes(word);
                     return (
-                      <Draggable key={word} draggableId={word} index={index}>
+                      <Draggable
+                        key={word}
+                        draggableId={word}
+                        index={index}
+                        isDragDisabled={isUsed} // 🔥 هذا المهم
+                      >
                         {(provided) => (
-                          <span 
-                          ref={provided.innerRef}
-                           
-                            className="px-4 py-2 bg-white rounded text-blue-700 font-medium shadow-sm hover:bg-blue-50 cursor-grab"
-                            style={{
-                              background: isUsed ? "#ccc" : "white",
-                              opacity: isUsed ? 0.6 : 1,
-                              cursor: isUsed ? "not-allowed" : "grab",
-                            }}
-                            {...provided.draggableProps}
+                          <span
+                            ref={provided.innerRef}{...provided.draggableProps}
                             {...provided.dragHandleProps}
+                            className="px-4 py-2 bg-white rounded text-blue-700 font-medium shadow-sm"
+                              style={{
+    ...provided.draggableProps.style, // 🔥 هذا أهم سطر
+    background: isUsed ? "#ccc" : "white",
+    opacity: isUsed ? 0.5 : 1,
+    cursor: isUsed ? "not-allowed" : "grab",
+    padding: "8px 16px",
+    borderRadius: "6px",
+  }}
+                            
                           >
                             {word}
                           </span>

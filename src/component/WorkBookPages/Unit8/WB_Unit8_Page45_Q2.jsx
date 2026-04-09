@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Button from "../Button";
 
-import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 46/Ex D 1-1.svg";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex B 1.svg";
 import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex B 2.svg";
 import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex B 3.svg";
 import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex B 4.svg";
@@ -61,13 +61,18 @@ const LookAndMatch = () => {
 
   const palette = ["#ef4444", "#3b82f6", "#22c55e", "#eab308", "#a855f7"];
 
-  // ✅ تحميل svg كنص
+  // ✅ تحميل svg مع تعديل الألوان
   useEffect(() => {
     topItems.forEach((item) => {
       fetch(item.img)
         .then((res) => res.text())
         .then((data) => {
-          setSvgContent((prev) => ({ ...prev, [item.id]: data }));
+          const cleaned = data
+            .replaceAll('fill="none"', 'fill="currentColor"')
+            .replaceAll(/fill="[^"]*"/g, 'fill="currentColor"')
+            .replaceAll(/stroke="[^"]*"/g, 'stroke="currentColor"');
+
+          setSvgContent((prev) => ({ ...prev, [item.id]: cleaned }));
         });
     });
   }, []);
@@ -77,16 +82,24 @@ const LookAndMatch = () => {
   const renderTopPlaceholder = (id) => (
     <div
       onClick={() => setActiveItem(id)}
-      className="w-[100px] h-[100px] flex items-center justify-center rounded-2xl bg-white text-sm font-semibold text-gray-700 relative"
+      style={{
+        width: "100px",
+        height: "100px",
+        cursor: "pointer",
+        position: "relative",
+        border: activeItem === id ? "2px solid #333" : "none",
+        borderRadius: "12px",
+      }}
     >
       {svgContent[id] ? (
         <div
-          style={{ width: "90px", height: "90px" }}
+          style={{
+            width: "90px",
+            height: "90px",
+            color: colors[id] || "#000",
+          }}
           dangerouslySetInnerHTML={{
-            __html: svgContent[id].replace(
-              /fill=".*?"/g,
-              `fill="${colors[id] || "#000"}"`
-            ),
+            __html: svgContent[id],
           }}
         />
       ) : (
@@ -95,7 +108,19 @@ const LookAndMatch = () => {
 
       {/* 🎨 palette */}
       {activeItem === id && (
-        <div className="absolute top-[110px] flex gap-1 bg-white p-1 rounded shadow">
+        <div
+          style={{
+            position: "absolute",
+            top: "110%",
+            display: "flex",
+            gap: "5px",
+            background: "#fff",
+            padding: "5px",
+            borderRadius: "8px",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+            zIndex: 10,
+          }}
+        >
           {palette.map((color) => (
             <div
               key={color}
@@ -105,10 +130,10 @@ const LookAndMatch = () => {
                 setActiveItem(null);
               }}
               style={{
-                backgroundColor: color,
-                width: "16px",
-                height: "16px",
+                width: "18px",
+                height: "18px",
                 borderRadius: "50%",
+                background: color,
                 cursor: "pointer",
               }}
             />
@@ -120,13 +145,12 @@ const LookAndMatch = () => {
 
   const renderBottomPlaceholder = (label) => (
     <div
-      className="flex items-center justify-center rounded-full border-2 border-gray-500 bg-white text-xs font-semibold text-gray-700 text-center px-2"
+      className="flex items-center justify-center rounded-full border-2 border-gray-500 bg-white"
       style={{ height: "90px", width: "90px" }}
     >
       <img
         src={label}
-        className="rounded-full"
-        style={{ height: "90px", width: "90px" }}
+        style={{ height: "90px", width: "90px", borderRadius: "50%" }}
       />
     </div>
   );
@@ -217,6 +241,7 @@ const LookAndMatch = () => {
               {renderLines()}
             </svg>
 
+            {/* 🔼 TOP (colorable) */}
             {topItems.map((item) => (
               <div
                 key={item.id}
@@ -224,17 +249,16 @@ const LookAndMatch = () => {
                 style={{ left: item.x, top: item.y }}
               >
                 {renderTopPlaceholder(item.id)}
-                <div className="mt-2 w-3 h-3"></div>
               </div>
             ))}
 
+            {/* 🔽 BOTTOM */}
             {bottomItems.map((item) => (
               <div
                 key={item.id}
                 className="absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center"
                 style={{ left: item.x, top: item.y }}
               >
-                <div className="mb-2 w-3 h-3"></div>
                 {renderBottomPlaceholder(item.img)}
               </div>
             ))}

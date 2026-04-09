@@ -7,7 +7,6 @@ import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 1
 import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 12/Ex H 3.svg";
 import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 12/Ex H 4.svg";
 
-// الإجابات النموذجية
 const correctAnswers = {
   input1_1: "Are these",
   input1_2: "Yes, they are.",
@@ -19,7 +18,6 @@ const correctAnswers = {
   input4_2: "No, they aren't.",
 };
 
-// الأسئلة
 const questions = [
   { id: "q1", number: 1, question1_end: "dogs?", image: 2 },
   { id: "q2", number: 2, question1_end: "squirrel?", image: 3 },
@@ -45,11 +43,10 @@ const InteractiveConnectingLines = ({
         return (
           <path
             key={index}
-            d={`M ${leftPos.x} ${leftPos.y} C ${leftPos.x + 100} ${
-              leftPos.y
-            }, ${rightPos.x - 100} ${rightPos.y}, ${rightPos.x} ${
-              rightPos.y
-            }`}
+            d={`M ${leftPos.x} ${leftPos.y} 
+           C ${(leftPos.x + rightPos.x) / 2} ${leftPos.y},
+             ${(leftPos.x + rightPos.x) / 2} ${rightPos.y},
+             ${rightPos.x} ${rightPos.y}`}
             stroke="#ef4444"
             strokeWidth="2"
             fill="none"
@@ -84,6 +81,7 @@ const MatchingSection = ({
       leftDotsRef.current.forEach((dot, index) => {
         if (!dot) return;
         const rect = dot.getBoundingClientRect();
+
         left[`q${index + 1}`] = {
           x: rect.left - containerRect.left + rect.width / 2,
           y: rect.top - containerRect.top + rect.height / 2,
@@ -94,6 +92,7 @@ const MatchingSection = ({
       rightDotsRef.current.forEach((dot, index) => {
         if (!dot) return;
         const rect = dot.getBoundingClientRect();
+
         right[index] = {
           x: rect.left - containerRect.left + rect.width / 2,
           y: rect.top - containerRect.top + rect.height / 2,
@@ -115,25 +114,26 @@ const MatchingSection = ({
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-[500px] flex justify-between items-center px-8"
+      className="relative w-full h-full flex justify-between items-center"
     >
+      {/* LEFT DOTS */}{" "}
       <div className="flex flex-col justify-around h-full">
         {images.map((_, i) => (
           <div key={i} className="flex items-center h-[100px]">
             <div
               ref={(el) => (leftDotsRef.current[i] = el)}
               className="w-5 h-5 bg-gray-400 rounded-full"
-            />
+            />{" "}
           </div>
-        ))}
+        ))}{" "}
       </div>
-
+      {/* LINES */}
       <InteractiveConnectingLines
         connections={connections}
         leftDotsPositions={leftDotsPositions}
         rightDotsPositions={rightDotsPositions}
       />
-
+      {/* RIGHT SIDE */}
       <div className="flex flex-col justify-around h-full items-start">
         {images.map((image, index) => (
           <div key={index} className="flex items-center gap-3 h-[100px]">
@@ -172,7 +172,7 @@ export default function WritingExercise() {
   const [leftDotsPositions, setLeftDotsPositions] = useState({});
   const [rightDotsPositions, setRightDotsPositions] = useState({});
   const [connections, setConnections] = useState([]);
-
+  const [locked, setLocked] = useState(false);
   useEffect(() => {
     if (
       Object.keys(leftDotsPositions).length &&
@@ -182,7 +182,7 @@ export default function WritingExercise() {
         questions.map((q) => ({
           leftDotId: q.id,
           rightImageIndex: q.image,
-        }))
+        })),
       );
     }
   }, [leftDotsPositions, rightDotsPositions]);
@@ -192,6 +192,7 @@ export default function WritingExercise() {
   };
 
   const checkAnswers = () => {
+    if (locked) return;
     let score = 0;
     const newResults = {};
 
@@ -202,23 +203,36 @@ export default function WritingExercise() {
     }
 
     setResults(newResults);
-    ValidationAlert[score === 8 ? "success" : "error"](`Score: ${score} / 8`);
+    if (score === 8) {
+      ValidationAlert.success(`Score: ${score} / 8`);
+    } else if (score > 0) {
+      ValidationAlert.warning(`Score: ${score} / 8`);
+    } else {
+      ValidationAlert.error(`Score: ${score} / 8`);
+    }
+    setLocked(true);
   };
 
   const resetExercise = () => {
     setInputs(Object.fromEntries(Object.keys(inputs).map((k) => [k, ""])));
     setResults({});
-    setConnections([]);
-  };
-
-  const handleShowAnswer = () => {
-    setInputs(correctAnswers);
-
+    setLocked(false);
     setConnections(
       questions.map((q) => ({
         leftDotId: q.id,
         rightImageIndex: q.image,
-      }))
+      })),
+    );
+  };
+
+  const handleShowAnswer = () => {
+    setInputs(correctAnswers);
+    setLocked(true);
+    setConnections(
+      questions.map((q) => ({
+        leftDotId: q.id,
+        rightImageIndex: q.image,
+      })),
     );
 
     const showResults = {};
@@ -233,27 +247,33 @@ export default function WritingExercise() {
 
   return (
     <div className="main-container-component">
+      {" "}
       <div className="div-forall">
+        {" "}
         <h1 className="header-title-page8">
-          <span className="ex-A">H</span> Look, trace, and write.
+          {" "}
+          <span className="ex-A">H</span> Look, trace, and write.{" "}
         </h1>
-
         <div className="p-8 font-sans w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            {/* LEFT SIDE (رجعناه زي ما كان) */}
             <div className="space-y-8">
               {questions.map((q) => (
                 <div key={q.id} className="flex items-start space-x-3 text-lg">
                   <span className="font-bold text-gray-500">{q.number}</span>
 
                   <div className="w-full space-y-4">
-                    
-                    {/* INPUT 1 */}
                     <div className="relative">
-                      <div className={`border-b-2 pb-2 ${getInputBorderColor(`input${q.number}_1`)}`}>
+                      <div
+                        className={`border-b-2 pb-2 ${getInputBorderColor(`input${q.number}_1`)}`}
+                      >
                         <select
                           value={inputs[`input${q.number}_1`]}
                           onChange={(e) =>
-                            handleSelectChange(`input${q.number}_1`, e.target.value)
+                            handleSelectChange(
+                              `input${q.number}_1`,
+                              e.target.value,
+                            )
                           }
                         >
                           <option value="">-- Select Question --</option>
@@ -265,21 +285,19 @@ export default function WritingExercise() {
                           {q.question1_end}
                         </span>
                       </div>
-
-                      {results[`input${q.number}_1`] === false && (
-                        <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 border-2 border-white rounded-full flex items-center justify-center text-white text-xs font-bold shadow">
-                          ✕
-                        </div>
-                      )}
                     </div>
 
-                    {/* INPUT 2 */}
                     <div className="relative">
-                      <div className={`border-b-2 pb-2 ${getInputBorderColor(`input${q.number}_2`)}`}>
+                      <div
+                        className={`border-b-2 pb-2 ${getInputBorderColor(`input${q.number}_2`)}`}
+                      >
                         <select
                           value={inputs[`input${q.number}_2`]}
                           onChange={(e) =>
-                            handleSelectChange(`input${q.number}_2`, e.target.value)
+                            handleSelectChange(
+                              `input${q.number}_2`,
+                              e.target.value,
+                            )
                           }
                         >
                           <option value="">-- Select Answer --</option>
@@ -289,19 +307,13 @@ export default function WritingExercise() {
                           </option>
                         </select>
                       </div>
-
-                      {results[`input${q.number}_2`] === false && (
-                        <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 border-2 border-white rounded-full flex items-center justify-center text-white text-xs font-bold shadow">
-                          ✕
-                        </div>
-                      )}
                     </div>
-
                   </div>
                 </div>
               ))}
             </div>
 
+            {/* RIGHT MATCHING */}
             <MatchingSection
               leftDotsPositions={leftDotsPositions}
               setLeftDotsPositions={setLeftDotsPositions}
