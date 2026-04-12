@@ -3,7 +3,7 @@
     align-items: flex-start;
     gap: 6px;
     /* flex: 1; */
-    width: 100%;
+    width: 60%;
     flex-direction: column;
 }
 
@@ -18,4 +18,13 @@
     padding: 2px 4px;
     position: relative;
     width: 60%;
+}
+
+.WB-unit1-p3-q1-img {
+    width: auto;
+    height: 160px;
+    object-fit: cover;
+    border: 1px solid black;
+    border-radius: 10px;
+    /* padding: 6px; */
 }

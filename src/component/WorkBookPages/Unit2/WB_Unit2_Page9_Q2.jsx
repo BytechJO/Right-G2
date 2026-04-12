@@ -108,7 +108,6 @@ const WB_Unit2_Page9_Q2 = () => {
 
     let targetPoint = null;
 
-    // إذا رايحين إلى النص الأوسط من صورة فوق/تحت
     if (e.currentTarget.dataset.leftId) {
       targetPoint = getPointData(e.currentTarget, ".dot-top");
     } else {
@@ -118,7 +117,22 @@ const WB_Unit2_Page9_Q2 = () => {
     if (!targetPoint) return;
 
     const { id, type, x, y } = targetPoint;
+    // ====== قواعد التوصيل الجديدة ======
 
+    // 1. الصور اللي فوق لازم تروح بس للكلمات
+    if (firstPoint.type === "leftImg" && type !== "centerText") {
+      return;
+    }
+
+    // 2. الصور اللي تحت لازم تيجي بس من الكلمات
+    if (type === "rightImg" && firstPoint.type !== "centerText") {
+      return;
+    }
+
+    // 3. ممنوع نطلع من الكلمات ونرجع لفوق
+    if (firstPoint.type === "centerText" && type === "leftImg") {
+      return;
+    }
     // منع التوصيل بنفس النوع
     if (firstPoint.type === type) {
       setFirstPoint(targetPoint);
@@ -133,8 +147,7 @@ const WB_Unit2_Page9_Q2 = () => {
     let startPoint = firstPoint;
     let endPoint = targetPoint;
 
-    // إذا البداية من النص الأوسط والنهاية على صورة تحت/يمين
-    // نرسم من الدوت السفلية بدل العلوية
+    // إذا البداية من النص والنهاية على صورة تحت
     if (firstPoint.type === "centerText" && type === "rightImg") {
       const centerEl = containerRef.current.querySelector(
         `[data-left-id="${firstPoint.id}"]`,
@@ -149,28 +162,53 @@ const WB_Unit2_Page9_Q2 = () => {
       }
     }
 
-    let leftIdValue, imageIdValue;
-    if (startPoint.type === "centerText") {
-      leftIdValue = startPoint.id;
-      imageIdValue = id;
-    } else {
-      leftIdValue = id;
-      imageIdValue = startPoint.id;
-    }
-
     const newLine = {
       x1: startPoint.x,
       y1: startPoint.y,
       x2: endPoint.x,
       y2: endPoint.y,
-      leftId: leftIdValue,
-      image: imageIdValue,
+      leftId: startPoint.type === "centerText" ? startPoint.id : targetPoint.id,
+      image: startPoint.type === "centerText" ? targetPoint.id : startPoint.id,
     };
 
-    setLines((prev) => [...prev, newLine]);
+    setLines((prev) => {
+      let updated = [...prev];
 
-    // بعد ما نوصل من الصورة العليا إلى النص
-    // خلّي البداية التالية من الدوت السفلية
+      const isTopConnection =
+        newLine.image.startsWith("img") && !newLine.image.startsWith("r");
+      const isBottomConnection = newLine.image.startsWith("r");
+
+      if (isTopConnection) {
+        // كل صورة فوق إلها خط واحد فقط
+        updated = updated.filter((line) => line.image !== newLine.image);
+
+        // كل كلمة إلها خط واحد فقط من فوق
+        updated = updated.filter(
+          (line) =>
+            !(
+              line.leftId === newLine.leftId &&
+              line.image.startsWith("img") &&
+              !line.image.startsWith("r")
+            ),
+        );
+      }
+
+      if (isBottomConnection) {
+        // كل صورة تحت إلها خط واحد فقط
+        updated = updated.filter((line) => line.image !== newLine.image);
+
+        // كل كلمة إلها خط واحد فقط من تحت
+        updated = updated.filter(
+          (line) =>
+            !(line.leftId === newLine.leftId && line.image.startsWith("r")),
+        );
+      }
+
+      updated.push(newLine);
+      return updated;
+    });
+
+    // إذا وصلنا لصندوق النص من صورة فوق، خليه يكمل من الدوت السفلية
     if (type === "centerText") {
       const centerEl = containerRef.current.querySelector(
         `[data-left-id="${id}"]`,
@@ -250,6 +288,7 @@ const WB_Unit2_Page9_Q2 = () => {
   };
 
   const checkAnswers = () => {
+    if (checked || locked) return;
     if (lines.length === 0) {
       ValidationAlert.warning("Please connect the items first.");
       return;
@@ -297,6 +336,10 @@ const WB_Unit2_Page9_Q2 = () => {
 
     if (wrong.length === 0) {
       ValidationAlert.success(
+        `Score: ${correctCount} / ${correctMatches.length}`,
+      );
+    } else if (wrong.length > 0) {
+      ValidationAlert.warning(
         `Score: ${correctCount} / ${correctMatches.length}`,
       );
     } else {
@@ -353,7 +396,7 @@ const WB_Unit2_Page9_Q2 = () => {
                 >
                   <div className="dot dot-top w-3 h-3 bg-red-500 rounded-full" />
                   <span>{l.text}</span>
-                 
+
                   <div className="dot dot-bottom w-3 h-3 bg-red-500 rounded-full" />
                 </div>
               ))}

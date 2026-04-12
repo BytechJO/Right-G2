@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useRef, useEffect } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import img1 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 91/Ex D 1.svg";
-import img2 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 91/Ex D 2.svg";
-import img3 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 91/Ex D 3.svg";
-import img4 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 91/Ex D 4.svg";
+import img1 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 91/Asset 59.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 91/Asset 60.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 91/Asset 61.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 91/Asset 62.svg";
 import sound1 from "../../../assets/audio/ClassBook/U 10/cd64pg91-instruction1-adult-lady_sUW7j1i5.mp3";
 import QuestionAudioPlayer from "../../QuestionAudioPlayer";
 const Review10_Page2_Q1 = () => {

@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import page_2 from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 41.png";
 import img1_letter from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 40-41/1-05.svg";
-import img2_letter from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 40-41/1-06.svg";
-import img3_letter from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 40-41/1-07.svg";
-import img4_letter from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 40-41/1-08.svg";
+import img2_letter from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 40-41/Asset 1.svg";
+import img3_letter from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 40-41/Asset 2.svg";
+import img4_letter from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 40-41/Asset 3.svg";
 import Rabbit from "../../../assets/Page 01/Rabbit.svg";
 import soundListen from "../../../assets/audio/ClassBook/U 5/pg41-reading-adult-lady_RORtRLQ4.mp3";
 import sound1_letter from "../../../assets/audio/ClassBook/U 5/Pg41_1.1_Adult Lady.mp3";
@@ -27,7 +27,7 @@ const Unit5_Page2 = ({ openPopup }) => {
   const [activeAreaIndex, setActiveAreaIndex] = useState(null);
   const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
-   const { audioRef, activeId, setActiveId } = useContext(AudioContext);
+  const { audioRef, activeId, setActiveId } = useContext(AudioContext);
   // أصوات الصور
   const imageSounds = [
     null, // الصورة الأولى الكبيرة (إن ما بدك صوت إلها)
@@ -72,17 +72,16 @@ const Unit5_Page2 = ({ openPopup }) => {
     { x1: 7.24, y1: 25.6, sound: 1, isPrimary: true },
 
     // // // الصوت الأول – منطقة إضافية
-    { x1: 2.11, y1: 17.57, x2: 24.61, y2: 29.00, sound: 1, isPrimary: false },
+    { x1: 2.11, y1: 17.57, x2: 24.61, y2: 29.0, sound: 1, isPrimary: false },
 
     // // // // الصوت الثاني – الأساسية
     { x1: 10.8, y1: 35.2, sound: 2, isPrimary: true },
 
     // // // // الصوت الثاني – الإضافية
-    { x1: 5.60, y1: 31.43, x2: 16.85, y2: 36.46, sound: 2, isPrimary: false },
-
+    { x1: 5.6, y1: 31.43, x2: 16.85, y2: 36.46, sound: 2, isPrimary: false },
 
     // // الصوت الأول – المنطقة الأساسية
-    { x1: 6.90, y1: 47.8, sound: 3, isPrimary: true },
+    { x1: 6.9, y1: 47.8, sound: 3, isPrimary: true },
 
     // // // // الصوت الأول – منطقة إضافية
     { x1: 2.69, y1: 44.99, x2: 13.16, y2: 48.95, sound: 3, isPrimary: false },
@@ -106,7 +105,7 @@ const Unit5_Page2 = ({ openPopup }) => {
     const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
     console.log("X%:", xPercent.toFixed(2), "Y%:", yPercent.toFixed(2));
   };
-const playSound = (path, id) => {
+  const playSound = (path, id) => {
     if (!audioRef.current) return;
 
     // 🔥 وقف أي صوت شغال بأي صفحة
@@ -131,7 +130,7 @@ const playSound = (path, id) => {
       <audio ref={audioRef} style={{ display: "none" }} />
 
       {areas.map((area, index) => {
-         const isActive = activeId === `p41-${area.sound}`;
+        const isActive = activeId === `p41-${area.sound}`;
 
         // ============================
         // 1️⃣ المنطقة الأساسية → دائرة تظهر فقط عندما تكون Active
@@ -145,9 +144,9 @@ const playSound = (path, id) => {
                 left: `${area.x1}%`,
                 top: `${area.y1}%`,
               }}
-             onClick={() => {
-                  playSound(sounds[area.sound], `p41-${area.sound}`);
-                }}
+              onClick={() => {
+                playSound(sounds[area.sound], `p41-${area.sound}`);
+              }}
             ></div>
           );
         }
@@ -168,8 +167,8 @@ const playSound = (path, id) => {
               height: `${area.y2 - area.y1}%`,
             }}
             onClick={() => {
-                  playSound(sounds[area.sound], `p41-${area.sound}`);
-                }}
+              playSound(sounds[area.sound], `p41-${area.sound}`);
+            }}
           ></div>
         );
       })}

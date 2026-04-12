@@ -17,6 +17,7 @@ const WB_Unit1_Page4_Q3 = () => {
   const rightRefs = useRef({});
   const [lines, setLines] = useState([]);
   const [checked, setChecked] = useState(false);
+
   const data = {
     left: [
       { id: 1, text: "I'm Stella's ...", img: img1 },
@@ -32,15 +33,54 @@ const WB_Unit1_Page4_Q3 = () => {
 
   const correctMatches = { 1: 3, 2: 1, 3: 2 };
 
-  const handleLeftClick = (id) => setSelectedLeft(id);
-  const handleRightClick = (id) => {
+  /**
+   * معالج النقر على عنصر من الجهة اليسرى
+   * يحدد العنصر المختار أو يلغي التحديد إذا تم النقر عليه مرة أخرى
+   */
+  const handleLeftClick = (id) => {
+    if (selectedLeft === id) {
+      // إذا تم النقر على نفس العنصر، ألغِ التحديد
+      setSelectedLeft(null);
+    } else {
+      // اختر عنصراً جديداً
+      setSelectedLeft(id);
+    }
+  };
+
+  /**
+   * معالج النقر على عنصر من الجهة اليمنى
+   * يقوم بتوصيل العنصر المختار من اليسار بالعنصر المختار من اليمين
+   * إذا كان العنصر من اليمين موصولاً بعنصر آخر من اليسار، يتم قطع الاتصال السابق
+   */
+  const handleRightClick = (rightId) => {
     if (selectedLeft) {
-      setMatches({ ...matches, [selectedLeft]: id });
+      // البحث عن أي عنصر من اليسار موصول بهذا العنصر من اليمين
+      const existingLeftId = Object.keys(matches).find(
+        (key) => matches[key] === rightId,
+      );
+
+      // إنشء نسخة جديدة من الـ matches
+      const newMatches = { ...matches };
+
+      // إذا كان هناك اتصال سابق، قم بحذفه
+      if (existingLeftId) {
+        delete newMatches[existingLeftId];
+      }
+
+      // أضف الاتصال الجديد
+      newMatches[selectedLeft] = rightId;
+      setMatches(newMatches);
+
+      // ألغِ التحديد من اليسار
       setSelectedLeft(null);
     }
   };
 
+  /**
+   * التحقق من الإجابات
+   */
   const checkAnswers = () => {
+    if (showAnswers ||checked) return;
     let currentScore = 0;
     const totalQuestions = Object.keys(correctMatches).length;
 
@@ -65,17 +105,28 @@ const WB_Unit1_Page4_Q3 = () => {
     }
   };
 
+  /**
+   * عرض الإجابات الصحيحة
+   */
   const handleShowAnswer = () => {
     setMatches(correctMatches);
     setShowAnswers(true);
   };
 
+  /**
+   * إعادة تعيين المكون للبدء من جديد
+   */
   const handleStartAgain = () => {
     setMatches({});
     setShowResults(false);
     setShowAnswers(false);
+    setSelectedLeft(null);
+    setChecked(false);
   };
 
+  /**
+   * رسم الخطوط بين العناصر الموصولة
+   */
   useEffect(() => {
     const newLines = [];
 
@@ -117,13 +168,13 @@ const WB_Unit1_Page4_Q3 = () => {
               checked &&
               matches[item.id] &&
               matches[item.id] !== correctMatches[item.id];
+            const isConnected = matches[item.id] !== undefined;
+
             return (
               <div key={item.id} className="flex items-center gap-6 relative">
-                 {isWrong && (
-        <div className="wb-wrong-icon-unit1-page4-q3">
-          ✕
-        </div>
-      )}
+                {isWrong && (
+                  <div className="wb-wrong-icon-unit1-page4-q3">✕</div>
+                )}
 
                 <span className="font-bold text-blue-900 text-xl">
                   {item.id}
@@ -133,11 +184,33 @@ const WB_Unit1_Page4_Q3 = () => {
                   alt=""
                   className="max-w-16 max-h-16 rounded-full object-cover"
                 />
-                <span className="text-xl text-gray-700">{item.text}</span>
+
+                {/* جعل النص قابلاً للنقر بدون خلفية */}
+                <span
+                  onClick={() => handleLeftClick(item.id)}
+                  className={`text-xl cursor-pointer transition-all duration-200 ${
+                    selectedLeft === item.id
+                      ? "text-red-600 font-bold underline decoration-red-600 decoration-2 underline-offset-2"
+                      : isConnected
+                        ? "text-black-600 font-semibold"
+                        : "text-gray-700 hover:text-red-500 hover:underline hover:decoration-red-500 hover:decoration-2 hover:underline-offset-2"
+                  }`}
+                >
+                  {item.text}
+                </span>
+
+                {/* نقطة الاتصال من اليسار */}
                 <div
                   ref={(el) => (leftRefs.current[item.id] = el)}
                   onClick={() => handleLeftClick(item.id)}
-                  className={`w-4 h-4 rounded-full cursor-pointer transition-all ${selectedLeft === item.id ? "bg-red-500 scale-125" : "bg-[#eb533c]"}`}
+                  className={`w-4 h-4 rounded-full cursor-pointer transition-all ${
+                    selectedLeft === item.id
+                      ? "bg-red-500 scale-125 shadow-lg"
+                      : isConnected
+                        ? "bg-red-500"
+                        : "bg-[#eb533c]"
+                  }`}
+                  title="انقر للاختيار"
                 />
               </div>
             );
@@ -146,17 +219,41 @@ const WB_Unit1_Page4_Q3 = () => {
 
         {/* Right Side */}
         <div className="space-y-23.5">
-          {data.right.map((item) => (
-            <div key={item.id} className="flex items-center gap-6 justify-end">
+          {data.right.map((item) => {
+            const isConnected = Object.values(matches).includes(item.id);
+
+            return (
               <div
-                ref={(el) => (rightRefs.current[item.id] = el)}
-                onClick={() => handleRightClick(item.id)}
-                className={`w-4 h-4 rounded-full cursor-pointer transition-all ${Object.values(matches).includes(item.id) ? "bg-red-500" : "bg-[#eb533c]"}`}
-              />
-              <span className="text-xl text-gray-700 w-24">{item.text}</span>
-            </div>
-          ))}
+                key={item.id}
+                className="flex items-center gap-6 justify-end"
+              >
+                {/* نقطة الاتصال من اليمين */}
+                <div
+                  ref={(el) => (rightRefs.current[item.id] = el)}
+                  onClick={() => handleRightClick(item.id)}
+                  className={`w-4 h-4 rounded-full cursor-pointer transition-all ${
+                    isConnected ? "bg-red-500" : "bg-[#eb533c]"
+                  }`}
+                  title="انقر للتوصيل"
+                />
+
+                {/* جعل النص قابلاً للنقر بدون خلفية */}
+                <span
+                  onClick={() => handleRightClick(item.id)}
+                  className={`text-xl cursor-pointer transition-all duration-200 w-24 text-right ${
+                    isConnected
+                      ? "text-black-600 font-semibold"
+                      : "text-gray-700 hover:text-red-500 hover:underline hover:decoration-red-500 hover:decoration-2 hover:underline-offset-2"
+                  }`}
+                >
+                  {item.text}
+                </span>
+              </div>
+            );
+          })}
         </div>
+
+        {/* رسم الخطوط بين العناصر الموصولة */}
         <svg className="absolute top-0 left-0 w-full h-full pointer-events-none">
           {lines.map((line, index) => (
             <line

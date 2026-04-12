@@ -4,7 +4,7 @@ import ValidationAlert from "../../Popup/ValidationAlert";
 import img1 from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/Page 63/Ex D 1.svg";
 import img2 from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/Page 63/Ex D 2.svg";
 import img3 from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/Page 63/Ex D 3.svg";
-import img4 from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/Page 63/Ex D 4.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/Page 63/Asset 38.svg";
 const Unit7_Page6_Q1 = () => {
   const wordBank = [
     "Sunday",

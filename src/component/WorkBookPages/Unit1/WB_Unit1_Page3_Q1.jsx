@@ -176,7 +176,7 @@ const WB_Unit1_Page3_Q1 = () => {
               <div key={qIndex} className="CB-unit2-p6-q2-row">
                 <div className="CB-unit2-p6-q2-left">
                   <span className="CB-unit2-p6-q2-index">{qIndex + 1}</span>
-                  <img src={q.img} alt="" className="CB-unit2-p6-q2-img" />
+                  <img src={q.img} alt="" className="WB-unit1-p3-q1-img" />
                 </div>
 
                 <div className="WB-unit1-p3-q1-sentence">

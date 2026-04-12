@@ -9,7 +9,7 @@ import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 1
 
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../Button";
-import "./WB_Unit2_Page10_Q1.css"
+import "./WB_Unit2_Page10_Q1.css";
 const WB_Unit2_Page10_Q1 = () => {
   const [userSelections, setUserSelections] = useState({
     1: null,
@@ -76,6 +76,7 @@ const WB_Unit2_Page10_Q1 = () => {
   };
 
   const checkAnswers = () => {
+    if (showAnswers || showResults) return;
     const allAnswered = Object.values(userSelections).every(
       (value) => value !== null,
     );
@@ -103,7 +104,7 @@ const WB_Unit2_Page10_Q1 = () => {
 
     setWrongAnswers(newWrong);
     setScore(currentScore);
-
+    setShowResults(true);
     if (currentScore === totalQuestions) {
       ValidationAlert.success(`Score: ${currentScore} / ${totalQuestions}`);
     } else if (currentScore > 0) {
@@ -130,6 +131,7 @@ const WB_Unit2_Page10_Q1 = () => {
     });
     setShowResults(false);
     setShowAnswers(false);
+    setWrongAnswers({})
   };
 
   return (
@@ -160,11 +162,11 @@ const WB_Unit2_Page10_Q1 = () => {
                     <button
                       key={option}
                       onClick={() => handleSelect(item.id, option)}
-                      className={`relative px-4 py-1 rounded-xl transition-all ${
+                      className={`relative px-4 py-1 rounded-xl transition-all border-2 ${
                         userSelections[item.id] === option
-                          ? "border-blue-500 bg-blue-100"
+                          ? "border-blue-500"
                           : "border-gray-300 hover:border-blue-400"
-                      } ${showAnswers && option === item.correct ? "bg-green-500 text-white" : ""}`}
+                      } ${showAnswers && option === item.correct ? "border-green-500" : ""}`}
                     >
                       {option}
                       {/* ❌ علامة الخطأ */}

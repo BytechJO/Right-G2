@@ -29,6 +29,7 @@ const WB_Unit1_Page5_Q1 = () => {
   };
 
   const checkAnswers = () => {
+     if (showAnswers ||checked) return;
     const totalQuestions = data.length;
     const selectedAnswers = Object.values(userSelections);
 

@@ -21,13 +21,13 @@ import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 8
 import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 8/Ex B 6.svg";
 import img7 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 8/Ex B 7.svg";
 const ALL_IMAGES = [
-  { id: "rat", src: img1, letter: "r" },
-  { id: "rabbit", src: img2, letter: "r" },
-  { id: "robot", src: img3, letter: "r" },
-  { id: "rose", src: img4, letter: "r" },
-  { id: "lamp", src: img5, letter: "l" },
-  { id: "lemon", src: img6, letter: "l" },
-  { id: "leaf", src: img7, letter: "l" },
+  { id: "lamb", src: img1, letter: "l" },
+  { id: "ruler", src: img2, letter: "r" },
+  { id: "rabbit", src: img3, letter: "r" },
+  { id: "lamp", src: img4, letter: "l" },
+  { id: "leg", src: img5, letter: "l" },
+  { id: "rat", src: img6, letter: "r" },
+  { id: "run", src: img7, letter: "r" },
 ];
 
 // مكون الصورة القابلة للسحب

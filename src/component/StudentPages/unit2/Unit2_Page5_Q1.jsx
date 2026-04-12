@@ -4,12 +4,12 @@ import "./Unit2_Page5_Q1.css";
 import QuestionAudioPlayer from "../../QuestionAudioPlayer";
 import sound from "../../../assets/audio/ClassBook/U 2/cd10pg14-instruction-adult-lady_11ICxSy7.mp3";
 // 🔹 الصور
-import img1 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 14/Ex A 1.svg";
-import img2 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 14/Ex A 2.svg";
-import img3 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 14/Ex A 3.svg";
-import img4 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 14/Ex A 4.svg";
-import img5 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 14/Ex A 5.svg";
-import img6 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 14/Ex A 6.svg";
+import img1 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 14/Asset 10.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 14/Asset 11.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 14/Asset 12.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 14/Asset 13.svg";
+import img5 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 14/Asset 14.svg";
+import img6 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 14/Asset 15.svg";
 
 /* ================= DATA ================= */
 

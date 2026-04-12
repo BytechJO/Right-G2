@@ -13,6 +13,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    position: relative;
 }
 
 .WB-unit1-p3-q2-word-bank {

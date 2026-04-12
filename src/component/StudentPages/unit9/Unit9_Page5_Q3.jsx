@@ -34,7 +34,7 @@ const Unit9_Page5_Q3 = () => {
 
   const correct = {
     0: 0,
-    1:2,
+    1: 2,
     2: 3,
     3: 1,
   };
@@ -161,11 +161,22 @@ const Unit9_Page5_Q3 = () => {
             <div
               key={sent.id}
               ref={(el) => (sentenceRefs.current[index] = el)}
-              className={`bg-[#f4e9e2] px-6 py-3 rounded-full cursor-pointer font-medium text-center whitespace-nowrap transition
+              className={`flex flex-col relative bg-[#f4e9e2] px-6 py-3 rounded-full cursor-pointer font-medium text-center whitespace-nowrap transition
   ${selectedSentence === sent.id ? "bg-blue-200" : ""}`}
               onClick={() => selectSentence(sent.id)}
             >
               {sent.text}
+              <div
+                style={{
+                  height: "10px",
+                  width: "10px",
+                  position: "absolute",
+                  top: "40px",
+                  left: "47%",
+                  backgroundColor: "red",
+                  borderRadius: "50%",
+                }}
+              />
             </div>
           ))}
         </div>
@@ -197,7 +208,7 @@ const Unit9_Page5_Q3 = () => {
                     right: "-8px",
                     width: "22px",
                     height: "22px",
-                    background: "#ef4444",
+                    background: "red",
                     color: "white",
                     borderRadius: "50%",
                     display: "flex",

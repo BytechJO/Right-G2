@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 8/Ex C 1.svg";
 import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 8/Ex C 2.svg";
 import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 8/Ex C 3.svg";
-
+import sound from "../../../assets/audio/WorkBook/titel G2/Unit 1.mp3"
 import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+import QuestionAudioPlayer from "../../QuestionAudioPlayer";
 
 const DropBox = ({ id, value, isWrong }) => (
   <Droppable droppableId={id}>
@@ -53,8 +54,54 @@ const WB_Unit1_Page8_Q3 = () => {
     sentence2: "l",
     sentence3: "l",
   };
-
-  const handleShowAnswer = () => setAnswers(correctAnswers);
+  // ================================
+  // ✔ Captions Array
+  // ================================
+  const captions = [
+    {
+      start: 0.579,
+      end: 3.379,
+      text: "Page 8. Right Activities.",
+    },
+    {
+      start: 4.519,
+      end: 6.859,
+      text: "Exercise A, number 2.",
+    },
+    {
+      start: 7.919,
+      end: 12.439,
+      text: "Listen and write X on the picture with a different sound.",
+    },
+    {
+      start: 13.5,
+      end: 19.739,
+      text: "1:run, rabbit, lemon.",
+    },
+   
+    {
+      start: 19.739,
+      end: 26.26,
+      text: "2:leg,railroad track, red",
+    },
+   
+    {
+      start: 26.26,
+      end: 32.34,
+      text: "3:laugh, rain, lock.",
+    },
+   
+    {
+      start: 32.34,
+      end: 37.84,
+      text: "4: lion, lamp,ring",
+    },
+   
+  ];
+  const handleShowAnswer = () => {
+    setShowAnswer(true);
+    setAnswers(correctAnswers);
+  };
   const handleStartAgain = () => {
     setAnswers({
       sentence1a: null,
@@ -64,6 +111,7 @@ const WB_Unit1_Page8_Q3 = () => {
     });
     setWrongAnswers({});
     setShowAlert(false);
+    setShowAnswer(false);
   };
   const onDragEnd = (result) => {
     if (!result.destination) return;
@@ -82,6 +130,7 @@ const WB_Unit1_Page8_Q3 = () => {
     }));
   };
   const checkAnswers = () => {
+    if (showAnswer) return;
     const allFilled = Object.values(answers).every((answer) => answer !== null);
 
     if (!allFilled) {
@@ -106,7 +155,7 @@ const WB_Unit1_Page8_Q3 = () => {
 
     setWrongAnswers(newWrongAnswers);
     setScore({ correct, total });
-
+    setShowAnswer(true);
     if (correct === total) {
       ValidationAlert.success(`Score: ${correct}/${total}`);
     } else if (correct > 0) {
@@ -125,6 +174,8 @@ const WB_Unit1_Page8_Q3 = () => {
             <span className="WB-ex-A">C</span>Listen. Write and read the
             sentences.
           </h1>
+
+          <QuestionAudioPlayer src={sound} captions={captions} stopAtSecond={5}/>
           <Droppable droppableId="letters" direction="horizontal">
             {(provided) => (
               <div

@@ -56,6 +56,7 @@ const WB_Unit1_Page6_Q1 = () => {
   };
 
   const checkAnswers = () => {
+     if (showAnswers ||checked) return;
     const hasEmptyInputs = Object.values(userAnswers).some(
       (value) => !value || value.trim() === "",
     );
@@ -81,13 +82,13 @@ const WB_Unit1_Page6_Q1 = () => {
     setChecked(true); // ⭐ هنا
 
     if (currentScore === totalQuestions) {
-      ValidationAlert.success(`Perfect! ${currentScore} / ${totalQuestions}`);
+      ValidationAlert.success(`Score: ${currentScore} / ${totalQuestions}`);
     } else if (currentScore > 1) {
       ValidationAlert.warning(
-        `Good job! You got ${currentScore} / ${totalQuestions}`,
+        `Score: ${currentScore} / ${totalQuestions}`,
       );
     } else {
-      ValidationAlert.error(`You got ${currentScore} / ${totalQuestions}`);
+      ValidationAlert.error(`Score: ${currentScore} / ${totalQuestions}`);
     }
   };
 
@@ -120,6 +121,7 @@ const WB_Unit1_Page6_Q1 = () => {
     });
     setShowResults(false);
     setShowAnswers(false);
+    setChecked(false)
   };
 
   return (

@@ -63,6 +63,7 @@ const WB_Unit1_Page6_Q2 = () => {
   };
 
   const checkAnswers = () => {
+    if (showAnswers ||checked) return;
     const hasEmptySelections = data.some((item) => {
       const userItem = userSelections[item.id];
       return !userItem?.pronoun || !userItem?.relation;
@@ -127,6 +128,7 @@ const WB_Unit1_Page6_Q2 = () => {
     });
     setShowResults(false);
     setShowAnswers(false);
+    setChecked(false)
   };
 
   return (

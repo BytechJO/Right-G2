@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import img1 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page18/Ex B 1.svg";
-import img2 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page18/Ex B 2.svg";
-import img3 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page18/Ex B 3.svg";
+import img1 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page18/Asset 63.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page18/Asset 64.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page18/Asset 65.svg";
 
 import ValidationAlert from "../../Popup/ValidationAlert";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
@@ -102,7 +102,7 @@ const Review2_Page1_Q2 = () => {
           style={{
             display: "flex",
             flexDirection: "column",
-            // gap: "30px",
+            gap: "30px",
             width: "60%",
           }}
         >

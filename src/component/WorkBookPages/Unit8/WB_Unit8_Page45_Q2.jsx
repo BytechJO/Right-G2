@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Button from "../Button";
 
-import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex B 1.svg";
-import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex B 2.svg";
-import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex B 3.svg";
-import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex B 4.svg";
-import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex B 5.svg";
-import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex B 6.svg";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/43.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/44.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/48.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/45_1.svg";
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/46.svg";
+import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/47.svg";
 
 import img7 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex B 7.svg";
 import img8 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex B 8.svg";
@@ -51,6 +51,41 @@ const lineStyleMap = {
   shirt: "solid",
 };
 
+// ==================== دالة معالجة SVG ====================
+/**
+ * تحليل SVG وتعديل الـ CSS classes
+ * الـ fill يصير currentColor (يتغير مع اللون)
+ * الـ stroke يبقى كما هو (أسود)
+ */
+const processSvgForColoring = (svgContent) => {
+  if (!svgContent) return svgContent;
+
+  let modified = svgContent;
+
+  // تعديل الـ <style> tag
+  modified = modified.replace(/<style>[\s\S]*?<\/style>/g, (styleTag) => {
+    // تعديل جميع الـ CSS rules
+    // مثال: .cls-1 { fill: red; } → .cls-1 { fill: currentColor; }
+    let newStyleTag = styleTag.replace(/fill:\s*[^;]*;?/g, "fill: currentColor;");
+    // التأكد من أن الـ stroke يبقى كما هو أو يتم تعيينه للون ثابت إذا لم يكن موجودًا
+    // هنا، نفترض أن الـ stroke يجب أن يبقى كما هو إذا كان موجودًا، وإلا فلا نغيره.
+    // إذا كان هناك .cls-2 { stroke: #231f20; } في الـ SVG الأصلي، فسيظل كما هو.
+    return newStyleTag;
+  });
+
+  // تعديل fill في inline attributes فقط (بدون stroke)
+  modified = modified.replace(/<[^>]*fill="[^"]*"[^>]*>/g, (tag) => {
+    // التأكد من عدم تغيير الـ stroke إذا كان موجودًا كـ inline attribute
+    if (tag.includes('stroke="')) {
+      return tag.replace(/fill="[^"]*"/g, 'fill="currentColor"');
+    } else {
+      return tag.replace(/fill="[^"]*"/g, 'fill="currentColor"');
+    }
+  });
+
+  return modified;
+};
+
 const LookAndMatch = () => {
   const [connections] = useState(correctMatches);
 
@@ -58,90 +93,106 @@ const LookAndMatch = () => {
   const [activeItem, setActiveItem] = useState(null);
   const [colors, setColors] = useState({});
   const [svgContent, setSvgContent] = useState({});
+  const [processedSvgContent, setProcessedSvgContent] = useState({});
 
   const palette = ["#ef4444", "#3b82f6", "#22c55e", "#eab308", "#a855f7"];
 
-  // ✅ تحميل svg مع تعديل الألوان
+  // ✅ تحميل svg مع معالجة الألوان
   useEffect(() => {
     topItems.forEach((item) => {
       fetch(item.img)
         .then((res) => res.text())
         .then((data) => {
-          const cleaned = data
-            .replaceAll('fill="none"', 'fill="currentColor"')
-            .replaceAll(/fill="[^"]*"/g, 'fill="currentColor"')
-            .replaceAll(/stroke="[^"]*"/g, 'stroke="currentColor"');
-
-          setSvgContent((prev) => ({ ...prev, [item.id]: cleaned }));
+          // حفظ SVG الأصلي
+          setSvgContent((prev) => ({ ...prev, [item.id]: data }));
+          
+          // معالجة SVG للتلوين
+          const processed = processSvgForColoring(data);
+          setProcessedSvgContent((prev) => ({ ...prev, [item.id]: processed }));
+        })
+        .catch((err) => {
+          console.error(`Error loading SVG: ${item.img}`, err);
         });
     });
   }, []);
 
   // ----------------------
 
-  const renderTopPlaceholder = (id) => (
-    <div
-      onClick={() => setActiveItem(id)}
-      style={{
-        width: "100px",
-        height: "100px",
-        cursor: "pointer",
-        position: "relative",
-        border: activeItem === id ? "2px solid #333" : "none",
-        borderRadius: "12px",
-      }}
-    >
-      {svgContent[id] ? (
-        <div
-          style={{
-            width: "90px",
-            height: "90px",
-            color: colors[id] || "#000",
-          }}
-          dangerouslySetInnerHTML={{
-            __html: svgContent[id],
-          }}
-        />
-      ) : (
-        <div style={{ width: "90px", height: "90px" }} />
-      )}
+  const renderTopPlaceholder = (id) => {
+    // اختيار محتوى SVG المناسب
+    const displayContent = colors[id] ? processedSvgContent[id] : processedSvgContent[id]; // Always use processed content
 
-      {/* 🎨 palette */}
-      {activeItem === id && (
-        <div
-          style={{
-            position: "absolute",
-            top: "110%",
-            display: "flex",
-            gap: "5px",
-            background: "#fff",
-            padding: "5px",
-            borderRadius: "8px",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
-            zIndex: 10,
-          }}
-        >
-          {palette.map((color) => (
-            <div
-              key={color}
-              onClick={(e) => {
-                e.stopPropagation();
-                setColors((prev) => ({ ...prev, [id]: color }));
-                setActiveItem(null);
-              }}
-              style={{
-                width: "18px",
-                height: "18px",
-                borderRadius: "50%",
-                background: color,
-                cursor: "pointer",
-              }}
-            />
-          ))}
-        </div>
-      )}
-    </div>
-  );
+    return (
+      <div
+        onClick={() => setActiveItem(id)}
+        style={{
+          width: "100px",
+          height: "100px",
+          cursor: "pointer",
+          position: "relative",
+          border: activeItem === id ? "2px solid #333" : "none",
+          borderRadius: "12px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          overflow: "visible",
+        }}
+      >
+        {displayContent ? (
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              color: colors[id] || "transparent", // هذا اللون سيتم تطبيقه على currentColor داخل الـ SVG
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+            dangerouslySetInnerHTML={{
+              __html: displayContent,
+            }}
+          />
+        ) : (
+          <div style={{ width: "100%", height: "100%" }} />
+        )}
+
+        {/* 🎨 palette */}
+        {activeItem === id && (
+          <div
+            style={{
+              position: "absolute",
+              top: "110%",
+              display: "flex",
+              gap: "5px",
+              background: "#fff",
+              padding: "5px",
+              borderRadius: "8px",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+              zIndex: 10,
+            }}
+          >
+            {palette.map((color) => (
+              <div
+                key={color}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setColors((prev) => ({ ...prev, [id]: color }));
+                  setActiveItem(null);
+                }}
+                style={{
+                  width: "18px",
+                  height: "18px",
+                  borderRadius: "50%",
+                  background: color,
+                  cursor: "pointer",
+                }}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  };
 
   const renderBottomPlaceholder = (label) => (
     <div
@@ -186,10 +237,11 @@ const LookAndMatch = () => {
       const bottomItem = bottomItems.find((b) => b.id === matchedBottomId);
       if (!bottomItem) return null;
 
+      // تصحيح نقاط البداية والنهاية
       const startX = topItem.x;
-      const startY = topItem.y + 45;
+      const startY = topItem.y + 50;
       const endX = bottomItem.x;
-      const endY = bottomItem.y - 38;
+      const endY = bottomItem.y - 45;
 
       const styleType = lineStyleMap[topItem.id];
 
@@ -221,6 +273,12 @@ const LookAndMatch = () => {
     });
   };
 
+  // ==================== دالة Start Again ====================
+  const handleStartAgain = () => {
+    setColors({});
+    setActiveItem(null);
+  };
+
   // ----------------------
 
   return (
@@ -231,12 +289,13 @@ const LookAndMatch = () => {
         </h1>
 
         <div className="flex justify-center items-center">
-          <div className="flex justify-center items-center relative w-full h-[430px]">
+          <div className="flex justify-center items-center relative w-full" style={{ height: "430px", minHeight: "430px" }}>
 
             <svg
               className="absolute inset-0 w-full h-full pointer-events-none"
               viewBox="0 0 900 430"
-              style={{ width: "111%" }}
+              style={{ width: "100%", height: "100%" }}
+              preserveAspectRatio="xMidYMid meet"
             >
               {renderLines()}
             </svg>
@@ -245,8 +304,12 @@ const LookAndMatch = () => {
             {topItems.map((item) => (
               <div
                 key={item.id}
-                className="absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center"
-                style={{ left: item.x, top: item.y }}
+                className="absolute flex flex-col items-center"
+                style={{
+                  left: `${(item.x / 900) * 100}%`,
+                  top: `${(item.y / 430) * 100}%`,
+                  transform: "translate(-50%, -50%)",
+                }}
               >
                 {renderTopPlaceholder(item.id)}
               </div>
@@ -256,8 +319,12 @@ const LookAndMatch = () => {
             {bottomItems.map((item) => (
               <div
                 key={item.id}
-                className="absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center"
-                style={{ left: item.x, top: item.y }}
+                className="absolute flex flex-col items-center"
+                style={{
+                  left: `${(item.x / 900) * 100}%`,
+                  top: `${(item.y / 430) * 100}%`,
+                  transform: "translate(-50%, -50%)",
+                }}
               >
                 {renderBottomPlaceholder(item.img)}
               </div>
@@ -265,8 +332,10 @@ const LookAndMatch = () => {
           </div>
         </div>
 
-        <div className="mt-10 flex justify-center">
-          <Button />
+        {/* ==================== الأزرار ====================*/}
+        <div className="mt-10 flex justify-center gap-4">
+          <Button handleStartAgain={handleStartAgain} />
+          
         </div>
       </div>
     </div>

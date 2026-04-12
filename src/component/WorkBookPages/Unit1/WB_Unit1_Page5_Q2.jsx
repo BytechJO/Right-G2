@@ -31,7 +31,23 @@ const WB_Unit1_Page5_Q2 = () => {
     3: { q: "he", a: "He's" },
     4: { q: "he", a: "He's" },
   };
+const WORD_LIMITS = {
+  she: 2,
+  he: 2,
+  "She's": 2,
+  "He's": 2,
+};
 
+const getWordUsageCount = (word) => {
+  let count = 0;
+
+  Object.values(userAnswers).forEach((item) => {
+    if (item.q === word) count++;
+    if (item.a === word) count++;
+  });
+
+  return count;
+};
   const onDragEnd = (result) => {
     const { destination, draggableId } = result;
 
@@ -48,6 +64,7 @@ const WB_Unit1_Page5_Q2 = () => {
     });
   };
   const checkAnswers = () => {
+     if (showAnswers ||checked) return;
     const hasEmptyInputs = Object.values(userAnswers).some(
       (item) => !item.q?.trim() || !item.a?.trim(),
     );
@@ -79,7 +96,7 @@ const WB_Unit1_Page5_Q2 = () => {
     } else if (currentScore > 0) {
       ValidationAlert.warning(`Score: ${currentScore} / ${totalQuestions}`);
     } else {
-      ValidationAlert.warning("No correct answers. Try again.");
+      ValidationAlert.error(`Score: ${currentScore} / ${totalQuestions}`);
     }
   };
 
@@ -156,9 +173,8 @@ const WB_Unit1_Page5_Q2 = () => {
                   }}
                 >
                   {words.map((word, index) => {
-                    const isUsed = Object.values(userAnswers).some(
-                      (item) => item.q === word.text || item.a === word.text,
-                    );
+                    const usageCount = getWordUsageCount(word.text);
+const isUsed = usageCount >= WORD_LIMITS[word.text];
                     return (
                       <Draggable
                         key={word.id}
@@ -213,7 +229,7 @@ const WB_Unit1_Page5_Q2 = () => {
                     <img
                       src={item.img}
                       alt=""
-                      style={{ height: "90px", width: "90px" }}
+                      style={{ height: "120px", width: "auto" }}
                     />
                   </div>
 

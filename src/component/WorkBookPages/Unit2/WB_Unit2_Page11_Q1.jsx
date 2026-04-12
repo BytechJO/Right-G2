@@ -7,43 +7,38 @@ import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 1
 import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 11/Ex E 4.svg";
 import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 11/Ex E 5.svg";
 
-import "./WB_Unit2_Page11_Q1.css"
+import "./WB_Unit2_Page11_Q1.css";
 
 // بيانات التمرين
 const exerciseData = [
   {
     id: 1,
     questionText: "Is that a duck?",
-    correctQuestion: "yes, it is.",
-    correctOption: "option1",
+    correctQuestion: "yes, it is",
     src: img1,
   },
   {
     id: 2,
     questionText: "Is that a bird?",
-    correctQuestion: "No, it isn't",
-    correctOption: "option2",
+    correctQuestion: "no, it isn't",
     src: img2,
   },
   {
     id: 3,
     questionText: "Is that a sun?",
-    correctQuestion: "No, it isn't",
-    correctOption: "option1",
+    correctQuestion: "no, it isn't",
     src: img3,
   },
   {
     id: 4,
     questionText: "Is that a flower?",
-    correctQuestion: "No, it isn't",
-    correctOption: "option2",
+    correctQuestion: "no, it isn't",
     src: img4,
   },
   {
     id: 5,
     questionText: "Is that a pond?",
-    correctQuestion: "yes, it is.",
-    correctOption: "option1",
+    correctQuestion: "yes, it is",
     src: img5,
   },
 ];
@@ -60,6 +55,7 @@ const WB_Unit2_Page11_Q1 = () => {
 
   // Function للتحقق من الإجابات
   const checkAnswers = () => {
+    if (checked || locked) return;
     // ✅ تحقق إذا في سؤال بدون إجابة
     const unanswered = exerciseData.some(
       (item) => !userAnswers[item.id].question,
@@ -156,19 +152,14 @@ const WB_Unit2_Page11_Q1 = () => {
                   className="relative w-full rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                   style={{ border: "1px solid" }}
                 >
-                 
                   <option value="" style={{ color: "gray", opacity: "0.5" }}>
                     -- Select answer --
                   </option>
                   <option value="yes, it is">Yes, it is</option>
                   <option value="no, it isn't">No, it isn't</option>
                 </select>
-                 {/* ❌ علامة الخطأ */}
-                  {isWrong && (
-                    <div className="wrong-icon-unit2-page11-q1">
-                      ✕
-                    </div>
-                  )}
+                {/* ❌ علامة الخطأ */}
+                {isWrong && <div className="wrong-icon-unit2-page11-q1">✕</div>}
               </div>
               <img
                 src={item.src}

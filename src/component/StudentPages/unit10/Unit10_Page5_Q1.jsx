@@ -2,9 +2,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./Unit10_Page5_Q1.css";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import img1 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 86/Ex A 1.svg";
-import img2 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 86/Ex A 2.svg";
-import img3 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 86/Ex A 3.svg";
+import img1 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 86/Asset 47.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 86/Asset 46.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 86/Asset 52.svg";
 import sound1 from "../../../assets/audio/ClassBook/U 10/cd61pg86-instruction1-adult-lady_cLv0ekXg.mp3";
 import QuestionAudioPlayer from "../../QuestionAudioPlayer";
 const Unit10_Page5_Q1 = () => {

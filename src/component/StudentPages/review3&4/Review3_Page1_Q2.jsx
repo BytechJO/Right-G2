@@ -1,8 +1,8 @@
 import React, { useState, useRef } from "react";
-import img1 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 34/Ex B 1.svg";
-import img2 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 34/Ex B 2.svg";
-import img3 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 34/Ex B 3.svg";
-import img4 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 34/Ex B 4.svg";
+import img1 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 34/Asset 23.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 34/Asset 25.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 34/Asset 26.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 34/Asset 24.svg";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Review3_Page1_Q2.css";
 

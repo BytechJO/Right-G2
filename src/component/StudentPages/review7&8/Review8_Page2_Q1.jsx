@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useRef, useEffect } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import img1 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 73/Ex D 1.svg";
-import img2 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 73/Ex D 2.svg";
-import img3 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 73/Ex D 3.svg";
-import img4 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 73/Ex D 4.svg";
+import img1 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 73/Asset 39.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 73/Asset 40.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 73/Asset 41.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 73/Asset 42.svg";
 import sound1 from "../../../assets/audio/ClassBook/U 8/cd50pg73-instruction1-adult-lady_QhaIWovW.mp3";
 import { TbMessageCircle } from "react-icons/tb";
 import { FaPlay, FaPause } from "react-icons/fa";
@@ -330,7 +330,7 @@ const Review8_Page2_Q1 = () => {
                   alt=""
                   style={{
                     width: "auto",
-                    height: "180px",
+                    height: "200px",
                   }}
                   className="rounded-md"
                 />

@@ -3,9 +3,9 @@ import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
 import img1 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 70/Ex B 1.svg";
-import img2 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 70/Ex B 2.svg";
-import img3 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 70/Ex B 3.svg";
-import img4 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 70/Ex B 4.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 70/Asset 4.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 70/Asset 5.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 70/Asset 6.svg";
 
 const Review7_Page1_Q2 = () => {
   const questions = [
@@ -423,7 +423,7 @@ const Review7_Page1_Q2 = () => {
                 <img
                   src={q.image}
                   className="object-contain"
-                  style={{ height: "130px", width: "130px" }}
+                  style={{ height: "auto", width: "180px" }}
                 />
               </div>
             );

@@ -33,7 +33,7 @@ const InteractiveConnectingLines = ({
   rightDotsPositions,
 }) => {
   return (
-    <svg className="absolute top-0 left-0 w-full h-full pointer-events-none">
+    <svg className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-visible">
       {connections.map((connection, index) => {
         const leftPos = leftDotsPositions[connection.leftDotId];
         const rightPos = rightDotsPositions[connection.rightImageIndex];
@@ -47,7 +47,7 @@ const InteractiveConnectingLines = ({
            C ${(leftPos.x + rightPos.x) / 2} ${leftPos.y},
              ${(leftPos.x + rightPos.x) / 2} ${rightPos.y},
              ${rightPos.x} ${rightPos.y}`}
-            stroke="#ef4444"
+            stroke="red"
             strokeWidth="2"
             fill="none"
             strokeDasharray="5,5"
@@ -103,10 +103,23 @@ const MatchingSection = ({
       setRightDotsPositions(right);
     };
 
-    setTimeout(calc, 0);
-    window.addEventListener("resize", calc);
-    return () => window.removeEventListener("resize", calc);
-  }, []);
+    // Use ResizeObserver for more reliable updates
+    const resizeObserver = new ResizeObserver(() => {
+      calc();
+    });
+
+    if (containerRef.current) {
+      resizeObserver.observe(containerRef.current);
+    }
+
+    // Initial calculation after a short delay to ensure layout is ready
+    const timer = setTimeout(calc, 100);
+
+    return () => {
+      resizeObserver.disconnect();
+      clearTimeout(timer);
+    };
+  }, [setLeftDotsPositions, setRightDotsPositions]);
 
   const images = [img1, img2, img3, img4];
   const labels = ["horse", "mules", "dogs", "squirrel"];
@@ -114,25 +127,27 @@ const MatchingSection = ({
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-full flex justify-between items-center"
+      className="relative w-full h-full flex justify-between items-center min-h-[400px]"
     >
-      {/* LEFT DOTS */}{" "}
+      {/* LEFT DOTS */}
       <div className="flex flex-col justify-around h-full">
         {images.map((_, i) => (
           <div key={i} className="flex items-center h-[100px]">
             <div
               ref={(el) => (leftDotsRef.current[i] = el)}
               className="w-5 h-5 bg-gray-400 rounded-full"
-            />{" "}
+            />
           </div>
-        ))}{" "}
+        ))}
       </div>
+
       {/* LINES */}
       <InteractiveConnectingLines
         connections={connections}
         leftDotsPositions={leftDotsPositions}
         rightDotsPositions={rightDotsPositions}
       />
+
       {/* RIGHT SIDE */}
       <div className="flex flex-col justify-around h-full items-start">
         {images.map((image, index) => (
@@ -142,7 +157,7 @@ const MatchingSection = ({
               className="w-5 h-5 bg-gray-400 rounded-full"
             />
             <div className="flex flex-col items-center gap-2">
-              <img src={image} style={{ height: "90px" }} />
+              <img src={image} style={{ height: "90px" }} alt={labels[index]} />
               <span className="text-sm font-semibold text-gray-700">
                 {labels[index]}
               </span>
@@ -173,6 +188,7 @@ export default function WritingExercise() {
   const [rightDotsPositions, setRightDotsPositions] = useState({});
   const [connections, setConnections] = useState([]);
   const [locked, setLocked] = useState(false);
+
   useEffect(() => {
     if (
       Object.keys(leftDotsPositions).length &&
@@ -247,16 +263,13 @@ export default function WritingExercise() {
 
   return (
     <div className="main-container-component">
-      {" "}
       <div className="div-forall">
-        {" "}
         <h1 className="header-title-page8">
-          {" "}
-          <span className="ex-A">H</span> Look, trace, and write.{" "}
+          <span className="ex-A">H</span> Look, trace, and write.
         </h1>
         <div className="p-8 font-sans w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-            {/* LEFT SIDE (رجعناه زي ما كان) */}
+            {/* LEFT SIDE */}
             <div className="space-y-8">
               {questions.map((q) => (
                 <div key={q.id} className="flex items-start space-x-3 text-lg">
@@ -268,6 +281,7 @@ export default function WritingExercise() {
                         className={`border-b-2 pb-2 ${getInputBorderColor(`input${q.number}_1`)}`}
                       >
                         <select
+                          className="bg-transparent outline-none"
                           value={inputs[`input${q.number}_1`]}
                           onChange={(e) =>
                             handleSelectChange(
@@ -292,6 +306,7 @@ export default function WritingExercise() {
                         className={`border-b-2 pb-2 ${getInputBorderColor(`input${q.number}_2`)}`}
                       >
                         <select
+                          className="bg-transparent outline-none"
                           value={inputs[`input${q.number}_2`]}
                           onChange={(e) =>
                             handleSelectChange(
@@ -301,9 +316,15 @@ export default function WritingExercise() {
                           }
                         >
                           <option value="">-- Select Answer --</option>
-                          <option value="Yes, it is.">Yes, it is.</option>
+                          <option value="Yes, they are.">Yes, they are.</option>
                           <option value="No, they aren't.">
                             No, they aren't.
+                          </option>
+                            <option value="Yes, it is.">
+                            Yes, it is.
+                          </option>
+                           <option value="No, it isn't.">
+                            No, it isn't.
                           </option>
                         </select>
                       </div>

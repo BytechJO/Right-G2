@@ -180,10 +180,12 @@ const Unit6_Page5_Q3 = () => {
                 key={sent.id}
                 ref={(el) => (sentenceRefs.current[sent.id] = el)}
                 onClick={() => selectSentence(sent.id)}
-                className="bg-[#f4e9e2] py-3 px-7 rounded-[20px] cursor-pointer font-medium text-center whitespace-nowrap w-fit"
+                className="flex flex-col relative bg-[#f4e9e2] py-3 px-7 rounded-[20px] cursor-pointer font-medium text-center whitespace-nowrap w-fit"
                 style={{ gridColumn: colMap[index] }}
               >
+                <div style={{height:"10px",width:"10px",backgroundColor:"red",borderRadius:"50%" ,position:"absolute",top:"-5px",left:"47%"}}/>
                 {sent.text}
+
               </div>
             );
           })}

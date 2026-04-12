@@ -13,7 +13,7 @@ position: relative;
   grid-template-columns: repeat(3, 1fr);
 }
 .img-box-wb-unit1-p8-q1 img {
-    width: 90px;
+    width: auto;
     height: 90px;
     /* object-fit: fill; */
 }

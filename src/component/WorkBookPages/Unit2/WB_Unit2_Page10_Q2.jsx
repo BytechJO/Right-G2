@@ -61,9 +61,9 @@ const createInitialState = () =>
         .map((w) => w.trim())
         .filter(Boolean)
         .map((word, index) => ({
-          id: `${item.id}-word-${index}`,
+          id: `${item.id}-${word}-${index}`,
           text: word,
-          isUsed: false, // ✅ added
+          isUsed: false,
         })),
       selectedOption: null,
     };
@@ -90,6 +90,7 @@ const WB_Unit2_Page10_Q2 = () => {
     const [, sourceItemId] = source.droppableId.split("-");
     const [, destItemId] = destination.droppableId.split("-");
 
+    // امنع النقل بين أسئلة مختلفة
     if (sourceItemId !== destItemId) return;
 
     const itemId = sourceItemId;
@@ -98,35 +99,62 @@ const WB_Unit2_Page10_Q2 = () => {
       const current = { ...prev };
       const itemState = { ...current[itemId] };
 
-      const sourceList = source.droppableId.startsWith("bank-")
+      const isSourceBank = source.droppableId.startsWith("bank-");
+      const isDestBank = destination.droppableId.startsWith("bank-");
+
+      let sourceList = isSourceBank
         ? [...itemState.wordBank]
         : [...itemState.arrangedWords];
 
-      const destList = destination.droppableId.startsWith("bank-")
+      let destList = isDestBank
         ? [...itemState.wordBank]
         : [...itemState.arrangedWords];
 
       let movedItem;
 
-      if (source.droppableId.startsWith("bank-")) {
-        movedItem = sourceList[source.index];
-        sourceList[source.index] = { ...movedItem, isUsed: true }; // ✅ disable instead of remove
-      } else {
-        [movedItem] = sourceList.splice(source.index, 1);
-      }
+      // من البنك إلى الجملة
+      if (isSourceBank) {
+        const originalItem = sourceList[source.index];
 
-      destList.splice(destination.index, 0, movedItem);
+        // إذا الكلمة مستخدمة، لا تسمح بسحبها مرة ثانية
+        if (originalItem.isUsed) return prev;
 
-      if (source.droppableId.startsWith("bank-")) {
+        // خليه يضل موجود بالبنك لكن disabled
+        sourceList[source.index] = {
+          ...originalItem,
+          isUsed: true,
+        };
+
+        // أضف نسخة جديدة للجملة بمعرف مختلف
+        movedItem = {
+          ...originalItem,
+          id: `answer-${originalItem.id}`,
+          originalId: originalItem.id,
+        };
+
+        // إذا الوجهة هي البنك نفسه، لا تعمل شيء
+        if (isDestBank) {
+          itemState.wordBank = sourceList;
+          current[itemId] = itemState;
+          return current;
+        }
+
+        destList.splice(destination.index, 0, movedItem);
+
         itemState.wordBank = sourceList;
-      } else {
-        itemState.arrangedWords = sourceList;
-      }
-
-      if (destination.droppableId.startsWith("bank-")) {
-        itemState.wordBank = destList;
-      } else {
         itemState.arrangedWords = destList;
+      } else {
+        // داخل الجملة نفسها: إعادة ترتيب
+        [movedItem] = sourceList.splice(source.index, 1);
+        destList.splice(destination.index, 0, movedItem);
+
+        if (isDestBank) {
+          itemState.wordBank = destList;
+        } else {
+          itemState.arrangedWords = destList;
+        }
+
+        itemState.arrangedWords = sourceList;
       }
 
       current[itemId] = itemState;
@@ -135,6 +163,7 @@ const WB_Unit2_Page10_Q2 = () => {
   };
 
   const checkAnswers = () => {
+    if (checked || locked) return;
     const allCompleted = exerciseData.every((item) => {
       return (
         userAnswers[item.id].arrangedWords.length > 0 &&
@@ -173,25 +202,33 @@ const WB_Unit2_Page10_Q2 = () => {
     }
   };
 
-  const handleShowAnswer = () => {
-    const answers = {};
+const handleShowAnswer = () => {
+  const answers = {};
 
-    exerciseData.forEach((item) => {
-      answers[item.id] = {
-        arrangedWords: item.correctQuestion.split(" ").map((word, index) => ({
-          id: `${item.id}-answer-${index}`,
+  exerciseData.forEach((item) => {
+    answers[item.id] = {
+      arrangedWords: item.correctQuestion.split(" ").map((word, index) => ({
+        id: `answer-${item.id}-${index}`,
+        text: word,
+        originalId: `${item.id}-${word}-${index}`, // إذا بدك تحتفظي بالربط
+      })),
+      wordBank: item.scrambled
+        .split("/")
+        .map((w) => w.trim())
+        .filter(Boolean)
+        .map((word, index) => ({
+          id: `${item.id}-${word}-${index}`,
           text: word,
+          isUsed: true,
         })),
-        wordBank: [],
-        selectedOption: item.correctOption,
-      };
-    });
+      selectedOption: item.correctOption,
+    };
+  });
 
-    setUserAnswers(answers);
-    setChecked(true);
-    setLocked(true);
-  };
-
+  setUserAnswers(answers);
+  setChecked(true);
+  setLocked(true);
+};
   const handleTryAgain = () => {
     setUserAnswers(createInitialState());
     setChecked(false);
@@ -296,7 +333,32 @@ const WB_Unit2_Page10_Q2 = () => {
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
-                                    className="px-3 py-1 bg-blue-100 border border-blue-300 rounded-md text-lg"
+                                    onClick={() => {
+                                      if (locked) return;
+
+                                      setUserAnswers((prev) => {
+                                        const current = { ...prev };
+                                        const itemState = {
+                                          ...current[item.id],
+                                        };
+
+                                        itemState.arrangedWords =
+                                          itemState.arrangedWords.filter(
+                                            (w) => w.id !== word.id,
+                                          );
+
+                                        itemState.wordBank =
+                                          itemState.wordBank.map((w) =>
+                                            w.id === word.originalId
+                                              ? { ...w, isUsed: false }
+                                              : w,
+                                          );
+
+                                        current[item.id] = itemState;
+                                        return current;
+                                      });
+                                    }}
+                                    className="rounded-md text-lg cursor-pointer hover:text-red-500 transition"
                                     style={provided.draggableProps.style}
                                   >
                                     {word.text}

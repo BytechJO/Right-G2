@@ -55,11 +55,11 @@ const Unit6_Page2 = ({ openPopup }) => {
       {
         text: "When does Helen go to sleep?",
         options: [
-          "She goes to school at eight o’clock.",
-          "She goes to school at six o’clock.",
-          "She goes to school at nine o’clock.",
+          "She goes to sleep at nine o’clock.",
+          "She goes to sleep at six o’clock.",
+          "She goes to sleep at eight o’clock.",
         ],
-        correct: "She goes to school at nine o’clock.",
+        correct: "She goes to sleep at nine o’clock.",
       },
     ],
   };

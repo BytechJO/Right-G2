@@ -27,26 +27,36 @@ const Unit10_Page5_Q3 = () => {
   const [checked, setChecked] = useState(false);
   const [locked, setLocked] = useState(false);
 
-  const toggleWord = (qId, word) => {
-    if (locked) return;
+ const toggleWord = (qId, word) => {
+  if (locked) return;
 
-    setSelected((prev) => {
-      const current = prev[qId] || [];
+  const question = questions.find((q) => q.id === qId);
+  const maxSelections = question.correct.length;
 
-      if (current.includes(word)) {
-        return {
-          ...prev,
-          [qId]: current.filter((w) => w !== word),
-        };
-      } else {
-        return {
-          ...prev,
-          [qId]: [...current, word],
-        };
-      }
-    });
-  };
+  setSelected((prev) => {
+    const current = prev[qId] || [];
 
+    // إذا الكلمة موجودة → احذفها
+    if (current.includes(word)) {
+      return {
+        ...prev,
+        [qId]: current.filter((w) => w !== word),
+      };
+    }
+
+    // ❌ إذا وصل الحد (عدد الإجابات الصحيحة)
+    if (current.length >= maxSelections) {
+      
+      return prev;
+    }
+
+    // ✅ إضافة
+    return {
+      ...prev,
+      [qId]: [...current, word],
+    };
+  });
+};
   const reset = () => {
     setSelected({});
     setChecked(false);

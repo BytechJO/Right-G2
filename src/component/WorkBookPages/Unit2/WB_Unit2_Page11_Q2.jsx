@@ -71,13 +71,19 @@ const WB_Unit2_Page11_Q2 = () => {
     setChecked(false);
   };
 
-  const handleShowAnswer = () => {
-    setAnswers(correctAnswers);
-    setWordBank([]);
-    setChecked(true);
-  };
+ const handleShowAnswer = () => {
+  setAnswers(correctAnswers);
+  setWordBank((prev) =>
+    prev.map((word) => ({
+      ...word,
+      isUsed: true,
+    })),
+  );
+  setChecked(true);
+};
 
   const checkAnswers = () => {
+    if(checked)return
     const allFilled = Object.values(answers).every(
       (answer) => answer.trim() !== "",
     );
@@ -108,15 +114,16 @@ const WB_Unit2_Page11_Q2 = () => {
   };
 
   const onDragEnd = (result) => {
-    const { source, destination } = result;
+     if (checked) return;
 
-    if (!destination) return;
+  const { source, destination } = result;
 
-    const sourceDroppable = source.droppableId;
-    const destinationDroppable = destination.droppableId;
+  if (!destination) return;
 
-    if (sourceDroppable === destinationDroppable) return;
+  const sourceDroppable = source.droppableId;
+  const destinationDroppable = destination.droppableId;
 
+  if (sourceDroppable === destinationDroppable) return;
     // من صندوق الكلمات إلى جملة
     if (sourceDroppable === "wordBank" && destinationDroppable !== "wordBank") {
       const draggedWord = wordBank[source.index];
@@ -228,14 +235,14 @@ const WB_Unit2_Page11_Q2 = () => {
         </h1>
 
         <div
-          className="family-completion-activity p-6 max-w-4xl mx-auto"
+          className="family-completion-activity p-6"
           dir="ltr"
         >
           <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId="wordBank" direction="horizontal">
               {(provided) => (
                 <div
-                  className="words-box mb-2 border-2 border-blue-200 rounded-xl flex flex-wrap justify-center items-center min-h-[65px]"
+                  className="words-box mb-2 border-2 border-gray-500 border-dashed rounded-xl flex flex-wrap justify-center items-center min-h-[65px]"
                   ref={provided.innerRef}
                   {...provided.droppableProps}
                 >
@@ -274,7 +281,7 @@ const WB_Unit2_Page11_Q2 = () => {
               {sentenceData.map((sentence, index) => (
                 <div
                   key={sentence.id}
-                  className="flex items-center gap-4 p-5 rounded-xl"
+                  className="flex items-center gap-4 rounded-xl"
                 >
                   <div className="flex-1">
                     <p className="text-xl text-gray-800 flex items-center flex-wrap gap-2">

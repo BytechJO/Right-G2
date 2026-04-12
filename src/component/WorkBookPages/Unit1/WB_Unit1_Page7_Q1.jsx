@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./WB_Unit1_Page7_Q1.css";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
@@ -44,6 +44,7 @@ const words = [
       [3, 5],
       [4, 5],
       [5, 5],
+      [6, 5],
     ],
   },
   {
@@ -99,21 +100,111 @@ export default function WB_Unit1_Page7_Q1() {
   const [showAnswer, setShowAnswer] = useState(false);
   const [locked, setLocked] = useState(false);
 
-  const handleCellClick = (r, c) => {
-    if (locked) return; // ⛔ بعد التشيك أو الشو
-    if (isFoundCell(r, c)) return;
+  // Dragging state
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState(null);
 
-    setSelected((prev) => {
-      const exists = prev.some((coord) => coord[0] === r && coord[1] === c);
-
-      // toggle
-      if (exists) {
-        return prev.filter((coord) => !(coord[0] === r && coord[1] === c));
-      }
-
-      return [...prev, [r, c]];
-    });
+  const isFoundCell = (r, c) => {
+    return words.some(
+      (w) =>
+        foundWords.includes(w.text) &&
+        w.coords.some((coord) => coord[0] === r && coord[1] === c),
+    );
   };
+
+  const handleMouseDown = (r, c) => {
+    if (locked || isFoundCell(r, c)) return;
+    setIsDragging(true);
+    setDragStart({ r, c });
+    setSelected([[r, c]]);
+  };
+
+  const handleMouseEnter = (r, c) => {
+    if (!isDragging || locked || !dragStart) return;
+
+    const startR = dragStart.r;
+    const startC = dragStart.c;
+
+    // Determine direction: horizontal, vertical, or diagonal
+    const dr = r - startR;
+    const dc = c - startC;
+
+    let newSelected = [];
+
+    if (dr === 0) {
+      // Horizontal
+      const step = dc > 0 ? 1 : -1;
+      for (let i = 0; i <= Math.abs(dc); i++) {
+        newSelected.push([startR, startC + i * step]);
+      }
+    } else if (dc === 0) {
+      // Vertical
+      const step = dr > 0 ? 1 : -1;
+      for (let i = 0; i <= Math.abs(dr); i++) {
+        newSelected.push([startR + i * step, startC]);
+      }
+    } else if (Math.abs(dr) === Math.abs(dc)) {
+      // Diagonal
+      const stepR = dr > 0 ? 1 : -1;
+      const stepC = dc > 0 ? 1 : -1;
+      for (let i = 0; i <= Math.abs(dr); i++) {
+        newSelected.push([startR + i * stepR, startC + i * stepC]);
+      }
+    } else {
+      // Not a straight line, just keep the start and current for now or ignore
+      return;
+    }
+
+    setSelected(newSelected);
+  };
+
+  const handleMouseUp = () => {
+    if (!isDragging) return;
+    setIsDragging(false);
+
+    // Check if the current selection matches any word
+    const matchedWord = words.find((word) => {
+      // Check forward
+      const forwardMatch =
+        word.coords.length === selected.length &&
+        word.coords.every(
+          (coord, idx) =>
+            coord[0] === selected[idx][0] && coord[1] === selected[idx][1],
+        );
+
+      // Check backward
+      const backwardMatch =
+        word.coords.length === selected.length &&
+        word.coords.every(
+          (coord, idx) =>
+            coord[0] === selected[selected.length - 1 - idx][0] &&
+            coord[1] === selected[selected.length - 1 - idx][1],
+        );
+
+      return forwardMatch || backwardMatch;
+    });
+
+    if (matchedWord && !foundWords.includes(matchedWord.text)) {
+      setFoundWords((prev) => [...prev, matchedWord.text]);
+      setAllSelections((prev) => [...prev, matchedWord.coords]);
+      setSelected([]);
+    } else {
+      // If no match, clear selection
+      setSelected([]);
+    }
+    setDragStart(null);
+  };
+
+  // Global mouse up to handle release outside the grid
+  useEffect(() => {
+    const handleGlobalMouseUp = () => {
+      if (isDragging) {
+        handleMouseUp();
+      }
+    };
+    window.addEventListener("mouseup", handleGlobalMouseUp);
+    return () => window.removeEventListener("mouseup", handleGlobalMouseUp);
+  }, [isDragging]);
 
   const isHighlighted = (r, c) => {
     return (
@@ -124,59 +215,39 @@ export default function WB_Unit1_Page7_Q1() {
     );
   };
 
-  const isFoundCell = (r, c) => {
-    return words.some(
-      (w) =>
-        foundWords.includes(w.text) &&
-        w.coords.some((coord) => coord[0] === r && coord[1] === c),
-    );
-  };
-
   const checkAnswers = () => {
-    if (showAnswer) return;
-    let foundList = [];
-    if (selected.length === 0) {
-      return ValidationAlert.info("");
-    }
-    words.forEach((word) => {
-      const isCorrect =
-        word.coords.length > 0 &&
-        word.coords.every(([r, c]) =>
-          selected.some((sel) => sel[0] === r && sel[1] === c),
-        );
-
-      if (isCorrect) foundList.push(word.text);
-    });
-
-    setFoundWords(foundList);
-
-    // الكلمات الخاطئة = التي لم يجدها الطالب
+    if (showAnswer ||locked) return;
+    
+    // In this drag mode, words are added to foundWords as they are found.
+    // We just need to check if all words are found.
+    const total = words.length;
+    const foundCount = foundWords.length;
+    
     const wrong = words
       .map((w) => w.text)
-      .filter((txt) => !foundList.includes(txt));
+      .filter((txt) => !foundWords.includes(txt));
 
     setWrongWords(wrong);
     setLocked(true);
 
-    let total = words.length;
     let color =
-      foundList.length === total
+      foundCount === total
         ? "green"
-        : foundList.length === 0
+        : foundCount === 0
           ? "red"
           : "orange";
 
     const msg = `
       <div style="font-size:20px; text-align:center;">
         <span style="color:${color}; font-weight:bold;">
-          Score: ${foundList.length} / ${total}
+          Score: ${foundCount} / ${total}
         </span>
       </div>
     `;
-    // النتيجة
-    if (foundList.length === total) {
+
+    if (foundCount === total) {
       ValidationAlert.success(msg);
-    } else if (foundList.length === 0) {
+    } else if (foundCount === 0) {
       ValidationAlert.error(msg);
     } else {
       ValidationAlert.warning(msg);
@@ -185,18 +256,12 @@ export default function WB_Unit1_Page7_Q1() {
 
   const showAnswers = () => {
     setShowAnswer(true);
-    // 1) جميع الكلمات تعتبر صحيحة
     setFoundWords(words.map((w) => w.text));
-
-    // 2) ضع كل الإحداثيات داخل allSelections لتسليط الضوء عليها
     const allCoords = words.map((w) => w.coords);
     setAllSelections(allCoords);
-
-    // 3) إزالة أي اختيار يدوي
     setSelected([]);
-
-    // 4) إزالة الأخطاء
     setWrongWords([]);
+    setLocked(true);
   };
 
   const reset = () => {
@@ -206,7 +271,9 @@ export default function WB_Unit1_Page7_Q1() {
     setWrongWords([]);
     setLocked(false);
     setShowAnswer(false);
-    setAllSelections([]); // ⭐️ هذه كانت ناقصة
+    setAllSelections([]);
+    setIsDragging(false);
+    setDragStart(null);
   };
 
   return (
@@ -217,17 +284,23 @@ export default function WB_Unit1_Page7_Q1() {
             <span className="WB-ex-A">H</span>Find the words.
           </h3>
           <div className="container-word-grid-wb-u1-p7-q2">
-            <div className={`grid-wb-u1-p7-q2 ${wrongTry ? "shake" : ""}`}>
+            <div 
+              className={`grid-wb-u1-p7-q2 ${wrongTry ? "shake" : ""}`}
+              onMouseLeave={() => { /* Handled by global mouseup */ }}
+            >
               {grid.map((row, rIdx) => (
                 <div key={rIdx} className="row-wb-u1-p7-q2">
                   {row.map((cell, cIdx) => (
                     <div
                       key={cIdx}
                       className={`cell-wb-u1-p7-q2 
-                    ${isHighlighted(rIdx, cIdx) ? "highlight" : ""} 
-                    ${isFoundCell(rIdx, cIdx) ? "found" : ""}
-                `}
-                      onClick={() => handleCellClick(rIdx, cIdx)}
+                        ${isHighlighted(rIdx, cIdx) ? "highlight" : ""} 
+                        ${isFoundCell(rIdx, cIdx) ? "found" : ""}
+                      `}
+                      onMouseDown={() => handleMouseDown(rIdx, cIdx)}
+                      onMouseEnter={() => handleMouseEnter(rIdx, cIdx)}
+                      onMouseUp={handleMouseUp}
+                      style={{ userSelect: 'none', cursor: 'pointer' }}
                     >
                       {cell}
                     </div>
@@ -246,8 +319,6 @@ export default function WB_Unit1_Page7_Q1() {
                   >
                     {w.text}
                   </div>
-
-                  {/* ✖ إكس داخل دائرة للكلمات الخاطئة */}
                   {wrongWords.includes(w.text) && (
                     <span className="wrong-x-circle-wb-u1-p7-q2">✕</span>
                   )}

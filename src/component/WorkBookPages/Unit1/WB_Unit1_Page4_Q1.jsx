@@ -11,12 +11,12 @@ import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 const WB_Unit1_Page4_Q1 = () => {
   const [lines, setLines] = useState([]);
   const containerRef = useRef(null);
-  let startPoint = null;
   const [wrongWords, setWrongWords] = useState([]);
   const [wrongInputs, setWrongInputs] = useState([]);
   const [locked, setLocked] = useState(false);
   const [firstDot, setFirstDot] = useState(null);
   const [showAnswer, setShowAnswer] = useState(false);
+
   const questions = [
     {
       id: 1,
@@ -47,10 +47,12 @@ const WB_Unit1_Page4_Q1 = () => {
       image: img2,
     },
   ];
+
   const correctMatches = questions.map((q) => ({
     word: q.matchWord,
     image: q.image,
   }));
+
   const images = [img1, img2, img3, img4];
   const imgesWord = [
     "She is my aunt.",
@@ -58,9 +60,51 @@ const WB_Unit1_Page4_Q1 = () => {
     "He is my father.",
     "He is my brother.",
   ];
+
   const correctSentences = Object.fromEntries(
     questions.map((q) => [q.id, q.correctSentence]),
   );
+
+  const [userInputs, setUserInputs] = useState({
+    1: [],
+    2: [],
+    3: [],
+    4: [],
+  });
+
+  // ============================
+  // رسم الخطوط الافتراضية عند التحميل
+  // ============================
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+
+        const getDotPosition = (selector) => {
+          const el = document.querySelector(selector);
+          if (!el) return { x: 0, y: 0 };
+          const r = el.getBoundingClientRect();
+          return {
+            x: r.left - rect.left + 8,
+            y: r.top - rect.top + 8,
+          };
+        };
+
+        const initialLines = correctMatches.map((match) => ({
+          x1: getDotPosition(`[data-word="${match.word}"]`).x,
+          y1: getDotPosition(`[data-word="${match.word}"]`).y,
+          x2: getDotPosition(`[data-image="${match.image}"]`).x,
+          y2: getDotPosition(`[data-image="${match.image}"]`).y,
+          word: match.word,
+          image: match.image,
+        }));
+
+        setLines(initialLines);
+      }
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const onDragEnd = (result) => {
     if (!result.destination || locked || showAnswer) return;
@@ -76,24 +120,11 @@ const WB_Unit1_Page4_Q1 = () => {
     }));
   };
 
-  const [userInputs, setUserInputs] = useState({
-    1: [],
-    2: [],
-    3: [],
-    4: [],
-  });
-
-  // ============================
-  // 1️⃣ الضغط على النقطة الأولى (start-dot)
-  // ============================
   const handleStartDotClick = (e) => {
     if (showAnswer || locked) return;
-
     const rect = containerRef.current.getBoundingClientRect();
-
     const word = e.target.dataset.word || null;
     const image = e.target.dataset.image || null;
-
     const alreadyUsed = lines.some((line) => line.word === word);
     if (alreadyUsed) return;
 
@@ -105,15 +136,9 @@ const WB_Unit1_Page4_Q1 = () => {
     });
   };
 
-  // ============================
-  // 2️⃣ الضغط على النقطة الثانية (end-dot)
-  // ============================
   const handleEndDotClick = (e) => {
-    if (showAnswer || locked) return;
-    if (!firstDot) return;
-
+    if (showAnswer || locked || !firstDot) return;
     const rect = containerRef.current.getBoundingClientRect();
-
     const endWord = e.target.dataset.word || null;
     const endImage = e.target.dataset.image || null;
 
@@ -133,63 +158,57 @@ const WB_Unit1_Page4_Q1 = () => {
   const checkAnswers = () => {
     if (showAnswer || locked) return;
 
-    if (!userInputs[1] || !userInputs[2] || !userInputs[3] || !userInputs[4]) {
+    // التحقق من إكمال جميع الجمل
+    const allFilled = Object.values(userInputs).every((arr) => arr.length > 0);
+    if (!allFilled) {
       ValidationAlert.info("Oops!", "Please complete all sentences.");
       return;
     }
 
-    if (lines.length < 4) {
-      ValidationAlert.info("Oops!", "Please match all pairs before checking.");
-      return;
-    }
-
     let sentenceCorrect = 0;
-    let lineCorrect = 0;
-
     let wrongInputsTemp = [];
 
+    // حساب الدرجات من 4 (جمل الترتيب فقط)
     Object.keys(correctSentences).forEach((key) => {
       const userAnswer = userInputs[key].join(" ").toLowerCase();
-
       const correctAnswer = correctSentences[key];
 
-      if (userAnswer === correctAnswer) sentenceCorrect++;
-      else wrongInputsTemp.push(key);
+      if (userAnswer === correctAnswer) {
+        sentenceCorrect++;
+      } else {
+        wrongInputsTemp.push(key);
+      }
     });
 
     setWrongInputs(wrongInputsTemp);
-
-    let wrongLines = [];
-
-    lines.forEach((line) => {
-      const isCorrect = correctMatches.some(
-        (pair) => pair.word === line.word && pair.image === line.image,
-      );
-
-      if (isCorrect) lineCorrect++;
-      else wrongLines.push(line.word);
-    });
-
-    const totalScore = 9;
-    const userScore = sentenceCorrect + lineCorrect;
-
-    setWrongWords([...wrongLines]);
     setLocked(true);
+
+    const totalScore = 4;
+    const userScore = sentenceCorrect;
 
     let color =
       userScore === totalScore ? "green" : userScore === 0 ? "red" : "orange";
 
     const scoreMessage = `
-    <div style="font-size:20px; text-align:center;">
-      <span style="color:${color}; font-weight:bold;">
-        Score: ${userScore} / ${totalScore}
-      </span>
-    </div>
-  `;
+      <div style="font-size:20px; text-align:center;">
+        <span style="color:${color}; font-weight:bold;">
+          Score: ${userScore} / ${totalScore}
+        </span>
+      </div>
+    `;
 
     if (userScore === totalScore) ValidationAlert.success(scoreMessage);
     else if (userScore === 0) ValidationAlert.error(scoreMessage);
     else ValidationAlert.warning(scoreMessage);
+  };
+
+  const handleRemoveWord = (qId, index) => {
+    if (locked || showAnswer) return;
+    setUserInputs((prev) => {
+      const updated = [...prev[qId]];
+      updated.splice(index, 1);
+      return { ...prev, [qId]: updated };
+    });
   };
 
   return (
@@ -208,7 +227,6 @@ const WB_Unit1_Page4_Q1 = () => {
           style={{
             display: "flex",
             flexDirection: "column",
-            // gap: "30px",
             width: "60%",
             justifyContent: "flex-start",
           }}
@@ -221,11 +239,14 @@ const WB_Unit1_Page4_Q1 = () => {
             <div
               className="container12"
               ref={containerRef}
-              // style={{ margin: "30px" }}
+              style={{ position: "relative" }}
             >
-              {/* الصف الأول */}
               {questions.map((q, i) => (
-                <div className="CB-unit5-p6-q1-row" key={q.id}>
+                <div
+                  className="CB-unit5-p6-q1-row"
+                  key={q.id}
+                  style={{ position: "relative" }}
+                >
                   <div
                     style={{
                       width: "50%",
@@ -234,75 +255,118 @@ const WB_Unit1_Page4_Q1 = () => {
                     }}
                   >
                     <span className="CB-unit5-p6-q1-number">{q.id}</span>
-                       <div style={{display:"flex",flexDirection:"column",width:"60%",gap:"10px"}}>
-                    {/* Word Bank */}
-                    <Droppable
-                      droppableId={`bank-${q.id}`}
-                      direction="horizontal"
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        width: "60%",
+                        gap: "10px",
+                      }}
                     >
-                      {(provided) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.droppableProps}
-                          className="CB-unit5-p6-q1-word-bank"
-                        >
-                          {q.scrambled.map((word, i) => {
+                      {/* Word Bank */}
+                      <Droppable
+                        droppableId={`bank-${q.id}`}
+                        direction="horizontal"
+                      >
+                        {(provided) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.droppableProps}
+                            className="CB-unit5-p6-q1-word-bank"
+                          >
+                            {q.scrambled.map((word, i) => {
                               const isUsed = userInputs[q.id]?.includes(word);
-                            return(
-                              <Draggable
-                                key={word}
-                                draggableId={`${q.id}-${word}`}
-                                index={i}
-                                isDragDisabled={locked || showAnswer || isUsed}
-                              >
-                                {(provided) => (
-                                  <div
-                                    ref={provided.innerRef}
-                                    {...provided.draggableProps}
-                                    {...provided.dragHandleProps}
-                                    className="CB-unit5-p6-q1-word-box"
-                                    
-                            style={{
-                              background: isUsed ? "#ccc" : "white",
-                              opacity: isUsed ? 0.6 : 1,
-                              cursor: isUsed ? "not-allowed" : "grab",
-                              ...provided.draggableProps.style,
-                            }}
-                                  >
-                                    {word}
-                                  </div>
-                                )}
-                              </Draggable>
-                            )})}
-                          {provided.placeholder}
-                          {wrongWords.includes(q.matchWord) && (
-                            <span className="CB-unit5-p6-q1-error-mark">✕</span>
-                          )}
-                        </div>
-                      )}
-                    </Droppable>
+                              return (
+                                <Draggable
+                                  key={word}
+                                  draggableId={`${q.id}-${word}`}
+                                  index={i}
+                                  isDragDisabled={
+                                    locked || showAnswer || isUsed
+                                  }
+                                >
+                                  {(provided) => (
+                                    <div
+                                      ref={provided.innerRef}
+                                      {...provided.draggableProps}
+                                      {...provided.dragHandleProps}
+                                      className="CB-unit5-p6-q1-word-box"
+                                      style={{
+                                        background: isUsed ? "#ccc" : "white",
+                                        opacity: isUsed ? 0.6 : 1,
+                                        cursor: isUsed ? "not-allowed" : "grab",
+                                        ...provided.draggableProps.style,
+                                      }}
+                                    >
+                                      {word}
+                                    </div>
+                                  )}
+                                </Draggable>
+                              );
+                            })}
+                            {provided.placeholder}
+                          </div>
+                        )}
+                      </Droppable>
 
-                    {/* Sentence */}
-                    <Droppable
-                      droppableId={`sentence-${q.id}`}
-                      direction="horizontal"
-                    >
-                      {(provided, snapshot) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.droppableProps}
-                          className={`CB-unit5-p6-q1-unscramble-input ${
-                            snapshot.isDraggingOver
-                              ? "CB-unit5-p6-q1-active-drop"
-                              : ""
-                          }`}
+                      {/* Sentence Input Area */}
+                      <div style={{ position: "relative" }}>
+                        <Droppable
+                          droppableId={`sentence-${q.id}`}
+                          direction="horizontal"
                         >
-                          {userInputs[q.id].join(" ")}
-                          {provided.placeholder}
-                        </div>
-                      )}
-                    </Droppable>
+                          {(provided) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.droppableProps}
+                              className={`CB-unit5-p6-q1-unscramble-input ${wrongInputs.includes(String(q.id)) ? "wrong-input" : ""}`}
+                              style={{ position: "relative" }}
+                            >
+                              {userInputs[q.id]?.map((word, index) => (
+                                <span
+                                  key={index}
+                                  onClick={() => handleRemoveWord(q.id, index)}
+                                  style={{
+                                    cursor: "pointer",
+                                    marginRight: "6px",
+                                  }}
+                                >
+                                  {word}
+                                </span>
+                              ))}
+                              {provided.placeholder}
+                            </div>
+                          )}
+                        </Droppable>
+
+                        {/* أيقونة الخطأ (X أبيض في دائرة حمراء) */}
+                        {wrongInputs.includes(String(q.id)) && (
+                          <div
+                            style={{
+                              position: "absolute",
+                              top: "-10px",
+                              right: "16px",
+                              backgroundColor: "red",
+                              color: "white",
+                              borderRadius: "50%",
+                              width: "20px",
+                              height: "20px",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              fontSize: "12px",
+                              fontWeight: "bold",
+                              zIndex: 10,
+                              boxShadow: "0 0 5px rgba(0,0,0,0.3)",
+                              border: "2px solid white",
+                            }}
+                          >
+                            ✕
+                          </div>
+                        )}
+                      </div>
                     </div>
+
                     <div className="CB-unit5-p6-q1-dot-wrapper">
                       <div
                         className="CB-unit5-p6-q1-dot CB-unit5-p6-q1-dot-start"
@@ -323,14 +387,9 @@ const WB_Unit1_Page4_Q1 = () => {
                         onClick={handleEndDotClick}
                       />
                     </div>
-
                     <img
                       src={images[i]}
-                      className={`CB-unit5-p6-q1-matched-img ${
-                        locked || showAnswer
-                          ? "CB-unit5-p6-q1-disabled-word"
-                          : ""
-                      }`}
+                      className={`CB-unit5-p6-q1-matched-img ${locked || showAnswer ? "CB-unit5-p6-q1-disabled-word" : ""}`}
                       alt=""
                       onClick={() =>
                         document.getElementById(`dot-img-${q.id}`).click()
@@ -341,9 +400,9 @@ const WB_Unit1_Page4_Q1 = () => {
                 </div>
               ))}
 
-              <svg className="lines-layer">
+              <svg className="lines-layer border-dashed">
                 {lines.map((line, i) => (
-                  <line key={i} {...line} stroke="red" strokeWidth="3" />
+                  <line key={i} {...line} stroke="red" strokeWidth="2" style={{border:"dashed"}} />
                 ))}
               </svg>
             </div>
@@ -352,15 +411,23 @@ const WB_Unit1_Page4_Q1 = () => {
           <div className="action-buttons-container">
             <button
               onClick={() => {
-                setLines([]);
-                setUserInputs({
-                  1: [],
-                  2: [],
-                  3: [],
-                  4: [],
-       
-                });
-
+                const rect = containerRef.current.getBoundingClientRect();
+                const getDotPosition = (selector) => {
+                  const el = document.querySelector(selector);
+                  if (!el) return { x: 0, y: 0 };
+                  const r = el.getBoundingClientRect();
+                  return { x: r.left - rect.left + 8, y: r.top - rect.top + 8 };
+                };
+                const initialLines = correctMatches.map((match) => ({
+                  x1: getDotPosition(`[data-word="${match.word}"]`).x,
+                  y1: getDotPosition(`[data-word="${match.word}"]`).y,
+                  x2: getDotPosition(`[data-image="${match.image}"]`).x,
+                  y2: getDotPosition(`[data-image="${match.image}"]`).y,
+                  word: match.word,
+                  image: match.image,
+                }));
+                setLines(initialLines);
+                setUserInputs({ 1: [], 2: [], 3: [], 4: [] });
                 setWrongWords([]);
                 setWrongInputs([]);
                 setShowAnswer(false);
@@ -374,18 +441,12 @@ const WB_Unit1_Page4_Q1 = () => {
             <button
               onClick={() => {
                 const rect = containerRef.current.getBoundingClientRect();
-
                 const getDotPosition = (selector) => {
                   const el = document.querySelector(selector);
                   if (!el) return { x: 0, y: 0 };
                   const r = el.getBoundingClientRect();
-                  return {
-                    x: r.left - rect.left + 8,
-                    y: r.top - rect.top + 8,
-                  };
+                  return { x: r.left - rect.left + 8, y: r.top - rect.top + 8 };
                 };
-
-                // 1️⃣ إنشاء الخطوط الصحيحة
                 const finalLines = correctMatches.map((line) => ({
                   ...line,
                   x1: getDotPosition(`[data-word="${line.word}"]`).x,
@@ -393,19 +454,13 @@ const WB_Unit1_Page4_Q1 = () => {
                   x2: getDotPosition(`[data-image="${line.image}"]`).x,
                   y2: getDotPosition(`[data-image="${line.image}"]`).y,
                 }));
-
                 setLines(finalLines);
-
-                // 2️⃣ تعبئة جميع الإجابات الصحيحة في inputs
                 setUserInputs({
                   1: correctSentences["1"].split(" "),
                   2: correctSentences["2"].split(" "),
                   3: correctSentences["3"].split(" "),
                   4: correctSentences["4"].split(" "),
-               
                 });
-
-                // 3️⃣ منع التعديل على كل شيء (قفل inputs + منع الرسم)
                 setLocked(true);
                 setShowAnswer(true);
                 setWrongWords([]);

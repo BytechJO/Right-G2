@@ -2,9 +2,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./Review5_Page2_Q2.css";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import img1 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 53/Ex D 1.svg";
-import img2 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 53/Ex D 2.svg";
-import img3 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 53/Ex D 3.svg";
+import img1 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 53/Asset 35.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 53/Asset 75.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 53/Asset 36.svg";
 import QuestionAudioPlayer from "../../QuestionAudioPlayer";
 import sound1 from "../../../assets/audio/ClassBook/U 6/cd37pg53-instruction1-adult-lady_VEAoL9d5.mp3";
 

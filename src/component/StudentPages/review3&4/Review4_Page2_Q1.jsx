@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./Review4_Page2_Q1.css";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import img1 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 38/Ex C 1.svg";
-import img2 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 38/Ex C 2.svg";
-import img3 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 38/Ex C 3.svg";
-import img4 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 38/Ex C 4.svg";
-import img5 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 38/Ex C 5.svg";
+import img1 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 38/Asset 30.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 38/Asset 31.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 38/Asset 32.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 38/Asset 33.svg";
+import img5 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 38/Asset 34.svg";
 import sound1 from "../../../assets/audio/ClassBook/U 4/cd26pg37-instruction1-adult-lady_NPuiMbFv.mp3";
 import QuestionAudioPlayer from "../../QuestionAudioPlayer";
 const Review4_Page2_Q1 = () => {
@@ -128,7 +128,7 @@ const Review4_Page2_Q1 = () => {
         style={{
           display: "flex",
           flexDirection: "column",
-          // gap: "20px",
+          gap: "20px",
           width: "60%",
           justifyContent: "flex-start",
         }}

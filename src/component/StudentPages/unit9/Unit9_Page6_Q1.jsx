@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
-import img1 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 81/Ex D 1.svg";
+import img1 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 81/Asset 43.svg";
 import img2 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 81/Ex D 2.svg";
 import img3 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 81/Ex D 3.svg";
 import img4 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 81/Ex D 4.svg";

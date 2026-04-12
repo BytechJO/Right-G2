@@ -197,13 +197,27 @@ const Review7_Page2_Q2 = () => {
   const [selected, setSelected] = useState([]);
   const [locked, setLocked] = useState(false);
 
-  const toggleWord = (word) => {
-    if (locked) return;
+ const MAX_SELECTION = 13;
 
-    setSelected((prev) =>
-      prev.includes(word) ? prev.filter((w) => w !== word) : [...prev, word],
-    );
-  };
+const toggleWord = (word) => {
+  if (locked) return;
+
+  setSelected((prev) => {
+    // إذا الكلمة موجودة → احذفها (عادي)
+    if (prev.includes(word)) {
+      return prev.filter((w) => w !== word);
+    }
+
+    // ❌ إذا وصل الحد 13 → لا تضيف
+    if (prev.length >= MAX_SELECTION) {
+
+      return prev;
+    }
+
+    // ✅ إضافة الكلمة
+    return [...prev, word];
+  });
+};
 
   const checkAnswers = () => {
     if (locked) return;

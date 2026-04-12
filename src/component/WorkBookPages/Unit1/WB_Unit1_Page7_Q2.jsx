@@ -45,6 +45,7 @@ const WB_Unit1_Page7_Q2 = () => {
   };
 
   const checkAnswers = () => {
+    if (checked || showAnswers) return;
     const allFilled = Object.values(answers).every(
       (answer) => answer.trim() !== "",
     );
@@ -75,6 +76,8 @@ const WB_Unit1_Page7_Q2 = () => {
 
     if (correct === total) {
       ValidationAlert.success(`Score: ${correct}/${total}`);
+    } else if (correct > 0) {
+      ValidationAlert.warning(`Score: ${correct}/${total}`);
     } else {
       ValidationAlert.error(`Score: ${correct}/${total}`);
     }
@@ -109,7 +112,7 @@ const WB_Unit1_Page7_Q2 = () => {
     return (
       <div className="relative inline-flex">
         {isWrong && (
-          <div className="absolute -top-2 -right-2 z-10 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold shadow">
+          <div className="absolute -top-2 -right-2 z-10 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold shadow-lg border-2 border-white">
             ✕
           </div>
         )}
@@ -166,7 +169,7 @@ const WB_Unit1_Page7_Q2 = () => {
                 <div
                   ref={provided.innerRef}
                   {...provided.droppableProps}
-                  className="words-box mb-8 p-4 border-2 border-blue-200 rounded-xl flex flex-wrap justify-center items-center gap-2"
+                  className="words-box mb-8 p-4 border-2 border-gray-400 rounded-xl border-dashed flex flex-wrap justify-center items-center gap-2"
                 >
                   {words.map((word, index) => {
                     const isUsed = Object.values(answers).includes(word);
@@ -179,18 +182,18 @@ const WB_Unit1_Page7_Q2 = () => {
                       >
                         {(provided) => (
                           <span
-                            ref={provided.innerRef}{...provided.draggableProps}
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
                             {...provided.dragHandleProps}
-                            className="px-4 py-2 bg-white rounded text-blue-700 font-medium shadow-sm"
-                              style={{
-    ...provided.draggableProps.style, // 🔥 هذا أهم سطر
-    background: isUsed ? "#ccc" : "white",
-    opacity: isUsed ? 0.5 : 1,
-    cursor: isUsed ? "not-allowed" : "grab",
-    padding: "8px 16px",
-    borderRadius: "6px",
-  }}
-                            
+                            className="px-4 py-2 bg-white border-2 border-blue-700 rounded text-blue-700 font-medium shadow-sm"
+                            style={{
+                              ...provided.draggableProps.style, // 🔥 هذا أهم سطر
+                              background: isUsed ? "#ccc" : "white",
+                              opacity: isUsed ? 0.5 : 1,
+                              cursor: isUsed ? "not-allowed" : "grab",
+                              padding: "8px 16px",
+                              borderRadius: "6px",
+                            }}
                           >
                             {word}
                           </span>

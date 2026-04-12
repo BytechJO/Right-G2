@@ -1,10 +1,10 @@
 import React, { useState, useRef } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
-import img1 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 86/Ex B 1.svg";
-import img2 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 86/Ex B 2.svg";
-import img3 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 86/Ex B 3.svg";
-import img4 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 86/Ex B 4.svg";
+import img1 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 86/Asset 48.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 86/Asset 49.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 86/Asset 50.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 86/Asset 51.svg";
 
 const Unit10_Page5_Q3 = () => {
   const [lines, setLines] = useState([]);
@@ -218,11 +218,11 @@ She’s watering the flowers.`,
                 onClick={() => handleDotClick(i, "image")}
                 style={{
                   height: "120px",
-                  width: "200px",
-                  objectFit: "cover",
+                  width: "auto",
+                  // objectFit: "cover",
                   cursor: "pointer",
                   borderRadius: "16px",
-                  border: "2px solid #e74c3c",
+                  // border: "2px solid #e74c3c",
                   transition: "all 0.3s ease",
                   transform:
                     startDot?.index === i && startDot?.type === "image"

@@ -2,10 +2,10 @@ import React, { useState, useRef } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Review9_Page1.css";
 
-import img1 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 88/Ex B 1.svg";
-import img2 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 88/Ex B 2.svg";
-import img3 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 88/Ex B 3.svg";
-import img4 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 88/Ex B 4.svg";
+import img1 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 88/Asset 54.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 88/Asset 56.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 88/Asset 57.svg";
+import img4 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 88/Asset 58.svg";
 
 const Review9_Page1 = () => {
   const [selectedImg, setSelectedImg] = useState(null);
@@ -203,9 +203,20 @@ const Review9_Page1 = () => {
                     ✕
                   </div>
                 )}
+                <div
+                style={{
+                  height: "10px",
+                  width: "10px",
+                  backgroundColor: "red",
+                  borderRadius: "50%",
+                  position:"absolute",
+                  top:"45px",left:"47%"
+                }}
+              /> 
               </div>
             );
           })}
+          
         </div>
         {/* IMAGES (BOTTOM) */}
         <div className="grid grid-cols-4 gap-6 w-full justify-items-center mt-16">
@@ -213,10 +224,18 @@ const Review9_Page1 = () => {
             <div
               key={img.id}
               ref={(el) => (imageRefs.current[index] = el)}
-              className={`rounded-lg cursor-pointer transition
+              className={`flex flex-col items-center rounded-lg cursor-pointer transition
         ${selectedImg === img.id ? "bg-red-100" : ""}`}
               onClick={() => selectImage(img.id)}
             >
+              <div
+                style={{
+                  height: "10px",
+                  width: "10px",
+                  backgroundColor: "red",
+                  borderRadius: "50%",
+                }}
+              />
               <img
                 src={img.img}
                 alt=""

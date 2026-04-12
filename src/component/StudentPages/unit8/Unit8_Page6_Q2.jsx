@@ -2,9 +2,9 @@ import React, { useState, useRef } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Unit8_Page6_Q2.css";
 
-import img1 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 69/Ex E 1.svg";
-import img2 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 69/Ex E 2.svg";
-import img3 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 69/Ex E 3.svg";
+import img1 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 69/Asset 7.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 69/Asset 8.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 69/Asset 9.svg";
 
 const Unit8_Page6_Q2 = () => {
   const [lines, setLines] = useState([]);
@@ -165,7 +165,8 @@ const Unit8_Page6_Q2 = () => {
 
                 <img
                   src={item.image}
-                  className={`w-[200px]! h-[150px]! object-contain cursor-pointer rounded-lg
+                  style={{height:"120px" ,width:"auto"}}
+                  className={`object-contain cursor-pointer rounded-lg
       ${isImageWrong(i) ? "border-2 border-red-500" : ""}
       ${
         startDot?.index === i && startDot?.type === "image"
@@ -191,7 +192,7 @@ const Unit8_Page6_Q2 = () => {
             </div>
 
             {/* RIGHT TEXT */}
-            <div className="flex items-center gap-4 w-[45%]">
+            <div className="flex items-center gap-4">
               <div
                 ref={(el) => (textDotRefs.current[i] = el)}
                 onClick={() => handleDotClick(i, "text")}

@@ -24,11 +24,11 @@ const WB_Unit2_Page9_Q1 = () => {
   const [wrongAnswers, setWrongAnswers] = useState({});
   const data = [
     { id: 1, img: img1, options: ["tree", "sun"], correct: "sun" },
-    { id: 2, img: img2, options: ["cloud", "bird"], correct: "cloud" },
-    { id: 3, img: img3, options: ["flower", "sun"], correct: "flower" },
+    { id: 2, img: img2, options: ["duck", "bird"], correct: "duck" },
+    { id: 3, img: img3, options: ["cloud", "bird"], correct: "cloud" },
 
-    { id: 4, img: img4, options: ["duck", "bird"], correct: "duck" },
-    { id: 5, img: img5, options: ["cloud", "butterfly"], correct: "butterfly" },
+    { id: 4, img: img4, options: ["cloud", "butterfly"], correct: "butterfly" },
+    { id: 5, img: img5, options: ["flower", "sun"], correct: "flower" },
     { id: 6, img: img6, options: ["flower", "bird"], correct: "bird" },
   ];
 
@@ -39,6 +39,7 @@ const WB_Unit2_Page9_Q1 = () => {
   };
 
   const checkAnswers = () => {
+    if (showAnswers || showResults) return;
     const allAnswered = Object.values(userSelections).every(
       (val) => val !== null,
     );
@@ -66,7 +67,7 @@ const WB_Unit2_Page9_Q1 = () => {
 
     setWrongAnswers(newWrong);
     setScore(currentScore);
-
+    setShowResults(true);
     if (currentScore === totalQuestions) {
       ValidationAlert.success(`Score: ${currentScore} / ${totalQuestions}`);
     } else if (currentScore > 0) {

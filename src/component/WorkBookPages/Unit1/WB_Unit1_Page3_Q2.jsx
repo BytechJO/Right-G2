@@ -227,7 +227,14 @@ const WB_Unit1_Page3_Q2 = () => {
 
     setLocked(true);
   };
+  const handleRemoveLetter = (qId, letterId) => {
+    if (locked || showAnswer) return;
 
+    setUserInputs((prev) => ({
+      ...prev,
+      [qId]: prev[qId].filter((item) => item.id !== letterId),
+    }));
+  };
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div
@@ -349,17 +356,35 @@ const WB_Unit1_Page3_Q2 = () => {
                                 : ""
                             }`}
                           >
-                            {userInputs[q.id]
-                              .map((item) => item.value)
-                              .join("")}
+                            {userInputs[q.id]?.map((item, index) => (
+                              <span
+                                key={item.id}
+                                onClick={() =>
+                                  handleRemoveLetter(q.id, item.id)
+                                }
+                                style={{
+                                  cursor: "pointer",
+                                  marginRight: "2px",
+                                }}
+                                onMouseEnter={(e) =>
+                                  (e.target.style.color = "red")
+                                }
+                                onMouseLeave={(e) =>
+                                  (e.target.style.color = "black")
+                                }
+                              >
+                                {item.value}
+                              </span>
+                            ))}
                             {provided.placeholder}
                           </div>
                         )}
                       </Droppable>
                     </div>
-                    <div className="CB-unit5-p6-q1-dot-wrapper">
+                    <div>
                       <div
                         className="CB-unit5-p6-q1-dot CB-unit5-p6-q1-dot-start"
+                        style={{ left: "20%" }}
                         id={`dot-word-${q.id}`}
                         data-word-id={`word-${q.id}`}
                         onClick={handleStartDotClick}

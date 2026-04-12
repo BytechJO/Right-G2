@@ -29,9 +29,7 @@ const correctAnswers = {
   sentence6: "Those",
 };
 
-const initialAnswers = Object.fromEntries(
-  questions.map((q) => [q.key, ""])
-);
+const initialAnswers = Object.fromEntries(questions.map((q) => [q.key, ""]));
 
 const QuestionItem = ({
   index,
@@ -43,27 +41,23 @@ const QuestionItem = ({
 }) => {
   return (
     <div className="flex items-center gap-4 p-5 rounded-xl">
-      <span className="font-semibold text-blue-600">
-        {index + 1}.
-      </span>
+      <span className="font-semibold text-blue-600">{index + 1}.</span>
 
       <img
         src={question.img}
         className="object-contain"
-        style={{height:"140px" ,width:"140px"}}
+        style={{ height: "140px", width: "140px" }}
         alt=""
       />
 
       <p className="relative text-xl text-gray-800 w-full">
         <select
           value={answers[question.key]}
-          onChange={(e) =>
-            handleAnswerChange(question.key, e.target.value)
-          }
-          className="mx-3 p-2 w-80 text-center text-lg rounded"
+          onChange={(e) => handleAnswerChange(question.key, e.target.value)}
+          className="mx-3 p-2 w-80 text-center text-lg border-b-2"
         >
           <option value="" disabled>
-            __________________________________________________
+            select the answer
           </option>
           {OPTIONS.map((opt) => (
             <option key={opt} value={opt}>
@@ -91,6 +85,7 @@ const WB_Unit2_Page12_Q1 = () => {
   const [showAlert, setShowAlert] = useState(false);
 
   const handleAnswerChange = (field, value) => {
+     if (checked) return;
     setAnswers((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -99,6 +94,7 @@ const WB_Unit2_Page12_Q1 = () => {
   };
 
   const handleShowAnswer = () => {
+    setChecked(true);
     setAnswers(correctAnswers);
   };
 
@@ -109,17 +105,16 @@ const WB_Unit2_Page12_Q1 = () => {
   };
 
   const checkAnswers = () => {
-    const allFilled = Object.values(answers).every(
-      (a) => a.trim() !== ""
-    );
+    if (checked) return;
+    const allFilled = Object.values(answers).every((a) => a.trim() !== "");
 
     if (!allFilled) {
-      ValidationAlert.warning("Please fill in all answers!");
+      ValidationAlert.info("Please fill in all answers!");
       return;
     }
 
     const correct = Object.keys(answers).filter(
-      (key) => answers[key] === correctAnswers[key]
+      (key) => answers[key] === correctAnswers[key],
     ).length;
 
     const total = Object.keys(answers).length;
@@ -127,7 +122,8 @@ const WB_Unit2_Page12_Q1 = () => {
     setScore({ correct, total });
     setChecked(true);
 
-    const method = correct === total ? "success" : "error";
+    const method =
+      correct === total ? "success" : correct > 0 ? "warning" : "error";
     ValidationAlert[method](`Score: ${correct}/${total}`);
   };
 

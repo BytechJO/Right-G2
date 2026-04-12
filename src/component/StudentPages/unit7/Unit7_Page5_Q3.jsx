@@ -133,68 +133,77 @@ const Unit7_Page5_Q3 = () => {
                 <div className="flex items-center gap-4">
                   <span className="font-bold w-5">{q.id}</span>
 
-                  <img
-                    src={q.img}
-                    className="w-[110px]! h-[110px]! object-contain"
-                  />
+                  {q.type === "complete" && (
+                    <div className="flex items-center gap-4">
+                      <img
+                        src={q.img}
+                        className="w-[110px]! h-[110px]! object-contain"
+                      />
 
-                  {q.type === "complete" && <span>{q.sentence}</span>}
+                      <span>{q.sentence}</span>
+                    </div>
+                  )}
 
                   {q.type !== "complete" && (
                     <div className="w-full flex flex-col gap-5">
                       {/* WORD BANK */}
-                      <div className="border-2 border-dashed border-gray-400 rounded-lg p-2">
-                        {q.words && (
-                          <Droppable
-                            droppableId={`bank-${i}`}
-                            direction="horizontal"
-                            isDropDisabled
-                          >
-                            {(provided) => (
-                              <div
-                                ref={provided.innerRef}
-                                {...provided.droppableProps}
-                                className="flex gap-4 justify-center items-center w-full"
-                              >
-                                {q.words.map((w, index) => {
-                                  const used = (answers[`slot-${i}`] || "")
-                                    .split(" ")
-                                    .includes(w);
+                      <div className="flex items-center gap-4"> 
+                        <img
+                          src={q.img}
+                          className="w-[110px]! h-[110px]! object-contain"
+                        />
+                        <div className="border-2 border-dashed border-gray-400 rounded-lg p-2 w-full">
+                          {q.words && (
+                            <Droppable
+                              droppableId={`bank-${i}`}
+                              direction="horizontal"
+                              isDropDisabled
+                            >
+                              {(provided) => (
+                                <div
+                                  ref={provided.innerRef}
+                                  {...provided.droppableProps}
+                                  className="flex gap-4 justify-center items-center w-full"
+                                >
+                                  {q.words.map((w, index) => {
+                                    const used = (answers[`slot-${i}`] || "")
+                                      .split(" ")
+                                      .includes(w);
 
-                                  return (
-                                    <Draggable
-                                      key={w}
-                                      draggableId={`word-${w}`}
-                                      index={index}
-                                      isDragDisabled={locked || used}
-                                    >
-                                      {(provided) => (
-                                        <span
-                                          ref={provided.innerRef}
-                                          {...provided.draggableProps}
-                                          {...provided.dragHandleProps}
-                                          className={`px-4 py-2 rounded-lg transition-all
+                                    return (
+                                      <Draggable
+                                        key={w}
+                                        draggableId={`word-${w}`}
+                                        index={index}
+                                        isDragDisabled={locked || used}
+                                      >
+                                        {(provided) => (
+                                          <span
+                                            ref={provided.innerRef}
+                                            {...provided.draggableProps}
+                                            {...provided.dragHandleProps}
+                                            className={`px-4 py-2 rounded-lg transition-all
                                             ${
                                               used
                                                 ? "bg-gray-300 text-gray-500 cursor-not-allowed opacity-50"
                                                 : "bg-blue-200 cursor-grab hover:bg-blue-300"
                                             }
                                           `}
-                                        >
-                                          {w}
-                                        </span>
-                                      )}
-                                    </Draggable>
-                                  );
-                                })}
+                                          >
+                                            {w}
+                                          </span>
+                                        )}
+                                      </Draggable>
+                                    );
+                                  })}
 
-                                {provided.placeholder}
-                              </div>
-                            )}
-                          </Droppable>
-                        )}
+                                  {provided.placeholder}
+                                </div>
+                              )}
+                            </Droppable>
+                          )}
+                        </div>
                       </div>
-
                       {/* ANSWER */}
                       <div className="flex w-full text-lg font-bold">
                         <span>It is</span>

@@ -142,7 +142,7 @@ const Review3_Page1_Q3 = () => {
           padding: "30px",
         }}
       >
-        <div className="div-forall" style={{ width: "60%" }}>
+        <div className="div-forall" style={{ width: "60%" ,gap:"20px"}}>
           <h5 className="header-title-page8">
             <span style={{ marginRight: "20px" }}>C</span>Look and answer the
             questions.
