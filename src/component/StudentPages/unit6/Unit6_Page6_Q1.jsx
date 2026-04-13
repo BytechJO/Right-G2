@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import "./Unit6_Page6_Q2.css";
 import img from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 51/Ex D 1.svg";
+
+/* =========================
+   Main Component
+========================= */
+
 const Unit6_Page6_Q1 = () => {
   const questions = [
     "I brush my teeth at six thirty.",
@@ -27,7 +31,7 @@ const Unit6_Page6_Q1 = () => {
   const [showResult, setShowResult] = useState(false);
 
   const handleChange = (i, field, value) => {
-    if (locked) return;
+    if (locked || showResult) return;
 
     const updated = [...answers];
     updated[i][field] = value;
@@ -37,7 +41,7 @@ const Unit6_Page6_Q1 = () => {
   const checkAnswers = () => {
     if (locked || showResult) return;
 
-    if (answers.some((a) => !a.h )) {
+    if (answers.some((a) => !a.h)) {
       ValidationAlert.info("Please complete all answers.");
       return;
     }
@@ -46,8 +50,8 @@ const Unit6_Page6_Q1 = () => {
 
     answers.forEach((a, i) => {
       if (
-        a.h === correct[i].h &&
-        a.m === correct[i].m &&
+        Number(a.h) === correct[i].h &&
+        Number(a.m) === correct[i].m &&
         a.p === correct[i].p
       ) {
         correctCount++;
@@ -86,7 +90,7 @@ const Unit6_Page6_Q1 = () => {
   };
 
   const reset = () => {
-    setAnswers(questions.map(() => ({ h: 0, m: "00", p: "" })));
+    setAnswers(questions.map(() => ({ h: 0, m: "00", p: "am" })));
     setLocked(false);
     setShowResult(false);
   };
@@ -94,23 +98,27 @@ const Unit6_Page6_Q1 = () => {
   return (
     <div className="main-container-component">
       <div className="div-forall" style={{ gap: "20px" }}>
-        <h5 className="header-title-page8">
-          <span className="ex-A mr-2">D</span> Read and then draw the time.
-        </h5>
-        <div className="flex w-full" style={{justifyContent:"space-between"}}>
-          <img src={img} style={{height:"400px" ,width:"auto"}}/>
+        <h1 className="WB-header-title-page8">
+          <span className="WB-ex-A">F</span> Read and draw.
+        </h1>
+
+        <div
+          className="flex w-full"
+          style={{ justifyContent: "space-between" }}
+        >
+          <img src={img} style={{ height: "400px", width: "auto" }} />
           <div className="grid grid-cols-2 gap-y-5">
             {questions.map((q, i) => {
               const isWrong =
                 showResult &&
-                (answers[i].h !== correct[i].h ||
-                  answers[i].m !== correct[i].m ||
+                (Number(answers[i].h) !== correct[i].h ||
+                  Number(answers[i].m) !== correct[i].m ||
                   answers[i].p !== correct[i].p);
 
               const isCorrect =
                 showResult &&
-                answers[i].h === correct[i].h &&
-                answers[i].m === correct[i].m &&
+                Number(answers[i].h) === correct[i].h &&
+                Number(answers[i].m) === correct[i].m &&
                 answers[i].p === correct[i].p;
               return (
                 <div key={i} className="flex flex-col gap-2.5">
@@ -140,7 +148,9 @@ const Unit6_Page6_Q1 = () => {
                           min="1"
                           max="12"
                           step="1"
-                          onChange={(e) => handleChange(i, "h", e.target.value)}
+                          onChange={(e) =>
+                            handleChange(i, "h", Number(e.target.value))
+                          }
                           className="w-[45px] border-none bg-transparent text-[26px] text-center outline-none"
                         />
                         {isWrong && (
@@ -156,49 +166,13 @@ const Unit6_Page6_Q1 = () => {
                           min="0"
                           max="59"
                           step="1"
-                          onChange={(e) => handleChange(i, "m", e.target.value)}
+                          onChange={(e) =>
+                            handleChange(i, "m", Number(e.target.value))
+                          }
                           className="w-[45px] border-none bg-transparent text-[26px] text-center outline-none"
                         />
                       </div>
                     </div>
-                    {/* AM PM */}
-                    {/* <div className="bg-[#d82525] rounded-[22px] p-2 w-[120px] h-20 flex flex-col justify-between">
-                      <div
-                        onClick={() => handleChange(i, "p", "am")}
-                        className={`flex justify-between items-center h-7 px-2.5 py-1 rounded-lg text-white text-[18px] cursor-pointer box-border transition-all
-    ${
-      answers[i].p === "am"
-        ? "text-[#d82525] font-bold bg-white/40"
-        : "bg-white/20 hover:bg-white/40"
-    }
-  `}
-                      >
-                        a.m.
-                        <span
-                          className={`text-white ${answers[i].p === "am" ? "opacity-100" : "opacity-0"}`}
-                        >
-                          ✓
-                        </span>
-                      </div>
-
-                      <div
-                        onClick={() => handleChange(i, "p", "pm")}
-                        className={`flex justify-between items-center h-7 px-2.5 py-1 rounded-lg text-white text-[18px] cursor-pointer box-border transition-all
-    ${
-      answers[i].p === "pm"
-        ? "text-[#d82525] font-bold bg-white/40"
-        : "bg-white/20 hover:bg-white/40"
-    }
-  `}
-                      >
-                        p.m.
-                        <span
-                          className={`text-white ${answers[i].p === "pm" ? "opacity-100" : "opacity-0"}`}
-                        >
-                          ✓
-                        </span>
-                      </div>
-                    </div> */}
                   </div>
                 </div>
               );

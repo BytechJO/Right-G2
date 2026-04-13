@@ -50,11 +50,13 @@ const WB_Unit5_Page29_Q2 = () => {
   const [showResults, setShowResults] = useState(false);
 
   const handleChange = (id, value) => {
+    if (showResults) return;
     setAnswers({ ...answers, [id]: value });
     setShowResults(false);
   };
 
   const checkAnswers = () => {
+    if (showResults) return;
     const hasEmpty = questions.some((q) => !answers[q.id]);
 
     if (hasEmpty) {
@@ -104,21 +106,25 @@ const WB_Unit5_Page29_Q2 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px", marginBottom: "50px" }}>
+      <div className="div-forall" style={{ gap: "20px" }}>
         <h1 className="WB-header-title-page8">
           <div className="WB-ex-A">F</div>
           Look, read, and write <span style={{ color: "navy" }}>✓</span>.
         </h1>
 
-        <div className="space-y-10 mb-20">
+        <div className="space-y-4 mb-5">
           {questions.map((q) => (
             <div key={q.id} className="flex flex-col">
               <div className="grid grid-cols-[300px_300px] items-center gap-25">
+                <div className="flex gap-5">
+                  <span className="text-xl text-blue-800 font-bold">{q.id}</span>
                 <img
                   src={q.img}
                   alt=""
-                  className="max-w-28 max-h-24 object-contain"
+                  className="object-contain"
+                  style={{ height: "100px", width: "auto" }}
                 />
+                </div>
 
                 <div className="flex flex-col gap-3">
                   <div className="relative">

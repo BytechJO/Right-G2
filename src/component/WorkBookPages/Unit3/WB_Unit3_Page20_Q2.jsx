@@ -1,13 +1,10 @@
 import React, { useMemo, useState, useRef, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-import { Volume2 } from "lucide-react";
-import { TbMessageCircle } from "react-icons/tb";
-import { FaPlay, FaPause } from "react-icons/fa";
-import { IoMdSettings } from "react-icons/io";
 import sound from "../../../assets/audio/WorkBook/titel G2/Unit 2.mp3";
 import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import placeholderImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 20/Ex B 1.svg";
+import QuestionAudioPlayer from "../../QuestionAudioPlayer";
 
 const conversations = [
   {
@@ -97,21 +94,8 @@ const WB_Unit3_Page20_Q2 = () => {
   const initialState = useMemo(() => buildInitialState(), []);
   const [items, setItems] = useState(initialState);
   const [showResults, setShowResults] = useState(false);
-  const clickAudioRef = useRef(null);
-  const audioRef = useRef(null);
+
   const stopAtSecond = 9;
-  const [paused, setPaused] = useState(false);
-  // إعدادات الصوت
-  const [showSettings, setShowSettings] = useState(false);
-  const [volume, setVolume] = useState(1);
-  const settingsRef = useRef(null);
-  const [forceRender, setForceRender] = useState(0);
-  const [showContinue, setShowContinue] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [current, setCurrent] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const [showCaption, setShowCaption] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(null);
 
   // ================================
   // ✔ Captions Array
@@ -132,78 +116,6 @@ const WB_Unit3_Page20_Q2 = () => {
     { start: 13.14, end: 15.14, text: "3-duck." },
     { start: 15.16, end: 17.13, text: "4-deer." },
   ];
-
-  // ================================
-  // ✔ Update caption highlight
-  // ================================
-  const updateCaption = (time) => {
-    const index = captions.findIndex(
-      (cap) => time >= cap.start && time <= cap.end,
-    );
-    setActiveIndex(index);
-  };
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    audio.currentTime = 0;
-    audio.play();
-
-    const interval = setInterval(() => {
-      if (audio.currentTime >= stopAtSecond) {
-        audio.pause();
-        setPaused(true);
-        setIsPlaying(false);
-        setShowContinue(true);
-        clearInterval(interval);
-      }
-    }, 100);
-
-    // عند انتهاء الأوديو يرجع يبطل أنيميشن + يظهر Continue
-    const handleEnded = () => {
-      const audio = audioRef.current;
-      audio.currentTime = 0; // ← يرجع للبداية
-      setIsPlaying(false);
-      setPaused(false);
-      setActiveIndex(null);
-      setShowContinue(true);
-    };
-
-    audio.addEventListener("ended", handleEnded);
-
-    return () => {
-      clearInterval(interval);
-      audio.removeEventListener("ended", handleEnded);
-    };
-  }, []);
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setForceRender((prev) => prev + 1);
-    }, 1000); // كل ثانية
-    if (activeIndex === -1 || activeIndex === null) return;
-
-    const el = document.getElementById(`caption-${activeIndex}`);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-    return () => clearInterval(timer);
-  }, [activeIndex]);
-
-  const togglePlay = () => {
-    const audio = audioRef.current;
-
-    if (!audio) return;
-
-    if (audio.paused) {
-      audio.play();
-      setPaused(false);
-      setIsPlaying(true);
-    } else {
-      audio.pause();
-      setPaused(true);
-      setIsPlaying(false);
-    }
-  };
 
   const allBlanks = useMemo(() => {
     const blanks = [];
@@ -228,6 +140,7 @@ const WB_Unit3_Page20_Q2 = () => {
   };
 
   const onDragEnd = (result) => {
+      if (showResults) return; // ✅ يمنع أي سحب
     const { source, destination } = result;
     if (!destination) return;
 
@@ -317,6 +230,7 @@ const WB_Unit3_Page20_Q2 = () => {
   };
 
   const checkAnswers = () => {
+    if (showResults) return;
     const allFilled = allBlanks.every(
       (blank) => items[blank.id] && items[blank.id].length > 0,
     );
@@ -353,10 +267,14 @@ const WB_Unit3_Page20_Q2 = () => {
           <span className="WB-ex-A">B</span> Listen and drag the missing
           letters.
         </h1>
-
+        <QuestionAudioPlayer
+          src={sound}
+          captions={captions}
+          stopAtSecond={stopAtSecond}
+        />
         <DragDropContext onDragEnd={onDragEnd}>
           {/* Word Bank */}
-          <div className="p-2 border rounded-xl bg-gray-50">
+          <div className="p-2 border-2 border-gray-400 border-dashed rounded-xl bg-gray-50">
             <Droppable droppableId="wordBank" direction="horizontal">
               {(provided) => (
                 <div
@@ -369,6 +287,7 @@ const WB_Unit3_Page20_Q2 = () => {
                       key={letter.id}
                       draggableId={letter.id}
                       index={index}
+                      isDragDisabled={showResults}
                     >
                       {(provided, snapshot) => (
                         <div
@@ -389,122 +308,6 @@ const WB_Unit3_Page20_Q2 = () => {
               )}
             </Droppable>
           </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              margin: "15px 0px",
-              width: "100%",
-            }}
-          >
-            <div
-              className="audio-popup-read"
-              style={{
-                width: "50%",
-              }}
-            >
-              <div className="audio-inner player-ui">
-                <audio
-                  ref={audioRef}
-                  src={sound}
-                  onTimeUpdate={(e) => {
-                    const time = e.target.currentTime;
-                    setCurrent(time);
-                    updateCaption(time);
-                  }}
-                  onLoadedMetadata={(e) => setDuration(e.target.duration)}
-                ></audio>
-                {/* Play / Pause */}
-                {/* الوقت - السلايدر - الوقت */}
-                <div className="top-row">
-                  <span className="audio-time">
-                    {new Date(current * 1000).toISOString().substring(14, 19)}
-                  </span>
-
-                  <input
-                    type="range"
-                    className="audio-slider"
-                    min="0"
-                    max={duration}
-                    value={current}
-                    onChange={(e) => {
-                      audioRef.current.currentTime = e.target.value;
-                      updateCaption(Number(e.target.value));
-                    }}
-                    style={{
-                      background: `linear-gradient(to right, #430f68 ${
-                        (current / duration) * 100
-                      }%, #d9d9d9ff ${(current / duration) * 100}%)`,
-                    }}
-                  />
-
-                  <span className="audio-time">
-                    {new Date(duration * 1000).toISOString().substring(14, 19)}
-                  </span>
-                </div>
-                {/* الأزرار 3 أزرار بنفس السطر */}
-                <div className="bottom-row">
-                  {/* فقاعة */}
-                  <div
-                    className={`round-btn ${showCaption ? "active" : ""}`}
-                    style={{ position: "relative" }}
-                    onClick={() => setShowCaption(!showCaption)}
-                  >
-                    <TbMessageCircle size={36} />
-                    <div
-                      className={`caption-inPopup ${showCaption ? "show" : ""}`}
-                      style={{ top: "100%", left: "10%" }}
-                    >
-                      {captions.map((cap, i) => (
-                        <p
-                          key={i}
-                          id={`caption-${i}`}
-                          className={`caption-inPopup-line2 ${
-                            activeIndex === i ? "active" : ""
-                          }`}
-                        >
-                          {cap.text}
-                        </p>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Play */}
-                  <button className="play-btn2" onClick={togglePlay}>
-                    {isPlaying ? <FaPause size={26} /> : <FaPlay size={26} />}
-                  </button>
-
-                  {/* Settings */}
-                  <div className="settings-wrapper" ref={settingsRef}>
-                    <button
-                      className={`round-btn ${showSettings ? "active" : ""}`}
-                      onClick={() => setShowSettings(!showSettings)}
-                    >
-                      <IoMdSettings size={36} />
-                    </button>
-
-                    {showSettings && (
-                      <div className="settings-popup">
-                        <label>Volume</label>
-                        <input
-                          type="range"
-                          min="0"
-                          max="1"
-                          step="0.05"
-                          value={volume}
-                          onChange={(e) => {
-                            setVolume(e.target.value);
-                            audioRef.current.volume = e.target.value;
-                          }}
-                        />
-                      </div>
-                    )}
-                  </div>
-                </div>{" "}
-              </div>
-            </div>
-          </div>
-          <audio ref={clickAudioRef} style={{ display: "none" }} />
 
           <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-8 mt-2">
             <img
@@ -529,18 +332,26 @@ const WB_Unit3_Page20_Q2 = () => {
                         typeof part === "string" ? (
                           <span key={partIndex}>{part}</span>
                         ) : (
-                          <Droppable key={part.id} droppableId={part.id}>
-                            {(provided) => (
+                          <Droppable key={part.id} droppableId={part.id} isDropDisabled={showResults}>
+                            {(provided, snapshot) => (
                               <span
                                 ref={provided.innerRef}
                                 {...provided.droppableProps}
-                                className={`relative inline-flex align-middle mx-1 w-8 h-9 items-center justify-center border-b-2 font-bold transition-colors`}
+                                className={`relative inline-flex align-middle mx-1 w-8 h-9 items-center justify-center border-b-2 font-bold transition-all
+        ${
+          snapshot.isDraggingOver
+            ? "border-blue-500 bg-blue-100 scale-110"
+            : "border-gray-400"
+        }
+        ${isWrongAnswer(part.id, part.correct) ? "border-red-500" : "border-gray-400"}
+      `}
                               >
                                 {items[part.id].map((letter, index) => (
                                   <Draggable
                                     key={letter.id}
                                     draggableId={letter.id}
                                     index={index}
+                                    isDragDisabled={true}
                                   >
                                     {(provided) => (
                                       <span
@@ -556,7 +367,7 @@ const WB_Unit3_Page20_Q2 = () => {
                                 ))}
 
                                 {isWrongAnswer(part.id, part.correct) && (
-                                  <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-red-500 text-white flex items-center justify-center text-[10px] font-bold border-2 border-white">
+                                  <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-red-500 text-white flex items-center justify-center text-[10px] font-bold border-2 border-white shadow-lg">
                                     ✕
                                   </span>
                                 )}

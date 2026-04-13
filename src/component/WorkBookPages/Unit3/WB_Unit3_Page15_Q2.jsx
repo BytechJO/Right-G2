@@ -178,6 +178,7 @@ const WB_Unit3_Page15_Q2 = () => {
                 onChange={(e) => handleTextChange(q.id, e.target.value)}
                 placeholder="Your answer will appear here..."
                 className="w-full bg-transparent border-b-2 border-gray-300 focus:border-blue-500 focus:outline-none text-lg text-gray-800 pb-1"
+                readOnly
               />
             </div>
           ))}

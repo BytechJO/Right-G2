@@ -22,7 +22,7 @@ const QUESTIONS = [
   {
     id: 3,
     image: img3,
-    options: ["gets up", "goes to school"],
+    options: ["goes to school", "gets up"],
     correct: "gets up",
   },
 ];
@@ -52,7 +52,7 @@ const WB_Unit6_Page34_Q2 = () => {
       if (answers[q.id] === q.correct) score++;
     });
 
-    const message = `Your score: ${score} / ${QUESTIONS.length}`;
+    const message = `Score: ${score} / ${QUESTIONS.length}`;
 
     if (score === QUESTIONS.length) {
       ValidationAlert.success(message);
@@ -76,14 +76,16 @@ const WB_Unit6_Page34_Q2 = () => {
           <div className="space-y-6">
             {QUESTIONS.map((q) => (
               <div key={q.id} className="flex items-center gap-6 p-4">
-                <img
-                  src={q.image}
-                  alt="question"
-                  className="max-w-55 max-h-30 object-cover rounded-lg"
-                />
-
+                <div className="flex items-center gap-2">
+                  <span className="text-blue-800 text-2xl font-bold">{q.id}</span>
+                  <img
+                    src={q.image}
+                    alt="question"
+                    className="max-w-55 max-h-30 object-cover rounded-lg border-2 border-black"
+                  />
+                </div>
                 <div className="flex flex-col gap-3">
-                  {q.options.map((opt) => {
+                  {q.options.map((opt, index) => {
                     const isSelected = answers[q.id] === opt;
                     const isCorrect = opt === q.correct;
                     const isWrongSelected =
@@ -93,13 +95,12 @@ const WB_Unit6_Page34_Q2 = () => {
                       <button
                         key={opt}
                         onClick={() => handleSelect(q.id, opt)}
-                        className={`relative px-4 py-2 rounded-lg border-2 transition
-                          ${
-                            isSelected
-                              ? "border-blue-500 bg-blue-100"
-                              : "border-blue-300"
-                          }`}
+                        className={`relative text-left px-4 py-2 rounded-lg border-2 transition
+    ${isSelected ? "border-blue-500 bg-blue-100" : "border-blue-300"} ${isWrongSelected && "border-red-500 bg-white"}`}
                       >
+                        <span className="font-bold mr-2">
+                          {String.fromCharCode(97 + index)}.
+                        </span>
                         {opt}
 
                         {isWrongSelected && (

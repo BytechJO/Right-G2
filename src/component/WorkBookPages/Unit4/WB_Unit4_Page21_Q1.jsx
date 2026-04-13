@@ -66,8 +66,8 @@ const WB_Unit4_Page21_Q1 = () => {
 
   // منطق التعامل مع النقرات
   const handleLeftClick = (id) => {
+    if (showResults) return;
     setSelectedLeft(id);
-    setShowResults(false);
   };
   const isWrongMatch = (leftId) => {
     if (!showResults) return false;
@@ -93,6 +93,7 @@ const WB_Unit4_Page21_Q1 = () => {
 
   // منطق التحقق والأزرار
   const checkAnswers = () => {
+    if (showResults) return;
     const totalQuestions = exerciseData.left.length;
 
     // 🔴 تحقق إنو كل العناصر متوصلة
@@ -144,7 +145,7 @@ const WB_Unit4_Page21_Q1 = () => {
   };
 
   const getDotColor = (side, id) => {
-    if (side === "left" && selectedLeft === id) return "bg-blue-500 scale-125";
+    if (side === "left" && selectedLeft === id) return "bg-red-800 scale-125";
 
     const isConnected =
       side === "left" ? !!matches[id] : Object.values(matches).includes(id);
@@ -155,12 +156,12 @@ const WB_Unit4_Page21_Q1 = () => {
         side === "left"
           ? id
           : Object.keys(matches).find((key) => matches[key] === id);
-      if (!leftId) return "bg-[#eb533c]";
+      if (!leftId) return "bg-red-800";
       const isCorrect = matches[leftId] === exerciseData.correctMatches[leftId];
-      return isCorrect ? "bg-blue-500" : "bg-blue-500";
+      return isCorrect ? "bg-[#eb533c]" : "bg-[#eb533c]";
     }
 
-    return "bg-blue-500";
+    return "bg-[#eb533c]";
   };
 
   return (
@@ -182,7 +183,12 @@ const WB_Unit4_Page21_Q1 = () => {
                 className="flex items-center gap-6 justify-start relative"
               >
                 <div className="w-35">
-                  <p className="text-xl text-gray-700">{item.text}</p>
+                  <p
+                    onClick={() => handleLeftClick(item.id)}
+                    className="text-xl text-gray-700 cursor-pointer hover:text-blue-600 transition"
+                  >
+                    {item.text}
+                  </p>
                 </div>
                 <div
                   ref={(el) => (elementRefs.current[`left-${item.id}`] = el)}
@@ -190,7 +196,7 @@ const WB_Unit4_Page21_Q1 = () => {
                   className={`w-5 h-5 rounded-full cursor-pointer transition-all ${getDotColor("left", item.id)}`}
                 />
                 {isWrongMatch(item.id) && (
-                  <div className="absolute -top-2 right-10 w-6 h-6 rounded-full bg-red-500 text-white flex items-center justify-center text-lg font-bold shadow">
+                  <div className="absolute -top-2 right-10 w-6 h-6 rounded-full bg-red-500 text-white flex items-center justify-center text-sm font-bold shadow border-2 border-white">
                     ✕
                   </div>
                 )}
@@ -209,7 +215,9 @@ const WB_Unit4_Page21_Q1 = () => {
                 <img
                   src={item.img}
                   alt={`Person ${item.id}`}
-                  className="max-w-24 max-h-24 rounded-lg object-cover shadow-md"
+                  onClick={() => handleRightClick(item.id)}
+                  style={{height:"120px",width:"auto"}}
+                  className="max-w-24 max-h-24 rounded-lg object-cover shadow-md cursor-pointer hover:scale-105 transition"
                 />
               </div>
             ))}

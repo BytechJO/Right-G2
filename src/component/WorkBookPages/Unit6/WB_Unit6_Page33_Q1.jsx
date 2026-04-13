@@ -76,10 +76,10 @@ function DropSlot({ id, content, isCorrect, isSubmitted }) {
     <div className="relative inline-block align-bottom mx-1">
       <div
         ref={setNodeRef}
-        className="inline-block min-w-[80px] h-8 border-b-2 px-2 text-center transition-colors"
+        className={`inline-block min-w-[80px] h-8 border-b-2 px-2 text-center transition-colors ${isWrong && "border-red-500"}`}
       >
         {content ? (
-          <span className="text-blue-700 font-bold">
+          <span className="text-blue-700">
             {WORDS.find((w) => w.id === content).text}
           </span>
         ) : (
@@ -119,6 +119,7 @@ const WB_Unit6_Page33_Q1 = () => {
   };
 
   const checkAnswers = () => {
+    if (isSubmitted) return;
     const hasEmpty = Object.values(placedWords).some((value) => value === null);
     if (hasEmpty) {
       ValidationAlert.info("Please complete all answers before checking.");
@@ -136,7 +137,7 @@ const WB_Unit6_Page33_Q1 = () => {
     });
 
     const total = Object.keys(CORRECT_ANSWERS).length;
-    const scoreMessage = `Your score: ${currentScore} / ${total}`;
+    const scoreMessage = `Score: ${currentScore} / ${total}`;
 
     if (currentScore === total) {
       ValidationAlert.success(scoreMessage);

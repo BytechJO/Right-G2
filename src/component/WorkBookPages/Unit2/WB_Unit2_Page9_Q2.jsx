@@ -103,133 +103,126 @@ const WB_Unit2_Page9_Q2 = () => {
     setFirstPoint(point);
   };
 
-  const handleEnd = (e) => {
-    if (!firstPoint || locked) return;
+const handleEnd = (e) => {
+  if (!firstPoint || locked) return;
 
-    let targetPoint = null;
+  let targetPoint = null;
 
-    if (e.currentTarget.dataset.leftId) {
-      targetPoint = getPointData(e.currentTarget, ".dot-top");
-    } else {
-      targetPoint = getPointData(e.currentTarget);
+  if (e.currentTarget.dataset.leftId) {
+    targetPoint = getPointData(e.currentTarget, ".dot-top");
+  } else {
+    targetPoint = getPointData(e.currentTarget);
+  }
+
+  if (!targetPoint) return;
+
+  const { type } = targetPoint;
+
+  // 1) إذا البداية من صورة فوق، لازم النهاية تكون كلمة
+  if (firstPoint.type === "leftImg" && type !== "centerText") {
+    return;
+  }
+
+  // 2) إذا النهاية صورة تحت، لازم البداية تكون كلمة
+  if (type === "rightImg" && firstPoint.type !== "centerText") {
+    return;
+  }
+
+  // منع التوصيل بنفس النوع
+  if (firstPoint.type === type) {
+    setFirstPoint(targetPoint);
+    return;
+  }
+
+  // منع التوصيل المباشر بين الصور
+  if (firstPoint.type.includes("Img") && type.includes("Img")) {
+    return;
+  }
+
+  let startPoint = firstPoint;
+  let endPoint = targetPoint;
+
+  // إذا البداية من النص والنهاية على صورة تحت → اطلع من الدوت السفلية
+  if (firstPoint.type === "centerText" && type === "rightImg") {
+    const centerEl = containerRef.current.querySelector(
+      `[data-left-id="${firstPoint.id}"]`,
+    );
+    const bottomDotPos = getDotCenter(centerEl, ".dot-bottom");
+
+    if (bottomDotPos) {
+      startPoint = {
+        ...firstPoint,
+        x: bottomDotPos.x,
+        y: bottomDotPos.y,
+      };
     }
+  }
 
-    if (!targetPoint) return;
+  // إذا البداية من النص والنهاية على صورة فوق → اطلع من الدوت العلوية
+  if (firstPoint.type === "centerText" && type === "leftImg") {
+    const centerEl = containerRef.current.querySelector(
+      `[data-left-id="${firstPoint.id}"]`,
+    );
+    const topDotPos = getDotCenter(centerEl, ".dot-top");
 
-    const { id, type, x, y } = targetPoint;
-    // ====== قواعد التوصيل الجديدة ======
-
-    // 1. الصور اللي فوق لازم تروح بس للكلمات
-    if (firstPoint.type === "leftImg" && type !== "centerText") {
-      return;
+    if (topDotPos) {
+      startPoint = {
+        ...firstPoint,
+        x: topDotPos.x,
+        y: topDotPos.y,
+      };
     }
+  }
 
-    // 2. الصور اللي تحت لازم تيجي بس من الكلمات
-    if (type === "rightImg" && firstPoint.type !== "centerText") {
-      return;
-    }
-
-    // 3. ممنوع نطلع من الكلمات ونرجع لفوق
-    if (firstPoint.type === "centerText" && type === "leftImg") {
-      return;
-    }
-    // منع التوصيل بنفس النوع
-    if (firstPoint.type === type) {
-      setFirstPoint(targetPoint);
-      return;
-    }
-
-    // منع التوصيل المباشر بين الصور
-    if (firstPoint.type.includes("Img") && type.includes("Img")) {
-      return;
-    }
-
-    let startPoint = firstPoint;
-    let endPoint = targetPoint;
-
-    // إذا البداية من النص والنهاية على صورة تحت
-    if (firstPoint.type === "centerText" && type === "rightImg") {
-      const centerEl = containerRef.current.querySelector(
-        `[data-left-id="${firstPoint.id}"]`,
-      );
-      const bottomDotPos = getDotCenter(centerEl, ".dot-bottom");
-      if (bottomDotPos) {
-        startPoint = {
-          ...firstPoint,
-          x: bottomDotPos.x,
-          y: bottomDotPos.y,
-        };
-      }
-    }
-
-    const newLine = {
-      x1: startPoint.x,
-      y1: startPoint.y,
-      x2: endPoint.x,
-      y2: endPoint.y,
-      leftId: startPoint.type === "centerText" ? startPoint.id : targetPoint.id,
-      image: startPoint.type === "centerText" ? targetPoint.id : startPoint.id,
-    };
-
-    setLines((prev) => {
-      let updated = [...prev];
-
-      const isTopConnection =
-        newLine.image.startsWith("img") && !newLine.image.startsWith("r");
-      const isBottomConnection = newLine.image.startsWith("r");
-
-      if (isTopConnection) {
-        // كل صورة فوق إلها خط واحد فقط
-        updated = updated.filter((line) => line.image !== newLine.image);
-
-        // كل كلمة إلها خط واحد فقط من فوق
-        updated = updated.filter(
-          (line) =>
-            !(
-              line.leftId === newLine.leftId &&
-              line.image.startsWith("img") &&
-              !line.image.startsWith("r")
-            ),
-        );
-      }
-
-      if (isBottomConnection) {
-        // كل صورة تحت إلها خط واحد فقط
-        updated = updated.filter((line) => line.image !== newLine.image);
-
-        // كل كلمة إلها خط واحد فقط من تحت
-        updated = updated.filter(
-          (line) =>
-            !(line.leftId === newLine.leftId && line.image.startsWith("r")),
-        );
-      }
-
-      updated.push(newLine);
-      return updated;
-    });
-
-    // إذا وصلنا لصندوق النص من صورة فوق، خليه يكمل من الدوت السفلية
-    if (type === "centerText") {
-      const centerEl = containerRef.current.querySelector(
-        `[data-left-id="${id}"]`,
-      );
-      const bottomDotPos = getDotCenter(centerEl, ".dot-bottom");
-
-      if (bottomDotPos) {
-        setFirstPoint({
-          id,
-          type,
-          x: bottomDotPos.x,
-          y: bottomDotPos.y,
-        });
-      } else {
-        setFirstPoint({ id, type, x, y });
-      }
-    } else {
-      setFirstPoint(null);
-    }
+  const newLine = {
+    x1: startPoint.x,
+    y1: startPoint.y,
+    x2: endPoint.x,
+    y2: endPoint.y,
+    leftId: startPoint.type === "centerText" ? startPoint.id : targetPoint.id,
+    image: startPoint.type === "centerText" ? targetPoint.id : startPoint.id,
   };
 
+  setLines((prev) => {
+    let updated = [...prev];
+
+    const isTopConnection =
+      newLine.image.startsWith("img") && !newLine.image.startsWith("r");
+    const isBottomConnection = newLine.image.startsWith("r");
+
+    if (isTopConnection) {
+      // كل صورة فوق إلها خط واحد فقط
+      updated = updated.filter((line) => line.image !== newLine.image);
+
+      // كل كلمة إلها خط واحد فقط من فوق
+      updated = updated.filter(
+        (line) =>
+          !(
+            line.leftId === newLine.leftId &&
+            line.image.startsWith("img") &&
+            !line.image.startsWith("r")
+          ),
+      );
+    }
+
+    if (isBottomConnection) {
+      // كل صورة تحت إلها خط واحد فقط
+      updated = updated.filter((line) => line.image !== newLine.image);
+
+      // كل كلمة إلها خط واحد فقط من تحت
+      updated = updated.filter(
+        (line) =>
+          !(line.leftId === newLine.leftId && line.image.startsWith("r")),
+      );
+    }
+
+    updated.push(newLine);
+    return updated;
+  });
+
+  // بعد أي توصيل، لا تضل ماسك الكلمة تلقائياً
+  setFirstPoint(null);
+};
   const handleTryAgain = () => {
     setLines([]);
     setWrongLeft([]);

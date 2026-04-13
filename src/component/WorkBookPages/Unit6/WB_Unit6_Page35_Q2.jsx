@@ -1,113 +1,201 @@
 import React, { useState, useRef, useEffect } from "react";
-import { CheckCircle2 } from "lucide-react";
-import InteractiveClock from "./InteractiveClock";
-import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
-/* =========================
-   Questions
-========================= */
-const questions = [
-  { id: 1, hour: 10, minute: 0, text: "It is ten o’clock." },
-  { id: 2, hour: 3, minute: 30, text: "It is half past three." },
-  { id: 3, hour: 5, minute: 0, text: "It is five o’clock." },
-  { id: 4, hour: 9, minute: 30, text: "It is half past nine." },
-  { id: 5, hour: 6, minute: 0, text: "It is six o’clock." },
-  { id: 6, hour: 2, minute: 30, text: "It is half past two." },
-];
+
 
 /* =========================
    Main Component
 ========================= */
-const ReadAndDrawClocks = () => {
-  const [correctMap, setCorrectMap] = useState({});
-  const [showAnswerTrigger, setShowAnswerTrigger] = useState(0);
-  const [resetTrigger, setResetTrigger] = useState(0);
-  const [checked, setChecked] = useState(false);
 
-  const handleClockCorrect = (id, value) => {
-    setCorrectMap((prev) => ({
-      ...prev,
-      [id]: value,
-    }));
+const WB_Unit6_Page35_Q2 = () => {
+  const questions = [
+    "It is ten o’clock.",
+    "It is half past three.",
+    "It is five o’clock.",
+    "It is half past nine.",
+    "It is six o’clock.",
+    "It is half past two."
+  ];
+
+  const correct = [
+    { h: 10, m: 0, p: "am" },
+    { h: 3, m: 30, p: "am" },
+    { h: 5, m: 0, p: "am" },
+    { h: 9, m: 30, p: "am" },
+    { h: 6, m: 0, p: "am" },
+    { h: 2, m: 30, p: "am" },
+  ];
+
+  const [answers, setAnswers] = useState(
+    questions.map(() => ({ h: 0, m: "00", p: "am" })),
+  );
+
+  const [locked, setLocked] = useState(false);
+  const [showResult, setShowResult] = useState(false);
+
+  const handleChange = (i, field, value) => {
+    if (locked|| showResult) return;
+
+    const updated = [...answers];
+    updated[i][field] = value;
+    setAnswers(updated);
   };
-
-  const totalCorrect = Object.values(correctMap).filter(Boolean).length;
 
   const checkAnswers = () => {
-    let currentScore = 0;
+    if (locked || showResult) return;
 
-    Object.values(correctMap).forEach((isCorrect) => {
-      if (isCorrect) currentScore++;
-    });
-
-    const total = questions.length;
-    const scoreMessage = `Your score: ${currentScore} / ${total}`;
-
-    if (currentScore === total) {
-      ValidationAlert.success(scoreMessage);
-    } else if (currentScore === 0) {
-      ValidationAlert.error(scoreMessage);
-    } else {
-      ValidationAlert.warning(scoreMessage);
+    if (answers.some((a) => !a.h )) {
+      ValidationAlert.info("Please complete all answers.");
+      return;
     }
 
-    setChecked(true);
+    let correctCount = 0;
+
+answers.forEach((a, i) => {
+  if (
+    Number(a.h) === correct[i].h &&
+    Number(a.m) === correct[i].m &&
+    a.p === correct[i].p
+  ) {
+    correctCount++;
+  }
+});
+
+    const total = correct.length;
+
+    let color =
+      correctCount === total ? "green" : correctCount === 0 ? "red" : "orange";
+
+    const message = `
+    <div style="font-size:20px;text-align:center;">
+      <span style="color:${color};font-weight:bold;">
+        Score: ${correctCount} / ${total}
+      </span>
+    </div>
+  `;
+
+    if (correctCount === total) {
+      ValidationAlert.success(message);
+    } else if (correctCount === 0) {
+      ValidationAlert.error(message);
+    } else {
+      ValidationAlert.warning(message);
+    }
+
+    setLocked(true);
+    setShowResult(true);
   };
 
-  const handleShowAnswer = () => {
-    setShowAnswerTrigger((prev) => prev + 1);
-    setChecked(true);
+  const showAnswers = () => {
+    setAnswers(correct);
+    setLocked(true);
+    setShowResult(true);
   };
 
-  const handleStartAgain = () => {
-    setCorrectMap({});
-    setChecked(false);
-    setResetTrigger((prev) => prev + 1);
+  const reset = () => {
+    setAnswers(questions.map(() => ({ h: 0, m: "00", p: "am" })));
+    setLocked(false);
+    setShowResult(false);
   };
 
   return (
     <div className="main-container-component">
       <div className="div-forall" style={{ gap: "20px" }}>
-        <h1 className="WB-header-title-page8">
-          <span className="WB-ex-A">F</span>
-          Read and draw.
+       <h1 className="WB-header-title-page8">
+          <span className="WB-ex-A">F</span> Read and draw.
         </h1>
+        <div>
+        
+          <div className="grid grid-cols-2 gap-y-5">
+            {questions.map((q, i) => {
+             const isWrong =
+  showResult &&
+  (Number(answers[i].h) !== correct[i].h ||
+   Number(answers[i].m) !== correct[i].m ||
+   answers[i].p !== correct[i].p);
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {questions.map((q) => (
-            <div key={q.id} className="flex flex-col items-center">
-              <div className="text-lg font-bold text-indigo-700 mb-2 flex gap-2">
-                <span className="text-lg text-blue-900">{q.id}</span> <h1 className="text-black">{q.text}</h1>
-              </div>
+const isCorrect =
+  showResult &&
+  Number(answers[i].h) === correct[i].h &&
+  Number(answers[i].m) === correct[i].m &&
+  answers[i].p === correct[i].p;
+              return (
+                <div key={i} className="flex flex-col gap-2.5">
+                  <div className="text-[18px]">
+                    <span className=" font-bold mr-1.5">{i + 1}</span>
+                    {q}
+                  </div>
 
-              <InteractiveClock
-                targetHour={q.hour}
-                targetMinute={q.minute}
-                // label={q.text}
-                size={120}
-                showDigitalTime={true}
-                showFeedback={checked}
-                initialHour={12}
-                initialMinute={0}
-                showAnswerTrigger={showAnswerTrigger}
-                resetTrigger={resetTrigger}
-                onCorrect={(value) => handleClockCorrect(q.id, value)}
-              />
-            </div>
-          ))}
+                  <div className="flex items-center gap-5">
+                    {/* Time Box */}
+                    <div className="relative">
+                      <div
+                        className={`flex items-center justify-center gap-2.5 border-2 rounded-[14px] w-[200px] h-20 bg-[#f4f4f4]
+    ${
+      showResult
+        ? isCorrect
+          ? "border-[#e7a98e]"
+          : isWrong
+            ? "border-red-500"
+            : "border-gray-300"
+        : "border-[#e7a98e]"
+    }`}
+                      >
+                        <input
+                          type="number"
+                          value={answers[i].h}
+                          min="1"
+                          max="12"
+                          step="1"
+                          onChange={(e) =>
+  handleChange(i, "h", Number(e.target.value))
+}
+                          className="w-[45px] border-none bg-transparent text-[26px] text-center outline-none"
+                        />
+                        {isWrong && (
+                          <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-sm font-bold shadow-md border-2 border-white">
+                            ✕
+                          </div>
+                        )}
+                        <span className="text-[26px] text-[#c33]">:</span>
+
+                        <input
+                          type="number"
+                          value={answers[i].m}
+                          min="0"
+                          max="59"
+                          step="1"
+                          onChange={(e) =>
+  handleChange(i, "m", Number(e.target.value))
+}
+                          className="w-[45px] border-none bg-transparent text-[26px] text-center outline-none"
+                        />
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
+        <div className="action-buttons-container">
+          <button className="try-again-button" onClick={reset}>
+            Start Again ↻
+          </button>
 
-        <div className="mt-8 text-center text-lg font-semibold text-purple-700">
-          <Button
-            handleShowAnswer={handleShowAnswer}
-            handleStartAgain={handleStartAgain}
-            checkAnswers={checkAnswers}
-          />
+          <button onClick={showAnswers} className="show-answer-btn">
+            Show Answer
+          </button>
+
+          <button className="check-button2" onClick={checkAnswers}>
+            Check Answer ✓
+          </button>
         </div>
       </div>
     </div>
   );
 };
 
-export default ReadAndDrawClocks;
+export default WB_Unit6_Page35_Q2;
+

@@ -88,25 +88,32 @@ const WB_Unit5_Page29_Q1 = () => {
 
   // منطق التحقق والأزرار
   const checkAnswers = () => {
-    setShowResults(true);
-    let currentScore = 0;
+    if (showResults) return;
+
     const totalQuestions = exerciseData.left.length;
 
+    // ✅ التحقق إنو كل الجمل موصولة
+    if (Object.keys(matches).length < totalQuestions) {
+      ValidationAlert.warning("Please connect all sentences first.");
+      return;
+    }
+
+    setShowResults(true);
+
+    let currentScore = 0;
+
     Object.keys(exerciseData.correctMatches).forEach((leftId) => {
-      if (
-        matches.hasOwnProperty(leftId) &&
-        matches[leftId] === exerciseData.correctMatches[leftId]
-      ) {
+      if (matches[leftId] === exerciseData.correctMatches[leftId]) {
         currentScore++;
       }
     });
 
     if (currentScore === totalQuestions) {
       ValidationAlert.success(`Score: ${currentScore} / ${totalQuestions}`);
-    } else if (currentScore > 0) {
+    } else if (currentScore === 0) {
       ValidationAlert.error(`Score: ${currentScore} / ${totalQuestions}`);
     } else {
-      ValidationAlert.warning("No correct matches. Try again.");
+      ValidationAlert.warning(`Score: ${currentScore} / ${totalQuestions}`);
     }
   };
 
@@ -131,7 +138,7 @@ const WB_Unit5_Page29_Q1 = () => {
   };
 
   const getDotColor = (side, id) => {
-    if (side === "left" && selectedLeft === id) return "bg-blue-500 scale-125";
+    if (side === "left" && selectedLeft === id) return "bg-red-800 scale-125";
 
     const isConnected =
       side === "left" ? !!matches[id] : Object.values(matches).includes(id);
@@ -144,80 +151,100 @@ const WB_Unit5_Page29_Q1 = () => {
           : Object.keys(matches).find((key) => matches[key] === id);
       if (!leftId) return "bg-[#eb533c]";
       const isCorrect = matches[leftId] === exerciseData.correctMatches[leftId];
-      return isCorrect ? "bg-green-500" : "bg-red-600";
+      return isCorrect ? "bg-[#eb533c]" : "bg-[#eb533c]";
     }
 
-    return "bg-blue-500";
+    return "bg-[#eb533c]";
   };
+  const isLeftWrong = (leftId) => {
+    if (!showResults) return false;
 
+    return matches[leftId] !== exerciseData.correctMatches[leftId];
+  };
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px", marginBottom: "50px" }}>
+      <div className="div-forall" style={{ gap: "20px" }}>
         <h1 className="WB-header-title-page8">
           <div className="WB-ex-A">E</div>Read, look, and match.
         </h1>
 
+        <div
+          ref={containerRef}
+          className="flex justify-between items-center gap-20 relative"
+        >
+          <div className="space-y-24">
+            {exerciseData.left.map((item) => (
+              <div
+                key={item.id}
+                className="flex items-center gap-6 justify-end"
+              >
+                <div className="relative">
+                  <div
+                    className="text-left cursor-pointer transition transform active:scale-95 hover:scale-105"
+                    onClick={() => handleLeftClick(item.id)}
+                  >
+                    <p className="text-xl text-gray-700">{item.text}</p>
+                    <p className="text-xl text-gray-700">{item.answer}</p>
+                  </div>
 
-      <div
-        ref={containerRef}
-        className="flex justify-between items-center gap-20 relative mb-20"
-      >
-        <div className="space-y-32">
-          {exerciseData.left.map((item) => (
-            <div key={item.id} className="flex items-center gap-6 justify-end">
-              <div className="text-right">
-                <p className="text-xl text-gray-700">{item.text}</p>
-                <p className="text-xl text-gray-700 text-left">{item.answer}</p>
+                  {isLeftWrong(item.id) && (
+                    <div className="absolute -top-2 -right-7 w-6 h-6 rounded-full bg-red-500 text-white flex items-center justify-center text-sm font-bold shadow border-2 border-white">
+                      ✕
+                    </div>
+                  )}
+                </div>
+
+                <div
+                  ref={(el) => (elementRefs.current[`left-${item.id}`] = el)}
+                  onClick={() => handleLeftClick(item.id)}
+                  className={`w-5 h-5 rounded-full cursor-pointer transition-all ${getDotColor("left", item.id)}`}
+                />
               </div>
-              <div
-                ref={(el) => (elementRefs.current[`left-${item.id}`] = el)}
-                onClick={() => handleLeftClick(item.id)}
-                className={`w-5 h-5 rounded-full cursor-pointer transition-all ${getDotColor("left", item.id)}`}
+            ))}
+          </div>
+
+          <div className="space-y-14">
+            {exerciseData.right.map((item) => (
+              <div key={item.id} className="flex items-center gap-6">
+                <div
+                  ref={(el) => (elementRefs.current[`right-${item.id}`] = el)}
+                  onClick={() => handleRightClick(item.id)}
+                  className={`w-5 h-5 rounded-full cursor-pointer transition-all ${getDotColor("right", item.id)}`}
+                />
+                <img
+                  src={item.img}
+                  alt={`Person ${item.id}`}
+                  onClick={() => handleRightClick(item.id)}
+                  className="object-contain cursor-pointer transition transform active:scale-95 hover:scale-105"
+                  style={{ height: "100px", width: "auto" }}
+                />
+              </div>
+            ))}
+          </div>
+
+          {/* SVG Container for Lines */}
+          <svg className="absolute top-0 left-0 w-full h-full pointer-events-none">
+            {lines.map((line) => (
+              <line
+                key={line.id}
+                x1={line.x1}
+                y1={line.y1}
+                x2={line.x2}
+                y2={line.y2}
+                stroke={getLineColor(line.id)}
+                strokeWidth="3"
+                strokeLinecap="round"
               />
-            </div>
-          ))}
+            ))}
+          </svg>
         </div>
 
-        <div className="space-y-22">
-          {exerciseData.right.map((item) => (
-            <div key={item.id} className="flex items-center gap-6">
-              <div
-                ref={(el) => (elementRefs.current[`right-${item.id}`] = el)}
-                onClick={() => handleRightClick(item.id)}
-                className={`w-5 h-5 rounded-full cursor-pointer transition-all ${getDotColor("right", item.id)}`}
-              />
-              <img
-                src={item.img}
-                alt={`Person ${item.id}`}
-                className="max-w-26 max-h-26  object-contain "
-              />
-            </div>
-          ))}
-        </div>
-
-        {/* SVG Container for Lines */}
-        <svg className="absolute top-0 left-0 w-full h-full pointer-events-none">
-          {lines.map((line) => (
-            <line
-              key={line.id}
-              x1={line.x1}
-              y1={line.y1}
-              x2={line.x2}
-              y2={line.y2}
-              stroke={getLineColor(line.id)}
-              strokeWidth="3"
-              strokeLinecap="round"
-            />
-          ))}
-        </svg>
+        <Button
+          handleShowAnswer={handleShowAnswer}
+          handleStartAgain={handleStartAgain}
+          checkAnswers={checkAnswers}
+        />
       </div>
-
-      <Button
-        handleShowAnswer={handleShowAnswer}
-        handleStartAgain={handleStartAgain}
-        checkAnswers={checkAnswers}
-      />
-            </div>
     </div>
   );
 };

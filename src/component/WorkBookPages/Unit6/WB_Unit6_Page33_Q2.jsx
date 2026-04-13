@@ -76,14 +76,15 @@ function DraggableSentence({ answer, isUsed }) {
 }
 function AnswerDropZone({ id, content, isCorrect, isSubmitted }) {
   const { setNodeRef, isOver } = useSortable({ id });
-  const bg =  isOver
-      ? "bg-blue-50 border-blue-400"
-      : "bg-gray-50 border-gray-300";
+
+  const bg = isOver
+    ? "bg-blue-50 border-blue-400"
+    : "bg-gray-50 border-gray-300";
 
   return (
     <div
       ref={setNodeRef}
-      className={`mt-1 min-h-[40px] border-b-2 p-2 transition-all ${bg}`}
+      className={`relative mt-1 min-h-[40px] border-b-2 p-2 transition-all ${bg}`}
     >
       {content ? (
         <span className="text-blue-800 font-medium">
@@ -93,6 +94,13 @@ function AnswerDropZone({ id, content, isCorrect, isSubmitted }) {
         <span className="text-gray-300 italic text-sm">
           Drag answer here...
         </span>
+      )}
+
+      {/* ✕ إذا الجواب غلط */}
+      {isSubmitted && content && !isCorrect && (
+        <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-red-500 flex items-center justify-center shadow border-2 border-white">
+          <span className="text-white text-sm font-bold">✕</span>
+        </div>
       )}
     </div>
   );
@@ -122,6 +130,7 @@ const WB_Unit6_Page33_Q2 = () => {
   };
 
   const checkAnswers = () => {
+    if (isSubmitted) return;
     const hasEmpty = Object.values(placedAnswers).some((v) => v === null);
     if (hasEmpty) {
       ValidationAlert.info();
@@ -154,7 +163,6 @@ const WB_Unit6_Page33_Q2 = () => {
     setScore(total);
     setIsSubmitted(true);
 
-    const scoreMessage = `Your score: ${total} / ${total}`;
   };
 
   return (

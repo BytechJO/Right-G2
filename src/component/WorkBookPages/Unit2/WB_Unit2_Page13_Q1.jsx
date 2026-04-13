@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 13/Ex I 1.svg";
@@ -22,12 +22,12 @@ const SentenceBuilder = ({
       id: `${id}-word-${index}`,
       text: word,
       used: false,
-    }))
+    })),
   );
 
   const [chosenWords, setChosenWords] = useState([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (forceAnswer) {
       const words = correct
         .replace(/[.,!?]/g, "")
@@ -39,12 +39,20 @@ const SentenceBuilder = ({
         }));
 
       setChosenWords(words);
+      setAvailableWords((prev) => prev.map((w) => ({ ...w, used: true })));
+    } else {
+      // ✅ reset لما Start Again
+      setChosenWords([]);
 
-      setAvailableWords((prev) =>
-        prev.map((w) => ({ ...w, used: true }))
+      setAvailableWords(
+        scrambled.split(" ").map((word, index) => ({
+          id: `${id}-word-${index}`,
+          text: word,
+          used: false,
+        })),
       );
     }
-  }, [forceAnswer, correct, id]);
+  }, [forceAnswer, correct, id, scrambled]);
 
   const handleWordClick = (wordToAdd) => {
     if (wordToAdd.used) return;
@@ -53,24 +61,19 @@ const SentenceBuilder = ({
     setChosenWords(newChosenWords);
 
     setAvailableWords((prev) =>
-      prev.map((w) =>
-        w.id === wordToAdd.id ? { ...w, used: true } : w
-      )
+      prev.map((w) => (w.id === wordToAdd.id ? { ...w, used: true } : w)),
     );
 
     onUpdate(newChosenWords.map((w) => w.text).join(" "));
   };
 
   const handleRemoveWord = (wordToRemove) => {
-    const newChosenWords = chosenWords.filter(
-      (w) => w.id !== wordToRemove.id
-    );
+    if (forceAnswer || showResult) return;
+    const newChosenWords = chosenWords.filter((w) => w.id !== wordToRemove.id);
     setChosenWords(newChosenWords);
 
     setAvailableWords((prev) =>
-      prev.map((w) =>
-        w.id === wordToRemove.id ? { ...w, used: false } : w
-      )
+      prev.map((w) => (w.id === wordToRemove.id ? { ...w, used: false } : w)),
     );
 
     onUpdate(newChosenWords.map((w) => w.text).join(" "));
@@ -92,7 +95,7 @@ const SentenceBuilder = ({
                 word.used
                   ? "bg-gray-200 text-gray-400 border-gray-300 cursor-not-allowed opacity-50"
                   : "bg-white text-gray-800 border-gray-400 hover:bg-blue-100 hover:border-blue-500"
-              }
+              }  
             `}
           >
             {word.text}
@@ -102,12 +105,14 @@ const SentenceBuilder = ({
 
       {/* ANSWER BOX */}
       <div className="relative">
-        <div className="flex flex-wrap gap-2 p-3 border-2 border-gray-400 rounded-lg min-h-[60px] items-center">
+        <div
+          className={`flex flex-wrap gap-2 p-3 border-2 rounded-lg min-h-[60px] items-center ${isWrong ? "border-red-500" : "border-gray-500"}`}
+        >
           {chosenWords.map((word) => (
             <button
               key={word.id}
               onClick={() => handleRemoveWord(word)}
-              className="px-3 py-1 bg-blue-600 text-white rounded-md shadow-sm cursor-pointer"
+              className="px-3 py-1 cursor-pointer hover:text-red-500"
               title="Click to remove"
             >
               {word.text}
@@ -161,16 +166,44 @@ const WB_Unit2_Page13_Q1 = () => {
 
   const [userAnswers, setUserAnswers] = useState({});
   const [showResults, setShowResults] = useState(false);
+  const [showAnswers, setShowAnswers] = useState(false);
 
+  const handleShowAnswer = () => {
+    const filledAnswers = {};
+
+    exerciseSentences.forEach((sentence) => {
+      filledAnswers[sentence.id] = sentence.correct
+        .replace(/[.,!?]/g, "")
+        .trim();
+    });
+
+    setUserAnswers(filledAnswers);
+    setShowAnswers(true);
+    setShowResults(true);
+  };
   const handleAnswerUpdate = (id, answer) => {
     setUserAnswers((prev) => ({ ...prev, [id]: answer }));
   };
 
   const checkAnswers = () => {
+    if (showAnswers || showResults) return;
+    // ✅ أول شي: تحقق من الفراغ
+    const hasEmpty = exerciseSentences.some(
+      (sentence) =>
+        !userAnswers[sentence.id] || userAnswers[sentence.id].trim() === "",
+    );
+
+    if (hasEmpty) {
+      ValidationAlert.warning("Please answer all questions first!");
+      return; // ❌ وقف هون
+    }
+
+    // ✅ إذا كله معبّي، كمل التصحيح
     let correctCount = 0;
 
     exerciseSentences.forEach((sentence) => {
-      const user = (userAnswers[sentence.id] || "").replace(/[.,!?]/g, "").trim();
+      const user = userAnswers[sentence.id].replace(/[.,!?]/g, "").trim();
+
       const correct = sentence.correct.replace(/[.,!?]/g, "").trim();
 
       if (user === correct) correctCount++;
@@ -180,6 +213,8 @@ const WB_Unit2_Page13_Q1 = () => {
 
     if (correctCount === total) {
       ValidationAlert.success(`Score: ${correctCount}/${total}`);
+    } else if (correctCount > 0) {
+      ValidationAlert.warning(`Score: ${correctCount}/${total}`);
     } else {
       ValidationAlert.error(`Score: ${correctCount}/${total}`);
     }
@@ -190,6 +225,7 @@ const WB_Unit2_Page13_Q1 = () => {
   const handleStartAgain = () => {
     setUserAnswers({});
     setShowResults(false);
+    setShowAnswers(false);
   };
 
   return (
@@ -214,6 +250,7 @@ const WB_Unit2_Page13_Q1 = () => {
                 onUpdate={(ans) => handleAnswerUpdate(sentence.id, ans)}
                 showResult={showResults}
                 src={sentence.img}
+                forceAnswer={showAnswers} // ✅ هاي المهمة
                 isWrong={
                   showResults &&
                   userAnswers[sentence.id] !==
@@ -227,6 +264,7 @@ const WB_Unit2_Page13_Q1 = () => {
         <div className="mt-10">
           <Button
             handleStartAgain={handleStartAgain}
+            handleShowAnswer={handleShowAnswer} // ✅
             checkAnswers={checkAnswers}
           />
         </div>

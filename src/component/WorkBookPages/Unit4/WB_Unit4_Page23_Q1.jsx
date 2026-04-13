@@ -18,18 +18,33 @@ const activityData = [
 const WB_Unit4_Page23_Q1 = () => {
   const [choices, setChoices] = useState({});
   const captureRef = useRef(null);
-
+ const [showResults, setShowResults] = useState(false);
   const handleChoice = (itemId, mood) => {
+    if(showResults)return
     setChoices((prev) => ({ ...prev, [itemId]: mood }));
   };
 
   const handleStartAgain = () => {
     setChoices({});
+    setShowResults(false)
   };
+const checkAnswers = () => {
+  if (showResults) return;
 
-  const checkAnswers = () => {
-    ValidationAlert.success("Good Job!!");
-  };
+  // ✅ تحقق إنو كل الأسئلة متجاوبة
+  const allAnswered = activityData.every(
+    (item) => choices[item.id]
+  );
+
+  if (!allAnswered) {
+    ValidationAlert.info("Please answer all questions first.");
+    return;
+  }
+
+  // ✅ إذا كله معبّي
+  ValidationAlert.success("Good Job!!");
+  setShowResults(true);
+};
 
   const handledownload = async () => {
     const element = captureRef.current;

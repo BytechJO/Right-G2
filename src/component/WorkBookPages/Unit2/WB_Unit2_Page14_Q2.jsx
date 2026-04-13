@@ -108,8 +108,8 @@ const DragAndDropWrite = () => {
       if (replacedWord) {
         setWordBank((prev) =>
           prev.map((w) =>
-            w.text === replacedWord ? { ...w, used: false } : w
-          )
+            w.text === replacedWord ? { ...w, used: false } : w,
+          ),
         );
       }
 
@@ -121,9 +121,7 @@ const DragAndDropWrite = () => {
 
     // 🔥 خلي الكلمة used
     setWordBank((prev) =>
-      prev.map((w) =>
-        w.text === draggedWord.text ? { ...w, used: true } : w
-      )
+      prev.map((w) => (w.text === draggedWord.text ? { ...w, used: true } : w)),
     );
 
     setShowResults(false);
@@ -133,12 +131,9 @@ const DragAndDropWrite = () => {
     if (!showResults) return "border-gray-400";
 
     const correct =
-      placedWords[id] ===
-      writeQuestions.find((q) => q.id === id).correctAnswer;
+      placedWords[id] === writeQuestions.find((q) => q.id === id).correctAnswer;
 
-    return correct
-      ? "border-green-500 bg-green-50"
-      : "border-red-500 bg-red-50";
+    return correct ? "border-gray-400" : "border-red-500";
   };
 
   const handleStartAgain = () => {
@@ -148,6 +143,7 @@ const DragAndDropWrite = () => {
   };
 
   const checkAnswers = () => {
+    if (showResults) return;
     let correctCount = 0;
     let allAnswered = true;
 
@@ -158,34 +154,38 @@ const DragAndDropWrite = () => {
     });
 
     if (!allAnswered) {
-      ValidationAlert.warning("Please answer all questions first!");
+      ValidationAlert.info("Please answer all questions first!");
       return;
     }
 
-    ValidationAlert.success(
-      `Score: ${correctCount}/${writeQuestions.length}`
-    );
-
+    if (correctCount === writeQuestions.length) {
+      ValidationAlert.success(
+        `Score: ${correctCount}/${writeQuestions.length}`,
+      );
+    } else if (correctCount > 0) {
+      ValidationAlert.warning(
+        `Score: ${correctCount}/${writeQuestions.length}`,
+      );
+    } else {
+      ValidationAlert.error(`Score: ${correctCount}/${writeQuestions.length}`);
+    }
     setShowResults(true);
   };
 
-
   const handleShowAnswer = () => {
-  // حط كل الإجابات الصح
-  const answers = {};
-  writeQuestions.forEach((q) => {
-    answers[q.id] = q.correctAnswer;
-  });
+    // حط كل الإجابات الصح
+    const answers = {};
+    writeQuestions.forEach((q) => {
+      answers[q.id] = q.correctAnswer;
+    });
 
-  setPlacedWords(answers);
+    setPlacedWords(answers);
 
-  // عطّل كل الكلمات
-  setWordBank((prev) =>
-    prev.map((w) => ({ ...w, used: true }))
-  );
+    // عطّل كل الكلمات
+    setWordBank((prev) => prev.map((w) => ({ ...w, used: true })));
 
-  setShowResults(true);
-};
+    setShowResults(true);
+  };
   return (
     <DndContext onDragEnd={handleDragEnd} collisionDetection={closestCenter}>
       <div className="main-container-component">
@@ -206,29 +206,48 @@ const DragAndDropWrite = () => {
 
           {/* QUESTIONS */}
           <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
-            {writeQuestions.map((q, index) => (
-              <div key={q.id} className="text-center flex flex-col items-center">
-                <span className="text-blue-600 font-bold">
-                  {index + 1}
-                </span>
+            {writeQuestions.map((q, index) => {
+              const isWrong =
+                showResults &&
+                placedWords[q.id] &&
+                placedWords[q.id] !== q.correctAnswer;
 
-                <img src={q.img} className="my-2" style={{height:"120px"}}/>
-
-                <DropZone
-                  id={q.id}
-                  className={`h-8 w-full border-b-2 ${getDropZoneClass(q.id)}`}
+              return (
+                <div
+                  key={q.id}
+                  className="text-center flex flex-col items-center relative"
                 >
-                  {placedWords[q.id]}
-                </DropZone>
-              </div>
-            ))}
+                  <span className="text-blue-600 font-bold">{index + 1}</span>
+
+                  <img
+                    src={q.img}
+                    className="my-2"
+                    style={{ height: "120px" }}
+                  />
+
+                  <DropZone
+                    id={q.id}
+                    className={`h-8 w-full border-b-2 ${getDropZoneClass(q.id)}`}
+                  >
+                    {placedWords[q.id]}
+                  </DropZone>
+
+                  {/* ❌ ICON */}
+                  {isWrong && (
+                    <div className="absolute top-36 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center shadow-lg border-2 border-white">
+                      <span className="text-white text-base font-bold">✕</span>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
 
           <div className="mt-10 flex justify-center">
             <Button
               handleStartAgain={handleStartAgain}
               checkAnswers={checkAnswers}
-               handleShowAnswer={handleShowAnswer}
+              handleShowAnswer={handleShowAnswer}
             />
           </div>
         </div>

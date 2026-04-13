@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import img from "../../../assets/imgs/test6.png";
@@ -23,19 +23,18 @@ const SentenceBuilder = ({
   const [chosenWords, setChosenWords] = useState([]);
 
   // ✅ force answer
-  React.useEffect(() => {
+  useEffect(() => {
     if (forceAnswer) {
-      const words = correct
-        .replace(/[.,!?]/g, "")
-        .split(" ")
-        .map((word, index) => ({
-          id: `${id}-word-${index}`,
-          text: word,
-        }));
+      const correctWords = correct.replace(/[,!?]/g, "").split(" ");
 
-      setChosenWords(words);
+      const mappedWords = correctWords.map((wordText) => {
+        // 🔥 دور على نفس الكلمة بالبنك وخد ID تبعها
+        return availableWords.find((w) => w.text === wordText);
+      });
+
+      setChosenWords(mappedWords.filter(Boolean));
     }
-  }, [forceAnswer, correct, id]);
+  }, [forceAnswer, correct, availableWords]);
 
   // ✅ هل الكلمة مستخدمة؟
   const isUsed = (wordId) => {
@@ -44,6 +43,7 @@ const SentenceBuilder = ({
 
   // ✅ إضافة كلمة بدون تكرار
   const handleWordClick = (wordToAdd) => {
+    if (showResult || forceAnswer) return;
     if (isUsed(wordToAdd.id)) return;
 
     const newChosenWords = [...chosenWords, wordToAdd];
@@ -67,14 +67,11 @@ const SentenceBuilder = ({
     const userAnswer = chosenWords
       .map((w) => w.text)
       .join(" ")
-      .replace(/[.,!?]/g, "")
+      .replace(/[,!?]/g, "")
       .trim()
       .toLowerCase();
 
-    const correctAnswer = correct
-      .replace(/[.,!?]/g, "")
-      .trim()
-      .toLowerCase();
+    const correctAnswer = correct.replace(/[,!?]/g, "").trim().toLowerCase();
 
     if (!userAnswer) return false;
 
@@ -118,13 +115,17 @@ const SentenceBuilder = ({
       {/* ANSWER */}
       <div className="relative">
         <div
-          className={`flex flex-wrap gap-2 p-3 border-2 rounded-lg min-h-[60px] ${getBoxClassName()}`}
+          className={`flex flex-wrap gap-2 p-3 border-2 rounded-lg min-h-[60px] ${getBoxClassName()} ${isIncorrectAnswer() && "border-red-500"}`}
         >
           {chosenWords.map((word) => (
             <button
               key={word.id}
-              onClick={() => handleRemoveWord(word)}
-              className="px-3 py-1 bg-blue-600 text-white rounded-md shadow-sm cursor-pointer"
+              onClick={() => {
+                if (!showResult || !forceAnswer) {
+                  return handleRemoveWord(word);
+                }
+              }}
+              className="px-1 py-1 rounded-md cursor-pointer hover:text-red-500"
             >
               {word.text}
             </button>
@@ -144,20 +145,35 @@ const SentenceBuilder = ({
 const WB_Unit5_Page31_Q2 = () => {
   const exerciseSentences = [
     {
+      id: "s0",
+      scrambled: "an He apple . wants",
+      correct: "He wants an apple .",
+    },
+    {
       id: "s1",
       scrambled: "ice . wants She cream",
-      correct: "she wants ice cream",
+      correct: "She wants ice cream .",
     },
-    { id: "s2", scrambled: "She tea . wants", correct: "she wants tea" },
-    { id: "s3", scrambled: "wants . yogurt He", correct: "He wants yogurt" },
+    {
+      id: "s2",
+      scrambled: "She tea . wants",
+      correct: "She wants tea .",
+    },
+    {
+      id: "s3",
+      scrambled: "wants . yogurt He",
+      correct: "He wants yogurt .",
+    },
   ];
 
   const [userAnswers, setUserAnswers] = useState({});
   const [showResults, setShowResults] = useState(false);
   const [score, setScore] = useState(null);
   const [resetKey, setResetKey] = useState(0);
-
+  const [showAnswers, setShowAnswers] = useState(false);
   const handleAnswerUpdate = (id, answer) => {
+    if (showAnswers || showResults) return;
+
     setUserAnswers((prev) => ({ ...prev, [id]: answer }));
     if (showResults) {
       setShowResults(false);
@@ -166,6 +182,7 @@ const WB_Unit5_Page31_Q2 = () => {
   };
 
   const checkAnswers = () => {
+    if (showAnswers || showResults) return;
     const unanswered = exerciseSentences.filter(
       (sentence) =>
         !userAnswers[sentence.id] || userAnswers[sentence.id].trim() === "",
@@ -223,8 +240,6 @@ const WB_Unit5_Page31_Q2 = () => {
     setResetKey((prevKey) => prevKey + 1);
   };
 
-  const [showAnswers, setShowAnswers] = useState(false);
-
   const handleShowAnswer = () => {
     setShowAnswers(true);
     const allAnswers = {};
@@ -246,27 +261,14 @@ const WB_Unit5_Page31_Q2 = () => {
           <span className="WB-ex-A">J</span>Unscramble and write.
         </h1>
 
-        <div className="space-y-8">
-          <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
-            <span className="font-bold text-blue-600 text-xl">1.</span>
-
-            <div className="flex-1">
-              <p className="text-lg text-gray-400 line-through">
-                an He apple . wants
-              </p>
-              <p className="text-lg text-gray-900 font-semibold">
-                He wants an apple.
-              </p>
-            </div>
-          </div>
-
+        <div className="space-y-2 grid grid-cols-2">
           {exerciseSentences.map((sentence, index) => (
             <div
               key={sentence.id}
               className="flex items-start gap-4 p-4 rounded-xl transition-all hover:bg-gray-50"
             >
               <span className="font-bold text-blue-600 text-xl pt-2">
-                {index + 2}.
+                {index + 1}.
               </span>
               <div className="flex-1">
                 <SentenceBuilder

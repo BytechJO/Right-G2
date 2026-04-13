@@ -75,41 +75,60 @@ const WB_Unit4_Page22_Q1 = () => {
 
   const [items, setItems] = useState(buildInitialWords());
 
-  const onDragEnd = (result) => {
-    const { source, destination } = result;
-    if (!destination) return;
+const onDragEnd = (result) => {
+  const { source, destination } = result;
+  if (!destination) return;
 
-    setItems((prev) => {
-      const newState = { ...prev };
+  setItems((prev) => {
+    const newState = { ...prev };
 
-      const sourceList = Array.from(newState[source.droppableId]);
-      const destList = Array.from(newState[destination.droppableId]);
+    const sourceList = Array.from(newState[source.droppableId]);
+    const destList = Array.from(newState[destination.droppableId]);
 
-      const movedItem = sourceList[source.index];
+    const movedItem = sourceList[source.index];
 
-      // نفس المكان
-      if (source.droppableId === destination.droppableId) {
-        return prev;
-      }
+    // نفس المكان
+    if (source.droppableId === destination.droppableId) {
+      return prev;
+    }
 
-      // ➕ إضافة فقط (بدون حذف من البنك)
+    // ❗ لا تحذف من البنك
+    // بس تأكد ما تنضاف مرتين
+    const alreadyExists = destList.some((w) => w.id === movedItem.id);
+
+    if (!alreadyExists) {
       destList.push(movedItem);
+    }
 
-      newState[destination.droppableId] = destList;
+    newState[destination.droppableId] = destList;
 
-      return newState;
-    });
-  };
+    return newState;
+  });
+};
 
   const handleLeftClick = (id) => setSelectedLeft(id);
 
   const handleRightClick = (id) => {
-    if (selectedLeft) {
-      setMatches({ ...matches, [selectedLeft]: id });
-      setSelectedLeft(null);
-    }
-  };
+    if (!selectedLeft || showResults) return;
 
+    setMatches((prev) => {
+      const newMatches = { ...prev };
+
+      // ❗ احذف أي left مربوط بهاي right (منع التكرار)
+      Object.keys(newMatches).forEach((key) => {
+        if (newMatches[key] === id) {
+          delete newMatches[key];
+        }
+      });
+
+      // ❗ حط الربط الجديد (سواء كان موجود أو لا)
+      newMatches[selectedLeft] = id;
+
+      return newMatches;
+    });
+
+    setSelectedLeft(null);
+  };
   useEffect(() => {
     const newLines = [];
 
@@ -161,6 +180,7 @@ const WB_Unit4_Page22_Q1 = () => {
   };
 
   const checkAnswers = () => {
+    if (showResults) return;
     const allSentencesFilled = data.questions.every(
       (q) => items[`answer-${q.id}`].length > 0,
     );
@@ -210,20 +230,29 @@ const WB_Unit4_Page22_Q1 = () => {
     }
   };
 
-  const handleShowAnswer = () => {
-    const filled = {};
-    data.questions.forEach((q) => {
-      filled[`answer-${q.id}`] = q.correct.split(" ").map((w, idx) => ({
-        id: `ans-${q.id}-${idx}`,
-        text: w,
-      }));
-      filled[`bank-${q.id}`] = [];
-    });
+ const handleShowAnswer = () => {
+  const filled = {};
 
-    setItems(filled);
-    setMatches(correctMatches);
-    setShowResults(true);
-  };
+  data.questions.forEach((q) => {
+    const words = q.text.split(" ");
+
+    // ✅ رجّع البنك زي ما كان
+    filled[`bank-${q.id}`] = words.map((word, i) => ({
+      id: `${q.id}-${i}`,
+      text: word,
+    }));
+
+    // ✅ حط الجواب الصح
+    filled[`answer-${q.id}`] = q.correct.split(" ").map((w, idx) => ({
+      id: `ans-${q.id}-${idx}`,
+      text: w,
+    }));
+  });
+
+  setItems(filled);
+  setMatches(correctMatches);
+  setShowResults(true);
+};
 
   const handleStartAgain = () => {
     setItems(buildInitialWords());
@@ -233,6 +262,21 @@ const WB_Unit4_Page22_Q1 = () => {
   const usedWordsPerQuestion = (qId) => {
     return items[`answer-${qId}`] || [];
   };
+const returnWordToBank = (qId, wordIndex) => {
+  setItems((prev) => {
+    const newState = { ...prev };
+
+    const answerKey = `answer-${qId}`;
+    const answerList = Array.from(newState[answerKey]);
+
+    // احذف من الجملة فقط
+    answerList.splice(wordIndex, 1);
+
+    newState[answerKey] = answerList;
+
+    return newState;
+  });
+};
   return (
     <div className="main-container-component">
       <div className="div-forall" style={{ gap: "20px" }}>
@@ -252,17 +296,30 @@ const WB_Unit4_Page22_Q1 = () => {
                   <span>{a.id}</span>
                   <img
                     src={a.img}
-                    className="w-12 h-12 rounded-full"
+                    onClick={() => handleLeftClick(a.id)}
+                    className={`w-12 h-12 rounded-full cursor-pointer transition
+    ${
+      selectedLeft === a.id
+        ? "ring-4 ring-blue-400 scale-105"
+        : "hover:scale-105"
+    }
+  `}
                     style={{ height: "90px", width: "90px" }}
                   />
                   <div
                     ref={(el) => (leftRefs.current[a.id] = el)}
                     onClick={() => handleLeftClick(a.id)}
-                    className="w-4 h-4 bg-red-500 rounded-full cursor-pointer"
+                    className={`w-4 h-4 rounded-full cursor-pointer transition
+    ${
+      selectedLeft === a.id
+        ? "bg-blue-500 scale-125 ring-4 ring-blue-300"
+        : "bg-red-500 hover:scale-110"
+    }
+  `}
                   />
 
                   {isWrongMatch(a.id) && (
-                    <span className="absolute -top-2 -right-6 w-6 h-6 rounded-full bg-red-500 text-white flex items-center justify-center text-lg font-bold shadow border-2 border-white">
+                    <span className="absolute -top-2 -right-6 w-6 h-6 rounded-full bg-red-500 text-white flex items-center justify-center text-sm font-bold shadow border-2 border-white">
                       ✕
                     </span>
                   )}
@@ -278,16 +335,25 @@ const WB_Unit4_Page22_Q1 = () => {
                     <div
                       ref={(el) => (rightRefs.current[q.id] = el)}
                       onClick={() => handleRightClick(q.id)}
-                      className="w-4 h-4 bg-red-500 rounded-full cursor-pointer"
+                      className={`w-[4%] h-4 rounded-full cursor-pointer transition
+    ${
+      Object.values(matches).includes(q.id)
+        ? "bg-red-500 scale-110"
+        : "bg-red-500 hover:scale-110"
+    }
+  `}
                     />
 
                     <img
                       src={q.img}
-                      className="w-12 h-12 rounded-full"
+                      onClick={() => handleRightClick(q.id)}
+                      className={`w-12 h-12 rounded-full cursor-pointer transition
+    ${Object.values(matches).includes(q.id) ? "scale-105" : "hover:scale-105"}
+  `}
                       style={{ height: "90px", width: "90px" }}
                     />
 
-                    <div className="flex flex-col">
+                    <div className="flex flex-col w-[90%]">
                       {/* WORD BANK */}
                       <Droppable
                         droppableId={`bank-${q.id}`}
@@ -298,7 +364,7 @@ const WB_Unit4_Page22_Q1 = () => {
                           <div
                             ref={provided.innerRef}
                             {...provided.droppableProps}
-                            className="flex gap-2 mt-2 border-2 border-gray-500 rounded p-2 min-h-[52px]"
+                            className="flex items-center justify-center gap-2 mt-2 border-2 border-gray-500 rounded p-2 min-h-[52px]"
                           >
                             {items[`bank-${q.id}`].map((word, i) => {
                               const isUsed = usedWordsPerQuestion(q.id).some(
@@ -308,9 +374,9 @@ const WB_Unit4_Page22_Q1 = () => {
                               return (
                                 <Draggable
                                   key={word.id}
-                                  draggableId={word.id}
+                                 draggableId={`bank-${q.id}-${word.id}`}
                                   index={i}
-                                  isDragDisabled={isUsed} // 🔒
+                                  isDragDisabled={isUsed || showResults} // 🔒
                                 >
                                   {(provided) => (
                                     <span
@@ -319,7 +385,7 @@ const WB_Unit4_Page22_Q1 = () => {
                                       {...provided.dragHandleProps}
                                       className={`px-3 py-1 rounded text-sm transition
             ${
-              isUsed
+              isUsed || showResults
                 ? "bg-gray-100 text-gray-400 border border-gray-200 cursor-not-allowed opacity-60"
                 : "bg-gray-200 text-black cursor-grab"
             }`}
@@ -345,7 +411,7 @@ const WB_Unit4_Page22_Q1 = () => {
                           <div
                             ref={provided.innerRef}
                             {...provided.droppableProps}
-                            className="relative min-h-[40px] w-50 border-b-2 flex flex-wrap"
+                            className="relative min-h-[40px] w-50 border-b-2 flex w-full"
                           >
                             {items[`answer-${q.id}`].map((word, i) => (
                               <Draggable
@@ -359,7 +425,13 @@ const WB_Unit4_Page22_Q1 = () => {
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
-                                    className="px-2 py-1 rounded"
+                                    onClick={() => {
+                                      if (!showResults)
+                                        returnWordToBank(q.id, i);
+                                    }}
+                                    className={`px-2 py-1 rounded transition
+  ${!showResults ? "cursor-pointer hover:text-red-500" : "opacity-60 cursor-not-allowed"}
+`}
                                   >
                                     {word.text}
                                   </span>
@@ -368,7 +440,7 @@ const WB_Unit4_Page22_Q1 = () => {
                             ))}
 
                             {isWrongSentence(q.id) && (
-                              <span className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-red-500 text-white flex items-center justify-center text-lg font-bold shadow border-2 border-white">
+                              <span className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-red-500 text-white flex items-center justify-center text-sm font-bold shadow border-2 border-white">
                                 ✕
                               </span>
                             )}
@@ -392,7 +464,7 @@ const WB_Unit4_Page22_Q1 = () => {
                   y1={line.y1}
                   x2={line.x2}
                   y2={line.y2}
-                  stroke="#3b82f6"
+                  stroke="red"
                   strokeWidth="2"
                 />
               ))}

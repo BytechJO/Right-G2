@@ -71,11 +71,13 @@ const WB_Unit4_Page25_Q1 = () => {
 
   // منطق التعامل مع النقرات
   const handleLeftClick = (id) => {
+    if (showResults) return;
     setSelectedLeft(id);
     setShowResults(false);
   };
 
   const handleRightClick = (rightId) => {
+    if (showResults) return;
     if (selectedLeft !== null) {
       const newMatches = { ...matches };
       Object.keys(newMatches).forEach((key) => {
@@ -96,34 +98,35 @@ const WB_Unit4_Page25_Q1 = () => {
     return matches[leftId] !== exerciseData.correctMatches[leftId];
   };
   // منطق التحقق والأزرار
-const checkAnswers = () => {
-  const totalQuestions = exerciseData.left.length;
+  const checkAnswers = () => {
+    if (showResults) return;
+    const totalQuestions = exerciseData.left.length;
 
-  // ✅ تحقق إنو كل الجمل موصولة
-  if (Object.keys(matches).length < totalQuestions) {
-    ValidationAlert.info("Please complete all matches first.");
-    return; // ⛔ وقف
-  }
-
-  // ✅ إذا كله موصول → كمل
-  setShowResults(true);
-
-  let currentScore = 0;
-
-  Object.keys(exerciseData.correctMatches).forEach((leftId) => {
-    if (matches[leftId] === exerciseData.correctMatches[leftId]) {
-      currentScore++;
+    // ✅ تحقق إنو كل الجمل موصولة
+    if (Object.keys(matches).length < totalQuestions) {
+      ValidationAlert.info("Please complete all matches first.");
+      return; // ⛔ وقف
     }
-  });
 
-  if (currentScore === totalQuestions) {
-    ValidationAlert.success(`Score: ${currentScore} / ${totalQuestions}`);
-  } else if (currentScore === 0) {
-    ValidationAlert.error(`Score: ${currentScore} / ${totalQuestions}`);
-  } else {
-    ValidationAlert.warning(`Score: ${currentScore} / ${totalQuestions}`);
-  }
-};
+    // ✅ إذا كله موصول → كمل
+    setShowResults(true);
+
+    let currentScore = 0;
+
+    Object.keys(exerciseData.correctMatches).forEach((leftId) => {
+      if (matches[leftId] === exerciseData.correctMatches[leftId]) {
+        currentScore++;
+      }
+    });
+
+    if (currentScore === totalQuestions) {
+      ValidationAlert.success(`Score: ${currentScore} / ${totalQuestions}`);
+    } else if (currentScore === 0) {
+      ValidationAlert.error(`Score: ${currentScore} / ${totalQuestions}`);
+    } else {
+      ValidationAlert.warning(`Score: ${currentScore} / ${totalQuestions}`);
+    }
+  };
 
   const handleShowAnswer = () => {
     setMatches(exerciseData.correctMatches);
@@ -146,7 +149,7 @@ const checkAnswers = () => {
   };
 
   const getDotColor = (side, id) => {
-    if (side === "left" && selectedLeft === id) return "bg-blue-500 scale-125";
+    if (side === "left" && selectedLeft === id) return "bg-red-800 scale-125";
 
     const isConnected =
       side === "left" ? !!matches[id] : Object.values(matches).includes(id);
@@ -159,10 +162,10 @@ const checkAnswers = () => {
           : Object.keys(matches).find((key) => matches[key] === id);
       if (!leftId) return "bg-[#ef4444]";
       const isCorrect = matches[leftId] === exerciseData.correctMatches[leftId];
-      return isCorrect ? "bg-blue-500" : "bg-blue-600";
+      return isCorrect ? "bg-[#ef4444]" : "bg-[#ef4444]";
     }
 
-    return "bg-blue-500";
+    return "bg-[#ef4444]";
   };
 
   return (
@@ -177,14 +180,19 @@ const checkAnswers = () => {
           className="flex justify-between items-center gap-20 relative"
         >
           {/* Right Side (Text) */}
-          <div className="space-y-32">
+          <div className="space-y-24">
             {exerciseData.left.map((item) => (
               <div
                 key={item.id}
                 className="relative flex items-center gap-6 justify-start"
               >
                 <div className="w-50">
-                  <p className="text-xl text-gray-700">{item.text}</p>
+                 <p
+  className="text-xl text-gray-700 cursor-pointer transition transform active:scale-95 hover:scale-105"
+  onClick={() => handleLeftClick(item.id)}
+>
+                    {item.text}
+                  </p>
                 </div>
                 <div
                   ref={(el) => (elementRefs.current[`left-${item.id}`] = el)}
@@ -192,7 +200,7 @@ const checkAnswers = () => {
                   className={`w-5 h-5 rounded-full cursor-pointer transition-all ${getDotColor("left", item.id)}`}
                 />
                 {isWrongMatch(item.id) && (
-                  <div className="absolute -top-2 right-8 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-lg font-bold shadow border-2 border-white">
+                  <div className="absolute -top-2 right-8 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-sm font-bold shadow border-2 border-white">
                     ✕
                   </div>
                 )}
@@ -200,7 +208,7 @@ const checkAnswers = () => {
             ))}
           </div>
 
-          <div className="space-y-16">
+          <div className="space-y-6">
             {exerciseData.right.map((item) => (
               <div key={item.id} className="flex items-center gap-6">
                 <div
@@ -211,7 +219,9 @@ const checkAnswers = () => {
                 <img
                   src={item.img}
                   alt={`Person ${item.id}`}
-                  className="max-w-24 max-h-24 object-contain"
+                  onClick={() => handleRightClick(item.id)}
+                  className="object-contain cursor-pointer transition transform active:scale-95 hover:scale-105"
+                  style={{height:"100px",width:"auto"}}
                 />
               </div>
             ))}

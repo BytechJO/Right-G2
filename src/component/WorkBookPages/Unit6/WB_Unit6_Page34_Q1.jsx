@@ -91,8 +91,8 @@ function ImageSlot({ id, imgSrc, content, isCorrect, isSubmitted }) {
       </div>
 
       {isWrong && (
-        <div className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-red-500 flex items-center justify-center shadow-md z-10 border-2 border-white">
-          <span className="text-white text-lg font-bold leading-none">✕</span>
+        <div className="absolute top-1 right-1 w-7 h-7 rounded-full bg-red-500 flex items-center justify-center shadow border-2 border-white">
+          <span className="text-white text-lg font-bold">✕</span>
         </div>
       )}
     </div>
@@ -122,6 +122,7 @@ const WB_Unit6_Page34_Q1 = () => {
   };
 
   const checkAnswers = () => {
+    if (isSubmitted) return;
     const hasEmpty = Object.values(placedNumbers).some(
       (value) => value === null,
     );

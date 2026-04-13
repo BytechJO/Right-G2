@@ -82,6 +82,7 @@ export default function WB_Unit5_Page32_Q1() {
   };
 
   const checkAnswers = () => {
+    if (showResult) return;
     if (Object.keys(answers).length < questions.length) {
       ValidationAlert.info(
         "Please complete all words before checking your answers.",
@@ -122,10 +123,10 @@ export default function WB_Unit5_Page32_Q1() {
     if (!selected)
       return "px-3 py-1 rounded-lg border-2 border-gray-300 text-gray-600 hover:border-blue-400 transition-all";
     if (!showResult)
-      return "px-3 py-1 rounded-lg border-2 border-blue-500 bg-blue-500 text-white";
+      return "px-3 py-1 rounded-lg border-2 border-blue-800";
     return answers[qId] === correctAnswers[qId]
       ? "px-3 py-1 rounded-lg border-2"
-      : "px-3 py-1 rounded-lg border-2";
+      : "px-3 py-1 rounded-lg border-2 border-red-500 ";
   };
 
   const isIncorrect = (qId) => {

@@ -90,7 +90,8 @@ const WB_Unit6_Page37_Q1 = () => {
   };
 
   const checkAnswers = () => {
-    setShowResults(true);
+    if (showResults) return;
+   
 
     const totalQuestions = exerciseData.left.length;
 
@@ -103,7 +104,7 @@ const WB_Unit6_Page37_Q1 = () => {
     }
 
     let currentScore = 0;
-
+ setShowResults(true);
     Object.entries(exerciseData.correctMatches).forEach(
       ([leftId, correctRightId]) => {
         if (matches[leftId] === correctRightId) {
@@ -143,7 +144,7 @@ const WB_Unit6_Page37_Q1 = () => {
   };
 
   const getDotColor = (side, id) => {
-    if (side === "left" && selectedLeft === id) return "bg-blue-500 scale-125";
+    if (side === "left" && selectedLeft === id) return "bg-red-800 scale-125";
 
     const isConnected =
       side === "left" ? !!matches[id] : Object.values(matches).includes(id);
@@ -156,10 +157,10 @@ const WB_Unit6_Page37_Q1 = () => {
           : Object.keys(matches).find((key) => matches[key] === id);
       if (!leftId) return "bg-[#ef4444]";
       const isCorrect = matches[leftId] === exerciseData.correctMatches[leftId];
-      return isCorrect ? "bg-green-500" : "bg-red-600";
+      return isCorrect ? "bg-[#ef4444]" : "bg-[#ef4444]";
     }
 
-    return "bg-blue-500";
+    return "bg-[#ef4444]";
   };
 
   const isLeftMatchWrong = (leftId) => {
@@ -176,7 +177,7 @@ const WB_Unit6_Page37_Q1 = () => {
           <div className="WB-ex-A">E</div>Read, look, and match.
         </h1>
 
-        <div className="border rounded-xl overflow-hidden text-xs mb-10">
+        <div className="border rounded-xl overflow-hidden text-xs">
           <table className="w-full text-center">
             <thead>
               <tr>
@@ -224,14 +225,19 @@ const WB_Unit6_Page37_Q1 = () => {
           ref={containerRef}
           className="flex justify-between items-center gap-20 relative mb-20"
         >
-          <div className="space-y-22">
+          <div className="space-y-10">
             {exerciseData.left.map((item) => (
               <div
                 key={item.id}
                 className="flex items-center gap-6 justify-start"
               >
                 <div className="relative">
-                  <p className="text-xl text-gray-700 w-55">{item.text}</p>
+                  <p
+                    className="text-xl text-gray-700 w-55  cursor-pointer transition transform active:scale-95 hover:scale-105"
+                    onClick={() => handleLeftClick(item.id)}
+                  >
+                    {item.text}
+                  </p>
 
                   {isLeftMatchWrong(item.id) && (
                     <div className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-red-500 flex items-center justify-center shadow-md z-10 border-2 border-white">
@@ -251,7 +257,7 @@ const WB_Unit6_Page37_Q1 = () => {
             ))}
           </div>
 
-          <div className="space-y-22">
+          <div className="space-y-10">
             {exerciseData.right.map((item) => (
               <div key={item.id} className="flex items-center gap-6">
                 <div
@@ -259,7 +265,10 @@ const WB_Unit6_Page37_Q1 = () => {
                   onClick={() => handleRightClick(item.id)}
                   className={`w-5 h-5 rounded-full cursor-pointer transition-all ${getDotColor("right", item.id)}`}
                 />
-                <div className="text-right">
+                <div
+                  className="text-left cursor-pointer transition transform active:scale-95 hover:scale-105"
+                  onClick={() => handleRightClick(item.id)}
+                >
                   <p className="text-xl text-gray-700">{item.text}</p>
                 </div>
               </div>

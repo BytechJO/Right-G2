@@ -68,6 +68,7 @@ const ReadChartAndAnswer = () => {
     return user !== q.correctAnswer;
   };
   const handleSelectChange = (qId, value) => {
+    if (showResults) return;
     setAnswers((prev) => ({ ...prev, [qId]: value }));
     setShowResults(false);
   };
@@ -75,7 +76,7 @@ const ReadChartAndAnswer = () => {
   const getSelectClass = (qId, correctAnswer) => {
     if (!showResults || !answers[qId]) return "border-gray-300";
     return answers[qId] === correctAnswer
-      ? "border-green-500"
+      ? "border-gray-300"
       : "border-red-500";
   };
   const handleShowAnswer = () => {
@@ -93,6 +94,7 @@ const ReadChartAndAnswer = () => {
   };
 
   const checkAnswers = () => {
+    if (showResults) return;
     // ✅ أول شي تأكد كل الأسئلة فيها إجابة
     for (let q of questions) {
       if (!answers[q.id]) {
@@ -181,7 +183,7 @@ const ReadChartAndAnswer = () => {
                   <select
                     value={answers[q.id] || ""}
                     onChange={(e) => handleSelectChange(q.id, e.target.value)}
-                    className={`cursor-pointer w-full mb-6  pb-1 text-lg border-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors ${getSelectClass(q.id, q.correctAnswer)}`}
+                    className={`cursor-pointer w-full mb-6  pb-1 text-lg border-b-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors ${getSelectClass(q.id, q.correctAnswer)}`}
                   >
                     <option value="" disabled>
                       ______________________________
@@ -193,7 +195,7 @@ const ReadChartAndAnswer = () => {
                     ))}
                   </select>
                   {isWrong(q) && (
-                    <div className="absolute -top-2 right-7 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-sm font-bold shadow border-2 border-white">
+                    <div className="absolute -top-4 -right-4 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-sm font-bold shadow border-2 border-white">
                       ✕
                     </div>
                   )}

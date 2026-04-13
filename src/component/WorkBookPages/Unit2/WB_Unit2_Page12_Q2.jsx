@@ -299,6 +299,15 @@ export default function WritingExercise() {
                           {q.question1_end}
                         </span>
                       </div>
+
+                      {/* ❌ ICON */}
+                      {results[`input${q.number}_1`] === false && (
+                        <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center border-2 border-white shadow-lg">
+                          <span className="text-white text-sm font-bold">
+                             ✕
+                          </span>
+                        </div>
+                      )}
                     </div>
 
                     <div className="relative">
@@ -320,14 +329,19 @@ export default function WritingExercise() {
                           <option value="No, they aren't.">
                             No, they aren't.
                           </option>
-                            <option value="Yes, it is.">
-                            Yes, it is.
-                          </option>
-                           <option value="No, it isn't.">
-                            No, it isn't.
-                          </option>
+                          <option value="Yes, it is.">Yes, it is.</option>
+                          <option value="No, it isn't.">No, it isn't.</option>
                         </select>
                       </div>
+
+                      {/* ❌ ICON */}
+                      {results[`input${q.number}_2`] === false && (
+                        <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center border-2 border-white shadow-lg">
+                          <span className="text-white text-sm font-bold">
+                             ✕
+                          </span>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

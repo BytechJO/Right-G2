@@ -28,11 +28,12 @@ export default function WB_Unit5_Page31_Q1() {
   const [showAnswer, setShowAnswer] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const handleSelect = (qId, choice) => {
-    if (showAnswer) return;
+    if (showAnswer || showResults) return;
     setAnswers((prev) => ({ ...prev, [qId]: choice }));
   };
 
   const checkAnswers = () => {
+    if (showAnswer || showResults) return;
     const answered = Object.keys(answers).length;
 
     if (answered < questions.length) {
@@ -88,7 +89,7 @@ export default function WB_Unit5_Page31_Q1() {
         </h1>
 
         {/* Questions */}
-        <div className="space-y-15">
+        <div className="space-y-5">
           {questions.map((q) => {
             const selected = answers[q.id];
             return (
@@ -102,7 +103,8 @@ export default function WB_Unit5_Page31_Q1() {
                 <img
                   src={q.src}
                   alt="exercise"
-                  className="max-w-28 max-h-28 object-contain "
+                  className="object-contain "
+                  style={{ height: "120px", width: "250px" }}
                 />
 
                 <div className="relative flex flex-wrap items-center gap-2 flex-1">
@@ -112,38 +114,34 @@ export default function WB_Unit5_Page31_Q1() {
                   <div className="flex flex-col">
                     <button
                       onClick={() => handleSelect(q.id, "likes")}
-                      className={`px-3 py-1 rounded-full font-semibold text-sm
-                    ${
-                      selected === "likes"
-                        ? showAnswer
-                          ? correctAnswers[q.id] === "likes"
-                            ? "text-black border-green-500"
-                            : "text-white border-red-400"
-                          : "border-2 text-black border-red-500"
-                        : "text-gray-600 border-red-300 hover:border-red-400"
-                    }`}
+                      className={`px-3 py-1 rounded-full font-semibold text-sm border-2
+${
+  selected === "likes"
+    ? isWrong(q.id)
+      ? "border-red-500 text-black"
+      : "border-blue-800 text-black"
+    : "border-gray-300 hover:border-red-400 text-gray-600"
+}`}
                     >
                       likes
                     </button>
 
                     <button
                       onClick={() => handleSelect(q.id, "doesn't like")}
-                      className={`px-3 py-1 rounded-full font-semibold text-sm
-                    ${
-                      selected === "doesn't like"
-                        ? showAnswer
-                          ? correctAnswers[q.id] === "doesn't like"
-                            ? " border-red-500 text-black border-green-500"
-                            : "border-red-400 text-white border-red-400"
-                          : "border-2 text-black border-red-500"
-                        : "text-gray-600 border-gray-300 hover:border-red-400"
-                    }`}
+                      className={`px-3 py-1 rounded-full font-semibold text-sm border-2
+${
+  selected === "doesn't like"
+    ? isWrong(q.id)
+      ? "border-red-500 text-black"
+      : "border-blue-800 text-black"
+    : "border-gray-300 hover:border-red-400 text-gray-600"
+}`}
                     >
                       doesn't like
                     </button>
                   </div>
                   {isWrong(q.id) && (
-                    <div className="absolute top-0 left-30 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-sm font-bold shadow border-2 border-white">
+                    <div className="absolute top-0 left-45 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-sm font-bold shadow border-2 border-white">
                       ✕
                     </div>
                   )}

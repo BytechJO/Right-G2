@@ -129,12 +129,13 @@ const WB_Unit3_Page19_Q1 = () => {
   };
 
   const checkAnswers = () => {
+    if (showResults) return;
     const allFilled = fillInQuestions.every(
       (q) => items[q.id] && items[q.id].length > 0,
     );
 
     if (!allFilled) {
-      ValidationAlert.warning("Please fill all blanks first!");
+      ValidationAlert.info("Please fill all blanks first!");
       return;
     }
 
@@ -151,11 +152,28 @@ const WB_Unit3_Page19_Q1 = () => {
       }
     });
 
-    ValidationAlert.success(`Score: ${score} / ${fillInQuestions.length}`);
+    if (score === fillInQuestions.length)
+      ValidationAlert.success(` Score: ${score} / ${fillInQuestions.length}`);
+    else if (score === 0)
+      ValidationAlert.error(` Score: ${score} / ${fillInQuestions.length}`);
+    else
+      ValidationAlert.warning(` Score: ${score} / ${fillInQuestions.length}`);
   };
   const usedWords = Object.keys(items)
     .filter((key) => key !== "wordBank")
     .flatMap((key) => items[key]);
+
+  const isWrong = (qId) => {
+    if (!showResults) return false;
+
+    return (
+      items[qId]?.[0]?.text?.trim().toLowerCase() !==
+      fillInQuestions
+        .find((q) => q.id === qId)
+        .correctAnswer.trim()
+        .toLowerCase()
+    );
+  };
   return (
     <div className="main-container-component">
       <div className="div-forall" style={{ gap: "20px" }}>
@@ -166,7 +184,7 @@ const WB_Unit3_Page19_Q1 = () => {
 
         <DragDropContext onDragEnd={onDragEnd}>
           {/* Word Bank */}
-          <div className="p-2 border rounded-xl bg-gray-50 min-h-[42px]">
+          <div className="p-2 border-2 border-gray-400 border-dashed rounded-xl min-h-[42px]">
             <Droppable droppableId="wordBank" direction="horizontal">
               {(provided) => (
                 <div
@@ -180,9 +198,9 @@ const WB_Unit3_Page19_Q1 = () => {
                     return (
                       <Draggable
                         key={word.id}
-                        draggableId={word.id}
+                        draggableId={`${word.id}-${index}`}
                         index={index}
-                        isDragDisabled={isUsed} // 👈 هون المنع
+                        isDragDisabled={isUsed}
                       >
                         {(provided) => (
                           <div
@@ -190,11 +208,11 @@ const WB_Unit3_Page19_Q1 = () => {
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
                             className={`px-4 py-2 rounded-lg transition
-            ${
-              isUsed
-                ? "bg-gray-200 text-gray-400 cursor-not-allowed opacity-60 border border-gray-200"
-                : "bg-white text-gray-800 cursor-grab border border-gray-300 hover:bg-gray-50"
-            }`}
+  ${
+    isUsed
+      ? "bg-gray-200 text-gray-400 cursor-not-allowed opacity-60 border border-blue-800"
+      : "bg-white text-gray-800 cursor-grab border border-blue-800 hover:bg-gray-50"
+  }`}
                           >
                             {word.text}
                           </div>
@@ -211,18 +229,18 @@ const WB_Unit3_Page19_Q1 = () => {
           {/* Questions */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {fillInQuestions.map((q, index) => (
-              <div key={q.id}>
+              <div key={q.id} className="relative">
                 <div className="flex items-center gap-4">
                   <span className="font-bold text-blue-600">{index + 1}</span>
 
                   <img src={q.img} alt="" className="max-w-20 max-h-20" />
 
-                  <Droppable droppableId={q.id} >
+                  <Droppable droppableId={q.id}>
                     {(provided) => (
                       <div
                         ref={provided.innerRef}
                         {...provided.droppableProps}
-                        className="min-w-[90px] min-h-[42px] border-2 border-dashed flex items-center justify-center"
+                        className={`min-w-[90px] min-h-[42px] border-b-2 border-gray-400 flex items-center justify-center ${isWrong(q.id) && "border-red-500"}`}
                       >
                         {items[q.id].map((word, i) => (
                           <Draggable
@@ -236,7 +254,7 @@ const WB_Unit3_Page19_Q1 = () => {
                                 ref={provided.innerRef}
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
-                                className="px-3 py-1 bg-white shadow rounded"
+                                className="px-3 py-1 rounded"
                               >
                                 {word.text}
                               </div>
@@ -247,7 +265,11 @@ const WB_Unit3_Page19_Q1 = () => {
                       </div>
                     )}
                   </Droppable>
-
+                  {isWrong(q.id) && (
+                    <div className="absolute top-3 right-43 bg-red-500 text-white w-6 h-6 flex items-center justify-center rounded-full text-sm font-bold shadow-lg border-2 border-white">
+                      ✕
+                    </div>
+                  )}
                   <span>{q.endText}</span>
                 </div>
 

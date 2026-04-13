@@ -6,7 +6,6 @@ import drumImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Pag
 import swimImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 16/Ex D 3.svg";
 import chopsticksImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 16/Ex D 4.svg";
 
-
 import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
@@ -68,6 +67,7 @@ const WB_Unit3_Page16_Q2 = () => {
   };
 
   const checkAnswers = () => {
+    if (showResults) return;
     const hasEmptyAnswers = questions.some(
       (q) => selections[q.id] === undefined,
     );
@@ -112,7 +112,7 @@ const WB_Unit3_Page16_Q2 = () => {
             <span className="font-bold text-blue-600">{index + 1}</span>
 
             <div className="flex-1">
-              <p className="mb-2 text-gray-800">{q.text}</p>
+              <p className="mb-2 text-gray-800 text-lg">{q.text}</p>
 
               {/* image + options */}
               <div className="flex items-start gap-6">

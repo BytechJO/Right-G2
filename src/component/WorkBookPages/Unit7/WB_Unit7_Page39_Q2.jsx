@@ -95,6 +95,7 @@ const WB_Unit7_Page39_Q2 = () => {
   };
 
   const checkAnswers = () => {
+    if (showResults) return;
     const incomplete = exerciseDataL.sentences.filter(
       (sentence) => !isSentenceComplete(sentence),
     );

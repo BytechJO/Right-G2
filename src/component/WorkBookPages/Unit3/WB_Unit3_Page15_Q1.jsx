@@ -90,9 +90,7 @@ const WB_Unit3_Page15_Q1 = () => {
     if (showAnswer || locked) return;
 
     const word = e.currentTarget.dataset.word;
-    const alreadyUsed = lines.some((line) => line.word === word);
-
-    if (alreadyUsed) return;
+  
 
     const { x, y } = getDotPosition(`[data-word="${word}"]`);
 
@@ -103,25 +101,38 @@ const WB_Unit3_Page15_Q1 = () => {
     });
   };
 
-  const handleEndDotClick = (e) => {
-    if (showAnswer || locked || !firstDot) return;
+const handleEndDotClick = (e) => {
+  if (showAnswer || locked || !firstDot) return;
 
-    const image = e.currentTarget.dataset.image;
-    const { x, y } = getDotPosition(`[data-image="${image}"]`);
+  const image = e.currentTarget.dataset.image;
+  const { x, y } = getDotPosition(`[data-image="${image}"]`);
 
-    const newLine = {
-      x1: firstDot.x,
-      y1: firstDot.y,
-      x2: x,
-      y2: y,
-      word: firstDot.word,
-      image,
-    };
-
-    setLines((prev) => [...prev, newLine]);
-    setFirstDot(null);
+  const newLine = {
+    x1: firstDot.x,
+    y1: firstDot.y,
+    x2: x,
+    y2: y,
+    word: firstDot.word,
+    image,
   };
 
+  setLines((prev) => {
+    // ✅ 1. احذف أي خط لنفس الكلمة
+    const withoutSameWord = prev.filter(
+      (line) => line.word !== firstDot.word
+    );
+
+    // ✅ 2. احذف أي خط لنفس الصورة (حتى لو مربوط بكلمة ثانية)
+    const withoutSameImage = withoutSameWord.filter(
+      (line) => line.image !== image
+    );
+
+    // ✅ 3. أضف الخط الجديد
+    return [...withoutSameImage, newLine];
+  });
+
+  setFirstDot(null);
+};
   const handleCheckAnswers = () => {
     if (showAnswer || locked) return;
 

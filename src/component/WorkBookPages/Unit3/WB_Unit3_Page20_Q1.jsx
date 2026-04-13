@@ -76,7 +76,7 @@ const targetWords = {
 
 const writeList = [
   { id: "w1", word: "jeans", img: img1 },
-  { id: "w2", word: "yoyo", img: img2},
+  { id: "w2", word: "yoyo", img: img2 },
   { id: "w3", word: "juice", img: img3 },
   { id: "w4", word: "jet", img: img4 },
   { id: "w5", word: "yarn", img: img5 },
@@ -211,20 +211,22 @@ const WB_Unit3_Page20_Q1 = () => {
               <div
                 key={item.id}
                 className="flex items-center gap-3"
-                style={{ justifyContent: "space-around" }}
+                style={{ justifyContent: "space-between" }}
               >
-                <span className="font-bold text-blue-600">{index + 1}</span>
-                <input
-                  type="text"
-                  value={writtenAnswers[item.id] || ""}
-                  readOnly
-                  className="max-w-full bg-transparent border-b-2 border-gray-300 focus:outline-none"
-                />
+                <div className="flex gap-5">
+                  <span className="font-bold text-blue-600">{index + 1}</span>
+                  <input
+                    type="text"
+                    value={writtenAnswers[item.id] || ""}
+                    readOnly
+                    className="max-w-full bg-transparent border-b-2 border-gray-300 focus:outline-none"
+                  />
+                </div>
                 <img
                   src={item.img}
                   alt={item.word}
                   // className="max-w-10 max-h-10 object-contain"
-                  style={{ height: "60px" }}
+                  style={{ height: "80px" }}
                 />
               </div>
             ))}

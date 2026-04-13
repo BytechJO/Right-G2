@@ -91,6 +91,7 @@ const WB_Unit6_Page36_Q1 = () => {
   };
 
   const checkAnswers = () => {
+    if (showResults) return;
     setShowResults(true);
 
     const totalQuestions = exerciseData.left.length;
@@ -144,7 +145,7 @@ const WB_Unit6_Page36_Q1 = () => {
   };
 
   const getDotColor = (side, id) => {
-    if (side === "left" && selectedLeft === id) return "bg-blue-500 scale-125";
+    if (side === "left" && selectedLeft === id) return "bg-red-800 scale-125";
 
     const isConnected =
       side === "left" ? !!matches[id] : Object.values(matches).includes(id);
@@ -157,10 +158,10 @@ const WB_Unit6_Page36_Q1 = () => {
           : Object.keys(matches).find((key) => matches[key] === id);
       if (!leftId) return "bg-[#eb533c]";
       const isCorrect = matches[leftId] === exerciseData.correctMatches[leftId];
-      return isCorrect ? "bg-blue-500" : "bg-blue-600";
+      return isCorrect ? "bg-[#eb533c]" : "bg-[#eb533c]";
     }
 
-    return "bg-blue-500";
+    return "bg-[#eb533c]";
   };
 
   const isLeftMatchWrong = (leftId) => {
@@ -181,19 +182,22 @@ const WB_Unit6_Page36_Q1 = () => {
           ref={containerRef}
           className="flex justify-between items-center gap-20 relative mb-20"
         >
-          <div className="space-y-32">
+          <div className="space-y-22">
             {exerciseData.left.map((item) => (
               <div
                 key={item.id}
-                className="flex items-center gap-6 justify-end"
+                className="flex items-center gap-6 w-full"
               >
                 <div className="text-right flex gap-5 items-center">
                   <span className="text-xl font-bold text-blue-900">
                     {item.id}
                   </span>
 
-                  <div className="relative">
-                    <p className="text-xl text-gray-700 border-2 rounded p-2">
+                  <div className="relative ">
+                    <p
+                      className="text-xl text-gray-700 border-2 rounded p-2 text-left cursor-pointer transition transform active:scale-95 hover:scale-105 w-[200px]"
+                      onClick={() => handleLeftClick(item.id)}
+                    >
                       {item.text}
                     </p>
 
@@ -216,7 +220,7 @@ const WB_Unit6_Page36_Q1 = () => {
             ))}
           </div>
 
-          <div className="space-y-20">
+          <div className="space-y-10">
             {exerciseData.right.map((item) => (
               <div key={item.id} className="flex items-center gap-6">
                 <div
@@ -227,7 +231,9 @@ const WB_Unit6_Page36_Q1 = () => {
                 <img
                   src={item.img}
                   alt={`Person ${item.id}`}
-                  className="max-w-45 max-h-24  object-contain "
+                  onClick={() => handleRightClick(item.id)}
+                  className="object-contain cursor-pointer transition transform active:scale-95 hover:scale-105"
+                  style={{ height: "100px", width: "auto" }}
                 />
               </div>
             ))}

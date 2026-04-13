@@ -30,6 +30,7 @@ export default function WB_Unit7_Page39_Q1() {
   };
 
   const checkAnswers = () => {
+    if (showResults) return;
     const unanswered = exerciseDataK.questions.filter((q) => !answers[q.id]);
 
     if (unanswered.length > 0) {
@@ -70,8 +71,8 @@ export default function WB_Unit7_Page39_Q1() {
     const isCorrect =
       answers[questionId] === (question && question.correctNumber);
 
-    if (isCorrect) {
-      return "border-2 border-gray-500 bg-white px-3 py-2 rounded-lg font-semibold";
+    if (!isCorrect) {
+      return "border-2 border-red-500 bg-white px-3 py-2 rounded-lg font-semibold";
     }
     return "border-2 border-gray-500 bg-white px-3 py-2 rounded-lg font-semibold";
   };

@@ -67,9 +67,9 @@ const WB_Unit5_Page28_Q2 = () => {
     const isSelected = selections[qId] === option;
     if (showResults) {
       if (option === correctOption)
-        return "border-green-500 bg-green-100 text-green-800";
+        return "border-blue-500 bg-blue-100 text-blue-800";
       if (isSelected && option !== correctOption)
-        return "border-red-500 bg-red-100 text-red-800";
+        return "border-red-500";
     }
     if (isSelected) return "border-blue-500 bg-blue-100 text-blue-800";
     return "border-gray-300 bg-white hover:bg-gray-50";
@@ -79,7 +79,7 @@ const WB_Unit5_Page28_Q2 = () => {
     if (!showResults || !answers[qId]) return "border-gray-300";
     const userAnswer = answers[qId].trim().toLowerCase().replace(/[?.]/g, "");
     const correct = correctAnswer.toLowerCase().replace(/[?.]/g, "");
-    return userAnswer === correct ? "border-green-500" : "border-red-500";
+    return userAnswer === correct ? "border-gray-300" : "border-red-500";
   };
 
   const handleShowAnswer = () => {
@@ -101,23 +101,60 @@ const WB_Unit5_Page28_Q2 = () => {
   };
 
   const checkAnswers = () => {
+    if (showResults) return;
+
+    // ✅ التحقق إنو كل الأسئلة فيها اختيار + إجابة
+    const hasEmpty = exerciseDataD.some(
+      (q) => !selections[q.id] || !answers[q.id],
+    );
+
+    if (hasEmpty) {
+      ValidationAlert.warning("Please complete all answers first.");
+      return;
+    }
+
     setShowResults(true);
+
     let score = 0;
     const total = exerciseDataD.length * 2;
+
     exerciseDataD.forEach((q) => {
       if (selections[q.id] === q.correctOption) score++;
-      const userAnswer = (answers[q.id] || "")
+
+      const userAnswer = answers[q.id]
         .trim()
         .toLowerCase()
         .replace(/[?.]/g, "");
+
       const correctAnswer = q.correctAnswer.toLowerCase().replace(/[?.]/g, "");
+
       if (userAnswer === correctAnswer) score++;
     });
+
     if (score === total) ValidationAlert.success(`Score: ${score} / ${total}`);
-    else if (score > 0) ValidationAlert.error(`Score: ${score} / ${total}`);
-    else ValidationAlert.warning("No correct answers. Try again.");
+    else if (score === 0) ValidationAlert.error(`Score: ${score} / ${total}`);
+    else ValidationAlert.warning(`Score: ${score} / ${total}`);
   };
 
+  const isInputWrong = (q) => {
+    if (!showResults) return false;
+    if (!answers[q.id]) return false;
+
+    const userAnswer = answers[q.id].trim().toLowerCase().replace(/[?.]/g, "");
+
+    const correct = q.correctAnswer.toLowerCase().replace(/[?.]/g, "");
+
+    return userAnswer !== correct;
+  };
+
+  const isOptionWrong = (q, option) => {
+    if (!showResults) return false;
+
+    const selected = selections[q.id];
+    if (!selected) return false;
+
+    return selected === option && option !== q.correctOption;
+  };
   return (
     <div className="main-container-component">
       <div className="div-forall" style={{ gap: "20px", marginBottom: "50px" }}>
@@ -125,58 +162,66 @@ const WB_Unit5_Page28_Q2 = () => {
           {" "}
           <span className="WB-ex-A">D</span> Look, read, and circle. Answer.
         </h1>
-    
 
-      <div className="space-y-6 mb-20">
-        {exerciseDataD.map((q, index) => (
-          <div
-            key={q.id}
-            className="flex items-center gap-x-6 gap-y-2"
-          >
-            <span className="font-bold text-blue-600">{index + 1}</span>
-            <img
-              src={q.img}
-              alt={`Question ${index + 1}`}
-              className="max-w-24 max-h-24 object-contain rounded-lg bg-gray-50 border row-span-2"
-            />
+        <div className="space-y-6 mb-20">
+          {exerciseDataD.map((q, index) => (
+            <div key={q.id} className="flex items-center gap-x-6 gap-y-2">
+              <span className="font-bold text-blue-600">{index + 1}</span>
+              <img
+                src={q.img}
+                alt={`Question ${index + 1}`}
+                className="max-w-24 max-h-24 object-contain rounded-lg bg-gray-50 border row-span-2"
+              />
 
-            <div className="flex gap-20 items-center space-y-2">
+              <div className="flex gap-20 items-center space-y-2">
                 <div className="flex flex-col gap-5 w-60">
-              {q.options.map((opt) => (
-                <button
-                  key={opt}
-                  onClick={() => handleSelect(q.id, opt)}
-                  className={`w-full text-left px-4 py-2 rounded-full border-2 text-lg transition-all ${getOptionClass(q.id, opt, q.correctOption)}`}
-                >
-                  {opt}
-                </button>
-              ))}
-              </div>
-              <div className="col-start-3 ">
-                <select
-                  value={answers[q.id] || ""}
-                  onChange={(e) => handleInputChange(q.id, e.target.value)}
-                  className={`cursor-pointer w-full bg-transparent border-b-2 pb-1 focus:outline-none text-lg ${getInputClass(q.id, q.correctAnswer)}`}
-                >
-                  <option value="" disabled>
-                    select
-                  </option>
-                  <option value="No, she doesn't.">No, she doesn't.</option>
-                  <option value="No, he doesn't.">No, he doesn't.</option>
-                  <option value="Yes, she does.">Yes, she does.</option>
-                </select>
+                  {q.options.map((opt) => (
+                    <div key={opt} className="relative">
+                      <button
+                        onClick={() => handleSelect(q.id, opt)}
+                        className={`w-full text-left px-4 py-2 rounded-full border-2 text-lg transition-all ${getOptionClass(q.id, opt, q.correctOption)}`}
+                      >
+                        {opt}
+                      </button>
+
+                      {isOptionWrong(q, opt) && (
+                        <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-red-500 text-white flex items-center justify-center text-sm font-bold shadow border-2 border-white">
+                          ✕
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+                <div className="col-start-3 relative">
+                  <select
+                    value={answers[q.id] || ""}
+                    onChange={(e) => handleInputChange(q.id, e.target.value)}
+                    className={`cursor-pointer w-full bg-transparent border-b-2 pb-1 focus:outline-none text-lg ${getInputClass(q.id, q.correctAnswer)}`}
+                  >
+                    <option value="" disabled>
+                      select
+                    </option>
+                    <option value="No, she doesn't.">No, she doesn't.</option>
+                    <option value="No, he doesn't.">No, he doesn't.</option>
+                    <option value="Yes, she does.">Yes, she does.</option>
+                  </select>
+                  {isInputWrong(q) && (
+                    <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-red-500 text-white flex items-center justify-center text-sm font-bold shadow border-2 border-white">
+                      ✕
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
-
-      <Button
-        handleShowAnswer={handleShowAnswer}
-        handleStartAgain={handleStartAgain}
-        checkAnswers={checkAnswers}
-      />
+          ))}
         </div>
+
+        <Button
+          handleShowAnswer={handleShowAnswer}
+          handleStartAgain={handleStartAgain}
+          checkAnswers={checkAnswers}
+        />
+      </div>
     </div>
   );
 };

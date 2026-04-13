@@ -24,6 +24,7 @@ const WB_Unit4_Page21_Q2 = () => {
   const [showAnswers, setShowAnswers] = useState(false);
 
   const handleSelect = (id, option) => {
+    if (showAnswers || showResults) return;
     if (!showAnswers) {
       setUserSelections({ ...userSelections, [id]: option });
     }
@@ -37,6 +38,7 @@ const WB_Unit4_Page21_Q2 = () => {
     return selected === option && option !== correct;
   };
   const checkAnswers = () => {
+    if (showResults || showAnswers) return;
     const totalQuestions = data.length;
 
     // 🔴 تحقق إذا كل الأسئلة مختارة
@@ -91,15 +93,17 @@ const WB_Unit4_Page21_Q2 = () => {
         <div className="grid grid-cols-2 gap-12">
           {data.map((item) => (
             <div key={item.id} className="flex flex-col items-center gap-6">
-              <div className="flex items-center gap-3 text-xl text-gray-800 flex-wrap justify-center">
-                <span className="font-bold text-blue-900 text-2xl">
-                  {item.id}
-                </span>
-                <img
-                  src={item.img}
-                  alt=""
-                  className="max-w-32 max-h-32 object-contain rounded-xl"
-                />
+              <div className="flex items-center gap-3 text-xl text-gray-800 flex-wrap justify-between w-full">
+                <div className="flex items-center gap-3 justify-center">
+                  <span className="font-bold text-blue-900 text-2xl">
+                    {item.id}
+                  </span>
+                  <img
+                    src={item.img}
+                    alt=""
+                    className="max-w-32 max-h-32 object-contain rounded-xl"
+                  />
+                </div>
                 <div className="flex flex-col rounded-2xl gap-2">
                   {item.options.map((option) => {
                     const isSelected = userSelections[item.id] === option;
@@ -118,7 +122,7 @@ const WB_Unit4_Page21_Q2 = () => {
                         {option}
 
                         {isWrongOption(item.id, option) && (
-                          <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-red-500 text-white flex items-center justify-center text-xs font-bold shadow">
+                          <span className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-red-500 text-white flex items-center justify-center text-sm font-bold shadow border-2 border-white">
                             ✕
                           </span>
                         )}

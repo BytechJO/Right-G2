@@ -14,9 +14,9 @@ const WB_Unit3_Page17_Q2 = () => {
 
   const buildInitialInputs = () =>
     data.map((item) =>
-      item.answer.split(" ").map((word) =>
-        Array.from({ length: word.length }, () => null),
-      ),
+      item.answer
+        .split(" ")
+        .map((word) => Array.from({ length: word.length }, () => null)),
     );
 
   const [inputs, setInputs] = useState(buildInitialInputs());
@@ -122,7 +122,10 @@ const WB_Unit3_Page17_Q2 = () => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="main-container-component">
-        <div className="div-forall" style={{ gap: "20px",marginBottom:"60px" }}>
+        <div
+          className="div-forall"
+          style={{ gap: "20px", marginBottom: "60px" }}
+        >
           <div className="page8-content">
             <header className="WB-header-title-page8">
               <span className="WB-ex-A">F</span>
@@ -187,7 +190,9 @@ const WB_Unit3_Page17_Q2 = () => {
                                   {(provided) => (
                                     <span
                                       ref={provided.innerRef}
-                                      {...(!used ? provided.draggableProps : {})}
+                                      {...(!used
+                                        ? provided.draggableProps
+                                        : {})}
                                       {...(!used
                                         ? provided.dragHandleProps
                                         : {})}
@@ -203,9 +208,7 @@ const WB_Unit3_Page17_Q2 = () => {
                                         fontWeight: "bold",
                                         textTransform: "lowercase",
                                         opacity: used ? 0.35 : 1,
-                                        cursor: used
-                                          ? "not-allowed"
-                                          : "grab",
+                                        cursor: used ? "not-allowed" : "grab",
                                         ...provided.draggableProps.style,
                                       }}
                                     >
@@ -275,10 +278,35 @@ const WB_Unit3_Page17_Q2 = () => {
                                           : "transparent",
                                       }}
                                     >
-                                      {showAnswer
-                                        ? answerWords[wordIndex][charIndex]
-                                        : inputs[i][wordIndex][charIndex]
-                                            ?.char || ""}
+                                      <span
+                                        onClick={() => {
+                                          if (showAnswer) return;
+
+                                          setInputs((prev) => {
+                                            const updated = prev.map((row) =>
+                                              row.map((word) => [...word]),
+                                            );
+
+                                            // امسح الحرف (يرجع للبانك تلقائي لأنه used=false)
+                                            updated[i][wordIndex][charIndex] =
+                                              null;
+
+                                            return updated;
+                                          });
+                                        }}
+                                        style={{
+                                          cursor: showAnswer
+                                            ? "default"
+                                            : "pointer",
+                                        }}
+                                        className="text-black hover:text-red-500"
+                                      >
+                        
+                                        {showAnswer
+                                          ? answerWords[wordIndex][charIndex]
+                                          : inputs[i][wordIndex][charIndex]
+                                              ?.char || ""}
+                                      </span>
                                       {provided.placeholder}
                                     </div>
                                   )}

@@ -55,8 +55,9 @@ const WB_Unit2_Page13_Q2 = () => {
   };
 
   const checkAnswers = () => {
+    if (showResults) return;
     if (Object.keys(userAnswers).length < exerciseQuestions.length) {
-      ValidationAlert.warning("Please answer all questions before checking.");
+      ValidationAlert.info("Please answer all questions before checking.");
       return;
     }
 
@@ -75,6 +76,10 @@ const WB_Unit2_Page13_Q2 = () => {
       ValidationAlert.success(
         `Score: ${correctCount}/${exerciseQuestions.length}`,
       );
+    } else if (correctCount > 0) {
+      ValidationAlert.warning(
+        `Score: ${correctCount}/${exerciseQuestions.length}`,
+      );
     } else {
       ValidationAlert.error(
         `Score: ${correctCount}/${exerciseQuestions.length}`,
@@ -90,13 +95,10 @@ const WB_Unit2_Page13_Q2 = () => {
       const isCorrect =
         exerciseQuestions.find((q) => q.id === questionId).correctAnswer ===
         option;
-      if (isCorrect) {
-        // إذا كان هذا هو الخيار الصحيح، لونه بالأخضر
-        return "border-green-500 bg-green-100";
-      }
+     
       if (isSelected && !isCorrect) {
         // إذا اختاره المستخدم وكان خطأ، لونه بالأحمر
-        return "border-red-500 bg-red-100";
+        return "border-red-500";
       }
     }
 
@@ -121,14 +123,14 @@ const WB_Unit2_Page13_Q2 = () => {
               className="grid grid-cols-[auto_1fr_auto] items-center gap-x-6 p-3 rounded-lg hover:bg-gray-50"
             >
               <div className="w-90 flex items-center justify-center">
-              {/* الصورة */}
-              <img
-                src={question.img}
-                alt={`Question ${index + 1}`}
-                className="object-contain"
-                style={{height:"80px"}}
-              />
-</div>
+                {/* الصورة */}
+                <img
+                  src={question.img}
+                  alt={`Question ${index + 1}`}
+                  className="object-contain"
+                  style={{ height: "80px" }}
+                />
+              </div>
               {/* النص */}
               <div className="flex items-center gap-3">
                 <span className="font-bold text-blue-600 text-lg">
@@ -138,7 +140,14 @@ const WB_Unit2_Page13_Q2 = () => {
               </div>
 
               {/* مربعات الاختيار (True/False) */}
-              <div className="flex items-center gap-x-4">
+              <div className="flex items-center gap-x-4 relative">
+                {showResults &&
+                  userAnswers[question.id] !== undefined &&
+                  userAnswers[question.id] !== question.correctAnswer && (
+                    <div className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center border-2 border-white shadow-md">
+                      <span className="text-white text-xs font-bold"> ✕</span>
+                    </div>
+                  )}
                 {/* True */}
                 <div className="flex flex-col items-center">
                   {index === 0 && (
@@ -151,7 +160,7 @@ const WB_Unit2_Page13_Q2 = () => {
                     className={`w-8 h-8 border-2 rounded-md cursor-pointer flex items-center justify-center transition-all ${getCheckboxClass(question.id, true)}`}
                   >
                     {userAnswers[question.id] === true && (
-                      <span className="text-2xl text-blue-600">✔</span>
+                      <span className="text-2xl text-blue-600">✓</span>
                     )}
                   </div>
                 </div>
@@ -167,7 +176,7 @@ const WB_Unit2_Page13_Q2 = () => {
                     className={`w-8 h-8 border-2 rounded-md cursor-pointer flex items-center justify-center transition-all ${getCheckboxClass(question.id, false)}`}
                   >
                     {userAnswers[question.id] === false && (
-                      <span className="text-2xl text-blue-600">✔</span>
+                      <span className="text-2xl text-blue-600">✓</span>
                     )}
                   </div>
                 </div>

@@ -107,7 +107,6 @@ const WB_Unit5_Page27_Q1 = () => {
 
     let targetPoint = null;
 
-    // إذا رايحين إلى النص الأوسط من صورة فوق/تحت
     if (e.currentTarget.dataset.leftId) {
       targetPoint = getPointData(e.currentTarget, ".dot-top");
     } else {
@@ -116,7 +115,17 @@ const WB_Unit5_Page27_Q1 = () => {
 
     if (!targetPoint) return;
 
-    const { id, type, x, y } = targetPoint;
+    const { type } = targetPoint;
+
+    // 1) إذا البداية من صورة فوق، لازم النهاية تكون كلمة
+    if (firstPoint.type === "leftImg" && type !== "centerText") {
+      return;
+    }
+
+    // 2) إذا النهاية صورة تحت، لازم البداية تكون كلمة
+    if (type === "rightImg" && firstPoint.type !== "centerText") {
+      return;
+    }
 
     // منع التوصيل بنفس النوع
     if (firstPoint.type === type) {
@@ -132,13 +141,13 @@ const WB_Unit5_Page27_Q1 = () => {
     let startPoint = firstPoint;
     let endPoint = targetPoint;
 
-    // إذا البداية من النص الأوسط والنهاية على صورة تحت/يمين
-    // نرسم من الدوت السفلية بدل العلوية
+    // إذا البداية من النص والنهاية على صورة تحت → اطلع من الدوت السفلية
     if (firstPoint.type === "centerText" && type === "rightImg") {
       const centerEl = containerRef.current.querySelector(
         `[data-left-id="${firstPoint.id}"]`,
       );
       const bottomDotPos = getDotCenter(centerEl, ".dot-bottom");
+
       if (bottomDotPos) {
         startPoint = {
           ...firstPoint,
@@ -148,13 +157,20 @@ const WB_Unit5_Page27_Q1 = () => {
       }
     }
 
-    let leftIdValue, imageIdValue;
-    if (startPoint.type === "centerText") {
-      leftIdValue = startPoint.id;
-      imageIdValue = id;
-    } else {
-      leftIdValue = id;
-      imageIdValue = startPoint.id;
+    // إذا البداية من النص والنهاية على صورة فوق → اطلع من الدوت العلوية
+    if (firstPoint.type === "centerText" && type === "leftImg") {
+      const centerEl = containerRef.current.querySelector(
+        `[data-left-id="${firstPoint.id}"]`,
+      );
+      const topDotPos = getDotCenter(centerEl, ".dot-top");
+
+      if (topDotPos) {
+        startPoint = {
+          ...firstPoint,
+          x: topDotPos.x,
+          y: topDotPos.y,
+        };
+      }
     }
 
     const newLine = {
@@ -162,35 +178,50 @@ const WB_Unit5_Page27_Q1 = () => {
       y1: startPoint.y,
       x2: endPoint.x,
       y2: endPoint.y,
-      leftId: leftIdValue,
-      image: imageIdValue,
+      leftId: startPoint.type === "centerText" ? startPoint.id : targetPoint.id,
+      image: startPoint.type === "centerText" ? targetPoint.id : startPoint.id,
     };
 
-    setLines((prev) => [...prev, newLine]);
+    setLines((prev) => {
+      let updated = [...prev];
 
-    // بعد ما نوصل من الصورة العليا إلى النص
-    // خلّي البداية التالية من الدوت السفلية
-    if (type === "centerText") {
-      const centerEl = containerRef.current.querySelector(
-        `[data-left-id="${id}"]`,
-      );
-      const bottomDotPos = getDotCenter(centerEl, ".dot-bottom");
+      const isTopConnection =
+        newLine.image.startsWith("img") && !newLine.image.startsWith("r");
+      const isBottomConnection = newLine.image.startsWith("r");
 
-      if (bottomDotPos) {
-        setFirstPoint({
-          id,
-          type,
-          x: bottomDotPos.x,
-          y: bottomDotPos.y,
-        });
-      } else {
-        setFirstPoint({ id, type, x, y });
+      if (isTopConnection) {
+        // كل صورة فوق إلها خط واحد فقط
+        updated = updated.filter((line) => line.image !== newLine.image);
+
+        // كل كلمة إلها خط واحد فقط من فوق
+        updated = updated.filter(
+          (line) =>
+            !(
+              line.leftId === newLine.leftId &&
+              line.image.startsWith("img") &&
+              !line.image.startsWith("r")
+            ),
+        );
       }
-    } else {
-      setFirstPoint(null);
-    }
-  };
 
+      if (isBottomConnection) {
+        // كل صورة تحت إلها خط واحد فقط
+        updated = updated.filter((line) => line.image !== newLine.image);
+
+        // كل كلمة إلها خط واحد فقط من تحت
+        updated = updated.filter(
+          (line) =>
+            !(line.leftId === newLine.leftId && line.image.startsWith("r")),
+        );
+      }
+
+      updated.push(newLine);
+      return updated;
+    });
+
+    // بعد أي توصيل، لا تضل ماسك الكلمة تلقائياً
+    setFirstPoint(null);
+  };
   const handleTryAgain = () => {
     setLines([]);
     setWrongLeft([]);
@@ -249,6 +280,7 @@ const WB_Unit5_Page27_Q1 = () => {
   };
 
   const checkAnswers = () => {
+    if (checked || locked) return;
     if (lines.length === 0) {
       ValidationAlert.warning("Please connect the items first.");
       return;
@@ -298,6 +330,10 @@ const WB_Unit5_Page27_Q1 = () => {
       ValidationAlert.success(
         `Score: ${correctCount} / ${correctMatches.length}`,
       );
+    } else if (wrong.length > 0) {
+      ValidationAlert.warning(
+        `Score: ${correctCount} / ${correctMatches.length}`,
+      );
     } else {
       ValidationAlert.error(
         `Score: ${correctCount} / ${correctMatches.length}`,
@@ -309,7 +345,7 @@ const WB_Unit5_Page27_Q1 = () => {
     <div className="main-container-component">
       <div className="div-forall">
         <h1 className="WB-header-title-page8">
-          <span className="WB-ex-A">A</span>Look, read, and match.
+          <span className="WB-ex-A">B</span>Look, read, and match.
         </h1>
 
         <div className="flex flex-col items-center p-8">
@@ -332,11 +368,7 @@ const WB_Unit5_Page27_Q1 = () => {
                   onClick={(e) => (firstPoint ? handleEnd(e) : handleStart(e))}
                 >
                   <div className="dot w-3 h-3 bg-red-500 rounded-full absolute -bottom-3 right-10" />
-                  <img
-                    src={img.src}
-                    alt=""
-                    className="max-w-25 max-h-25 object-contain"
-                  />
+                  <img src={img.src} alt="" className="max-w-24 max-h-24" />
                 </div>
               ))}
             </div>
@@ -352,7 +384,7 @@ const WB_Unit5_Page27_Q1 = () => {
                 >
                   <div className="dot dot-top w-3 h-3 bg-red-500 rounded-full" />
                   <span>{l.text}</span>
-                 
+
                   <div className="dot dot-bottom w-3 h-3 bg-red-500 rounded-full" />
                 </div>
               ))}
@@ -371,55 +403,55 @@ const WB_Unit5_Page27_Q1 = () => {
                   <img
                     src={r.src}
                     alt=""
-                    className="max-w-25 max-h-25 object-contain"
+                    className="max-w-24 max-h-24 object-cover"
                   />
                 </div>
               ))}
             </div>
 
             {/* SVG Layer for Lines */}
-            <svg className="absolute top-0 left-0 w-full h-full pointer-events-none z-0">
-              {lines.map((l, i) => {
-                const midX = (l.x1 + l.x2) / 2;
-                const midY = (l.y1 + l.y2) / 2;
+         {/* SVG Layer for Lines */}
+<svg className="absolute top-0 left-0 w-full h-full pointer-events-none z-0">
+  {lines.map((l, i) => {
+    return (
+      <g key={i}>
+        <line
+          x1={l.x1}
+          y1={l.y1}
+          x2={l.x2}
+          y2={l.y2}
+          stroke="red"
+          strokeWidth="3"
+          strokeLinecap="round"
+        />
 
-                return (
-                  <g key={i}>
-                    <line
-                      x1={l.x1}
-                      y1={l.y1}
-                      x2={l.x2}
-                      y2={l.y2}
-                      stroke="red"
-                      strokeWidth="3"
-                      strokeLinecap="round"
-                    />
-
-                    {checked && wrongLineIndexes.includes(i) && (
-                      <>
-                        <circle
-                          cx={midX + 12}
-                          cy={midY - 12}
-                          r="9"
-                          fill="red"
-                        />
-                        <text
-                          x={midX + 12}
-                          y={midY - 12}
-                          textAnchor="middle"
-                          dominantBaseline="central"
-                          fill="white"
-                          fontSize="14"
-                          fontWeight="bold"
-                        >
-                          ✕
-                        </text>
-                      </>
-                    )}
-                  </g>
-                );
-              })}
-            </svg>
+        {checked && wrongLineIndexes.includes(i) && (
+          <g>
+            <circle
+              cx={l.x2}
+              cy={l.y2 - 18}
+              r="10"
+              fill="red"
+              stroke="white"
+              strokeWidth="2"
+            />
+            <text
+              x={l.x2}
+              y={l.y2 - 18}
+              textAnchor="middle"
+              dominantBaseline="central"
+              fill="white"
+              fontSize="14"
+              fontWeight="bold"
+            >
+              ✕
+            </text>
+          </g>
+        )}
+      </g>
+    );
+  })}
+</svg>
           </div>
 
           <div className="mt-16">

@@ -21,9 +21,11 @@ const friendActivityData = [
 const WB_Unit4_Page23_Q2 = () => {
   const [friendAnswers, setFriendAnswers] = useState({});
   const [askedItem, setAskedItem] = useState("");
+  const [showResults, setShowResults] = useState(false);
   const captureRef = useRef(null);
 
   const handleCellClick = (itemId, friend) => {
+    if (showResults) return;
     const cellId = `${itemId}-${friend}`;
     setFriendAnswers((prev) => {
       const currentAnswer = prev[cellId];
@@ -36,10 +38,27 @@ const WB_Unit4_Page23_Q2 = () => {
   const handleStartAgain = () => {
     setFriendAnswers({});
     setAskedItem("");
+    setShowResults(false);
   };
-
   const checkAnswers = () => {
+    if (showResults) return;
+
+    // ✅ تحقق من كل الخانات
+    const allFilled = friendActivityData.every((item) => {
+      const f1 = friendAnswers[`${item.id}-friend1`];
+      const f2 = friendAnswers[`${item.id}-friend2`];
+
+      return f1 && f2;
+    });
+
+    if (!allFilled) {
+      ValidationAlert.info("Please answer all cells first.");
+      return;
+    }
+
+    // ✅ إذا كله تمام
     ValidationAlert.success("Good Job!!");
+    setShowResults(true);
   };
 
   const handledownload = async () => {

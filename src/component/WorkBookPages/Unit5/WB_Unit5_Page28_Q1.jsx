@@ -36,7 +36,7 @@ const exerciseData = [
     correctQuestion: "Dose he like cheese?",
     correctAnswer: "No, he doesn't",
     questionWords: ["cheese?", "like", "Dose", "he"],
-    answerWords: ["No,", "he", "doesn't"],
+    answerWords: ["No,", "doesn't", "he"],
   },
   {
     id: "q4",
@@ -44,19 +44,20 @@ const exerciseData = [
     correctQuestion: "Dose she like tea?",
     correctAnswer: "Yes, she does",
     questionWords: ["she", "Dose", "like", "tea?"],
-    answerWords: ["Yes,", "she", "does"],
+    answerWords: ["Yes,", "does", "she"],
   },
 ];
+
 
 const DraggableWord = ({ id, text, disabled }) => {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id,
-    disabled, // 🔒
+    disabled, // 🔒 منع السحب
   });
 
   const style = transform
     ? {
-        // transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
         zIndex: 100,
       }
     : undefined;
@@ -67,7 +68,7 @@ const DraggableWord = ({ id, text, disabled }) => {
       style={style}
       {...(!disabled ? listeners : {})}
       {...attributes}
-      className={`px-3 py-1 border rounded transition
+      className={`px-3 py-1 border rounded
         ${
           disabled
             ? "bg-gray-100 text-gray-400 cursor-not-allowed opacity-60"
@@ -106,29 +107,39 @@ const WB_Unit5_Page28_Q1 = () => {
   const [showResults, setShowResults] = useState(false);
 
   const handleDragEnd = (event) => {
+    if (showResults) return;
     const { over, active } = event;
     if (!over) return;
 
     const wordId = active.id;
     const dropZoneId = over.id;
 
+    // 🔥 نحدد نوع الكلمة
+    const isQuestionWord = wordId.includes("-q-");
+    const isAnswerWord = wordId.includes("-a-");
+
+    // ❌ منع الخطأ (السؤال ينحط بالجواب أو العكس)
+    if (isQuestionWord && !dropZoneId.includes("question")) return;
+    if (isAnswerWord && !dropZoneId.includes("answer")) return;
+
     setDroppedWords((prev) => {
       const newDropped = { ...prev };
 
+      // احذف الكلمة من أي مكان سابق
       Object.keys(newDropped).forEach((key) => {
         newDropped[key] = newDropped[key].filter((w) => w !== wordId);
       });
 
+      // أضفها للمكان الصح
       const currentWords = newDropped[dropZoneId] || [];
       newDropped[dropZoneId] = [...currentWords, wordId];
 
       return newDropped;
     });
-
-    setShowResults(false);
   };
 
   const removeWord = (zoneId, word) => {
+    if (showResults) return;
     setDroppedWords((prev) => ({
       ...prev,
       [zoneId]: prev[zoneId].filter((w) => w !== word),
@@ -159,6 +170,7 @@ const WB_Unit5_Page28_Q1 = () => {
     return userSentence !== correctSentence;
   };
   const checkAnswers = () => {
+    if (showResults) return;
     // ✅ تحقق أولاً من أن كل الحقول ممتلئة
     for (let q of exerciseData) {
       const questionWords = droppedWords[`${q.id}-question`] || [];
@@ -222,7 +234,7 @@ const WB_Unit5_Page28_Q1 = () => {
           style={{ gap: "20px", marginBottom: "50px" }}
         >
           <h1 className="WB-header-title-page8">
-            <span className="WB-ex-A">C</span>Look, read, and write.
+            <span className="WB-ex-A">C</span> Look, read, and write.
           </h1>
 
           <div
@@ -241,7 +253,7 @@ const WB_Unit5_Page28_Q1 = () => {
                   </div>
 
                   {/* Question Word Bank */}
-                  <div className="flex flex-wrap gap-2 p-2 border rounded h-12">
+                  <div className="flex flex-wrap gap-2 p-2 border rounded">
                     {q.questionWords.map((word, i) => {
                       const id = `${q.id}-q-${i}|${word}`;
                       const isUsed = usedQ.includes(id);
@@ -251,7 +263,7 @@ const WB_Unit5_Page28_Q1 = () => {
                           key={id}
                           id={id}
                           text={word}
-                          disabled={isUsed}
+                          disabled={isUsed || showResults} // 👈 نمرر الحالة
                         />
                       );
                     })}
@@ -270,6 +282,7 @@ const WB_Unit5_Page28_Q1 = () => {
                       <button
                         key={word}
                         onClick={() => removeWord(`${q.id}-question`, word)}
+                        className="hover:text-red-500"
                       >
                         {extractText(word)}
                       </button>
@@ -277,7 +290,7 @@ const WB_Unit5_Page28_Q1 = () => {
                   </DropZone>
 
                   {/* Answer Word Bank */}
-                  <div className="flex flex-wrap gap-2 p-3 border rounded h-12">
+                  <div className="flex flex-wrap gap-2 p-3 border rounded">
                     {q.answerWords.map((word, i) => {
                       const id = `${q.id}-a-${i}|${word}`;
                       const isUsed = usedA.includes(id);
@@ -287,7 +300,7 @@ const WB_Unit5_Page28_Q1 = () => {
                           key={id}
                           id={id}
                           text={word}
-                          disabled={isUsed}
+                          disabled={isUsed || showResults}
                         />
                       );
                     })}
@@ -303,6 +316,7 @@ const WB_Unit5_Page28_Q1 = () => {
                       <button
                         key={word}
                         onClick={() => removeWord(`${q.id}-answer`, word)}
+                        className="hover:text-red-500"
                       >
                         {extractText(word)}
                       </button>

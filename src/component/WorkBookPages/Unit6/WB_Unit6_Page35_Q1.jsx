@@ -81,9 +81,9 @@ function PictureDropZone({
           <img
             src={imgSrc}
             style={{
-              width: "70%",
-              height: "140%",
-              objectFit: "contain",
+              width: "auto",
+              height: "110%",
+              objectFit: "cover",
             }}
           />
         </div>
@@ -100,7 +100,7 @@ function PictureDropZone({
 
       <div
         ref={setNodeRef}
-        className="w-full min-h-[60px] border-2 border-dashed rounded-xl flex items-center justify-center p-2 text-center transition-all"
+        className={`w-full min-h-[60px] border-2 border-dashed rounded-xl flex items-center justify-center p-2 text-center transition-all ${isWrong && "border-red-500"}`}
       >
         {content ? (
           <span className="text-blue-900 font-bold text-sm leading-tight">
@@ -137,6 +137,7 @@ const WB_Unit6_Page35_Q1 = () => {
   };
 
   const checkAnswers = () => {
+    if (isSubmitted) return;
     const hasEmpty = Object.values(placed).some((value) => value === null);
     if (hasEmpty) {
       ValidationAlert.info("Please complete all answers before checking.");
@@ -149,7 +150,7 @@ const WB_Unit6_Page35_Q1 = () => {
     });
 
     const total = Object.keys(CORRECT_ANSWERS).length;
-    const scoreMessage = `Your score: ${currentScore} / ${total}`;
+    const scoreMessage = `Score: ${currentScore} / ${total}`;
 
     if (currentScore === total) {
       ValidationAlert.success(scoreMessage);

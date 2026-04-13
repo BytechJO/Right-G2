@@ -94,6 +94,11 @@ const WB_Unit3_Page18_Q1 = () => {
 
   const getClass = (qId) => {
     if (!showResults || !answers[qId]) return "border-gray-300";
+
+    if (!isCorrect(qId)) {
+      return "border-red-500";
+    }
+
     return "border-gray-300";
   };
 
@@ -115,6 +120,7 @@ const WB_Unit3_Page18_Q1 = () => {
   };
 
   const checkAnswers = () => {
+    if (showResults) return;
     const hasEmptyFields = writeQuestions.some((q) => {
       const answer = answers[q.id];
       return !answer?.before || !answer?.after;
@@ -211,7 +217,7 @@ const WB_Unit3_Page18_Q1 = () => {
                     ))}
                   </select>
                   {isWrong(q.id) && (
-                    <div className="absolute bottom-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm shadow border-2 border-white text-2xl">
+                    <div className="absolute bottom-2 -right-2 bg-red-500 font-bold text-white rounded-full w-6 h-6 flex items-center justify-center text-sm shadow border-2 border-white text-2xl">
                       ✕
                     </div>
                   )}

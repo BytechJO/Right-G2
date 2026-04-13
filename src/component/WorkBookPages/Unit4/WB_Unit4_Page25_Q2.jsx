@@ -74,6 +74,8 @@ const WB_Unit4_Page25_Q2 = () => {
   };
 
   const checkAnswers = () => {
+        if (showResults) return; // لا تسمح بالتغيير بعد عرض النتائج
+
     // ✅ أولاً: تأكد أن كل الخيارات مختارة
     const hasEmptySelection = data.some(
       (item) => !userSelections[item.id]?.relation,
@@ -138,19 +140,21 @@ const WB_Unit4_Page25_Q2 = () => {
                 <img
                   src={item.img}
                   alt=""
-                  className="max-w-24 max-h-24 object-contain rounded-xl "
+                  className="object-contain rounded-xl "
+                   style={{height:"100px",width:"auto"}}
                 />
               </div>
 
-              <div className="flex items-center gap-4 text-xl text-gray-800">
-                <span className="font-bold">{item.per}</span>
+              <div className="flex items-center gap-4 text-lg text-gray-800">
+                <span >{item.per}</span>
 
                 <div className="flex flex-col gap-4">
                   {item.relations.map((r) => (
                     <div key={r} className="relative">
                       <button
                         onClick={() => handleSelect(item.id, "relation", r)}
-                        className={`w-50 px-4 py-1 rounded-full border-2 font-medium transition-all ${getButtonClass(item, r)}`}
+                        className={`w-50 px-4 py-1 rounded-full border-2 font-medium transition-all ${getButtonClass(item, r)} ${isWrong(item) &&
+                        userSelections[item.id]?.relation === r && "border-red-500 bg-white"}`}
                       >
                         {r}
                       </button>

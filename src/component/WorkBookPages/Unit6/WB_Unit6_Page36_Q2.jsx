@@ -111,6 +111,12 @@ const WB_Unit6_Page36_Q2 = () => {
   };
 
   const checkAnswers = () => {
+      const hasEmpty = Object.values(placed).some((v) => v === null);
+
+  if (hasEmpty) {
+    ValidationAlert.info("Please complete all answers first.");
+    return;
+  }
     ValidationAlert.success("Good Job!!");
   };
 

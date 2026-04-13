@@ -25,7 +25,7 @@ const correctAnswers = {
 
 export default function WB_Unit5_Page32_Q3() {
   const [columns, setColumns] = useState({ feet: [], beak: [] });
-  const [remaining, setRemaining] = useState([...wordBank]);
+  // const [remaining, setRemaining] = useState([...wordBank]);
   const [showResult, setShowResult] = useState(false);
   const [score, setScore] = useState(null);
   const [resetKey, setResetKey] = useState(0);
@@ -43,8 +43,6 @@ export default function WB_Unit5_Page32_Q3() {
         [col]: [...prev[col], word],
       };
     });
-
-    setRemaining((prev) => prev.filter((w) => w !== word));
   };
 
   const moveWordBetweenColumns = (fromCol, toCol, word) => {
@@ -70,10 +68,6 @@ export default function WB_Unit5_Page32_Q3() {
       ...prev,
       [fromCol]: prev[fromCol].filter((w) => w !== word),
     }));
-
-    setRemaining((prev) =>
-      [...prev, word].sort((a, b) => wordBank.indexOf(a) - wordBank.indexOf(b)),
-    );
   };
 
   const handleDragStart = (word, source) => {
@@ -109,33 +103,40 @@ export default function WB_Unit5_Page32_Q3() {
     handleDragEnd();
   };
 
-  const checkAnswers = () => {
-    if (remaining.length > 0) {
-      ValidationAlert.info(
-        "Please place all words before checking your answers.",
-      );
-      return;
-    }
+const checkAnswers = () => {
+  if (showResult) return;
 
-    let correct = 0;
+  const totalPlaced = columns.feet.length + columns.beak.length;
 
-    ["feet", "beak"].forEach((col) => {
-      const userSorted = [...columns[col]].sort().join(",");
-      const rightSorted = [...correctAnswers[col]].sort().join(",");
-      if (userSorted === rightSorted) correct++;
+  if (totalPlaced < wordBank.length) {
+    ValidationAlert.info(
+      "Please place all words before checking your answers.",
+    );
+    return;
+  }
+
+  let correct = 0;
+  let total = wordBank.length;
+
+  ["feet", "beak"].forEach((col) => {
+    columns[col].forEach((word) => {
+      if (correctAnswers[col].includes(word)) {
+        correct++;
+      }
     });
+  });
 
-    setScore(correct);
-    setShowResult(true);
+  setScore(correct);
+  setShowResult(true);
 
-    if (correct === 2) {
-      return ValidationAlert.success(`Score: ${correct}/2`);
-    } else if (correct === 0) {
-      return ValidationAlert.error(`Score: ${correct}/2`);
-    } else {
-      return ValidationAlert.error(`Score: ${correct}/2`);
-    }
-  };
+  if (correct === total) {
+    return ValidationAlert.success(`Score: ${correct}/${total}`);
+  } else if (correct === 0) {
+    return ValidationAlert.error(`Score: ${correct}/${total}`);
+  } else {
+    return ValidationAlert.warning(`Score: ${correct}/${total}`);
+  }
+};
 
   const handleShowAnswer = () => {
     setColumns({
@@ -149,14 +150,20 @@ export default function WB_Unit5_Page32_Q3() {
 
   const handleStartAgain = () => {
     setColumns({ feet: [], beak: [] });
-    setRemaining([...wordBank]);
     setShowResult(false);
     setScore(null);
     setDraggedWord(null);
     setDragSource(null);
     setResetKey((k) => k + 1);
   };
+  const isWordWrong = (col, word) => {
+    if (!showResult) return false;
 
+    return !correctAnswers[col].includes(word);
+  };
+  const isWordUsed = (word) => {
+    return columns.feet.includes(word) || columns.beak.includes(word);
+  };
   const getWordClass = (col, word) => {
     const base =
       "px-3 py-2 rounded-lg text-sm font-semibold cursor-move transition-all border-2 ";
@@ -171,7 +178,7 @@ export default function WB_Unit5_Page32_Q3() {
       base +
       (isCorrect
         ? "bg-blue-500 text-white border-blue-500"
-        : "bg-blue-500 text-white border-blue-500")
+        : "bg-blue-500 text-white border-red-500") // 🔴 غلط
     );
   };
 
@@ -206,21 +213,29 @@ export default function WB_Unit5_Page32_Q3() {
             onDrop={handleDropOnBank}
             className="flex flex-wrap gap-3 p-4 bg-gray-100 rounded-xl min-h-[80px] border-2 border-dashed border-gray-300"
           >
-            {remaining.map((word) => (
-              <button
-                key={word}
-                draggable={!showResult}
-                onDragStart={() => handleDragStart(word, "bank")}
-                onDragEnd={handleDragEnd}
-                className="px-4 py-2 bg-white border-2 border-gray-300 rounded-lg text-sm font-semibold text-gray-700 shadow-sm cursor-move hover:border-blue-400 hover:bg-blue-50 transition-all"
-              >
-                {word}
-              </button>
-            ))}
+            {wordBank.map((word) => {
+              const used = isWordUsed(word);
 
-            {remaining.length === 0 && (
-              <p className="text-gray-400 text-sm">All words placed ✓</p>
-            )}
+              return (
+                <button
+                  key={word}
+                  draggable={!showResult && !used}
+                  onDragStart={() => {
+                    if (!used) handleDragStart(word, "bank");
+                  }}
+                  onDragEnd={handleDragEnd}
+                  className={`px-4 py-2 border-2 rounded-lg text-sm font-semibold shadow-sm transition-all
+        ${
+          used
+            ? "bg-gray-100 text-gray-400 cursor-not-allowed opacity-60"
+            : "bg-white border-gray-300 cursor-move hover:border-blue-400 hover:bg-blue-50"
+        }
+      `}
+                >
+                  {word}
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -232,11 +247,7 @@ export default function WB_Unit5_Page32_Q3() {
           ].map((col, id) => (
             <div key={id}>
               <div className="flex items-center gap-2 mb-3">
-                <img
-                  src={col.img}
-                  alt={col.key}
-                   style={{height:"120px"}}
-                />
+                <img src={col.img} alt={col.key} style={{ height: "120px" }} />
 
                 <span className="font-bold text-gray-700 text-lg">
                   {col.key}
@@ -253,25 +264,30 @@ export default function WB_Unit5_Page32_Q3() {
               >
                 <div className="flex flex-wrap gap-2">
                   {columns[col.key].map((word) => (
-                    <button
-                      key={word}
-                      draggable={!showResult}
-                      onDragStart={() => handleDragStart(word, col.key)}
-                      onDragEnd={handleDragEnd}
-                      onClick={() => {
-                        if (!showResult) {
-                          returnWordToBank(col.key, word);
-                        }
-                      }}
-                      className={getWordClass(col.key, word)}
-                      title={
-                        showResult
-                          ? ""
-                          : "Drag to move or click to return to word bank"
-                      }
-                    >
-                      {word}
-                    </button>
+                    <div key={word} className="relative">
+                      <button
+                        draggable={!showResult}
+                        onDragStart={() => handleDragStart(word, col.key)}
+                        onDragEnd={handleDragEnd}
+                        onClick={() => {
+                          if (!showResult) {
+                            returnWordToBank(col.key, word);
+                          }
+                        }}
+                        className={getWordClass(col.key, word)}
+                      >
+                        {word}
+                      </button>
+
+                      {/* ✕ فوق الكلمة الغلط */}
+                      {isWordWrong(col.key, word) && (
+                        <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-red-500 flex items-center justify-center shadow border-2 border-white">
+                          <span className="text-white text-sm font-bold">
+                            ✕
+                          </span>
+                        </div>
+                      )}
+                    </div>
                   ))}
                 </div>
 

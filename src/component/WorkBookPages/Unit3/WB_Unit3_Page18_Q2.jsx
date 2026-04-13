@@ -48,10 +48,7 @@ const WB_Unit3_Page18_Q2 = () => {
     const wordId = e.target.dataset.wordId;
     const image = e.target.dataset.image || null;
 
-    // ⭐⭐ NEW: منع رسم أكثر من خط من نفس الصورة (image)
-    const alreadyUsed = lines.some((line) => line.wordId === wordId);
 
-    if (alreadyUsed) return; // ← إضافة جديدة
 
     setFirstDot({
       wordId,
@@ -64,28 +61,40 @@ const WB_Unit3_Page18_Q2 = () => {
   // ============================
   // 2️⃣ الضغط على النقطة الثانية (end-dot)
   // ============================
-  const handleEndDotClick = (e) => {
-    if (showAnswer || locked) return; // ⭐⭐ NEW: منع التوصيل إذا مغلق
-    if (!firstDot) return;
+const handleEndDotClick = (e) => {
+  if (showAnswer || locked) return;
+  if (!firstDot) return;
 
-    const rect = containerRef.current.getBoundingClientRect();
+  const rect = containerRef.current.getBoundingClientRect();
 
-    const endWord = e.target.dataset.word || null;
-    const endImage = e.target.dataset.image || null;
+  const endImage = e.target.dataset.image;
 
-    const newLine = {
-      x1: firstDot.x,
-      y1: firstDot.y,
-      x2: e.target.getBoundingClientRect().left - rect.left + 8,
-      y2: e.target.getBoundingClientRect().top - rect.top + 8,
-
-      wordId: firstDot.wordId,
-      image: endImage,
-    };
-
-    setLines((prev) => [...prev, newLine]);
-    setFirstDot(null);
+  const newLine = {
+    x1: firstDot.x,
+    y1: firstDot.y,
+    x2: e.target.getBoundingClientRect().left - rect.left + 8,
+    y2: e.target.getBoundingClientRect().top - rect.top + 8,
+    wordId: firstDot.wordId,
+    image: endImage,
   };
+
+  setLines((prev) => {
+    // ✅ احذف أي خط لنفس الجملة
+    let updated = prev.filter(
+      (line) => line.wordId !== firstDot.wordId
+    );
+
+    // ✅ احذف أي خط لنفس الصورة
+    updated = updated.filter(
+      (line) => line.image !== endImage
+    );
+
+    // ✅ أضف الخط الجديد
+    return [...updated, newLine];
+  });
+
+  setFirstDot(null);
+};
   // ============================
   // 3️⃣ Check Answers
   // ============================

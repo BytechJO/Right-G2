@@ -1,300 +1,355 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import img from "../../../assets/imgs/test6.png";
+
+// صور الجمل (استبدل المسارات بالمسارات الفعلية)
 import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 30/Ex G 1.svg";
 import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 30/Ex G 2.svg";
 import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 30/Ex G 3.svg";
 import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 30/Ex G 4.svg";
 import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 30/Ex G 5.svg";
 
-const SentenceBuilder = ({
-  id,
-  scrambled,
-  correct,
-  onUpdate,
-  showResult,
-  src,
-  forceAnswer,
-}) => {
-  // ✅ خلي البنك ثابت (ما يتغير)
-  const [availableWords] = useState(
-    scrambled.split(" ").map((word, index) => ({
-      id: `${id}-word-${index}`,
-      text: word,
-    })),
-  );
+// بيانات التمرين
+const sentencesData = [
+  {
+    id: 1,
+    incorrectSentence: "She doesn't like rice.",
+    correctSentence: "She doesn't like fruit.",
+    incorrectWordIndex: 3, // "rice" هي الكلمة الخاطئة (الفهرس 3)
+    correctWord: "fruit",
+    image: img1,
+    wordBank: ["fruit", "meat", "fish"],
+  },
+  {
+    id: 2,
+    incorrectSentence: "He likes fish.",
+    correctSentence: "He doesn't like fish.",
+    incorrectWordIndex: 1, // "likes" هي الكلمة الخاطئة
+    correctWord: "doesn't",
+    image: img2,
+    wordBank: ["likes", "doesn't", "loves"],
+  },
+  {
+    id: 3,
+    incorrectSentence: "He doesn't like chicken.",
+    correctSentence: "He doesn't like meat.",
+    incorrectWordIndex: 3, // "chicken" هي الكلمة الخاطئة
+    correctWord: "meat",
+    image: img3,
+    wordBank: ["meat", "rice", "chicken"],
+  },
+  {
+    id: 4,
+    incorrectSentence: "I like meat.",
+    correctSentence: "I like stew.",
+    incorrectWordIndex: 2, // "meat" هي الكلمة الخاطئة
+    correctWord: "stew",
+    image: img4,
+    wordBank: ["stew", "meat", "fish"],
+  },
+  {
+    id: 5,
+    incorrectSentence: "He likes rice.",
+    correctSentence: "He doesn't like rice.",
+    incorrectWordIndex: 1, // "likes" هي الكلمة الخاطئة
+    correctWord: "doesn't",
+    image: img5,
+    wordBank: ["likes", "doesn't", "loves"],
+  },
+];
 
-  const [chosenWords, setChosenWords] = useState([]);
-
-  useEffect(() => {
-    if (forceAnswer) {
-      const words = correct
-        .replace(/[.,!?]/g, "")
-        .split(" ")
-        .map((word, index) => ({
-          id: `${id}-word-${index}`,
-          text: word,
-        }));
-      setChosenWords(words);
-    }
-  }, [forceAnswer, correct, id]);
-
-  // ✅ تحديد إذا الكلمة مستخدمة
-  const isUsed = (wordId) => {
-    return chosenWords.some((w) => w.id === wordId);
-  };
-
-  // ✅ إضافة كلمة (بدون تكرار)
-  const handleWordClick = (wordToAdd) => {
-    if (isUsed(wordToAdd.id)) return;
-
-    const newChosenWords = [...chosenWords, wordToAdd];
-    setChosenWords(newChosenWords);
-
-    onUpdate(newChosenWords.map((w) => w.text).join(" "));
-  };
-
-  // ✅ حذف كلمة (ترجع تشتغل تلقائي)
-  const handleRemoveWord = (wordToRemove) => {
-    const newChosenWords = chosenWords.filter((w) => w.id !== wordToRemove.id);
-
-    setChosenWords(newChosenWords);
-
-    onUpdate(newChosenWords.map((w) => w.text).join(" "));
-  };
-
-  const isWrong = () => {
-    if (!showResult) return false;
-
-    const userAnswer = chosenWords.map((w) => w.text).join(" ");
-    if (!userAnswer) return false;
-
-    const cleanUser = userAnswer.replace(/[.,!?]/g, "").trim();
-    const cleanCorrect = correct.replace(/[.,!?]/g, "").trim();
-
-    return cleanUser !== cleanCorrect;
-  };
-
-  return (
-    <div className="space-y-3">
-      {/* WORD BANK */}{" "}
-      <div className="flex flex-wrap gap-2 p-3 bg-gray-100 rounded-lg min-h-[50px] items-center"  style={{justifyContent:"space-between"}}>
-        <div className="flex flex-col gap-2">
-          <div className="flex gap-2">
-          {availableWords.map((word) => {
-            const used = isUsed(word.id);
-
-            return (
-              <button
-                key={word.id}
-                onClick={() => {
-                  if (!used) handleWordClick(word);
-                }}
-                className={`px-3 py-1 border rounded-md transition
-            ${
-              used
-                ? "bg-gray-100 text-gray-400 cursor-not-allowed opacity-60"
-                : "bg-white border-gray-400 hover:bg-blue-100 cursor-pointer"
-            }`}
-              >
-                {word.text}
-              </button>
-            );
-          })}</div>
-          <div className="relative w-90">
-            <div className="flex flex-wrap gap-2 p-3 border-2 border-gray-500 rounded-lg min-h-[60px]">
-              {chosenWords.map((word) => (
-                <button
-                  key={word.id}
-                  onClick={() => handleRemoveWord(word)}
-                  className="px-3 py-1 bg-blue-600 text-white rounded-md"
-                >
-                  {word.text}
-                </button>
-              ))}
-            </div>
-
-            {isWrong() && (
-              <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-sm font-bold shadow border-2 border-white">
-                ✕
-              </div>
-            )}
-          </div>
-        </div>
-        <img src={src} style={{height:"120px"}} />
-      </div>
-      {/* ANSWER */}
-    </div>
-  );
-};
-
-const WB_Unit5_Page30_Q1 = () => {
-  const exerciseSentences = [
-    {
-      id: "s1",
-      scrambled: "He likes fish.",
-      correct: "He doesn't like fish.",
-      img: img2,
-    },
-    {
-      id: "s2",
-      scrambled: "He doesn’t like chicken.",
-      correct: "He doesn't like meat.",
-      img: img3,
-    },
-    { id: "s3", scrambled: "I like meat.", correct: "I like stew.", img: img4 },
-    {
-      id: "s4",
-      scrambled: "He likes rice.",
-      correct: "He doesn't like rice.",
-      img: img5,
-    },
-  ];
-
-  const [userAnswers, setUserAnswers] = useState({});
+const CorrectSentenceExercise = () => {
+  const [markedWords, setMarkedWords] = useState({}); // {sentenceId: wordIndex}
+  const [userAnswers, setUserAnswers] = useState({}); // {sentenceId: selectedWord}
   const [showResults, setShowResults] = useState(false);
-  const [score, setScore] = useState(null);
-  const [resetKey, setResetKey] = useState(0);
-  const [showAnswers, setShowAnswers] = useState(false);
+  const [draggedWord, setDraggedWord] = useState(null);
 
-  const handleAnswerUpdate = (id, answer) => {
-    setUserAnswers((prev) => ({ ...prev, [id]: answer }));
-    if (showResults) {
-      setShowResults(false);
-      setScore(null);
+  // معالج النقر على كلمة لوضع علامة X
+  const handleWordClick = (sentenceId, wordIndex) => {
+    if (showResults) return;
+
+    // إذا كانت نفس الكلمة مضغوطة، أزلها
+    if (markedWords[sentenceId] === wordIndex) {
+      setMarkedWords((prev) => {
+        const newMarked = { ...prev };
+        delete newMarked[sentenceId];
+        return newMarked;
+      });
+    } else {
+      // ضع علامة على كلمة واحدة فقط لكل جملة
+      setMarkedWords((prev) => ({
+        ...prev,
+        [sentenceId]: wordIndex,
+      }));
     }
   };
 
+  // معالج بدء السحب
+  const handleDragStart = (word) => {
+    setDraggedWord(word);
+  };
+
+  // معالج السماح بالإفلات
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+
+  // معالج الإفلات
+  const handleDrop = (sentenceId) => {
+    if (showResults || !draggedWord) return;
+    setUserAnswers((prev) => ({
+      ...prev,
+      [sentenceId]: draggedWord,
+    }));
+    setDraggedWord(null);
+  };
+
+  // معالج إزالة الكلمة من الفراغ
+  const handleRemoveWord = (sentenceId) => {
+    if (showResults) return;
+    setUserAnswers((prev) => {
+      const newAnswers = { ...prev };
+      delete newAnswers[sentenceId];
+      return newAnswers;
+    });
+  };
+
+  // الحصول على الجملة الصحيحة مقسمة إلى أجزاء
+  const getSentenceParts = (sentence) => {
+    const words = sentence.split(" ");
+    return words;
+  };
+
+  // التحقق من صحة الإجابة
+  const isAnswerCorrect = (sentenceId) => {
+    const sentence = sentencesData.find((s) => s.id === sentenceId);
+    return userAnswers[sentenceId] === sentence.correctWord;
+  };
+
+  // معالج التحقق من الإجابات
   const checkAnswers = () => {
-    const unanswered = exerciseSentences.filter(
-      (s) => !userAnswers[s.id] || userAnswers[s.id].trim() === "",
+    if (showResults) return;
+
+    // تحقق من أن جميع الجمل تم ملؤها
+    const allFilled = sentencesData.every(
+      (sentence) => userAnswers[sentence.id],
     );
 
-    if (unanswered.length > 0) {
-      ValidationAlert.warning(
-        "Please complete all sentences before checking your answers.",
-      );
+    if (!allFilled) {
+      ValidationAlert.info("Please complete all sentences first.");
       return;
     }
 
     setShowResults(true);
 
-    let correctCount = 0;
-
-    exerciseSentences.forEach((sentence) => {
-      const userWords = userAnswers[sentence.id]
-        .replace(/[.,!?]/g, "")
-        .trim()
-        .split(/\s+/);
-
-      const correctWords = sentence.correct
-        .replace(/[.,!?]/g, "")
-        .trim()
-        .split(/\s+/);
-
-      const isCorrect =
-        userWords.length === correctWords.length &&
-        userWords.every((w, i) => w === correctWords[i]);
-
-      if (isCorrect) correctCount++;
+    let score = 0;
+    sentencesData.forEach((sentence) => {
+      if (isAnswerCorrect(sentence.id)) {
+        score++;
+      }
     });
 
-    setScore({ correct: correctCount, total: exerciseSentences.length });
+    const total = sentencesData.length;
 
-    if (correctCount === exerciseSentences.length) {
-      ValidationAlert.success(
-        `Score: ${correctCount}/${exerciseSentences.length}`,
-      );
-    } else {
-      ValidationAlert.error(
-        `Score: ${correctCount}/${exerciseSentences.length}`,
-      );
-    }
+    if (score === total) ValidationAlert.success(`Score: ${score} / ${total}`);
+    else if (score > 0) ValidationAlert.warning(`Score: ${score} / ${total}`);
+    else ValidationAlert.error(`Score: ${score} / ${total}`);
   };
 
+  // معالج عرض الإجابات
+  const handleShowAnswer = () => {
+    const correctAnswers = {};
+    const correctMarked = {};
+
+    sentencesData.forEach((sentence) => {
+      // ملء الإجابات الصحيحة
+      correctAnswers[sentence.id] = sentence.correctWord;
+      // وضع علامة X على الكلمة الخاطئة تلقائياً
+      correctMarked[sentence.id] = sentence.incorrectWordIndex;
+    });
+
+    setUserAnswers(correctAnswers);
+    setMarkedWords(correctMarked);
+    setShowResults(true);
+  };
+
+  // معالج إعادة التشغيل
   const handleStartAgain = () => {
     setUserAnswers({});
+    setMarkedWords({});
     setShowResults(false);
-    setScore(null);
-    setShowAnswers(false);
-    setResetKey((prev) => prev + 1); // ✅ هذا المهم
-  };
-
-  const handleShowAnswer = () => {
-    setShowAnswers(true);
-
-    const allAnswers = {};
-    exerciseSentences.forEach((s) => {
-      allAnswers[s.id] = s.correct;
-    });
-
-    setUserAnswers(allAnswers);
-    setShowResults(true);
-    setScore({
-      correct: exerciseSentences.length,
-      total: exerciseSentences.length,
-    });
+    setDraggedWord(null);
   };
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px", marginBottom: "50px" }}>
+      <div className="div-forall" style={{ gap: "20px" ,marginBottom:"30px"}}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">G</span> Look, read, and write{" "}
-          <span style={{ color: "navy" }}>✕</span> over the mistake. Rewrite the
+          <span className="text-blue-800">✕</span> over the mistake. Rewrite the
           sentence.
         </h1>
 
-        <div className="space-y-2">
-          <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
-            <span className="font-bold text-blue-600 text-xl">1.</span>
+        {/* الجمل التفاعلية */}
+        <div className="space-y-8">
+          {sentencesData.map((sentence) => {
+            const correctWords = getSentenceParts(sentence.correctSentence);
+            const incorrectWords = getSentenceParts(sentence.incorrectSentence);
 
-            <div className="flex-1">
-              <p className="text-lg text-gray-400 line-through">
-                She doesn’t like rice.
-              </p>
-              <p className="text-lg text-gray-900 font-semibold">
-                she doesn't like fruit.
-              </p>
-            </div>
+            return (
+              <div
+                key={sentence.id}
+                className="space-y-4 flex justify-between gap-5"
+              >
+                {/* رقم الجملة والجملة الخاطئة مع إمكانية النقر على الكلمات */}
+                <div className="flex items-start gap-4 w-full">
+                  <span className="text-lg font-bold text-gray-700 min-w-8">
+                    {sentence.id}
+                  </span>
+                  <div className="flex-1 space-y-3">
+                    {/* الجملة الخاطئة - الكلمات قابلة للنقر */}
+                    <div className="flex flex-wrap items-center gap-2 text-lg">
+                      {incorrectWords.map((word, wordIndex) => (
+                        <button
+                          key={wordIndex}
+                          onClick={() =>
+                            handleWordClick(sentence.id, wordIndex)
+                          }
+                          disabled={showResults}
+                          className={`relative px-2 py-1 rounded transition-all ${
+                            markedWords[sentence.id] === wordIndex
+                              ? "text-red-600 font-bold"
+                              : "text-gray-800 hover:bg-gray-100"
+                          } ${showResults ? "cursor-default" : "cursor-pointer"}`}
+                        >
+                          {word}
+                          {markedWords[sentence.id] === wordIndex && (
+                            <span className="absolute -top-2 -right-2 text-2xl text-red-600 font-bold">
+                              ✕
+                            </span>
+                          )}
+                        </button>
+                      ))}
+                    </div>
 
-            <img src={img1}  style={{height:"120px"}} />
-          </div>
-          {exerciseSentences.map((sentence, index) => (
-            <div
-              key={`${sentence.id}-${resetKey}`} // ✅ الحل هنا
-              className="flex items-start gap-4 p-4 rounded-xl"
-            >
-              <span className="font-bold text-blue-600 text-xl pt-2">
-                {index + 2}.
-              </span>
+                    {/* Word Bank لهذه الجملة */}
+                    <div className="p-3 border-2 border-dashed border-blue-400 rounded-lg bg-blue-50">
+                      <div className="flex flex-wrap gap-2">
+                        {sentence.wordBank.map((word) => (
+                          <div
+                            key={word}
+                            draggable
+                            onDragStart={() => handleDragStart(word)}
+                            className={`px-3 py-1 rounded-lg text-sm font-medium cursor-move transition-all ${
+                              draggedWord === word
+                                ? "bg-yellow-300 opacity-50"
+                                : "bg-blue-500 text-white hover:bg-blue-600"
+                            }`}
+                          >
+                            {word}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
 
-              <div className="flex-1">
-                <SentenceBuilder
-                  id={sentence.id}
-                  scrambled={sentence.scrambled}
-                  correct={sentence.correct}
-                  onUpdate={(ans) => handleAnswerUpdate(sentence.id, ans)}
-                  showResult={showResults}
-                  src={sentence.img}
-                  forceAnswer={showAnswers}
+                    {/* منطقة الإجابة - السحب والإفلات */}
+                    <div
+                      onDragOver={handleDragOver}
+                      onDrop={() => handleDrop(sentence.id)}
+                      className={`relative p-2 border-2 rounded-lg transition-all ${
+                        userAnswers[sentence.id]
+                          ? showResults
+                            ? isAnswerCorrect(sentence.id)
+                              ? "border-gray-400 bg-gray-50 "
+                              : "border-gray-400 bg-gray-50"
+                            : "border-blue-500 bg-blue-50"
+                          : "border-dashed border-gray-400 bg-gray-50 hover:bg-gray-100"
+                      }`}
+                    >
+                      {showResults &&
+                        userAnswers[sentence.id] &&
+                        !isAnswerCorrect(sentence.id) && (
+                          <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-red-500 text-white flex items-center justify-center text-sm font-bold shadow border-2 border-white">
+                            ✕
+                          </div>
+                        )}
+                      <div className="flex flex-wrap items-center gap-2 text-lg">
+                        {/* عرض الجملة مع الفراغ */}
+                        {correctWords.map((word, wordIndex) => {
+                          if (wordIndex === sentence.incorrectWordIndex) {
+                            // هذا هو مكان الفراغ - منطقة السحب والإفلات
+                            return (
+                              <div
+                                key={wordIndex}
+                                className={`px-3 py-2 rounded-lg border-2 transition-all ${
+                                  userAnswers[sentence.id]
+                                    ? showResults
+                                      ? isAnswerCorrect(sentence.id)
+                                        ? "border-blue-500"
+                                        : "border-red-500"
+                                      : "border-blue-500 bg-blue-200"
+                                    : "border-dashed border-gray-400 bg-gray-200"
+                                }`}
+                              >
+                                {userAnswers[sentence.id] ? (
+                                  <button
+                                    onClick={() =>
+                                      handleRemoveWord(sentence.id)
+                                    }
+                                    disabled={showResults}
+                                    className={`font-bold transition-all ${
+                                      showResults
+                                        ? isAnswerCorrect(sentence.id)
+                                          ? "text-blue-700 cursor-default"
+                                          : "text-blue-700 cursor-default"
+                                        : "text-blue-700 hover:text-blue-900 cursor-pointer"
+                                    }`}
+                                  >
+                                    {userAnswers[sentence.id]}
+                                  </button>
+                                ) : (
+                                  <span className="text-gray-500 italic text-sm">
+                                    [Drop here]
+                                  </span>
+                                )}
+                              </div>
+                            );
+                          } else {
+                            // الكلمات الأخرى
+                            return (
+                              <span key={wordIndex} className="text-gray-800">
+                                {word}
+                              </span>
+                            );
+                          }
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* الصورة */}
+
+                <img
+                  src={sentence.image}
+                  alt={`Sentence ${sentence.id}`}
+                  className="rounded-lg object-contain"
+                  style={{ height: "180px", width: "auto" }}
                 />
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
-        <div className="mt-20">
-          <Button
-            handleShowAnswer={handleShowAnswer}
-            handleStartAgain={handleStartAgain}
-            checkAnswers={checkAnswers}
-          />
-        </div>
+        {/* أزرار التحكم */}
+        <Button
+          handleShowAnswer={handleShowAnswer}
+          handleStartAgain={handleStartAgain}
+          checkAnswers={checkAnswers}
+        />
       </div>
     </div>
   );
 };
 
-export default WB_Unit5_Page30_Q1;
+export default CorrectSentenceExercise;

@@ -35,6 +35,7 @@ const WB_Unit4_Page24_Q1 = () => {
     [img3, img6],
   ];
   const handleChange = (id, value) => {
+    if (showResults) return;
     setAnswers({ ...answers, [id]: value });
     setShowResults(false);
   };
@@ -44,26 +45,36 @@ const WB_Unit4_Page24_Q1 = () => {
 
     return answers[q.id] !== q.correct;
   };
-  const checkAnswers = () => {
-    let score = 0;
+ const checkAnswers = () => {
+  if (showResults) return;
 
-    questions.forEach((q) => {
-      if (answers[q.id] === q.correct) {
-        score++;
-      }
-    });
+  // ✅ تحقق إنو كل الأسئلة متجاوبة
+  const allAnswered = questions.every((q) => answers[q.id]);
 
-    setShowResults(true);
+  if (!allAnswered) {
+    ValidationAlert.info("Please answer all questions first.");
+    return;
+  }
 
-    if (score === questions.length) {
-      ValidationAlert.success(`Score: ${score} / ${questions.length}`);
-    } else if (score > 0) {
-      ValidationAlert.error(`Score: ${score} / ${questions.length}`);
-    } else {
-      ValidationAlert.warning("Try again.");
+  // ✅ إذا كله معبّي → كمل
+  let score = 0;
+
+  questions.forEach((q) => {
+    if (answers[q.id] === q.correct) {
+      score++;
     }
-  };
+  });
 
+  setShowResults(true);
+
+  if (score === questions.length) {
+    ValidationAlert.success(`Score: ${score} / ${questions.length}`);
+  } else if (score > 0) {
+    ValidationAlert.warning(`Score: ${score} / ${questions.length}`);
+  } else {
+    ValidationAlert.error(`Score: ${score} / ${questions.length}`);
+  }
+};
   const handleShowAnswer = () => {
     const correct = {};
     questions.forEach((q) => {
@@ -85,17 +96,17 @@ const WB_Unit4_Page24_Q1 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
+      <div className="div-forall" style={{ gap: "20px"  ,marginBottom:"30px"}}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">G</span>Look, read, and write{" "}
           <span style={{ color: "navy" }}>✓</span>.
         </h1>
 
-        <div className="space-y-10">
+        <div className="space-y-4">
           {questions.map((q) => (
             <div
               key={q.id}
-              className="flex flex-col items-center text-center gap-4"
+              className="flex flex-col gap-4"
             >
               <p className={`mr-50 text-lg font-medium`}>
                 {q.id}. {q.question}
@@ -122,14 +133,10 @@ const WB_Unit4_Page24_Q1 = () => {
                     />
                   ))}
                 </div>
-                <div>
+                <div className="flex flex-col gap-5">
                   <div className="relative">
                     <label className="flex items-center gap-2 cursor-pointer">
-                      {isWrong(q) && answers[q.id] === "yes" && (
-                        <div className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-sm font-bold shadow border-2 border-white">
-                          ✕
-                        </div>
-                      )}
+                      
                       <input
                         type="radio"
                         name={`q${q.id}`}
@@ -138,24 +145,26 @@ const WB_Unit4_Page24_Q1 = () => {
                         className="hidden"
                       />
                       <span
-                        className={`w-10 h-10 border-2 border-gray-400 rounded-sm flex items-center justify-center text-lg font-bold ${
+                        className={`relative w-10 h-10 border-2 border-gray-400 rounded-sm flex items-center justify-center text-2xl font-bold text-blue-800 ${
                           answers[q.id] === "yes"
                             ? "text-red"
                             : "text-transparent"
-                        }`}
+                        }
+                         ${isWrong(q) && answers[q.id] === "yes" && "border-red-500 "}`}
                       >
                         ✓
+                        {isWrong(q) && answers[q.id] === "yes" && (
+                        <div className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-sm font-bold shadow border-2 border-white">
+                          ✕
+                        </div>
+                      )}
                       </span>
                       Yes, I do.
                     </label>
                   </div>
                   <div className="relative">
                     <label className="flex items-center gap-2 cursor-pointer">
-                      {isWrong(q) && answers[q.id] === "no" && (
-                        <div className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-sm font-bold shadow border-2 border-white">
-                          ✕
-                        </div>
-                      )}
+                      
                       <input
                         type="radio"
                         name={`q${q.id}`}
@@ -164,13 +173,19 @@ const WB_Unit4_Page24_Q1 = () => {
                         className="hidden"
                       />
                       <span
-                        className={`w-10 h-10 border-2 border-gray-400 rounded-sm flex items-center justify-center text-lg font-bold ${
+                        className={`relative w-10 h-10 border-2 border-gray-400 rounded-sm flex items-center justify-center text-2xl font-bold text-blue-800 ${
                           answers[q.id] === "no"
                             ? "text-red"
                             : "text-transparent"
-                        }`}
+                        }
+                      ${isWrong(q) && answers[q.id] === "no" && "border-red-500 "}`}
                       >
                         ✓
+                        {isWrong(q) && answers[q.id] === "no" && (
+                        <div className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-sm font-bold shadow border-2 border-white">
+                          ✕
+                        </div>
+                      )}
                       </span>
                       No, I don’t.
                     </label>

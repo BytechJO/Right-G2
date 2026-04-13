@@ -68,40 +68,41 @@ const WB_Unit3_Page19_Q2 = () => {
     return normalize(dropped) !== normalize(correct);
   };
 
- const onDragEnd = (result) => {
-  const { source, destination } = result;
-  if (!destination) return;
+  const onDragEnd = (result) => {
+    const { source, destination } = result;
+    if (!destination) return;
 
-  setShowResults(false);
+    setShowResults(false);
 
-  setItems((prev) => {
-    const newState = { ...prev };
+    setItems((prev) => {
+      const newState = { ...prev };
 
-    const sourceList = Array.from(newState[source.droppableId]);
-    const destList = Array.from(newState[destination.droppableId]);
+      const sourceList = Array.from(newState[source.droppableId]);
+      const destList = Array.from(newState[destination.droppableId]);
 
-    const movedItem = sourceList[source.index];
+      const movedItem = sourceList[source.index];
 
-    // 🔁 نفس المكان
-    if (source.droppableId === destination.droppableId) return prev;
+      // 🔁 نفس المكان
+      if (source.droppableId === destination.droppableId) return prev;
 
-    // 🔄 استبدال
-    if (destination.droppableId !== "wordBank" && destList.length > 0) {
-      destList.shift();
-    }
+      // 🔄 استبدال
+      if (destination.droppableId !== "wordBank" && destList.length > 0) {
+        destList.shift();
+      }
 
-    // ➕ إضافة للسؤال
-    if (destination.droppableId !== "wordBank") {
-      destList.splice(0, 0, movedItem);
-    }
+      // ➕ إضافة للسؤال
+      if (destination.droppableId !== "wordBank") {
+        destList.splice(0, 0, movedItem);
+      }
 
-    // ❗ لا تحذف من wordBank أبداً
-    newState[destination.droppableId] = destList;
+      // ❗ لا تحذف من wordBank أبداً
+      newState[destination.droppableId] = destList;
 
-    return newState;
-  });
-};
+      return newState;
+    });
+  };
   const checkAnswers = () => {
+    if (showResults) return;
     const allFilled = answerQuestions.every(
       (q) => items[q.id] && items[q.id].length > 0,
     );
@@ -130,24 +131,30 @@ const WB_Unit3_Page19_Q2 = () => {
     }
   };
 
-  const handleShowAnswer = () => {
-    setItems({
-      wordBank: [],
-      j1: [{ id: "a1", text: "Yes, she can." }],
-      j2: [{ id: "a2", text: "Yes, it can." }],
-      j3: [{ id: "a3", text: "Yes, it can." }],
-      j4: [{ id: "a4", text: "No, she can't." }],
-    });
-    setShowResults(true);
-  };
+const handleShowAnswer = () => {
+  const filled = {};
+  
+  answerQuestions.forEach((q, index) => {
+    filled[q.id] = [{ id: `a-${index}`, text: q.correctAnswer }];
+  });
 
+  setItems((prev) => ({
+    ...filled,
+    wordBank: prev.wordBank.map((w) => ({
+      ...w,
+      disabled: true, // ✅ تعطيل كل الكلمات
+    })),
+  }));
+
+  setShowResults(true);
+};
   const handleStartAgain = () => {
     setItems(initialState);
     setShowResults(false);
   };
- const usedWords = Object.keys(items)
-  .filter((key) => key !== "wordBank")
-  .flatMap((key) => items[key]);
+  const usedWords = Object.keys(items)
+    .filter((key) => key !== "wordBank")
+    .flatMap((key) => items[key]);
   return (
     <div className="main-container-component">
       <div className="div-forall" style={{ gap: "20px" }}>
@@ -162,18 +169,18 @@ const WB_Unit3_Page19_Q2 = () => {
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="flex flex-wrap justify-center gap-3 p-2 border rounded-xl bg-gray-50 min-h-[40px]"
+                className="flex flex-wrap justify-center gap-3 p-2 border-2 border-gray-400 border-dashed rounded-xl min-h-[40px]"
               >
                 {items.wordBank.map((word, index) => {
                   const isUsed = usedWords.some((w) => w.id === word.id);
-                      console.log(isUsed);
-                      
+                  console.log(isUsed);
+
                   return (
                     <Draggable
                       key={word.id}
-                      draggableId={word.id}
+                      draggableId={`${word.id}-${index}`}
                       index={index}
-                      isDragDisabled={isUsed} // 🔒 المنع
+                      isDragDisabled={isUsed ||showResults} // 🔒 المنع
                     >
                       {(provided) => (
                         <div
@@ -182,9 +189,9 @@ const WB_Unit3_Page19_Q2 = () => {
                           {...provided.dragHandleProps}
                           className={`px-4 py-2 rounded-lg text-sm transition
             ${
-              isUsed
-                ? "bg-gray-100 text-gray-400 border border-gray-200 cursor-not-allowed opacity-70"
-                : "bg-white text-gray-800 border border-gray-300 cursor-grab hover:bg-gray-50"
+              isUsed ||showResults
+                ? "bg-gray-100 text-gray-400 border border-blue-800 cursor-not-allowed opacity-70"
+                : "bg-white text-gray-800 border border-blue-800 cursor-grab hover:bg-gray-50"
             }`}
                         >
                           {word.text}
@@ -201,7 +208,10 @@ const WB_Unit3_Page19_Q2 = () => {
           {/* Questions */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
             {answerQuestions.map((q, index) => (
-              <div key={q.id} className="flex flex-col items-center justify-center w-full">
+              <div
+                key={q.id}
+                className="relative flex flex-col items-center justify-center w-full"
+              >
                 <div className="flex gap-2">
                   <p className="font-bold text-blue-600">{index + 1}</p>
                   <p>{q.question}</p>
@@ -217,7 +227,7 @@ const WB_Unit3_Page19_Q2 = () => {
                     <div
                       ref={provided.innerRef}
                       {...provided.droppableProps}
-                      className={`relative mt-2 min-h-[50px] flex items-center justify-center border-2 border-dashed rounded w-90`}
+                      className={`w-[90%] min-h-[42px] border-b-2 border-gray-400 flex items-center justify-center ${isWrong(q.id) && "border-red-500"}`}
                     >
                       {items[q.id].map((word, i) => (
                         <Draggable
@@ -239,7 +249,7 @@ const WB_Unit3_Page19_Q2 = () => {
                       ))}
 
                       {isWrong(q.id) && (
-                        <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-lg">
+                        <div className="absolute top-33 right-8 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center rounded-full text-sm font-bold shadow-lg border-2 border-white">
                           ✕
                         </div>
                       )}

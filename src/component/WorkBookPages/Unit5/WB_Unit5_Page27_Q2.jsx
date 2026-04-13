@@ -8,8 +8,8 @@ import placeholderImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Fol
 const exerciseData = [
   { id: "b1", sentence: "I don't like rice.", correctAnswer: "✘" },
   { id: "b2", sentence: "I like stew.", correctAnswer: "✘" },
-  { id: "b3", sentence: "I don't like fish.", correctAnswer: "✔" },
-  { id: "b4", sentence: "I like chicken.", correctAnswer: "✔" },
+  { id: "b3", sentence: "I don't like fish.", correctAnswer: "✓" },
+  { id: "b4", sentence: "I like chicken.", correctAnswer: "✓" },
   { id: "b5", sentence: "I don't like spaghetti.", correctAnswer: "✘" },
   { id: "b6", sentence: "I like burgers.", correctAnswer: "✘" },
 ];
@@ -56,16 +56,28 @@ const WB_Unit5_Page27_Q2 = () => {
   };
 
   const checkAnswers = () => {
+    if (showResults) return;
+    const hasEmptyAnswers = exerciseData.some((q) => !selections[q.id]);
+
+    if (hasEmptyAnswers) {
+      ValidationAlert.info("Please answer all questions first.");
+      return;
+    }
+
     setShowResults(true);
+
     let score = 0;
     exerciseData.forEach((q) => {
       if (selections[q.id] === q.correctAnswer) score++;
     });
-    if (score === exerciseData.length)
+
+    if (score === exerciseData.length) {
       ValidationAlert.success(`Score: ${score} / ${exerciseData.length}`);
-    else if (score > 0)
+    } else if (score === 0) {
       ValidationAlert.error(`Score: ${score} / ${exerciseData.length}`);
-    else ValidationAlert.warning("No correct answers. Try again.");
+    } else {
+      ValidationAlert.warning(`Score: ${score} / ${exerciseData.length}`);
+    }
   };
 
   return (

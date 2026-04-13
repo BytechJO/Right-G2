@@ -6,8 +6,6 @@ import drumImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Pag
 import bikeImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 17/Ex E 3.svg";
 import kiteImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 17/Ex E 4.svg";
 
-
-
 import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
@@ -96,6 +94,7 @@ const WB_Unit3_Page17_Q1 = () => {
   };
 
   const checkAnswers = () => {
+    if (showResults) return;
     const hasEmptyFields = circleQuestions.some(
       (q) =>
         !selections[q.id] ||
@@ -167,7 +166,16 @@ const WB_Unit3_Page17_Q1 = () => {
                   type="text"
                   value={writtenAnswers[q.id] || ""}
                   onChange={(e) => handleTextChange(q.id, e.target.value)}
-                  className="w-full bg-transparent border-b-2 pb-1 focus:outline-none transition-colors"
+                  className={`w-full bg-transparent border-b-2 pb-1 focus:outline-none transition-colors
+  ${
+    showResults &&
+    writtenAnswers[q.id]?.trim().toLowerCase() !==
+      `${q.correctAnswer} ${q.phrase}`.toLowerCase()
+      ? "border-red-500"
+      : "border-gray-300"
+  }
+`}
+                  readOnly
                 />
 
                 {/* ✕ */}

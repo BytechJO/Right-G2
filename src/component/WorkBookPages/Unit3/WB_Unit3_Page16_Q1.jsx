@@ -8,7 +8,7 @@ import {
 
 import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import mainPic from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 16/Ex C 1.svg"
+import mainPic from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 16/Ex C 1.svg";
 // بيانات التمرين
 const wordBankWords = [
   "drum",
@@ -30,10 +30,11 @@ const correctAnswers = {
 };
 const questionNumbers = [1, 2, 3, 4, 5, 6, 7];
 
-const DraggableWord = ({ word, isUsed }) => {
+const DraggableWord = ({ word, isUsed, showResults }) => {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: word,
     data: { word },
+    disabled: showResults || isUsed, // ✅ هون الحل
   });
   const style = transform
     ? {
@@ -41,26 +42,33 @@ const DraggableWord = ({ word, isUsed }) => {
         zIndex: 100,
       }
     : undefined;
-
+  // if (showResults) return;
   return (
     <div
       ref={setNodeRef}
       style={style}
       {...listeners}
       {...attributes}
-      className={`px-3 py-1 rounded-md shadow-sm cursor-grab active:cursor-grabbing touch-none transition-opacity ${isUsed ? "opacity-30" : "bg-white"}`}
+      className={`px-3 py-1 rounded-md shadow-sm transition-opacity border-1 border-blue-800
+  ${
+    showResults || isUsed
+      ? "opacity-40 cursor-not-allowed"
+      : "cursor-grab active:cursor-grabbing bg-white"
+  }
+`}
     >
       {word}
     </div>
   );
 };
 
-const DropZone = ({ id, children, isOver }) => {
+const DropZone = ({ id, children, borderColor }) => {
   const { setNodeRef } = useDroppable({ id });
+
   return (
     <div
       ref={setNodeRef}
-      className={`w-full border-b-2 pb-1 transition-colors ${isOver ? "border-blue-400 bg-blue-50" : "border-gray-300"}`}
+      className={`w-full border-b-2 pb-1 transition-colors ${borderColor}`}
     >
       {children}
     </div>
@@ -72,6 +80,7 @@ const WB_Unit3_Page16_Q1 = () => {
   const [showResults, setShowResults] = useState(false);
 
   const handleDragEnd = (event) => {
+    if (showResults) return;
     const { over, active } = event;
     if (!over) return;
 
@@ -93,7 +102,7 @@ const WB_Unit3_Page16_Q1 = () => {
   const getBorderColor = (qId) => {
     if (!showResults) return "border-gray-300";
     return placedWords[qId] === correctAnswers[qId]
-      ? "border-green-500"
+      ? "border-gray-300"
       : "border-red-500";
   };
 
@@ -108,6 +117,7 @@ const WB_Unit3_Page16_Q1 = () => {
   };
 
   const checkAnswers = () => {
+    if (showResults) return;
     const hasEmptyInputs = questionNumbers.some((qId) => !placedWords[qId]);
 
     if (hasEmptyInputs) {
@@ -143,12 +153,13 @@ const WB_Unit3_Page16_Q1 = () => {
             pictures. Use the words from the box.
           </h1>
 
-          <div className="flex flex-wrap justify-center gap-3 p-3 mb-6 border border-gray-300 rounded-lg">
+          <div className="flex flex-wrap justify-center gap-3 p-3 mb-6 border-2 border-gray-400 border-dashed rounded-lg">
             {wordBankWords.map((word) => (
               <DraggableWord
                 key={word}
                 word={word}
                 isUsed={Object.values(placedWords).includes(word)}
+                showResults={showResults}
               />
             ))}
           </div>
@@ -156,18 +167,15 @@ const WB_Unit3_Page16_Q1 = () => {
           <img
             src={mainPic}
             alt="Park scene"
-            
-          style={{height:"250px" ,width:"auto"}}
+            style={{ height: "250px", width: "auto" }}
           />
 
           <div className="grid grid-cols-2 gap-x-12 gap-y-6 text-lg">
             {questionNumbers.map((qId) => (
               <div key={qId} className="flex items-center gap-3 relative">
                 <span className="font-bold text-blue-600">{qId}</span>
-                <DropZone id={qId}>
-                  <div
-                    className={`w-full text-center text-xl font-semibold pb-1 transition-colors ${getBorderColor(qId)}`}
-                  >
+                <DropZone id={qId} borderColor={getBorderColor(qId)}>
+                  <div className="w-full text-center text-xl font-semibold pb-1">
                     {placedWords[qId] || (
                       <span className="text-transparent">.</span>
                     )}

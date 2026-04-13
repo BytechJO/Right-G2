@@ -55,6 +55,7 @@ const WB_Unit6_Page38_Q1 = () => {
   };
 
   const checkAnswers = () => {
+    if (showValidation) return;
     const allFilled = Object.values(answers).every((ans) => ans !== "");
     if (!allFilled) {
       ValidationAlert.info("Please complete all answers before checking.");
@@ -144,7 +145,8 @@ const WB_Unit6_Page38_Q1 = () => {
             <img
               src={img}
               alt="Exercise"
-              className="w-full object-contain max-w-120 max-h-85"
+              className="object-contain"
+              style={{ height: "300px", width: "auto" }}
             />
           </div>
 
@@ -155,11 +157,11 @@ const WB_Unit6_Page38_Q1 = () => {
                   key={num}
                   onDragOver={handleDragOver}
                   onDrop={(e) => handleDrop(e, num)}
-                  className={`relative flex items-center gap-3 p-1 border-2 rounded-lg transition-colors ${
+                  className={`relative flex items-center gap-3 p-1 border-2 rounded-lg transition-colors active:bg-blue-50 ${
                     answers[num]
-                      ? "border-blue-300 bg-blue-50"
+                      ? "border-blue-300"
                       : "border-dashed border-gray-300 bg-white"
-                  }`}
+                  }  ${isWrongAnswer(num) && "border-red-500"}`}
                 >
                   <span className="text-lg font-semibold w-8">{num}.</span>
 
