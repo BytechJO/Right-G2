@@ -1,10 +1,14 @@
+
 import React, { useState } from "react";
 import {
   DndContext,
   useSensor,
   useSensors,
   PointerSensor,
+  TouchSensor, // 🔧
+  MouseSensor, // 🔧
   DragOverlay,
+  useDroppable, // 🔧
 } from "@dnd-kit/core";
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -16,7 +20,6 @@ import p3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/
 import p4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex B 10.svg";
 import p5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex B 11.svg";
 import p6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex B 12.svg";
-
 
 const SENTENCES = [
   { id: "s1", text: "He has a tie." },
@@ -36,6 +39,7 @@ const CORRECT_C = {
   d6: "s6",
 };
 
+// ================= Draggable =================
 function DraggableSentence({ s, isUsed }) {
   const {
     attributes,
@@ -44,7 +48,10 @@ function DraggableSentence({ s, isUsed }) {
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: s.id });
+  } = useSortable({
+    id: s.id,
+    disabled: isUsed, // 🔧 منع سحب العنصر المستخدم
+  });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -57,10 +64,10 @@ function DraggableSentence({ s, isUsed }) {
       ref={setNodeRef}
       style={style}
       {...attributes}
-      {...listeners}
-      className={`p-2 bg-white border-2 border-blue-100 rounded-lg shadow-sm cursor-grab text-blue-700 text-sm font-medium ${
+      {...listeners} // 🔧 فقط drag بدون click
+      className={`p-3 md:p-2 bg-white border-2 border-blue-100 rounded-lg shadow-sm cursor-grab text-blue-700 text-base md:text-sm font-medium touch-none ${
         isUsed
-          ? "bg-gray-100 text-gray-400 pointer-events-none"
+          ? "bg-gray-100 text-gray-400 pointer-events-none" // 🔧 تعطيل العنصر المستخدم
           : "hover:border-blue-400"
       }`}
     >
@@ -69,25 +76,27 @@ function DraggableSentence({ s, isUsed }) {
   );
 }
 
+// ================= Drop =================
 function DropZone({ id, imgSrc, content, isCorrect, isSubmitted }) {
-  const { setNodeRef, isOver } = useSortable({ id });
-
-  const borderColor = isSubmitted
-    ? isCorrect
-      ? "border-blue-500 bg-blue-50"
-      : "border-blue-500 bg-blue-50"
-    : isOver
-      ? "border-blue-400 bg-blue-50"
-      : "border-gray-300";
+  const { setNodeRef, isOver } = useDroppable({ id }); // 🔧
 
   const isWrong = isSubmitted && content && !isCorrect;
+
+  const borderColor = isWrong
+    ? "border-red-500 bg-red-50"
+    : isSubmitted
+    ? "border-blue-500 bg-blue-50"
+    : isOver
+    ? "border-blue-400 bg-blue-50"
+    : "border-gray-300";
 
   return (
     <div className="relative flex items-center gap-4 p-2 bg-gray-50 rounded-xl border border-gray-100">
       <img
         src={imgSrc}
         alt="person"
-        className="max-w-20 max-h-20 rounded-full border"
+        className="rounded-full border"
+        style={{ height: "100px", width: "100px" }}
       />
 
       <div
@@ -95,19 +104,13 @@ function DropZone({ id, imgSrc, content, isCorrect, isSubmitted }) {
         className={`flex-1 h-10 border-b-2 flex items-center px-2 transition-all ${borderColor}`}
       >
         {content ? (
-          <span
-            className={`font-bold text-sm ${
-              isSubmitted
-                ? isCorrect
-                  ? "text-blue-700"
-                  : "text-blue-600"
-                : "text-blue-900"
-            }`}
-          >
+          <span className="font-bold text-sm text-blue-900">
             {SENTENCES.find((s) => s.id === content).text}
           </span>
         ) : (
-          <span className="text-gray-300 text-xs italic">drop sentence...</span>
+          <span className="text-gray-300 text-xs italic">
+            drop sentence...
+          </span>
         )}
       </div>
 
@@ -120,6 +123,7 @@ function DropZone({ id, imgSrc, content, isCorrect, isSubmitted }) {
   );
 }
 
+// ================= Main =================
 const WB_Unit8_Page45_Q3 = () => {
   const [placed, setPlaced] = useState({
     d1: null,
@@ -129,15 +133,31 @@ const WB_Unit8_Page45_Q3 = () => {
     d5: null,
     d6: null,
   });
+
   const [activeId, setActiveId] = useState(null);
   const [showResults, setShowResults] = useState(false);
 
-  const sensors = useSensors(useSensor(PointerSensor));
+  // 🔧 Sensors optimized (drag only)
+  const sensors = useSensors(
+    useSensor(MouseSensor),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 80, // 🔧 أقل لأنه ما في click
+        tolerance: 8,
+      },
+    }),
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    })
+  );
 
   const checkAnswers = () => {
     const unanswered = Object.keys(CORRECT_C).filter((id) => !placed[id]);
+
     if (unanswered.length > 0) {
-      ValidationAlert.info();
+      ValidationAlert.info("Please fill all answers!");
       return;
     }
 
@@ -165,7 +185,10 @@ const WB_Unit8_Page45_Q3 = () => {
       onDragStart={(e) => setActiveId(e.active.id)}
       onDragEnd={(e) => {
         if (e.over) {
-          setPlaced((prev) => ({ ...prev, [e.over.id]: e.active.id }));
+          setPlaced((prev) => ({
+            ...prev,
+            [e.over.id]: e.active.id,
+          }));
         }
         setActiveId(null);
       }}
@@ -178,6 +201,7 @@ const WB_Unit8_Page45_Q3 = () => {
           </h1>
 
           <div className="flex flex-col md:flex-row gap-8">
+            {/* DROP ZONES */}
             <div className="flex-1 grid grid-cols-1 gap-4">
               {[1, 2, 3, 4, 5, 6].map((n) => (
                 <DropZone
@@ -191,6 +215,7 @@ const WB_Unit8_Page45_Q3 = () => {
               ))}
             </div>
 
+            {/* WORD BANK */}
             <div className="w-full md:w-64 bg-blue-50 p-4 rounded-xl border-2 border-blue-100 h-fit">
               <h3 className="font-bold text-blue-800 mb-4 text-center">
                 Sentences Bank
@@ -233,9 +258,10 @@ const WB_Unit8_Page45_Q3 = () => {
         </div>
       </div>
 
+      {/* Drag Preview */}
       <DragOverlay>
         {activeId ? (
-          <div className="p-2 bg-white border-2 border-blue-500 rounded-lg shadow-xl text-blue-700 font-bold text-sm">
+          <div className="p-3 bg-white border-2 border-blue-500 rounded-lg shadow-xl text-blue-700 font-bold text-base">
             {SENTENCES.find((s) => s.id === activeId).text}
           </div>
         ) : null}
@@ -245,3 +271,4 @@ const WB_Unit8_Page45_Q3 = () => {
 };
 
 export default WB_Unit8_Page45_Q3;
+

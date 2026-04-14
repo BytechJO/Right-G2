@@ -34,6 +34,7 @@ const WB_Unit10_Page58_Q2 = () => {
   };
 
   const checkAnswers = () => {
+    if(showResults)return
     const unanswered = Object.keys(CORRECT_C).filter((id) => !answers[id]);
     if (unanswered.length > 0) {
       ValidationAlert.info();
@@ -81,7 +82,7 @@ const WB_Unit10_Page58_Q2 = () => {
       <div className="relative inline-block">
         {/* ❌ Wrong Answer */}
         {showResults && value && value !== CORRECT_C[id] && (
-          <div className="absolute top-2 right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold border-2 border-white shadow">
+          <div className="absolute top-2 right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold border-2 border-white shadow-lg">
             ✕
           </div>
         )}
@@ -133,9 +134,11 @@ const WB_Unit10_Page58_Q2 = () => {
             <img
               src={imgGirl}
               alt="girl"
-              className="max-w-70 max-h-32 object-contain"
+              className="object-contain"
+              style={{height:"200px",width:"auto"}}
+
             />
-            <div className="flex-1 text-2xl leading-loose text-gray-700">
+            <div className="flex-1 text-xl leading-loose text-gray-700 w-[90%]">
               <span className="font-bold text-blue-600 mr-2">1</span>
               She is wearing a <ColorSelect id="c1_1" /> T-shirt, a{" "}
               <ColorSelect id="c1_2" /> hat,
@@ -146,7 +149,7 @@ const WB_Unit10_Page58_Q2 = () => {
 
           {/* الفقرة الثانية - الولد */}
           <div className="flex flex-col md:flex-row items-center gap-10">
-            <div className="flex-1 text-2xl leading-loose text-gray-700">
+            <div className="flex-1 text-xl leading-loose text-gray-700">
               <span className="font-bold text-blue-600 mr-2">2</span>
               He is wearing a <ColorSelect id="c2_1" /> T-shirt, a{" "}
               <ColorSelect id="c2_2" /> cap,
@@ -156,7 +159,8 @@ const WB_Unit10_Page58_Q2 = () => {
             <img
               src={imgBoy}
               alt="boy"
-              className="max-w-70 max-h-32 object-contain"
+              className="object-contain"
+              style={{height:"200px",width:"auto"}}
             />
           </div>
         </div>

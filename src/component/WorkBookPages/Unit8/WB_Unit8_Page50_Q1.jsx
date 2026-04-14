@@ -59,6 +59,7 @@ const WB_Unit8_Page50_Q1 = () => {
   const [showResults, setShowResults] = useState(false);
 
   const checkAnswers = () => {
+    if (showResults) return;
     const allKeys = Object.keys(INITIAL_STATE);
     const unanswered = allKeys.filter((k) => !answers[k]);
     if (unanswered.length > 0) {
@@ -101,20 +102,24 @@ const WB_Unit8_Page50_Q1 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "10px", marginBottom: "50px" }}>
+      <div className="div-forall" style={{ gap: "10px"}}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">A</span> Listen and write the missing
           letters.
         </h1>
-        <QuestionAudioPlayer src={sound} captions={captions} stopAtSecond={6.35} />
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-10">
+        <QuestionAudioPlayer
+          src={sound}
+          captions={captions}
+          stopAtSecond={6.35}
+        />
+        <div className="grid grid-cols-2 md:grid-cols-2 gap-10">
           {[1, 2, 3, 4, 5, 6].map((num, idx) => {
             const parts = WORD_PARTS[idx];
             const key1 = `q${num}_1`;
             const key2 = `q${num}_2`;
 
             return (
-              <div key={num} className="flex flex-col items-center gap-3 p-4">
+              <div key={num} className="flex items-center gap-3 p-4">
                 <div className="flex gap-4 justify-center items-center">
                   <span className="self-start font-bold text-blue-900 text-lg">
                     {num}
@@ -122,7 +127,8 @@ const WB_Unit8_Page50_Q1 = () => {
                   <img
                     src={IMGS[idx]}
                     alt="phonics"
-                    className="max-w-50 max-h-40 object-contain"
+                    className="object-contain"
+                    style={{height:"120px",width:"120px"}}
                   />
                 </div>
 
@@ -133,10 +139,16 @@ const WB_Unit8_Page50_Q1 = () => {
                   <div className="relative">
                     <select
                       value={answers[key1]}
-                      onChange={(e) =>
-                        setAnswers({ ...answers, [key1]: e.target.value })
-                      }
-                      className="border-b-2 cursor-pointer pr-6"
+                      onChange={(e) => {
+                        if (showResults) return;
+                        setAnswers({ ...answers, [key1]: e.target.value });
+                      }}
+                      className={`border-b-2 cursor-pointer pr-3 ${
+                        showResults &&
+                        answers[key1] &&
+                        answers[key1] !== CORRECT_A[key1] &&
+                        "border-red-500"
+                      }`}
                     >
                       <option value=""></option>
                       {OPTIONS.map((opt) => (
@@ -149,7 +161,7 @@ const WB_Unit8_Page50_Q1 = () => {
                     {showResults &&
                       answers[key1] &&
                       answers[key1] !== CORRECT_A[key1] && (
-                        <span className="absolute right-0 top-3 -translate-y-1/2 text-white bg-red-500 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold border-2 border-white">
+                        <span className="absolute right-0 top-0 text-white bg-red-500 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold border-2 border-white shadow-lg">
                           ✕
                         </span>
                       )}
@@ -161,10 +173,16 @@ const WB_Unit8_Page50_Q1 = () => {
                   <div className="relative">
                     <select
                       value={answers[key2]}
-                      onChange={(e) =>
-                        setAnswers({ ...answers, [key2]: e.target.value })
+                      onChange={(e) =>{
+                        if (showResults) return;
+                        setAnswers({ ...answers, [key2]: e.target.value })}
                       }
-                      className="border-b-2 cursor-pointer pr-6"
+                      className={`border-b-2 cursor-pointer pr-3 ${
+                        showResults &&
+                        answers[key2] &&
+                        answers[key2] !== CORRECT_A[key2] &&
+                        "border-red-500"
+                      }`}
                     >
                       <option value=""></option>
                       {OPTIONS.map((opt) => (
@@ -177,7 +195,7 @@ const WB_Unit8_Page50_Q1 = () => {
                     {showResults &&
                       answers[key2] &&
                       answers[key2] !== CORRECT_A[key2] && (
-                        <span className="absolute right-0 top-3 -translate-y-1/2 text-white bg-red-500 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold border-2 border-white">
+                        <span className="absolute right-0 top-0 text-white bg-red-500 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold border-2 border-white shadow-lg">
                           ✕
                         </span>
                       )}

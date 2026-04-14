@@ -63,7 +63,7 @@ function DraggableActivity({ item, isUsed }) {
       style={style}
       {...attributes}
       {...listeners}
-      className={`p-2 bg-white border-2 border-gray-200 rounded-xl shadow-sm cursor-grab text-blue-700 font-medium text-sm text-center ${isUsed ? "bg-gray-50 text-gray-300 pointer-events-none" : "hover:border-blue-400 hover:shadow-md transition-all"}`}
+      className={`p-2 bg-white border-2 border-gray-200 rounded-xl shadow-sm cursor-grab text-blue-700 font-medium text-sm text-center touch-none ${isUsed ? "bg-gray-50 text-gray-300 pointer-events-none" : "hover:border-blue-400 hover:shadow-md transition-all"}`}
     >
       {item.text}
     </div>
@@ -122,6 +122,7 @@ const WB_Unit10_Page57_Q1 = () => {
   const sensors = useSensors(useSensor(PointerSensor));
 
   const checkAnswers = () => {
+    if (showResults) return;
     const unanswered = Object.keys(CORRECT_ANSWERS).filter(
       (id) => !answers[id],
     );

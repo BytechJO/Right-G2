@@ -131,7 +131,7 @@ const WordDropZone = ({
   if (showResults) {
     resultClass = isCorrect
       ? "border-blue-500 text-black bg-gray-50"
-      : "border-blue-500 text-black bg-gray-50";
+      : "border-red-500 text-black bg-gray-50";
   } else if (isOver) {
     resultClass = "border-blue-500 text-gray-800 bg-blue-50";
   }
@@ -143,7 +143,10 @@ const WordDropZone = ({
         type="button"
         onClick={onRemoveLastLetter}
         disabled={showResults}
-        className={`w-full min-h-[40px] px-4 py-2 border-2 border-dashed rounded-lg font-semibold text-center ${resultClass}`}
+        className={`w-full min-h-[40px] px-4 py-2 border-2 border-dashed rounded-lg font-semibold text-xl text-center transition-colors
+  ${resultClass}
+  ${!showResults ? "hover:text-red-500" : ""}
+`}
       >
         {value}
       </button>
@@ -259,6 +262,8 @@ const WB_Unit7_Page42_Q2 = () => {
   };
 
   const checkAnswers = () => {
+    if (showResults) return;
+
     const hasIncomplete = exerciseData.sentences.some((sentence) =>
       sentence.words.some((word, wordIndex) => {
         const answer = answers[sentence.id][wordIndex] || "";
@@ -318,7 +323,7 @@ const WB_Unit7_Page42_Q2 = () => {
                   key={sentence.id}
                   className="bg-blue-50 p-4 rounded-lg flex gap-6 items-start w-full"
                 >
-                  <div className="flex flex-col">
+                  <div className="flex flex-col w-[50%]">
                     <p className="text-lg mb-5 leading-10">
                       <span className="font-bold">{idx + 1}.</span>{" "}
                       {sentence.questionParts.map((part, partIndex) => (
@@ -377,25 +382,8 @@ const WB_Unit7_Page42_Q2 = () => {
                         );
                       })}
                     </div>
-
-                    {showResults && (
-                      <div className="mt-3 text-sm text-gray-600">
-                        <span className="font-semibold">Correct answer:</span>{" "}
-                        {sentence.questionParts.reduce((acc, part, index) => {
-                          acc.push(part);
-                          if (index < sentence.words.length) {
-                            acc.push(
-                              <span key={index} className="font-medium">
-                                {sentence.words[index].correct}
-                              </span>,
-                            );
-                          }
-                          return acc;
-                        }, [])}
-                      </div>
-                    )}
                   </div>
-                  <div className="flex-shrink-0 ml-auto">
+                  <div className="flex-shrink-0 ml-auto w-[50%] flex justify-end">
                     <img
                       src={images[idx]}
                       alt="question"

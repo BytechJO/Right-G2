@@ -24,6 +24,7 @@ const WB_Unit7_Page41_Q2 = () => {
   };
 
   const checkAnswers = () => {
+    if (showResults) return;
     const unanswered = exerciseDataN.events.filter((e) => !answers[e.id]);
 
     if (unanswered.length > 0) {
@@ -75,7 +76,7 @@ const WB_Unit7_Page41_Q2 = () => {
     if (isCorrect) {
       return "border-2 border-gray-500 bg-white px-3 py-2 rounded-lg font-semibold w-16 text-center";
     }
-    return "border-2 border-gray-500 bg-white px-3 py-2 rounded-lg font-semibold w-16 text-center";
+    return "border-2 border-red-500 bg-white px-3 py-2 rounded-lg font-semibold w-16 text-center";
   };
 
   return (

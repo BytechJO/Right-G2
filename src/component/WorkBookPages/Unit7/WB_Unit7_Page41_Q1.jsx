@@ -15,8 +15,18 @@ const exerciseDataM = {
     { id: "m4", number: 5, correctMonth: "May", image: img4 },
   ],
   months: [
-    "January","February","March","April","May","June",
-    "July","August","September","October","November","December",
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ],
 };
 
@@ -30,6 +40,7 @@ const WB_Unit7_Page41_Q1 = () => {
   };
 
   const checkAnswers = () => {
+    if (showResults) return;
     const unanswered = exerciseDataM.questions.filter((q) => !answers[q.id]);
 
     if (unanswered.length > 0) {
@@ -73,15 +84,15 @@ const WB_Unit7_Page41_Q1 = () => {
 
   const getSelectClass = (questionId) => {
     if (!showResults) {
-      return "border-2 border-gray-300 px-3 py-2 rounded-lg font-semibold";
+      return "border-b-2 border-gray-300 px-3 py-2 font-semibold";
     }
 
     const question = exerciseDataM.questions.find((q) => q.id === questionId);
     const isCorrect = answers[questionId] === question?.correctMonth;
 
     return isCorrect
-      ? "border-2 border-gray-500 bg-gray-50 px-3 py-2 rounded-lg font-semibold text-black-800"
-      : "border-2 border-gray-500 bg-gray-50 px-3 py-2 rounded-lg font-semibold text-black-800";
+      ? "border-b-2 border-gray-500 bg-gray-50 px-3 py-2 font-semibold text-black-800"
+      : "border-b-2 border-red-500 bg-gray-50 px-3 py-2 font-semibold text-black-800";
   };
 
   return (
@@ -116,7 +127,8 @@ const WB_Unit7_Page41_Q1 = () => {
                   </div>
 
                   {/* select + ❌ */}
-                  <div className="relative">
+                  <div className="relative flex gap-2">
+                    <span className="text-lg font-bold">It's</span>
                     <select
                       value={answers[question.id] || ""}
                       onChange={(e) =>

@@ -71,13 +71,15 @@ function DraggableItem({ item, isUsed }) {
 function DropSlot({ id, content, isCorrect, isSubmitted }) {
   const { setNodeRef, isOver } = useSortable({ id });
 
-  const borderColor = isSubmitted
-    ? "border-blue-400 bg-blue-50"
-    : isOver
-      ? "border-blue-400 bg-blue-50"
-      : "border-gray-300";
 
   const isWrong = isSubmitted && content && !isCorrect;
+const borderColor = isWrong
+  ? "border-red-500"
+  : isSubmitted
+  ? "border-blue-400 bg-blue-50"
+  : isOver
+  ? "border-blue-400 bg-blue-50"
+  : "border-gray-300";
 
   return (
     <div className="relative inline-block">
@@ -86,9 +88,7 @@ function DropSlot({ id, content, isCorrect, isSubmitted }) {
         className={`w-32 h-10 border-b-2 flex items-center justify-center transition-all ${borderColor}`}
       >
         {content ? (
-          <span
-            className={`font-bold`}
-          >
+          <span className={`font-bold`}>
             {CLOTHES.find((c) => c.id === content).text}
           </span>
         ) : (
@@ -120,8 +120,9 @@ const WB_Unit8_Page45_Q1 = () => {
   const sensors = useSensors(useSensor(PointerSensor));
 
   const checkAnswers = () => {
+    if (showResults) return;
     const unanswered = Object.keys(CORRECT_ANSWERS).filter(
-      (id) => !answers[id]
+      (id) => !answers[id],
     );
 
     if (unanswered.length > 0) {
@@ -189,7 +190,8 @@ const WB_Unit8_Page45_Q1 = () => {
                     ]
                   }
                   alt="cloth"
-                  className="max-w-42 max-h-42 object-contain"
+                  className="object-contain"
+                  style={{height:"120px",width:"120px"}}
                 />
 
                 <DropSlot

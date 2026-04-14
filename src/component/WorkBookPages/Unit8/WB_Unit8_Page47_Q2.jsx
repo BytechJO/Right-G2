@@ -1,19 +1,22 @@
+
 import React, { useState } from "react";
 import {
   DndContext,
   useSensor,
   useSensors,
   PointerSensor,
+  TouchSensor, // 🔧
+  MouseSensor, // 🔧
   DragOverlay,
   closestCenter,
 } from "@dnd-kit/core";
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
+import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import { useDroppable } from "@dnd-kit/core";
-// check
-// استيراد الصور
+
 import imgSueClosetG from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 47/Ex G 1.svg";
 import imgJohnClosetG from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 47/Ex G 2.svg";
 import imgSue from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 47/Ex G 3.svg";
@@ -39,15 +42,14 @@ const CORRECT_G = {
 };
 
 function DraggableWord({ item, isUsed }) {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: item.id });
-
+ const {
+  attributes,
+  listeners,
+  setNodeRef,
+  transform,
+  transition,
+  isDragging,
+} = useDraggable({ id: item.id });
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
@@ -60,7 +62,8 @@ function DraggableWord({ item, isUsed }) {
       style={style}
       {...attributes}
       {...listeners}
-      className={`px-3 py-1 bg-white border-2 border-gray-300 rounded-lg shadow-sm cursor-grab text-blue-600 font-medium text-lg ${
+      // 🔧 touch-none
+      className={`px-3 py-1 bg-white border-2 border-gray-300 rounded-lg shadow-sm cursor-grab text-blue-600 font-medium text-lg touch-none ${
         isUsed
           ? "bg-gray-100 text-gray-400 pointer-events-none"
           : "hover:border-blue-400"
@@ -80,13 +83,16 @@ function DropSlotG({ id, content, isCorrect, isSubmitted }) {
     <div className="relative inline-block">
       <div
         ref={setNodeRef}
-        className={`inline-block min-w-[80px] h-7 border-b-2 mx-1 px-1 text-center align-bottom transition-all border-blue-400`}
+        className={`inline-block min-w-[80px] h-7 border-b-2 mx-1 px-1 text-center align-bottom transition-all ${
+          isWrong
+            ? "border-red-500"
+            : isOver
+            ? "border-blue-400 bg-blue-50"
+            : "border-blue-400"
+        }`}
       >
         {content ? (
-          <span
-            className={`font-bold text-lg "text-blue-800"
-            `}
-          >
+          <span className="font-bold text-lg text-blue-800">
             {WORDS_G.find((w) => w.id === content).text}
           </span>
         ) : (
@@ -113,12 +119,25 @@ const WB_Unit8_Page47_Q2 = () => {
     g6: null,
     g7: null,
   });
+
   const [activeId, setActiveId] = useState(null);
   const [showResults, setShowResults] = useState(false);
 
-  const sensors = useSensors(useSensor(PointerSensor));
+  // 🔥 أهم تعديل للتابلت
+  const sensors = useSensors(
+    useSensor(MouseSensor),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 0,
+        tolerance: 5,
+      },
+    }),
+    useSensor(PointerSensor)
+  );
 
   const checkAnswers = () => {
+    if (showResults) return;
+
     const unanswered = Object.keys(CORRECT_G).filter((id) => !answers[id]);
     if (unanswered.length > 0) {
       ValidationAlert.info();
@@ -146,28 +165,30 @@ const WB_Unit8_Page47_Q2 = () => {
   return (
     <DndContext
       sensors={sensors}
+      collisionDetection={closestCenter}
       onDragStart={(e) => setActiveId(e.active.id)}
       onDragEnd={(e) => {
         const { active, over } = e;
 
-        if (!over) {
+        if (!over || !over.id.startsWith("g")) {
           setActiveId(null);
           return;
         }
 
-        if (!over.id.startsWith("g")) {
-          setActiveId(null);
-          return;
-        }
+        setAnswers((prev) => {
+          const next = { ...prev };
 
-        setAnswers((prev) => ({
-          ...prev,
-          [over.id]: active.id,
-        }));
+          // 🔧 FIX move (مش copy)
+          Object.keys(next).forEach((k) => {
+            if (next[k] === active.id) next[k] = null;
+          });
+
+          next[over.id] = active.id;
+          return next;
+        });
 
         setActiveId(null);
       }}
-      collisionDetection={closestCenter}
     >
       <div className="main-container-component">
         <div className="div-forall" style={{ gap: "10px" }}>
@@ -176,16 +197,15 @@ const WB_Unit8_Page47_Q2 = () => {
           </h1>
 
           <div className="flex flex-wrap justify-center gap-2 p-4 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200 mb-8">
-            <SortableContext items={WORDS_G.map((w) => w.id)}>
-              {WORDS_G.map((w) => (
-                <DraggableWord
-                  key={w.id}
-                  item={w}
-                  isUsed={Object.values(answers).includes(w.id)}
-                />
-              ))}
-            </SortableContext>
+          {WORDS_G.map((w) => (
+  <DraggableWord
+    key={w.id}
+    item={w}
+    isUsed={Object.values(answers).includes(w.id)}
+  />
+))}
           </div>
+
 
           <div className="flex flex-col lg:flex-row gap-8 items-center">
             {/* فقرة سو */}

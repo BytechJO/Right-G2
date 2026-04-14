@@ -211,31 +211,35 @@ const WB_Unit7_Page39_Q2 = () => {
                 {/* ANSWER */}
                 <div className="relative">
                   <div
-                    className="min-h-20 border-2 border-dashed border-gray-300 rounded-lg p-3 bg-gray-50"
+                    className={`min-h-15 border-2 border-dashed border-gray-300 rounded-lg p-2 bg-gray-50 ${isWrongSentence(sentence) &&"border-red-500"}`}
                     onDragOver={handleDragOver}
                     onDrop={() => handleDropOnBlank(sentence.id)}
                   >
-                    <div className="flex flex-wrap gap-2 mb-3">
+                    <div className="flex flex-wrap gap-2 mb-1">
                       {(userAnswers[sentence.id] || []).map((word, i) => (
                         <button
                           key={`${word}-${i}`}
                           onClick={() => handleRemoveWord(sentence.id, i)}
-                          className="px-3 py-1 bg-blue-500 text-white rounded-lg text-sm font-semibold hover:bg-blue-600"
+                          className="px-1 py-1 rounded-lg text-lg font-semibold text-gray-800 font-medium hover:text-red-500"
                         >
-                          {word} {!showResults && "✕"}
+                          {word}
                         </button>
                       ))}
                     </div>
 
-                    {builtSentence ? (
-                      <p className="text-gray-800 font-medium">
+                    {/* {builtSentence ? (
+                      <p
+                        className="text-gray-800 font-medium hover:text-red-500"
+                        key={`${word}-${i}`}
+                        onClick={() => handleRemoveWord(sentence.id, i)}
+                      >
                         {builtSentence}
                       </p>
                     ) : (
                       <p className="text-gray-400 text-sm italic">
                         Drag words here to build the sentence
                       </p>
-                    )}
+                    )} */}
                   </div>
 
                   {isWrongSentence(sentence) && (

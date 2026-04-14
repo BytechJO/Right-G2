@@ -51,6 +51,7 @@ const WB_Unit7_Page43_Q1 = () => {
   };
 
   const checkAnswers = () => {
+    if (checked || locked) return;
     const values = Object.values(userAnswers);
 
     if (values.some((val) => !val)) {
@@ -143,11 +144,11 @@ const WB_Unit7_Page43_Q1 = () => {
               className="flex items-center justify-center gap-6 relative"
             >
               <span className="text-xl font-bold text-blue-800">{item.id}</span>
-              <div className="flex flex-col items-center">
+              <div className="flex items-end">
                 <img
                   src={item.img}
                   className="max-w-50 max-h-50 object-contain mb-4"
-                  style={{height:"160px" ,width:"auto"}}
+                  style={{ height: "175px", width: "auto" }}
                 />
 
                 <div className="relative w-full min-w-[180px]">
@@ -160,6 +161,9 @@ const WB_Unit7_Page43_Q1 = () => {
                       ? "border-gray-400 border-dashed"
                       : "border-gray-500"
                   }
+                  ${checked &&
+                    userAnswers[item.id] &&
+                    userAnswers[item.id] !== item.correctAnswer &&"border-red-500"}
                 `}
                   >
                     <span className="text-2xl font-bold italic">
@@ -170,7 +174,7 @@ const WB_Unit7_Page43_Q1 = () => {
                   {checked &&
                     userAnswers[item.id] &&
                     userAnswers[item.id] !== item.correctAnswer && (
-                      <div className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold shadow border-2 border-white">
+                      <div className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold shadow border-2 border-white">
                         ✕
                       </div>
                     )}

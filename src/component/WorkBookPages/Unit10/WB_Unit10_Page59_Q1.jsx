@@ -62,7 +62,7 @@ function DraggableAnswer({ item, isUsed }) {
       style={style}
       {...attributes}
       {...listeners}
-      className={`p-2 bg-white border-2 border-gray-200 rounded-lg shadow-sm cursor-grab text-blue-700 font-medium text-sm text-center ${isUsed ? "bg-gray-50 text-gray-300 pointer-events-none" : "hover:border-blue-400"}`}
+      className={`p-2 bg-white border-2 border-gray-200 rounded-lg shadow-sm cursor-grab text-blue-700 font-medium text-sm text-center touch-none  ${isUsed ? "bg-gray-50 text-gray-300 pointer-events-none" : "hover:border-blue-400"}`}
     >
       {item.text}
     </div>
@@ -90,6 +90,7 @@ const WB_Unit10_Page59_Q1 = () => {
   const sensors = useSensors(useSensor(PointerSensor));
 
   const checkAnswers = () => {
+    if (showResults) return;
     const unanswered = Object.keys(CORRECT_D).filter((id) => !answers[id]);
     if (unanswered.length > 0) {
       ValidationAlert.info();
@@ -199,7 +200,7 @@ const WB_Unit10_Page59_Q1 = () => {
                     src={q.img}
                     alt="activity"
                     className="h-10 object-cover"
-                    style={{height:"90px"}}
+                    style={{ height: "90px" }}
                   />
                   <div className="flex-1 space-y-2">
                     <div className="flex items-center text-lg">
@@ -224,7 +225,13 @@ const WB_Unit10_Page59_Q1 = () => {
                             })
                           }
                           disabled={showResults}
-                          className="p-1 border-b-2 bg-transparent w-25 focus:outline-none font-bold"
+                          className={`p-1 border-b-2 bg-transparent w-25 focus:outline-none font-bold ${
+                            showResults &&
+                            answers[`${q.id}_sel`] &&
+                            answers[`${q.id}_sel`] !==
+                              CORRECT_D[`${q.id}_sel`] &&
+                            "border-red-500"
+                          }`}
                         >
                           <option value="">...</option>
                           {q.options.map((opt) => (
@@ -296,7 +303,7 @@ function DropZone({ id, content, isCorrect, isSubmitted }) {
   return (
     <div
       ref={setNodeRef}
-      className="relative w-full min-h-[35px] border-b-2 flex items-center px-2"
+      className={`relative w-full min-h-[35px] border-b-2 flex items-center px-2 ${isSubmitted && content && !isCorrect && "border-red-500"}`}
     >
       {/* ❌ Wrong Answer */}
       {isSubmitted && content && !isCorrect && (

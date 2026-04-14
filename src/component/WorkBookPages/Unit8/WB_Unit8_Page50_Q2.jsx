@@ -68,8 +68,8 @@ function DraggableWord({ word, isUsed }) {
         isUsed
           ? "bg-gray-100 text-gray-300 border-gray-200 cursor-not-allowed opacity-60"
           : isDragging
-          ? "cursor-grabbing shadow-lg"
-          : "cursor-grab hover:border-blue-400"
+            ? "cursor-grabbing shadow-lg"
+            : "cursor-grab hover:border-blue-400"
       }`}
     >
       {word}
@@ -98,17 +98,9 @@ function DropSlot({ id, value, showResults, onClear }) {
     >
       {value ? (
         <div className="flex items-center gap-2">
-          <span className="font-bold text-blue-900">{value}</span>
-
-          {!showResults && (
-            <button
-              type="button"
-              onClick={() => onClear(id)}
-              className="w-6 h-6 rounded-full bg-gray-200 text-gray-600 text-xs font-bold hover:bg-gray-300"
-            >
-              ✕
-            </button>
-          )}
+          <span className="font-bold text-blue-900 hover:text-red-500 curser-pointer" onClick={() => onClear(id)}>
+            {value}
+          </span>
         </div>
       ) : (
         <span className="text-gray-400 text-sm italic">Drop here</span>
@@ -160,6 +152,7 @@ const WB_Unit8_Page50_Q2 = () => {
   };
 
   const handleClearSlot = (slotId) => {
+    if (showResults) return;
     setAnswers((prev) => ({
       ...prev,
       [slotId]: null,
@@ -167,7 +160,10 @@ const WB_Unit8_Page50_Q2 = () => {
   };
 
   const checkAnswers = () => {
-    const unanswered = Object.keys(INITIAL_ANSWERS).filter((id) => !answers[id]);
+    if (showResults) return;
+    const unanswered = Object.keys(INITIAL_ANSWERS).filter(
+      (id) => !answers[id],
+    );
 
     if (unanswered.length > 0) {
       ValidationAlert.info();

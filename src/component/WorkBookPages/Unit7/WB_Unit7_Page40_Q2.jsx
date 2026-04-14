@@ -1,10 +1,14 @@
+
 import React, { useState } from "react";
 import {
   DndContext,
   useSensor,
   useSensors,
   PointerSensor,
+  TouchSensor, // 🔧 إضافة
+  MouseSensor, // 🔧 إضافة
   DragOverlay,
+  useDroppable, // 🔧 إضافة
 } from "@dnd-kit/core";
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -48,7 +52,7 @@ function DraggableSentence({ answer, isUsed }) {
     isDragging,
   } = useSortable({
     id: answer.id,
-    disabled: isUsed, // 🔒 منع السحب
+    disabled: isUsed,
   });
 
   const style = {
@@ -63,28 +67,30 @@ function DraggableSentence({ answer, isUsed }) {
       style={style}
       {...attributes}
       {...(!isUsed ? listeners : {})}
-      className={`p-2 border rounded shadow-sm text-sm transition
+      // 🔧 touch-none مهم للـ iPad
+      className={`p-3 md:p-2 border rounded shadow-sm text-base md:text-sm transition touch-none
         ${
           isUsed
             ? "bg-gray-100 text-gray-400 cursor-not-allowed opacity-60"
             : "bg-white text-blue-700 cursor-grab hover:border-blue-500"
         }`}
     >
-      {answer.text}{" "}
+      {answer.text}
     </div>
   );
 }
 
+// 🔧 استبدلنا useSortable بـ useDroppable
 function AnswerDropZone({ id, content, isCorrect, isSubmitted }) {
-  const { setNodeRef, isOver } = useSortable({ id });
+  const { setNodeRef, isOver } = useDroppable({ id });
 
   const bg = isSubmitted
     ? isCorrect
       ? "bg-gray-50 border-gray-300"
-      : "bg-gray-50 border-gray-300"
+      : "bg-gray-50 border-red-500"
     : isOver
-      ? "bg-blue-50 border-blue-400"
-      : "bg-gray-50 border-gray-300";
+    ? "bg-blue-50 border-blue-400"
+    : "bg-gray-50 border-gray-300";
 
   const isWrong = isSubmitted && content && !isCorrect;
 
@@ -96,13 +102,13 @@ function AnswerDropZone({ id, content, isCorrect, isSubmitted }) {
       >
         {content ? (
           <span className="text-blue-800 font-medium">
-            {ANSWERS_POOL.find((a) => a.id === content).text}{" "}
+            {ANSWERS_POOL.find((a) => a.id === content).text}
           </span>
         ) : (
           <span className="text-gray-300 italic text-sm">
-            Drag answer here...{" "}
+            Drag answer here...
           </span>
-        )}{" "}
+        )}
       </div>
 
       {isWrong && (
@@ -125,7 +131,17 @@ const WB_Unit7_Page40_Q2 = () => {
   const [activeId, setActiveId] = useState(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const sensors = useSensors(useSensor(PointerSensor));
+  // 🔧 Sensors محسّنة للابتوب + iPad
+  const sensors = useSensors(
+    useSensor(MouseSensor), // للابتوب
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 120, // مهم للـ iPad
+        tolerance: 8,
+      },
+    }),
+    useSensor(PointerSensor) // fallback
+  );
 
   const handleDragEnd = (event) => {
     const { active, over } = event;
@@ -141,6 +157,7 @@ const WB_Unit7_Page40_Q2 = () => {
   };
 
   const checkAnswers = () => {
+    if (isSubmitted) return;
     const hasEmpty = Object.values(placedAnswers).some((v) => v === null);
     if (hasEmpty) {
       ValidationAlert.info("Please complete all answers before checking.");
@@ -177,12 +194,11 @@ const WB_Unit7_Page40_Q2 = () => {
   return (
     <div className="main-container-component">
       <div className="div-forall" style={{ gap: "20px" }}>
-        {" "}
         <h1 className="WB-header-title-page8">
-          {" "}
-          <span className="WB-ex-A">D</span>Look and complete the
-          conversations.{" "}
+          <span className="WB-ex-A">D</span>
+          Look and complete the conversations.
         </h1>
+
         <DndContext
           sensors={sensors}
           onDragStart={(e) => setActiveId(e.active.id)}
@@ -211,7 +227,6 @@ const WB_Unit7_Page40_Q2 = () => {
               ))}
             </div>
 
-            {/* WORD BANK */}
             <div className="w-full md:w-65 space-y-4">
               <div className="p-4 bg-blue-50 rounded-lg border-2 border-blue-200">
                 <h3 className="font-bold text-blue-800 mb-3 text-center">
@@ -247,9 +262,10 @@ const WB_Unit7_Page40_Q2 = () => {
             checkAnswers={checkAnswers}
           />
 
+          {/* 🔧 تحسين overlay */}
           <DragOverlay>
             {activeId ? (
-              <div className="p-2 bg-white border-2 border-blue-500 rounded shadow-xl text-blue-800 text-sm font-bold">
+              <div className="p-3 bg-white border-2 border-blue-500 rounded shadow-xl text-blue-800 text-base font-bold">
                 {ANSWERS_POOL.find((a) => a.id === activeId).text}
               </div>
             ) : null}
@@ -261,3 +277,4 @@ const WB_Unit7_Page40_Q2 = () => {
 };
 
 export default WB_Unit7_Page40_Q2;
+

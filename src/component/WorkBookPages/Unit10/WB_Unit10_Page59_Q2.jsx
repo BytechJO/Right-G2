@@ -27,6 +27,7 @@ const WB_Unit10_Page59_Q2 = () => {
   };
 
   const checkAnswers = () => {
+    if (showResults) return;
     const unanswered = Object.keys(CORRECT_E).filter((id) => !answers[id]);
     if (unanswered.length > 0) {
       ValidationAlert.info();
@@ -48,37 +49,37 @@ const WB_Unit10_Page59_Q2 = () => {
 
   const handleReset = () => {
     setAnswers({ q1: "", q2: "", q3: "", q4: "" });
+    setShowResults(false)
   };
 
-const CustomSelect = ({ id }) => {
-  const value = answers[id];
+  const CustomSelect = ({ id }) => {
+    const value = answers[id];
 
-  return (
-    <div className="relative inline-block mx-1">
-      
-      {/* ❌ Wrong Answer */}
-      {showResults && value && value !== CORRECT_E[id] && (
-        <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold border-2 border-white shadow">
-          ✕
-        </div>
-      )}
+    return (
+      <div className="relative inline-block mx-1">
+        {/* ❌ Wrong Answer */}
+        {showResults && value && value !== CORRECT_E[id] && (
+          <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold border-2 border-white shadow">
+            ✕
+          </div>
+        )}
 
-      <select
-        value={value}
-        onChange={(e) => setAnswers({ ...answers, [id]: e.target.value })}
-        disabled={showResults}
-        className="w-35 cursor-pointer p-1 border-b-2 bg-transparent focus:outline-none"
-      >
-        <option value="">...</option>
-        {OPTIONS[id].map((opt) => (
-          <option key={opt} value={opt}>
-            {opt}
-          </option>
-        ))}
-      </select>
-    </div>
-  );
-};
+        <select
+          value={value}
+          onChange={(e) => setAnswers({ ...answers, [id]: e.target.value })}
+          disabled={showResults}
+          className={`w-35 cursor-pointer p-1 border-b-2 bg-transparent focus:outline-none ${showResults && value && value !== CORRECT_E[id] && "border-red-500"}`}
+        >
+          <option value="">...</option>
+          {OPTIONS[id].map((opt) => (
+            <option key={opt} value={opt}>
+              {opt}
+            </option>
+          ))}
+        </select>
+      </div>
+    );
+  };
 
   return (
     <div className="main-container-component">
@@ -89,16 +90,16 @@ const CustomSelect = ({ id }) => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 relative">
           <div className="hidden md:block absolute left-1/2 -bottom-58 -translate-x-1/2 -translate-y-1/2 z-10">
-          <img
+            <img
               src={imgBoyAvatar}
               alt="avatar"
               className="object-contain mt-20"
-              style={{height:"180px"}}
+              style={{ height: "180px" }}
             />
             <img
               src={imgBoyAvatar2}
               alt="avatar"
-              style={{height:"180px"}}
+              style={{ height: "180px" }}
               className="object-contain mt-20"
             />
           </div>
@@ -109,7 +110,8 @@ const CustomSelect = ({ id }) => {
               <img
                 src={imgIceCream}
                 alt="ice cream"
-                className="max-w-32 max-h-24 object-cover rounded-xl border"
+                 className="object-cover"
+                style={{height:"100px",width:"auto"}}
               />
             </div>
             <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100 relative">
@@ -125,7 +127,9 @@ const CustomSelect = ({ id }) => {
               <img
                 src={imgSwimming}
                 alt="swimming"
-                className="max-w-32 max-h-24 object-cover rounded-xl border"
+                className="object-cover"
+                style={{height:"100px",width:"auto"}}
+
               />
               <span className="font-bold text-blue-600">2</span>
             </div>
@@ -143,7 +147,8 @@ const CustomSelect = ({ id }) => {
               <img
                 src={imgAtSchool}
                 alt="school"
-                className="max-w-32 max-h-24 object-cover rounded-xl border"
+                 className="object-cover"
+                style={{height:"100px",width:"auto"}}
               />
             </div>
             <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100 relative">
@@ -159,7 +164,8 @@ const CustomSelect = ({ id }) => {
               <img
                 src={imgAtPark}
                 alt="park"
-                className="max-w-32 max-h-24 object-cover rounded-xl border"
+                 className="object-cover"
+                style={{height:"100px",width:"auto"}}
               />
               <span className="font-bold text-blue-600">4</span>
             </div>

@@ -21,7 +21,7 @@ const exerciseDataO = {
       id: "o3",
       fullWord: "November",
       pattern: ["N", "o", null, null, null, null, null, null],
-      bubbleClass: "top-[21%] left-[56%]",
+      bubbleClass: "top-[18%] left-[56%]",
     },
     {
       id: "o4",
@@ -78,16 +78,33 @@ const WB_Unit7_Page42_Q1 = () => {
       map[word.id] = {};
       word.pattern.forEach((char, idx) => {
         if (char === null) {
-          map[word.id][idx] = getOptionsForLetter(
-            word.fullWord[idx]
-          );
+          map[word.id][idx] = getOptionsForLetter(word.fullWord[idx]);
         }
       });
     });
     return map;
   }, []);
+  const areAllInputsFilled = () => {
+  return exerciseDataO.words.every((word) => {
+    const userAnswers = answers[word.id] || {};
 
+    return word.pattern.every((char, idx) => {
+      if (char === null) {
+        return userAnswers[idx] !== undefined && userAnswers[idx] !== "";
+      }
+      return true;
+    });
+  });
+};
   const checkAnswers = () => {
+    if (showResults) return;
+
+    // 🔴 التحقق من تعبئة كل الانبوتات
+    if (!areAllInputsFilled()) {
+      ValidationAlert.info("Please fill all the missing letters first!");
+      return;
+    }
+
     let score = 0;
     const total = exerciseDataO.words.length;
 
@@ -96,7 +113,14 @@ const WB_Unit7_Page42_Q1 = () => {
     });
 
     setShowResults(true);
-    ValidationAlert.info(`Score: ${score} / ${total}`);
+
+    if (score === total) {
+      ValidationAlert.success(`Score: ${score} / ${total}`);
+    } else if (score > 0) {
+      ValidationAlert.warning(`Score: ${score} / ${total}`);
+    } else {
+      ValidationAlert.error(`Score: ${score} / ${total}`);
+    }
   };
 
   const handleShowAnswer = () => {
@@ -118,7 +142,14 @@ const WB_Unit7_Page42_Q1 = () => {
     setAnswers({});
     setShowResults(false);
   };
+  const isLetterWrong = (word, idx) => {
+    if (!showResults) return false;
 
+    const userValue = answers[word.id]?.[idx];
+    const correctValue = word.fullWord[idx];
+
+    return userValue && userValue !== correctValue;
+  };
   const renderWord = (word) => {
     return word.pattern.map((char, idx) => {
       if (char === null) {
@@ -126,22 +157,30 @@ const WB_Unit7_Page42_Q1 = () => {
         const userValue = answers[word.id]?.[idx];
 
         return (
-          <select
-            key={`${word.id}-${idx}`}
-            value={userValue || ""}
-            onChange={(e) =>
-              handleSelectLetter(word.id, idx, e.target.value)
-            }
-            disabled={showResults}
-            className="w-6 text-center text-lg font-semibold bg-transparent border-0 border-b-2 border-black appearance-none focus:outline-none"
-          >
-            <option value=""></option>
-            {options.map((letter, i) => (
-              <option key={i} value={letter}>
-                {letter}
-              </option>
-            ))}
-          </select>
+          <div key={`${word.id}-${idx}`} className="relative">
+            <select
+              value={userValue || ""}
+              onChange={(e) => handleSelectLetter(word.id, idx, e.target.value)}
+              disabled={showResults}
+             className={`w-6 text-center text-lg font-semibold border-0 border-b-2 appearance-none focus:outline-none
+  ${isLetterWrong(word, idx) ? "border-red-500 text-black bg-white" : "border-black text-black bg-white"}
+`}
+            >
+              <option value=""></option>
+              {options.map((letter, i) => (
+                <option key={i} value={letter}>
+                  {letter}
+                </option>
+              ))}
+            </select>
+
+            {/* ❌ الأيقونة */}
+            {isLetterWrong(word, idx) && (
+              <div className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold border-2 border-white">
+                ✕
+              </div>
+            )}
+          </div>
         );
       }
 
@@ -173,7 +212,7 @@ const WB_Unit7_Page42_Q1 = () => {
                   >
                     {month}
                   </div>
-                )
+                ),
               )}
             </div>
           </div>
@@ -181,13 +220,15 @@ const WB_Unit7_Page42_Q1 = () => {
           {/* الصورة + الانبوت */}
           <div className="flex-1">
             <div className="relative w-full">
-              <img src={img} alt="exercise" className="w-full" style={{height:"100%" ,width:"auto"}}/>
+              <img
+                src={img}
+                alt="exercise"
+                className="w-full"
+                style={{ height: "100%", width: "auto" }}
+              />
 
               {exerciseDataO.words.map((word) => (
-                <div
-                  key={word.id}
-                  className={`absolute ${word.bubbleClass}`}
-                >
+                <div key={word.id} className={`absolute ${word.bubbleClass}`}>
                   <div className="flex items-center gap-1">
                     {renderWord(word)}
                   </div>

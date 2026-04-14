@@ -12,6 +12,16 @@ import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 5
 import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 56/Ex A 5.svg";
 import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 56/Ex A 6.svg";
 
+import {
+  DndContext,
+  useDraggable,
+  useDroppable,
+  useSensor,
+  useSensors,
+  PointerSensor,
+  TouchSensor,
+  DragOverlay,
+} from "@dnd-kit/core";
 const questions = [
   { id: 1, src: img1, correct: "cap" },
   { id: 2, src: img2, correct: "game" },
@@ -32,18 +42,104 @@ const correctAnswers = {
   6: "man",
 };
 
+const DraggableWord = ({ word, disabled }) => {
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id: word,
+    data: { word },
+    disabled,
+  });
+
+  const style = transform
+    ? { transform: `translate(${transform.x}px, ${transform.y}px)` }
+    : undefined;
+
+  return (
+    <div
+      ref={setNodeRef}
+      {...listeners}
+      {...attributes}
+      style={style}
+      className={`px-4 py-2 rounded-lg border-2 font-semibold touch-none
+        ${
+          disabled
+            ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+            : "bg-white cursor-grab hover:bg-blue-50 border-gray-300"
+        }
+      `}
+    >
+      {word}
+    </div>
+  );
+};
+
+const DropZone = ({ id, value, correct, showResult }) => {
+  const { setNodeRef } = useDroppable({ id: `${id}` });
+
+  const isWrong = showResult && value && value !== correct;
+
+  return (
+    <div
+      ref={setNodeRef}
+      className="relative w-full text-center border-b-2 border-gray-400 pb-1 min-h-[28px]"
+    >
+      {value ? (
+        <span className="font-bold text-base text-blue-600">{value}</span>
+      ) : (
+        <span className="text-gray-300 text-sm">_ _ _</span>
+      )}
+
+      {isWrong && (
+        <span className="absolute -top-2 right-0 text-white bg-red-500 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold border-2 border-white shadow-lg">
+          ✕
+        </span>
+      )}
+    </div>
+  );
+};
+
 export default function ExerciseA() {
   const [answers, setAnswers] = useState({});
   const [showResult, setShowResult] = useState(false);
   const [score, setScore] = useState(null);
   const [resetKey, setResetKey] = useState(0);
-  const [selectedWord, setSelectedWord] = useState(null);
+
+  const [activeWord, setActiveWord] = useState(null);
   // الكلمات المستخدمة (عشان ما تنتخب نفس الكلمة لسؤالين)
   const usedWords = Object.values(answers);
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 0,
+        tolerance: 0,
+      },
+    }),
+  );
 
+  const handleDragEnd = ({ active, over }) => {
+    if (!over || showResult) return;
+
+    const word = active.data.current.word;
+    const id = Number(over.id);
+
+    setAnswers((prev) => {
+      const updated = { ...prev };
+
+      // 🔁 remove from old place
+      Object.keys(updated).forEach((key) => {
+        if (updated[key] === word) {
+          delete updated[key];
+        }
+      });
+
+      updated[id] = word;
+      return updated;
+    });
+  };
   const checkAnswers = () => {
+    if (showResult) return;
     if (Object.keys(answers).length < questions.length) {
-      ValidationAlert.warning("Please answer all questions before checking.");
+      ValidationAlert.info("Please answer all questions before checking.");
       return;
     }
     let correct = 0;
@@ -52,9 +148,13 @@ export default function ExerciseA() {
     });
     setScore(correct);
     setShowResult(true);
-    correct === questions.length
-      ? ValidationAlert.success(`Score: ${correct}/${questions.length}`)
-      : ValidationAlert.error(`Score: ${correct}/${questions.length}`);
+    if (correct === questions.length) {
+      ValidationAlert.success(`Score: ${correct}/${questions.length}`);
+    } else if (correct > 0) {
+      ValidationAlert.warning(`Score: ${correct}/${questions.length}`);
+    } else {
+      ValidationAlert.error(`Score: ${correct}/${questions.length}`);
+    }
   };
 
   const handleShowAnswer = () => {
@@ -100,7 +200,7 @@ export default function ExerciseA() {
     },
     {
       start: 11.7,
-      end: 14.10,
+      end: 14.1,
       text: "3.may.",
     },
     { start: 14.8, end: 16.88, text: "4.sad." },
@@ -108,97 +208,72 @@ export default function ExerciseA() {
     { start: 21.1, end: 22.96, text: "6.man." },
   ];
   return (
-    <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "15px" }}>
-        <h1 className="WB-header-title-page8">
-          <span className="WB-ex-A">A</span>Look, listen, and write.
-        </h1>
+    <DndContext
+      sensors={sensors}
+      onDragStart={({ active }) => setActiveWord(active.data.current.word)}
+      onDragEnd={(e) => {
+        handleDragEnd(e);
+        setActiveWord(null);
+      }}
+    >
+      <div className="main-container-component">
+        <div className="div-forall" style={{ gap: "15px" }}>
+          <h1 className="WB-header-title-page8">
+            <span className="WB-ex-A">A</span>Look, listen, and write.
+          </h1>
 
-        <div className="mb-8 flex flex-wrap justify-center gap-2 border-2 border-dashed border-blue-700 rounded-lg p-2 shadow-2">
-          {wordBank.map((word) => {
-            const isUsed = usedWords.includes(word);
+          <div className="mb-8 flex flex-wrap justify-center gap-2 border-2 border-dashed border-gray-300 rounded-lg p-4 shadow-2">
+            {wordBank.map((word) => {
+              const isUsed = usedWords.includes(word);
 
-            return (
-              <div
-                key={word}
-                draggable={!isUsed && !showResult}
-                onDragStart={() => setSelectedWord(word)}
-                className={`px-4 py-2 rounded-lg border-2 border-blue-500 font-semibold transition-all
-    ${
-      isUsed
-        ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-        : "bg-white cursor-grab hover:bg-blue-50 border-gray-300"
-    }
-  `}
-              >
-                {word}
+              return (
+                <DraggableWord
+                  key={word}
+                  word={word}
+                  disabled={isUsed || showResult}
+                />
+              );
+            })}
+          </div>
+          <QuestionAudioPlayer
+            src={sound}
+            captions={captions}
+            stopAtSecond={6.1}
+          />
+          {/* Questions grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
+            {questions.map((q) => (
+              <div key={q.id} className={getCardClass(q.id)}>
+                {/* Number */}
+                <span className="text-xs font-bold text-blue-500 self-start">
+                  {q.id}
+                </span>
+
+                <img
+                  src={q.src}
+                  alt=""
+                  srcset=""
+                  className="max-w-24 max-h-24"
+                />
+
+                {/* Answer line */}
+                <DropZone
+                  id={q.id}
+                  value={answers[q.id]}
+                  correct={correctAnswers[q.id]}
+                  showResult={showResult}
+                />
               </div>
-            );
-          })}
+            ))}
+          </div>
+
+          <Button
+            handleShowAnswer={handleShowAnswer}
+            handleStartAgain={handleStartAgain}
+            checkAnswers={checkAnswers}
+          />
         </div>
-        <QuestionAudioPlayer src={sound} captions={captions} stopAtSecond={6.1} />
-        {/* Questions grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
-          {questions.map((q) => (
-            <div key={q.id} className={getCardClass(q.id)}>
-              {/* Number */}
-              <span className="text-xs font-bold text-blue-500 self-start">
-                {q.id}
-              </span>
-
-              <img src={q.src} alt="" srcset="" className="max-w-24 max-h-24" />
-
-              {/* Answer line */}
-              <div
-                onDragOver={(e) => e.preventDefault()} // 🔥 مهم جداً
-                onDrop={() => {
-                  if (!selectedWord || showResult) return;
-
-                  setAnswers((prev) => {
-                    const updated = { ...prev };
-
-                    // نشيل الكلمة إذا مستخدمة بمكان ثاني
-                    Object.keys(updated).forEach((key) => {
-                      if (updated[key] === selectedWord) {
-                        delete updated[key];
-                      }
-                    });
-
-                    updated[q.id] = selectedWord;
-                    return updated;
-                  });
-
-                  setSelectedWord(null);
-                }}
-                className="relative w-full text-center border-b-2 border-gray-400 pb-1 min-h-[28px]"
-              >
-                {answers[q.id] ? (
-                  <span
-                    className={`font-bold text-base "text-blue-600"
-                    `}
-                  >
-                    {answers[q.id]}
-                    {/* Show correct if wrong */}
-                  </span>
-                ) : (
-                  <span className="text-gray-300 text-sm">_ _ _</span>
-                )}
-                {showResult && answers[q.id] !== correctAnswers[q.id] && (
-                  <span className="absolute -top-2 right-0 text-white bg-red-500 rounded-full w-6 h-6 flex items-center justify-center text-s, font-bold border-2 border-white shadow">
-                    ✕
-                  </span>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <Button
-          handleShowAnswer={handleShowAnswer}
-          handleStartAgain={handleStartAgain}
-          checkAnswers={checkAnswers}
-        />
       </div>
-    </div>
+    </DndContext>
   );
 }

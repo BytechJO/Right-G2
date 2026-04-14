@@ -4,7 +4,16 @@ import { useState } from "react";
 import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import img from "../../../assets/imgs/WorkBook/Right Int WB G2 U10 Folder/Page 61/SVG/Asset 1.svg";
-
+import {
+  DndContext,
+  useDraggable,
+  useDroppable,
+  useSensor,
+  useSensors,
+  PointerSensor,
+  TouchSensor,
+  DragOverlay,
+} from "@dnd-kit/core";
 const wordBank = [
   "making",
   "searching",
@@ -32,47 +41,107 @@ const correctAnswers = {
   6: "reading",
 };
 
+const DraggableWord = ({ word, disabled }) => {
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id: word,
+    data: { word },
+    disabled,
+  });
+
+  const style = transform
+    ? { transform: `translate(${transform.x}px, ${transform.y}px)` }
+    : undefined;
+
+  return (
+    <div
+      ref={setNodeRef}
+      {...listeners}
+      {...attributes}
+      // style={style}
+      className={`px-4 py-2 rounded-lg border-2 font-semibold touch-none
+        ${
+          disabled
+            ? "bg-gray-200 text-gray-400 cursor-not-allowed border-gray-200"
+            : "bg-white cursor-grab hover:bg-blue-50 border-blue-500 text-blue-700"
+        }
+      `}
+    >
+      {word}
+    </div>
+  );
+};
+
+const DropZone = ({ id, value, correct, showResult, subject }) => {
+  const { setNodeRef } = useDroppable({ id: `${id}` });
+
+  const isWrong = showResult && value && value !== correct;
+
+  return (
+    <div
+      ref={setNodeRef}
+      className={`relative border-b-2 pb-1 mb-3 min-h-[38px] flex items-center gap-1
+        ${!showResult || !value ? "border-gray-300" : ""}
+        ${showResult && value === correct ? "border-gray-400" : ""}
+        ${isWrong ? "border-red-500" : ""}
+      `}
+    >
+      {isWrong && (
+        <div className="absolute -top-2 -right-2 w-7 h-7 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold border-2 border-white shadow">
+          ✕
+        </div>
+      )}
+
+      <span className="text-gray-700 text-lg font-semibold">{subject} is</span>
+
+      {value && (
+        <span className="font-bold text-lg ml-1 text-blue-600">{value}.</span>
+      )}
+    </div>
+  );
+};
 export default function ExerciseH() {
   const [answers, setAnswers] = useState({});
   const [showResult, setShowResult] = useState(false);
   const [score, setScore] = useState(null);
   const [selectedWord, setSelectedWord] = useState(null);
-
+  const [activeWord, setActiveWord] = useState(null);
   const usedWords = Object.values(answers);
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 0,
+        tolerance: 0,
+      },
+    }),
+  );
 
-  const handleDrop = (qId) => {
-    if (!selectedWord || showResult) return;
+  const handleDragEnd = ({ active, over }) => {
+    if (!over || showResult) return;
+
+    const word = active.data.current.word;
+    const id = Number(over.id);
 
     setAnswers((prev) => {
       const updated = { ...prev };
 
-      // إذا نفس الكلمة مستخدمة بجملة ثانية، احذفها من هناك
+      // 🔁 remove from old place
       Object.keys(updated).forEach((key) => {
-        if (updated[key] === selectedWord) {
+        if (updated[key] === word) {
           delete updated[key];
         }
       });
 
-      updated[qId] = selectedWord;
-      return updated;
-    });
+      updated[id] = word;
 
-    setSelectedWord(null);
-  };
-
-  const handleRemoveAnswer = (qId) => {
-    if (showResult) return;
-
-    setAnswers((prev) => {
-      const updated = { ...prev };
-      delete updated[qId];
       return updated;
     });
   };
 
   const checkAnswers = () => {
+    if (showResult) return;
     if (Object.keys(answers).length < questions.length) {
-      ValidationAlert.warning(
+      ValidationAlert.info(
         "Please complete all sentences before checking your answers.",
       );
       return;
@@ -85,10 +154,12 @@ export default function ExerciseH() {
 
     setScore(correct);
     setShowResult(true);
+    const total = questions.length;
 
-    correct === questions.length
-      ? ValidationAlert.success(`Score: ${correct}/${questions.length}`)
-      : ValidationAlert.error(`Score: ${correct}/${questions.length}`);
+    const msg = `Score: ${correct} / ${total}`;
+    if (correct === total) ValidationAlert.success(msg);
+    else if (correct > 0) ValidationAlert.warning(msg);
+    else ValidationAlert.error(msg);
   };
 
   const handleShowAnswer = () => {
@@ -104,118 +175,77 @@ export default function ExerciseH() {
     setSelectedWord(null);
   };
 
-  const getChipClass = (word) => {
-    const isUsed = usedWords.includes(word);
-    const base = "px-4 py-2 rounded-lg border-2 font-semibold transition-all ";
-
-    if (isUsed) {
-      return (
-        base + "bg-gray-200 text-gray-400 cursor-not-allowed border-gray-200"
-      );
-    }
-
-    return (
-      base +
-      "bg-white cursor-grab hover:bg-blue-50 border-blue-500 text-blue-700"
-    );
-  };
-
-  const getLineClass = (qId) => {
-    if (!showResult || !answers[qId]) return "border-gray-300";
-    return answers[qId] === correctAnswers[qId]
-      ? "border-gray-400"
-      : "border-red-500";
-  };
-
   return (
-    <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "10px" }}>
-        <h1 className="WB-header-title-page8">
-          <span className="WB-ex-A">H</span>Look and write sentences.
-        </h1>
+    <DndContext
+      sensors={sensors}
+      onDragStart={({ active }) => setActiveWord(active.data.current.word)}
+      onDragEnd={(e) => {
+        handleDragEnd(e);
+        setActiveWord(null);
+      }}
+    >
+      <div className="main-container-component">
+        <div className="div-forall" style={{ gap: "10px" }}>
+          <h1 className="WB-header-title-page8">
+            <span className="WB-ex-A">H</span>Look and write sentences.
+          </h1>
 
-        <div className="max-w-full max-h-48 flex items-center justify-center mb-6 text-gray-400 text-sm">
-          <img src={img} alt="exercise" style={{height:"240px"}} />
-        </div>
+          <div className="max-w-full max-h-48 flex items-center justify-center mb-6 text-gray-400 text-sm">
+            <img src={img} alt="exercise" style={{ height: "240px" }} />
+          </div>
 
-        {/* Global Word Bank */}
-        <div className="mb-8 flex flex-wrap justify-center gap-2 border-2 border-dashed border-blue-700 rounded-lg p-3 shadow-sm">
-          {wordBank.map((word) => {
-            const isUsed = usedWords.includes(word);
+          {/* Global Word Bank */}
+          <div className="mb-8 flex flex-wrap justify-center gap-2 border-2 border-dashed border-gray-300 rounded-lg p-3 shadow-sm">
+            {wordBank.map((word) => {
+              const isUsed = usedWords.includes(word);
 
-            return (
-              <div
-                key={word}
-                draggable={!isUsed && !showResult}
-                onDragStart={() => setSelectedWord(word)}
-                className={getChipClass(word)}
-              >
-                {word}
-              </div>
-            );
-          })}
-        </div>
+              return (
+                <DraggableWord
+                  key={word}
+                  word={word}
+                  disabled={isUsed || showResult}
+                />
+              );
+            })}
+          </div>
 
-        <div className="space-y-6">
-          {/* الجملة الأولى ثابتة */}
-       
+          <div className="space-y-6">
+            {/* الجملة الأولى ثابتة */}
 
-          {questions.map((q) => (
-            <div key={q.id} className="flex items-start gap-3">
-              <span className="text-blue-600 font-bold w-5 shrink-0 pt-2">
-                {q.id}
-              </span>
+            {questions.map((q) => (
+              <div key={q.id} className="flex items-start gap-3">
+                <span className="text-blue-600 font-bold w-5 shrink-0 pt-2">
+                  {q.id}
+                </span>
 
-              <div className="flex-1">
-                <div
-                  onDragOver={(e) => e.preventDefault()}
-                  onDrop={() => handleDrop(q.id)}
-                  className={`relative border-b-2 pb-1 mb-3 min-h-[38px] flex items-center gap-1 ${getLineClass(
-                    q.id,
-                  )}`}
-                >
-                  {showResult &&
-                    answers[q.id] &&
-                    answers[q.id] !== correctAnswers[q.id] && (
-                      <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold border-2 border-white shadow">
-                        ✕
-                      </div>
-                    )}
-
-                  <span className="text-gray-700 text-lg font-semibold">
-                    {q.subject} is
-                  </span>
-
-                  {answers[q.id] ? (
-                    <span
-                      onClick={() => handleRemoveAnswer(q.id)}
-                      className={`font-bold text-lg ml-1 ${
-                        showResult
-                          ? answers[q.id] === correctAnswers[q.id]
-                            ? "text-blue-700"
-                            : "text-blue-600"
-                          : "text-blue-600 cursor-pointer"
-                      }`}
-                    >
-                      {answers[q.id]}.
-                    </span>
-                  ) : (
-                    <span className="text-gray-300 ml-1"></span>
-                  )}
+                <div className="flex-1">
+                  <DropZone
+                    id={q.id}
+                    value={answers[q.id]}
+                    correct={correctAnswers[q.id]}
+                    showResult={showResult}
+                    subject={q.subject}
+                  />
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-18">
-          <Button
-            handleShowAnswer={handleShowAnswer}
-            handleStartAgain={handleStartAgain}
-            checkAnswers={checkAnswers}
-          />
+            ))}
+          </div>
+          <DragOverlay>
+            {activeWord && (
+              <div className="px-4 py-2 bg-white border-2 border-blue-500 rounded-lg shadow-xl font-semibold">
+                {activeWord}
+              </div>
+            )}
+          </DragOverlay>
+          <div className="mt-18">
+            <Button
+              handleShowAnswer={handleShowAnswer}
+              handleStartAgain={handleStartAgain}
+              checkAnswers={checkAnswers}
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </DndContext>
   );
 }

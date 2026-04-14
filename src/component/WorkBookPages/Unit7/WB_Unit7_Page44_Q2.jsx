@@ -94,8 +94,23 @@ const WB_Unit7_Page44_Q2 = () => {
 
     setDraggedWord(null);
   };
+  const areAllFilled = () => {
+    const totalPlaced = Object.values(columnsB).reduce(
+      (sum, col) => sum + col.filter(Boolean).length,
+      0,
+    );
 
+    return totalPlaced === exerciseBWords.length;
+  };
   const checkAnswers = () => {
+    if (locked || checked) return;
+
+    // 🔴 الفاليديشن
+    if (!areAllFilled()) {
+      ValidationAlert.info("Please place all the words first!");
+      return;
+    }
+
     let correct = 0;
     let total = exerciseBWords.length;
 
@@ -189,7 +204,12 @@ const WB_Unit7_Page44_Q2 = () => {
               >
                 {[0, 1, 2].map((idx) => {
                   const word = columnsB[col.id][idx];
-
+const isWrong =
+  checked &&
+  word &&
+  !exerciseBColumns
+    .find((c) => c.id === col.id)
+    .correctWords.includes(word);
                   return (
                     <div
                       key={idx}
@@ -200,14 +220,23 @@ const WB_Unit7_Page44_Q2 = () => {
                       <div
                         draggable={word && !locked}
                         onDragStart={() => onDragStart(word, col.id)}
-                        className={`h-12 border-b-2 flex items-center justify-center text-xl italic
-                      ${
-                        word ? "border-gray-500 cursor-grab" : "border-gray-300"
-                      }
-                    `}
+                        className={`h-12 border-b-2 flex items-center justify-center text-xl italic relative
+  ${
+    isWrong
+      ? "border-red-500"
+      : word
+        ? "border-gray-500 cursor-grab"
+        : "border-gray-300"
+  }
+`}
                       >
                         {word}
                       </div>
+                      {isWrong && (
+                        <div className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold shadow border-2 border-white">
+                          ✕
+                        </div>
+                      )}
                     </div>
                   );
                 })}

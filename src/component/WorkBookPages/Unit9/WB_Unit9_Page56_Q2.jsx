@@ -27,12 +27,15 @@ const WB_Unit9_Page56_Q2 = () => {
   ];
 
   const handleSelect = (id, option) => {
+    if (showAnswers || showResults) return;
+
     if (!showAnswers) {
       setUserSelections({ ...userSelections, [id]: option });
     }
   };
 
   const checkAnswers = () => {
+    if (showAnswers || showResults) return;
     const allAnswered = Object.values(userSelections).every(
       (val) => val !== null,
     );
@@ -60,7 +63,7 @@ const WB_Unit9_Page56_Q2 = () => {
 
     setWrongAnswers(newWrong);
     setScore(currentScore);
-
+    setShowResults(true);
     if (currentScore === totalQuestions) {
       ValidationAlert.success(`Score: ${currentScore} / ${totalQuestions}`);
     } else if (currentScore > 0) {
@@ -120,7 +123,11 @@ const WB_Unit9_Page56_Q2 = () => {
           <span className="text-blue-900">short a</span>? Listen, look, and
           circle.
         </h1>
-        <QuestionAudioPlayer src={sound} captions={captions} stopAtSecond={11.60} />
+        <QuestionAudioPlayer
+          src={sound}
+          captions={captions}
+          stopAtSecond={11.6}
+        />
         <div className="grid grid-cols-2 gap-12">
           {data.map((item) => (
             <div key={item.id} className="flex flex-col items-center gap-6">
@@ -137,22 +144,19 @@ const WB_Unit9_Page56_Q2 = () => {
                   className="max-w-32 max-h-32 object-contain rounded-xl"
                 />
                 <div
-                  className="flex flex-col rounded-2xl"
+                  className="flex flex-col gap-3 rounded-2xl"
                   style={{ width: "40%" }}
                 >
                   {item.options.map((option) => (
                     <button
                       key={option}
                       onClick={() => handleSelect(item.id, option)}
-                      className={`relative px-4 py-1 transition-all ${
+                      className={`relative px-4 py-1 transition-all border-2 rounded-lg ${
                         userSelections[item.id] === option
                           ? "border-blue-500 bg-blue-100"
                           : "border-gray-300 hover:border-blue-400"
-                      } ${
-                        showAnswers && option === item.correct
-                          ? "bg-green-500 text-white"
-                          : ""
-                      }`}
+                      } ${wrongAnswers[item.id] &&
+                        userSelections[item.id] === option &&"border-red-500 bg-white"}`}
                     >
                       {option}{" "}
                       {wrongAnswers[item.id] &&

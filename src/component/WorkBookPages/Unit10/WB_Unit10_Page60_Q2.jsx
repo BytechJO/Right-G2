@@ -15,18 +15,18 @@ const WB_Unit10_Page60_Q2 = () => {
   const DATA = [
     {
       id: "q1",
-      scrambled: ["ball", "she", "yard", "in", ".", "playing", "is", "the"],
+      scrambled: ["ball", "She", "yard", "in", ".", "playing", "is", "the"],
       correct: "She is playing ball in the yard.",
     },
     {
       id: "q2",
-      scrambled: ["TV", "they", ".", "are", "watching"],
+      scrambled: ["TV", "They", ".", "are", "watching"],
       correct: "They are watching TV.",
     },
     {
       id: "q3",
       scrambled: [
-        "he",
+        "He",
         "shower",
         ".",
         "bathroom",
@@ -40,7 +40,7 @@ const WB_Unit10_Page60_Q2 = () => {
     },
     {
       id: "q4",
-      scrambled: ["studying", "the", ".", "we", "bedroom", "are", "in"],
+      scrambled: ["studying", "the", ".", "We", "bedroom", "are", "in"],
       correct: "We are studying in the bedroom.",
     },
     {
@@ -60,6 +60,7 @@ const WB_Unit10_Page60_Q2 = () => {
   ];
 
   const checkAnswers = () => {
+    if (showResults) return;
     const unanswered = DATA.filter((d) => answers[d.id].length === 0);
     if (unanswered.length > 0) {
       ValidationAlert.info();
@@ -120,7 +121,7 @@ const WB_Unit10_Page60_Q2 = () => {
                       </span>{" "}
                       {item.scrambled.join(" ")}
                     </h2>
-                    <div className="flex flex-wrap gap-2 border-2 border-dashed border-blue-700 w-160 p-2 rounded-lg">
+                    <div className="flex flex-wrap gap-2 border-2 border-dashed border-gray-400 w-160 p-2 rounded-lg">
                       {item.scrambled.map((word, wIdx) => {
                         const countInAnswer = answers[item.id].filter(
                           (w) => w === word,
@@ -150,11 +151,11 @@ const WB_Unit10_Page60_Q2 = () => {
                 </div>
 
                 <div
-                  className={`relative min-h-[50px] p-3 border-b-2 flex flex-wrap gap-1 items-center transition-all`}
+                  className={`relative min-h-[50px] p-3 border-b-2 flex flex-wrap gap-1 items-center transition-all ${showResults && answers[item.id].length > 0 && !isCorrect &&"border-red-500"}`}
                 >
                   {/* ❌ Wrong Answer */}
                   {showResults && answers[item.id].length > 0 && !isCorrect && (
-                    <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold border-2 border-white shadow">
+                    <div className="absolute -top-2 -right-2 w-7 h-7 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold border-2 border-white shadow">
                       ✕
                     </div>
                   )}
@@ -169,7 +170,7 @@ const WB_Unit10_Page60_Q2 = () => {
                     <span
                       key={wIdx}
                       onClick={() => handleRemoveWord(item.id, wIdx)}
-                      className={`cursor-pointer text-blue-800 font-bold text-lg hover:bg-red-100 hover:text-red-600 transition-colors ${
+                      className={`cursor-pointer text-lg hover:text-red-600 transition-colors ${
                         showResults ? "pointer-events-none" : ""
                       }`}
                     >

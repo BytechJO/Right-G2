@@ -27,23 +27,23 @@ const exerciseHData = [
   {
     id: 2,
     image: img2,
-    correctLetter: "B",
-    correctSentence: "He isn't wearing a purple shirt.",
+    correctLetter: "D",
+    correctSentence: "He isn't wearing a watch.",
     options: ["A", "B", "C", "D"],
   },
   {
     id: 3,
     image: img3,
-    correctLetter: "D",
-    correctSentence: "She isn't holding a doll.",
+    correctLetter: "A",
+    correctSentence: "She isn't holding flowers.",
     options: ["A", "B", "C", "D"],
   },
 ];
 
 const sentenceBank = [
   "He isn't wearing boots.",
-  "He isn't wearing a purple shirt.",
-  "She isn't holding a doll.",
+  "He isn't wearing a watch.",
+  "She isn't holding flowers.",
 ];
 
 const INITIAL = {
@@ -73,7 +73,7 @@ function DraggableItem({ type, value, parentId, children, disabled }) {
       style={style}
       {...(!disabled ? listeners : {})}
       {...(!disabled ? attributes : {})}
-      className={`px-3 py-1 bg-white border-2 border-blue-400 rounded-lg shadow-sm
+      className={`px-3 py-1 bg-white border-2 border-blue-400 rounded-lg shadow-sm touch-none
         ${disabled ? "opacity-40 cursor-not-allowed" : "cursor-grab hover:bg-blue-50"}
         ${isDragging ? "opacity-0" : ""}
       `}
@@ -109,14 +109,16 @@ const WB_Unit9_Page54_Q2 = () => {
 
   // ✅ sentences المستخدمة
   const usedSentences = new Set(
-    Object.values(answers).map((a) => a.sentence).filter(Boolean)
+    Object.values(answers)
+      .map((a) => a.sentence)
+      .filter(Boolean),
   );
 
   // ✅ letters المستخدمة (لكل صف)
   const usedLetters = new Set(
     Object.entries(answers)
       .filter(([, value]) => value.letter)
-      .map(([rowId, value]) => `${rowId}-${value.letter}`)
+      .map(([rowId, value]) => `${rowId}-${value.letter}`),
   );
 
   const handleDragStart = (event) => {
@@ -151,8 +153,9 @@ const WB_Unit9_Page54_Q2 = () => {
   };
 
   const checkAnswers = () => {
+    if (checked || locked) return;
     const unanswered = Object.values(answers).filter(
-      (a) => !a.letter || !a.sentence
+      (a) => !a.letter || !a.sentence,
     );
 
     if (unanswered.length > 0) {
@@ -174,8 +177,8 @@ const WB_Unit9_Page54_Q2 = () => {
       correctCount === exerciseHData.length * 2
         ? "success"
         : correctCount > 0
-        ? "warning"
-        : "error"
+          ? "warning"
+          : "error"
     ](`Score: ${correctCount}/${exerciseHData.length * 2}`);
   };
 
@@ -207,7 +210,7 @@ const WB_Unit9_Page54_Q2 = () => {
       <div className="main-container-component">
         <div className="div-forall" style={{ gap: "30px" }}>
           <h1 className="WB-header-title-page8">
-            <span className="WB-ex-A">H</span> Which one is different?
+            <span className="WB-ex-A">H</span>Which one is different? Look and write.
           </h1>
 
           {/* Sentence Bank */}
@@ -236,7 +239,8 @@ const WB_Unit9_Page54_Q2 = () => {
                 <div className="border-2 border-gray-800 rounded-2xl p-4 bg-white shadow-sm">
                   <img
                     src={item.image}
-                    className="max-h-40 max-w-60 object-contain"
+                    className="object-contain"
+                    style={{ height: "100px", width: "auto" }}
                   />
 
                   <div className="flex justify-around mt-2 font-bold text-gray-600">
@@ -261,14 +265,48 @@ const WB_Unit9_Page54_Q2 = () => {
                 {/* Drop Zones */}
                 <div className="flex gap-4 flex-1">
                   <DropZone id={item.id} type="letter">
-                    <div className="w-12 h-12 border-2 rounded-xl flex items-center justify-center font-bold text-xl">
-                      {answers[item.id].letter}
+                    <div className="relative">
+                      <div
+                        className={`w-12 h-12 border-2 rounded-xl flex items-center justify-center font-bold text-xl ${
+                          checked &&
+                          answers[item.id].letter &&
+                          answers[item.id].letter !== item.correctLetter &&
+                          "border-red-500"
+                        }`}
+                      >
+                        {answers[item.id].letter}
+                      </div>
+
+                      {checked &&
+                        answers[item.id].letter &&
+                        answers[item.id].letter !== item.correctLetter && (
+                          <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold border-2 border-white shadow-lg">
+                            ✕
+                          </div>
+                        )}
                     </div>
                   </DropZone>
 
                   <DropZone id={item.id} type="sentence">
-                    <div className="min-w-[250px] border-b-2 px-2 py-2 font-serif italic">
-                      {answers[item.id].sentence}
+                    <div className="relative">
+                      <div
+                        className={`min-w-[250px] h-[50px] border-b-2 px-2 py-2 font-serif italic ${
+                          checked &&
+                          answers[item.id].sentence &&
+                          answers[item.id].sentence !== item.correctSentence &&
+                          "border-red-500"
+                        }`}
+                      >
+                        {answers[item.id].sentence}
+                      </div>
+
+                      {checked &&
+                        answers[item.id].sentence &&
+                        answers[item.id].sentence !== item.correctSentence && (
+                          <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold border-2 border-white shadow-lg">
+                            ✕
+                          </div>
+                        )}
                     </div>
                   </DropZone>
                 </div>

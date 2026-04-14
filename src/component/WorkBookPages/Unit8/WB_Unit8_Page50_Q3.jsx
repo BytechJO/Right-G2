@@ -65,8 +65,8 @@ function DropSlot({ id, content, isCorrect, isSubmitted }) {
       ? "border-blue-400"
       : "border-red-500"
     : isOver
-    ? "border-blue-400 bg-blue-50"
-    : "border-gray-300";
+      ? "border-blue-400 bg-blue-50"
+      : "border-gray-300";
 
   return (
     <div
@@ -100,6 +100,7 @@ const WB_Unit8_Page50_Q3 = () => {
   const sensors = useSensors(useSensor(PointerSensor));
 
   const checkAnswers = () => {
+    if (showResults) return;
     const unanswered = Object.keys(CORRECT_C).filter((id) => !answers[id]);
     if (unanswered.length > 0) {
       ValidationAlert.info();
@@ -137,49 +138,48 @@ const WB_Unit8_Page50_Q3 = () => {
             <span className="WB-ex-A">C</span>Read and complete the sentences.
             Use the words from the box.
           </h1>
-     
 
-        <div className="flex justify-center gap-4 mb-12 p-3 rounded-2xl border-2 border-dashed border-blue-600">
-          <SortableContext items={WORDS_C.map((w) => w.id)}>
-            {WORDS_C.map((w) => (
-              <DraggableWord
-                key={w.id}
-                item={w}
-                isUsed={Object.values(answers).includes(w.id)}
-              />
+          <div className="flex justify-center gap-4 mb-12 p-3 rounded-2xl border-2 border-dashed border-gray-400">
+            <SortableContext items={WORDS_C.map((w) => w.id)}>
+              {WORDS_C.map((w) => (
+                <DraggableWord
+                  key={w.id}
+                  item={w}
+                  isUsed={Object.values(answers).includes(w.id)}
+                />
+              ))}
+            </SortableContext>
+          </div>
+
+          <div className="space-y-10 text-xl text-gray-700 leading-relaxed">
+            {SENTENCES_C.map((s) => (
+              <p key={s.id}>
+                {s.prefix}
+                <DropSlot
+                  id={s.id}
+                  content={answers[s.id]}
+                  isCorrect={answers[s.id] === CORRECT_C[s.id]}
+                  isSubmitted={showResults}
+                />
+                {s.suffix}
+              </p>
             ))}
-          </SortableContext>
-        </div>
+          </div>
 
-        <div className="space-y-10 text-xl text-gray-700 leading-relaxed">
-          {SENTENCES_C.map((s) => (
-            <p key={s.id}>
-              {s.prefix}
-              <DropSlot
-                id={s.id}
-                content={answers[s.id]}
-                isCorrect={answers[s.id] === CORRECT_C[s.id]}
-                isSubmitted={showResults}
-              />
-              {s.suffix}
-            </p>
-          ))}
+          <div className="mt-12 flex justify-center">
+            <Button
+              handleShowAnswer={() => {
+                setAnswers(CORRECT_C);
+                setShowResults(true);
+              }}
+              handleStartAgain={() => {
+                setAnswers({ c1: null, c2: null, c3: null });
+                setShowResults(false);
+              }}
+              checkAnswers={checkAnswers}
+            />
+          </div>
         </div>
-
-        <div className="mt-12 flex justify-center">
-          <Button
-            handleShowAnswer={() => {
-              setAnswers(CORRECT_C);
-              setShowResults(true);
-            }}
-            handleStartAgain={() => {
-              setAnswers({ c1: null, c2: null, c3: null });
-              setShowResults(false);
-            }}
-            checkAnswers={checkAnswers}
-          />
-        </div>
-           </div>
       </div>
       <DragOverlay>
         {activeId ? (

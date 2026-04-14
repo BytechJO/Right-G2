@@ -6,209 +6,163 @@ import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 4
 import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 48/Ex H 2.svg";
 import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 48/Ex H 3.svg";
 import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 48/Ex H 4.svg";
-import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 48/Ex H 5.svg";
-import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 48/Ex H 6.svg";
 
-const questions = [
-  {
-    id: 1,
-    text: "In Picture A, Mom has sunglasses.",
-    img: img3,
-    correctAnswer: "A",
-  },
-  {
-    id: 2,
-    text: "In Picture B, Mom doesn’t have sunglasses.",
-    img: img4,
-    correctAnswer: "B",
-  },
-  {
-    id: 3,
-    text: "In Picture A, all of us have hats.",
-    img: img5,
-    correctAnswer: "A",
-  },
-  {
-    id: 4,
-    text: "In Picture B, we don’t have hats.",
-    img: img6,
-    correctAnswer: "B",
-  },
-];
-
-const LookAndFind = () => {
+export default function SpotTheDifference() {
   const [answers, setAnswers] = useState({});
-  const [showResults, setShowResults] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
-  const handleSelect = (questionId, choice) => {
-    if (showResults) return;
+  const questions = [
+    {
+      id: 1,
+      img: img3,
+      statements: [
+        "In Picture A, Mom has sunglasses.",
+        "In Picture B, Mom has sunglasses.",
+      ],
+      correct: 0,
+    },
+    {
+      id: 2,
+      img: img4,
+      statements: [
+        "In Picture A, all of us have hats.",
+        "In Picture B, all of us have hats.",
+      ],
+      correct: 0,
+    },
+    {
+      id: 3,
+      img: img3,
+      statements: [
+        "In Picture A, we don't have hats.",
+        "In Picture B, we don't have hats.",
+      ],
+      correct: 1,
+    },
+  ];
 
-    setAnswers((prev) => ({
-      ...prev,
-      [questionId]: choice,
-    }));
+  const handleSelect = (id, index) => {
+    if (!submitted) {
+      setAnswers({ ...answers, [id]: index });
+    }
   };
 
-  const checkAnswers = () => {
-    const unanswered = questions.some((q) => !answers[q.id]);
+  const handleSubmit = () => {
+    if (submitted) return;
 
-    if (unanswered) {
-      ValidationAlert.info("Please answer all questions first.");
+    // 🔴 تحقق إنو كل الأسئلة مجاوبة
+    const keys = questions.map((q) => q.id);
+
+    if (keys.some((k) => answers[k] === undefined)) {
+      ValidationAlert.info("Please answer all questions!");
       return;
     }
 
+    // ✅ حساب السكور
     let score = 0;
 
-    questions.forEach((q) => {
-      if (answers[q.id] === q.correctAnswer) score++;
+    keys.forEach((k) => {
+      const question = questions.find((q) => q.id === k);
+      if (answers[k] === question.correct) score++;
     });
 
-    setShowResults(true);
+    const msg = `Score: ${score} / ${keys.length}`;
 
-    const message = `Score: ${score} / ${questions.length}`;
-
-    if (score === questions.length) {
-      ValidationAlert.success(message);
+    // 🎯 نفس الديزاين تبعك
+    if (score === keys.length) {
+      ValidationAlert.success(msg);
     } else if (score > 0) {
-      ValidationAlert.warning(message);
+      ValidationAlert.warning(msg);
     } else {
-      ValidationAlert.error(message);
+      ValidationAlert.error(msg);
     }
+
+    setSubmitted(true);
+  };
+  const handleReset = () => {
+    setAnswers({});
+    setSubmitted(false);
   };
   const handleShowAnswer = () => {
-    const correct = {};
-
+    const correctAnswers = {};
     questions.forEach((q) => {
-      correct[q.id] = q.correctAnswer;
+      correctAnswers[q.id] = q.correct;
     });
 
-    setAnswers(correct);
-    setShowResults(true);
+    setAnswers(correctAnswers);
+    setSubmitted(true);
   };
-  const handleStartAgain = () => {
-    setAnswers({});
-    setShowResults(false);
-  };
-
-  const getImageClass = (questionId, choice) => {
-    const selected = answers[questionId] === choice;
-
-    let base = "w-40 h-8 border-2 rounded-lg cursor-pointer transition-all";
-
-    if (!showResults) {
-      return selected
-        ? `${base} border-blue-500 scale-105`
-        : `${base} border-gray-300 hover:scale-105`;
-    }
-
-    const isCorrect =
-      choice === questions.find((q) => q.id === questionId).correctAnswer;
-
-    if (selected && isCorrect) return `${base} border-blue-500`;
-    if (selected && !isCorrect) return `${base} border-red-500`;
-
-    return `${base} border-gray-300 opacity-70`;
-  };
-
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
-        {" "}
+      <div className="div-forall" style={{ gap: "10px" }}>
         <h1 className="WB-header-title-page8">
-          {" "}
-          <span className="WB-ex-A">H</span> Look and find. Say.{" "}
+          <span className="WB-ex-A">H</span>Look and find. Say.
         </h1>
-        {/* الصور */}
-        <div className="flex justify-center gap-10">
-          <div className="text-center">
-            <p className="font-bold mb-2">A</p>
-            <div className=" flex items-center justify-center">
-              {/* حطي SVG تبعك هون */}
 
-              <img
-                src={img1}
-                style={{ height: "190px", width: "200px" }}
-                className=" flex items-center justify-center text-lg font-bold  cursor-pointer transition-all"
-              />
+        {/* Pictures */}
+        <div className="grid grid-cols-2 gap-6 mb-8">
+          <div className="bg-blue-100 p-6 rounded-lg border-4 border-gray-300">
+            <div className="text-center font-bold text-2xl mb-4">Picture A</div>
+            <div className="text-6xl text-center">
+              <img src={img1} style={{ height: "350px", width: "auto" }} />
             </div>
           </div>
-
-          <div className="text-center">
-            <p className="font-bold mb-2">B</p>
-            <div className=" flex items-center justify-center">
-              {/* حطي SVG تبعك هون */}
-
-              <img
-                src={img2}
-                style={{ height: "190px", width: "200px" }}
-                className=" flex items-center justify-center text-lg font-bold  cursor-pointer transition-all"
-              />
+          <div className="bg-green-100 p-6 rounded-lg border-4 border-gray-300">
+            <div className="text-center font-bold text-2xl mb-4">Picture B</div>
+            <div className="text-6xl text-center">
+              <img src={img2} style={{ height: "350px", width: "auto" }} />
             </div>
           </div>
         </div>
-        {/* الأسئلة */}
-        <div className="mt-8 space-y-6">
+
+        {/* Questions */}
+        <div className="space-y-4">
           {questions.map((q) => (
-            <div key={q.id} className="text-center">
-              <div className="flex items-center gap-4">
-                <img
-                  src={q.img}
-                  className="w-10 h-10 object-contain mb-2"
-                  style={{ height: "90px" }}
-                />{" "}
-                <p className="w-100 mb-3 text-lg border-2 border-gray-300 rounded-lg p-3">
-                  {q.text}
-                </p>
-              </div>
-              <div className="flex justify-center gap-6">
-                <div className="relative">
-                  <div
-                    onClick={() => handleSelect(q.id, "A")}
-                    className={getImageClass(q.id, "A")}
+            <div
+              key={q.id}
+              className="bg-white p-4 rounded-lg border-2 border-gray-200"
+            >
+              <p className="font-semibold mb-3">Question {q.id}</p>
+              <div className="relative space-y-2">
+                {q.statements.map((stmt, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => handleSelect(q.id, idx)}
+                    disabled={submitted}
+                    className={`relative w-full p-3 text-left rounded-lg border-2 transition ${
+                      answers[q.id] === idx
+                        ? idx === q.correct && submitted
+                          ? "bg-blue-200 border-blue-500"
+                          : idx !== q.correct && submitted
+                            ? "border-red-500 bg-red-50"
+                            : "bg-blue-200 border-blue-500"
+                        : "bg-gray-100 border-gray-300 hover:bg-gray-200"
+                    }`}
                   >
-                    A
-                  </div>
+                    {stmt}
 
-                  {showResults &&
-                    answers[q.id] === "A" &&
-                    q.correctAnswer !== "A" && (
-                      <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white text-sm font-bold flex items-center justify-center rounded-full border-2 border-white">
-                        ✕{" "}
-                      </div>
-                    )}
-                </div>
-
-                <div className="relative">
-                  <div
-                    onClick={() => handleSelect(q.id, "B")}
-                    className={getImageClass(q.id, "B")}
-                  >
-                    B
-                  </div>
-
-                  {showResults &&
-                    answers[q.id] === "B" &&
-                    q.correctAnswer !== "B" && (
-                      <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white text-sm font-bold flex items-center justify-center rounded-full border-2 border-white">
-                        ✕{" "}
-                      </div>
-                    )}
-                </div>
+                    {/* ❌ Wrong */}
+                    {submitted &&
+                      answers[q.id] === idx &&
+                      idx !== q.correct && (
+                        <div className="absolute top-1/2 -translate-y-1/2 right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
+                          ✕
+                        </div>
+                      )}
+                  </button>
+                ))}
               </div>
             </div>
           ))}
         </div>
-        {/* الأزرار */}
-        <div className="mt-8">
-          <Button
-            handleStartAgain={handleStartAgain}
-            checkAnswers={checkAnswers}
-            handleShowAnswer={handleShowAnswer}
-          />
-        </div>
+
+        {/* Buttons */}
+        <Button
+          handleShowAnswer={handleShowAnswer}
+          handleStartAgain={handleReset}
+          checkAnswers={handleSubmit}
+        />
       </div>
     </div>
   );
-};
-
-export default LookAndFind;
+}

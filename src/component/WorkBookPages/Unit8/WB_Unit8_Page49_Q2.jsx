@@ -58,7 +58,7 @@ function DraggableK({ item, isUsed }) {
       style={style}
       {...attributes}
       {...listeners}
-      className={`p-2 bg-white border border-gray-200 rounded-lg shadow-sm cursor-grab text-blue-700 text-sm font-medium ${isUsed ? "bg-gray-50 text-gray-300 pointer-events-none" : "hover:border-blue-400"}`}
+      className={`p-2 bg-white border border-gray-200 rounded-lg shadow-sm cursor-grab text-blue-700 touch-none text-sm font-medium ${isUsed ? "bg-gray-50 text-gray-300 pointer-events-none" : "hover:border-blue-400"}`}
     >
       {item.text}
     </div>
@@ -83,7 +83,7 @@ function DropSlotK({ id, content, isCorrect, isSubmitted }) {
     >
       {/* المحتوى */}
       {content ? (
-        <span className="text-blue-900 font-bold text-lg">
+        <span className="text-blue-900 font-bold text-sm">
           {OPTIONS_K.find((o) => o.id === content).text}
         </span>
       ) : (
@@ -92,7 +92,7 @@ function DropSlotK({ id, content, isCorrect, isSubmitted }) {
 
       {/* X أبيض إذا الجواب غلط */}
       {isSubmitted && !isCorrect && content && (
-        <span className="absolute right-2 text-white bg-red-500 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold border-2 border-white">
+        <span className="absolute right-2 text-white bg-red-500 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold border-2 border-white shadow-lg">
           ✕
         </span>
       )}
@@ -117,6 +117,7 @@ const WB_Unit8_Page49_Q2 = () => {
   const sensors = useSensors(useSensor(PointerSensor));
 
   const checkAnswers = () => {
+    if (showResults) return;
     const unanswered = Object.keys(CORRECT_K).filter((id) => !answers[id]);
     if (unanswered.length > 0) {
       ValidationAlert.info();

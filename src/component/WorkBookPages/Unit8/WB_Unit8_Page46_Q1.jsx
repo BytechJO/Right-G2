@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../Button";
 
@@ -49,8 +49,8 @@ const colorsList = [
 const correctAnswers = {
   peter: { pants: "#808080", jacket: "#00AA00", shoes: "#000000" },
   joanna: { dress: "#FFFF00", socks: "#FFFFFF", shoes: "#8B4513" },
-  mark: { shorts: "#FF0000", shirt: "#FFFFFF", hat: "#FFA500" },
-  susan: { skirt: "#0000FF", shirt: "#FFC0CB", glasses: "#800080" },
+  mark: { shorts: "#FF0000", hat: "#FFFFFF", shirt: "#FFA500" },
+  susan: { skirt: "#0000FF", shirt: "#FFC0CB", glass: "#800080" },
 };
 
 // ==================== بيانات الشخصيات والطبقات ====================
@@ -72,18 +72,18 @@ const charactersData = {
         id: "jacket",
         image: imgLayer3,
         label: "Jacket",
-        top: 41,
+        top: 57,
         left: 14,
-        height: 51,
-        width: 81,
+        height: 40,
+        width: 83,
       },
       {
         id: "shoes",
         image: imgLayer2,
         label: "Shoes",
-        top: 213,
+        top: 267,
         left: 31,
-        height: 49,
+        height: 12,
         width: 55,
       },
     ],
@@ -105,36 +105,36 @@ const charactersData = {
         id: "Shoes1",
         image: img2Layer2,
         label: "Shoes1",
-        top: 209,
+        top: 276,
         left: 65,
-        height: 51,
+        height: 6,
         width: 26,
       },
       {
         id: "Shoes2",
         image: img2Layer3,
         label: "Shoes2",
-        top: 208,
+        top: 272,
         left: 26,
-        height: 51,
+        height: 8,
         width: 21,
       },
       {
         id: "sock1",
         image: img2Layer4,
         label: "sock1",
-        top: 213,
+        top: 254,
         left: 31,
-        height: 35,
+        height: 8,
         width: 17,
       },
       {
         id: "sock2",
         image: img2Layer5,
         label: "sock2",
-        top: 218,
+        top: 259,
         left: 64,
-        height: 35,
+        height: 8,
         width: 17,
       },
     ],
@@ -147,27 +147,27 @@ const charactersData = {
         id: "shorts",
         image: img3Layer2,
         label: "Shorts",
-        top: 110,
+        top: 141,
         left: 29,
-        height: 49,
+        height: 28,
         width: 55,
       },
       {
         id: "hat",
         image: img3Layer1,
         label: "hat",
-        top: 40,
+        top: 68,
         left: 14,
-        height: 47,
+        height: 29,
         width: 75,
       },
       {
         id: "shirt",
         image: img3Layer3,
         label: "shirt",
-        top: -45,
+        top: 4,
         left: 23,
-        height: 49,
+        height: 16,
         width: 47,
       },
     ],
@@ -180,117 +180,62 @@ const charactersData = {
         id: "skirt",
         image: img4Layer1,
         label: "Skirt",
-        top: 35,
+        top: 67,
         left: 25,
-        height: 49,
+        height: 28,
         width: 72,
       },
       {
         id: "shirt",
         image: img4Layer2,
         label: "Shirt",
-        top: 108,
+        top: 138,
         left: 22,
-        height: 49,
+        height: 29,
         width: 69,
       },
-       {
+      {
         id: "glass",
         image: img4Layer3,
         label: "glass",
-        top: -18,
+        top: 29,
         left: 55,
-        height: 42,
+        height: 10,
         width: 34,
       },
     ],
   },
 };
 
-// ==================== دالة ذكية لتعديل SVG ====================
-/**
- * تحليل SVG وتعديل فقط الـ fill الأساسي
- * الـ stroke يبقى أسود دائماً
- */
-const processSvgForColoring = (svgContent) => {
+// ==================== دالة ذكية لتعديل SVG (تُنفذ مرة واحدة فقط) ====================
+const prepareSvgForInstantColoring = (svgContent) => {
   if (!svgContent) return svgContent;
-
-  // استخراج جميع الـ classes المستخدمة في SVG
-  const classMatches = svgContent.match(/class="([^"]*)"/g) || [];
-  const usedClasses = new Set();
-
-  classMatches.forEach((match) => {
-    const className = match.replace(/class="|"/g, "");
-    className.split(" ").forEach((cls) => {
-      if (cls && !cls.includes("svg-")) {
-        usedClasses.add(cls);
-      }
-    });
+  let modified = svgContent;
+  modified = modified.replace(/fill="[^"]*"/g, 'fill="currentColor"');
+  modified = modified.replace(/stroke="[^"]*"/g, 'stroke="#000000"');
+  modified = modified.replace(/<style>[\s\S]*?<\/style>/g, (styleTag) => {
+    return styleTag
+      .replace(/fill:\s*[^;]*;?/g, "fill: currentColor;")
+      .replace(/stroke:\s*[^;]*;?/g, "stroke: #000000;");
   });
-
-  // إذا لم توجد classes، نعدّل الـ fill فقط والـ stroke يبقى أسود
-  if (usedClasses.size === 0) {
-    // تعديل الـ fill فقط في الـ SVG
-    let modified = svgContent;
-
-    // تعديل fill في الـ <style> tag (الـ stroke يبقى أسود)
-    modified = modified.replace(/<style>[\s\S]*?<\/style>/g, (styleTag) => {
-      // استخراج جميع الـ CSS rules
-      const cssRules = styleTag.match(/\.[a-zA-Z0-9_-]+\s*\{[^}]*\}/g) || [];
-
-      if (cssRules.length > 0) {
-        // تعديل أول rule فقط
-        return styleTag.replace(cssRules[0], (rule) => {
-          // تعديل fill فقط ← المفتاح!
-          return (
-            rule
-              .replace(/fill:\s*[^;]*;?/g, "fill: currentColor;")
-              // الـ stroke يبقى أسود
-              .replace(/stroke:\s*[^;]*;?/g, "stroke: #000000;")
-          );
-        });
-      }
-
-      return styleTag;
-    });
-
-    // تعديل fill في inline attributes
-    modified = modified.replace(/<[^>]*fill="[^"]*"[^>]*>/g, (tag) => {
-      return tag.replace(/fill="[^"]*"/g, 'fill="currentColor"');
-    });
-
-    // تعديل stroke ليكون أسود في inline attributes
-    modified = modified.replace(/<[^>]*stroke="[^"]*"[^>]*>/g, (tag) => {
-      return tag.replace(/stroke="[^"]*"/g, 'stroke="#000000"');
-    });
-
-    return modified;
-  }
-
-  return svgContent;
+  return modified;
 };
 
 // ==================== مكوّن الطبقة الواحدة ====================
-/**
- * مكوّن يعرض طبقة SVG قابلة للتلوين
- * يحمّل SVG ويعدّل فقط الـ fill و stroke الأساسية
- */
 const ColorableLayer = ({
   layer,
   person,
   color,
   svgContent,
-  processedSvgContent,
-  onDoubleClick,
+  onClick,
   isSelected,
 }) => {
-  // اختيار محتوى SVG المناسب
-  const displayContent = color ? processedSvgContent : svgContent;
-
   return (
     <div
-      className={`absolute cursor-pointer transition-all duration-200 ${
-        isSelected ? "ring-2 ring-blue-500 ring-offset-2" : "hover:opacity-80"
+      className={`absolute cursor-pointer transition-colors duration-0 ${
+        isSelected
+          ? "ring-2 ring-blue-500 ring-offset-2 z-10"
+          : "hover:opacity-80"
       }`}
       style={{
         top: `${layer.top}px`,
@@ -299,17 +244,18 @@ const ColorableLayer = ({
         height: `${layer.height}%`,
         color: color || "transparent",
       }}
-      onDoubleClick={() => onDoubleClick(person, layer.id)}
-      onTouchStart={() => onDoubleClick(person, layer.id)}
-      title={`اضغط مرتين لتلوين ${layer.label}`}
+      onClick={(e) => {
+        e.stopPropagation();
+        onClick(person, layer.id);
+      }}
     >
-      {displayContent ? (
+      {svgContent ? (
         <div
           className="svg-wrapper w-full h-full"
-          dangerouslySetInnerHTML={{ __html: displayContent }}
+          dangerouslySetInnerHTML={{ __html: svgContent }}
         />
       ) : (
-        <div className="text-center text-gray-400">Loading...</div>
+        <div className="text-center text-gray-400">...</div>
       )}
     </div>
   );
@@ -322,27 +268,22 @@ const Character = ({
   colors,
   activePart,
   svgContents,
-  processedSvgContents,
-  onLayerDoubleClick,
+  onLayerClick,
+  isWrong,
 }) => {
   const personColors = colors[personKey] || {};
-
   return (
     <div className="flex flex-col items-center">
-      {/* الصورة مع الطبقات */}
       <div
-        className="relative inline-block bg-white rounded-lg overflow-hidden shadow-sm mb-3"
-        style={{ height: "100%", width: "100%" }}
+        className="relative inline-block bg-white rounded-lg overflow-visible shadow-sm mb-3"
+        style={{ height: "300px", width: "120px" }}
       >
-        {/* الصورة الأساسية */}
         <img
           src={personData.baseImage}
           alt={personData.name}
-          className="w-full h-full object-contain"
+          className="object-contain"
           style={{ height: "300px", width: "120px" }}
         />
-
-        {/* الطبقات القابلة للتلوين */}
         {personData.layers.map((layer) => (
           <ColorableLayer
             key={`${personKey}-${layer.id}`}
@@ -350,40 +291,36 @@ const Character = ({
             person={personKey}
             color={personColors[layer.id]}
             svgContent={svgContents[`${personKey}-${layer.id}`]}
-            processedSvgContent={
-              processedSvgContents[`${personKey}-${layer.id}`]
-            }
-            onDoubleClick={onLayerDoubleClick}
+            onClick={onLayerClick}
             isSelected={
               activePart?.person === personKey && activePart?.part === layer.id
             }
           />
         ))}
       </div>
+      <div className="relative">
+        <p className="text-sm font-semibold text-gray-800">{personData.name}</p>
 
-      {/* اسم الشخصية */}
-      <p className="text-sm font-semibold text-gray-800">{personData.name}</p>
+        {isWrong && (
+          <div className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-7 h-7 flex items-center justify-center text-sm font-bold shadow border-2 border-white">
+            ✕
+          </div>
+        )}
+      </div>
     </div>
   );
 };
 
 // ==================== المكوّن الرئيسي ====================
 const ReadAndColor = () => {
-  // ==================== State Management ====================
-  const [selectedColor, setSelectedColor] = useState(null);
   const [colors, setColors] = useState({});
-  const [showPalette, setShowPalette] = useState(false);
   const [activePart, setActivePart] = useState(null);
   const [svgContents, setSvgContents] = useState({});
-  const [processedSvgContents, setProcessedSvgContents] = useState({});
-
-  // ==================== تحميل SVG كنص ====================
+  const paletteRef = useRef(null);
+  const [showResults, setShowResults] = useState(false);
   useEffect(() => {
-    const loadSvgs = async () => {
+    const loadAndPrepareSvgs = async () => {
       const svgMap = {};
-      const processedMap = {};
-
-      // تجميع جميع الطبقات من جميع الشخصيات
       const layersToLoad = [];
       Object.entries(charactersData).forEach(([personKey, personData]) => {
         personData.layers.forEach((layer) => {
@@ -393,103 +330,172 @@ const ReadAndColor = () => {
           });
         });
       });
-
-      // تحميل جميع الـ SVG بالتوازي
-      await Promise.all(
-        layersToLoad.map((item) =>
-          fetch(item.url)
-            .then((r) => r.text())
-            .then((text) => {
-              // حفظ SVG الأصلي
-              svgMap[item.key] = text;
-
-              // معالجة SVG للتلوين
-              const processed = processSvgForColoring(text);
-              processedMap[item.key] = processed;
-            })
-            .catch((err) => {
-              console.error(`Error loading SVG: ${item.url}`, err);
-              svgMap[item.key] = null;
-              processedMap[item.key] = null;
-            }),
-        ),
+      const results = await Promise.all(
+        layersToLoad.map(async (item) => {
+          try {
+            const response = await fetch(item.url);
+            const text = await response.text();
+            return {
+              key: item.key,
+              content: prepareSvgForInstantColoring(text),
+            };
+          } catch (e) {
+            return { key: item.key, content: null };
+          }
+        }),
       );
-
+      results.forEach((res) => {
+        svgMap[res.key] = res.content;
+      });
       setSvgContents(svgMap);
-      setProcessedSvgContents(processedMap);
     };
-
-    loadSvgs();
+    loadAndPrepareSvgs();
   }, []);
 
-  // ==================== معالجات الأحداث ====================
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (paletteRef.current && !paletteRef.current.contains(event.target)) {
+        setActivePart(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
-  const handleLayerDoubleClick = (person, part) => {
+  const handleLayerClick = useCallback((person, part) => {
+    if (showResults) return;
+
     setActivePart({ person, part });
-    setShowPalette(true);
-  };
+  }, []);
 
   const handleColorSelect = (colorValue) => {
+    if (showResults) return;
+
     if (!activePart) return;
-
     const { person, part } = activePart;
-
     setColors((prev) => ({
       ...prev,
-      [person]: {
-        ...(prev[person] || {}),
-        [part]: colorValue,
-      },
+      [person]: { ...(prev[person] || {}), [part]: colorValue },
     }));
-
-    setSelectedColor(colorValue);
-    setShowPalette(false);
     setActivePart(null);
   };
 
   const checkAnswers = () => {
+    if (showResults) return;
     let score = 0;
     let total = 0;
-
     Object.keys(correctAnswers).forEach((person) => {
       Object.keys(correctAnswers[person]).forEach((part) => {
         total++;
-        if (colors[person]?.[part] === correctAnswers[person][part]) {
+        if (person === "joanna") {
+          if (part === "shoes") {
+            if (
+              colors.joanna?.Shoes1 === correctAnswers.joanna.shoes &&
+              colors.joanna?.Shoes2 === correctAnswers.joanna.shoes
+            )
+              score++;
+          } else if (part === "socks") {
+            if (
+              colors.joanna?.sock1 === correctAnswers.joanna.socks &&
+              colors.joanna?.sock2 === correctAnswers.joanna.socks
+            )
+              score++;
+          } else if (colors[person]?.[part] === correctAnswers[person][part])
+            score++;
+        } else if (colors[person]?.[part] === correctAnswers[person][part])
           score++;
-        }
       });
     });
-
+    setShowResults(true);
     const msg = `Score: ${score} / ${total}`;
-    if (score === total) {
-      ValidationAlert.success(msg);
-    } else {
-      ValidationAlert.warning(msg);
-    }
+    if (score === total) ValidationAlert.success(msg);
+    else if (score === 0) ValidationAlert.error(msg);
+    else ValidationAlert.warning(msg);
   };
 
   const handleStartAgain = () => {
+    setShowResults(false);
     setColors({});
     setActivePart(null);
-    setSelectedColor(null);
-    setShowPalette(false);
   };
 
-  // ==================== JSX ====================
+  const isPersonWrong = (person) => {
+    const userColors = colors[person] || {};
+    const correct = correctAnswers[person];
+
+    if (person === "joanna") {
+      // shoes
+      if (
+        userColors.Shoes1 !== correct.shoes ||
+        userColors.Shoes2 !== correct.shoes
+      )
+        return true;
+
+      // socks
+      if (
+        userColors.sock1 !== correct.socks ||
+        userColors.sock2 !== correct.socks
+      )
+        return true;
+
+      // dress
+      if (userColors.dress !== correct.dress) return true;
+
+      return false;
+    }
+
+    if (person === "susan") {
+      if (userColors.glass !== correct.glass) return true;
+    }
+
+    return Object.keys(correct).some(
+      (part) => userColors[part] !== correct[part],
+    );
+  };
+  // ==================== وظيفة إظهار الإجابات ====================
+  const handleShowAnswers = () => {
+    const answersColors = {
+      peter: {
+        pants: correctAnswers.peter.pants,
+        jacket: correctAnswers.peter.jacket,
+        shoes: correctAnswers.peter.shoes,
+      },
+
+      joanna: {
+        dress: correctAnswers.joanna.dress,
+        Shoes1: correctAnswers.joanna.shoes,
+        Shoes2: correctAnswers.joanna.shoes,
+        sock1: correctAnswers.joanna.socks,
+        sock2: correctAnswers.joanna.socks,
+      },
+
+      mark: {
+        shorts: correctAnswers.mark.shorts,
+        shirt: correctAnswers.mark.shirt,
+        hat: correctAnswers.mark.hat,
+      },
+
+      susan: {
+        skirt: correctAnswers.susan.skirt,
+        shirt: correctAnswers.susan.shirt,
+        glass: correctAnswers.susan.glass, // 👈 مهم جدًا
+      },
+    };
+
+    setColors(answersColors);
+    setActivePart(null);
+    setShowResults(true);
+  };
   return (
-    <div className="main-container-component">
+    <div className="main-container-component relative">
       <div className="div-forall" style={{ gap: "10px" }}>
         <h1 className="WB-header-title-page8">
-          <span className="WB-ex-A">D</span>
-          Read and color.
+          <span className="WB-ex-A">D</span> Read and color.
         </h1>
-
-        {/* تلميح للمستخدم */}
         <p className="text-sm text-gray-500 mb-6">
-          💡 Double-click on any part to color it
+          💡 Click on any part to color it instantly
         </p>
 
-        {/* الشخصيات - تخطيط أفقي */}
         <div className="flex justify-around items-start gap-4 mb-8">
           {Object.entries(charactersData).map(([key, data]) => (
             <Character
@@ -499,14 +505,40 @@ const ReadAndColor = () => {
               colors={colors}
               activePart={activePart}
               svgContents={svgContents}
-              processedSvgContents={processedSvgContents}
-              onLayerDoubleClick={handleLayerDoubleClick}
+              onLayerClick={handleLayerClick}
+              isWrong={showResults && isPersonWrong(key)}
             />
           ))}
         </div>
 
-        {/* النص الوصفي - تحت الصور */}
-        <div className="text-start text-sm leading-relaxed text-gray-700 mb-8 bg-gray-50 p-4 rounded-lg">
+        {activePart && !showResults && (
+          <div
+            ref={paletteRef}
+            className="absolute z-50 bg-white rounded-lg p-3 shadow-2xl border border-gray-200 animate-in"
+            style={{
+              top: "40%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              maxWidth: "280px",
+            }}
+          >
+            <p className="text-center text-xs font-bold mb-2 text-gray-600 uppercase tracking-wider">
+              Select Color
+            </p>
+            <div className="grid grid-cols-4 gap-2">
+              {colorsList.map((c) => (
+                <button
+                  key={c.value}
+                  onClick={() => handleColorSelect(c.value)}
+                  className="w-10 h-10 rounded-full border-2 border-gray-100 hover:scale-110 transition-transform"
+                  style={{ backgroundColor: c.value }}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="text-start text-xl leading-relaxed text-gray-700 mb-8 bg-gray-50 p-4 rounded-lg">
           <p>
             Peter has gray pants and a green jacket. His shoes are black. Joanna
             has a yellow dress, white socks, and brown shoes. Mark has red
@@ -515,63 +547,21 @@ const ReadAndColor = () => {
           </p>
         </div>
 
-        {/* لوحة الألوان - Modal تظهر فقط عند الحاجة */}
-        {showPalette && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-lg p-6 shadow-xl max-w-md w-full">
-              <p className="text-center font-semibold mb-4 text-gray-800">
-                Choose a color:
-              </p>
-              <div className="flex flex-wrap justify-center gap-3">
-                {colorsList.map((c) => (
-                  <button
-                    key={c.value}
-                    onClick={() => handleColorSelect(c.value)}
-                    className={`w-12 h-12 rounded-full border-2 transition-all duration-200 hover:scale-110 ${
-                      selectedColor === c.value
-                        ? "border-black ring-2 ring-black ring-offset-2"
-                        : "border-gray-300"
-                    }`}
-                    style={{ backgroundColor: c.value }}
-                    title={c.name}
-                    aria-label={`Choose ${c.name} color`}
-                  />
-                ))}
-              </div>
-              <button
-                onClick={() => {
-                  setShowPalette(false);
-                  setActivePart(null);
-                }}
-                className="mt-4 w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 rounded-lg transition-colors"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* الأزرار - في الأسفل */}
         <div className="flex justify-center gap-4 mt-8">
           <Button
             handleStartAgain={handleStartAgain}
             checkAnswers={checkAnswers}
+            handleShowAnswer={handleShowAnswers} // تمرير الوظيفة الجديدة للزر
           />
         </div>
       </div>
 
-      {/* CSS للـ SVG wrapper */}
       <style>{`
-        .svg-wrapper {
-          display: inline-block;
-          width: 100%;
-          height: 100%;
-        }
-
-        .svg-wrapper svg {
-          width: 100%;
-          height: 100%;
-          object-fit: contain;
+        .svg-wrapper svg { width: 100%; height: 100%; object-fit: contain; }
+        .animate-in { animation: fadeInZoom 0.15s ease-out forwards; }
+        @keyframes fadeInZoom {
+          from { opacity: 0; transform: translate(-50%, -45%) scale(0.95); }
+          to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
         }
       `}</style>
     </div>

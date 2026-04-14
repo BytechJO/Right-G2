@@ -32,6 +32,7 @@ const WB_Unit9_Page52_Q1 = () => {
   const [score, setScore] = useState(null);
 
   const handleSelectAnswer = (questionId, answer) => {
+     if (showResults) return;
     setUserAnswers((prev) => ({
       ...prev,
       [questionId]: answer,
@@ -57,8 +58,9 @@ const WB_Unit9_Page52_Q1 = () => {
   };
 
   const checkAnswers = () => {
+    if (showResults) return;
     if (Object.keys(userAnswers).length < exerciseQuestions.length) {
-      ValidationAlert.warning("Please answer all questions before checking.");
+      ValidationAlert.info("Please answer all questions before checking.");
       return;
     }
 
@@ -77,8 +79,12 @@ const WB_Unit9_Page52_Q1 = () => {
       ValidationAlert.success(
         `Score: ${correctCount}/${exerciseQuestions.length}`,
       );
-    } else {
+    } else if (correctCount === 0) {
       ValidationAlert.error(
+        `Score: ${correctCount}/${exerciseQuestions.length}`,
+      );
+    } else {
+      ValidationAlert.warning(
         `Score: ${correctCount}/${exerciseQuestions.length}`,
       );
     }
@@ -110,8 +116,8 @@ const WB_Unit9_Page52_Q1 = () => {
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">A</span>Read and write{" "}
           <span className="text-blue-900">✓</span> for{" "}
-          <span className="text-blue-900">true</span> or <span className="text-blue-900">false</span>
-          
+          <span className="text-blue-900">true</span> or{" "}
+          <span className="text-blue-900">false</span>
         </h1>
 
         <div className="space-y-2">
@@ -139,7 +145,9 @@ const WB_Unit9_Page52_Q1 = () => {
               <div className="flex items-center gap-x-4">
                 <div className="flex flex-col items-center">
                   {index === 0 && (
-                    <span className="font-semibold text-blue-800 mb-1">True</span>
+                    <span className="font-semibold text-blue-800 mb-1">
+                      True
+                    </span>
                   )}
 
                   <div className="relative">
@@ -168,7 +176,9 @@ const WB_Unit9_Page52_Q1 = () => {
                 </div>
                 <div className="flex flex-col items-center">
                   {index === 0 && (
-                    <span className="font-semibold text-blue-800 mb-1">False</span>
+                    <span className="font-semibold text-blue-800 mb-1">
+                      False
+                    </span>
                   )}
 
                   <div className="relative">

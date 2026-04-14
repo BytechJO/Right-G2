@@ -51,6 +51,7 @@ const SentenceBuilder = ({
   };
 
   const handleRemoveWord = (wordToRemove) => {
+    if(showResult ||forceAnswer)return
     const newChosenWords = chosenWords.filter((w) => w.id !== wordToRemove.id);
     setChosenWords(newChosenWords);
 
@@ -124,7 +125,7 @@ const SentenceBuilder = ({
             <button
               key={word.id}
               onClick={() => handleRemoveWord(word)}
-              className="px-3 py-1 bg-blue-600 text-white rounded-md shadow-sm cursor-pointer"
+              className="px-1 py-1 cursor-pointer hover:text-red-500"
             >
               {word.text}
             </button>
@@ -158,6 +159,7 @@ const WB_Unit9_Page51_Q2 = () => {
   const [showAnswers, setShowAnswers] = useState(false);
 
   const handleAnswerUpdate = (id, answer) => {
+    if(showResults ||showAnswers)return
     setUserAnswers((prev) => ({ ...prev, [id]: answer }));
     if (showResults) {
       setShowResults(false);
@@ -166,6 +168,7 @@ const WB_Unit9_Page51_Q2 = () => {
   };
 
   const checkAnswers = () => {
+    if(showResults ||showAnswers)return
     const unanswered = exerciseSentences.filter(
       (s) => !userAnswers[s.id] || userAnswers[s.id].trim() === "",
     );
@@ -226,6 +229,27 @@ const WB_Unit9_Page51_Q2 = () => {
     setScore({ correct: exerciseSentences.length, total: exerciseSentences.length });
   };
 
+  const isAnswerWrong = (sentence) => {
+  if (!showResults) return false;
+
+  const userAnswer = userAnswers[sentence.id] || "";
+
+  const userWords = userAnswer
+    .replace(/[.,!?]/g, "")
+    .trim()
+    .split(/\s+/);
+
+  const correctWords = sentence.correct
+    .replace(/[.,!?]/g, "")
+    .trim()
+    .split(/\s+/);
+
+  const isCorrect =
+    userWords.length === correctWords.length &&
+    userWords.every((w, i) => w === correctWords[i]);
+
+  return userAnswer && !isCorrect;
+};
   return (
     <div className="main-container-component">
       <div className="div-forall" style={{ gap: "10px", marginBottom: "50px" }}>
@@ -250,6 +274,7 @@ const WB_Unit9_Page51_Q2 = () => {
                   showResult={showResults}
                   src={images[index]}
                   forceAnswer={showAnswers}
+                  isWrong={isAnswerWrong(sentence)}
                 />
               </div>
             </div>

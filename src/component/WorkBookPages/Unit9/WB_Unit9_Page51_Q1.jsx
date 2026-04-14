@@ -41,6 +41,7 @@ const WB_Unit9_Page51_Q1 = () => {
   const [score, setScore] = useState(null);
 
   const handleSelectAnswer = (questionId, answer) => {
+    if (showResults) return;
     setUserAnswers((prev) => ({
       ...prev,
       [questionId]: answer,
@@ -57,6 +58,7 @@ const WB_Unit9_Page51_Q1 = () => {
       correct[q.id] = q.correctAnswer;
     });
     setUserAnswers(correct);
+    setShowResults(true)
   };
 
   const handleStartAgain = () => {
@@ -66,8 +68,9 @@ const WB_Unit9_Page51_Q1 = () => {
   };
 
   const checkAnswers = () => {
+    if (showResults) return;
     if (Object.keys(userAnswers).length < exerciseQuestions.length) {
-      ValidationAlert.warning("Please answer all questions before checking.");
+      ValidationAlert.info("Please answer all questions before checking.");
       return;
     }
 
@@ -86,11 +89,11 @@ const WB_Unit9_Page51_Q1 = () => {
       ValidationAlert.success(
         `Score: ${correctCount}/${exerciseQuestions.length}`,
       );
-    }  else if (correctCount === 0) {
+    } else if (correctCount === 0) {
       ValidationAlert.error(
         `Score: ${correctCount}/${exerciseQuestions.length}`,
       );
-    }else {
+    } else {
       ValidationAlert.warning(
         `Score: ${correctCount}/${exerciseQuestions.length}`,
       );
@@ -104,7 +107,7 @@ const WB_Unit9_Page51_Q1 = () => {
       const isCorrect =
         exerciseQuestions.find((q) => q.id === questionId).correctAnswer ===
         option;
-       if (isSelected && isCorrect) {
+      if (isSelected && isCorrect) {
         return "border-blue-500";
       }
       if (isSelected && !isCorrect) {
@@ -135,7 +138,8 @@ const WB_Unit9_Page51_Q1 = () => {
               <img
                 src={question.img}
                 alt={`Question ${index + 1}`}
-                className="max-w-24 max-h-16 object-contain"
+                className="object-contain"
+                style={{height:"100px",width:"auto"}}
               />
 
               <div className="flex items-center gap-3">

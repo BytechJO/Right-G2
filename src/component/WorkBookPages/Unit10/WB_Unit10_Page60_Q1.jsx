@@ -86,6 +86,7 @@ const WB_Unit10_Page60_Q1 = () => {
   ];
 
   const checkAnswers = () => {
+    if (showResults) return;
     const unanswered = Object.keys(ALL_CORRECT).filter((id) => !answers[id]);
 
     if (unanswered.length > 0) {
@@ -138,7 +139,7 @@ const WB_Unit10_Page60_Q1 = () => {
                 src={q.img}
                 alt="activity"
                 className="rounded-xl group-hover:border-blue-200 transition-all"
-                style={{height:"120px",width:"160px"}}
+                style={{ height: "120px", width: "auto" }}
               />
 
               {/* ❌ للأرقام فوق الصور */}

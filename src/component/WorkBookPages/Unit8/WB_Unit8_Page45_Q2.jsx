@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Button from "../Button";
-
+import { FaDownload } from "react-icons/fa";
 import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/43.svg";
 import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/44.svg";
 import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/48.svg";
@@ -14,7 +14,7 @@ import img9 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 4
 import img10 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex B 10.svg";
 import img11 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex B 11.svg";
 import img12 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex B 12.svg";
-
+import ValidationAlert from "../../Popup/ValidationAlert";
 const topItems = [
   { id: "dress", x: 90, y: 90, img: img1 },
   { id: "bag", x: 220, y: 90, img: img2 },
@@ -66,7 +66,10 @@ const processSvgForColoring = (svgContent) => {
   modified = modified.replace(/<style>[\s\S]*?<\/style>/g, (styleTag) => {
     // تعديل جميع الـ CSS rules
     // مثال: .cls-1 { fill: red; } → .cls-1 { fill: currentColor; }
-    let newStyleTag = styleTag.replace(/fill:\s*[^;]*;?/g, "fill: currentColor;");
+    let newStyleTag = styleTag.replace(
+      /fill:\s*[^;]*;?/g,
+      "fill: currentColor;",
+    );
     // التأكد من أن الـ stroke يبقى كما هو أو يتم تعيينه للون ثابت إذا لم يكن موجودًا
     // هنا، نفترض أن الـ stroke يجب أن يبقى كما هو إذا كان موجودًا، وإلا فلا نغيره.
     // إذا كان هناك .cls-2 { stroke: #231f20; } في الـ SVG الأصلي، فسيظل كما هو.
@@ -95,7 +98,18 @@ const LookAndMatch = () => {
   const [svgContent, setSvgContent] = useState({});
   const [processedSvgContent, setProcessedSvgContent] = useState({});
 
-  const palette = ["#ef4444", "#3b82f6", "#22c55e", "#eab308", "#a855f7"];
+  const palette = [
+    "#808080",
+    "#00AA00",
+    "#000000",
+    "#FFFF00",
+    "#8B4513",
+    "#FF0000",
+    "#FFA500",
+    "#0000FF",
+    "#FFC0CB",
+    "#800080",
+  ];
 
   // ✅ تحميل svg مع معالجة الألوان
   useEffect(() => {
@@ -105,7 +119,7 @@ const LookAndMatch = () => {
         .then((data) => {
           // حفظ SVG الأصلي
           setSvgContent((prev) => ({ ...prev, [item.id]: data }));
-          
+
           // معالجة SVG للتلوين
           const processed = processSvgForColoring(data);
           setProcessedSvgContent((prev) => ({ ...prev, [item.id]: processed }));
@@ -120,7 +134,9 @@ const LookAndMatch = () => {
 
   const renderTopPlaceholder = (id) => {
     // اختيار محتوى SVG المناسب
-    const displayContent = colors[id] ? processedSvgContent[id] : processedSvgContent[id]; // Always use processed content
+    const displayContent = colors[id]
+      ? processedSvgContent[id]
+      : processedSvgContent[id]; // Always use processed content
 
     return (
       <div
@@ -193,7 +209,21 @@ const LookAndMatch = () => {
       </div>
     );
   };
+  const areAllColored = () => {
+    return topItems.every(
+      (item) => colors[item.id] && colors[item.id] !== "transparent",
+    );
+  };
 
+  const checkAnswers = () => {
+    // 🔴 فاليديشن
+    if (!areAllColored()) {
+      ValidationAlert.info("Please color all the pictures first!");
+      return;
+    }
+
+    ValidationAlert.success("Well done!");
+  };
   const renderBottomPlaceholder = (label) => (
     <div
       className="flex items-center justify-center rounded-full border-2 border-gray-500 bg-white"
@@ -201,13 +231,22 @@ const LookAndMatch = () => {
     >
       <img
         src={label}
-        style={{ height: "90px", width: "90px", borderRadius: "50%" }}
+        style={{ height: "85px", width: "85px", borderRadius: "50%" }}
       />
     </div>
   );
 
   // ----------------------
+  const handledownload = async () => {
+    const element = captureRef.current;
 
+    const dataUrl = await toPng(element);
+
+    const link = document.createElement("a");
+    link.download = "activity.png";
+    link.href = dataUrl;
+    link.click();
+  };
   const generateWavyPath = (x1, y1, x2, y2, amplitude = 20, frequency = 6) => {
     const points = [];
     const steps = 20;
@@ -289,8 +328,10 @@ const LookAndMatch = () => {
         </h1>
 
         <div className="flex justify-center items-center">
-          <div className="flex justify-center items-center relative w-full" style={{ height: "430px", minHeight: "430px" }}>
-
+          <div
+            className="flex justify-center items-center relative w-full"
+            style={{ height: "430px", minHeight: "430px" }}
+          >
             <svg
               className="absolute inset-0 w-full h-full pointer-events-none"
               viewBox="0 0 900 430"
@@ -333,9 +374,20 @@ const LookAndMatch = () => {
         </div>
 
         {/* ==================== الأزرار ====================*/}
-        <div className="mt-10 flex justify-center gap-4">
-          <Button handleStartAgain={handleStartAgain} />
-          
+
+        <div className="action-buttons-container">
+          <button onClick={handleStartAgain} className="try-again-button">
+            Start Again ↻
+          </button>
+          <button
+            onClick={handledownload}
+            className="flex items-center justify-center bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200 shadow-md px-10"
+          >
+            <FaDownload />
+          </button>
+          <button onClick={checkAnswers} className="check-button2">
+            Finish ✓
+          </button>
         </div>
       </div>
     </div>

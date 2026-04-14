@@ -15,7 +15,7 @@ import imgMath from "../../../assets/imgs/WorkBook/Right Int WB G2 U10 Folder/Pa
 import imgSoccer from "../../../assets/imgs/WorkBook/Right Int WB G2 U10 Folder/Page 58/SVG/Asset 9-1.svg";
 import imgEnglish from "../../../assets/imgs/WorkBook/Right Int WB G2 U10 Folder/Page 58/SVG/Asset 7-1.svg";
 import imgScience from "../../../assets/imgs/WorkBook/Right Int WB G2 U10 Folder/Page 58/SVG/Asset 8-1.svg";
-import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U10 Folder/Page 58/SVG/Asset 1.svg"
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U10 Folder/Page 58/SVG/Asset 1.svg";
 const ACTIVITIES_B = [
   { id: "b1", text: "math class", full: "They're having math class." },
   { id: "b2", text: "soccer", full: "They're playing soccer." },
@@ -45,7 +45,7 @@ function DraggableItem({ item, isUsed }) {
       style={style}
       {...attributes}
       {...listeners}
-      className={`px-4 py-2 bg-white border-2 border-gray-300 rounded-lg shadow-sm cursor-grab text-blue-700 font-bold text-sm ${isUsed ? "bg-gray-100 text-gray-400 pointer-events-none" : "hover:border-blue-400"}`}
+      className={`px-4 py-2 bg-white border-2 border-gray-300 rounded-lg shadow-sm cursor-grab touch-none text-blue-700 font-bold text-sm ${isUsed ? "bg-gray-100 text-gray-400 pointer-events-none" : "hover:border-blue-400"}`}
     >
       {item.text}
     </div>
@@ -99,6 +99,7 @@ const WB_Unit10_Page58_Q1 = () => {
   const sensors = useSensors(useSensor(PointerSensor));
 
   const checkAnswers = () => {
+    if (showResults) return;
     const unanswered = Object.keys(CORRECT_B).filter((id) => !answers[id]);
     if (unanswered.length > 0) {
       ValidationAlert.info();
@@ -136,12 +137,11 @@ const WB_Unit10_Page58_Q1 = () => {
             <span className="WB-ex-A">B</span> Look, ask, and answer. Then
             write.
           </h1>
-             <img
-                  src={img1}
-                  alt="math"
-                  className="max-w-full max-h-32 object-cover rounded-xl"
-                />
-
+          <img
+            src={img1}
+            alt="math"
+            className="max-w-full max-h-32 object-cover rounded-xl"
+          />
 
           <div className="flex flex-col md:flex-row gap-8">
             <div className="flex-[3] grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -149,7 +149,7 @@ const WB_Unit10_Page58_Q1 = () => {
                 <img
                   src={imgMath}
                   alt="math"
-                  className="max-w-full max-h-32 object-cover rounded-xl border"
+                  className="max-w-full max-h-32 object-cover rounded-xl"
                 />
                 <DropSlot
                   id="q1"
@@ -163,7 +163,7 @@ const WB_Unit10_Page58_Q1 = () => {
                 <img
                   src={imgSoccer}
                   alt="soccer"
-                  className="max-w-full max-h-32 object-cover rounded-xl border"
+                  className="max-w-full max-h-32 object-cover rounded-xl"
                 />
                 <DropSlot
                   id="q2"
@@ -177,7 +177,7 @@ const WB_Unit10_Page58_Q1 = () => {
                 <img
                   src={imgEnglish}
                   alt="english"
-                  className="max-w-full max-h-32 object-cover rounded-xl border"
+                  className="max-w-full max-h-32 object-cover rounded-xl"
                 />
                 <DropSlot
                   id="q3"
@@ -191,7 +191,7 @@ const WB_Unit10_Page58_Q1 = () => {
                 <img
                   src={imgScience}
                   alt="science"
-                  className="max-w-full max-h-32 object-cover rounded-xl border"
+                  className="max-w-full max-h-32 object-cover rounded-xl"
                 />
                 <DropSlot
                   id="q4"

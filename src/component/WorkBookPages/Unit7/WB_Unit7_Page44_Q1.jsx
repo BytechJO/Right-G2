@@ -1,15 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../Button";
-import { TbMessageCircle } from "react-icons/tb";
-import { FaPlay, FaPause } from "react-icons/fa";
-import { IoMdSettings } from "react-icons/io";
 import sound from "../../../assets/audio/WorkBook/p44q1.mp3";
 import boatImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 44/Ex A 1.svg";
 import snowImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 44/Ex A 2.svg";
 import examImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 44/Ex A 3.svg";
 import bowImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 44/Ex A 4.svg";
-
+import QuestionAudioPlayer from "../../QuestionAudioPlayer";
 const exerciseAData = [
   { id: 1, image: boatImg, options: ["o-e", "oa", "ow"], correct: "oa" },
   { id: 2, image: snowImg, options: ["o-e", "oa", "ow"], correct: "ow" },
@@ -28,11 +25,21 @@ const WB_Unit7_Page44_Q1 = () => {
   const [locked, setLocked] = useState(false);
 
   const handleSelectA = (id, option) => {
-    if (locked) return;
+    if (checked || locked) return;
     setAnswersA((prev) => ({ ...prev, [id]: option }));
   };
-
+const areAllAnswered = () => {
+  return Object.values(answersA).every((val) => val !== null);
+};
   const checkAnswers = () => {
+    if (checked || locked) return;
+
+    // 🔴 الفاليديشن
+    if (!areAllAnswered()) {
+      ValidationAlert.info("Please answer all questions first!");
+      return;
+    }
+
     let correctA = 0;
     exerciseAData.forEach((item) => {
       if (answersA[item.id] === item.correct) correctA++;
@@ -42,13 +49,11 @@ const WB_Unit7_Page44_Q1 = () => {
     setLocked(true);
 
     if (correctA === exerciseAData.length) {
-      ValidationAlert.success(
-        `Excellent! Score: ${correctA}/${exerciseAData.length}`,
-      );
+      ValidationAlert.success(`Score: ${correctA}/${exerciseAData.length}`);
+    } else if (correctA > 0) {
+      ValidationAlert.warning(`Score: ${correctA}/${exerciseAData.length}`);
     } else {
-      ValidationAlert.error(
-        `Keep trying! Score: ${correctA}/${exerciseAData.length}`,
-      );
+      ValidationAlert.error(`Score: ${correctA}/${exerciseAData.length}`);
     }
   };
 
@@ -66,21 +71,7 @@ const WB_Unit7_Page44_Q1 = () => {
     setLocked(false);
   };
 
-  const clickAudioRef = useRef(null);
-  const audioRef = useRef(null);
   const stopAtSecond = 6.15;
-  const [paused, setPaused] = useState(false);
-
-  const [showSettings, setShowSettings] = useState(false);
-  const [volume, setVolume] = useState(1);
-  const settingsRef = useRef(null);
-  const [forceRender, setForceRender] = useState(0);
-  const [showContinue, setShowContinue] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [current, setCurrent] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const [showCaption, setShowCaption] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(null);
 
   const captions = [
     {
@@ -91,84 +82,13 @@ const WB_Unit7_Page44_Q1 = () => {
     {
       start: 3.5,
       end: 6.14,
-      text: "Listen and write check.",
+      text: "Listen and write ✓.",
     },
     { start: 6.3, end: 7.12, text: "Boat." },
     { start: 7.5, end: 8.89, text: "snow." },
     { start: 10.16, end: 10.56, text: "note." },
     { start: 11.76, end: 12.24, text: "bow." },
   ];
-
-  const updateCaption = (time) => {
-    const index = captions.findIndex(
-      (cap) => time >= cap.start && time <= cap.end,
-    );
-    setActiveIndex(index);
-  };
-
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    audio.currentTime = 0;
-    audio.play();
-
-    const interval = setInterval(() => {
-      if (audio.currentTime >= stopAtSecond) {
-        audio.pause();
-        setPaused(true);
-        setIsPlaying(false);
-        setShowContinue(true);
-        clearInterval(interval);
-      }
-    }, 100);
-
-    const handleEnded = () => {
-      const audio = audioRef.current;
-      audio.currentTime = 0;
-      setIsPlaying(false);
-      setPaused(false);
-      setActiveIndex(null);
-      setShowContinue(true);
-    };
-
-    audio.addEventListener("ended", handleEnded);
-
-    return () => {
-      clearInterval(interval);
-      audio.removeEventListener("ended", handleEnded);
-    };
-  }, []);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setForceRender((prev) => prev + 1);
-    }, 1000);
-
-    if (activeIndex === -1 || activeIndex === null) return;
-
-    const el = document.getElementById(`caption-${activeIndex}`);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-
-    return () => clearInterval(timer);
-  }, [activeIndex]);
-
-  const togglePlay = () => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    if (audio.paused) {
-      audio.play();
-      setPaused(false);
-      setIsPlaying(true);
-    } else {
-      audio.pause();
-      setPaused(true);
-      setIsPlaying(false);
-    }
-  };
 
   return (
     <div className="main-container-component">
@@ -177,125 +97,11 @@ const WB_Unit7_Page44_Q1 = () => {
           <span className="WB-ex-A">A</span>
           Listen and write <span className="text-blue-900">✓</span>.
         </h2>
-
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            margin: "30px 0px",
-            width: "100%",
-          }}
-        >
-          <div
-            className="audio-popup-read"
-            style={{
-              width: "50%",
-            }}
-          >
-            <div className="audio-inner player-ui">
-              <audio
-                ref={audioRef}
-                src={sound}
-                onTimeUpdate={(e) => {
-                  const time = e.target.currentTime;
-                  setCurrent(time);
-                  updateCaption(time);
-                }}
-                onLoadedMetadata={(e) => setDuration(e.target.duration)}
-              ></audio>
-
-              <div className="top-row">
-                <span className="audio-time">
-                  {new Date(current * 1000).toISOString().substring(14, 19)}
-                </span>
-
-                <input
-                  type="range"
-                  className="audio-slider"
-                  min="0"
-                  max={duration}
-                  value={current}
-                  onChange={(e) => {
-                    audioRef.current.currentTime = e.target.value;
-                    updateCaption(Number(e.target.value));
-                  }}
-                  style={{
-                    background: `linear-gradient(to right, #430f68 ${
-                      duration ? (current / duration) * 100 : 0
-                    }%, #d9d9d9ff ${
-                      duration ? (current / duration) * 100 : 0
-                    }%)`,
-                  }}
-                />
-
-                <span className="audio-time">
-                  {new Date(duration * 1000).toISOString().substring(14, 19)}
-                </span>
-              </div>
-
-              <div className="bottom-row">
-                <div
-                  className={`round-btn ${showCaption ? "active" : ""}`}
-                  style={{ position: "relative" }}
-                  onClick={() => setShowCaption(!showCaption)}
-                >
-                  <TbMessageCircle size={36} />
-                  <div
-                    className={`caption-inPopup ${showCaption ? "show" : ""}`}
-                    style={{ top: "100%", left: "10%" }}
-                  >
-                    {captions.map((cap, i) => (
-                      <p
-                        key={i}
-                        id={`caption-${i}`}
-                        className={`caption-inPopup-line2 ${
-                          activeIndex === i ? "active" : ""
-                        }`}
-                      >
-                        {cap.text}
-                      </p>
-                    ))}
-                  </div>
-                </div>
-
-                <button className="play-btn2" onClick={togglePlay}>
-                  {isPlaying ? <FaPause size={26} /> : <FaPlay size={26} />}
-                </button>
-
-                <div className="settings-wrapper" ref={settingsRef}>
-                  <button
-                    className={`round-btn ${showSettings ? "active" : ""}`}
-                    onClick={() => setShowSettings(!showSettings)}
-                  >
-                    <IoMdSettings size={36} />
-                  </button>
-
-                  {showSettings && (
-                    <div className="settings-popup">
-                      <label>Volume</label>
-                      <input
-                        type="range"
-                        min="0"
-                        max="1"
-                        step="0.05"
-                        value={volume}
-                        onChange={(e) => {
-                          const newVolume = Number(e.target.value);
-                          setVolume(newVolume);
-                          if (audioRef.current) {
-                            audioRef.current.volume = newVolume;
-                          }
-                        }}
-                      />
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <audio ref={clickAudioRef} style={{ display: "none" }} />
+        <QuestionAudioPlayer
+          src={sound}
+          captions={captions}
+          stopAtSecond={stopAtSecond}
+        />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {exerciseAData.map((item) => (
@@ -320,13 +126,15 @@ const WB_Unit7_Page44_Q1 = () => {
                       <div className="relative">
                         <div
                           onClick={() => handleSelectA(item.id, opt)}
-                          className={`w-10 h-10 border-2 border-gray-400 rounded-lg flex items-center justify-center cursor-pointer transition-all
-                            ${
-                              isSelected
-                                ? "bg-blue-50 border-blue-500"
-                                : "hover:bg-gray-50"
-                            }
-                          `}
+                          className={`w-10 h-10 border-2 rounded-lg flex items-center justify-center cursor-pointer transition-all
+  ${
+    isWrong
+      ? "border-red-500"
+      : isSelected
+        ? "bg-blue-50 border-blue-500"
+        : "border-gray-400 hover:bg-gray-50"
+  }
+`}
                         >
                           {isSelected && (
                             <span className="text-2xl font-bold text-blue-600">
@@ -337,7 +145,7 @@ const WB_Unit7_Page44_Q1 = () => {
 
                         {/* ❌ Wrong Icon */}
                         {isWrong && (
-                          <div className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold shadow border-2 border-white">
+                          <div className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold shadow border-2 border-white">
                             ✕
                           </div>
                         )}

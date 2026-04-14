@@ -69,11 +69,14 @@ const WB_Unit7_Page43_Q2 = () => {
   }, [matches]);
 
   const handleLeftClick = (id) => {
+    if (showResults) return;
     setSelectedLeft(id);
     setShowResults(false);
   };
 
   const handleRightClick = (rightId) => {
+    if (showResults) return;
+
     if (selectedLeft !== null) {
       const newMatches = { ...matches };
       Object.keys(newMatches).forEach((key) => {
@@ -88,6 +91,7 @@ const WB_Unit7_Page43_Q2 = () => {
   };
 
   const checkAnswers = () => {
+    if (showResults) return;
     setShowResults(true);
 
     const totalQuestions = exerciseData.left.length;
@@ -141,7 +145,7 @@ const WB_Unit7_Page43_Q2 = () => {
   };
 
   const getDotColor = (side, id) => {
-    if (side === "left" && selectedLeft === id) return "bg-blue-500 scale-125";
+    if (side === "left" && selectedLeft === id) return "bg-red-800 scale-125";
 
     const isConnected =
       side === "left" ? !!matches[id] : Object.values(matches).includes(id);
@@ -156,7 +160,7 @@ const WB_Unit7_Page43_Q2 = () => {
       const isCorrect = matches[leftId] === exerciseData.correctMatches[leftId];
     }
 
-    return "bg-blue-500";
+    return "bg-[#ef4444]";
   };
 
   return (
@@ -171,7 +175,7 @@ const WB_Unit7_Page43_Q2 = () => {
           ref={containerRef}
           className="flex justify-between items-center gap-20 relative mb-20"
         >
-          <div className="space-y-38">
+          <div className="space-y-26">
             {exerciseData.left.map((item) => {
               const isWrong =
                 showResults &&
@@ -185,12 +189,15 @@ const WB_Unit7_Page43_Q2 = () => {
                 >
                   {/* ❌ Wrong Icon */}
                   {isWrong && (
-                    <div className="absolute -top-2 right-6 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold shadow border-2 border-white">
+                    <div className="absolute -top-2 right-22 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold shadow border-2 border-white">
                       ✕
                     </div>
                   )}
 
-                  <div className="flex items-center gap-3 w-[400px] justify-start">
+                  <div
+                    className="flex items-center gap-3 w-[400px] justify-start  cursor-pointer transition transform active:scale-95 hover:scale-105 w-[200px]"
+                    onClick={() => handleLeftClick(item.id)}
+                  >
                     <span className="text-2xl text-blue-900 font-bold">
                       {item.id}
                     </span>
@@ -211,7 +218,7 @@ const WB_Unit7_Page43_Q2 = () => {
             })}
           </div>
 
-          <div className="space-y-22">
+          <div className="space-y-8">
             {exerciseData.right.map((item) => (
               <div key={item.id} className="flex items-center gap-6">
                 <div
@@ -222,7 +229,9 @@ const WB_Unit7_Page43_Q2 = () => {
                 <img
                   src={item.img}
                   alt={`Person ${item.id}`}
-                  className="max-w-24 max-h-24 object-contain"
+                  className="object-contain cursor-pointer transition transform active:scale-95 hover:scale-105"
+                  onClick={() => handleRightClick(item.id)}
+                  style={{ height: "110px", width: "auto" }}
                 />
               </div>
             ))}
@@ -231,15 +240,19 @@ const WB_Unit7_Page43_Q2 = () => {
           {/* SVG Container for Lines */}
           <svg className="absolute top-0 left-0 w-full h-full pointer-events-none">
             {lines.map((line) => (
-              <line
+              <path
                 key={line.id}
-                x1={line.x1}
-                y1={line.y1}
-                x2={line.x2}
-                y2={line.y2}
+                d={`
+    M ${line.x1} ${line.y1}
+    C ${(line.x1 + line.x2) / 2} ${line.y1},
+      ${(line.x1 + line.x2) / 2} ${line.y2},
+      ${line.x2} ${line.y2}
+  `}
                 stroke={getLineColor(line.id)}
                 strokeWidth="3"
+                fill="none"
                 strokeLinecap="round"
+                 strokeDasharray="6 6"
               />
             ))}
           </svg>
