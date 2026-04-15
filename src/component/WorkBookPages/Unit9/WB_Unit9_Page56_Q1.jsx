@@ -31,7 +31,7 @@ const questions = [
   { id: 6, src: img6, correct: "man" },
 ];
 
-const wordBank = ["cap", "game", "may", "sad", "pain", "man"];
+const wordBank = ["game","cap", "pain",  "sad", "man", "may"];
 
 const correctAnswers = {
   1: "cap",

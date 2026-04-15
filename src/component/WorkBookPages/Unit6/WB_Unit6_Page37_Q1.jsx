@@ -31,7 +31,7 @@ const WB_Unit6_Page37_Q1 = () => {
   const [selectedLeft, setSelectedLeft] = useState(null);
   const [matches, setMatches] = useState({});
   const [showResults, setShowResults] = useState(false);
-
+  const [selectedRight, setSelectedRight] = useState(null);
   const [lines, setLines] = useState([]);
   const containerRef = useRef(null);
   const elementRefs = useRef({});
@@ -71,13 +71,18 @@ const WB_Unit6_Page37_Q1 = () => {
   }, [matches]);
 
   const handleLeftClick = (id) => {
+    if (showResults) return;
     setSelectedLeft(id);
-    setShowResults(false);
+    setSelectedRight(null); // ⭐ مهم (يفك التحديد من اليمين)
   };
-
   const handleRightClick = (rightId) => {
+    if (showResults) return;
+
+    setSelectedRight(rightId); // ⭐ يخلي عليه effect
+
     if (selectedLeft !== null) {
       const newMatches = { ...matches };
+
       Object.keys(newMatches).forEach((key) => {
         if (newMatches[key] === rightId) {
           delete newMatches[key];
@@ -86,12 +91,12 @@ const WB_Unit6_Page37_Q1 = () => {
 
       setMatches({ ...newMatches, [selectedLeft]: rightId });
       setSelectedLeft(null);
+      setSelectedRight(null); // ⭐ بعد الربط نشيل التحديد
     }
   };
 
   const checkAnswers = () => {
     if (showResults) return;
-   
 
     const totalQuestions = exerciseData.left.length;
 
@@ -104,7 +109,7 @@ const WB_Unit6_Page37_Q1 = () => {
     }
 
     let currentScore = 0;
- setShowResults(true);
+    setShowResults(true);
     Object.entries(exerciseData.correctMatches).forEach(
       ([leftId, correctRightId]) => {
         if (matches[leftId] === correctRightId) {
@@ -144,7 +149,7 @@ const WB_Unit6_Page37_Q1 = () => {
   };
 
   const getDotColor = (side, id) => {
-    if (side === "left" && selectedLeft === id) return "bg-red-800 scale-125";
+    if (side === "left" && selectedLeft === id) return "bg-red-600 scale-125";
 
     const isConnected =
       side === "left" ? !!matches[id] : Object.values(matches).includes(id);
@@ -155,7 +160,7 @@ const WB_Unit6_Page37_Q1 = () => {
         side === "left"
           ? id
           : Object.keys(matches).find((key) => matches[key] === id);
-      if (!leftId) return "bg-[#ef4444]";
+      if (!leftId) return "bg-red-600 scale-125";
       const isCorrect = matches[leftId] === exerciseData.correctMatches[leftId];
       return isCorrect ? "bg-[#ef4444]" : "bg-[#ef4444]";
     }
@@ -174,7 +179,7 @@ const WB_Unit6_Page37_Q1 = () => {
     <div className="main-container-component">
       <div className="div-forall" style={{ gap: "20px" }}>
         <h1 className="WB-header-title-page8">
-          <div className="WB-ex-A">E</div>Read, look, and match.
+          <div className="WB-ex-A">I</div>Read, look, and match.
         </h1>
 
         <div className="border rounded-xl overflow-hidden text-xs">
@@ -233,7 +238,9 @@ const WB_Unit6_Page37_Q1 = () => {
               >
                 <div className="relative">
                   <p
-                    className="text-xl text-gray-700 w-55  cursor-pointer transition transform active:scale-95 hover:scale-105"
+                    className={`text-xl w-55 cursor-pointer transition transform active:scale-95
+  ${selectedLeft === item.id ? "text-red-600 underline scale-110" : "text-gray-700 hover:scale-105"}
+`}
                     onClick={() => handleLeftClick(item.id)}
                   >
                     {item.text}
@@ -266,7 +273,9 @@ const WB_Unit6_Page37_Q1 = () => {
                   className={`w-5 h-5 rounded-full cursor-pointer transition-all ${getDotColor("right", item.id)}`}
                 />
                 <div
-                  className="text-left cursor-pointer transition transform active:scale-95 hover:scale-105"
+                className={`text-left cursor-pointer transition transform active:scale-125
+  ${selectedRight === item.id ? "text-red-600 underline scale-125" : "hover:scale-105"}
+`}
                   onClick={() => handleRightClick(item.id)}
                 >
                   <p className="text-xl text-gray-700">{item.text}</p>

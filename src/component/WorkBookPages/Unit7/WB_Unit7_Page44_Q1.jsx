@@ -28,9 +28,9 @@ const WB_Unit7_Page44_Q1 = () => {
     if (checked || locked) return;
     setAnswersA((prev) => ({ ...prev, [id]: option }));
   };
-const areAllAnswered = () => {
-  return Object.values(answersA).every((val) => val !== null);
-};
+  const areAllAnswered = () => {
+    return Object.values(answersA).every((val) => val !== null);
+  };
   const checkAnswers = () => {
     if (checked || locked) return;
 
@@ -93,7 +93,7 @@ const areAllAnswered = () => {
   return (
     <div className="main-container-component">
       <div className="div-forall">
-        <h2 className="WB-header-title-page8">
+        <h2 className="WB-header-title-page8  mb-5">
           <span className="WB-ex-A">A</span>
           Listen and write <span className="text-blue-900">✓</span>.
         </h2>

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 
 // استيراد الصور ومكونات الأزرار والتنبيهات
-import sandwichImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 16/Ex D 1.svg";
-import drumImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 16/Ex D 2.svg";
-import swimImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 16/Ex D 3.svg";
-import chopsticksImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 16/Ex D 4.svg";
+import sandwichImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 16/Asset 27.svg";
+import drumImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 16/Asset 28.svg";
+import swimImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 16/Asset 29.svg";
+import chopsticksImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 16/Asset 30.svg";
 
 import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
@@ -119,7 +119,8 @@ const WB_Unit3_Page16_Q2 = () => {
                 <img
                   src={q.img}
                   alt={`Question ${index + 1}`}
-                  className="max-w-32 max-h-32 object-cover rounded-lg shadow-sm"
+                  className="object-contain rounded-lg shadow-sm"
+                  style={{height:"120px",width:"auto"}}
                 />
 
                 <div className="space-y-4 lg:mt-5">

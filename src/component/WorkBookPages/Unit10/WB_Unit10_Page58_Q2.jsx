@@ -160,7 +160,7 @@ const WB_Unit10_Page58_Q2 = () => {
               src={imgBoy}
               alt="boy"
               className="object-contain"
-              style={{height:"200px",width:"auto"}}
+              style={{height:"200px",width:"120px"}}
             />
           </div>
         </div>

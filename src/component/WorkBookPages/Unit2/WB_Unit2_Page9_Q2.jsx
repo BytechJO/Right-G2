@@ -360,11 +360,11 @@ const handleEnd = (e) => {
             ref={containerRef}
           >
             {/* Left Column (Images) */}
-            <div className="flex flex-row gap-4">
+            <div className="flex flex-row gap-8">
               {images.map((img) => (
                 <div
                   key={img.id}
-                  className={`relative cursor-pointer ${locked ? "opacity-50" : ""} ${firstPoint?.id === img.id ? "ring-2 ring-blue-400 rounded" : ""}`}
+                  className={`relative cursor-pointer ${locked ? "opacity-50" : ""} ${firstPoint?.id === img.id ? "ring-2 ring-red-600 rounded" : ""}`}
                   data-image={img.id}
                   onClick={(e) => (firstPoint ? handleEnd(e) : handleStart(e))}
                 >
@@ -383,7 +383,7 @@ const handleEnd = (e) => {
               {leftParts.map((l, i) => (
                 <div
                   key={i}
-                  className={`flex flex-col items-center gap-5 p-2 cursor-pointer border rounded ${locked ? "opacity-50" : ""} ${firstPoint?.id === l.id && firstPoint?.type === "centerText" ? "bg-blue-100 border-blue-400" : "border-transparent"}`}
+                  className={`flex flex-col items-center gap-5 p-2 cursor-pointer border rounded ${locked ? "opacity-50" : ""} ${firstPoint?.id === l.id && firstPoint?.type === "centerText" ? "bg-red-100 border-red-600" : "border-transparent"}`}
                   data-left-id={l.id}
                   onClick={(e) => (firstPoint ? handleEnd(e) : handleStart(e))}
                 >
@@ -396,13 +396,13 @@ const handleEnd = (e) => {
             </div>
 
             {/* Right Column (Images) */}
-            <div className="flex flex-row gap-4">
+            <div className="flex flex-row gap-6">
               {rightParts.map((r) => (
                 <div
                   key={r.id}
                   className={`relative cursor-pointer ${locked ? "opacity-50" : ""} ${firstPoint?.id === r.id ? "ring-2 ring-blue-400 rounded" : ""}`}
                   data-image={r.id}
-                  onClick={(e) => (firstPoint ? handleEnd(e) : handleStart(e))}
+                  onClick={(e) =>  handleEnd(e)}
                 >
                   <div className="dot w-3 h-3 bg-red-500 rounded-full absolute -top-3 left-10" />
                   <img

@@ -151,7 +151,7 @@ const WB_Unit7_Page44_Q2 = () => {
       {" "}
       <div className="div-forall gap-2">
         {" "}
-        <h2 className="WB-header-title-page8">
+        <h2 className="WB-header-title-page8  mb-10">
           {" "}
           <span className="WB-ex-A">B</span>
           Look, read, and write the words under the correct column.{" "}
@@ -204,12 +204,12 @@ const WB_Unit7_Page44_Q2 = () => {
               >
                 {[0, 1, 2].map((idx) => {
                   const word = columnsB[col.id][idx];
-const isWrong =
-  checked &&
-  word &&
-  !exerciseBColumns
-    .find((c) => c.id === col.id)
-    .correctWords.includes(word);
+                  const isWrong =
+                    checked &&
+                    word &&
+                    !exerciseBColumns
+                      .find((c) => c.id === col.id)
+                      .correctWords.includes(word);
                   return (
                     <div
                       key={idx}

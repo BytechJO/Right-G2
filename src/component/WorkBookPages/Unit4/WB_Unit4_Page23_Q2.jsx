@@ -76,13 +76,13 @@ const WB_Unit4_Page23_Q2 = () => {
     <div ref={captureRef}>
       <div className="main-container-component">
         <div className="div-forall" style={{ gap: "20px" }}>
-          <h1 className="WB-header-title-page8">
+          <h1 className="WB-header-title-page8 mb-10">
             {" "}
             <span className="WB-ex-A">F</span>Ask your friend. Write "Yes" or
             "No."
           </h1>
 
-          <div className="mb-8 p-3 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center gap-2">
+          <div className="mb-4 p-3 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center gap-2">
             <p className="text-lg font-medium">Do you want</p>
             <input
               type="text"

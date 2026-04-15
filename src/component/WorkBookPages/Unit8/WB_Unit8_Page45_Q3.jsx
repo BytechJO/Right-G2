@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import {
   DndContext,
@@ -50,7 +49,14 @@ function DraggableSentence({ s, isUsed }) {
     isDragging,
   } = useSortable({
     id: s.id,
-    disabled: isUsed, // 🔧 منع سحب العنصر المستخدم
+
+    // ✅ FIX 1: لا يبدأ drag إلا بعد حركة حقيقية
+    activationConstraint: {
+      distance: 8,
+    },
+
+    // ✅ FIX 2: تعطيل إذا مستخدم
+    disabled: isUsed,
   });
 
   const style = {
@@ -61,16 +67,23 @@ function DraggableSentence({ s, isUsed }) {
 
   return (
     <div
-      ref={setNodeRef}
-      style={style}
-      {...attributes}
-      {...listeners} // 🔧 فقط drag بدون click
-      className={`p-3 md:p-2 bg-white border-2 border-blue-100 rounded-lg shadow-sm cursor-grab text-blue-700 text-base md:text-sm font-medium touch-none ${
-        isUsed
-          ? "bg-gray-100 text-gray-400 pointer-events-none" // 🔧 تعطيل العنصر المستخدم
-          : "hover:border-blue-400"
-      }`}
-    >
+  ref={setNodeRef}
+  style={style}
+  {...attributes}
+  {...listeners}
+
+  // ✅ FIX 4: منع أي click behavior
+  onClick={(e) => {
+    e.preventDefault();
+    e.stopPropagation(); // 🔥 مهم جداً
+  }}
+
+  className={`p-3 md:p-2 bg-white border-2 border-blue-100 rounded-lg shadow-sm cursor-grab text-blue-700 text-base md:text-sm font-medium touch-none select-none ${
+    isUsed
+      ? "bg-gray-100 text-gray-400 pointer-events-none"
+      : "hover:border-blue-400"
+  }`}
+>
       {s.text}
     </div>
   );
@@ -85,10 +98,10 @@ function DropZone({ id, imgSrc, content, isCorrect, isSubmitted }) {
   const borderColor = isWrong
     ? "border-red-500 bg-red-50"
     : isSubmitted
-    ? "border-blue-500 bg-blue-50"
-    : isOver
-    ? "border-blue-400 bg-blue-50"
-    : "border-gray-300";
+      ? "border-blue-500 bg-blue-50"
+      : isOver
+        ? "border-blue-400 bg-blue-50"
+        : "border-gray-300";
 
   return (
     <div className="relative flex items-center gap-4 p-2 bg-gray-50 rounded-xl border border-gray-100">
@@ -108,9 +121,7 @@ function DropZone({ id, imgSrc, content, isCorrect, isSubmitted }) {
             {SENTENCES.find((s) => s.id === content).text}
           </span>
         ) : (
-          <span className="text-gray-300 text-xs italic">
-            drop sentence...
-          </span>
+          <span className="text-gray-300 text-xs italic">drop sentence...</span>
         )}
       </div>
 
@@ -138,21 +149,20 @@ const WB_Unit8_Page45_Q3 = () => {
   const [showResults, setShowResults] = useState(false);
 
   // 🔧 Sensors optimized (drag only)
-  const sensors = useSensors(
-    useSensor(MouseSensor),
-    useSensor(TouchSensor, {
-      activationConstraint: {
-        delay: 80, // 🔧 أقل لأنه ما في click
-        tolerance: 8,
-      },
-    }),
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 8,
-      },
-    })
-  );
-
+const sensors = useSensors(
+  useSensor(MouseSensor, {
+    activationConstraint: {
+      distance: 10, // 🔥 زودناها شوي
+    },
+  }),
+  useSensor(TouchSensor, {
+    activationConstraint: {
+      delay: 180, // 🔥 زودناها شوي
+      tolerance: 5,
+    },
+  }),
+  useSensor(PointerSensor)
+);
   const checkAnswers = () => {
     const unanswered = Object.keys(CORRECT_C).filter((id) => !placed[id]);
 
@@ -183,19 +193,35 @@ const WB_Unit8_Page45_Q3 = () => {
     <DndContext
       sensors={sensors}
       onDragStart={(e) => setActiveId(e.active.id)}
-      onDragEnd={(e) => {
-        if (e.over) {
-          setPlaced((prev) => ({
-            ...prev,
-            [e.over.id]: e.active.id,
-          }));
-        }
-        setActiveId(null);
-      }}
+     onDragEnd={(e) => {
+  const { active, over } = e;
+
+  // ✅ FIX 1: إذا ما في drop حقيقي → لا تعمل أي إشي
+  if (!over || !over.id.startsWith("d")) {
+    setActiveId(null);
+    return;
+  }
+
+  setPlaced((prev) => {
+    const next = { ...prev };
+
+    // ✅ FIX 2: إزالة العنصر من مكانه القديم
+    Object.keys(next).forEach((k) => {
+      if (next[k] === active.id) next[k] = null;
+    });
+
+    // ✅ FIX 3: وضعه بالمكان الجديد
+    next[over.id] = active.id;
+
+    return next;
+  });
+
+  setActiveId(null);
+}}
     >
       <div className="main-container-component">
         <div className="div-forall" style={{ gap: "10px" }}>
-          <h1 className="WB-header-title-page8">
+          <h1 className="WB-header-title-page8  mb-10">
             <span className="WB-ex-A">C</span>
             Look and write.
           </h1>
@@ -271,4 +297,3 @@ const WB_Unit8_Page45_Q3 = () => {
 };
 
 export default WB_Unit8_Page45_Q3;
-

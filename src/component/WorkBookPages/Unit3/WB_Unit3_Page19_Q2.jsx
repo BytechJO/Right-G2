@@ -158,7 +158,7 @@ const handleShowAnswer = () => {
   return (
     <div className="main-container-component">
       <div className="div-forall" style={{ gap: "20px" }}>
-        <h1 className="WB-header-title-page8">
+        <h1 className="WB-header-title-page8 mb-10">
           <span className="WB-ex-A">J</span> Drag the correct answer.
         </h1>
 

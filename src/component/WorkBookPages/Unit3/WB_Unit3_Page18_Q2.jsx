@@ -4,7 +4,6 @@ import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 1
 import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 18/Ex H 3.svg";
 import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 18/Ex H 4.svg";
 
-
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./WB_Unit3_Page18_Q2.css";
 
@@ -17,13 +16,14 @@ const WB_Unit3_Page18_Q2 = () => {
   const [locked, setLocked] = useState(false); //  ← إضافة جديدة
   const [firstDot, setFirstDot] = useState(null);
   const [showAnswer, setShowAnswer] = useState(false);
+  const [selectedWord, setSelectedWord] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
   const correctMatches = [
     { word: "Can he play the drum? \nYes, he can.", image: "img4" },
     { word: "Can she swim?\n Yes, she can.", image: "img1" },
-    { word: "Can she drive the car?\n No, she can\'t.", image: "img3" },
+    { word: "Can she drive the car?\n No, she can't.", image: "img3" },
     { word: "Can she make sandwiches? \n Yes, she can.", image: "img2" },
   ];
-
 
   const words = correctMatches.map((item, index) => ({
     id: `word-${index}`,
@@ -41,60 +41,54 @@ const WB_Unit3_Page18_Q2 = () => {
   // 1️⃣ الضغط على النقطة الأولى (start-dot)
   // ============================
   const handleStartDotClick = (e) => {
-    if (showAnswer || locked) return; // ⭐⭐ NEW: منع التوصيل إذا مغلق
+    if (showAnswer || locked) return;
 
     const rect = containerRef.current.getBoundingClientRect();
-
     const wordId = e.target.dataset.wordId;
-    const image = e.target.dataset.image || null;
 
-
+    setSelectedWord(wordId); // ✅ تحديد الجملة
 
     setFirstDot({
       wordId,
-
       x: e.target.getBoundingClientRect().left - rect.left + 8,
       y: e.target.getBoundingClientRect().top - rect.top + 8,
     });
   };
-
   // ============================
   // 2️⃣ الضغط على النقطة الثانية (end-dot)
   // ============================
-const handleEndDotClick = (e) => {
-  if (showAnswer || locked) return;
-  if (!firstDot) return;
+  const handleEndDotClick = (e) => {
+    if (showAnswer || locked) return;
+    if (!firstDot) return;
 
-  const rect = containerRef.current.getBoundingClientRect();
+    const rect = containerRef.current.getBoundingClientRect();
+    const endImage = e.target.dataset.image;
 
-  const endImage = e.target.dataset.image;
+    const newLine = {
+      x1: firstDot.x,
+      y1: firstDot.y,
+      x2: e.target.getBoundingClientRect().left - rect.left + 8,
+      y2: e.target.getBoundingClientRect().top - rect.top + 8,
+      wordId: firstDot.wordId,
+      image: endImage,
+    };
 
-  const newLine = {
-    x1: firstDot.x,
-    y1: firstDot.y,
-    x2: e.target.getBoundingClientRect().left - rect.left + 8,
-    y2: e.target.getBoundingClientRect().top - rect.top + 8,
-    wordId: firstDot.wordId,
-    image: endImage,
+    setLines((prev) => {
+      let updated = prev.filter((line) => line.wordId !== firstDot.wordId);
+      updated = updated.filter((line) => line.image !== endImage);
+      return [...updated, newLine];
+    });
+
+    setSelectedImage(endImage); // ✅ تحديد الصورة
+
+    // ✅ إزالة الإيفكت بعد التوصيل
+    setTimeout(() => {
+      setSelectedWord(null);
+      setSelectedImage(null);
+    }, 100);
+
+    setFirstDot(null);
   };
-
-  setLines((prev) => {
-    // ✅ احذف أي خط لنفس الجملة
-    let updated = prev.filter(
-      (line) => line.wordId !== firstDot.wordId
-    );
-
-    // ✅ احذف أي خط لنفس الصورة
-    updated = updated.filter(
-      (line) => line.image !== endImage
-    );
-
-    // ✅ أضف الخط الجديد
-    return [...updated, newLine];
-  });
-
-  setFirstDot(null);
-};
   // ============================
   // 3️⃣ Check Answers
   // ============================
@@ -144,13 +138,12 @@ const handleEndDotClick = (e) => {
   };
 
   return (
-      <div className="main-container-component">
+    <div className="main-container-component">
       <div className="div-forall" style={{ gap: "20px" }}>
         <div className="page7-q2-container2">
-        <h1 className="WB-header-title-page8">
-          <span className="WB-ex-A">H</span>Read, look, and match.
-        </h1>
-
+          <h1 className="WB-header-title-page8 mb-10">
+            <span className="WB-ex-A">H</span>Read, look, and match.
+          </h1>
 
           <div className="CB-review3-p1-q2-wrapper" ref={containerRef}>
             {/* الجمل */}
@@ -166,14 +159,28 @@ const handleEndDotClick = (e) => {
                     alignItems: "flex-start",
                   }}
                 >
-                  <span style={{ color: "darkblue", fontWeight: "700" }}>
-                    {index + 1}
-                  </span>
-
-                  <div>
-                    <div style={{ position: "relative" }}>
+                  <div className="flex gap-1">
+                    <span
+                      style={{
+                        color: "darkblue",
+                        fontWeight: "700",
+                        fontSize: "18px",
+                      }}
+                    >
+                      {index + 1}
+                    </span>
+                    <div
+                      style={{ position: "relative" }}
+                      className={` ${
+                        selectedWord === wordObj.id ? "scale-95" : ""
+                      } `}
+                    >
                       <h5
                         className={`WB-unit3-page18-q2-word ${
+                          selectedWord === wordObj.id
+                            ? "text-red-600 underline"
+                            : ""
+                        } ${
                           locked || showAnswer
                             ? "WB-unit3-page18-q2-disabled-hover"
                             : ""
@@ -182,7 +189,9 @@ const handleEndDotClick = (e) => {
                           document.getElementById(`${wordObj.id}-dot`).click()
                         }
                       >
-                        {wordObj.text}
+                        {wordObj.text.split("\n").map((line, i) => (
+                          <div key={i}>{line}</div>
+                        ))}
                       </h5>
 
                       {wrongImages.includes(wordObj.id) && (
@@ -191,11 +200,16 @@ const handleEndDotClick = (e) => {
                     </div>
 
                     <div
-                      className="CB-review3-p1-q2-dot CB-review3-p1-q2-start-dot"
+                      className={`CB-review3-p1-q2-dot CB-review3-p1-q2-start-dot ${
+                        selectedWord === wordObj.id
+                          ? "bg-red-600 scale-125 shadow-lg"
+                          : ""
+                      }`}
+                      style={{ top: "100%" }}
                       data-word-id={wordObj.id}
                       id={`${wordObj.id}-dot`}
                       onClick={handleStartDotClick}
-                    ></div>
+                    />
                   </div>
                 </div>
               ))}
@@ -209,6 +223,10 @@ const handleEndDotClick = (e) => {
                     src={img.src}
                     alt=""
                     className={`CB-review3-p1-q2-image ${
+                      selectedImage === img.id
+                        ? "border-2 border-red-600 scale-95 shadow-lg"
+                        : ""
+                    } ${
                       locked || showAnswer
                         ? "WB-unit3-page18-q2-disabled-hover"
                         : ""
@@ -219,11 +237,15 @@ const handleEndDotClick = (e) => {
                   />
 
                   <div
-                    className="CB-review3-p1-q2-dot CB-review3-p1-q2-end-dot"
+                    className={`CB-review3-p1-q2-dot CB-review3-p1-q2-end-dot ${
+                      selectedImage === img.id
+                        ? "bg-red-600 scale-125 shadow-lg"
+                        : ""
+                    }`}
                     data-image={img.id}
                     id={`${img.id}-dot`}
                     onClick={handleEndDotClick}
-                  ></div>
+                  />
                 </div>
               ))}
             </div>

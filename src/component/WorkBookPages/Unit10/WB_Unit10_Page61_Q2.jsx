@@ -4,6 +4,7 @@ import {
   useDraggable,
   useDroppable,
   PointerSensor,
+  TouchSensor,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
@@ -33,11 +34,11 @@ function DraggableWord({ word, disabled }) {
       style={style}
       {...(!disabled ? listeners : {})}
       {...attributes}
-      className={`p-4 rounded-lg font-bold text-center transition-all
+      className={`p-2 border-2 border-blue-800 rounded-lg font-bold text-center transition-all touch-none
         ${
           disabled
             ? "bg-gray-200 text-gray-400 cursor-not-allowed opacity-60"
-            : "cursor-pointer bg-indigo-100 text-indigo-700 hover:bg-indigo-200 hover:scale-105"
+            : "cursor-pointer text-indigo-700 hover:bg-indigo-200 hover:scale-105"
         }
       `}
     >
@@ -72,7 +73,7 @@ function DropInput({ id, value, onChange, submitted, feedback, isWrong }) {
 
       {/* ❌ */}
       {isWrong && (
-        <div className="absolute -top-2 -right-2 bg-red-500 text-white w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold border-2 border-white shadow">
+        <div className="absolute -top-2 right-16 bg-red-500 text-white w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold border-2 border-white shadow">
           ✕
         </div>
       )}
@@ -121,8 +122,15 @@ const DrawAndAnswerQuestion = () => {
   const [feedback, setFeedback] = useState({});
   const [showAnswers, setShowAnswers] = useState(false);
 
-  const sensors = useSensors(useSensor(PointerSensor));
-
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 0,
+        tolerance: 0,
+      },
+    }),
+  );
   /* ================= CANVAS ================= */
 
   useEffect(() => {
@@ -196,9 +204,10 @@ const DrawAndAnswerQuestion = () => {
   /* ================= CHECK ================= */
 
   const handleCheckAnswers = () => {
+if(submitted || showAnswers)return
     // 🔴 VALIDATION
     if (Object.keys(answers).length < images.length) {
-      ValidationAlert.warning(
+      ValidationAlert.info(
         "Please complete all answers before checking your answers.",
       );
       return;
@@ -215,10 +224,10 @@ const DrawAndAnswerQuestion = () => {
 
     setSubmitted(true); // 👈 عشان يشتغل ❌
 
-    const msg = `Score: ${score} / ${images.length}`;
+    const msg = `Score: ${correct} / ${images.length}`;
 
-    if (score === images.length) ValidationAlert.success(msg);
-    else if (score > 0) ValidationAlert.warning(msg);
+    if (correct === images.length) ValidationAlert.success(msg);
+    else if (correct > 0) ValidationAlert.warning(msg);
     else ValidationAlert.error(msg);
   };
   /* ================= SHOW ANSWER ================= */
@@ -260,7 +269,7 @@ const DrawAndAnswerQuestion = () => {
 
           {/* Word Bank */}
           <div>
-            <div className="bg-white border-3 border-gray-400 rounded-2xl p-4 inline-block shadow-md w-full">
+            <div className="bg-white border-2 border-gray-400 border-dashed rounded-2xl p-2 inline-block shadow-md w-full">
               <div className="flex gap-4 flex-wrap flex justify-center items-center">
                 {images.map((word) => (
                   <DraggableWord
@@ -281,17 +290,17 @@ const DrawAndAnswerQuestion = () => {
                 className="bg-white rounded-xl shadow-lg p-6 border-2 border-gray-200"
               >
                 {/* Canvas */}
-                <div className="mb-4">
-                  <p className="text-sm font-semibold text-gray-600 mb-2">
-                    Draw and Connect the Dots:
-                  </p>
+                <div className="mb-4 flex justify-center">
+                  
                   <canvas
                     ref={(el) => (canvasRefs.current[image.id] = el)}
                     onMouseDown={(e) => handleMouseDown(e, image.id)}
                     onMouseMove={(e) => handleMouseMove(e, image.id)}
                     onMouseUp={handleMouseUp}
                     onMouseLeave={handleMouseUp}
-                    className="border-2 border-gray-300 rounded-lg cursor-crosshair bg-gray-50"
+                    height={200}
+                    width={300}
+                    className="border-2 border-gray-300 rounded-lg cursor-crosshair bg-gray-50 flex justify-center items-center"
                   />
                 </div>
 

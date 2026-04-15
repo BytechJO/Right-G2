@@ -32,7 +32,7 @@ const WB_Unit6_Page36_Q1 = () => {
   const [selectedLeft, setSelectedLeft] = useState(null);
   const [matches, setMatches] = useState({});
   const [showResults, setShowResults] = useState(false);
-
+  const [selectedRight, setSelectedRight] = useState(null);
   const [lines, setLines] = useState([]);
   const containerRef = useRef(null);
   const elementRefs = useRef({});
@@ -79,6 +79,7 @@ const WB_Unit6_Page36_Q1 = () => {
   const handleRightClick = (rightId) => {
     if (selectedLeft !== null) {
       const newMatches = { ...matches };
+
       Object.keys(newMatches).forEach((key) => {
         if (newMatches[key] === rightId) {
           delete newMatches[key];
@@ -86,7 +87,14 @@ const WB_Unit6_Page36_Q1 = () => {
       });
 
       setMatches({ ...newMatches, [selectedLeft]: rightId });
-      setSelectedLeft(null);
+
+      setSelectedRight(rightId); // ⭐ تحديد الصورة
+
+      // ⭐ إزالة الإيفكت بعد التوصيل
+      setTimeout(() => {
+        setSelectedLeft(null);
+        setSelectedRight(null);
+      }, 100);
     }
   };
 
@@ -145,7 +153,7 @@ const WB_Unit6_Page36_Q1 = () => {
   };
 
   const getDotColor = (side, id) => {
-    if (side === "left" && selectedLeft === id) return "bg-red-800 scale-125";
+    if (side === "left" && selectedLeft === id) return "bg-red-600 scale-125";
 
     const isConnected =
       side === "left" ? !!matches[id] : Object.values(matches).includes(id);
@@ -175,7 +183,7 @@ const WB_Unit6_Page36_Q1 = () => {
     <div className="main-container-component">
       <div className="div-forall" style={{ gap: "20px" }}>
         <h1 className="WB-header-title-page8">
-          <div className="WB-ex-A">E</div>Read, look, and match.
+          <div className="WB-ex-A">G</div>Read, look, and match.
         </h1>
 
         <div
@@ -184,10 +192,7 @@ const WB_Unit6_Page36_Q1 = () => {
         >
           <div className="space-y-22">
             {exerciseData.left.map((item) => (
-              <div
-                key={item.id}
-                className="flex items-center gap-6 w-full"
-              >
+              <div key={item.id} className="flex items-center gap-6 w-full">
                 <div className="text-right flex gap-5 items-center">
                   <span className="text-xl font-bold text-blue-900">
                     {item.id}
@@ -195,8 +200,14 @@ const WB_Unit6_Page36_Q1 = () => {
 
                   <div className="relative ">
                     <p
-                      className="text-xl text-gray-700 border-2 rounded p-2 text-left cursor-pointer transition transform active:scale-95 hover:scale-105 w-[200px]"
                       onClick={() => handleLeftClick(item.id)}
+                      className={`text-xl border-2 rounded p-2 text-left cursor-pointer transition transform active:scale-95 w-[200px]
+    ${
+      selectedLeft === item.id
+        ? "text-red-600 underline border-red-600 scale-105 shadow-md"
+        : "text-gray-700 hover:scale-105 hover:border-blue-400"
+    }
+  `}
                     >
                       {item.text}
                     </p>
@@ -228,13 +239,19 @@ const WB_Unit6_Page36_Q1 = () => {
                   onClick={() => handleRightClick(item.id)}
                   className={`w-5 h-5 rounded-full cursor-pointer transition-all ${getDotColor("right", item.id)}`}
                 />
-                <img
-                  src={item.img}
-                  alt={`Person ${item.id}`}
-                  onClick={() => handleRightClick(item.id)}
-                  className="object-contain cursor-pointer transition transform active:scale-95 hover:scale-105"
-                  style={{ height: "100px", width: "auto" }}
-                />
+             <img
+  src={item.img}
+  alt={`Person ${item.id}`}
+  onClick={() => handleRightClick(item.id)}
+  className={`object-contain cursor-pointer transition transform active:scale-95
+    ${
+      selectedRight === item.id
+        ? "border-2 border-red-600 scale-95 shadow-lg rounded"
+        : "hover:scale-105"
+    }
+  `}
+  style={{ height: "100px", width: "auto" }}
+/>
               </div>
             ))}
           </div>

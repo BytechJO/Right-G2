@@ -380,8 +380,29 @@ const ReadAndColor = () => {
     setActivePart(null);
   };
 
+  const isAllColored = () => {
+    for (const personKey in charactersData) {
+      const personLayers = charactersData[personKey].layers;
+      const userColors = colors[personKey] || {};
+
+      for (const layer of personLayers) {
+        if (!userColors[layer.id]) {
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+
   const checkAnswers = () => {
     if (showResults) return;
+
+    if (!isAllColored()) {
+      ValidationAlert.info(
+        "Please color all parts before checking your answers.",
+      );
+      return;
+    }
     let score = 0;
     let total = 0;
     Object.keys(correctAnswers).forEach((person) => {

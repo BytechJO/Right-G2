@@ -146,7 +146,8 @@ const WB_Unit3_Page17_Q1 = () => {
                 <img
                   src={q.img}
                   alt={q.phrase}
-                  className="max-w-24 max-h-24 rounded-lg shadow-sm"
+                  className="object-contain rounded-lg shadow-sm"
+                  style={{height:"120px",width:"auto"}}
                 />
                 <div className="flex flex-col items-start gap-2">
                   {q.options.map((opt) => (

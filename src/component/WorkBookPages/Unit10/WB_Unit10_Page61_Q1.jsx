@@ -25,11 +25,11 @@ const wordBank = [
 
 const questions = [
   { id: 1, subject: "She", correct: "She is writing." },
-  { id: 2, subject: "She", correct: "She is searching." },
+  { id: 2, subject: "She", correct: "She is watching." },
   { id: 3, subject: "She", correct: "She is making." },
-  { id: 4, subject: "She", correct: "She is watching." },
+  { id: 4, subject: "She", correct: "She is reading" },
   { id: 5, subject: "He", correct: "He is drawing." },
-  { id: 6, subject: "He", correct: "He is reading." },
+  { id: 6, subject: "He", correct: "He is searching." },
 ];
 
 const correctAnswers = {

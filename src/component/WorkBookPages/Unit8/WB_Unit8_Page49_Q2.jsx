@@ -45,26 +45,36 @@ function DraggableK({ item, isUsed }) {
     setNodeRef,
     transform,
     transition,
-    isDragging,
+    isDragging, // 👈 مهم
   } = useSortable({ id: item.id });
+
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
     opacity: isDragging || isUsed ? 0.5 : 1,
   };
+
   return (
     <div
       ref={setNodeRef}
       style={style}
       {...attributes}
       {...listeners}
-      className={`p-2 bg-white border border-gray-200 rounded-lg shadow-sm cursor-grab text-blue-700 touch-none text-sm font-medium ${isUsed ? "bg-gray-50 text-gray-300 pointer-events-none" : "hover:border-blue-400"}`}
+      // 👇✨ هذا أهم تعديل
+      onClick={(e) => e.preventDefault()}
+      // 👆 يمنع الكليك من أنه يتعامل كـ drag
+
+      className={`p-2 bg-white border border-gray-200 rounded-lg shadow-sm cursor-grab text-blue-700 touch-none text-sm font-medium ${
+        // 👇✨ تعديل الشرط
+        isUsed && !isDragging
+          ? "bg-gray-50 text-gray-300 pointer-events-none"
+          : "hover:border-blue-400"
+      }`}
     >
       {item.text}
     </div>
   );
 }
-
 function DropSlotK({ id, content, isCorrect, isSubmitted }) {
   const { setNodeRef, isOver } = useSortable({ id });
 
@@ -113,9 +123,20 @@ const WB_Unit8_Page49_Q2 = () => {
   });
   const [activeId, setActiveId] = useState(null);
   const [showResults, setShowResults] = useState(false);
+  const shuffleArray = (array) => {
+    return [...array].sort(() => Math.random() - 0.5);
+  };
 
-  const sensors = useSensors(useSensor(PointerSensor));
-
+  const [shuffledOptions, setShuffledOptions] = useState(() =>
+    shuffleArray(OPTIONS_K),
+  );
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8, // 👈 لازم المستخدم يحرك 8px عشان يصير drag
+      },
+    }),
+  );
   const checkAnswers = () => {
     if (showResults) return;
     const unanswered = Object.keys(CORRECT_K).filter((id) => !answers[id]);
@@ -222,12 +243,14 @@ const WB_Unit8_Page49_Q2 = () => {
                 Answers Bank
               </h3>
               <div className="grid grid-cols-1 gap-2">
-                <SortableContext items={OPTIONS_K.map((o) => o.id)}>
-                  {OPTIONS_K.map((o) => (
+                <SortableContext items={shuffledOptions.map((o) => o.id)}>
+                  {shuffledOptions.map((o) => (
                     <DraggableK
                       key={o.id}
                       item={o}
-                      isUsed={Object.values(answers).includes(o.id)}
+                      isUsed={Object.values(answers).some(
+                        (val) => val === o.id,
+                      )}
                     />
                   ))}
                 </SortableContext>
@@ -253,6 +276,7 @@ const WB_Unit8_Page49_Q2 = () => {
                   b4: null,
                 });
                 setShowResults(false);
+                setShuffledOptions(shuffleArray(OPTIONS_K));
               }}
               checkAnswers={checkAnswers}
             />

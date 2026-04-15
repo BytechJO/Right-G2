@@ -95,9 +95,20 @@ const WB_Unit10_Page58_Q1 = () => {
   });
   const [activeId, setActiveId] = useState(null);
   const [showResults, setShowResults] = useState(false);
-
-  const sensors = useSensors(useSensor(PointerSensor));
-
+  const shuffleArray = (array) => {
+    return [...array].sort(() => Math.random() - 0.5);
+  };
+  const [shuffledActivities, setShuffledActivities] = useState(() =>
+    shuffleArray(ACTIVITIES_B),
+  );
+  // ✨ تعديل
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8, // 👈 لازم يسحب 8px عالأقل عشان يعتبر drag
+      },
+    }),
+  );
   const checkAnswers = () => {
     if (showResults) return;
     const unanswered = Object.keys(CORRECT_B).filter((id) => !answers[id]);
@@ -119,15 +130,21 @@ const WB_Unit10_Page58_Q1 = () => {
   const handleReset = () => {
     setAnswers({ q1: null, q2: null, q3: null, q4: null });
     setShowResults(false);
+    setShuffledActivities(shuffleArray(ACTIVITIES_B));
   };
 
   return (
     <DndContext
       sensors={sensors}
       onDragStart={(e) => setActiveId(e.active.id)}
+      // ✨ تعديل
       onDragEnd={(e) => {
-        if (e.over)
-          setAnswers((prev) => ({ ...prev, [e.over.id]: e.active.id }));
+        if (e.over && e.over.id in answers) {
+          setAnswers((prev) => ({
+            ...prev,
+            [e.over.id]: e.active.id,
+          }));
+        }
         setActiveId(null);
       }}
     >
@@ -140,7 +157,8 @@ const WB_Unit10_Page58_Q1 = () => {
           <img
             src={img1}
             alt="math"
-            className="max-w-full max-h-32 object-cover rounded-xl"
+            className="object-cover rounded-xl"
+            style={{ height: "auto", width: "auto" }}
           />
 
           <div className="flex flex-col md:flex-row gap-8">
@@ -208,12 +226,15 @@ const WB_Unit10_Page58_Q1 = () => {
                 Activities Bank
               </h3>
               <div className="flex flex-col gap-3">
-                <SortableContext items={ACTIVITIES_B.map((a) => a.id)}>
-                  {ACTIVITIES_B.map((act) => (
+                <SortableContext items={shuffledActivities.map((a) => a.id)}>
+                  {shuffledActivities.map((act) => (
                     <DraggableItem
                       key={act.id}
                       item={act}
-                      isUsed={Object.values(answers).includes(act.id)}
+                      // ✨ تعديل
+                      isUsed={Object.values(answers)
+                        .filter(Boolean)
+                        .includes(act.id)}
                     />
                   ))}
                 </SortableContext>

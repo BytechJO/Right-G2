@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 19/Ex K 1.svg";
-import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 19/Ex K 4.svg";
-import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 19/Ex K 2.svg";
-import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 19/Ex K 5.svg";
-import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 19/Ex K 3.svg";
-import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 19/Ex K 6.svg";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 19/Asset 31.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 19/Asset 32.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 19/Asset 33.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 19/Asset 34.svg";
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 19/Asset 35.svg";
+import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 19/Asset 36.svg";
 
 import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
@@ -15,23 +15,23 @@ const checkQuestions = [
     sentence: "He can swim.",
     options: [
       { id: "opt1", img: img1, isCorrect: true },
-      { id: "opt2", img: img2, isCorrect: false },
+      { id: "opt2", img: img5, isCorrect: false },
     ],
   },
   {
     id: "k2",
     sentence: "He can take a photo.",
     options: [
-      { id: "opt3", img: img3, isCorrect: true },
-      { id: "opt4", img: img4, isCorrect: false },
+      { id: "opt3", img: img2, isCorrect: true },
+      { id: "opt4", img: img3, isCorrect: false },
     ],
   },
   {
     id: "k3",
     sentence: "It can fly.",
     options: [
-      { id: "opt5", img: img5, isCorrect: true },
-      { id: "opt6", img: img6, isCorrect: false },
+      { id: "opt5", img: img6, isCorrect: true },
+      { id: "opt6", img: img4, isCorrect: false },
     ],
   },
 ];
@@ -115,7 +115,7 @@ const WB_Unit3_Page19_Q3 = () => {
                 <div
                   key={opt.id}
                   onClick={() => handleSelect(q.id, opt.id)}
-                  className={`border-2 border-gray-400 rounded-lg cursor-pointer transition-colors relative`}
+                  className={`cursor-pointer transition-colors relative`}
                 >
                   <img
                     src={opt.img}
@@ -126,7 +126,7 @@ const WB_Unit3_Page19_Q3 = () => {
 
                   {/* مربع الاختيار الأساسي */}
                   <div
-                    className={`absolute top-0 right-0 w-10 h-10 border-2 rounded bg-white flex items-center justify-center
+                    className={`absolute bottom-0 right-6 w-10 h-10 border-2 rounded-xl bg-white flex items-center justify-center
     ${isWrongSelected(q.id, opt) ? "border-red-500" : "border-gray-400"}
   `}
                   >

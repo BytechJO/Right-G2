@@ -133,13 +133,13 @@ const WB_Unit8_Page50_Q3 = () => {
           className="div-forall"
           style={{ gap: "10px", marginBottom: "50px" }}
         >
-          <h1 className="WB-header-title-page8">
+          <h1 className="WB-header-title-page8 mb-10">
             {" "}
             <span className="WB-ex-A">C</span>Read and complete the sentences.
             Use the words from the box.
           </h1>
 
-          <div className="flex justify-center gap-4 mb-12 p-3 rounded-2xl border-2 border-dashed border-gray-400">
+          <div className="flex justify-center gap-4 mb-5 p-3 rounded-2xl border-2 border-dashed border-gray-400">
             <SortableContext items={WORDS_C.map((w) => w.id)}>
               {WORDS_C.map((w) => (
                 <DraggableWord

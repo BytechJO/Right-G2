@@ -112,7 +112,7 @@ const WB_Unit1_Page7_Q2 = () => {
     return (
       <div className="relative inline-flex">
         {isWrong && (
-          <div className="absolute -top-2 -right-2 z-10 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold shadow-lg border-2 border-white">
+          <div className="absolute -top-2 -right-2 z-10 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold shadow-lg border-2 border-white">
             ✕
           </div>
         )}
@@ -122,11 +122,11 @@ const WB_Unit1_Page7_Q2 = () => {
             <div
               ref={provided.innerRef}
               {...provided.droppableProps}
-              className={`inline-flex mx-3 px-2 min-h-[44px] ${width} items-center justify-center border-b-2 text-center text-lg align-middle ${
+              className={`inline-flex mx-3 px-2 min-h-[15px] ${width} items-center justify-center border-b-2 text-center text-lg align-middle ${
                 snapshot.isDraggingOver
                   ? "bg-yellow-100 border-yellow-400"
                   : "border-gray-400"
-              }`}
+              } ${isWrong &&"border-red-500"}`}
             >
               <span>{answers[field] || ""}</span>
               {provided.placeholder}
@@ -179,6 +179,7 @@ const WB_Unit1_Page7_Q2 = () => {
                         draggableId={word}
                         index={index}
                         isDragDisabled={isUsed} // 🔥 هذا المهم
+                        className="touch-none"
                       >
                         {(provided) => (
                           <span
@@ -223,52 +224,56 @@ const WB_Unit1_Page7_Q2 = () => {
                 <img
                   src={img1}
                   alt="sentence1"
-                  className="max-w-16 max-h-16 object-contain"
+                  className="object-contain"
+                  style={{height:"110px",width:"auto"}}
                 />
               </div>
 
               <div className="flex items-center gap-4 rounded-xl">
                 <div className="flex-1">
-                  <p className="text-xl text-gray-800 leading-loose">
+                  <p className="text-xl text-gray-800 leading-loose flex">
                     <span className="font-semibold text-blue-600 mr-2">2.</span>
-                    I'm Stella's
+                   <span className="flex w-25"> I'm Stella's</span>
                     {renderDropZone("sentence2")}.
                   </p>
                 </div>
                 <img
                   src={img2}
                   alt="sentence2"
-                  className="max-w-16 max-h-16 object-contain"
+                   className="object-contain"
+                  style={{height:"110px",width:"auto"}}
                 />
               </div>
 
               <div className="flex items-center gap-4 rounded-xl">
                 <div className="flex-1">
-                  <p className="text-xl text-gray-800 leading-loose">
+                  <p className="text-xl text-gray-800 leading-loose flex">
                     <span className="font-semibold text-blue-600 mr-2">3.</span>
-                    He's my
+                   <span className="w-25"> He's my</span>
                     {renderDropZone("sentence3")}.
                   </p>
                 </div>
                 <img
                   src={img3}
                   alt="sentence3"
-                  className="max-w-16 max-h-16 object-contain"
+                   className="object-contain"
+                  style={{height:"110px",width:"auto"}}
                 />
               </div>
 
               <div className="flex items-center gap-4 rounded-xl">
                 <div className="flex-1">
-                  <p className="text-xl text-gray-800 leading-loose">
+                  <p className="text-xl text-gray-800 leading-loose flex">
                     <span className="font-semibold text-blue-600 mr-2">4.</span>
-                    I'm Stella's
+                    <span className="w-25">I'm Stella's</span>
                     {renderDropZone("sentence4")}.
                   </p>
                 </div>
                 <img
                   src={img4}
                   alt="sentence4"
-                  className="max-w-16 max-h-16 object-contain"
+                   className="object-contain"
+                  style={{height:"110px",width:"auto"}}
                 />
               </div>
             </div>

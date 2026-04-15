@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../Button";
-import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 43/Asset 1.svg";
-import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 43/Asset 2.svg";
-import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 43/Asset 3.svg";
-import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 43/Asset 4.svg";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 43/Asset 55.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 43/Asset 56.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 43/Asset 58.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 43/Asset 57.svg";
 
 const exerciseData = [
   { id: 1, correctAnswer: "February", img: img1 },
@@ -104,7 +104,7 @@ const WB_Unit7_Page43_Q1 = () => {
       {" "}
       <div className="div-forall gap-2">
         {" "}
-        <h1 className="WB-header-title-page8">
+        <h1 className="WB-header-title-page8 mb-10">
           {" "}
           <span className="WB-ex-A">I</span>Look, read the clue, and write.{" "}
         </h1>

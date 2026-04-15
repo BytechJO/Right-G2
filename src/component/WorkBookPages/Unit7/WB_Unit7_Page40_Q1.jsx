@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 40/Ex C 1.svg";
-import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 40/Ex C 2.svg";
-import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 40/Ex C 3.svg";
-import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 40/Ex C 4.svg";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 40/Asset 46.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 40/Asset 47.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 40/Asset 48.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 40/Asset 45.svg";
 const WB_Unit7_Page40_Q1 = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [score, setScore] = useState({ correct: 0, total: 0 });

@@ -10,6 +10,7 @@
   justify-content: space-between;
   align-items: center;
   position: relative;
+      margin-bottom: 20px
 }
 
 .WB-unit2-page15-q1-word-side {
@@ -29,17 +30,10 @@
   display: inline-block;
   padding: 4px 6px;
   cursor: pointer;
-  transition:
-    transform 0.2s ease,
-    background-color 0.2s ease,
-    box-shadow 0.2s ease;
+
 }
 
-.WB-unit2-page15-q1-word-text:hover {
-  transform: scale(1.05);
-  background-color: rgba(67, 15, 104, 0.08);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-}
+
 
 .WB-unit2-page15-q1-word-text:active {
   transform: scale(0.97);

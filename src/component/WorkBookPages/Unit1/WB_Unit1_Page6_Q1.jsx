@@ -124,6 +124,11 @@ const WB_Unit1_Page6_Q1 = () => {
     setChecked(false)
   };
 
+  const isWrongAnswer = (id) =>
+    checked &&
+    userAnswers[id] &&
+    userAnswers[id].toLowerCase().trim() !== correctAnswers[id].toLowerCase();
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div
@@ -173,6 +178,7 @@ const WB_Unit1_Page6_Q1 = () => {
                       draggableId={word}
                       index={index}
                       isDragDisabled={checked || showAnswers || isUsed}
+                      className="touch-none"
                     >
                       {(provided) => (
                         <div
@@ -202,7 +208,7 @@ const WB_Unit1_Page6_Q1 = () => {
           </Droppable>
           <div className="flex flex-col lg:flex-row gap-8 items-start">
             {/* Family Image with Numbers */}
-            <div className="relative  border-4 border-gray-200 rounded-2xl overflow-hidden">
+            <div className="relative overflow-hidden">
               <img src={img} className="max-w-full max-h-87" />
               {/* Simplified representation of numbers on image */}
               <div className="absolute inset-0 pointer-events-none"></div>
@@ -219,7 +225,8 @@ const WB_Unit1_Page6_Q1 = () => {
                       {...provided.droppableProps}
                       className={`relative border-b-2 w-30 text-center min-h-[30px] ${
                         snapshot.isDraggingOver ? "bg-yellow-100" : ""
-                      }`}
+                      } ${isWrongAnswer(1) ? "border-red-500" : "border-gray-400"}`}
+                       style={{whiteSpace:"nowrap"}}
                     >
                       {checked &&
                         userAnswers[1] &&
@@ -243,7 +250,8 @@ const WB_Unit1_Page6_Q1 = () => {
                       {...provided.droppableProps}
                       className={`relative border-b-2 w-30 text-center min-h-[30px] ${
                         snapshot.isDraggingOver ? "bg-yellow-100" : ""
-                      }`}
+                      } ${isWrongAnswer(2) ? "border-red-500" : "border-gray-400"}`}
+                       style={{whiteSpace:"nowrap"}}
                     >
                       {checked &&
                         userAnswers[2] &&
@@ -259,7 +267,7 @@ const WB_Unit1_Page6_Q1 = () => {
                 <span>is John.</span>
               </div>
               <div className="flex items-center gap-2">
-                <span>3. He</span>
+                <span className="flex w-[50px]">3. He</span>
                 <Droppable droppableId="3">
                   {(provided, snapshot) => (
                     <div
@@ -267,7 +275,8 @@ const WB_Unit1_Page6_Q1 = () => {
                       {...provided.droppableProps}
                       className={`relative border-b-2 w-30 text-center min-h-[30px] ${
                         snapshot.isDraggingOver ? "bg-yellow-100" : ""
-                      }`}
+                      } ${isWrongAnswer(3) ? "border-red-500" : "border-gray-400"}`}
+                       style={{whiteSpace:"nowrap"}}
                     >
                       {checked &&
                         userAnswers[3] &&
@@ -288,7 +297,8 @@ const WB_Unit1_Page6_Q1 = () => {
                       {...provided.droppableProps}
                       className={`relative border-b-2 w-30 text-center min-h-[30px] ${
                         snapshot.isDraggingOver ? "bg-yellow-100" : ""
-                      }`}
+                      } ${isWrongAnswer(4) ? "border-red-500" : "border-gray-400"}`}
+                      style={{whiteSpace:"nowrap"}}
                     >
                       {checked &&
                         userAnswers[4] &&
@@ -311,7 +321,8 @@ const WB_Unit1_Page6_Q1 = () => {
                       {...provided.droppableProps}
                       className={`relative border-b-2 w-30 text-center min-h-[30px] ${
                         snapshot.isDraggingOver ? "bg-yellow-100" : ""
-                      }`}
+                      } ${isWrongAnswer(5) ? "border-red-500" : "border-gray-400"}`}
+                       style={{whiteSpace:"nowrap"}}
                     >
                       {checked &&
                         userAnswers[5] &&
@@ -335,7 +346,8 @@ const WB_Unit1_Page6_Q1 = () => {
                       {...provided.droppableProps}
                       className={`relative border-b-2 w-30 text-center min-h-[30px] ${
                         snapshot.isDraggingOver ? "bg-yellow-100" : ""
-                      }`}
+                      } ${isWrongAnswer(6) ? "border-red-500" : "border-gray-400"}`}
+                       style={{whiteSpace:"nowrap"}}
                     >
                       {checked &&
                         userAnswers[6] &&
@@ -359,7 +371,8 @@ const WB_Unit1_Page6_Q1 = () => {
                       {...provided.droppableProps}
                       className={`relative border-b-2 w-30 text-center min-h-[30px] ${
                         snapshot.isDraggingOver ? "bg-yellow-100" : ""
-                      }`}
+                      } ${isWrongAnswer(7) ? "border-red-500" : "border-gray-400"}`}
+                       style={{whiteSpace:"nowrap"}}
                     >
                       {checked &&
                         userAnswers[7] &&
@@ -380,7 +393,8 @@ const WB_Unit1_Page6_Q1 = () => {
                       {...provided.droppableProps}
                       className={`relative border-b-2 w-30 text-center min-h-[30px] ${
                         snapshot.isDraggingOver ? "bg-yellow-100" : ""
-                      }`}
+                      } ${isWrongAnswer(8) ? "border-red-500" : "border-gray-400"}`}
+                       style={{whiteSpace:"nowrap"}}
                     >
                       {checked &&
                         userAnswers[8] &&
@@ -403,7 +417,8 @@ const WB_Unit1_Page6_Q1 = () => {
                       {...provided.droppableProps}
                       className={`relative border-b-2 w-30 text-center min-h-[30px] ${
                         snapshot.isDraggingOver ? "bg-yellow-100" : ""
-                      }`}
+                      } ${isWrongAnswer(9) ? "border-red-500" : "border-gray-400"}`}
+                       style={{whiteSpace:"nowrap"}}
                     >
                       {checked &&
                         userAnswers[9] &&

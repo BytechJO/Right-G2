@@ -57,10 +57,11 @@ export default function WB_Unit10_Page62_Q2() {
   };
 
   const checkAnswers = () => {
+    if (showResult) return;
     const answered = questions.filter((q) => answers[q.id]).length;
 
     if (answered < questions.length) {
-      ValidationAlert.warning("Please answer all questions before checking.");
+      ValidationAlert.info("Please answer all questions before checking.");
       return;
     }
 
@@ -72,10 +73,11 @@ export default function WB_Unit10_Page62_Q2() {
 
     setScore(correct);
     setShowResult(true);
+    const msg = `Score: ${correct} / ${questions.length}`;
 
-    correct === questions.length
-      ? ValidationAlert.success(`Score: ${correct}/${questions.length}`)
-      : ValidationAlert.error(`Score: ${correct}/${questions.length}`);
+    if (correct === questions.length) ValidationAlert.success(msg);
+    else if (correct > 0) ValidationAlert.warning(msg);
+    else ValidationAlert.error(msg);
   };
 
   const handleShowAnswer = () => {

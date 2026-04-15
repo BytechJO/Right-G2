@@ -34,11 +34,11 @@ const WB_Unit10_Page60_Q1 = () => {
 
   // عدلي الأرقام هون إذا المطابقة الحقيقية مختلفة
   const CORRECT_F_NUM = {
-    q1_num: "1",
-    q2_num: "2",
-    q3_num: "3",
-    q4_num: "4",
-    q5_num: "5",
+    q1_num: "3",
+    q2_num: "1",
+    q3_num: "4",
+    q4_num: "5",
+    q5_num: "2",
   };
 
   const ALL_CORRECT = { ...CORRECT_F, ...CORRECT_F_NUM };

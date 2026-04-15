@@ -28,7 +28,7 @@ function DraggableSentence({ item, isUsed }) {
     setNodeRef,
     transform,
     transition,
-    isDragging,
+    isDragging, // 👈 مهم
   } = useSortable({ id: item.id });
 
   const style = {
@@ -43,8 +43,13 @@ function DraggableSentence({ item, isUsed }) {
       style={style}
       {...attributes}
       {...listeners}
+
+      // 👇✨ هذا يمنع الكليك من أنه يتحول drag
+      onClick={(e) => e.preventDefault()}
+
       className={`p-3 bg-white border-2 border-gray-200 rounded-xl shadow-sm cursor-grab text-blue-700 font-medium text-sm touch-none ${
-        isUsed
+        // 👇✨ مهم: ما نخليها disabled إلا إذا فعلاً مستخدمة
+        isUsed && !isDragging
           ? "bg-gray-50 text-gray-300 pointer-events-none"
           : "hover:border-blue-400 hover:shadow-md transition-all"
       }`}
@@ -87,9 +92,16 @@ const WB_Unit8_Page49_Q1 = () => {
   const [answers, setAnswers] = useState({ q1: null, q2: null, q3: null });
   const [activeId, setActiveId] = useState(null);
   const [showResults, setShowResults] = useState(false);
-
-  const sensors = useSensors(useSensor(PointerSensor));
-
+const [shuffledItems, setShuffledItems] = useState(() =>
+  [...SENTENCES_J].sort(() => Math.random() - 0.5)
+);
+const sensors = useSensors(
+  useSensor(PointerSensor, {
+    activationConstraint: {
+      distance: 10, // 👈 لازم المستخدم يسحب فعلياً
+    },
+  })
+);
   const checkAnswers = () => {
     if (showResults) return;
     const unanswered = Object.keys(CORRECT_J).filter((id) => !answers[id]);
@@ -195,15 +207,14 @@ const WB_Unit8_Page49_Q1 = () => {
                 </h3>
 
                 <div className="flex flex-col gap-3">
-                  <SortableContext items={SENTENCES_J.map((s) => s.id)}>
-                    {SENTENCES_J.map((s) => (
-                      <DraggableSentence
-                        key={s.id}
-                        item={s}
-                        isUsed={Object.values(answers).includes(s.id)}
-                      />
-                    ))}
-                  </SortableContext>
+                  <SortableContext items={shuffledItems.map((s) => s.id)}>
+  {shuffledItems.map((s) => (
+    <DraggableSentence
+      key={s.id}
+      item={s}
+isUsed={Object.values(answers).some((val) => val === s.id)}    />
+  ))}
+</SortableContext>
                 </div>
               </div>
             </div>
@@ -218,6 +229,7 @@ const WB_Unit8_Page49_Q1 = () => {
               handleStartAgain={() => {
                 setAnswers({ q1: null, q2: null, q3: null });
                 setShowResults(false);
+               setShuffledItems([...SENTENCES_J].sort(() => Math.random() - 0.5));
               }}
               checkAnswers={checkAnswers}
             />

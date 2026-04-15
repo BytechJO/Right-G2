@@ -16,14 +16,14 @@ import imgCap from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page
 import imgDress from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex A 4.svg";
 import imgCloset from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex A 5.svg";
 import imgJacket from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex A 6.svg";
-
+import { useDroppable } from "@dnd-kit/core"; // ✅
 const CLOTHES = [
-  { id: "c1", text: "tie" },
-  { id: "c2", text: "socks" },
-  { id: "c3", text: "cap" },
   { id: "c4", text: "dress" },
+  { id: "c1", text: "tie" },
   { id: "c5", text: "closet" },
+  { id: "c2", text: "socks" },
   { id: "c6", text: "jacket" },
+  { id: "c3", text: "cap" },
 ];
 
 const CORRECT_ANSWERS = {
@@ -43,7 +43,17 @@ function DraggableItem({ item, isUsed }) {
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: item.id });
+  } = useSortable({
+    id: item.id,
+
+    // ✅ FIX 1: منع click يتحول drag
+    activationConstraint: {
+      distance: 8,
+    },
+
+    // ✅ FIX 2: تعطيل إذا مستخدم
+    disabled: isUsed,
+  });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -57,7 +67,12 @@ function DraggableItem({ item, isUsed }) {
       style={style}
       {...attributes}
       {...listeners}
-      className={`px-4 py-1 bg-white border-2 border-gray-300 rounded-full shadow-sm cursor-grab text-blue-600 font-medium ${
+      // ✅ FIX 3: منع click
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      }}
+      className={`px-4 py-1 bg-white border-2 border-gray-300 rounded-full shadow-sm cursor-grab text-blue-600 font-medium touch-none select-none ${
         isUsed
           ? "bg-gray-100 text-gray-400 pointer-events-none"
           : "hover:border-blue-400"
@@ -69,17 +84,19 @@ function DraggableItem({ item, isUsed }) {
 }
 
 function DropSlot({ id, content, isCorrect, isSubmitted }) {
-  const { setNodeRef, isOver } = useSortable({ id });
-
+  // ❌ كان useSortable
+  // ✅ FIX 4:
+  const { setNodeRef, isOver } = useDroppable({ id });
 
   const isWrong = isSubmitted && content && !isCorrect;
-const borderColor = isWrong
-  ? "border-red-500"
-  : isSubmitted
-  ? "border-blue-400 bg-blue-50"
-  : isOver
-  ? "border-blue-400 bg-blue-50"
-  : "border-gray-300";
+
+  const borderColor = isWrong
+    ? "border-red-500"
+    : isSubmitted
+      ? "border-blue-400 bg-blue-50"
+      : isOver
+        ? "border-blue-400 bg-blue-50"
+        : "border-gray-300";
 
   return (
     <div className="relative inline-block">
@@ -88,7 +105,7 @@ const borderColor = isWrong
         className={`w-32 h-10 border-b-2 flex items-center justify-center transition-all ${borderColor}`}
       >
         {content ? (
-          <span className={`font-bold`}>
+          <span className="font-bold">
             {CLOTHES.find((c) => c.id === content).text}
           </span>
         ) : (
@@ -117,8 +134,13 @@ const WB_Unit8_Page45_Q1 = () => {
   const [activeId, setActiveId] = useState(null);
   const [showResults, setShowResults] = useState(false);
 
-  const sensors = useSensors(useSensor(PointerSensor));
-
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8, // ✅ يمنع الكليك
+      },
+    }),
+  );
   const checkAnswers = () => {
     if (showResults) return;
     const unanswered = Object.keys(CORRECT_ANSWERS).filter(
@@ -153,29 +175,46 @@ const WB_Unit8_Page45_Q1 = () => {
       sensors={sensors}
       onDragStart={(e) => setActiveId(e.active.id)}
       onDragEnd={(e) => {
-        if (e.over) {
-          setAnswers((prev) => ({ ...prev, [e.over.id]: e.active.id }));
+        const { active, over } = e;
+
+        // ✅ FIX 5: إذا ما في drop حقيقي → تجاهل
+        if (!over || !over.id.startsWith("q")) {
+          setActiveId(null);
+          return;
         }
+
+        setAnswers((prev) => {
+          const next = { ...prev };
+
+          // ✅ FIX 6: remove old position (move مش copy)
+          Object.keys(next).forEach((k) => {
+            if (next[k] === active.id) next[k] = null;
+          });
+
+          // ✅ FIX 7: set new
+          next[over.id] = active.id;
+
+          return next;
+        });
+
         setActiveId(null);
       }}
     >
       <div className="main-container-component">
         <div className="div-forall" style={{ gap: "10px" }}>
-          <h1 className="WB-header-title-page8">
+          <h1 className="WB-header-title-page8  mb-10">
             <span className="WB-ex-A">A</span>
             Look and write.
           </h1>
 
           <div className="flex flex-wrap justify-center gap-3 mb-8 p-4 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">
-            <SortableContext items={CLOTHES.map((c) => c.id)}>
-              {CLOTHES.map((c) => (
-                <DraggableItem
-                  key={c.id}
-                  item={c}
-                  isUsed={Object.values(answers).includes(c.id)}
-                />
-              ))}
-            </SortableContext>
+            {CLOTHES.map((c) => (
+              <DraggableItem
+                key={c.id}
+                item={c}
+                isUsed={Object.values(answers).includes(c.id)}
+              />
+            ))}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -191,7 +230,7 @@ const WB_Unit8_Page45_Q1 = () => {
                   }
                   alt="cloth"
                   className="object-contain"
-                  style={{height:"120px",width:"120px"}}
+                  style={{ height: "120px", width: "120px" }}
                 />
 
                 <DropSlot

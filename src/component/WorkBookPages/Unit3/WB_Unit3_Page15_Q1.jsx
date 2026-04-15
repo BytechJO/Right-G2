@@ -1,8 +1,8 @@
 import React, { useState, useRef } from "react";
-import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 15/Ex A 1.svg";
-import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 15/Ex A 2.svg";
-import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 15/Ex A 3.svg";
-import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 15/Ex A 4.svg";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 15/Asset 13.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 15/Asset 14.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 15/Asset 15.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 15/Asset 16.svg";
 
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./WB_Unit3_Page15_Q1.css";
@@ -59,7 +59,8 @@ const WB_Unit3_Page15_Q1 = () => {
   const [firstDot, setFirstDot] = useState(null);
   const [showAnswer, setShowAnswer] = useState(false);
   const [locked, setLocked] = useState(false);
-
+  const [selectedWord, setSelectedWord] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
   const containerRef = useRef(null);
 
   const getDotPosition = (selector) => {
@@ -90,9 +91,9 @@ const WB_Unit3_Page15_Q1 = () => {
     if (showAnswer || locked) return;
 
     const word = e.currentTarget.dataset.word;
-  
-
     const { x, y } = getDotPosition(`[data-word="${word}"]`);
+
+    setSelectedWord(word); // ✅ تحديد الجملة
 
     setFirstDot({
       word,
@@ -101,38 +102,43 @@ const WB_Unit3_Page15_Q1 = () => {
     });
   };
 
-const handleEndDotClick = (e) => {
-  if (showAnswer || locked || !firstDot) return;
+  const handleEndDotClick = (e) => {
+    if (showAnswer || locked || !firstDot) return;
 
-  const image = e.currentTarget.dataset.image;
-  const { x, y } = getDotPosition(`[data-image="${image}"]`);
+    const image = e.currentTarget.dataset.image;
+    const { x, y } = getDotPosition(`[data-image="${image}"]`);
 
-  const newLine = {
-    x1: firstDot.x,
-    y1: firstDot.y,
-    x2: x,
-    y2: y,
-    word: firstDot.word,
-    image,
+    const newLine = {
+      x1: firstDot.x,
+      y1: firstDot.y,
+      x2: x,
+      y2: y,
+      word: firstDot.word,
+      image,
+    };
+
+    setLines((prev) => {
+      const withoutSameWord = prev.filter(
+        (line) => line.word !== firstDot.word,
+      );
+
+      const withoutSameImage = withoutSameWord.filter(
+        (line) => line.image !== image,
+      );
+
+      return [...withoutSameImage, newLine];
+    });
+
+    setSelectedImage(image); // ✅ تحديد الصورة
+
+    // ✅ بعد الربط امسحي التحديد
+    setTimeout(() => {
+      setSelectedWord(null);
+      setSelectedImage(null);
+    }, 100);
+
+    setFirstDot(null);
   };
-
-  setLines((prev) => {
-    // ✅ 1. احذف أي خط لنفس الكلمة
-    const withoutSameWord = prev.filter(
-      (line) => line.word !== firstDot.word
-    );
-
-    // ✅ 2. احذف أي خط لنفس الصورة (حتى لو مربوط بكلمة ثانية)
-    const withoutSameImage = withoutSameWord.filter(
-      (line) => line.image !== image
-    );
-
-    // ✅ 3. أضف الخط الجديد
-    return [...withoutSameImage, newLine];
-  });
-
-  setFirstDot(null);
-};
   const handleCheckAnswers = () => {
     if (showAnswer || locked) return;
 
@@ -199,109 +205,119 @@ const handleEndDotClick = (e) => {
 
   return (
     <div className="main-container-component">
-        <div className="div-forall">
-          <h1 className="WB-header-title-page8">
-            <span className="WB-ex-A">A</span>Read, look, and match.
-          </h1>
+      <div className="div-forall">
+        <h1 className="WB-header-title-page8">
+          <span className="WB-ex-A">A</span>Read, look, and match.
+        </h1>
 
-          <div
-            className="WB-unit2-page15-q1-matching-area"
-            ref={containerRef}
-          >
-            {rows.map((row) => (
-              <div key={row.id} className="WB-unit2-page15-q1-row">
-                <div className="WB-unit2-page15-q1-word-side">
-                  <span className="WB-unit2-page15-q1-number">
-                    {row.number}
-                  </span>
+        <div className="WB-unit2-page15-q1-matching-area" ref={containerRef}>
+          {rows.map((row) => (
+            <div key={row.id} className="WB-unit2-page15-q1-row">
+              <div className="WB-unit2-page15-q1-word-side">
+                <span className="WB-unit2-page15-q1-number">{row.number}</span>
 
-                  <span
-                    className={`WB-unit2-page15-q1-word-text ${
+                <span
+                  className={`WB-unit2-page15-q1-word-text ${
+                    selectedWord === row.wordKey
+                      ? "text-red-600 underline"
+                      : ""
+                  } ${
+                    locked || showAnswer
+                      ? "WB-unit2-page15-q1-disabled-hover"
+                      : ""
+                  }`}
+                  onClick={() =>
+                    !locked &&
+                    !showAnswer &&
+                    document
+                      .querySelector(`[data-word="${row.wordKey}"]`)
+                      ?.click()
+                  }
+                >
+                  {row.text}
+                </span>
+
+                {isWordWrong(row.wordKey) && (
+                  <span className="WB-unit2-page15-q1-error-mark">✕</span>
+                )}
+
+                <div className="WB-unit2-page15-q1-dot-wrapper">
+                  <div
+                    className={`WB-unit2-page15-q1-dot WB-unit2-page15-q1-start-dot ${
+                      selectedWord === row.wordKey
+                        ? "bg-red-600 scale-125 shadow-lg"
+                        : ""
+                    }`}
+                    data-word={row.wordKey}
+                    onClick={handleStartDotClick}
+                  />
+                </div>
+              </div>
+
+              <div className="WB-unit2-page15-q1-image-side">
+                <div className="WB-unit2-page15-q1-dot-wrapper">
+                  <div
+                    className={`WB-unit2-page15-q1-dot WB-unit2-page15-q1-end-dot ${
+                      selectedImage === row.imageKey
+                        ? "bg-red-600 scale-125 shadow-lg"
+                        : ""
+                    }`}
+                    data-image={row.imageKey}
+                    onClick={handleEndDotClick}
+                  />
+                </div>
+
+                <div className="WB-unit2-page15-q1-image-box">
+                  <img
+                    src={row.img}
+                    className={`${
+                      selectedImage === row.imageKey
+                        ? "border-2 border-red-600 scale-95 shadow-lg"
+                        : ""
+                    } ${
                       locked || showAnswer
                         ? "WB-unit2-page15-q1-disabled-hover"
                         : ""
                     }`}
+                    alt={row.wordKey}
                     onClick={() =>
                       !locked &&
                       !showAnswer &&
                       document
-                        .querySelector(`[data-word="${row.wordKey}"]`)
+                        .querySelector(`[data-image="${row.imageKey}"]`)
                         ?.click()
                     }
-                  >
-                    {row.text}
-                  </span>
-
-                  {isWordWrong(row.wordKey) && (
-                    <span className="WB-unit2-page15-q1-error-mark">✕</span>
-                  )}
-
-                  <div className="WB-unit2-page15-q1-dot-wrapper">
-                    <div
-                      className="WB-unit2-page15-q1-dot WB-unit2-page15-q1-start-dot"
-                      data-word={row.wordKey}
-                      onClick={handleStartDotClick}
-                    />
-                  </div>
-                </div>
-
-                <div className="WB-unit2-page15-q1-image-side">
-                  <div className="WB-unit2-page15-q1-dot-wrapper">
-                    <div
-                      className="WB-unit2-page15-q1-dot WB-unit2-page15-q1-end-dot"
-                      data-image={row.imageKey}
-                      onClick={handleEndDotClick}
-                    />
-                  </div>
-
-                  <div className="WB-unit2-page15-q1-image-box">
-                    <img
-                      src={row.img}
-                      className={`WB-unit2-page15-q1-image ${
-                        locked || showAnswer
-                          ? "WB-unit2-page15-q1-disabled-hover"
-                          : ""
-                      }`}
-                      alt={row.wordKey}
-                      onClick={() =>
-                        !locked &&
-                        !showAnswer &&
-                        document
-                          .querySelector(`[data-image="${row.imageKey}"]`)
-                          ?.click()
-                      }
-                      style={{ height: row.imgHeight }}
-                    />
-                  </div>
+                    style={{ height: "120px", width: "auto" }}
+                  />
                 </div>
               </div>
+            </div>
+          ))}
+
+          <svg className="WB-unit2-page15-q1-lines-layer">
+            {lines.map((line, index) => (
+              <line
+                key={`${line.word}-${line.image}-${index}`}
+                x1={line.x1}
+                y1={line.y1}
+                x2={line.x2}
+                y2={line.y2}
+                stroke="red"
+                strokeWidth="3"
+              />
             ))}
-
-            <svg className="WB-unit2-page15-q1-lines-layer">
-              {lines.map((line, index) => (
-                <line
-                  key={`${line.word}-${line.image}-${index}`}
-                  x1={line.x1}
-                  y1={line.y1}
-                  x2={line.x2}
-                  y2={line.y2}
-                  stroke="red"
-                  strokeWidth="3"
-                />
-              ))}
-            </svg>
-          </div>
+          </svg>
         </div>
-
-  <div className="mt-12 flex justify-center">
-            <Button
-              handleShowAnswer={handleShowAnswer}
-              handleStartAgain={resetState}
-              checkAnswers={handleCheckAnswers}
-            />
-          </div>
       </div>
- 
+
+      <div className="mt-12 flex justify-center">
+        <Button
+          handleShowAnswer={handleShowAnswer}
+          handleStartAgain={resetState}
+          checkAnswers={handleCheckAnswers}
+        />
+      </div>
+    </div>
   );
 };
 

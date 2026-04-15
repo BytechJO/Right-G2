@@ -1,11 +1,11 @@
 import { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../Button";
-import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page29/Ex F 1.svg";
-import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page29/Ex F 2.svg";
-import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page29/Ex F 3.svg";
-import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page29/Ex F 4.svg";
-import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page29/Ex F 5.svg";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page29/Asset 17.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page29/Asset 18.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page29/Asset 19.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page29/Asset 20.svg";
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page29/Asset 21.svg";
 
 const questions = [
   {
@@ -107,7 +107,7 @@ const WB_Unit5_Page29_Q2 = () => {
   return (
     <div className="main-container-component">
       <div className="div-forall" style={{ gap: "20px" }}>
-        <h1 className="WB-header-title-page8">
+        <h1 className="WB-header-title-page8 mb-10">
           <div className="WB-ex-A">F</div>
           Look, read, and write <span style={{ color: "navy" }}>✓</span>.
         </h1>

@@ -15,7 +15,7 @@ import Button from "../Button";
 import imgBlueInk from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 50/Ex B 1.svg";
 import imgTubeItem from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 50/Ex B 2.svg";
 
-const WORDS = ["cute", "cube", "chute", "Sue", "glue", "true", "mute"];
+const WORDS = [  "chute", "Sue", "mute", "glue", "cube","cute","true"];
 
 // الكلمات الصحيحة لكل عمود
 const BLUE_WORDS = ["glue", "true", "Sue"];
@@ -215,12 +215,12 @@ const WB_Unit8_Page50_Q2 = () => {
           className="div-forall"
           style={{ gap: "10px", marginBottom: "50px" }}
         >
-          <h1 className="WB-header-title-page8">
+          <h1 className="WB-header-title-page8  mb-10">
             <span className="WB-ex-A">B</span> Read and write the words in the
             correct column.
           </h1>
 
-          <div className="mb-10 p-4 bg-blue-50 rounded-2xl border border-blue-100">
+          <div className="mb-5 p-4 bg-blue-50 rounded-2xl border border-blue-100">
             <div className="flex flex-wrap justify-center gap-3">
               {WORDS.map((word) => (
                 <DraggableWord

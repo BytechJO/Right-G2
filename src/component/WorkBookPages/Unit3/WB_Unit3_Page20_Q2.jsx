@@ -1,9 +1,9 @@
 import React, { useMemo, useState, useRef, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-import sound from "../../../assets/audio/WorkBook/titel G2/Unit 2.mp3";
+import sound from "../../../assets/audio/WorkBook/cd3pg20instruction-adult-lady_bOtPfDKP.mp3";
 import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import placeholderImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 20/Ex B 1.svg";
+import placeholderImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 20/Asset 37.svg";
 import QuestionAudioPlayer from "../../QuestionAudioPlayer";
 
 const conversations = [
@@ -95,28 +95,58 @@ const WB_Unit3_Page20_Q2 = () => {
   const [items, setItems] = useState(initialState);
   const [showResults, setShowResults] = useState(false);
 
-  const stopAtSecond = 9;
+  const stopAtSecond = 9.159;
 
   // ================================
   // ✔ Captions Array
   // ================================
-  const captions = [
-    {
-      start: 0,
-      end: 4.23,
-      text: "Page 8. Right Activities. Exercise A, number 1. ",
-    },
-    {
-      start: 4.25,
-      end: 8.28,
-      text: "Listen and write the missing letters. Number the pictures.  ",
-    },
-    { start: 8.3, end: 11.05, text: "1-tiger." },
-    { start: 11.07, end: 13.12, text: "2-taxi." },
-    { start: 13.14, end: 15.14, text: "3-duck." },
-    { start: 15.16, end: 17.13, text: "4-deer." },
-  ];
-
+const captions = [
+  {
+    start: 0.5,
+    end: 9.159,
+    text: "Page 20 phonics, exercise B. Listen and write the missing letters. Practice the conversation in pairs.",
+  },
+  {
+    start: 10.199,
+    end: 11.619,
+    text: "Where's my yo-yo, John?",
+  },
+  {
+    start: 12.719,
+    end: 14.239,
+    text: "Which one?",
+  },
+  {
+    start: 14.239,
+    end: 16.92,
+    text: "The yellow one. It's yellow like a banana.",
+  },
+  {
+    start: 17.94,
+    end: 19.1,
+    text: "Oh, yes. Here you are.",
+  },
+  {
+    start: 20.159,
+    end: 21.5,
+    text: "Where are my jeans, John?",
+  },
+  {
+    start: 22.559,
+    end: 24.119,
+    text: "Which ones?",
+  },
+  {
+    start: 24.119,
+    end: 26.739,
+    text: "The blue ones that I bought with the red jacket.",
+  },
+  {
+    start: 27.76,
+    end: 28.379,
+    text: "Here you are.",
+  },
+];
   const allBlanks = useMemo(() => {
     const blanks = [];
     conversations.forEach((conv) => {
@@ -313,7 +343,9 @@ const WB_Unit3_Page20_Q2 = () => {
             <img
               src={placeholderImg}
               alt="conversation"
-              className="max-w-50 max-h-48 rounded-lg shadow-md mx-auto md:mx-0 mt-25"
+              className="object-contain rounded-lg shadow-sm md:mx-0 mt-25"
+              
+                  style={{height:"180px",width:"auto"}}
             />
 
             <div className="space-y-6">

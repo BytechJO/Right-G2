@@ -280,7 +280,7 @@ const returnWordToBank = (qId, wordIndex) => {
   return (
     <div className="main-container-component">
       <div className="div-forall" style={{ gap: "20px" }}>
-        <h1 className="WB-header-title-page8">
+        <h1 className="WB-header-title-page8 mb-10">
           <span className="WB-ex-A">C</span> Look, unscramble, and write. Match.
         </h1>
 
@@ -300,7 +300,7 @@ const returnWordToBank = (qId, wordIndex) => {
                     className={`w-12 h-12 rounded-full cursor-pointer transition
     ${
       selectedLeft === a.id
-        ? "ring-4 ring-blue-400 scale-105"
+        ? "ring-4 ring-red-600 scale-105"
         : "hover:scale-105"
     }
   `}
@@ -312,7 +312,7 @@ const returnWordToBank = (qId, wordIndex) => {
                     className={`w-4 h-4 rounded-full cursor-pointer transition
     ${
       selectedLeft === a.id
-        ? "bg-blue-500 scale-125 ring-4 ring-blue-300"
+        ? "bg-red-600 scale-125 ring-4 ring-red-600"
         : "bg-red-500 hover:scale-110"
     }
   `}
@@ -338,8 +338,8 @@ const returnWordToBank = (qId, wordIndex) => {
                       className={`w-[4%] h-4 rounded-full cursor-pointer transition
     ${
       Object.values(matches).includes(q.id)
-        ? "bg-red-500 scale-110"
-        : "bg-red-500 hover:scale-110"
+        ? "bg-red-600 scale-105"
+        : "bg-red-500 hover:scale-125"
     }
   `}
                     />
@@ -348,7 +348,7 @@ const returnWordToBank = (qId, wordIndex) => {
                       src={q.img}
                       onClick={() => handleRightClick(q.id)}
                       className={`w-12 h-12 rounded-full cursor-pointer transition
-    ${Object.values(matches).includes(q.id) ? "scale-105" : "hover:scale-105"}
+    ${Object.values(matches).includes(q.id) ? "scale-105" : "hover:scale-125 active:ring-4 active:ring-red-600 "}
   `}
                       style={{ height: "90px", width: "90px" }}
                     />

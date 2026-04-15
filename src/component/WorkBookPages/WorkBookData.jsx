@@ -273,6 +273,6 @@ export const workBookData = [
   { component: WB_Unit10_Page61_Q2, unit: 10 },
   { component: WB_Unit10_Page62_Q1, unit: 10 },
   { component: WB_Unit10_Page62_Q2, unit: 10 },
-  { component: WB_Unit10_Page62_Q3, unit: 10, lastOfUnit: true },
+  { component: WB_Unit10_Page62_Q3, unit: 10,   lastOfReview: true,},
 
 ];

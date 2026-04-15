@@ -121,6 +121,7 @@ const SentenceBuilder = ({
             <button
               key={word.id}
               onClick={() => {
+                if (showResult || forceAnswer) return;
                 if (!showResult || !forceAnswer) {
                   return handleRemoveWord(word);
                 }
@@ -251,7 +252,7 @@ const WB_Unit6_Page37_Q2 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px"}}>
+      <div className="div-forall" style={{ gap: "20px" }}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">J</span>Unscramble and write.
         </h1>

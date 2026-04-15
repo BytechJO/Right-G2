@@ -56,6 +56,22 @@ const WB_Unit3_Page19_Q1 = () => {
   const [items, setItems] = useState(initialWords);
   const [showResults, setShowResults] = useState(false);
 
+  const handleShowAnswer = () => {
+    const filledAnswers = {
+      wordBank: initialWords.wordBank.map((word) => ({
+        ...word,
+        disabled: true,
+      })),
+      i1: [{ ...initialWords.wordBank[0] }],
+      i2: [{ ...initialWords.wordBank[1] }],
+      i3: [{ ...initialWords.wordBank[2] }],
+      i4: [{ ...initialWords.wordBank[3] }],
+    };
+
+    setItems(filledAnswers);
+    setShowResults(true);
+  };
+
   const onDragEnd = (result) => {
     const { source, destination } = result;
     if (!destination) return;
@@ -177,7 +193,7 @@ const WB_Unit3_Page19_Q1 = () => {
   return (
     <div className="main-container-component">
       <div className="div-forall" style={{ gap: "20px" }}>
-        <h1 className="WB-header-title-page8">
+        <h1 className="WB-header-title-page8 mb-10">
           <span className="WB-ex-A">I</span> Look, read, and drag the correct
           word.
         </h1>
@@ -280,6 +296,7 @@ const WB_Unit3_Page19_Q1 = () => {
         </DragDropContext>
 
         <Button
+          handleShowAnswer={handleShowAnswer}
           handleStartAgain={handleStartAgain}
           checkAnswers={checkAnswers}
         />

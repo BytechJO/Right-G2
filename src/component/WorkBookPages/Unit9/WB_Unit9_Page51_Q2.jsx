@@ -144,10 +144,10 @@ const SentenceBuilder = ({
 
 const WB_Unit9_Page51_Q2 = () => {
   const exerciseSentences = [
-    { id: "s1", scrambled: "they are playing soccer", correct: "they are playing soccer" },
-    { id: "s2", scrambled: "we are playing chess", correct: "we are playing chess" },
-    { id: "s3", scrambled: "she is helping", correct: "she is helping" },
-    { id: "s4", scrambled: "she is washing clothes", correct: "she is washing clothes" },
+    { id: "s1", scrambled: "are they soccer playing", correct: "they are playing soccer" },
+    { id: "s2", scrambled: "are we chess playing", correct: "we are playing chess" },
+    { id: "s3", scrambled: "is she helping", correct: "she is helping" },
+    { id: "s4", scrambled: "is she clothes washing", correct: "she is washing clothes" },
   ];
 
   const images = [img1, img2, img3, img4];

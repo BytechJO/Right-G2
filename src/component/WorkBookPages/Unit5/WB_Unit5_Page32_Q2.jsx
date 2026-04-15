@@ -203,7 +203,7 @@ export default function WB_Unit5_Page32_Q2() {
   return (
     <div key={resetKey} className="main-container-component">
       <div className="div-forall" style={{ gap:"10px" }}>
-        <h1 className="WB-header-title-page8">
+        <h1 className="WB-header-title-page8  mb-6">
           <span className="WB-ex-A">B</span> Listen and circle the pictures that
           have the same
           <span className="text-blue-900 font-bold"> vowel sound</span>.

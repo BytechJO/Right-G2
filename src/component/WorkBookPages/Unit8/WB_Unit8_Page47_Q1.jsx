@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import {
   DndContext,
@@ -10,7 +9,9 @@ import {
   DragOverlay,
   useDroppable, // 🔧
 } from "@dnd-kit/core";
-import { SortableContext, useSortable } from "@dnd-kit/sortable";
+
+// ✅ بعد
+import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
@@ -25,23 +26,16 @@ const PHRASES_F = [
 ];
 
 const CORRECT_F = { q1: "f5", q2: "f1", q3: "f2", q4: "f3", q5: "f4" };
-
 function DraggablePhrase({ item, isUsed }) {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({
-    id: item.id,
-    disabled: isUsed, // 🔧 منع السحب إذا مستخدم
-  });
+  const { attributes, listeners, setNodeRef, transform, isDragging } =
+    useDraggable({
+      id: item.id,
+    });
 
   const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
+    transform: transform
+      ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
+      : undefined,
     opacity: isDragging || isUsed ? 0.5 : 1,
   };
 
@@ -51,8 +45,9 @@ function DraggablePhrase({ item, isUsed }) {
       style={style}
       {...attributes}
       {...listeners}
-      // 🔧 touch-none مهم جداً للتابلت
-      className={`px-4 py-1 bg-white border-2 border-gray-300 rounded-full shadow-sm cursor-grab text-blue-600 font-medium text-sm touch-none ${
+      // ✅ FIX: منع الكليك
+      onClick={(e) => e.preventDefault()}
+      className={`px-4 py-1 bg-white border-2 border-gray-300 rounded-full shadow-sm cursor-grab text-blue-600 font-medium text-sm touch-none select-none ${
         isUsed
           ? "bg-gray-100 text-gray-400 pointer-events-none"
           : "hover:border-blue-400"
@@ -62,7 +57,6 @@ function DraggablePhrase({ item, isUsed }) {
     </div>
   );
 }
-
 // 🔧 FIX: useDroppable بدل useSortable
 function DropSlot({
   id,
@@ -78,8 +72,8 @@ function DropSlot({
       ? "border-blue-400 bg-blue-50"
       : "border-red-500"
     : isOver
-    ? "border-blue-400 bg-blue-50"
-    : "border-gray-300";
+      ? "border-blue-400 bg-blue-50"
+      : "border-gray-300";
 
   const isWrong = isSubmitted && content && !isCorrect;
 
@@ -120,14 +114,18 @@ const WB_Unit8_Page47_Q1 = () => {
 
   // 🔧 Sensors محسّنة للتابلت
   const sensors = useSensors(
-    useSensor(MouseSensor),
+    useSensor(MouseSensor, {
+      activationConstraint: {
+        distance: 8, // ✅ نفس الفكرة
+      },
+    }),
     useSensor(TouchSensor, {
       activationConstraint: {
-        delay: 0, // 🔥 فوري
+        delay: 150, // ✅ يمنع التاب السريع
         tolerance: 5,
       },
     }),
-    useSensor(PointerSensor)
+    useSensor(PointerSensor),
   );
 
   const checkAnswers = () => {
@@ -161,25 +159,33 @@ const WB_Unit8_Page47_Q1 = () => {
       sensors={sensors}
       onDragStart={(e) => setActiveId(e.active.id)}
       onDragEnd={(e) => {
-        if (e.over) {
-          setAnswers((prev) => {
-            const next = { ...prev };
+        const { active, over } = e;
 
-            // 🔧 إزالة من المكان القديم
-            Object.keys(next).forEach((k) => {
-              if (next[k] === e.active.id) next[k] = null;
-            });
-
-            next[e.over.id] = e.active.id;
-            return next;
-          });
+        if (!over) {
+          setActiveId(null);
+          return;
         }
+
+        setAnswers((prev) => {
+          const next = { ...prev };
+
+          // إزالة من مكانه القديم
+          Object.keys(next).forEach((k) => {
+            if (next[k] === active.id) next[k] = null;
+          });
+
+          // وضعه بالمكان الجديد
+          next[over.id] = active.id;
+
+          return next;
+        });
+
         setActiveId(null);
       }}
     >
       <div className="main-container-component">
         <div className="div-forall" style={{ gap: "10px" }}>
-          <h1 className="WB-header-title-page8">
+          <h1 className="WB-header-title-page8  mb-10">
             <span className="WB-ex-A">F</span> Look into Sue's closet. Read and
             write.
           </h1>
@@ -195,44 +201,67 @@ const WB_Unit8_Page47_Q1 = () => {
 
             <div className="flex-1 space-y-6 text-lg">
               <div className="flex flex-wrap justify-center gap-2 p-4 bg-blue-50 rounded-xl border-2 border-dashed border-blue-200 mb-4">
-                <SortableContext items={PHRASES_F.map((p) => p.id)}>
-                  {PHRASES_F.map((p) => (
-                    <DraggablePhrase
-                      key={p.id}
-                      item={p}
-                      isUsed={Object.values(answers).includes(p.id)}
-                    />
-                  ))}
-                </SortableContext>
+                {PHRASES_F.map((p) => (
+                  <DraggablePhrase
+                    key={p.id}
+                    item={p}
+                    isUsed={Object.values(answers).includes(p.id)}
+                  />
+                ))}
               </div>
 
               <p>
                 1. She doesn't have{" "}
-                <DropSlot id="q1" content={answers.q1} isCorrect={answers.q1 === CORRECT_F.q1} isSubmitted={showResults} />{" "}
+                <DropSlot
+                  id="q1"
+                  content={answers.q1}
+                  isCorrect={answers.q1 === CORRECT_F.q1}
+                  isSubmitted={showResults}
+                />{" "}
                 pairs of pants.
               </p>
 
               <p>
                 2.{" "}
-                <DropSlot id="q2" content={answers.q2} isCorrect={answers.q2 === CORRECT_F.q2} isSubmitted={showResults} />{" "}
+                <DropSlot
+                  id="q2"
+                  content={answers.q2}
+                  isCorrect={answers.q2 === CORRECT_F.q2}
+                  isSubmitted={showResults}
+                />{" "}
                 pairs of shorts.
               </p>
 
               <p>
                 3.{" "}
-                <DropSlot id="q3" content={answers.q3} isCorrect={answers.q3 === CORRECT_F.q3} isSubmitted={showResults} />{" "}
+                <DropSlot
+                  id="q3"
+                  content={answers.q3}
+                  isCorrect={answers.q3 === CORRECT_F.q3}
+                  isSubmitted={showResults}
+                />{" "}
                 pairs of shoes.
               </p>
 
               <p>
                 4.{" "}
-                <DropSlot id="q4" content={answers.q4} isCorrect={answers.q4 === CORRECT_F.q4} isSubmitted={showResults} />{" "}
+                <DropSlot
+                  id="q4"
+                  content={answers.q4}
+                  isCorrect={answers.q4 === CORRECT_F.q4}
+                  isSubmitted={showResults}
+                />{" "}
                 dresses.
               </p>
 
               <p>
                 5.{" "}
-                <DropSlot id="q5" content={answers.q5} isCorrect={answers.q5 === CORRECT_F.q5} isSubmitted={showResults} />{" "}
+                <DropSlot
+                  id="q5"
+                  content={answers.q5}
+                  isCorrect={answers.q5 === CORRECT_F.q5}
+                  isSubmitted={showResults}
+                />{" "}
                 a skirt.
               </p>
             </div>
@@ -272,4 +301,3 @@ const WB_Unit8_Page47_Q1 = () => {
 };
 
 export default WB_Unit8_Page47_Q1;
-

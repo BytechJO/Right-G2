@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../Button";
-import img from "../../../assets/imgs/test6.png";
+
 import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 41/Ex E 1.svg";
 import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 41/Ex E 2.svg";
 import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 41/Ex E 3.svg";
 import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 41/Ex E 4.svg";
-
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 41/Asset 49.svg"
 const exerciseDataM = {
   questions: [
     { id: "m1", number: 2, correctMonth: "February", image: img1 },
@@ -158,21 +158,7 @@ const WB_Unit7_Page41_Q1 = () => {
 
           {/* Calendar */}
           <div className="flex flex-col items-center">
-            <div className="grid grid-cols-2 gap-3 p-4">
-              {exerciseDataM.months.map((month, idx) => (
-                <div
-                  key={month}
-                  className="w-20 h-20 bg-white border-2 rounded-lg flex flex-col items-center justify-center p-2"
-                >
-                  <span className="text-xs font-semibold text-gray-600">
-                    {month}
-                  </span>
-                  <span className="text-2xl font-bold text-gray-800">
-                    {idx + 1}
-                  </span>
-                </div>
-              ))}
-            </div>
+            <img src={img5} className="object-contain" style={{height:"550px",width:"auto"}} />
           </div>
         </div>
 

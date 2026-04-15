@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 8/Ex C 1.svg";
 import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 8/Ex C 2.svg";
 import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 8/Ex C 3.svg";
-import sound from "../../../assets/audio/WorkBook/titel G2/Unit 1.mp3"
+import sound from "../../../assets/audio/WorkBook/cd1pg8instruction-adult-lady_6uG66wZc.mp3"
 import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
@@ -57,47 +57,28 @@ const WB_Unit1_Page8_Q3 = () => {
   // ================================
   // ✔ Captions Array
   // ================================
-  const captions = [
-    {
-      start: 0.579,
-      end: 3.379,
-      text: "Page 8. Right Activities.",
-    },
-    {
-      start: 4.519,
-      end: 6.859,
-      text: "Exercise A, number 2.",
-    },
-    {
-      start: 7.919,
-      end: 12.439,
-      text: "Listen and write X on the picture with a different sound.",
-    },
-    {
-      start: 13.5,
-      end: 19.739,
-      text: "1:run, rabbit, lemon.",
-    },
-   
-    {
-      start: 19.739,
-      end: 26.26,
-      text: "2:leg,railroad track, red",
-    },
-   
-    {
-      start: 26.26,
-      end: 32.34,
-      text: "3:laugh, rain, lock.",
-    },
-   
-    {
-      start: 32.34,
-      end: 37.84,
-      text: "4: lion, lamp,ring",
-    },
-   
-  ];
+ const captions = [
+  {
+    start: 0.479,
+    end: 7.259,
+    text: "Page 8. Phonics exercise C. Listen, write, and read the sentences.",
+  },
+  {
+    start: 8.420,
+    end: 12.000,
+    text: "1, look, there's a rabbit on the road.",
+  },
+  {
+    start: 12.94,
+    end: 16.000,
+    text: "2, Larry has long legs.",
+  },
+  {
+    start: 16.74,
+    end: 19.680,
+    text: "3, there is a lamp on the table.",
+  },
+];
   const handleShowAnswer = () => {
     setShowAnswer(true);
     setAnswers(correctAnswers);
@@ -175,7 +156,7 @@ const WB_Unit1_Page8_Q3 = () => {
             sentences.
           </h1>
 
-          <QuestionAudioPlayer src={sound} captions={captions} stopAtSecond={5}/>
+          <QuestionAudioPlayer src={sound} captions={captions} stopAtSecond={7.25}/>
           <Droppable droppableId="letters" direction="horizontal">
             {(provided) => (
               <div

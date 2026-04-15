@@ -11,10 +11,10 @@ import { CSS } from "@dnd-kit/utilities";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../Button";
 
-import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 35/Ex E 1.svg";
-import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 35/Ex E 2.svg";
-import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 35/Ex E 3.svg";
-import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 35/Ex E 4.svg";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 35/Asset 41.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 35/Asset 42.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 35/Asset 43.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 35/Asset 44.svg";
 
 const SENTENCES = [
   { id: "s1", text: "John goes to school at eight o'clock in the morning." },
@@ -52,7 +52,7 @@ function DraggableSentence({ sentence, isUsed }) {
       style={style}
       {...attributes}
       {...listeners}
-      className={`p-3 bg-white border-2 border-blue-100 rounded-xl shadow-sm cursor-grab text-blue-800 font-medium text-sm transition-all ${
+      className={`p-3 bg-white border-2 border-blue-100 rounded-xl shadow-sm touch-none cursor-grab text-blue-800 font-medium text-sm transition-all ${
         isUsed
           ? "bg-gray-100 text-gray-400 border-gray-200 pointer-events-none"
           : "hover:border-blue-400 hover:shadow-md"
@@ -75,8 +75,8 @@ function PictureDropZone({
   const isWrong = isSubmitted && content && !isCorrect;
 
   return (
-    <div className="relative flex flex-col items-center space-y-3 bg-gray-50 p-4 rounded-2xl border border-gray-100 shadow-sm">
-      <div className="relative w-full h-40 overflow-hidden rounded-xl border-2 border-white shadow-inner">
+    <div className="relative flex flex-col items-center space-y-3 p-4 ">
+      <div className="relative w-full h-40 overflow-hidden rounded-xl border-2">
         <div className="w-full h-40 flex items-center justify-center">
           <img
             src={imgSrc}
@@ -87,9 +87,7 @@ function PictureDropZone({
             }}
           />
         </div>
-        <div className="absolute top-2 left-2 bg-white/90 px-3 py-1 rounded-lg text-xs font-bold text-gray-700 shadow-sm border border-gray-200">
-          {title}
-        </div>
+        
 
         {isWrong && (
           <div className="absolute top-2 right-2 w-7 h-7 rounded-full bg-red-500 flex items-center justify-center shadow-md z-10 border-2 border-white">
@@ -196,7 +194,7 @@ const WB_Unit6_Page35_Q1 = () => {
                 <PictureDropZone
                   id="drop_school"
                   imgSrc={img1}
-                  title="morning"
+                  // title="morning"
                   content={placed.drop_school}
                   isCorrect={placed.drop_school === CORRECT_ANSWERS.drop_school}
                   isSubmitted={isSubmitted}

@@ -118,9 +118,20 @@ const WB_Unit10_Page57_Q1 = () => {
   });
   const [activeId, setActiveId] = useState(null);
   const [showResults, setShowResults] = useState(false);
-
-  const sensors = useSensors(useSensor(PointerSensor));
-
+  const shuffleArray = (array) => {
+    return [...array].sort(() => Math.random() - 0.5);
+  };
+  const [shuffledActivities, setShuffledActivities] = useState(() =>
+    shuffleArray(ACTIVITIES),
+  );
+// ✨ تعديل: منع الكليك من إنه ينحسب drag
+const sensors = useSensors(
+  useSensor(PointerSensor, {
+    activationConstraint: {
+      distance: 8, // لازم يتحرك 8px عشان يبدأ drag
+    },
+  })
+);
   const checkAnswers = () => {
     if (showResults) return;
     const unanswered = Object.keys(CORRECT_ANSWERS).filter(
@@ -153,6 +164,7 @@ const WB_Unit10_Page57_Q1 = () => {
       q8: null,
     });
     setShowResults(false);
+    setShuffledActivities(shuffleArray(ACTIVITIES));
   };
 
   const QUESTIONS = [
@@ -170,11 +182,16 @@ const WB_Unit10_Page57_Q1 = () => {
     <DndContext
       sensors={sensors}
       onDragStart={(e) => setActiveId(e.active.id)}
-      onDragEnd={(e) => {
-        if (e.over)
-          setAnswers((prev) => ({ ...prev, [e.over.id]: e.active.id }));
-        setActiveId(null);
-      }}
+     // ✨ تعديل: تأكد إنه dropped داخل dropzone فعلي
+onDragEnd={(e) => {
+  if (e.over && e.over.id in answers) {
+    setAnswers((prev) => ({
+      ...prev,
+      [e.over.id]: e.active.id,
+    }));
+  }
+  setActiveId(null);
+}}
     >
       <div className="main-container-component">
         <div className="div-forall" style={{ gap: "15px" }}>
@@ -211,13 +228,13 @@ const WB_Unit10_Page57_Q1 = () => {
                 Activities Bank
               </h3>
               <div className="grid grid-cols-1 gap-2">
-                <SortableContext items={ACTIVITIES.map((a) => a.id)}>
-                  {ACTIVITIES.map((act) => (
+                <SortableContext items={shuffledActivities.map((a) => a.id)}>
+                  {shuffledActivities.map((act) => (
                     <DraggableActivity
                       key={act.id}
                       item={act}
-                      isUsed={Object.values(answers).includes(act.id)}
-                    />
+// ✨ تعديل: تجاهل القيم الفاضية
+isUsed={Object.values(answers).filter(Boolean).includes(act.id)}                    />
                   ))}
                 </SortableContext>
               </div>

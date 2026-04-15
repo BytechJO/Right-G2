@@ -1,9 +1,9 @@
 import { useState, useRef, useLayoutEffect } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../Button";
-import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page21/Ex A 1.svg";
-import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page21/Ex A 2.svg";
-import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page21/Ex A 3.svg";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page21/Asset 38.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page21/Asset 39.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page21/Asset 40.svg";
 
 // بيانات التمرين
 const exerciseData = {
@@ -25,6 +25,7 @@ const WB_Unit4_Page21_Q1 = () => {
   const [matches, setMatches] = useState({});
   const [showResults, setShowResults] = useState(false);
 
+  const [selectedRight, setSelectedRight] = useState(null); // ⭐ جديد
   const [lines, setLines] = useState([]);
   const containerRef = useRef(null);
   const elementRefs = useRef({});
@@ -80,6 +81,7 @@ const WB_Unit4_Page21_Q1 = () => {
   const handleRightClick = (rightId) => {
     if (selectedLeft !== null) {
       const newMatches = { ...matches };
+
       Object.keys(newMatches).forEach((key) => {
         if (newMatches[key] === rightId) {
           delete newMatches[key];
@@ -87,7 +89,14 @@ const WB_Unit4_Page21_Q1 = () => {
       });
 
       setMatches({ ...newMatches, [selectedLeft]: rightId });
-      setSelectedLeft(null);
+
+      setSelectedRight(rightId); // ⭐ تحديد الصورة
+
+      // ⭐ إزالة الإيفكت بعد التوصيل
+      setTimeout(() => {
+        setSelectedLeft(null);
+        setSelectedRight(null);
+      }, 100);
     }
   };
 
@@ -145,7 +154,7 @@ const WB_Unit4_Page21_Q1 = () => {
   };
 
   const getDotColor = (side, id) => {
-    if (side === "left" && selectedLeft === id) return "bg-red-800 scale-125";
+    if (side === "left" && selectedLeft === id) return "bg-red-600 scale-125";
 
     const isConnected =
       side === "left" ? !!matches[id] : Object.values(matches).includes(id);
@@ -156,7 +165,7 @@ const WB_Unit4_Page21_Q1 = () => {
         side === "left"
           ? id
           : Object.keys(matches).find((key) => matches[key] === id);
-      if (!leftId) return "bg-red-800";
+      if (!leftId) return "bg-red-600";
       const isCorrect = matches[leftId] === exerciseData.correctMatches[leftId];
       return isCorrect ? "bg-[#eb533c]" : "bg-[#eb533c]";
     }
@@ -185,7 +194,13 @@ const WB_Unit4_Page21_Q1 = () => {
                 <div className="w-35">
                   <p
                     onClick={() => handleLeftClick(item.id)}
-                    className="text-xl text-gray-700 cursor-pointer hover:text-blue-600 transition"
+                    className={`text-xl cursor-pointer transition active:scale-105
+    ${
+      selectedLeft === item.id
+        ? "text-red-600 underline"
+        : "text-gray-700 hover:text-blue-600"
+    }
+  `}
                   >
                     {item.text}
                   </p>
@@ -204,7 +219,7 @@ const WB_Unit4_Page21_Q1 = () => {
             ))}
           </div>
 
-          <div className="space-y-16">
+          <div className="space-y-10">
             {exerciseData.right.map((item) => (
               <div key={item.id} className="flex items-center gap-6">
                 <div
@@ -216,8 +231,14 @@ const WB_Unit4_Page21_Q1 = () => {
                   src={item.img}
                   alt={`Person ${item.id}`}
                   onClick={() => handleRightClick(item.id)}
-                  style={{height:"120px",width:"auto"}}
-                  className="max-w-24 max-h-24 rounded-lg object-cover shadow-md cursor-pointer hover:scale-105 transition"
+                  className={`object-contain rounded-lg shadow-sm cursor-pointer transition
+    ${
+      selectedRight === item.id
+        ? "border-2 border-red-600 scale-95 shadow-lg"
+        : "hover:scale-105 active:scale-105"
+    }
+  `}
+                  style={{ height: "120px", width: "auto" }}
                 />
               </div>
             ))}

@@ -52,6 +52,7 @@ export default function WB_Unit10_Page62_Q3() {
   };
 
   const checkAnswers = () => {
+     if (showResult) return;
     if (Object.keys(answers).length < questions.length) {
       ValidationAlert.info("Please circle a word for each question.");
       return;
@@ -82,7 +83,7 @@ export default function WB_Unit10_Page62_Q3() {
     setAnswers({});
     setShowResult(false);
     setScore(null);
-    setResetKey((k) => k + 1);
+    // setResetKey((k) => k + 1);
   };
 
   const getCircleClass = (qId, val) => {
@@ -94,7 +95,7 @@ export default function WB_Unit10_Page62_Q3() {
     if (!showResult) return base + "border-blue-500 text-blue-600 bg-blue-50";
     return answers[qId] === correctAnswers[qId]
       ? base + "border-blue-500 text-blue-600"
-      : base + "border-red-400 text-red-500";
+      : base + "border-red-500";
   };
 
   return (

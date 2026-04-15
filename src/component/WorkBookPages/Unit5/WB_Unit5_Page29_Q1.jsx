@@ -26,7 +26,7 @@ const WB_Unit5_Page29_Q1 = () => {
   const [selectedLeft, setSelectedLeft] = useState(null);
   const [matches, setMatches] = useState({});
   const [showResults, setShowResults] = useState(false);
-
+const [selectedRight, setSelectedRight] = useState(null);
   const [lines, setLines] = useState([]);
   const containerRef = useRef(null);
   const elementRefs = useRef({});
@@ -72,19 +72,27 @@ const WB_Unit5_Page29_Q1 = () => {
     setShowResults(false);
   };
 
-  const handleRightClick = (rightId) => {
-    if (selectedLeft !== null) {
-      const newMatches = { ...matches };
-      Object.keys(newMatches).forEach((key) => {
-        if (newMatches[key] === rightId) {
-          delete newMatches[key];
-        }
-      });
+ const handleRightClick = (rightId) => {
+  if (selectedLeft !== null) {
+    const newMatches = { ...matches };
 
-      setMatches({ ...newMatches, [selectedLeft]: rightId });
+    Object.keys(newMatches).forEach((key) => {
+      if (newMatches[key] === rightId) {
+        delete newMatches[key];
+      }
+    });
+
+    setMatches({ ...newMatches, [selectedLeft]: rightId });
+
+    setSelectedRight(rightId); // ⭐ تحديد الصورة
+
+    // ⭐ إزالة الإيفكت بعد التوصيل
+    setTimeout(() => {
       setSelectedLeft(null);
-    }
-  };
+      setSelectedRight(null);
+    }, 100);
+  }
+};
 
   // منطق التحقق والأزرار
   const checkAnswers = () => {
@@ -138,7 +146,7 @@ const WB_Unit5_Page29_Q1 = () => {
   };
 
   const getDotColor = (side, id) => {
-    if (side === "left" && selectedLeft === id) return "bg-red-800 scale-125";
+    if (side === "left" && selectedLeft === id) return "bg-red-600 scale-125";
 
     const isConnected =
       side === "left" ? !!matches[id] : Object.values(matches).includes(id);
@@ -179,14 +187,36 @@ const WB_Unit5_Page29_Q1 = () => {
                 className="flex items-center gap-6 justify-end"
               >
                 <div className="relative">
-                  <div
-                    className="text-left cursor-pointer transition transform active:scale-95 hover:scale-105"
-                    onClick={() => handleLeftClick(item.id)}
-                  >
-                    <p className="text-xl text-gray-700">{item.text}</p>
-                    <p className="text-xl text-gray-700">{item.answer}</p>
-                  </div>
+                 <div
+  onClick={() => handleLeftClick(item.id)}
+  className={`text-left cursor-pointer transition transform active:scale-95
+    ${
+      selectedLeft === item.id
+        ? "scale-105"
+        : "hover:scale-105"
+    }
+  `}
+>
+  <p
+    className={`text-xl ${
+      selectedLeft === item.id
+        ? "text-red-600 underline"
+        : "text-gray-700"
+    }`}
+  >
+    {item.text}
+  </p>
 
+  <p
+    className={`text-xl ${
+      selectedLeft === item.id
+        ? "text-red-600 underline"
+        : "text-gray-700"
+    }`}
+  >
+    {item.answer}
+  </p>
+</div>
                   {isLeftWrong(item.id) && (
                     <div className="absolute -top-2 -right-7 w-6 h-6 rounded-full bg-red-500 text-white flex items-center justify-center text-sm font-bold shadow border-2 border-white">
                       ✕
@@ -211,13 +241,19 @@ const WB_Unit5_Page29_Q1 = () => {
                   onClick={() => handleRightClick(item.id)}
                   className={`w-5 h-5 rounded-full cursor-pointer transition-all ${getDotColor("right", item.id)}`}
                 />
-                <img
-                  src={item.img}
-                  alt={`Person ${item.id}`}
-                  onClick={() => handleRightClick(item.id)}
-                  className="object-contain cursor-pointer transition transform active:scale-95 hover:scale-105"
-                  style={{ height: "100px", width: "auto" }}
-                />
+              <img
+  src={item.img}
+  alt={`Person ${item.id}`}
+  onClick={() => handleRightClick(item.id)}
+  className={`object-contain cursor-pointer transition transform active:scale-95
+    ${
+      selectedRight === item.id
+        ? "border-2 border-red-600 scale-95 shadow-lg"
+        : "hover:scale-105"
+    }
+  `}
+  style={{ height: "100px", width: "auto" }}
+/>
               </div>
             ))}
           </div>

@@ -42,14 +42,15 @@ const CORRECT_G = {
 };
 
 function DraggableWord({ item, isUsed }) {
- const {
-  attributes,
-  listeners,
-  setNodeRef,
-  transform,
-  transition,
-  isDragging,
-} = useDraggable({ id: item.id });
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useDraggable({ id: item.id });
+
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
@@ -62,9 +63,14 @@ function DraggableWord({ item, isUsed }) {
       style={style}
       {...attributes}
       {...listeners}
-      // 🔧 touch-none
+
+      // 👇🔥 يمنع الكليك نهائياً
+      onPointerDown={(e) => e.stopPropagation()}
+      onClick={(e) => e.preventDefault()}
+
       className={`px-3 py-1 bg-white border-2 border-gray-300 rounded-lg shadow-sm cursor-grab text-blue-600 font-medium text-lg touch-none ${
-        isUsed
+        // 👇✨ لا تعمل disable إلا إذا فعلاً مستخدمة
+        isUsed && !isDragging
           ? "bg-gray-100 text-gray-400 pointer-events-none"
           : "hover:border-blue-400"
       }`}
@@ -124,17 +130,24 @@ const WB_Unit8_Page47_Q2 = () => {
   const [showResults, setShowResults] = useState(false);
 
   // 🔥 أهم تعديل للتابلت
-  const sensors = useSensors(
-    useSensor(MouseSensor),
-    useSensor(TouchSensor, {
-      activationConstraint: {
-        delay: 0,
-        tolerance: 5,
-      },
-    }),
-    useSensor(PointerSensor)
-  );
-
+const sensors = useSensors(
+  useSensor(MouseSensor, {
+    activationConstraint: {
+      distance: 8, // 👈 لازم يتحرك فعلياً
+    },
+  }),
+  useSensor(TouchSensor, {
+    activationConstraint: {
+      delay: 150, // 👈 يمنع tap السريع
+      tolerance: 5,
+    },
+  }),
+  useSensor(PointerSensor, {
+    activationConstraint: {
+      distance: 8,
+    },
+  })
+);
   const checkAnswers = () => {
     if (showResults) return;
 
@@ -192,17 +205,16 @@ const WB_Unit8_Page47_Q2 = () => {
     >
       <div className="main-container-component">
         <div className="div-forall" style={{ gap: "10px" }}>
-          <h1 className="WB-header-title-page8">
+          <h1 className="WB-header-title-page8  mb-10">
             <span className="WB-ex-A">G</span>Read and write.
           </h1>
 
-          <div className="flex flex-wrap justify-center gap-2 p-4 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200 mb-8">
+          <div className="flex flex-wrap justify-center gap-2 p-4 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200 mb-5">
           {WORDS_G.map((w) => (
   <DraggableWord
     key={w.id}
     item={w}
-    isUsed={Object.values(answers).includes(w.id)}
-  />
+isUsed={Object.values(answers).some((val) => val === w.id)}  />
 ))}
           </div>
 

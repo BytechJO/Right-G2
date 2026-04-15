@@ -25,7 +25,7 @@
 
 
 .cell-wb-u1-p7-q2.found {
- 
+
   background-color: #dcffcd;
   border: 2px solid green;
   font-weight: bold;
@@ -37,6 +37,7 @@
   gap: 10px;
   margin-top: 20px;
 }
+
 
 /* .word-btn-wb-u1-p7-q2 {
   padding: 8px 16px;
@@ -53,52 +54,53 @@
   justify-content: space-around;
   align-items: center;
 }
+
+
 .word-btn-wb-u1-p7-q2 {
-    display: flex;
-    flex-direction: column;
-    /* gap: 20px; */
-    border: 2px solid black;
-    border-radius: 8px;
-    padding: 10px;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid black;
+  border-radius: 8px;
+  padding: 10px;
 }
+
+
 .word-btn-wb-u1-p7-q2.selected {
   background-color: #d6e4ff;
   border-color: blue;
 }
 
-
 .word-label-wrapper-wb-u1-p7-q2 {
-  width: 130px;              /* عرض ثابت مثل الصورة */
-  /* height: 45px;              ارتفاع قريب من الصورة */
-  /* border: 2px solid #000;    خط أسود */
-  border-radius: 12px;       /* زوايا ناعمة */
-  
-  display: flex;             /* لتمركز النص */
+  width: 130px;
+  border-radius: 12px;
+  display: flex;
   justify-content: center;
   align-items: center;
-  
-  font-size: 18px;           /* حجم خط مشابه */
+  font-size: 18px;
   font-weight: 500;
   color: black;
   background: white;
-  
-  margin: 12px 0;            /* مسافة بين الكلمات */
-  position: relative;        /* للسماح بوضع علامة X لاحقاً */
+  margin: 12px 0;
+  position: relative;
 }
 
 .word-label-wb-u1-p7-q2 {
-  pointer-events: none;      /* لا نريد تفاعل مع النص فقط */
+  pointer-events: none;
 }
 
+.word-label-wb-u1-p7-q2.done {
+  color: black;
+  text-decoration: line-through;
+  text-decoration-color: #000000;
+  text-decoration-thickness: 2px;
+}
 
-
-/* دائرة X للكلمة الخطأ */
 .wrong-x-circle-wb-u1-p7-q2 {
   position: absolute;
-  right: -12px;       /* يظهر بجانب الصندوق */
+  right: -12px;
   top: -3%;
   transform: translateY(-50%);
-  
+
   width: 22px;
   height: 22px;
   border-radius: 50%;
@@ -107,7 +109,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  
+border: 2px solid white;
   font-size: 14px;
   font-weight: bold;
 }

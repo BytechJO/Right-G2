@@ -29,7 +29,7 @@ const WB_Unit4_Page25_Q1 = () => {
   const [selectedLeft, setSelectedLeft] = useState(null);
   const [matches, setMatches] = useState({});
   const [showResults, setShowResults] = useState(false);
-
+const [selectedRight, setSelectedRight] = useState(null);
   const [lines, setLines] = useState([]);
   const containerRef = useRef(null);
   const elementRefs = useRef({});
@@ -76,20 +76,29 @@ const WB_Unit4_Page25_Q1 = () => {
     setShowResults(false);
   };
 
-  const handleRightClick = (rightId) => {
-    if (showResults) return;
-    if (selectedLeft !== null) {
-      const newMatches = { ...matches };
-      Object.keys(newMatches).forEach((key) => {
-        if (newMatches[key] === rightId) {
-          delete newMatches[key];
-        }
-      });
+const handleRightClick = (rightId) => {
+  if (showResults) return;
 
-      setMatches({ ...newMatches, [selectedLeft]: rightId });
+  if (selectedLeft !== null) {
+    const newMatches = { ...matches };
+
+    Object.keys(newMatches).forEach((key) => {
+      if (newMatches[key] === rightId) {
+        delete newMatches[key];
+      }
+    });
+
+    setMatches({ ...newMatches, [selectedLeft]: rightId });
+
+    setSelectedRight(rightId); // ⭐ تحديد الصورة
+
+    // ⭐ إزالة الإيفكت بعد التوصيل
+    setTimeout(() => {
       setSelectedLeft(null);
-    }
-  };
+      setSelectedRight(null);
+    }, 100);
+  }
+};
 
   const isWrongMatch = (leftId) => {
     if (!showResults) return false;
@@ -149,7 +158,7 @@ const WB_Unit4_Page25_Q1 = () => {
   };
 
   const getDotColor = (side, id) => {
-    if (side === "left" && selectedLeft === id) return "bg-red-800 scale-125";
+    if (side === "left" && selectedLeft === id) return "bg-red-600 scale-125";
 
     const isConnected =
       side === "left" ? !!matches[id] : Object.values(matches).includes(id);
@@ -160,7 +169,7 @@ const WB_Unit4_Page25_Q1 = () => {
         side === "left"
           ? id
           : Object.keys(matches).find((key) => matches[key] === id);
-      if (!leftId) return "bg-[#ef4444]";
+      if (!leftId) return "bg-red-600 scale-125";
       const isCorrect = matches[leftId] === exerciseData.correctMatches[leftId];
       return isCorrect ? "bg-[#ef4444]" : "bg-[#ef4444]";
     }
@@ -187,12 +196,18 @@ const WB_Unit4_Page25_Q1 = () => {
                 className="relative flex items-center gap-6 justify-start"
               >
                 <div className="w-50">
-                 <p
-  className="text-xl text-gray-700 cursor-pointer transition transform active:scale-95 hover:scale-105"
+              <p
   onClick={() => handleLeftClick(item.id)}
+  className={`text-xl cursor-pointer transition transform active:scale-95
+    ${
+      selectedLeft === item.id
+        ? "text-red-600 underline scale-105"
+        : "text-gray-700 hover:scale-105 hover:text-blue-600"
+    }
+  `}
 >
-                    {item.text}
-                  </p>
+  {item.text}
+</p>
                 </div>
                 <div
                   ref={(el) => (elementRefs.current[`left-${item.id}`] = el)}
@@ -216,13 +231,19 @@ const WB_Unit4_Page25_Q1 = () => {
                   onClick={() => handleRightClick(item.id)}
                   className={`w-5 h-5 rounded-full cursor-pointer transition-all ${getDotColor("right", item.id)}`}
                 />
-                <img
-                  src={item.img}
-                  alt={`Person ${item.id}`}
-                  onClick={() => handleRightClick(item.id)}
-                  className="object-contain cursor-pointer transition transform active:scale-95 hover:scale-105"
-                  style={{height:"100px",width:"auto"}}
-                />
+              <img
+  src={item.img}
+  alt={`Person ${item.id}`}
+  onClick={() => handleRightClick(item.id)}
+  className={`object-contain cursor-pointer transition transform active:scale-95
+    ${
+      selectedRight === item.id
+        ? "border-2 border-red-600 scale-95 shadow-lg"
+        : "hover:scale-105"
+    }
+  `}
+  style={{ height: "100px", width: "auto" }}
+/>
               </div>
             ))}
           </div>

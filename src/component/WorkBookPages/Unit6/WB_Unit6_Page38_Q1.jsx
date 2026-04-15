@@ -108,7 +108,7 @@ const WB_Unit6_Page38_Q1 = () => {
     <div className="main-container-component">
       <div className="div-forall" style={{ gap: "20px" }}>
         {" "}
-        <h1 className="WB-header-title-page8">
+        <h1 className="WB-header-title-page8 mb-2">
           {" "}
           <span className="WB-ex-A">A</span>Look, read, and write. Use the words
           from the box.{" "}

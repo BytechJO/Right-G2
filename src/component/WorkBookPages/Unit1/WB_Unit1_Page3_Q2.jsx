@@ -12,8 +12,7 @@ const WB_Unit1_Page3_Q2 = () => {
   const containerRef = useRef(null);
   let startPoint = null;
   const [wrongImages, setWrongImages] = useState([]);
-  // ⭐⭐ NEW: قفل الرسم بعد Check Answer
-  const [locked, setLocked] = useState(false); //  ← إضافة جديدة
+  const [locked, setLocked] = useState(false);
   const [firstDot, setFirstDot] = useState(null);
   const [showAnswer, setShowAnswer] = useState(false);
   const [wrongWords, setWrongWords] = useState([]);
@@ -23,6 +22,12 @@ const WB_Unit1_Page3_Q2 = () => {
     3: [],
     4: [],
   });
+
+  // ========== حالات جديدة لتتبع العناصر المختارة ==========
+  const [selectedWord, setSelectedWord] = useState(null);
+  const [selectedWordDot, setSelectedWordDot] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImageDot, setSelectedImageDot] = useState(null);
 
   const initialQuestions = [
     {
@@ -67,10 +72,10 @@ const WB_Unit1_Page3_Q2 = () => {
     },
   ];
   const correctMatches = [
-    { word: "sister", image: "img3" },
-    { word: "father", image: "img4" },
-    { word: "play", image: "img2" },
-    { word: "mother", image: "img1" },
+    { word: "sister", image: "img2" },
+    { word: "father", image: "img1" },
+    { word: "play", image: "img3" },
+    { word: "mother", image: "img4" },
   ];
   const [questionsState, setQuestionsState] = useState(
     initialQuestions.map((q) => ({
@@ -82,7 +87,7 @@ const WB_Unit1_Page3_Q2 = () => {
   const onDragEnd = (result) => {
     if (!result.destination || locked || showAnswer) return;
 
-    const { source, destination } = result;
+    const { source, destination, draggableId } = result;
     const sourceId = source.droppableId;
     const destId = destination.droppableId;
 
@@ -95,11 +100,7 @@ const WB_Unit1_Page3_Q2 = () => {
     const question = questionsState.find((q) => String(q.id) === String(qId));
     if (!question) return;
 
-    const availableLetters = question.scrambled.filter(
-      (letter) => !userInputs[qId].some((item) => item.id === letter.id),
-    );
-
-    const draggedItem = availableLetters[source.index];
+    const draggedItem = question.scrambled.find(item => item.id === draggableId);
     if (!draggedItem) return;
 
     setUserInputs((prev) => ({
@@ -107,81 +108,80 @@ const WB_Unit1_Page3_Q2 = () => {
       [qId]: [...prev[qId], draggedItem],
     }));
   };
-  const images = [
-    { id: "img1", src: img1 },
-    { id: "img2", src: img2 },
-    { id: "img3", src: img3 },
-    { id: "img4", src: img4 },
-  ];
 
-  // ============================
-  // 1️⃣ الضغط على النقطة الأولى (start-dot)
-  // ============================
+  // ========== معالج النقر على الكلمة من اليمين ==========
+  const handleWordClick = (qId) => {
+    if (locked || showAnswer) return;
+    setSelectedWord(selectedWord === qId ? null : qId);
+  };
+
+  // ========== معالج النقر على النقطة الأولى (اليمين) ==========
   const handleStartDotClick = (e) => {
-    if (showAnswer || locked) return; // ⭐⭐ NEW: منع التوصيل إذا مغلق
+    if (showAnswer || locked) return;
 
     const rect = containerRef.current.getBoundingClientRect();
-
     const wordId = e.target.dataset.wordId;
-    const image = e.target.dataset.image || null;
+    const qId = wordId.split("-")[1];
 
-    // ⭐⭐ NEW: منع رسم أكثر من خط من نفس الصورة (image)
-    const alreadyUsed = lines.some((line) => line.wordId === wordId);
-
-    if (alreadyUsed) return; // ← إضافة جديدة
+    // تأثير الانضغاط على النقطة
+    setSelectedWordDot(selectedWordDot === qId ? null : qId);
 
     setFirstDot({
       wordId,
-
       x: e.target.getBoundingClientRect().left - rect.left + 8,
       y: e.target.getBoundingClientRect().top - rect.top + 8,
     });
   };
 
-  // ============================
-  // 2️⃣ الضغط على النقطة الثانية (end-dot)
-  // ============================
+  // ========== معالج النقر على النقطة الثانية (اليسار) ==========
   const handleEndDotClick = (e) => {
-    if (showAnswer || locked) return; // ⭐⭐ NEW: منع التوصيل إذا مغلق
+    if (showAnswer || locked) return;
     if (!firstDot) return;
 
     const rect = containerRef.current.getBoundingClientRect();
-
-    const endWord = e.target.dataset.word || null;
     const endImage = e.target.dataset.image || null;
+    const qId = endImage.replace("img", "");
+
+    // تأثير الانضغاط على النقطة
+    setSelectedImageDot(selectedImageDot === qId ? null : qId);
 
     const newLine = {
       x1: firstDot.x,
       y1: firstDot.y,
       x2: e.target.getBoundingClientRect().left - rect.left + 8,
       y2: e.target.getBoundingClientRect().top - rect.top + 8,
-
       wordId: firstDot.wordId,
       image: endImage,
     };
 
-    setLines((prev) => [...prev, newLine]);
+    setLines((prev) => {
+      const filteredLines = prev.filter(
+        (line) => line.wordId !== newLine.wordId && line.image !== newLine.image
+      );
+      return [...filteredLines, newLine];
+    });
+    
     setFirstDot(null);
   };
-  // ============================
-  // 3️⃣ Check Answers
-  // ============================
+
+  // ========== معالج النقر على الصورة من اليسار ==========
+  const handleImageClick = (qId) => {
+    if (locked || showAnswer) return;
+    setSelectedImage(selectedImage === qId ? null : qId);
+  };
+
   const checkAnswers2 = () => {
     if (showAnswer || locked) return;
 
-    const allWordsSolved = questionsState.every(
-      (q) =>
-        userInputs[q.id].map((item) => item.value).join("") ===
-        q.correctSentence,
-    );
-
-    if (!allWordsSolved) {
-      ValidationAlert.info(
-        "Oops!",
-        "Please arrange all the words correctly first.",
-      );
-      return;
-    }
+    // تحديد الكلمات التي ترتيب حروفها خاطئ
+    const wrongInputIds = [];
+    questionsState.forEach((q) => {
+      const currentInput = userInputs[q.id].map((item) => item.value).join("");
+      if (currentInput !== q.correctSentence) {
+        wrongInputIds.push(String(q.id));
+      }
+    });
+    setWrongWords(wrongInputIds);
 
     if (lines.length < correctMatches.length) {
       ValidationAlert.info(
@@ -211,7 +211,7 @@ const WB_Unit1_Page3_Q2 = () => {
 
     const total = correctMatches.length;
     const color =
-      correctCount === total ? "green" : correctCount === 0 ? "red" : "orange";
+      correctCount === total && wrongInputIds.length === 0 ? "green" : (correctCount === 0 ? "red" : "orange");
 
     const scoreMessage = `
     <div style="font-size: 20px; margin-top: 10px; text-align:center;">
@@ -221,12 +221,13 @@ const WB_Unit1_Page3_Q2 = () => {
     </div>
   `;
 
-    if (correctCount === total) ValidationAlert.success(scoreMessage);
+    if (correctCount === total && wrongInputIds.length === 0) ValidationAlert.success(scoreMessage);
     else if (correctCount === 0) ValidationAlert.error(scoreMessage);
     else ValidationAlert.warning(scoreMessage);
 
     setLocked(true);
   };
+
   const handleRemoveLetter = (qId, letterId) => {
     if (locked || showAnswer) return;
 
@@ -235,67 +236,62 @@ const WB_Unit1_Page3_Q2 = () => {
       [qId]: prev[qId].filter((item) => item.id !== letterId),
     }));
   };
+
+  // مكون علامة الخطأ (X)
+  const ErrorMark = () => (
+    <div className="absolute -top-2 -right-2 z-20 flex items-center justify-center w-6 h-6 bg-red-500 border-2 border-white rounded-full shadow-md">
+      <span className="text-white text-xs font-bold">✕</span>
+    </div>
+  );
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "30px",
-        }}
-      >
-        <div
-          className="div-forall"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "30px",
-            width: "60%",
-            justifyContent: "flex-start",
-          }}
-        >
-          <div className="page7-q2-container2">
-            <h5 className="WB-header-title-page8">
-              {" "}
-              <span style={{ marginRight: "20px" }} className="WB-ex-A">
-                {" "}
-                B{" "}
-              </span>
-              Read and match.
-            </h5>
+      <div className="main-container-component">
+        <div className="div-forall mb-22">
+          <h5 className="WB-header-title-page8">
+            <span className="mr-5 WB-ex-A">B</span>
+            Read and match.
+          </h5>
 
-            <div className="CB-review3-p1-q2-wrapper" ref={containerRef}>
-              {/* الجمل */}
-              <div className="CB-review3-p1-q2-words-row">
-                {/* الصف الأول */}
-                {questionsState.map((q, i) => (
-                  <div className="WB-unit1-p3-q2-row" key={q.id}>
-                    <div>
-                      <div className="CB-unit5-p6-q1-word-with-dot">
-                        <span className="CB-unit5-p6-q1-number">{q.id}</span>
+          <div
+            className="CB-review3-p1-q2-wrapper relative w-full min-h-96"
+            ref={containerRef}
+          >
+            <div className="flex flex-col gap-5 w-full">
+              {questionsState.map((q, i) => (
+                <div
+                  key={q.id}
+                  className="flex flex-row gap-4 items-center justify-between w-full"
+                >
+                  <div className="flex items-center w-[100%]">
+                    <div className="flex flex-col gap-3 items-start w-70">
+                      <div className="flex flex-row items-center gap-2 whitespace-nowrap flex-shrink-0 relative">
+                        <span className="flex items-center justify-center w-7 h-7 text-xl font-bold">
+                          {q.id}
+                        </span>
 
                         <span
-                          className={`CB-unit5-p6-q1-word-text ${
+                          className={`text-base font-bold letter-spacing-1  transition-all duration-200 whitespace-nowrap flex-shrink-0 ${
                             locked || showAnswer
-                              ? "CB-unit5-p6-q1-disabled-word"
+                              ? "opacity-60 cursor-not-allowed"
+                              : "text-gray-800 hover:text-red-600 hover:underline cursor-pointer"
+                          } ${
+                            selectedWord === q.id
+                              ? "scale-125 text-red-600 font-bold underline decoration-red-600 decoration-2 underline-offset-2"
                               : ""
                           }`}
-                          onClick={() =>
-                            document.getElementById(`dot-word-${q.id}`).click()
-                          }
-                          style={{ cursor: "pointer" }}
+                          onClick={() => {
+                            handleWordClick(q.id);
+                            document.getElementById(`dot-word-${q.id}`).click();
+                          }}
                         >
                           {q.matchWord}
                         </span>
-
-                        {wrongWords.includes(q.matchWord) && (
-                          <span className="CB-unit5-p6-q1-error-mark">✕</span>
-                        )}
+                        
+                        {/* علامة الخطأ فوق الكلمة إذا كان التوصيل خاطئاً */}
+                        {locked && wrongImages.includes(`word-${q.id}`) && <ErrorMark />}
                       </div>
 
-                      {/* Word Bank */}
                       <Droppable
                         droppableId={`bank-${q.id}`}
                         direction="horizontal"
@@ -304,7 +300,7 @@ const WB_Unit1_Page3_Q2 = () => {
                           <div
                             ref={provided.innerRef}
                             {...provided.droppableProps}
-                            className="WB-unit1-p3-q2-word-bank"
+                            className="flex flex-row gap-2 flex-wrap"
                           >
                             {q.scrambled.map((letterObj, i) => {
                               const isUsed = userInputs[q.id]?.some(
@@ -314,7 +310,7 @@ const WB_Unit1_Page3_Q2 = () => {
                                 <Draggable
                                   key={letterObj.id}
                                   draggableId={letterObj.id}
-                                  isDragDisabled={locked || isUsed}
+                                  isDragDisabled={locked || isUsed }
                                   index={i}
                                 >
                                   {(provided) => (
@@ -322,11 +318,12 @@ const WB_Unit1_Page3_Q2 = () => {
                                       ref={provided.innerRef}
                                       {...provided.draggableProps}
                                       {...provided.dragHandleProps}
-                                      className="WB-unit1-p3-q2-word-box"
+                                      className={`flex items-center justify-center w-8 h-8 border-2 border-gray-800 rounded text-lg font-bold transition-all touch-none ${
+                                        isUsed ||showAnswer
+                                          ? "bg-gray-400 opacity-60 cursor-not-allowed"
+                                          : "bg-white cursor-grab hover:bg-blue-100 hover:border-blue-600 hover:shadow-md"
+                                      }`}
                                       style={{
-                                        background: isUsed ? "#ccc" : "white",
-                                        opacity: isUsed ? 0.6 : 1,
-                                        cursor: isUsed ? "not-allowed" : "grab",
                                         ...provided.draggableProps.style,
                                       }}
                                     >
@@ -341,111 +338,125 @@ const WB_Unit1_Page3_Q2 = () => {
                         )}
                       </Droppable>
 
-                      {/* Sentence */}
                       <Droppable
                         droppableId={`sentence-${q.id}`}
                         direction="horizontal"
                       >
                         {(provided, snapshot) => (
-                          <div
-                            ref={provided.innerRef}
-                            {...provided.droppableProps}
-                            className={`WB-unit1-p3-q2-unscramble-input ${
-                              snapshot.isDraggingOver
-                                ? "CB-unit5-p6-q1-active-drop"
-                                : ""
-                            }`}
-                          >
-                            {userInputs[q.id]?.map((item, index) => (
-                              <span
-                                key={item.id}
-                                onClick={() =>
-                                  handleRemoveLetter(q.id, item.id)
-                                }
-                                style={{
-                                  cursor: "pointer",
-                                  marginRight: "2px",
-                                }}
-                                onMouseEnter={(e) =>
-                                  (e.target.style.color = "red")
-                                }
-                                onMouseLeave={(e) =>
-                                  (e.target.style.color = "black")
-                                }
-                              >
-                                {item.value}
-                              </span>
-                            ))}
-                            {provided.placeholder}
+                          <div className="relative w-full">
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.droppableProps}
+                              className={`flex flex-row gap-1 p-2 rounded-md min-h-13 items-center transition-all flex-wrap w-full ${
+                                snapshot.isDraggingOver
+                                  ? "bg-blue-100 border-2 border-blue-600 shadow-md"
+                                  : "bg-white border-2 border-gray-300"
+                              }`}
+                            >
+                              {userInputs[q.id]?.map((item, index) => (
+                                <span
+                                  key={item.id}
+                                  onClick={() =>
+                                    handleRemoveLetter(q.id, item.id)
+                                  }
+                                  className="flex items-center justify-center w-7 h-7 text-lg text-black cursor-pointer transition-all hover:bg-red-100 hover:border-red-600 flex-shrink-0"
+                                >
+                                  {item.value}
+                                </span>
+                              ))}
+                              {provided.placeholder}
+                            </div>
+                            {/* علامة الخطأ فوق حقل الإدخال إذا كان الترتيب خاطئاً */}
+                            {locked && wrongWords.includes(String(q.id)) && <ErrorMark />}
                           </div>
                         )}
                       </Droppable>
                     </div>
-                    <div>
+
+                    <div className="flex items-start justify-start w-8 h-8 flex-shrink-0">
                       <div
-                        className="CB-unit5-p6-q1-dot CB-unit5-p6-q1-dot-start"
-                        style={{ left: "20%" }}
+                        className={`rounded-full cursor-pointer transition-all shadow-md ${
+                          selectedWordDot === q.id.toString()
+                            ? "w-5 h-5 bg-red-600 shadow-xl scale-125"
+                            : "w-3.5 h-3.5 bg-red-600 hover:w-5 hover:h-5 hover:shadow-lg"
+                        }`}
                         id={`dot-word-${q.id}`}
                         data-word-id={`word-${q.id}`}
                         onClick={handleStartDotClick}
                       />
                     </div>
                   </div>
-                ))}
-              </div>
 
-              {/* الصور */}
-              <div className="CB-review3-p1-q2-images-row">
-                {images.map((img) => (
-                  <div key={img.id} className="CB-review3-p1-q2-img-box">
-                    <img
-                      src={img.src}
-                      alt=""
-                      className={`CB-review3-p1-q2-image ${
-                        locked || showAnswer
-                          ? "CB-review3-p1-q2-disabled-hover"
-                          : ""
-                      }`}
-                      onClick={() =>
-                        document.getElementById(`${img.id}-dot`).click()
-                      }
-                    />
+                  <div className="flex flex-row gap-3 items-center justify-end flex-shrink-0">
+                    <div className="flex items-center justify-center w-8 h-8 flex-shrink-0">
+                      <div
+                        className={`rounded-full cursor-pointer transition-all shadow-md ${
+                          selectedImageDot === q.id.toString()
+                            ? "w-5 h-5 bg-red-600 shadow-xl scale-125"
+                            : "w-3.5 h-3.5 bg-red-600 hover:w-5 hover:h-5 hover:shadow-lg"
+                        }`}
+                        data-image={`img${q.id}`}
+                        id={`img${q.id}-dot`}
+                        onClick={handleEndDotClick}
+                      />
+                    </div>
 
                     <div
-                      className="CB-review3-p1-q2-dot CB-review3-p1-q2-end-dot"
-                      data-image={img.id}
-                      id={`${img.id}-dot`}
-                      onClick={handleEndDotClick}
-                    ></div>
+                      className={`flex items-center justify-center flex-shrink-0 w-40 transition-all ${
+                        selectedImage === q.id
+                          ? "scale-95 border-2 border-red-600 rounded-lg shadow-xl"
+                          : "border-2 border-gray-300 rounded-lg"
+                      }`}
+                    >
+                      <img
+                        src={q.image}
+                        alt=""
+                        className={`object-contain transition-all ${
+                          locked || showAnswer
+                            ? "opacity-60 cursor-not-allowed"
+                            : "cursor-pointer hover:scale-105 hover:brightness-110"
+                        }`}
+                        onClick={() => {
+                          handleImageClick(q.id);
+                          document.getElementById(`img${q.id}-dot`).click();
+                        }}
+                        style={{ height: "120px", width: "auto" }}
+                      />
+                    </div>
                   </div>
-                ))}
-              </div>
-
-              {/* الخطوط */}
-              <svg className="lines-layer">
-                {lines.map((l, i) => (
-                  <line
-                    key={i}
-                    x1={l.x1}
-                    y1={l.y1}
-                    x2={l.x2}
-                    y2={l.y2}
-                    stroke="red"
-                    strokeWidth="3"
-                  />
-                ))}
-              </svg>
+                </div>
+              ))}
             </div>
+
+            <svg className="lines-layer absolute top-0 left-0 w-full h-full pointer-events-none z-10">
+              {lines.map((l, i) => (
+                <line
+                  key={i}
+                  x1={l.x1}
+                  y1={l.y1}
+                  x2={l.x2}
+                  y2={l.y2}
+                  stroke="red"
+                  strokeWidth="3"
+                />
+              ))}
+            </svg>
           </div>
         </div>
-        <div className="action-buttons-container">
+
+        <div className="action-buttons-container mt-8">
           <button
             onClick={() => {
               setLines([]);
               setWrongImages([]);
               setFirstDot(null);
               setShowAnswer(false);
-              setLocked(false); // ⭐⭐ NEW: السماح بالرسم مجدداً
+              setLocked(false);
+              setSelectedWord(null);
+              setSelectedWordDot(null);
+              setSelectedImage(null);
+              setSelectedImageDot(null);
+              setWrongWords([]);
               setUserInputs({
                 1: [],
                 2: [],
@@ -463,7 +474,6 @@ const WB_Unit1_Page3_Q2 = () => {
           >
             Start Again ↻
           </button>
-          {/* Show Answer */}
           <button
             onClick={() => {
               const rect = containerRef.current.getBoundingClientRect();
@@ -496,13 +506,13 @@ const WB_Unit1_Page3_Q2 = () => {
                     value: char,
                   }));
               });
-
+setLocked(true);
               setUserInputs(solvedInputs);
               setLines(finalLines);
               setWrongImages([]);
               setWrongWords([]);
               setShowAnswer(true);
-              setLocked(true);
+              
             }}
             className="show-answer-btn swal-continue"
           >

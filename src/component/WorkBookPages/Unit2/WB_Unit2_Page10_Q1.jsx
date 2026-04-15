@@ -143,7 +143,7 @@ const WB_Unit2_Page10_Q1 = () => {
         </h1>
 
         <div
-          className="grid grid-cols-2 gap-2"
+          className="grid grid-cols-2 gap-10"
           style={{ justifyItems: "start" }}
         >
           {data.map((item) => (
@@ -155,9 +155,10 @@ const WB_Unit2_Page10_Q1 = () => {
                 <img
                   src={item.img}
                   alt=""
-                  className="max-w-32 max-h-32 object-contain rounded-xl"
+                  className="object-contain rounded-xl"
+                  style={{height:"120px",width:"120px"}}
                 />
-                <div className="flex flex-col rounded-2xl">
+                <div className="flex flex-col rounded-2xl gap-5 w-30">
                   {item.options.map((option) => (
                     <button
                       key={option}
@@ -177,7 +178,7 @@ const WB_Unit2_Page10_Q1 = () => {
                     </button>
                   ))}
                 </div>
-                <h6>{item.sentence}</h6>
+                <h6 style={{whiteSpace:"nowrap"}}>{item.sentence}</h6>
               </div>
             </div>
           ))}

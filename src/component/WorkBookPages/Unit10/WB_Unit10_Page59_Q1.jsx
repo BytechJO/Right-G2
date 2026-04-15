@@ -51,18 +51,25 @@ function DraggableAnswer({ item, isUsed }) {
     transition,
     isDragging,
   } = useSortable({ id: item.id });
+
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
+    // التعديل: جعلنا الشفافية تتأثر فقط عند السحب الفعلي وليس عند مجرد الكليك
+    // التعديل: isUsed الآن تعتمد فقط على وجود العنصر داخل DropZone
     opacity: isDragging || isUsed ? 0.5 : 1,
   };
+
   return (
     <div
       ref={setNodeRef}
       style={style}
       {...attributes}
       {...listeners}
-      className={`p-2 bg-white border-2 border-gray-200 rounded-lg shadow-sm cursor-grab text-blue-700 font-medium text-sm text-center touch-none  ${isUsed ? "bg-gray-50 text-gray-300 pointer-events-none" : "hover:border-blue-400"}`}
+      // التعديل: أضفنا شرط pointer-events-none فقط إذا كان العنصر مستخدم فعلياً
+      className={`p-2 bg-white border-2 border-gray-200 rounded-lg shadow-sm cursor-grab text-blue-700 font-medium text-sm text-center touch-none ${
+        isUsed ? "bg-gray-50 text-gray-300 pointer-events-none" : "hover:border-blue-400"
+      }`}
     >
       {item.text}
     </div>
@@ -87,7 +94,22 @@ const WB_Unit10_Page59_Q1 = () => {
   const [activeId, setActiveId] = useState(null);
   const [showResults, setShowResults] = useState(false);
 
-  const sensors = useSensors(useSensor(PointerSensor));
+  const shuffleArray = (array) => {
+    return [...array].sort(() => Math.random() - 0.5);
+  };
+
+  const [shuffledAnswers] = useState(() => shuffleArray(ANSWERS_D));
+
+  // التعديل: قمنا بتعديل حساسات السحب (Sensors)
+  // أضفنا activationConstraint بحيث لا يبدأ السحب إلا بعد تحريك الماوس لمسافة 5 بكسل
+  // هذا يمنع اعتبار "الكليك" العادي كبداية لعملية سحب (Drag) وبالتالي يحل مشكلة اختفاء العنصر عند الكليك
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 5,
+      },
+    })
+  );
 
   const checkAnswers = () => {
     if (showResults) return;
@@ -171,13 +193,21 @@ const WB_Unit10_Page59_Q1 = () => {
     },
   ];
 
+  // التعديل: استخراج قائمة المعرفات المستخدمة فعلياً في الـ DropZones فقط
+  // هذا يضمن أن العنصر لا يظهر كـ "مستخدم" إلا إذا كان داخل أحد المربعات
+  const usedAnswerIds = Object.keys(answers)
+    .filter((key) => key.endsWith("_drop"))
+    .map((key) => answers[key]);
+
   return (
     <DndContext
       sensors={sensors}
       onDragStart={(e) => setActiveId(e.active.id)}
       onDragEnd={(e) => {
-        if (e.over)
+        // التعديل: التأكد من أن الإسقاط تم فوق منطقة صالحة (DropZone)
+        if (e.over && e.over.id.endsWith("_drop")) {
           setAnswers((prev) => ({ ...prev, [e.over.id]: e.active.id }));
+        }
         setActiveId(null);
       }}
     >
@@ -206,7 +236,6 @@ const WB_Unit10_Page59_Q1 = () => {
                     <div className="flex items-center text-lg">
                       <span className="text-gray-700">{q.prefix}</span>
                       <div className="relative inline-block mx-4">
-                        {/* ❌ Wrong Answer */}
                         {showResults &&
                           answers[`${q.id}_sel`] &&
                           answers[`${q.id}_sel`] !==
@@ -262,11 +291,12 @@ const WB_Unit10_Page59_Q1 = () => {
               </h3>
               <div className="grid grid-cols-1 gap-2">
                 <SortableContext items={ANSWERS_D.map((a) => a.id)}>
-                  {ANSWERS_D.map((ans) => (
+                  {shuffledAnswers.map((ans) => (
                     <DraggableAnswer
                       key={ans.id}
                       item={ans}
-                      isUsed={Object.values(answers).includes(ans.id)}
+                      // التعديل: نمرر حالة الاستخدام بناءً على وجود المعرف في الـ DropZones فقط
+                      isUsed={usedAnswerIds.includes(ans.id)}
                     />
                   ))}
                 </SortableContext>
@@ -288,7 +318,7 @@ const WB_Unit10_Page59_Q1 = () => {
       </div>
       <DragOverlay>
         {activeId ? (
-          <div className="p-2 border-2 border-blue-500 rounded-lg shadow-xl text-blue-700 font-bold text-xs">
+          <div className="p-2 border-2 border-blue-500 rounded-lg shadow-xl text-blue-700 font-bold text-xs bg-white">
             {ANSWERS_D.find((a) => a.id === activeId).text}
           </div>
         ) : null}
@@ -303,9 +333,10 @@ function DropZone({ id, content, isCorrect, isSubmitted }) {
   return (
     <div
       ref={setNodeRef}
-      className={`relative w-full min-h-[35px] border-b-2 flex items-center px-2 ${isSubmitted && content && !isCorrect && "border-red-500"}`}
+      className={`relative w-full min-h-[35px] border-b-2 flex items-center px-2 ${
+        isSubmitted && content && !isCorrect ? "border-red-500" : "border-gray-300"
+      }`}
     >
-      {/* ❌ Wrong Answer */}
       {isSubmitted && content && !isCorrect && (
         <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold border-2 border-white shadow">
           ✕

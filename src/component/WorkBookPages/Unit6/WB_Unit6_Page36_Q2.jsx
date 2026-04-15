@@ -51,7 +51,7 @@ function DraggablePhrase({ phrase, isUsed }) {
       style={style}
       {...attributes}
       {...listeners}
-      className={`px-4 py-1 bg-white border-2 border-gray-300 rounded-full shadow-sm cursor-grab text-blue-600 font-medium ${isUsed ? "bg-gray-100 text-gray-400 pointer-events-none" : "hover:border-blue-400"}`}
+      className={`px-4 py-1 bg-white border-2 border-gray-300 rounded-full touch-none shadow-sm cursor-grab text-blue-600 font-medium ${isUsed ? "bg-gray-100 text-gray-400 pointer-events-none" : "hover:border-blue-400"}`}
     >
       {phrase.text}
     </div>
@@ -144,12 +144,12 @@ const WB_Unit6_Page36_Q2 = () => {
     >
       <div className="main-container-component" ref={captureRef}>
         <div className="div-forall" style={{ gap: "20px" }}>
-          <h1 className="WB-header-title-page8">
+          <h1 className="WB-header-title-page8 mb-3">
             <span className="WB-ex-A">H</span> Write questions. Use the phrases
             in the boxes.
           </h1>
 
-          <div className="flex flex-wrap justify-center gap-3 mb-10 p-5 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">
+          <div className="flex flex-wrap justify-center gap-3 mb-4 p-5 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">
             <SortableContext items={PHRASES.map((p) => p.id)}>
               {PHRASES.map((phrase) => (
                 <DraggablePhrase
@@ -182,32 +182,32 @@ const WB_Unit6_Page36_Q2 = () => {
             />
             <QuestionSlot
               id="h3"
-              prefix="What time do"
-              suffix="they get up?"
+              prefix="What time do they"
+              suffix="?"
               content={placed.h3}
               isCorrect={placed.h3 === CORRECT_ANSWERS.h3}
               isSubmitted={isSubmitted}
             />
             <QuestionSlot
               id="h4"
-              prefix="What time does"
-              suffix="he go home?"
+              prefix="What time does he"
+              suffix="?"
               content={placed.h4}
               isCorrect={placed.h4 === CORRECT_ANSWERS.h4}
               isSubmitted={isSubmitted}
             />
             <QuestionSlot
               id="h5"
-              prefix="What time does"
-              suffix="she have lunch?"
+              prefix="What time does she"
+              suffix="?"
               content={placed.h5}
               isCorrect={placed.h5 === CORRECT_ANSWERS.h5}
               isSubmitted={isSubmitted}
             />
             <QuestionSlot
               id="h6"
-              prefix="What time do"
-              suffix="they do homework?"
+              prefix="What time do they"
+              suffix="?"
               content={placed.h6}
               isCorrect={placed.h6 === CORRECT_ANSWERS.h6}
               isSubmitted={isSubmitted}

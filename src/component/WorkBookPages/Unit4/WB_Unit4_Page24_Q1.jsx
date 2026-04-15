@@ -97,7 +97,7 @@ const WB_Unit4_Page24_Q1 = () => {
   return (
     <div className="main-container-component">
       <div className="div-forall" style={{ gap: "20px"  ,marginBottom:"30px"}}>
-        <h1 className="WB-header-title-page8">
+        <h1 className="WB-header-title-page8 mb-6">
           <span className="WB-ex-A">G</span>Look, read, and write{" "}
           <span style={{ color: "navy" }}>✓</span>.
         </h1>

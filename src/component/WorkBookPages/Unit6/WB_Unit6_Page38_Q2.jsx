@@ -13,11 +13,11 @@ import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 3
 import QuestionAudioPlayer from "../../QuestionAudioPlayer";
 
 const exerciseData = [
-  { id: "b1", src: img1, correctAnswer: "✘" },
-  { id: "b2", src: img2, correctAnswer: "✘" },
+  { id: "b1", src: img1, correctAnswer: "✓" },
+  { id: "b2", src: img2, correctAnswer: "✓" },
   { id: "b3", src: img3, correctAnswer: "✓" },
-  { id: "b4", src: img4, correctAnswer: "✓" },
-  { id: "b5", src: img5, correctAnswer: "✘" },
+  { id: "b4", src: img4, correctAnswer: "✘" },
+  { id: "b5", src: img5, correctAnswer: "✓" },
 ];
 
 const WB_Unit6_Page38_Q2 = () => {

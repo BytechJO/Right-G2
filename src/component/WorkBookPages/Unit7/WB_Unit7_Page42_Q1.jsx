@@ -195,7 +195,7 @@ const WB_Unit7_Page42_Q1 = () => {
   return (
     <div className="main-container-component">
       <div className="div-forall">
-        <h1 className="WB-header-title-page8 mb-2">
+        <h1 className="WB-header-title-page8 mb-10">
           <span className="WB-ex-A">G</span>
           Look and write missing letters.
         </h1>

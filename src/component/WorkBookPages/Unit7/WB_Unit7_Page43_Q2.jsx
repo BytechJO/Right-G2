@@ -29,7 +29,7 @@ const WB_Unit7_Page43_Q2 = () => {
   const [selectedLeft, setSelectedLeft] = useState(null);
   const [matches, setMatches] = useState({});
   const [showResults, setShowResults] = useState(false);
-
+  const [selectedRight, setSelectedRight] = useState(null);
   const [lines, setLines] = useState([]);
   const containerRef = useRef(null);
   const elementRefs = useRef({});
@@ -70,15 +70,19 @@ const WB_Unit7_Page43_Q2 = () => {
 
   const handleLeftClick = (id) => {
     if (showResults) return;
+
     setSelectedLeft(id);
-    setShowResults(false);
+    setSelectedRight(null); // يفك التحديد من اليمين
   };
 
   const handleRightClick = (rightId) => {
     if (showResults) return;
 
+    setSelectedRight(rightId); // ⭐ effect على الصورة
+
     if (selectedLeft !== null) {
       const newMatches = { ...matches };
+
       Object.keys(newMatches).forEach((key) => {
         if (newMatches[key] === rightId) {
           delete newMatches[key];
@@ -86,7 +90,9 @@ const WB_Unit7_Page43_Q2 = () => {
       });
 
       setMatches({ ...newMatches, [selectedLeft]: rightId });
+
       setSelectedLeft(null);
+      setSelectedRight(null); // بعد الربط نشيل التحديد
     }
   };
 
@@ -145,7 +151,7 @@ const WB_Unit7_Page43_Q2 = () => {
   };
 
   const getDotColor = (side, id) => {
-    if (side === "left" && selectedLeft === id) return "bg-red-800 scale-125";
+    if (side === "left" && selectedLeft === id) return "bg-red-600 scale-125";
 
     const isConnected =
       side === "left" ? !!matches[id] : Object.values(matches).includes(id);
@@ -193,17 +199,27 @@ const WB_Unit7_Page43_Q2 = () => {
                       ✕
                     </div>
                   )}
-
-                  <div
-                    className="flex items-center gap-3 w-[400px] justify-start  cursor-pointer transition transform active:scale-95 hover:scale-105 w-[200px]"
-                    onClick={() => handleLeftClick(item.id)}
-                  >
-                    <span className="text-2xl text-blue-900 font-bold">
+<span className="text-2xl text-blue-900 font-bold">
                       {item.id}
                     </span>
-                    <p className="text-xl text-gray-700 text-right">
-                      {item.text}
-                    </p>
+                  <div
+                    className={`flex items-center gap-3 w-[315px] justify-start cursor-pointer transition transform active:scale-95
+  ${
+    selectedLeft === item.id
+      ? "text-red-600 underline scale-110"
+      : "hover:scale-105"
+  }
+`}
+                    onClick={() => handleLeftClick(item.id)}
+                  >
+                    
+                    <p
+  className={`text-xl text-right ${
+    selectedLeft === item.id ? "text-red-600" : "text-gray-700"
+  }`}
+>
+  {item.text}
+</p>
                   </div>
                   <div
                     ref={(el) => (elementRefs.current[`left-${item.id}`] = el)}
@@ -229,7 +245,13 @@ const WB_Unit7_Page43_Q2 = () => {
                 <img
                   src={item.img}
                   alt={`Person ${item.id}`}
-                  className="object-contain cursor-pointer transition transform active:scale-95 hover:scale-105"
+                 className={`object-contain cursor-pointer transition transform active:scale-95
+  ${
+    selectedRight === item.id
+      ? "scale-110 ring-2 ring-red-600 rounded-lg"
+      : "hover:scale-105"
+  }
+`}
                   onClick={() => handleRightClick(item.id)}
                   style={{ height: "110px", width: "auto" }}
                 />
@@ -252,7 +274,7 @@ const WB_Unit7_Page43_Q2 = () => {
                 strokeWidth="3"
                 fill="none"
                 strokeLinecap="round"
-                 strokeDasharray="6 6"
+                strokeDasharray="6 6"
               />
             ))}
           </svg>

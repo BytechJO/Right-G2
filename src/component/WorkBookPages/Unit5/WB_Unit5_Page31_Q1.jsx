@@ -17,7 +17,7 @@ const questions = [
 
 const correctAnswers = {
   1: "likes",
-  2: "doesn't like",
+  2: "likes",
   3: "doesn't like",
   4: "likes",
 };
@@ -111,7 +111,7 @@ export default function WB_Unit5_Page31_Q1() {
                   <span className="font-semibold text-gray-700">
                     {q.subject}
                   </span>
-                  <div className="flex flex-col">
+                  <div className="flex flex-col gap-5">
                     <button
                       onClick={() => handleSelect(q.id, "likes")}
                       className={`px-3 py-1 rounded-full font-semibold text-sm border-2
