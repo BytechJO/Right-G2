@@ -8,7 +8,7 @@ import {
 
 import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import mainPic from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 16/Ex C 1.svg";
+import mainPic from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 16/Asset 62.svg";
 // بيانات التمرين
 const wordBankWords = [
   "drum",
