@@ -39,37 +39,46 @@ const captions = [
   // ============================
   // Check Answer
   // ============================
-  const checkAnswers = () => {
-    if (locked || showAnswer) return;
+ const checkAnswers = () => {
+  if (locked || showAnswer) return;
 
-    let correctCount = 0;
-    let wrongTemp = [];
+  // ⭐ تحقق إذا في سؤال فاضي
+  if (Object.keys(answers).length !== questions.length) {
+    ValidationAlert.info(
+      "Oops!",
+      "Please answer all questions first."
+    );
+    return;
+  }
 
-    questions.forEach((q) => {
-      if (answers[q.id] === q.correct) correctCount++;
-      else wrongTemp.push(q.id);
-    });
+  let correctCount = 0;
+  let wrongTemp = [];
 
-    setWrongRows(wrongTemp);
-    setLocked(true);
+  questions.forEach((q) => {
+    if (answers[q.id] === q.correct) correctCount++;
+    else wrongTemp.push(q.id);
+  });
 
-    const total = questions.length;
+  setWrongRows(wrongTemp);
+  setLocked(true);
 
-    let color =
-      correctCount === total ? "green" : correctCount === 0 ? "red" : "orange";
+  const total = questions.length;
 
-    const message = `
-      <div style="font-size:20px;text-align:center;">
-        <span style="color:${color};font-weight:bold;">
-          Score: ${correctCount} / ${total}
-        </span>
-      </div>
-    `;
+  let color =
+    correctCount === total ? "green" : correctCount === 0 ? "red" : "orange";
 
-    if (correctCount === total) ValidationAlert.success(message);
-    else if (correctCount === 0) ValidationAlert.error(message);
-    else ValidationAlert.warning(message);
-  };
+  const message = `
+    <div style="font-size:20px;text-align:center;">
+      <span style="color:${color};font-weight:bold;">
+        Score: ${correctCount} / ${total}
+      </span>
+    </div>
+  `;
+
+  if (correctCount === total) ValidationAlert.success(message);
+  else if (correctCount === 0) ValidationAlert.error(message);
+  else ValidationAlert.warning(message);
+};
 
   // ============================
   // Show Answer

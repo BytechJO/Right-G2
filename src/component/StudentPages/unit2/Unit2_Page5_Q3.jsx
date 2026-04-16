@@ -81,11 +81,11 @@ const Unit2_Page5_Q3 = () => {
     sky: [200 + 9, 200 + 10, 200 + 11],
   };
   const correctAnswers = [
-    { word: "the", order: 0 },
+    { word: "the1", order: 0 },
     { word: "birds", order: 1 },
     { word: "fly", order: 2 },
     { word: "in", order: 3 },
-    { word: "the", order: 4 },
+    { word: "the2", order: 4 },
     { word: "sky", order: 5 },
   ];
   const fullSentence = ["the", "birds", "fly", "in", "the", "sky"];

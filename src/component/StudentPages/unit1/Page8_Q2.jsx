@@ -27,7 +27,7 @@ import QuestionAudioPlayer from "../../QuestionAudioPlayer";
 const Page8_Q2 = () => {
   const groups = [
     { images: [img1a, img1b, img1c], different: 2 },
-    { images: [img2a, img2b, img2c], different: 0 },
+    { images: [img2a, img2b, img2c], different: 1 },
     { images: [img3a, img3b, img3c], different: 1 },
     { images: [img4a, img4b, img4c], different: 2 },
   ];

@@ -428,6 +428,7 @@ export default function Review4_Page1_Q1() {
                 ),
               );
               setWrongCells([]);
+              setShowAnswers(false); // ⭐ هذا الناقص
             }}
           >
             Start Again ↻

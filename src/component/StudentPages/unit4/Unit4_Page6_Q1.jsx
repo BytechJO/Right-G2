@@ -278,7 +278,7 @@ const Unit4_Page6_Q1 = () => {
                 <div key={i} className="question-box-CB-unit4-p6-q1">
                   <div className="CB-unit4-p6-q1-title-container">
                     <span className="CB-unit4-p6-q1-index">{i + 1}</span>
-                    <p style={{ width: "100%", display: "flex" }}>
+                    <p style={{ width: "90%", display: "flex" }}>
                       {item.questionParts.map((part, idx) => {
                         if (part === "") {
                           const blankIndex =
@@ -293,7 +293,7 @@ const Unit4_Page6_Q1 = () => {
                               isDropDisabled={showCorrect}
                             >
                               {(provided, snapshot) => (
-                                <div className="input-wrapper">
+                                <div className="w-full" style={{whiteSpace:"nowrap"}}>
                                   <span
                                     ref={provided.innerRef}
                                     {...provided.droppableProps}

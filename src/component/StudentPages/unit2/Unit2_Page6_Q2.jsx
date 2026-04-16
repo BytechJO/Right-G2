@@ -83,33 +83,44 @@ const Unit2_Page6_Q2 = () => {
     setWrongInputs([]);
   };
 
-  const checkAnswers = () => {
-    if (locked) return;
+ const checkAnswers = () => {
+  if (locked) return;
 
-    let wrong = [];
-    let score = 0;
-    let total = 0;
+  // ✅ تحقق إذا في input فاضي
+  const hasEmpty = answers.some((row) =>
+    row.some((val) => val === "")
+  );
 
-    questions.forEach((q, qIndex) => {
-      q.parts.forEach((p, pIndex) => {
-        if (p.type === "input") {
-          total++;
-          const word =
-            wordBank.find((w) => w.id === answers[qIndex][pIndex])?.text || "";
-          if (word === p.answer) score++;
-          else wrong.push(`${qIndex}-${pIndex}`);
-        }
-      });
+  if (hasEmpty) {
+    ValidationAlert.info("Please complete all answers first.");
+    return;
+  }
+
+  // 👇 كودك الحالي يكمل طبيعي
+  let wrong = [];
+  let score = 0;
+  let total = 0;
+
+  questions.forEach((q, qIndex) => {
+    q.parts.forEach((p, pIndex) => {
+      if (p.type === "input") {
+        total++;
+        const word =
+          wordBank.find((w) => w.id === answers[qIndex][pIndex])?.text || "";
+        if (word === p.answer) score++;
+        else wrong.push(`${qIndex}-${pIndex}`);
+      }
     });
+  });
 
-    setWrongInputs(wrong);
-    setLocked(true);
+  setWrongInputs(wrong);
+  setLocked(true);
 
-    const msg = `Score: ${score} / ${total}`;
-    if (score === total) ValidationAlert.success(msg);
-    else if (score === 0) ValidationAlert.error(msg);
-    else ValidationAlert.warning(msg);
-  };
+  const msg = `Score: ${score} / ${total}`;
+  if (score === total) ValidationAlert.success(msg);
+  else if (score === 0) ValidationAlert.error(msg);
+  else ValidationAlert.warning(msg);
+};
 
   const showAnswers = () => {
     setAnswers(

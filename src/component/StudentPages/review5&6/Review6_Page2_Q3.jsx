@@ -174,28 +174,37 @@ const Review6_Page2_Q3 = () => {
     setShowedAnswer(true);
   };
 
-  const checkAnswers = () => {
-    if (showedAnswer) return;
+ const checkAnswers = () => {
+  if (showedAnswer) return;
 
-    const score = foundWords.length;
-    const total = words.length;
-    const color = score === total ? "green" : score === 0 ? "red" : "orange";
+  // ⭐ تحقق إذا ما لقى كل الكلمات
+  if (foundWords.length !== words.length) {
+    ValidationAlert.info(
+      "Oops!",
+      "Please find all words first."
+    );
+    return;
+  }
 
-    const msg = `
-      <div style="font-size:20px;text-align:center;">
-        <span style="color:${color};font-weight:bold">
-          Score: ${score} / ${total}
-        </span>
-      </div>
-    `;
+  const score = foundWords.length;
+  const total = words.length;
+  const color = score === total ? "green" : score === 0 ? "red" : "orange";
 
-    setIsChecked(true);
-    setLocked(true);
+  const msg = `
+    <div style="font-size:20px;text-align:center;">
+      <span style="color:${color};font-weight:bold">
+        Score: ${score} / ${total}
+      </span>
+    </div>
+  `;
 
-    if (score === total) ValidationAlert.success(msg);
-    else if (score === 0) ValidationAlert.error(msg);
-    else ValidationAlert.warning(msg);
-  };
+  setIsChecked(true);
+  setLocked(true);
+
+  if (score === total) ValidationAlert.success(msg);
+  else if (score === 0) ValidationAlert.error(msg);
+  else ValidationAlert.warning(msg);
+};
   const renderLine = (cells, key, opacity = 0.6) => {
     if (!cells || cells.length < 2) return null;
 
