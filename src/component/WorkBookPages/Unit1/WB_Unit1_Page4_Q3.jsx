@@ -79,31 +79,42 @@ const WB_Unit1_Page4_Q3 = () => {
   /**
    * التحقق من الإجابات
    */
-  const checkAnswers = () => {
-    if (showAnswers ||checked) return;
-    let currentScore = 0;
-    const totalQuestions = Object.keys(correctMatches).length;
+ const checkAnswers = () => {
+  if (showAnswers || checked) return;
 
-    Object.keys(correctMatches).forEach((leftId) => {
-      const userMatch = matches[leftId];
-      const correctMatch = correctMatches[leftId];
+  // ⭐ تحقق إذا مش كل العناصر موصّلة
+  const totalQuestions = Object.keys(correctMatches).length;
 
-      if (userMatch && userMatch === correctMatch) {
-        currentScore += 1;
-      }
-    });
+  if (Object.keys(matches).length !== totalQuestions) {
+    ValidationAlert.info(
+      "Oops!",
+      "Please match all sentences first."
+    );
+    return;
+  }
 
-    setScore(currentScore);
-    setChecked(true);
+  let currentScore = 0;
 
-    if (currentScore === totalQuestions) {
-      ValidationAlert.success(`Score: ${currentScore} / ${totalQuestions}`);
-    } else if (currentScore > 0) {
-      ValidationAlert.warning(`Score: ${currentScore} / ${totalQuestions}`);
-    } else {
-      ValidationAlert.error(`Score: ${currentScore} / ${totalQuestions}`);
+  Object.keys(correctMatches).forEach((leftId) => {
+    const userMatch = matches[leftId];
+    const correctMatch = correctMatches[leftId];
+
+    if (userMatch && userMatch === correctMatch) {
+      currentScore += 1;
     }
-  };
+  });
+
+  setScore(currentScore);
+  setChecked(true);
+
+  if (currentScore === totalQuestions) {
+    ValidationAlert.success(`Score: ${currentScore} / ${totalQuestions}`);
+  } else if (currentScore > 0) {
+    ValidationAlert.warning(`Score: ${currentScore} / ${totalQuestions}`);
+  } else {
+    ValidationAlert.error(`Score: ${currentScore} / ${totalQuestions}`);
+  }
+};
 
   /**
    * عرض الإجابات الصحيحة

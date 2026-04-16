@@ -333,7 +333,7 @@ const Unit4_Page6_Q1 = () => {
                     isDropDisabled={showCorrect}
                   >
                     {(provided, snapshot) => (
-                      <div className="input-wrapper">
+                      <div>
                         <div
                           ref={provided.innerRef}
                           {...provided.droppableProps}
