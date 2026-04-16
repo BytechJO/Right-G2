@@ -194,7 +194,7 @@ const WB_Unit2_Page13_Q1 = () => {
     );
 
     if (hasEmpty) {
-      ValidationAlert.warning("Please answer all questions first!");
+      ValidationAlert.info("Please answer all questions first!");
       return; // ❌ وقف هون
     }
 

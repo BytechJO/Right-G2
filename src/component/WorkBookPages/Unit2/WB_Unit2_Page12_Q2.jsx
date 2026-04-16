@@ -207,27 +207,43 @@ export default function WritingExercise() {
     setInputs((prev) => ({ ...prev, [inputName]: value }));
   };
 
-  const checkAnswers = () => {
-    if (locked) return;
-    let score = 0;
-    const newResults = {};
+ const checkAnswers = () => {
+  if (locked) return;
 
-    for (const key in correctAnswers) {
-      const isCorrect = inputs[key] === correctAnswers[key];
-      newResults[key] = isCorrect;
-      if (isCorrect) score++;
-    }
+  // ⭐ تحقق إذا في input فاضي
+  const hasEmpty = Object.values(inputs).some(
+    (value) => value.trim() === ""
+  );
 
-    setResults(newResults);
-    if (score === 8) {
-      ValidationAlert.success(`Score: ${score} / 8`);
-    } else if (score > 0) {
-      ValidationAlert.warning(`Score: ${score} / 8`);
-    } else {
-      ValidationAlert.error(`Score: ${score} / 8`);
-    }
-    setLocked(true);
-  };
+  if (hasEmpty) {
+    ValidationAlert.info(
+      "Oops!",
+      "Please complete all fields first."
+    );
+    return;
+  }
+
+  let score = 0;
+  const newResults = {};
+
+  for (const key in correctAnswers) {
+    const isCorrect = inputs[key] === correctAnswers[key];
+    newResults[key] = isCorrect;
+    if (isCorrect) score++;
+  }
+
+  setResults(newResults);
+
+  if (score === 8) {
+    ValidationAlert.success(`Score: ${score} / 8`);
+  } else if (score > 0) {
+    ValidationAlert.warning(`Score: ${score} / 8`);
+  } else {
+    ValidationAlert.error(`Score: ${score} / 8`);
+  }
+
+  setLocked(true);
+};
 
   const resetExercise = () => {
     setInputs(Object.fromEntries(Object.keys(inputs).map((k) => [k, ""])));

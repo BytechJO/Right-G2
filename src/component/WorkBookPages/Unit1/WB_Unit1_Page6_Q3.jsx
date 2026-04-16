@@ -38,31 +38,42 @@ const WB_Unit1_Page6_Q3 = () => {
   };
 
   const checkAnswers = () => {
-    if (showAnswers || checked) return;
+  if (showAnswers || checked) return;
 
-    let currentScore = 0;
-    const totalQuestions = data.length;
+  // ⭐ تحقق إذا في إجابة فاضية
+  const hasEmpty = data.some((item) => !userAnswers[item.id]);
 
-    data.forEach((item) => {
-      const userAnswer = userAnswers[item.id]?.trim().toLowerCase();
-      const correctAnswer = item.correct.toLowerCase();
+  if (hasEmpty) {
+    ValidationAlert.info(
+      "Oops!",
+      "Please answer all questions first."
+    );
+    return;
+  }
 
-      if (userAnswer && userAnswer === correctAnswer) {
-        currentScore += 1;
-      }
-    });
+  let currentScore = 0;
+  const totalQuestions = data.length;
 
-    setScore(currentScore);
-    setChecked(true);
+  data.forEach((item) => {
+    const userAnswer = userAnswers[item.id]?.trim().toLowerCase();
+    const correctAnswer = item.correct.toLowerCase();
 
-    if (currentScore === totalQuestions) {
-      ValidationAlert.success(`Score: ${currentScore} / ${totalQuestions}`);
-    } else if (currentScore > 0) {
-      ValidationAlert.warning(`Score: ${currentScore} / ${totalQuestions}`);
-    } else {
-      ValidationAlert.error(`Score: ${currentScore} / ${totalQuestions}`);
+    if (userAnswer && userAnswer === correctAnswer) {
+      currentScore += 1;
     }
-  };
+  });
+
+  setScore(currentScore);
+  setChecked(true);
+
+  if (currentScore === totalQuestions) {
+    ValidationAlert.success(`Score: ${currentScore} / ${totalQuestions}`);
+  } else if (currentScore > 0) {
+    ValidationAlert.warning(`Score: ${currentScore} / ${totalQuestions}`);
+  } else {
+    ValidationAlert.error(`Score: ${currentScore} / ${totalQuestions}`);
+  }
+};
 
   const handleShowAnswer = () => {
     const answers = {};

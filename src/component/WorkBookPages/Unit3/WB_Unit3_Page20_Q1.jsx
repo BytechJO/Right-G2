@@ -153,6 +153,7 @@ const WB_Unit3_Page20_Q1 = () => {
     setShowResults(false);
   };
   const checkAnswers = () => {
+    if(showResults)return
     const allFilled = writeList.every(
       (item) =>
         writtenAnswers[item.id] && writtenAnswers[item.id].trim() !== "",
