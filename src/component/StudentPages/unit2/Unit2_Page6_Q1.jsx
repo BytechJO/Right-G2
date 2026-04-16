@@ -56,8 +56,8 @@ const Unit2_Page6_Q1 = () => {
     if (!dot) return;
 
     const word = dot.dataset.word;
-    if (lines.some((l) => l.word === word)) return;
-
+    // تم إزالة التحقق الذي يمنع اختيار الكلمة إذا كانت موصولة مسبقاً
+    // للسماح بإعادة توصيلها بصورة أخرى
     setStart({ word, ...getPos(dot) });
   };
 
@@ -71,17 +71,25 @@ const Unit2_Page6_Q1 = () => {
     const image = dot.dataset.image;
     const pos = getPos(dot);
 
-    setLines((l) => [
-      ...l,
-      {
-        word: start.word,
-        image,
-        x1: start.x,
-        y1: start.y,
-        x2: pos.x,
-        y2: pos.y,
-      },
-    ]);
+    setLines((prevLines) => {
+      // 1. إزالة أي توصيل قديم لنفس الكلمة (الكلمة لا تتوصل إلا بصورة واحدة)
+      // 2. إزالة أي توصيل قديم لنفس الصورة (الصورة لا تتوصل إلا بكلمة واحدة)
+      const filteredLines = prevLines.filter(
+        (l) => l.word !== start.word && l.image !== image,
+      );
+
+      return [
+        ...filteredLines,
+        {
+          word: start.word,
+          image,
+          x1: start.x,
+          y1: start.y,
+          x2: pos.x,
+          y2: pos.y,
+        },
+      ];
+    });
 
     setStart(null);
   };
@@ -162,15 +170,28 @@ const Unit2_Page6_Q1 = () => {
                     className="CB-unit2-p6-q1-dot-container"
                     onClick={startLine}
                   >
-                    <h5 className={`u2-word ${disabled ? "is-disabled" : ""}`}>
-                      {m.word}
-                    </h5>
-
+                    <h5
+  className={`
+    u2-word
+    ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
+    ${start?.word === m.word ? "text-red-600 underline scale-110" : ""}
+    transition-all duration-200
+  `}
+>
+  {m.word}
+</h5>
                     {wrong.includes(m.word) && (
                       <span className="CB-unit2-p6-q1-error-mark-img">✕</span>
                     )}
 
-                    <div className="dot1 dot-start1" data-word={m.word} />
+                    <div
+  className={`
+    dot1 dot-start1
+    ${start?.word === m.word ? "bg-red-600 scale-150" : ""}
+    transition-all duration-200
+  `}
+  data-word={m.word}
+/>
                   </div>
                 </div>
               ))}
@@ -180,6 +201,7 @@ const Unit2_Page6_Q1 = () => {
             <div className="u2-match-images">
               {images.map((m) => (
                 <div
+                  key={m.image}
                   style={{
                     display: "flex",
                     flexDirection: "column",
@@ -198,10 +220,20 @@ const Unit2_Page6_Q1 = () => {
                     />
                     <div className="u2-image-item">
                       <img
-                        src={m.src}
-                        alt=""
-                        className={`u2-image ${disabled ? "is-disabled" : ""}`}
-                      />
+  src={m.src}
+  alt=""
+  className={`
+    u2-image
+    ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
+    ${
+      start &&
+      lines.some((l) => l.word === start.word && l.image === m.image)
+        ? "border-4 border-red-600 scale-105 rounded-lg"
+        : ""
+    }
+    transition-all duration-200
+  `}
+/>
                     </div>
                   </div>
                 </div>
@@ -211,21 +243,24 @@ const Unit2_Page6_Q1 = () => {
             {/* LINES */}
             <svg className="lines-layer">
               {lines.map((l, i) => (
-                <line
-                  key={i}
-                  x1={l.x1}
-                  y1={l.y1}
-                  x2={l.x2}
-                  y2={l.y2}
+                <path
+                  key={`${l.word}-${l.image}`}
+                  d={`
+    M ${l.x1} ${l.y1}
+    C ${(l.x1 + l.x2) / 2} ${l.y1},
+      ${(l.x1 + l.x2) / 2} ${l.y2},
+      ${l.x2} ${l.y2}
+  `}
                   stroke="red"
                   strokeWidth="3"
+                  fill="none"
                 />
               ))}
             </svg>
           </div>
         </div>
       </div>
-      {/* ACTION BUTTONS (كما هي) */}
+      {/* ACTION BUTTONS */}
       <div className="action-buttons-container">
         <button onClick={reset} className="try-again-button">
           Start Again ↻

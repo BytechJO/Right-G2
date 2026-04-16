@@ -38,7 +38,6 @@ const Review1_Page2_Q1 = () => {
     const r = el.getBoundingClientRect();
     const c = ref.current.getBoundingClientRect();
 
-    // مركز العنصر (بدون +8 ثابت)
     return {
       x: r.left - c.left + r.width / 2,
       y: r.top - c.top + r.height / 2,
@@ -48,32 +47,38 @@ const Review1_Page2_Q1 = () => {
   const startLine = (e) => {
     if (locked || showAnswer) return;
 
-    const dot = e.currentTarget; // ✅ الدوت نفسه
+    const dot = e.currentTarget;
     const image = dot.dataset.image;
 
-    if (lines.some((l) => l.image === image)) return;
-
+    // تم إزالة التحقق الذي يمنع اختيار الصورة إذا كانت موصولة مسبقاً
+    // للسماح بإعادة توصيلها بحرف آخر
     setStart({ image, ...getCenterPos(dot) });
   };
 
   const endLine = (e) => {
     if (!start || locked || showAnswer) return;
 
-    const dot = e.currentTarget; // ✅ الدوت نفسه
+    const dot = e.currentTarget;
     const word = dot.dataset.word;
     const pos = getCenterPos(dot);
 
-    setLines((prev) => [
-      ...prev,
-      {
-        x1: start.x,
-        y1: start.y,
-        x2: pos.x,
-        y2: pos.y,
-        image: start.image,
-        word,
-      },
-    ]);
+    setLines((prev) => {
+      // إزالة أي توصيل قديم لنفس الصورة (الصورة لا تتوصل إلا بحرف واحد)
+      // ملاحظة: الحرف يمكن أن يرتبط بأكثر من صورة، لذا لا نحذف بناءً على 'word'
+      const filteredLines = prev.filter((l) => l.image !== start.image);
+
+      return [
+        ...filteredLines,
+        {
+          x1: start.x,
+          y1: start.y,
+          x2: pos.x,
+          y2: pos.y,
+          image: start.image,
+          word,
+        },
+      ];
+    });
 
     setStart(null);
   };
@@ -105,52 +110,49 @@ const Review1_Page2_Q1 = () => {
     ](`<b style="color:${color}">Score: ${correct} / ${total}</b>`);
   };
 
- const show = () => {
-  setLocked(true);
-  setShowAnswer(true);
-  setWrong([]);
-  setLines([]); // ⬅️ امسح أي خطوط قديمة
+  const show = () => {
+    setLocked(true);
+    setShowAnswer(true);
+    setWrong([]);
+    setLines([]);
 
-  const answerLines = [];
+    const answerLines = [];
 
-  ANSWERS.forEach((a) => {
-    a.images.forEach((imgId) => {
-      const startDot = document.querySelector(
-        `.CB-review1-p2-q1-dot-start[data-image="${imgId}"]`
-      );
-      const endDot = document.querySelector(
-        `.CB-review1-p2-q1-dot-end[data-word="${a.word}"]`
-      );
+    ANSWERS.forEach((a) => {
+      a.images.forEach((imgId) => {
+        const startDot = document.querySelector(
+          `.CB-review1-p2-q1-dot-start[data-image="${imgId}"]`,
+        );
+        const endDot = document.querySelector(
+          `.CB-review1-p2-q1-dot-end[data-word="${a.word}"]`,
+        );
 
-      if (startDot && endDot) {
-        const s = getCenterPos(startDot);
-        const e = getCenterPos(endDot);
+        if (startDot && endDot) {
+          const s = getCenterPos(startDot);
+          const e = getCenterPos(endDot);
 
-        answerLines.push({
-          x1: s.x,
-          y1: s.y,
-          x2: e.x,
-          y2: e.y,
-          image: imgId,
-          word: a.word,
-        });
-      }
+          answerLines.push({
+            x1: s.x,
+            y1: s.y,
+            x2: e.x,
+            y2: e.y,
+            image: imgId,
+            word: a.word,
+          });
+        }
+      });
     });
-  });
 
-  setLines(answerLines);
-};
-
+    setLines(answerLines);
+  };
 
   return (
     <div style={{ display: "flex", justifyContent: "center", padding: "30px" }}>
       <div className="div-forall" style={{ width: "60%" }}>
-        {/* ❌ لا تعديل */}
         <h5 className="header-title-page8">
-        <span style={{ marginRight: "20px" }}>C</span> Look and match.
+          <span style={{ marginRight: "20px" }}>C</span> Look and match.
         </h5>
 
-        {/* ❌ لا تعديل */}
         <div ref={ref} className="match-wrapper2-CB-review1-p2-q1">
           {/* IMAGES */}
           <div className="CB-review1-p2-q1-images">
@@ -159,7 +161,16 @@ const Review1_Page2_Q1 = () => {
                 <img
                   src={img.src}
                   alt=""
-                  className={`CB-review1-p2-q1-img ${locked ? "disabled-hover" : ""}`}
+                  className={`
+    CB-review1-p2-q1-img
+    ${locked ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
+    ${
+      start?.image === img.id
+        ? "border-4 border-red-600 scale-105 rounded-lg"
+        : ""
+    }
+    transition-all duration-200
+  `}
                   onClick={() =>
                     document.querySelector(`[data-image="${img.id}"]`)?.click()
                   }
@@ -169,7 +180,11 @@ const Review1_Page2_Q1 = () => {
                 )}
 
                 <div
-                  className="CB-review1-p2-q1-dot CB-review1-p2-q1-dot-start"
+                  className={`
+    CB-review1-p2-q1-dot CB-review1-p2-q1-dot-start
+    ${start?.image === img.id ? "bg-red-600 scale-150" : ""}
+    transition-all duration-200
+  `}
                   data-image={img.id}
                   onClick={startLine}
                 />
@@ -182,7 +197,12 @@ const Review1_Page2_Q1 = () => {
             {WORDS.map((w) => (
               <div key={w.char} className="CB-review1-p2-q1-word-box">
                 <h5
-                  className={`CB-review1-p2-q1-word ${w.color}`}
+                  className={`
+    CB-review1-p2-q1-word ${w.color}
+    ${locked ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
+    ${start ? "hover:text-red-600 hover:underline hover:scale-110" : ""}
+    transition-all duration-200
+  `}
                   onClick={() =>
                     document.querySelector(`[data-word="${w.char}"]`)?.click()
                   }
@@ -190,11 +210,15 @@ const Review1_Page2_Q1 = () => {
                   {w.char}
                 </h5>
 
-                <div
-                  className="CB-review1-p2-q1-dot CB-review1-p2-q1-dot-end"
-                  data-word={w.char}
-                  onClick={endLine}
-                />
+              <div
+  className={`
+    CB-review1-p2-q1-dot CB-review1-p2-q1-dot-end
+    ${start ? "hover:bg-red-600 hover:scale-125" : ""}
+    transition-all duration-200
+  `}
+  data-word={w.char}
+  onClick={endLine}
+/>
               </div>
             ))}
           </div>
@@ -203,7 +227,7 @@ const Review1_Page2_Q1 = () => {
           <svg className="lines-layer">
             {lines.map((l, i) => (
               <line
-                key={i}
+                key={`${l.image}-${l.word}`}
                 x1={l.x1}
                 y1={l.y1}
                 x2={l.x2}
@@ -215,14 +239,14 @@ const Review1_Page2_Q1 = () => {
           </svg>
         </div>
       </div>
-      {/* ❌ الأزرار كما هي */}
+      {/* ACTION BUTTONS */}
       <div className="action-buttons-container">
         <button
           onClick={() => {
             setLines([]);
             setWrong([]);
-            setShowAnswer(false); // ← رجع التعديل
-            setLocked(false); // ⭐⭐⭐ NEW: إعادة فتح الرسم
+            setShowAnswer(false);
+            setLocked(false);
           }}
           className="try-again-button"
         >

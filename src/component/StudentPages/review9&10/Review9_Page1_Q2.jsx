@@ -181,8 +181,8 @@ const Review9_Page1 = () => {
                   ...style,
                 }}
                 className={`relative
-          bg-[#f4e9e2] px-6 py-3 rounded-full cursor-pointer font-medium text-center whitespace-nowrap transition
-          ${selectedSentence === sent.id ? "bg-blue-200" : ""}
+          bg-[#f4e9e2] px-6 py-3 rounded-full cursor-pointer font-medium text-center whitespace-nowrap transition-all duration-200
+          ${selectedSentence === sent.id ? "bg-red-100 text-red-600 underline scale-110" : ""}
         `}
               >
                 <span>{sent.id + 1}. </span>
@@ -204,19 +204,21 @@ const Review9_Page1 = () => {
                   </div>
                 )}
                 <div
-                style={{
-                  height: "10px",
-                  width: "10px",
-                  backgroundColor: "red",
-                  borderRadius: "50%",
-                  position:"absolute",
-                  top:"45px",left:"47%"
-                }}
-              /> 
+                  className={`transition-all duration-200
+          ${selectedSentence === sent.id ? "bg-red-600 scale-150" : ""}`}
+                  style={{
+                    height: "10px",
+                    width: "10px",
+                    backgroundColor: "red",
+                    borderRadius: "50%",
+                    position: "absolute",
+                    top: "45px",
+                    left: "47%",
+                  }}
+                />
               </div>
             );
           })}
-          
         </div>
         {/* IMAGES (BOTTOM) */}
         <div className="grid grid-cols-4 gap-6 w-full justify-items-center mt-16">
@@ -225,10 +227,14 @@ const Review9_Page1 = () => {
               key={img.id}
               ref={(el) => (imageRefs.current[index] = el)}
               className={`flex flex-col items-center rounded-lg cursor-pointer transition
-        ${selectedImg === img.id ? "bg-red-100" : ""}`}
+         `}
               onClick={() => selectImage(img.id)}
             >
               <div
+                className={` ${
+                  selectedImg === img.id ? "bg-red-600 scale-150" : ""
+                }
+    transition-all duration-200`}
                 style={{
                   height: "10px",
                   width: "10px",
@@ -239,6 +245,12 @@ const Review9_Page1 = () => {
               <img
                 src={img.img}
                 alt=""
+                className={`${
+          selectedImg === img.id
+            ? "scale-105 rounded-lg"
+            : ""
+        }
+    transition-all duration-200`}
                 style={{
                   height: "150px",
                   width: "auto",

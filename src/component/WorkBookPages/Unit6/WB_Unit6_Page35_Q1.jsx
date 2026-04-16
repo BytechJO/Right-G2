@@ -76,7 +76,7 @@ function PictureDropZone({
 
   return (
     <div className="relative flex flex-col items-center space-y-3 p-4 ">
-      <div className="relative w-full h-40 overflow-hidden rounded-xl border-2">
+      <div className="relative w-full h-40">
         <div className="w-full h-40 flex items-center justify-center">
           <img
             src={imgSrc}

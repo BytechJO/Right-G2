@@ -145,19 +145,38 @@ const Unit6_Page5_Q3 = () => {
                 key={img.id}
                 ref={(el) => (imageRefs.current[img.id] = el)}
                 onClick={() => selectImage(img.id)}
-                className={`relative border-2 rounded-[10px] p-[5px] cursor-pointer transition-all duration-200 ${
-                  selectedImg === img.id ? "bg-red-100" : ""
-                } ${
-                  showResult
-                    ? isCorrect
-                      ? "border-gray-300"
-                      : isWrong
-                        ? "border-red-500"
-                        : "border-gray-300"
-                    : "border-transparent"
-                }`}
+                // className={`relative rounded-[10px] p-[5px] cursor-pointer transition-all duration-200 ${
+                //   selectedImg === img.id
+                //     ? "border-2 bg-red-100 border-red-500 scale-105"
+                //     : ""
+                // } ${
+                //   showResult
+                //     ? isCorrect
+                //       ? "border-gray-300"
+                //       : isWrong
+                //         ? "border-red-500"
+                //         : "border-gray-300"
+                //     : "border-transparent"
+                // }`}
               >
-                <img src={img.img} alt="" style={{ height: "110px" }} />
+                <img
+                  src={img.img}
+                  alt=""
+                  style={{ height: "110px" }}
+                  className={`relative rounded-[10px] p-[5px] cursor-pointer transition-all duration-200 ${
+                    selectedImg === img.id
+                      ? "border-2 bg-red-100 border-red-500 scale-110"
+                      : ""
+                  } ${
+                    showResult
+                      ? isCorrect
+                        ? "border-gray-300"
+                        : isWrong
+                          ? "border-red-500"
+                          : "border-gray-300"
+                      : ""
+                  }`}
+                />
 
                 {/* ❌ X إذا الجواب غلط */}
                 {isWrong && (
@@ -183,9 +202,18 @@ const Unit6_Page5_Q3 = () => {
                 className="flex flex-col relative bg-[#f4e9e2] py-3 px-7 rounded-[20px] cursor-pointer font-medium text-center whitespace-nowrap w-fit"
                 style={{ gridColumn: colMap[index] }}
               >
-                <div style={{height:"10px",width:"10px",backgroundColor:"red",borderRadius:"50%" ,position:"absolute",top:"-5px",left:"47%"}}/>
+                <div
+                  style={{
+                    height: "10px",
+                    width: "10px",
+                    backgroundColor: "red",
+                    borderRadius: "50%",
+                    position: "absolute",
+                    top: "-5px",
+                    left: "47%",
+                  }}
+                />
                 {sent.text}
-
               </div>
             );
           })}

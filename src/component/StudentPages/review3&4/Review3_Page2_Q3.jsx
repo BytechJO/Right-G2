@@ -31,14 +31,14 @@ const Review3_Page2_Q3 = () => {
   const [wrong, setWrong] = useState([]);
   const [locked, setLocked] = useState(false);
   const [showAnswer, setShowAnswer] = useState(false);
-
+  const [activeImage, setActiveImage] = useState(null);
+  const [activeWord, setActiveWord] = useState(null);
   const getCenterPos = (el) => {
     if (!el || !ref.current) return { x: 0, y: 0 };
 
     const r = el.getBoundingClientRect();
     const c = ref.current.getBoundingClientRect();
 
-    // مركز العنصر (بدون +8 ثابت)
     return {
       x: r.left - c.left + r.width / 2,
       y: r.top - c.top + r.height / 2,
@@ -48,10 +48,11 @@ const Review3_Page2_Q3 = () => {
   const startLine = (e) => {
     if (locked || showAnswer) return;
 
-    const dot = e.currentTarget; // ✅ الدوت نفسه
+    const dot = e.currentTarget;
     const image = dot.dataset.image;
 
-    if (lines.some((l) => l.image === image)) return;
+    setActiveImage(image); // 🔥 هاي أهم إضافة
+    setActiveWord(null);
 
     setStart({ image, ...getCenterPos(dot) });
   };
@@ -59,25 +60,31 @@ const Review3_Page2_Q3 = () => {
   const endLine = (e) => {
     if (!start || locked || showAnswer) return;
 
-    const dot = e.currentTarget; // ✅ الدوت نفسه
+    const dot = e.currentTarget;
     const word = dot.dataset.word;
     const pos = getCenterPos(dot);
 
-    setLines((prev) => [
-      ...prev,
-      {
-        x1: start.x,
-        y1: start.y,
-        x2: pos.x,
-        y2: pos.y,
-        image: start.image,
-        word,
-      },
-    ]);
+    setLines((prev) => {
+      const filteredLines = prev.filter((l) => l.image !== start.image);
+
+      return [
+        ...filteredLines,
+        {
+          x1: start.x,
+          y1: start.y,
+          x2: pos.x,
+          y2: pos.y,
+          image: start.image,
+          word,
+        },
+      ];
+    });
+
+    setActiveWord(word); // 🔥 تفعيل الكلمة
+    setActiveImage(null);
 
     setStart(null);
   };
-
   const checkAnswers = () => {
     if (locked || showAnswer) return;
     const total = ANSWERS.reduce((a, b) => a + b.images.length, 0);
@@ -105,52 +112,49 @@ const Review3_Page2_Q3 = () => {
     ](`<b style="color:${color}">Score: ${correct} / ${total}</b>`);
   };
 
- const show = () => {
-  setLocked(true);
-  setShowAnswer(true);
-  setWrong([]);
-  setLines([]); // ⬅️ امسح أي خطوط قديمة
+  const show = () => {
+    setLocked(true);
+    setShowAnswer(true);
+    setWrong([]);
+    setLines([]);
 
-  const answerLines = [];
+    const answerLines = [];
 
-  ANSWERS.forEach((a) => {
-    a.images.forEach((imgId) => {
-      const startDot = document.querySelector(
-        `.CB-review1-p2-q1-dot-start[data-image="${imgId}"]`
-      );
-      const endDot = document.querySelector(
-        `.CB-review1-p2-q1-dot-end[data-word="${a.word}"]`
-      );
+    ANSWERS.forEach((a) => {
+      a.images.forEach((imgId) => {
+        const startDot = document.querySelector(
+          `.CB-review1-p2-q1-dot-start[data-image="${imgId}"]`,
+        );
+        const endDot = document.querySelector(
+          `.CB-review1-p2-q1-dot-end[data-word="${a.word}"]`,
+        );
 
-      if (startDot && endDot) {
-        const s = getCenterPos(startDot);
-        const e = getCenterPos(endDot);
+        if (startDot && endDot) {
+          const s = getCenterPos(startDot);
+          const e = getCenterPos(endDot);
 
-        answerLines.push({
-          x1: s.x,
-          y1: s.y,
-          x2: e.x,
-          y2: e.y,
-          image: imgId,
-          word: a.word,
-        });
-      }
+          answerLines.push({
+            x1: s.x,
+            y1: s.y,
+            x2: e.x,
+            y2: e.y,
+            image: imgId,
+            word: a.word,
+          });
+        }
+      });
     });
-  });
 
-  setLines(answerLines);
-};
-
+    setLines(answerLines);
+  };
 
   return (
     <div style={{ display: "flex", justifyContent: "center", padding: "30px" }}>
       <div className="div-forall" style={{ width: "60%" }}>
-        {/* ❌ لا تعديل */}
         <h5 className="header-title-page8">
-        <span style={{ marginRight: "20px" }}>G</span> Look and match.
+          <span style={{ marginRight: "20px" }}>G</span> Look and match.
         </h5>
 
-        {/* ❌ لا تعديل */}
         <div ref={ref} className="match-wrapper2-CB-review1-p2-q1">
           {/* IMAGES */}
           <div className="CB-review1-p2-q1-images">
@@ -159,8 +163,14 @@ const Review3_Page2_Q3 = () => {
                 <img
                   src={img.src}
                   alt=""
-                  style={{height:"120px",width:"120px"}}
-                  className={`CB-review1-p2-q1-img ${locked ? "disabled-hover" : ""}`}
+                  style={{ height: "120px", width: "120px" }}
+                  className={`
+    CB-review1-p2-q1-img
+    ${locked ? "disabled-hover" : ""}
+    transition-all duration-200
+
+    ${activeImage === img.id ? "scale-110 border-2 border-red-600 rounded-lg" : ""}
+  `}
                   onClick={() =>
                     document.querySelector(`[data-image="${img.id}"]`)?.click()
                   }
@@ -170,7 +180,11 @@ const Review3_Page2_Q3 = () => {
                 )}
 
                 <div
-                  className="CB-review1-p2-q1-dot CB-review1-p2-q1-dot-start"
+                  className={`
+    CB-review1-p2-q1-dot CB-review1-p2-q1-dot-start
+    transition-all duration-200
+    ${activeImage === img.id ? "scale-150 bg-red-600" : ""}
+  `}
                   data-image={img.id}
                   onClick={startLine}
                 />
@@ -183,7 +197,13 @@ const Review3_Page2_Q3 = () => {
             {WORDS.map((w) => (
               <div key={w.char} className="CB-review1-p2-q1-word-box">
                 <h5
-                  className={`CB-review1-p2-q1-word ${w.color}`}
+                  className={`
+    CB-review1-p2-q1-word
+    ${w.color}
+    transition-all duration-200
+
+    ${activeWord === w.char ? "text-red-600 scale-125 underline" : ""}
+  `}
                   onClick={() =>
                     document.querySelector(`[data-word="${w.char}"]`)?.click()
                   }
@@ -192,7 +212,11 @@ const Review3_Page2_Q3 = () => {
                 </h5>
 
                 <div
-                  className="CB-review1-p2-q1-dot CB-review1-p2-q1-dot-end"
+                  className={`
+    CB-review1-p2-q1-dot CB-review1-p2-q1-dot-end
+    transition-all duration-200
+    ${activeWord === w.char ? "scale-150 bg-red-600" : ""}
+  `}
                   data-word={w.char}
                   onClick={endLine}
                 />
@@ -204,7 +228,7 @@ const Review3_Page2_Q3 = () => {
           <svg className="lines-layer">
             {lines.map((l, i) => (
               <line
-                key={i}
+                key={`${l.image}-${l.word}`}
                 x1={l.x1}
                 y1={l.y1}
                 x2={l.x2}
@@ -216,14 +240,14 @@ const Review3_Page2_Q3 = () => {
           </svg>
         </div>
       </div>
-      {/* ❌ الأزرار كما هي */}
+      {/* ACTION BUTTONS */}
       <div className="action-buttons-container">
         <button
           onClick={() => {
             setLines([]);
             setWrong([]);
-            setShowAnswer(false); // ← رجع التعديل
-            setLocked(false); // ⭐⭐⭐ NEW: إعادة فتح الرسم
+            setShowAnswer(false);
+            setLocked(false);
           }}
           className="try-again-button"
         >

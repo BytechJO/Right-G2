@@ -56,7 +56,7 @@ const WB_Unit1_Page6_Q1 = () => {
   };
 
   const checkAnswers = () => {
-     if (showAnswers ||checked) return;
+     if (showAnswers ||checked ||showResults) return;
     const hasEmptyInputs = Object.values(userAnswers).some(
       (value) => !value || value.trim() === "",
     );
@@ -104,6 +104,8 @@ const WB_Unit1_Page6_Q1 = () => {
       8: "sister",
       9: "stella's mother",
     };
+    setShowResults(true);
+    setShowAnswers(true);
     setUserAnswers(answers);
   };
 

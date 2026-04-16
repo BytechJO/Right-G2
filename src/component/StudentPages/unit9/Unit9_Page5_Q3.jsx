@@ -161,12 +161,14 @@ const Unit9_Page5_Q3 = () => {
             <div
               key={sent.id}
               ref={(el) => (sentenceRefs.current[index] = el)}
-              className={`flex flex-col relative bg-[#f4e9e2] px-6 py-3 rounded-full cursor-pointer font-medium text-center whitespace-nowrap transition
-  ${selectedSentence === sent.id ? "bg-blue-200" : ""}`}
+              className={`flex flex-col relative bg-[#f4e9e2] px-6 py-3 rounded-full cursor-pointer font-medium text-center whitespace-nowrap
+  ${selectedSentence === sent.id ? "text-red-600 underline scale-110" : ""}
+    transition-all duration-200`}
               onClick={() => selectSentence(sent.id)}
             >
               {sent.text}
-              <div
+              <div className={`${selectedSentence === sent.id ?  "bg-red-600 scale-150" : ""}
+    transition-all duration-200`}
                 style={{
                   height: "10px",
                   width: "10px",
@@ -188,7 +190,7 @@ const Unit9_Page5_Q3 = () => {
               key={img.id}
               ref={(el) => (imageRefs.current[index] = el)}
               className={`rounded-lg cursor-pointer transition
-    ${selectedImg === img.id ? "bg-red-100" : ""}`}
+    ${selectedImg === img.id ? "scale-110 " : ""}`}
               onClick={() => selectImage(img.id)}
               style={{ position: "relative" }} // 👈 مهم
             >

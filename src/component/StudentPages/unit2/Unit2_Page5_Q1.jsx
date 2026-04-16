@@ -75,6 +75,7 @@ const correctGroups = [
 ];
 /* ================= COMPONENT ================= */
 
+
 const Unit2_Page5_Q1 = () => {
   const containerRef = useRef(null);
   const [lines, setLines] = useState([]);
@@ -84,7 +85,7 @@ const Unit2_Page5_Q1 = () => {
   const [locked, setLocked] = useState(false);
   const [checked, setChecked] = useState(false);
 
-
+const [activeItem, setActiveItem] = useState(null);
   /* ================= HELPERS ================= */
 
   const getCenter = (el) => {
@@ -102,7 +103,7 @@ const Unit2_Page5_Q1 = () => {
   };
 
   /* ================= CLICK HANDLERS ================= */
- const handleStart = (e) => {
+const handleStart = (e) => {
   if (locked) return;
 
   const data = e.currentTarget.dataset;
@@ -110,29 +111,18 @@ const Unit2_Page5_Q1 = () => {
   let type = null;
   if (data.leftId) type = "left";
   else if (data.image) type = "image";
-  else if (data.right) type = "right";
 
   let pos = null;
 
-  // 🔴 منع استخدام نفس left أكثر من مرة
   if (type === "left") {
-    const alreadyUsed = lines.some(
-      (l) => l.leftId === Number(data.leftId)
-    );
-    if (alreadyUsed) return;
-
     pos = getDotCenterFromParent(e.currentTarget, ".start-dot");
-  }
-
-  // 🔴 منع استخدام نفس الصورة كبداية (image → right)
+    setActiveItem({ type: "left", id: Number(data.leftId) });
+  } 
   else if (type === "image") {
-    const alreadyUsed = lines.some(
-      (l) => l.image === data.image && l.right !== null
-    );
-    if (alreadyUsed) return;
-
     pos = getDotCenterFromParent(e.currentTarget, ".start-dot");
-  } else {
+    setActiveItem({ type: "image", id: data.image });
+  } 
+  else {
     return;
   }
 
@@ -156,13 +146,12 @@ const handleEnd = (e) => {
   else if (data.image) endType = "image";
   else if (data.right) endType = "right";
 
-  // 🔴 السماح فقط بالمسارات الصحيحة
-  if (firstPoint.type === "left" && endType !== "image") {
-    setFirstPoint(null);
-    return;
-  }
+  // 🔴 السماح بالمسارات: left -> image, left -> right, image -> right
+  const isValidPath = 
+    (firstPoint.type === "left" && (endType === "image" || endType === "right")) ||
+    (firstPoint.type === "image" && endType === "right");
 
-  if (firstPoint.type === "image" && endType !== "right") {
+  if (!isValidPath) {
     setFirstPoint(null);
     return;
   }
@@ -175,57 +164,45 @@ const handleEnd = (e) => {
   if (!pos) return;
 
   // =========================
-  // 🔴 منع تكرار left
+  // 🔴 منطق الاستبدال المرن مع القيود الجديدة
   // =========================
-  if (firstPoint.leftId) {
-    const alreadyUsed = lines.some(
-      (l) => l.leftId === firstPoint.leftId
-    );
-    if (alreadyUsed) {
-      setFirstPoint(null);
-      return;
+  setLines((prev) => {
+    let filtered = [...prev];
+
+    // 1. إذا كانت البداية كلمة علوية، نحذف أي توصيل قديم لها
+    if (firstPoint.leftId) {
+      filtered = filtered.filter((l) => l.leftId !== firstPoint.leftId);
     }
-  }
 
-  // =========================
-  // 🔴 منع الصورة تستقبل أكثر من left
-  // =========================
-  if (endType === "image") {
-    const alreadyUsed = lines.some(
-      (l) => l.image === data.image && l.right === null
-    );
-    if (alreadyUsed) {
-      setFirstPoint(null);
-      return;
+    // 2. إذا كانت النهاية كلمة سفلية، نحذف أي توصيل قديم لها
+    if (data.right) {
+      filtered = filtered.filter((l) => l.right !== data.right);
     }
-  }
 
-  // =========================
-  // 🔴 منع الصورة تطلع أكثر من خط لـ right
-  // =========================
-  if (firstPoint.image && endType === "right") {
-    const alreadyUsed = lines.some(
-      (l) => l.image === firstPoint.image && l.right !== null
-    );
-    if (alreadyUsed) {
-      setFirstPoint(null);
-      return;
+    // 3. إذا كانت النهاية صورة (توصيل من فوق)، نحذف أي توصيل قديم داخل لهالصورة من فوق
+    if (endType === "image") {
+      filtered = filtered.filter((l) => !(l.image === data.image && l.leftId !== null));
     }
-  }
 
-  const newLine = {
-    x1: firstPoint.x,
-    y1: firstPoint.y,
-    x2: pos.x,
-    y2: pos.y,
-    leftId: firstPoint.leftId,
-    image: firstPoint.image || data.image,
-    right: data.right || null,
-  };
+    // 4. إذا كانت البداية صورة (توصيل لتحت)، نحذف أي توصيل قديم طالع من هالصورة لتحت
+    if (firstPoint.image && endType === "right") {
+      filtered = filtered.filter((l) => !(l.image === firstPoint.image && l.right !== null));
+    }
 
-  setLines((prev) => [...prev, newLine]);
+    const newLine = {
+      x1: firstPoint.x,
+      y1: firstPoint.y,
+      x2: pos.x,
+      y2: pos.y,
+      leftId: firstPoint.leftId,
+      image: firstPoint.image || (endType === "image" ? data.image : null),
+      right: data.right || null,
+    };
+setActiveItem(null);
+    return [...filtered, newLine];
+  });
 
-  // 🔁 استمرار الرسم من الصورة
+  // 🔁 استمرار الرسم من الصورة إذا كان التوصيل لـ image
   if (firstPoint.type === "left" && endType === "image") {
     const startFromImagePos = getDotCenterFromParent(
       e.currentTarget,
@@ -242,6 +219,7 @@ const handleEnd = (e) => {
     setFirstPoint(null);
   }
 };
+
   /* ================= CHECK ================= */
   const checkAnswers = () => {
     if (checked || locked) return;
@@ -266,17 +244,26 @@ correctGroups.forEach((group) => {
     (l) => l.image === group.image && l.right === group.right
   );
 
+  // 🔍 نجيب التوصيلات المباشرة من left لـ right
+  const directConnections = lines.filter(
+    (l) => l.leftId !== null && l.right === group.right && group.leftIds.includes(l.leftId)
+  );
+
   let isCorrect = false;
 
+  // حالة التوصيل عبر الصورة
   usedLeftConnections.forEach((conn) => {
-    // ✅ إذا الحرف المستخدم واحد من الصح
     if (group.leftIds.includes(conn.leftId) && imgToRight) {
       isCorrect = true;
     } else {
-      // ❌ هذا الحرف هو الغلط → نحطه لحاله
       wrong.push(conn.leftId);
     }
   });
+
+  // حالة التوصيل المباشر
+  if (directConnections.length > 0) {
+    isCorrect = true;
+  }
 
   if (isCorrect) {
     score++;
@@ -327,6 +314,9 @@ correctGroups.forEach((group) => {
             y1: p1.y,
             x2: p2.x,
             y2: p2.y,
+            leftId: leftId,
+            image: group.image,
+            right: null
           });
         }
 
@@ -339,6 +329,9 @@ correctGroups.forEach((group) => {
             y1: p1.y,
             x2: p2.x,
             y2: p2.y,
+            leftId: null,
+            image: group.image,
+            right: group.right
           });
         }
       });
@@ -392,10 +385,12 @@ correctGroups.forEach((group) => {
           gap: "20px",
         }}
       >
+        <div className="flex flex-col">
         <h4 className="header-title-page8">
           <span className="ex-A">A</span> Listen, write, and match.
         </h4>
-
+          <span className="text-gray-400 text-xs">Double-tap the image to start matching the image with the words below.</span>
+          </div>
         <QuestionAudioPlayer
           src={sound}
           captions={captions}
@@ -413,14 +408,22 @@ correctGroups.forEach((group) => {
                 onClick={handleStart}
               >
                 <span className="num-wb-unit6-p2-q2">{i + 1}</span>
-                <span
-                  className={`word-text-wb-unit6-p2-q2 ${
-                    locked || checked ? "disabled-word" : ""
-                  }`}
-                >
-                  {l.text}
-                </span>
-                <div className="dot-wb-unit6-p2-q2 start-dot" />
+               <span
+  className={`word-text-wb-unit6-p2-q2 ${
+    activeItem?.type === "left" && activeItem?.id === l.id
+      ? "active-left"
+      : ""
+  }`}
+>
+  {l.text}
+</span>
+               <div
+  className={`dot-wb-unit6-p2-q2 start-dot ${
+    activeItem?.type === "left" && activeItem?.id === l.id
+      ? "active-dot"
+      : ""
+  }`}
+/>
                 {wrongLeft.includes(l.id) && checked && (
                   <span className="wrong-mark-sb-unit2-p5-q1">✕</span>
                 )}
@@ -443,7 +446,11 @@ correctGroups.forEach((group) => {
                   alt=""
                   className={`matched-img2 ${
                     locked || checked ? "disabled-hover" : ""
-                  }`}
+                  }${
+    activeItem?.type === "image" && activeItem?.id === img.id
+      ? "active-image"
+      : ""
+  }`}
                 />
 
                 <div className="dot-wb-unit6-p2-q2 start-dot" />

@@ -174,7 +174,7 @@ const Review6_Page2_Q2 = () => {
                     onClick={() => handleDotClick(i, "text")}
                     className={`px-5 py-1.5 rounded-full font-semibold text-[18px] cursor-pointer min-w-20 ${
                       startDot?.index === i && startDot?.type === "text"
-                        ? "border-2 border-[#e74c3c] bg-[#fdecea]"
+                        ? "text-red-600 underline scale-110 bg-[#fdecea]"
                         : "bg-[#f6e6de]"
                     }`}
                   >
@@ -188,7 +188,11 @@ const Review6_Page2_Q2 = () => {
                   <div
                     ref={(el) => (textDotRefs.current[i] = el)}
                     onClick={() => handleDotClick(i, "text")}
-                    className="absolute -right-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-[#d82b2b] rounded-full cursor-pointer"
+                    className={`absolute -right-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-[#d82b2b] rounded-full cursor-pointer ${
+                      startDot?.index === i && startDot?.type === "text"
+                        ? "text-red-600 underline scale-125 bg-red-600"
+                        : "bg-red-500"
+                    }`}
                   />
                 </div>
               </div>

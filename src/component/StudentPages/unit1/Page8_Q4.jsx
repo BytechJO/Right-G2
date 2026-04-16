@@ -1,134 +1,125 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+
 import ValidationAlert from "../../Popup/ValidationAlert";
-import "./Page8_Q4.css";
 import img1 from "../../../assets/imgs/Right 2 Unit 1 Stellas Family/Page 8/Page8-Ex C 1.svg";
 import img2 from "../../../assets/imgs/Right 2 Unit 1 Stellas Family/Page 8/Page8-Ex C 2.svg";
-
-const Page8_Q4 = () => {
+import Button from "../../WorkBookPages/Button";
+const Unit1_Page5_Q4 = () => {
   const grid = [
-    "d",
-    "t",
-    "h",
-    "e",
-    "y",
-    "t",
-    "a",
-    "d",
-    "g",
-    "b",
-    "n",
-    "m",
-    "v",
-    "g",
-    "l",
-    "i",
-    "k",
-    "e",
-    "x",
-    "n",
-    "s",
-    "r",
-    "o",
-    "l",
-    "t",
-    "o",
-    "h",
-    "f",
-    "e",
-    "a",
-    "t",
-    "b",
-    "x",
-    "a",
-    "z",
-    "b",
-    "k",
-    "g",
-    "r",
-    "a",
-    "s",
-    "s",
-    "h",
-    "a",
-    "f",
-    "g",
-    "h",
-    "r",
-    "t",
-    "f",
-    "b",
-    "i",
-    "p",
-    "m",
-    "o",
-    "l",
-    "k",
-    "i",
+    [
+      "d",
+      "t",
+      "h",
+      "e",
+      "y",
+      "t",
+      "a",
+      "d",
+      "g",
+      "b",
+      "n",
+      "m",
+      "v",
+      "g",
+      "l",
+      "i",
+      "k",
+      "e",
+      "x",
+      "n",
+      "s",
+      "r",
+      "o",
+      "l",
+      "t",
+      "o",
+    ],
+
+    [
+      "h",
+      "f",
+      "e",
+      "a",
+      "t",
+      "b",
+      "x",
+      "a",
+      "z",
+      "b",
+      "k",
+      "g",
+      "r",
+      "a",
+      "s",
+      "s",
+      "h",
+      "a",
+      "f",
+      "g",
+      "h",
+      "r",
+      "t",
+      "f",
+      "b",
+      "i",
+    ],
+    ["p", "m", "o", "l", "k", "i"],
   ];
 
   const letters = grid;
-
   const wordsToFind = ["they", "like", "to", "eat", "grass"];
-
-  // 🔥 تعديل 1: أضفنا order لكل كلمة عشان نعرف مكانها بالجملة
-  const correctAnswers = [
-    { word: "they", indexes: [1, 2, 3, 4], order: 0 },
-    { word: "like", indexes: [14, 15, 16, 17], order: 1 },
-    { word: "to", indexes: [24, 25], order: 2 },
-    { word: "eat", indexes: [28, 29, 30], order: 3 },
-    { word: "grass", indexes: [37, 38, 39, 40, 41], order: 4 },
-  ];
-
-  // 🔥 تعديل 2: عرفنا الجملة الكاملة بدل ما نبنيها ديناميك
   const fullSentence = ["they", "like", "to", "eat", "grass"];
 
-  const [selected, setSelected] = useState([]);
-  const [locked, setLocked] = useState(false);
-  const [currentWord, setCurrentWord] = useState("");
-  const [foundWords, setFoundWords] = useState([]);
-  const [coloredCells, setColoredCells] = useState([]);
+  const correctPositions = {
+    they: [1, 2, 3, 4],
+    like: [14, 15, 16, 17],
 
-  const handleClick = (letter, index) => {
-    if (coloredCells.includes(index)) return;
+    to: [24, 25],
 
-    if (selected.includes(index)) {
-      const cutIndex = selected.indexOf(index);
-      const newSelected = selected.slice(0, cutIndex);
-      const newWord = newSelected.map((i) => letters[i]).join("");
+    // ✅ التصحيح هنا (row 1)
+    eat: [100 + 2, 100 + 3, 100 + 4],
 
-      setSelected(newSelected);
-      setCurrentWord(newWord);
-      return;
-    }
-
-    setSelected((prev) => [...prev, index]);
-    setCurrentWord((prev) => prev + letter);
+    grass: [100 + 11, 100 + 12, 100 + 13, 100 + 14, 100 + 15],
   };
 
-  useEffect(() => {
-    const matchedIndex = correctAnswers.findIndex(
-      (item) =>
-        item.word === currentWord &&
-        JSON.stringify(item.indexes) === JSON.stringify(selected),
+  const correctAnswers = [
+    { word: "they", order: 0 },
+    { word: "like", order: 1 },
+    { word: "to", order: 2 },
+    { word: "eat", order: 3 },
+    { word: "grass", order: 4 },
+  ];
+  const [locked, setLocked] = useState(false);
+  const [sentence, setSentence] = useState("");
+  const [selected, setSelected] = useState([]);
+  const [foundWords, setFoundWords] = useState([]);
+  const [coloredCells, setColoredCells] = useState([]);
+  const [isDragging, setIsDragging] = useState(false);
+
+  const handleMouseDown = (index) => {
+    if (locked) return;
+    setIsDragging(true);
+    setSelected([index]);
+  };
+  const handleMouseEnter = (index) => {
+    if (!isDragging || locked) return;
+
+    const lastIndex = selected[selected.length - 1];
+
+    if (index === lastIndex + 1 || index === lastIndex - 1) {
+      if (!selected.includes(index)) {
+        setSelected((prev) => [...prev, index]);
+      }
+    }
+  };
+
+  const displayedSentence = fullSentence.map((word, index) => {
+    const isFound = foundWords.some(
+      (foundWord) =>
+        correctAnswers.find((c) => c.word === foundWord)?.order === index,
     );
 
-    if (matchedIndex !== -1 && !foundWords.includes(matchedIndex)) {
-      setFoundWords((prev) => [...prev, matchedIndex]);
-      setColoredCells((prev) => [...prev, ...selected]);
-
-      // 🔥 تعديل 3: حذفنا setSentence بالكامل (ما عاد نستخدم sentence state)
-
-      setSelected([]);
-      setCurrentWord("");
-    }
-  }, [currentWord]);
-
-  // 🔥 تعديل 4 (أهم جزء):
-  // هون بنبني الجملة المخفية / المنكشفة حسب الكلمات اللي انوجدت
-  const displayedSentence = fullSentence.map((word, index) => {
-    const isFound = foundWords.some((i) => correctAnswers[i].order === index);
-
-    const SLOT_LENGTH = 8; // 🔥 طول ثابت لكل كلمة
+    const SLOT_LENGTH = 8;
 
     if (isFound) {
       return word.padEnd(SLOT_LENGTH, "");
@@ -136,119 +127,244 @@ const Page8_Q4 = () => {
 
     return "_".repeat(SLOT_LENGTH);
   });
+  const handleTouchMove = (e) => {
+    if (!isDragging || locked) return;
+    e.preventDefault(); // منع التمرير في الصفحة أثناء السحب
 
-  const checkAnswers = () => {
+    const touch = e.touches[0];
+    const element = document.elementFromPoint(touch.clientX, touch.clientY);
+    if (!element) return;
+
+    const index = element.getAttribute("data-index");
+    if (index !== null) {
+      handleMouseEnter(Number(index));
+    }
+  };
+
+  const handleMouseUp = () => {
     if (locked) return;
+    setIsDragging(false);
 
-    const total = wordsToFind.length;
-    const score = foundWords.length;
+    const matchedWord = wordsToFind.find((word) => {
+      const positions = correctPositions[word];
+      if (!positions) return false;
 
-    if (score === 0) {
-      ValidationAlert.info(`Find all the words first!`);
-      return;
+      // تحقق نفس الترتيب
+      const isSame =
+        positions.length === selected.length &&
+        positions.every((pos, i) => pos === selected[i]);
+
+      // تحقق بالعكس (reverse)
+      const isReverse =
+        positions.length === selected.length &&
+        positions
+          .slice()
+          .reverse()
+          .every((pos, i) => pos === selected[i]);
+
+      return isSame || isReverse;
+    });
+    if (matchedWord && !foundWords.includes(matchedWord)) {
+      setFoundWords((prev) => [...prev, matchedWord]);
+      setColoredCells((prev) => [...prev, ...selected]);
+      setSentence(
+        wordsToFind
+          .filter((word) => [...foundWords, matchedWord].includes(word))
+          .join(" "),
+      );
     }
 
-    if (score === total) {
-      ValidationAlert.success(`<b>Score: ${score} / ${total}</b>`);
-    } else {
-      ValidationAlert.warning(`<b>Score: ${score} / ${total}</b>`);
-    }
-
-    setLocked(true);
+    setSelected([]);
   };
 
   const reset = () => {
     setSelected([]);
-    setCurrentWord("");
     setFoundWords([]);
     setColoredCells([]);
+    setSentence("");
     setLocked(false);
   };
 
   const showAnswers = () => {
     let allCells = [];
-
-    correctAnswers.forEach((item) => {
-      allCells.push(...item.indexes);
+    wordsToFind.forEach((word) => {
+      if (correctPositions[word]) {
+        allCells.push(...correctPositions[word]);
+      }
     });
-
-    setFoundWords(correctAnswers.map((_, i) => i));
+    setFoundWords(wordsToFind);
     setColoredCells(allCells);
     setSelected([]);
-    setCurrentWord("");
+    setSentence(wordsToFind.join(" "));
     setLocked(true);
+  };
 
-    // 🔥 تعديل 5: حذفنا setSentence هون كمان
+  const checkAnswers = () => {
+    if (locked) return;
+    const total = wordsToFind.length;
+    const score = foundWords.length;
+
+    if (score === 0) {
+      ValidationAlert.info();
+      return;
+    }
+
+    if (score < total) {
+      ValidationAlert.warning(`
+        <div style="font-size:20px;text-align:center;">
+          <b style="color:orange;">Score: ${score} / ${total}</b>
+        </div>
+      `);
+    } else {
+      ValidationAlert.success(`
+        <div style="font-size:20px;text-align:center;">
+          <b style="color:green;">Score: ${score} / ${total}</b>
+        </div>
+      `);
+    }
+    setLocked(true);
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: "center", padding: "30px" }}>
-      <div className="div-forall" style={{ width: "60%" }}>
-        <h5 className="header-title-page8">
-          <span className="ex-A">C</span>What do photographers use?
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        padding: "30px",
+        width: "100%",
+        boxSizing: "border-box",
+      }}
+    >
+      <div className="div-forall">
+        <h5 className="header-title-page8 pb-2.5 mb-10">
+          <span className="ex-A" style={{ marginRight: "10px" }}>
+            C
+          </span>
+          What do lambs like to eat?
         </h5>
 
-        <div className="words-list-CB-unit3-p5-q4">
-          {wordsToFind.map((word, i) => (
+        {/* Words List */}
+        {/* <div className="flex flex-wrap justify-center gap-3 mb-5 border-2 border-dashed border-gray-300 rounded-[14px] p-3">
+          {wordsToFind.map((word) => (
             <span
-              key={i}
-              className={`word-CB-unit3-p5-q4 ${
-                foundWords.includes(i) ? "found-CB-unit3-p5-q4" : ""
+              key={word}
+              className={`px-3 py-1.5 rounded-[10px] border-2 border-[#2c5287] font-semibold transition duration-200 ${
+                foundWords.includes(word)
+                  ? "bg-[#2c5287] text-white border-[#2c5287]"
+                  : "bg-white text-black"
               }`}
+              style={{ fontSize: "clamp(12px, 2vw, 15px)" }}
             >
               {word}
             </span>
           ))}
-        </div>
+        </div> */}
 
-        <div className="wordsearch-wrapper-CB-unit3-p5-q4">
-          <div className="grid-CB-unit3-p5-q4">
-            {letters.map((letter, index) => {
-              const isSelected = selected.includes(index);
-              const isFound = coloredCells.includes(index);
-
-              return (
-                <span
-                  key={index}
-                  className={`cell-CB-unit3-p5-q4 
-                  ${isSelected ? "selected-CB-unit3-p5-q4" : ""}
-                  ${isFound ? "found-cell-CB-unit3-p5-q4" : ""}`}
-                  onClick={() => handleClick(letter, index)}
+        <div
+          style={{ width: "100%", display: "flex", justifyContent: "center" }}
+        >
+          {/* Grid Wrapper */}
+          <div
+            className="border-2 border-[#f28c63] px-4 pt-4 pb-5"
+            style={{ width: "fit-content", margin: "0 auto" }}
+          >
+            <div
+              className="bg-[#daf5ff] rounded-[15px] p-2 sm:p-[15px]"
+              style={{
+                userSelect: "none",
+                width: "max-content",
+                touchAction: "none", // 🔥 الحل السحري لمنع تحريك الصفحة أثناء السحب على الآيباد
+                WebkitOverflowScrolling: "touch",
+              }}
+            >
+              {letters.map((row, rowIndex) => (
+                <div
+                  key={rowIndex}
+                  style={{
+                    display: "flex",
+                    gap: "clamp(1px, 0.3vw, 4px)", // مسافة تتغير حسب الشاشة
+                    width: "fit-content",
+                  }}
                 >
-                  {letter}
-                </span>
-              );
-            })}
-          </div>
+                  {row.map((letter, colIndex) => {
+                    const index = rowIndex * 100 + colIndex;
+                    const isSelected = selected.includes(index);
+                    const isFound = coloredCells.includes(index);
 
-          <div className="flex justify-center items-center">
-            <img src={img1} style={{ height: "90px", width: "90px" }} />
+                    return (
+                      <span
+                        key={index}
+                        data-index={index}
+                        onMouseDown={() => handleMouseDown(index)}
+                        onMouseEnter={() => handleMouseEnter(index)}
+                        onMouseUp={handleMouseUp}
+                        onDragStart={(e) => e.preventDefault()}
+                        onTouchStart={(e) => {
+                          e.preventDefault(); // 🔥 منع تحريك الصفحة عند بدء اللمس
+                          handleMouseDown(index);
+                        }}
+                        onTouchMove={handleTouchMove}
+                        onTouchEnd={handleMouseUp}
+                        className={`
+                          flex items-center justify-center mb-2
+                          cursor-pointer
+                          transition
+                          ${isSelected ? "bg-[#ffd54f] rounded-sm" : ""}
+                          ${isFound ? "bg-[#4caf50] text-white rounded-sm" : ""}
+                        `}
+                        style={{
+                          width: "clamp(16px, 2.5vw, 25px)", // 🔥 عرض ديناميكي
+                          height: "clamp(22px, 3.5vw, 35px)", // 🔥 طول ديناميكي
+                          fontSize: "clamp(12px, 1.8vw, 18px)", // 🔥 حجم خط ديناميكي
+                        }}
+                      >
+                        {letter}
+                      </span>
+                    );
+                  })}
+                </div>
+              ))}
+            </div>
 
-            {/* 🔥 تعديل 6: بدل sentence استخدمنا displayedSentence */}
-            <input
-              className="answer-input-CB-unit3-p5-q4"
-              value={displayedSentence.join(" ")}
-              readOnly
-              style={{ fontFamily: "monospace" }} // 🔥 مهم جدا
-            />
-            <img src={img2} style={{ height: "90px", width: "90px" }} />
+            <div className="flex justify-center items-center">
+              <img
+                src={img1}
+                alt="start"
+                style={{
+                  width: "clamp(40px, 10vw, 100px)", // 🔥 حجم ديناميكي للصور
+                  height: "auto",
+                }}
+              />
+
+              <input
+                className="answer-input-CB-unit3-p5-q4"
+                value={displayedSentence.join(" ")}
+                readOnly
+                style={{ fontFamily: "monospace" }} // 🔥 مهم جدا
+              />
+
+              <img
+                src={img2}
+                alt="end"
+                style={{
+                  width: "clamp(40px, 10vw, 100px)", // 🔥 حجم ديناميكي للصور
+                  height: "auto",
+                }}
+              />
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="action-buttons-container">
-        <button onClick={reset} className="try-again-button">
-          Start Again ↻
-        </button>
-        <button onClick={showAnswers} className="show-answer-btn">
-          Show Answer
-        </button>
-        <button onClick={checkAnswers} className="check-button2">
-          Check Answer ✓
-        </button>
+        {/* BUTTONS */}
+        <Button
+          handleShowAnswer={showAnswers}
+          handleStartAgain={reset}
+          checkAnswers={checkAnswers}
+        />
       </div>
     </div>
   );
 };
 
-export default Page8_Q4;
+export default Unit1_Page5_Q4;

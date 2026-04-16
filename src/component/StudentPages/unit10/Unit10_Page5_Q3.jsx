@@ -172,11 +172,14 @@ She’s watering the flowers.`,
               <div className="relative inline-block">
                 <p
                   className={`px-5 py-1.5 rounded-[20px] font-semibold text-[20px] w-[290px] cursor-pointer min-w-20 whitespace-pre-line
+                    bg-red-100
           ${
             startDot?.index === i && startDot?.type === "text"
-              ? "border-2 border-[#e74c3c] bg-[#fdecea]"
-              : "bg-[#f6e6de]"
-          }`}
+              ? "bg-red-100 text-red-600 underline scale-110"
+              : ""
+          }
+    transition-all duration-200
+          `}
                   onClick={() => handleDotClick(i, "text")}
                 >
                   {words[i]}
@@ -200,7 +203,12 @@ She’s watering the flowers.`,
                 <div
                   ref={(el) => (textDotRefs.current[i] = el)}
                   onClick={() => handleDotClick(i, "text")}
-                  className="absolute -right-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-[#d82b2b] rounded-full cursor-pointer"
+                  className={`absolute -right-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-[#d82b2b] rounded-full cursor-pointer  ${
+                    startDot?.index === i && startDot?.type === "text"
+                      ? "bg-red-600 scale-150"
+                      : ""
+                  }
+    transition-all duration-200`}
                 />
               </div>
             </div>
@@ -210,12 +218,23 @@ She’s watering the flowers.`,
               <div
                 ref={(el) => (imageDotRefs.current[i] = el)}
                 onClick={() => handleDotClick(i, "image")}
-                className="w-3 h-3 bg-[#d82b2b] rounded-full cursor-pointer"
+                className={`w-3 h-3 bg-[#d82b2b] rounded-full cursor-pointer ${
+                  startDot?.index === i && startDot?.type === "image"
+                    ? "bg-red-600 scale-150"
+                    : ""
+                }
+    transition-all duration-200 `}
               />
 
               <img
                 src={item.image}
                 onClick={() => handleDotClick(i, "image")}
+                className={` ${
+                  startDot?.index === i && startDot?.type === "image"
+                    ? "border-2 border-red-600 scale-105 rounded-lg"
+                    : ""
+                }
+    transition-all duration-200`}
                 style={{
                   height: "120px",
                   width: "auto",

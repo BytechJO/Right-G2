@@ -12,7 +12,28 @@
   background: #fff;
   justify-items: center;
 }
+/* الكلمة */
+.active-left {
+  color: #dc2626; /* red-600 */
+  text-decoration: underline;
+  transform: scale(1.1);
+  transition: 0.2s;
+}
 
+/* النقطة */
+.active-dot {
+  background-color: #dc2626;
+  transform: scale(1.4);
+  transition: 0.2s;
+}
+
+/* الصورة */
+.active-image {
+  border: 3px solid #dc2626;
+  border-radius: 10px;
+  transform: scale(1.05);
+  transition: 0.2s;
+}
 .start-dot1 {
   left: 22%;
   transform: translateX(-50%);

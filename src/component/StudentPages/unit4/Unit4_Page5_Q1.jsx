@@ -38,7 +38,6 @@ const Unit4_Page5_Q1 = () => {
     const r = el.getBoundingClientRect();
     const c = ref.current.getBoundingClientRect();
 
-    // مركز العنصر (بدون +8 ثابت)
     return {
       x: r.left - c.left + r.width / 2,
       y: r.top - c.top + r.height / 2,
@@ -48,32 +47,37 @@ const Unit4_Page5_Q1 = () => {
   const startLine = (e) => {
     if (locked || showAnswer) return;
 
-    const dot = e.currentTarget; // ✅ الدوت نفسه
+    const dot = e.currentTarget;
     const image = dot.dataset.image;
 
-    if (lines.some((l) => l.image === image)) return;
-
+    // تم إزالة التحقق الذي يمنع اختيار العنصر إذا كان موصولاً مسبقاً
+    // للسماح بإعادة توصيله بحرف آخر
     setStart({ image, ...getCenterPos(dot) });
   };
 
   const endLine = (e) => {
     if (!start || locked || showAnswer) return;
 
-    const dot = e.currentTarget; // ✅ الدوت نفسه
+    const dot = e.currentTarget;
     const word = dot.dataset.word;
     const pos = getCenterPos(dot);
 
-    setLines((prev) => [
-      ...prev,
-      {
-        x1: start.x,
-        y1: start.y,
-        x2: pos.x,
-        y2: pos.y,
-        image: start.image,
-        word,
-      },
-    ]);
+    setLines((prev) => {
+      // إزالة أي توصيل قديم لنفس العنصر (العنصر لا يتوصل إلا بحرف واحد)
+      const filteredLines = prev.filter((l) => l.image !== start.image);
+
+      return [
+        ...filteredLines,
+        {
+          x1: start.x,
+          y1: start.y,
+          x2: pos.x,
+          y2: pos.y,
+          image: start.image,
+          word,
+        },
+      ];
+    });
 
     setStart(null);
   };
@@ -109,7 +113,7 @@ const Unit4_Page5_Q1 = () => {
     setLocked(true);
     setShowAnswer(true);
     setWrong([]);
-    setLines([]); // ⬅️ امسح أي خطوط قديمة
+    setLines([]);
 
     const answerLines = [];
 
@@ -144,34 +148,40 @@ const Unit4_Page5_Q1 = () => {
   return (
     <div style={{ display: "flex", justifyContent: "center", padding: "30px" }}>
       <div className="div-forall" style={{ width: "60%" }}>
-        {/* ❌ لا تعديل */}
         <h5 className="header-title-page8">
           <span className="ex-A">A</span>{" "}
           <span style={{ color: "#2e3192" }}>1</span>Match and write.{" "}
         </h5>
 
-        {/* ❌ لا تعديل */}
         <div ref={ref} className="match-wrapper2-CB-review1-p2-q1">
-          {/* IMAGES */}
+          {/* IMAGES (TEXT ITEMS) */}
           <div className="CB-unit4-p5-q1-images">
             {ITEMS.map((item, index) => (
               <div key={item.id} className="CB-review1-p2-q1-img-box">
                 <span className="CB-unit4-p5-q1-index">{index + 1}</span>
                 <div
-                  className={`CB-review1-p2-q1-text-item ${locked ? "disabled-hover" : ""}`}
+                  className={`
+    CB-review1-p2-q1-text-item
+    ${locked ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
+    ${start?.image === item.id ? "text-red-600 underline scale-110" : ""}
+    transition-all duration-200
+  `}
                   onClick={() =>
                     document.querySelector(`[data-image="${item.id}"]`)?.click()
                   }
                 >
                   {item.id}
                 </div>
-
                 {wrong.includes(item.id) && (
                   <span className="CB-review1-p2-q1-error">✕</span>
                 )}
 
                 <div
-                  className="CB-review1-p2-q1-dot CB-review1-p2-q1-dot-start"
+                  className={`
+    CB-review1-p2-q1-dot CB-review1-p2-q1-dot-start
+    ${start?.image === item.id ? "bg-red-600 scale-150" : ""}
+    transition-all duration-200
+  `}
                   data-image={item.id}
                   onClick={startLine}
                 />
@@ -179,21 +189,29 @@ const Unit4_Page5_Q1 = () => {
             ))}
           </div>
 
-          {/* WORDS */}
+          {/* WORDS (CHARS) */}
           <div className="CB-review1-p2-q1-words">
             {WORDS.map((w) => (
               <div key={w.char} className="CB-review1-p2-q1-word-box">
                 <h5
-                  className={`CB-review1-p2-q1-word ${w.color}`}
+                  className={`
+    CB-review1-p2-q1-word ${w.color}
+    ${locked ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
+    ${start ? "hover:text-red-600 hover:underline hover:scale-110" : ""}
+    transition-all duration-200
+  `}
                   onClick={() =>
                     document.querySelector(`[data-word="${w.char}"]`)?.click()
                   }
                 >
                   {w.char}
                 </h5>
-
                 <div
-                  className="CB-review1-p2-q1-dot CB-review1-p2-q1-dot-end"
+                  className={`
+    CB-review1-p2-q1-dot CB-review1-p2-q1-dot-end
+    ${start ? "hover:bg-red-600 hover:scale-125" : ""}
+    transition-all duration-200
+  `}
                   data-word={w.char}
                   onClick={endLine}
                 />
@@ -204,27 +222,31 @@ const Unit4_Page5_Q1 = () => {
           {/* LINES */}
           <svg className="lines-layer">
             {lines.map((l, i) => (
-              <line
-                key={i}
-                x1={l.x1}
-                y1={l.y1}
-                x2={l.x2}
-                y2={l.y2}
+              <path
+                key={`${l.word}-${l.image}`}
+                d={`
+    M ${l.x1} ${l.y1}
+    C ${(l.x1 + l.x2) / 2} ${l.y1},
+      ${(l.x1 + l.x2) / 2} ${l.y2},
+      ${l.x2} ${l.y2}
+  `}
                 stroke="red"
                 strokeWidth="3"
+                fill="none"
+                  strokeDasharray="6,6"   // 🔥 هذا المهم
               />
             ))}
           </svg>
         </div>
       </div>
-      {/* ❌ الأزرار كما هي */}
+      {/* ACTION BUTTONS */}
       <div className="action-buttons-container">
         <button
           onClick={() => {
             setLines([]);
             setWrong([]);
-            setShowAnswer(false); // ← رجع التعديل
-            setLocked(false); // ⭐⭐⭐ NEW: إعادة فتح الرسم
+            setShowAnswer(false);
+            setLocked(false);
           }}
           className="try-again-button"
         >

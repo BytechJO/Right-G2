@@ -11,13 +11,14 @@ import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 const Unit5_Page6_Q1 = () => {
   const [lines, setLines] = useState([]);
   const containerRef = useRef(null);
-  let startPoint = null;
   const [wrongWords, setWrongWords] = useState([]);
   const [wrongInputs, setWrongInputs] = useState([]);
   const [locked, setLocked] = useState(false);
   const [firstDot, setFirstDot] = useState(null);
   const [showAnswer, setShowAnswer] = useState(false);
   const [hoveredWord, setHoveredWord] = useState(null);
+  const [activeSentence, setActiveSentence] = useState(null);
+  const [activeImage, setActiveImage] = useState(null);
   const questions = [
     {
       id: 1,
@@ -55,14 +56,25 @@ const Unit5_Page6_Q1 = () => {
       image: img3,
     },
   ];
+
   const correctMatches = questions.map((q) => ({
     word: q.matchWord,
     image: q.image,
   }));
+
   const images = [img1, img2, img3, img4, img5];
+
   const correctSentences = Object.fromEntries(
     questions.map((q) => [q.id, q.correctSentence]),
   );
+
+  const [userInputs, setUserInputs] = useState({
+    1: [],
+    2: [],
+    3: [],
+    4: [],
+    5: [],
+  });
 
   const onDragEnd = (result) => {
     if (!result.destination || locked || showAnswer) return;
@@ -78,15 +90,6 @@ const Unit5_Page6_Q1 = () => {
     }));
   };
 
-  const [userInputs, setUserInputs] = useState({
-    1: [],
-    2: [],
-    3: [],
-    4: [],
-    5: [],
-    6: [],
-  });
-
   // ============================
   // 1️⃣ الضغط على النقطة الأولى (start-dot)
   // ============================
@@ -94,12 +97,19 @@ const Unit5_Page6_Q1 = () => {
     if (showAnswer || locked) return;
 
     const rect = containerRef.current.getBoundingClientRect();
-
     const word = e.target.dataset.word || null;
     const image = e.target.dataset.image || null;
 
-    const alreadyUsed = lines.some((line) => line.word === word);
-    if (alreadyUsed) return;
+    // 🔥 تحديد العنصر
+    if (word) {
+      setActiveSentence(word);
+      setActiveImage(null);
+    }
+
+    if (image) {
+      setActiveImage(image);
+      setActiveSentence(null);
+    }
 
     setFirstDot({
       word,
@@ -113,36 +123,45 @@ const Unit5_Page6_Q1 = () => {
   // 2️⃣ الضغط على النقطة الثانية (end-dot)
   // ============================
   const handleEndDotClick = (e) => {
-    if (showAnswer || locked) return;
-    if (!firstDot) return;
+  if (showAnswer || locked) return;
+  if (!firstDot) return;
 
-    const rect = containerRef.current.getBoundingClientRect();
+  const rect = containerRef.current.getBoundingClientRect();
+  const endWord = e.target.dataset.word || null;
+  const endImage = e.target.dataset.image || null;
 
-    const endWord = e.target.dataset.word || null;
-    const endImage = e.target.dataset.image || null;
-
-    const newLine = {
-      x1: firstDot.x,
-      y1: firstDot.y,
-      x2: e.target.getBoundingClientRect().left - rect.left + 8,
-      y2: e.target.getBoundingClientRect().top - rect.top + 8,
-      word: firstDot.word || endWord,
-      image: firstDot.image || endImage,
-    };
-
-    setLines((prev) => [...prev, newLine]);
-    setFirstDot(null);
+  const newLine = {
+    x1: firstDot.x,
+    y1: firstDot.y,
+    x2: e.target.getBoundingClientRect().left - rect.left + 8,
+    y2: e.target.getBoundingClientRect().top - rect.top + 8,
+    word: firstDot.word || endWord,
+    image: firstDot.image || endImage,
   };
+
+  setLines((prev) => {
+    const filteredLines = prev.filter(
+      (line) => line.word !== newLine.word && line.image !== newLine.image
+    );
+    return [...filteredLines, newLine];
+  });
+
+  // ✅ هون الحل
+  setActiveSentence(null);
+  setActiveImage(null);
+
+  setFirstDot(null);
+};
 
   const checkAnswers = () => {
     if (showAnswer || locked) return;
 
     if (
-      !userInputs[1] ||
-      !userInputs[2] ||
-      !userInputs[3] ||
-      !userInputs[4] ||
-      !userInputs[5]
+      userInputs[1].length === 0 ||
+      userInputs[2].length === 0 ||
+      userInputs[3].length === 0 ||
+      userInputs[4].length === 0 ||
+      userInputs[5].length === 0
     ) {
       ValidationAlert.info("Oops!", "Please complete all sentences.");
       return;
@@ -155,12 +174,10 @@ const Unit5_Page6_Q1 = () => {
 
     let sentenceCorrect = 0;
     let lineCorrect = 0;
-
     let wrongInputsTemp = [];
 
     Object.keys(correctSentences).forEach((key) => {
       const userAnswer = userInputs[key].join(" ").toLowerCase();
-
       const correctAnswer = correctSentences[key];
 
       if (userAnswer === correctAnswer) sentenceCorrect++;
@@ -170,7 +187,6 @@ const Unit5_Page6_Q1 = () => {
     setWrongInputs(wrongInputsTemp);
 
     let wrongLines = [];
-
     lines.forEach((line) => {
       const isCorrect = correctMatches.some(
         (pair) => pair.word === line.word && pair.image === line.image,
@@ -180,7 +196,7 @@ const Unit5_Page6_Q1 = () => {
       else wrongLines.push(line.word);
     });
 
-    const totalScore = 9;
+    const totalScore = 10; // 5 sentences + 5 lines
     const userScore = sentenceCorrect + lineCorrect;
 
     setWrongWords([...wrongLines]);
@@ -218,7 +234,6 @@ const Unit5_Page6_Q1 = () => {
           style={{
             display: "flex",
             flexDirection: "column",
-            // gap: "30px",
             width: "60%",
             justifyContent: "flex-start",
           }}
@@ -228,29 +243,26 @@ const Unit5_Page6_Q1 = () => {
               <span className="ex-A">D</span> Unscramble and write. Then, match.
             </h4>
 
-            <div
-              className="container12"
-              ref={containerRef}
-              // style={{ margin: "30px" }}
-            >
-              {/* الصف الأول */}
+            <div className="container12" ref={containerRef}>
               {questions.map((q, i) => (
                 <div className="CB-unit5-p6-q1-row" key={q.id}>
                   <div style={{ width: "50%" }}>
                     <div className="CB-unit5-p6-q1-word-with-dot">
-                      <span className="CB-unit5-p6-q1-number">{q.id}</span>
-
+                     
+<span className="CB-unit5-p6-q1-number mr-5">{q.id}</span>
                       <span
-                        className={`CB-unit5-p6-q1-word-text ${
-                          locked || showAnswer
-                            ? "CB-unit5-p6-q1-disabled-word"
-                            : ""
-                        }`}
+                        className={`
+    CB-unit5-p6-q1-word-text
+    ${locked || showAnswer ? "CB-unit5-p6-q1-disabled-word" : ""}
+    transition-all duration-200
+
+    ${activeSentence === q.matchWord ? "text-red-600 scale-110 underline" : ""}
+  `}
                         onClick={() =>
                           document.getElementById(`dot-word-${q.id}`).click()
                         }
                         style={{ cursor: "pointer" }}
-                      >
+                      > 
                         {q.matchWord}
                       </span>
 
@@ -260,7 +272,12 @@ const Unit5_Page6_Q1 = () => {
 
                       <div className="CB-unit5-p6-q1-dot-wrapper">
                         <div
-                          className="CB-unit5-p6-q1-dot CB-unit5-p6-q1-dot-start"
+                          className={`
+    CB-unit5-p6-q1-dot CB-unit5-p6-q1-dot-start
+    transition-all duration-200
+
+    ${activeSentence === q.matchWord ? "scale-150 bg-red-600" : ""}
+  `}
                           id={`dot-word-${q.id}`}
                           data-word={q.matchWord}
                           onClick={handleStartDotClick}
@@ -328,35 +345,36 @@ const Unit5_Page6_Q1 = () => {
                               : ""
                           }`}
                         >
-                         {userInputs[q.id].map((word, index) => {
-  const key = `${q.id}-${index}`;
+                          {userInputs[q.id].map((word, index) => {
+                            const key = `${q.id}-${index}`;
 
-  return (
-    <span
-      key={key}
-      onMouseEnter={() => setHoveredWord(key)}
-      onMouseLeave={() => setHoveredWord(null)}
-      onClick={() => {
-        if (locked || showAnswer) return;
+                            return (
+                              <span
+                                key={key}
+                                onMouseEnter={() => setHoveredWord(key)}
+                                onMouseLeave={() => setHoveredWord(null)}
+                                onClick={() => {
+                                  if (locked || showAnswer) return;
 
-        setUserInputs((prev) => ({
-          ...prev,
-          [q.id]: prev[q.id].filter((_, i) => i !== index),
-        }));
-      }}
-      style={{
-        marginRight: "6px",
-        cursor: locked ? "default" : "pointer",
-        // padding: "2px 6px",
-        borderRadius: "6px",
-       color: hoveredWord === key ? "red" : "black",
-        transition: "0.2s",
-      }}
-    >
-      {word}
-    </span>
-  );
-})}
+                                  setUserInputs((prev) => ({
+                                    ...prev,
+                                    [q.id]: prev[q.id].filter(
+                                      (_, i) => i !== index,
+                                    ),
+                                  }));
+                                }}
+                                style={{
+                                  marginRight: "6px",
+                                  cursor: locked ? "default" : "pointer",
+                                  borderRadius: "6px",
+                                  color: hoveredWord === key ? "red" : "black",
+                                  transition: "0.2s",
+                                }}
+                              >
+                                {word}
+                              </span>
+                            );
+                          })}
                           {provided.placeholder}
                         </div>
                       )}
@@ -367,7 +385,12 @@ const Unit5_Page6_Q1 = () => {
                   <div className="CB-unit5-p6-q1-match-section">
                     <div className="CB-unit5-p6-q1-dot-wrapper">
                       <div
-                        className="CB-unit5-p6-q1-dot CB-unit5-p6-q1-dot-end"
+                        className={`
+    CB-unit5-p6-q1-dot CB-unit5-p6-q1-dot-end
+    transition-all duration-200
+
+    ${activeImage === images[i] ? "scale-150 bg-red-600" : ""}
+  `}
                         data-image={images[i]}
                         id={`dot-img-${q.id}`}
                         onClick={handleEndDotClick}
@@ -376,11 +399,17 @@ const Unit5_Page6_Q1 = () => {
 
                     <img
                       src={images[i]}
-                      className={`CB-unit5-p6-q1-matched-img ${
-                        locked || showAnswer
-                          ? "CB-unit5-p6-q1-disabled-word"
-                          : ""
-                      }`}
+                      className={`
+    CB-unit5-p6-q1-matched-img
+    ${locked || showAnswer ? "CB-unit5-p6-q1-disabled-word" : ""}
+    transition-all duration-200
+
+    ${
+      activeImage === images[i]
+        ? "scale-110 border-2 border-red-600 rounded-lg"
+        : ""
+    }
+  `}
                       alt=""
                       onClick={() =>
                         document.getElementById(`dot-img-${q.id}`).click()
@@ -391,8 +420,19 @@ const Unit5_Page6_Q1 = () => {
               ))}
 
               <svg className="lines-layer">
-                {lines.map((line, i) => (
-                  <line key={i} {...line} stroke="red" strokeWidth="3" />
+                {lines.map((l, i) => (
+                  <path
+                    key={`${l.word}-${l.image}`}
+                    d={`
+    M ${l.x1} ${l.y1}
+    C ${(l.x1 + l.x2) / 2} ${l.y1},
+      ${(l.x1 + l.x2) / 2} ${l.y2},
+      ${l.x2} ${l.y2}
+  `}
+                    stroke="red"
+                    strokeWidth="3"
+                    fill="none"
+                  />
                 ))}
               </svg>
             </div>
@@ -409,7 +449,6 @@ const Unit5_Page6_Q1 = () => {
                   4: [],
                   5: [],
                 });
-
                 setWrongWords([]);
                 setWrongInputs([]);
                 setShowAnswer(false);
@@ -434,7 +473,6 @@ const Unit5_Page6_Q1 = () => {
                   };
                 };
 
-                // 1️⃣ إنشاء الخطوط الصحيحة
                 const finalLines = correctMatches.map((line) => ({
                   ...line,
                   x1: getDotPosition(`[data-word="${line.word}"]`).x,
@@ -445,7 +483,6 @@ const Unit5_Page6_Q1 = () => {
 
                 setLines(finalLines);
 
-                // 2️⃣ تعبئة جميع الإجابات الصحيحة في inputs
                 setUserInputs({
                   1: correctSentences["1"].split(" "),
                   2: correctSentences["2"].split(" "),
@@ -454,7 +491,6 @@ const Unit5_Page6_Q1 = () => {
                   5: correctSentences["5"].split(" "),
                 });
 
-                // 3️⃣ منع التعديل على كل شيء (قفل inputs + منع الرسم)
                 setLocked(true);
                 setShowAnswer(true);
                 setWrongWords([]);

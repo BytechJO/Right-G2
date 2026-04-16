@@ -218,9 +218,7 @@ const Review8_Page2_Q2 = () => {
                 >
                   <div className="relative">
                     <div
-                      className={`rounded-lg flex items-center justify-center ${
-                        selectedImg === img.id ? "bg-red-100" : ""
-                      }`}
+                      className={`rounded-lg flex items-center justify-center`}
                     >
                       <img
                         src={img.img}
@@ -228,24 +226,23 @@ const Review8_Page2_Q2 = () => {
                           if (locked) return;
                           setSelectedImage(index);
                         }}
+                        className={`${
+                          selectedImg === img.id
+                            ? "border-2 border-red-600 scale-110"
+                            : ""
+                        }`}
                         style={{
                           height: "130px",
                           width: "auto",
                           cursor: "pointer",
                           borderRadius: "10px",
                           transition: "0.2s",
-                          border:
-                            selectedImage === index
-                              ? "3px solid #ef4444"
-                              : "2px solid transparent",
-                          background:
-                            selectedImage === index ? "#fee2e2" : "transparent",
+
                           transform:
-                            selectedImage === index ? "scale(1.05)" : "scale(1)",
-                          boxShadow:
                             selectedImage === index
-                              ? "0 4px 12px rgba(0,0,0,0.2)"
-                              : "none",
+                              ? "scale(1.05)"
+                              : "scale(1)",
+                         
                         }}
                       />
                     </div>
@@ -257,7 +254,15 @@ const Review8_Page2_Q2 = () => {
                       </div>
                     )}
                   </div>
-                  <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                  <div
+                  onClick={() => {
+                          if (locked) return;
+                          setSelectedImage(index);
+                        }}
+                    className={`w-3 h-3 bg-red-500 rounded-full ${
+                      selectedImg === img.id ? "bg-red-600 scale-125" : ""
+                    }`}
+                  ></div>
                 </div>
               ))}
             </div>

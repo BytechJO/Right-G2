@@ -67,33 +67,42 @@ const WB_Unit1_Page3_Q1 = () => {
   };
 
   const checkAnswers = () => {
-    if (locked) return;
+  if (locked) return;
 
-    let wrong = [];
-    let score = 0;
-    let total = 0;
+  // ✅ تحقق إذا في مدخلات فاضية
+  const hasEmpty = answers.some((row) =>
+    row.some((val) => val === "")
+  );
 
-    questions.forEach((q, qIndex) => {
-      q.parts.forEach((p, pIndex) => {
-        if (p.type === "input") {
-          total++;
-          const word =
-            wordBank.find((w) => w.id === answers[qIndex][pIndex])?.text || "";
-          if (word === p.answer) score++;
-          else wrong.push(`${qIndex}-${pIndex}`);
-        }
-      });
+  if (hasEmpty) {
+    ValidationAlert.info("Please fill all answers first!");
+    return;
+  }
+
+  let wrong = [];
+  let score = 0;
+  let total = 0;
+
+  questions.forEach((q, qIndex) => {
+    q.parts.forEach((p, pIndex) => {
+      if (p.type === "input") {
+        total++;
+        const word =
+          wordBank.find((w) => w.id === answers[qIndex][pIndex])?.text || "";
+        if (word === p.answer) score++;
+        else wrong.push(`${qIndex}-${pIndex}`);
+      }
     });
+  });
 
-    setWrongInputs(wrong);
-    setLocked(true);
+  setWrongInputs(wrong);
+  setLocked(true);
 
-    const msg = `Score: ${score} / ${total}`;
-    if (score === total) ValidationAlert.success(msg);
-    else if (score === 0) ValidationAlert.error(msg);
-    else ValidationAlert.warning(msg);
-  };
-
+  const msg = `Score: ${score} / ${total}`;
+  if (score === total) ValidationAlert.success(msg);
+  else if (score === 0) ValidationAlert.error(msg);
+  else ValidationAlert.warning(msg);
+};
   const showAnswers = () => {
     setAnswers(
       questions.map((q) =>

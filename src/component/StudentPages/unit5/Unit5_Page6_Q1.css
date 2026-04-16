@@ -93,7 +93,7 @@
 }
 
 .CB-unit5-p6-q1-matched-word,
-.CB-unit5-p6-q1-word-text , .CB-unit5-p6-q1-matched-img{
+.CB-unit5-p6-q1-matched-img{
   transition: transform 0.2s ease, color 0.2s ease,
     background-color 0.2s ease, box-shadow 0.2s ease;
   border-radius: 6px;
@@ -101,7 +101,7 @@
 
 /* ✨ Hover animation */
 .CB-unit5-p6-q1-matched-word:hover,
-.CB-unit5-p6-q1-word-text:hover ,.CB-unit5-p6-q1-matched-img:hover {
+.CB-unit5-p6-q1-matched-img:hover {
   transform: scale(1.06);
   background-color: rgba(67, 15, 104, 0.08);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
@@ -109,7 +109,7 @@
 }
 
 .CB-unit5-p6-q1-matched-word:active,
-.CB-unit5-p6-q1-word-text:active,.CB-unit5-p6-q1-matched-img:active {
+.CB-unit5-p6-q1-matched-img:active {
   transform: scale(0.98);
 }
 

@@ -189,19 +189,22 @@ const Review5_Page1_Q3 = () => {
                   <img
                     src={item.image}
                     alt=""
+                    className={`${
+                      showResult
+                        ? isCorrect
+                          ? "border-2 border-red-500"
+                          : isWrong
+                            ? "border-3 border-red-500"
+                            : "border-2 border-red-500"
+                        : selected.image === i
+                          ? "border-3 border-red-600 scale-110"
+                          : "border-2 border-red-500"
+                    }`}
                     style={{
                       width: "200px",
                       height: "150px",
                       borderRadius: "12px",
-                      border: showResult
-                        ? isCorrect
-                          ? "3px solid #e74c3c"
-                          : isWrong
-                            ? "3px solid red"
-                            : "3px solid #e74c3c"
-                        : selected.image === i
-                          ? "3px solid #7e1d12"
-                          : "3px solid #e74c3c",
+
                       display: "block",
                     }}
                   />
@@ -216,8 +219,8 @@ const Review5_Page1_Q3 = () => {
                     ref={(el) => (imageDotRefs.current[i] = el)}
                     className={`absolute -right-2 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full ${
                       selected.image === i
-                        ? "bg-[#7e1d12] scale-110"
-                        : "bg-[#e74c3c]"
+                        ? "bg-red-600 scale-110"
+                        : "bg-red-500"
                     }`}
                   />
                 </div>
@@ -231,15 +234,16 @@ const Review5_Page1_Q3 = () => {
                   ref={(el) => (textDotRefs.current[i] = el)}
                   className={`w-4 h-4 rounded-full ${
                     selected.text === i
-                      ? "bg-[#7e1d12] scale-110"
-                      : "bg-[#e74c3c]"
+                      ? "text-red-600 underline scale-110"
+                      : "bg-red-500"
                   }`}
                 />
 
                 <p
                   className={`text-[18px] font-medium ${
-                    selected.text === i ? "text-[#7e1d12] font-bold" : ""
+                    selected.text === i ? "text-red-600 underline scale-110" : ""
                   }`}
+                  onClick={() => handleDotClick(i, "text")}
                 >
                   {texts[i]}
                 </p>
@@ -278,7 +282,7 @@ const Review5_Page1_Q3 = () => {
                 y1={y1}
                 x2={x2}
                 y2={y2}
-                stroke="#e74c3c"
+                stroke="red"
                 strokeWidth="3"
                 strokeLinecap="round"
               />

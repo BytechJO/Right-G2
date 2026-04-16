@@ -170,7 +170,7 @@ const Unit8_Page6_Q2 = () => {
       ${isImageWrong(i) ? "border-2 border-red-500" : ""}
       ${
         startDot?.index === i && startDot?.type === "image"
-          ? "ring-4 ring-red-400"
+          ? "ring-4 ring-red-600"
           : ""
       }
     `}
@@ -185,7 +185,7 @@ const Unit8_Page6_Q2 = () => {
                 className={`w-3 h-3 rounded-full cursor-pointer
                ${
                  startDot?.index === i && startDot?.type === "image"
-                   ? "bg-red-700 scale-125"
+                   ? "bg-red-600 scale-125"
                    : "bg-red-500"
                }`}
               />
@@ -205,7 +205,7 @@ const Unit8_Page6_Q2 = () => {
                 className={`px-5 py-3 rounded-xl text-[17px] leading-6 cursor-pointer
   ${
     startDot?.index === i && startDot?.type === "text"
-      ? "bg-orange-200 ring-2 ring-red-400"
+      ? "bg-[#f9e5dd] ring-2 ring-red-600"
       : "bg-[#f9e5dd]"
   }`}
               >
