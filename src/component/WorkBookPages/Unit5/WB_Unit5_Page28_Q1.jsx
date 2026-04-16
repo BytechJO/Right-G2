@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import {
-  DndContext,
-  useDraggable,
-  useDroppable,
-  closestCenter,
-} from "@dnd-kit/core";
+
 import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page28/Ex C 1.svg";
 import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page28/Ex C 3.svg";
 import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page28/Ex C 2.svg";
@@ -48,95 +43,9 @@ const exerciseData = [
   },
 ];
 
-
-const DraggableWord = ({ id, text, disabled }) => {
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id,
-    disabled, // 🔒 منع السحب
-  });
-
-  const style = transform
-    ? {
-        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
-        zIndex: 100,
-      }
-    : undefined;
-
-  return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      {...(!disabled ? listeners : {})}
-      {...attributes}
-      className={`px-3 py-1 border rounded
-        ${
-          disabled
-            ? "bg-gray-100 text-gray-400 cursor-not-allowed opacity-60"
-            : "bg-white shadow cursor-grab active:cursor-grabbing"
-        }`}
-    >
-      {text}
-    </div>
-  );
-};
-
-const DropZone = ({ id, children, className, showError }) => {
-  const { setNodeRef } = useDroppable({ id });
-
-  return (
-    <div className="relative">
-      <div
-        ref={setNodeRef}
-        className={`flex flex-wrap gap-2 p-2 border-b-2 ${className} min-h-[40px]`}
-      >
-        {children || <span className="text-transparent">.</span>}
-      </div>
-
-      {/* ❌ Error Icon */}
-      {showError && (
-        <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold shadow border-2 border-white">
-          ✕
-        </div>
-      )}
-    </div>
-  );
-};
-
 const WB_Unit5_Page28_Q1 = () => {
   const [droppedWords, setDroppedWords] = useState({});
   const [showResults, setShowResults] = useState(false);
-
-  const handleDragEnd = (event) => {
-    if (showResults) return;
-    const { over, active } = event;
-    if (!over) return;
-
-    const wordId = active.id;
-    const dropZoneId = over.id;
-
-    // 🔥 نحدد نوع الكلمة
-    const isQuestionWord = wordId.includes("-q-");
-    const isAnswerWord = wordId.includes("-a-");
-
-    // ❌ منع الخطأ (السؤال ينحط بالجواب أو العكس)
-    if (isQuestionWord && !dropZoneId.includes("question")) return;
-    if (isAnswerWord && !dropZoneId.includes("answer")) return;
-
-    setDroppedWords((prev) => {
-      const newDropped = { ...prev };
-
-      // احذف الكلمة من أي مكان سابق
-      Object.keys(newDropped).forEach((key) => {
-        newDropped[key] = newDropped[key].filter((w) => w !== wordId);
-      });
-
-      // أضفها للمكان الصح
-      const currentWords = newDropped[dropZoneId] || [];
-      newDropped[dropZoneId] = [...currentWords, wordId];
-
-      return newDropped;
-    });
-  };
 
   const removeWord = (zoneId, word) => {
     if (showResults) return;
@@ -145,7 +54,33 @@ const WB_Unit5_Page28_Q1 = () => {
       [zoneId]: prev[zoneId].filter((w) => w !== word),
     }));
   };
+  const handleWordClick = (qId, type, word, index) => {
+    if (showResults) return;
 
+    const zoneId = `${qId}-${type}`;
+    const wordId = `${qId}-${type === "question" ? "q" : "a"}-${index}|${word}`;
+
+    setDroppedWords((prev) => {
+      const newState = { ...prev };
+
+      const currentWords = newState[zoneId] || [];
+
+      // إذا الكلمة موجودة → احذفها
+      if (currentWords.includes(wordId)) {
+        newState[zoneId] = currentWords.filter((w) => w !== wordId);
+      } else {
+        // احذفها من أي مكان ثاني
+        Object.keys(newState).forEach((key) => {
+          newState[key] = newState[key].filter((w) => w !== wordId);
+        });
+
+        // أضفها
+        newState[zoneId] = [...currentWords, wordId];
+      }
+
+      return newState;
+    });
+  };
   const extractText = (wordId) => wordId.split("|")[1];
 
   const cleanSentence = (arr) => arr.map(extractText).join(" ");
@@ -227,114 +162,130 @@ const WB_Unit5_Page28_Q1 = () => {
   };
 
   return (
-    <DndContext onDragEnd={handleDragEnd} collisionDetection={closestCenter}>
-      <div className="main-container-component">
-        <div
-          className="div-forall"
-          style={{ gap: "20px", marginBottom: "50px" }}
-        >
-          <h1 className="WB-header-title-page8 mb-10">
-            <span className="WB-ex-A">C</span> Look, read, and write.
-          </h1>
+    <div className="main-container-component">
+      <div className="div-forall" style={{ gap: "20px", marginBottom: "50px" }}>
+        <h1 className="WB-header-title-page8 mb-10">
+          <span className="WB-ex-A">C</span> Look, read, and write.
+        </h1>
 
-          <div
-            className="grid gap-10"
-            style={{ gridTemplateColumns: "1fr 1fr" }}
-          >
-            {exerciseData.map((q, index) => {
-              const usedQ = droppedWords[`${q.id}-question`] || [];
-              const usedA = droppedWords[`${q.id}-answer`] || [];
+        <div className="grid gap-10" style={{ gridTemplateColumns: "1fr 1fr" }}>
+          {exerciseData.map((q, index) => {
+            const usedQ = droppedWords[`${q.id}-question`] || [];
+            const usedA = droppedWords[`${q.id}-answer`] || [];
 
-              return (
-                <div key={q.id} className="space-y-4">
-                  <div className="flex items-center gap-4">
-                    <span>{index + 1}</span>
-                    <img src={q.img} className="max-h-32" />
-                  </div>
+            return (
+              <div key={q.id} className="space-y-4">
+                <div className="flex items-center gap-4">
+                  <span>{index + 1}</span>
+                  <img src={q.img} className="max-h-32" />
+                </div>
 
-                  {/* Question Word Bank */}
-                  <div className="flex flex-wrap gap-2 p-2 border rounded">
-                    {q.questionWords.map((word, i) => {
-                      const id = `${q.id}-q-${i}|${word}`;
-                      const isUsed = usedQ.includes(id);
+                {/* Question Word Bank */}
+                <div className="flex flex-wrap gap-2 p-2 border rounded">
+                  {q.questionWords.map((word, i) => {
+                    const id = `${q.id}-q-${i}|${word}`;
+                    const isUsed = usedQ.some((w) => w.startsWith(`${q.id}-q-${i}|`));
 
-                      return (
-                        <DraggableWord
-                          key={id}
-                          id={id}
-                          text={word}
-                          disabled={isUsed || showResults} // 👈 نمرر الحالة
-                        />
-                      );
-                    })}
-                  </div>
+                    return (
+                      <div
+                        key={id}
+                        onClick={() =>
+                          handleWordClick(q.id, "question", word, i)
+                        }
+                        className={`px-3 py-1 border rounded cursor-pointer transition
+          ${
+            isUsed
+              ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+              : "bg-white hover:bg-gray-100"
+          }`}
+                      >
+                        {word}
+                      </div>
+                    );
+                  })}
+                </div>
 
-                  {/* Question Drop */}
-                  <DropZone
-                    id={`${q.id}-question`}
-                    className={getZoneClass(
-                      `${q.id}-question`,
-                      q.correctQuestion,
-                    )}
-                    showError={isWrong(`${q.id}-question`, q.correctQuestion)}
-                  >
+                {/* Question Drop */}
+                <div className="relative">
+                  <div className={`flex flex-wrap gap-2 p-2 border-b-2 min-h-[40px] ${getZoneClass(
+    `${q.id}-question`,
+    q.correctQuestion
+  )}`}>
                     {usedQ.map((word) => (
-                      <button
+                      <span
                         key={word}
                         onClick={() => removeWord(`${q.id}-question`, word)}
-                        className="hover:text-red-500"
+                        className="cursor-pointer hover:text-red-500"
                       >
                         {extractText(word)}
-                      </button>
+                      </span>
                     ))}
-                  </DropZone>
-
-                  {/* Answer Word Bank */}
-                  <div className="flex flex-wrap gap-2 p-3 border rounded">
-                    {q.answerWords.map((word, i) => {
-                      const id = `${q.id}-a-${i}|${word}`;
-                      const isUsed = usedA.includes(id);
-
-                      return (
-                        <DraggableWord
-                          key={id}
-                          id={id}
-                          text={word}
-                          disabled={isUsed || showResults}
-                        />
-                      );
-                    })}
                   </div>
 
-                  {/* Answer Drop */}
-                  <DropZone
-                    id={`${q.id}-answer`}
-                    className={getZoneClass(`${q.id}-answer`, q.correctAnswer)}
-                    showError={isWrong(`${q.id}-answer`, q.correctAnswer)}
-                  >
+                  {isWrong(`${q.id}-question`, q.correctQuestion) && (
+                    <div className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold border-2 border-white">
+                      ✕
+                    </div>
+                  )}
+                </div>
+
+                {/* Answer Word Bank */}
+                <div className="flex flex-wrap gap-2 p-3 border rounded">
+                  {q.answerWords.map((word, i) => {
+                    const id = `${q.id}-a-${i}|${word}`;
+                  const isUsed = usedA.some((w) => w.startsWith(`${q.id}-a-${i}|`));
+
+                    return (
+                      <div
+                        key={id}
+                        onClick={() => handleWordClick(q.id, "answer", word, i)}
+                        className={`px-3 py-1 border rounded cursor-pointer transition
+          ${
+            isUsed
+              ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+              : "bg-white hover:bg-gray-100"
+          }`}
+                      >
+                        {word}
+                      </div>
+                    );
+                  })}
+                </div>
+                {/* Answer Drop */}
+                <div className="relative">
+                  <div   className={`flex flex-wrap gap-2 p-2 border-b-2 min-h-[40px] ${getZoneClass(
+    `${q.id}-answer`,
+    q.correctAnswer
+  )}`}>
                     {usedA.map((word) => (
-                      <button
+                      <span
                         key={word}
                         onClick={() => removeWord(`${q.id}-answer`, word)}
-                        className="hover:text-red-500"
+                        className="cursor-pointer hover:text-red-500"
                       >
                         {extractText(word)}
-                      </button>
+                      </span>
                     ))}
-                  </DropZone>
-                </div>
-              );
-            })}
-          </div>
+                  </div>
 
-          <Button
-            handleShowAnswer={handleShowAnswer}
-            handleStartAgain={handleStartAgain}
-            checkAnswers={checkAnswers}
-          />
+                  {isWrong(`${q.id}-answer`, q.correctAnswer) && (
+                    <div className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold border-2 border-white">
+                      ✕
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          })}
         </div>
+
+        <Button
+          handleShowAnswer={handleShowAnswer}
+          handleStartAgain={handleStartAgain}
+          checkAnswers={checkAnswers}
+        />
       </div>
-    </DndContext>
+    </div>
   );
 };
 

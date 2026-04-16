@@ -99,6 +99,7 @@ const WB_Unit1_Page8_Q2_DND = () => {
     score: 0,
     total: ALL_IMAGES.length,
   });
+  const [showAnswer, setShowAnswer] = useState(false); // ⭐ NEW
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -166,6 +167,8 @@ const WB_Unit1_Page8_Q2_DND = () => {
   };
 
   const handleCheckAnswers = () => {
+        if (showAnswer) return; // ❌ ممنوع التعديل بعد Show Answer
+
     // إذا لم يتم توزيع كل الصور
     if (containers.available.length > 0) {
       ValidationAlert.info("Please drag all images into the boxes!");
@@ -181,7 +184,7 @@ const WB_Unit1_Page8_Q2_DND = () => {
     correctCount += containers.l.filter((img) => img.letter === "l").length;
 
     const total = ALL_IMAGES.length;
-
+setShowAnswer(true)
     if (correctCount === total) {
       ValidationAlert.success(`Score: ${correctCount}/${total}`);
     } else if (correctCount > 0) {
@@ -193,12 +196,14 @@ const WB_Unit1_Page8_Q2_DND = () => {
 
   const handleReset = () => {
     setContainers({ available: ALL_IMAGES, r: [], l: [] });
+    setShowAnswer(false)
     setValidation({ show: false, score: 0, total: ALL_IMAGES.length });
   };
 
   const handleShowAnswer = () => {
     const correctContainers = { available: [], r: [], l: [] };
     ALL_IMAGES.forEach((img) => correctContainers[img.letter].push(img));
+    setShowAnswer(true)
     setContainers(correctContainers);
     setValidation({ show: false, score: 0, total: ALL_IMAGES.length });
   };

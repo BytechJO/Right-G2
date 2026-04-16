@@ -48,6 +48,7 @@ const WB_Unit9_Page52_Q1 = () => {
     exerciseQuestions.forEach((q) => {
       correct[q.id] = q.correctAnswer;
     });
+    setShowResults(true);
     setUserAnswers(correct);
   };
 

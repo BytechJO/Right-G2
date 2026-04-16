@@ -167,10 +167,10 @@ const WB_Unit5_Page29_Q2 = () => {
 
                       <span
                         className={`w-10 h-10 border-2 border-gray-400 rounded-sm flex items-center justify-center text-2xl font-bold ${
-                          answers[q.id] === "no" ? "text-red-600" : ""
+                          answers[q.id] === "no" ? "text-green-600" : ""
                         }`}
                       >
-                        {answers[q.id] === "no" ? "✕" : ""}
+                        {answers[q.id] === "no" ? "✓" : ""}
                       </span>
 
                       {q.option2}

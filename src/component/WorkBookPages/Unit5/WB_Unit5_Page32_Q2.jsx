@@ -39,7 +39,7 @@ const questions = [
       { src: img5, label: "green" },
       { src: img6, label: "feet" },
     ],
-    correct: [1, 2],
+    correct: [2],
   },
   {
     id: 3,
@@ -50,7 +50,7 @@ const questions = [
       { src: img8, label: "bee" },
       { src: img9, label: "green" },
     ],
-    correct: [], // هذا السؤال لا يوجد له إجابة صحيحة
+    correct: [2], // هذا السؤال لا يوجد له إجابة صحيحة
   },
   {
     id: 4,
@@ -61,7 +61,7 @@ const questions = [
       { src: img11, label: "sheep" },
       { src: img12, label: "bread" },
     ],
-    correct: [2],
+    correct: [0,1],
   },
 ];
 

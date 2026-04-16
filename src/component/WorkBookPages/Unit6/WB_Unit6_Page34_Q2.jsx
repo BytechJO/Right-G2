@@ -41,6 +41,7 @@ const WB_Unit6_Page34_Q2 = () => {
   };
 
   const checkAnswers = () => {
+    if (isSubmitted) return;
     if (Object.keys(answers).length !== QUESTIONS.length) {
       ValidationAlert.info("Please answer all questions before checking.");
       return;
@@ -77,7 +78,9 @@ const WB_Unit6_Page34_Q2 = () => {
             {QUESTIONS.map((q) => (
               <div key={q.id} className="flex items-center gap-6 p-4">
                 <div className="flex items-center gap-2">
-                  <span className="text-blue-800 text-2xl font-bold">{q.id}</span>
+                  <span className="text-blue-800 text-2xl font-bold">
+                    {q.id}
+                  </span>
                   <img
                     src={q.image}
                     alt="question"

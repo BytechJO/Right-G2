@@ -138,13 +138,14 @@ const checkAnswers = () => {
   }
 };
 
-  const handleShowAnswer = () => {
+  const handleShowAnswer = () => { 
+    setShowResult(true);
     setColumns({
       feet: [...correctAnswers.feet],
       beak: [...correctAnswers.beak],
     });
     setRemaining([]);
-    setShowResult(true);
+   
     setScore(2);
   };
 

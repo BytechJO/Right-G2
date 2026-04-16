@@ -34,31 +34,31 @@ const WB_Unit2_Page10_Q1 = () => {
     {
       id: 2,
       img: img2,
-      options: ["This", "That"],
-      correct: "This",
-      sentence: "is a clock.",
-    },
-    {
-      id: 3,
-      img: img3,
-      options: ["Those", "These"],
-      correct: "These",
-      sentence: "are queens.",
-    },
-
-    {
-      id: 4,
-      img: img4,
       options: ["Those", "These"],
       correct: "Those",
       sentence: "are trees.",
     },
     {
-      id: 5,
-      img: img5,
+      id: 3,
+      img: img3,
+      options: ["This", "That"],
+      correct: "This",
+      sentence: "is a clock.",
+    },
+
+    {
+      id: 4,
+      img: img4,
       options: ["This", "That"],
       correct: "That",
       sentence: "is a dog.",
+    },
+    {
+      id: 5,
+      img: img5,
+      options: ["Those", "These"],
+      correct: "These",
+      sentence: "are queens.",
     },
     {
       id: 6,
@@ -131,7 +131,7 @@ const WB_Unit2_Page10_Q1 = () => {
     });
     setShowResults(false);
     setShowAnswers(false);
-    setWrongAnswers({})
+    setWrongAnswers({});
   };
 
   return (
@@ -156,7 +156,7 @@ const WB_Unit2_Page10_Q1 = () => {
                   src={item.img}
                   alt=""
                   className="object-contain rounded-xl"
-                  style={{height:"120px",width:"120px"}}
+                  style={{ height: "120px", width: "120px" }}
                 />
                 <div className="flex flex-col rounded-2xl gap-5 w-30">
                   {item.options.map((option) => (
@@ -178,7 +178,7 @@ const WB_Unit2_Page10_Q1 = () => {
                     </button>
                   ))}
                 </div>
-                <h6 style={{whiteSpace:"nowrap"}}>{item.sentence}</h6>
+                <h6 style={{ whiteSpace: "nowrap" }}>{item.sentence}</h6>
               </div>
             </div>
           ))}

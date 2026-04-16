@@ -12,7 +12,7 @@ import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 const exerciseData = [
   {
     id: 1,
-    scrambled: "this/ a/ Is/ bird?",
+    scrambled: "this/ a/ Is/ bird /?",
     correctQuestion: "Is this a bird?",
     options: ["Yes, it is.", "No, it isn't."],
     correctOption: "No, it isn't.",
@@ -20,7 +20,7 @@ const exerciseData = [
   },
   {
     id: 2,
-    scrambled: "these /Are /dogs?",
+    scrambled: "these /Are /dogs /?",
     correctQuestion: "Are these dogs?",
     options: ["Yes, they are.", "No, they aren't."],
     correctOption: "No, they aren't.",
@@ -28,7 +28,7 @@ const exerciseData = [
   },
   {
     id: 3,
-    scrambled: "clouds /those /Are?",
+    scrambled: "clouds /those /Are /?",
     correctQuestion: "Are those clouds?",
     options: ["Yes, they are.", "No, they aren't."],
     correctOption: "Yes, they are.",
@@ -36,7 +36,7 @@ const exerciseData = [
   },
   {
     id: 4,
-    scrambled: "pond /a /that/ Is?",
+    scrambled: "pond /a /that/ Is /?",
     correctQuestion: "Is that a pond?",
     options: ["Yes, it is.", "No, it isn't."],
     correctOption: "No, it isn't.",
@@ -202,33 +202,33 @@ const WB_Unit2_Page10_Q2 = () => {
     }
   };
 
-const handleShowAnswer = () => {
-  const answers = {};
+  const handleShowAnswer = () => {
+    const answers = {};
 
-  exerciseData.forEach((item) => {
-    answers[item.id] = {
-      arrangedWords: item.correctQuestion.split(" ").map((word, index) => ({
-        id: `answer-${item.id}-${index}`,
-        text: word,
-        originalId: `${item.id}-${word}-${index}`, // إذا بدك تحتفظي بالربط
-      })),
-      wordBank: item.scrambled
-        .split("/")
-        .map((w) => w.trim())
-        .filter(Boolean)
-        .map((word, index) => ({
-          id: `${item.id}-${word}-${index}`,
+    exerciseData.forEach((item) => {
+      answers[item.id] = {
+        arrangedWords: item.correctQuestion.split(" ").map((word, index) => ({
+          id: `answer-${item.id}-${index}`,
           text: word,
-          isUsed: true,
+          originalId: `${item.id}-${word}-${index}`, // إذا بدك تحتفظي بالربط
         })),
-      selectedOption: item.correctOption,
-    };
-  });
+        wordBank: item.scrambled
+          .split("/")
+          .map((w) => w.trim())
+          .filter(Boolean)
+          .map((word, index) => ({
+            id: `${item.id}-${word}-${index}`,
+            text: word,
+            isUsed: true,
+          })),
+        selectedOption: item.correctOption,
+      };
+    });
 
-  setUserAnswers(answers);
-  setChecked(true);
-  setLocked(true);
-};
+    setUserAnswers(answers);
+    setChecked(true);
+    setLocked(true);
+  };
   const handleTryAgain = () => {
     setUserAnswers(createInitialState());
     setChecked(false);
@@ -315,7 +315,7 @@ const handleShowAnswer = () => {
                           ${
                             checked
                               ? questionCorrect
-                                ? "border-green-400"
+                                ? "border-gray-400"
                                 : "border-red-400"
                               : "border-gray-300"
                           }`}
@@ -374,7 +374,13 @@ const handleShowAnswer = () => {
 
                     {checked && (
                       <span className="text-lg">
-                        {questionCorrect ? "" : "✕"}
+                        {questionCorrect ? (
+                          ""
+                        ) : (
+                          <span className="absolute top-16 right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold shadow-lg border-2 border-white">
+                            ✕
+                          </span>
+                        )}
                       </span>
                     )}
                   </div>
@@ -382,20 +388,38 @@ const handleShowAnswer = () => {
 
                 <div className="flex justify-between items-center mt-2">
                   <div className="flex flex-col gap-2">
-                    {item.options.map((option) => (
-                      <div
-                        key={option}
-                        onClick={() => handleOptionClick(item.id, option)}
-                        className={`cursor-pointer px-4 py-1 rounded-full border-2 transition-all text-lg
-                          ${
-                            userAnswers[item.id].selectedOption === option
-                              ? "border-gray-500 bg-gray-50"
-                              : "border-transparent hover:bg-gray-50"
-                          }`}
-                      >
-                        {option}
-                      </div>
-                    ))}
+                    {item.options.map((option) => {
+                      const isSelected =
+                        userAnswers[item.id].selectedOption === option;
+                      const isCorrectOption = option === item.correctOption;
+                      const isWrongOption =
+                        checked && isSelected && !isCorrectOption;
+                      return (
+                        <div
+                          key={option}
+                          onClick={() => handleOptionClick(item.id, option)}
+                          className={`
+    relative
+    cursor-pointer px-4 py-1 rounded-full border-2 transition-all text-lg
+
+    ${
+      isSelected
+        ? isWrongOption
+          ? "border-red-500 bg-red-50"
+          : "border-gray-500 bg-green-50"
+        : "border-transparent hover:bg-gray-50"
+    }
+  `}
+                        >
+                          {option}
+                          {isWrongOption && (
+                            <span className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold shadow-lg border-2 border-white">
+                              ✕
+                            </span>
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
 
                   <div className="w-32 h-32 flex items-center justify-center">

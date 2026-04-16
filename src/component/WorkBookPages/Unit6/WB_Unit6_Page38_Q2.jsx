@@ -24,18 +24,14 @@ const WB_Unit6_Page38_Q2 = () => {
   const [selections, setSelections] = useState({});
   const [showResults, setShowResults] = useState(false);
   const stopAtSecond = 10;
-  const handleBoxClick = (qId) => {
+  const handleBoxClick = (qId, value) => {
     if (showResults) return;
 
-    setSelections((prev) => {
-      const current = prev[qId];
-
-      if (current === "✓") return { ...prev, [qId]: "✘" };
-      if (current === "✘") return { ...prev, [qId]: undefined };
-      return { ...prev, [qId]: "✓" };
-    });
+    setSelections((prev) => ({
+      ...prev,
+      [qId]: value,
+    }));
   };
-
   const getBoxClass = (qId) => {
     const isSelected = !!selections[qId];
 
@@ -143,28 +139,71 @@ const WB_Unit6_Page38_Q2 = () => {
                 />
               </div>
               <div className="relative">
-                <div
-                  onClick={() => handleBoxClick(item.id)}
-                  className={`w-12 h-12 border-2 rounded-md flex items-center justify-center cursor-pointer transition-all ${isWrongAnswer(item.id) && "border-red-500"}`}
-                >
-                  <span
-                    className={`text-3xl font-bold ${
-                      selections[item.id] === "✓"
-                        ? "text-green-600"
-                        : "text-red-600"
-                    }`}
-                  >
-                    {selections[item.id]}
-                  </span>
-                </div>
+               <div className="flex gap-2">
+  {/* ✅ YES BOX */}
+  <div className="relative">
+    <div
+      onClick={() => handleBoxClick(item.id, "✓")}
+      className={`w-12 h-12 border-2 rounded-md flex items-center justify-center cursor-pointer transition-all
+        ${
+          selections[item.id] === "✓"
+            ? "border-green-600 bg-green-50"
+            : "border-gray-400"
+        }
+        ${
+          showResults &&
+          selections[item.id] === "✓" &&
+          selections[item.id] !== item.correctAnswer
+            ? "border-red-500 bg-red-50"
+            : ""
+        }
+      `}
+    >
+      <span className="text-green-600 text-2xl font-bold">✓</span>
+    </div>
 
-                {isWrongAnswer(item.id) && (
-                  <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-red-500 flex items-center justify-center shadow-md z-10 border-2 border-white">
-                    <span className="text-white text-xs font-bold leading-none">
-                      ✕
-                    </span>
-                  </div>
-                )}
+    {/* ❌ error on YES */}
+    {showResults &&
+      selections[item.id] === "✓" &&
+      selections[item.id] !== item.correctAnswer && (
+        <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold border-2 border-white">
+          ✕
+        </div>
+      )}
+  </div>
+
+  {/* ❌ NO BOX */}
+  <div className="relative">
+    <div
+      onClick={() => handleBoxClick(item.id, "✘")}
+      className={`w-12 h-12 border-2 rounded-md flex items-center justify-center cursor-pointer transition-all
+        ${
+          selections[item.id] === "✘"
+            ? "border-red-600 bg-red-50"
+            : "border-gray-400"
+        }
+        ${
+          showResults &&
+          selections[item.id] === "✘" &&
+          selections[item.id] !== item.correctAnswer
+            ? "border-red-500 bg-red-50"
+            : ""
+        }
+      `}
+    >
+      <span className="text-red-600 text-2xl font-bold">✘</span>
+    </div>
+
+    {/* ❌ error on NO */}
+    {showResults &&
+      selections[item.id] === "✘" &&
+      selections[item.id] !== item.correctAnswer && (
+        <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold border-2 border-white">
+          ✕
+        </div>
+      )}
+  </div>
+</div>
               </div>
             </div>
           ))}

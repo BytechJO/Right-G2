@@ -33,6 +33,7 @@ const WB_Unit7_Page40_Q1 = () => {
   };
 
   const checkAnswers = () => {
+    if (showResults) return;
     const values = Object.values(answers);
 
     const allEmpty = values.every((answer) => !answer || answer.trim() === "");
@@ -220,7 +221,11 @@ const WB_Unit7_Page40_Q1 = () => {
                 </div>
               </div>
             </div>
-            <img src={img4} className="object-contain" style={{height:"550px",width:"auto"}} />
+            <img
+              src={img4}
+              className="object-contain"
+              style={{ height: "550px", width: "auto" }}
+            />
           </div>
           <div className="mt-10">
             <Button
@@ -229,8 +234,6 @@ const WB_Unit7_Page40_Q1 = () => {
               checkAnswers={checkAnswers}
             />
           </div>
-
-        
         </div>
       </div>
     </div>

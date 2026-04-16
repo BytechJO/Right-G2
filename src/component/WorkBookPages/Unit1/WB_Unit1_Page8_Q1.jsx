@@ -97,10 +97,11 @@ const WB_Unit1_Page8_Q1 = () => {
   };
 
   const handleShowAnswer = () => {
+    setShowAnswer(true);
     const correct = data.map((item) => item.answer);
     setInputs(correct); // ⭐ تعبئة الإجابة الصحيحة
     setWrongInputs(Array(data.length).fill(false));
-    setShowAnswer(true);
+    
   };
 
   const reset = () => {

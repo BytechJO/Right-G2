@@ -182,6 +182,8 @@ const WB_Unit10_Page59_Q2 = () => {
           <Button
             handleShowAnswer={() => {
               setAnswers(CORRECT_E);
+                  setShowResults(true); // 🔥 مهم
+
             }}
             handleStartAgain={handleReset}
             checkAnswers={checkAnswers}

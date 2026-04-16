@@ -67,23 +67,21 @@ function DraggableSentence({ s, isUsed }) {
 
   return (
     <div
-  ref={setNodeRef}
-  style={style}
-  {...attributes}
-  {...listeners}
-
-  // ✅ FIX 4: منع أي click behavior
-  onClick={(e) => {
-    e.preventDefault();
-    e.stopPropagation(); // 🔥 مهم جداً
-  }}
-
-  className={`p-3 md:p-2 bg-white border-2 border-blue-100 rounded-lg shadow-sm cursor-grab text-blue-700 text-base md:text-sm font-medium touch-none select-none ${
-    isUsed
-      ? "bg-gray-100 text-gray-400 pointer-events-none"
-      : "hover:border-blue-400"
-  }`}
->
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+      // ✅ FIX 4: منع أي click behavior
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation(); // 🔥 مهم جداً
+      }}
+      className={`p-3 md:p-2 bg-white border-2 border-blue-100 rounded-lg shadow-sm cursor-grab text-blue-700 text-base md:text-sm font-medium touch-none select-none ${
+        isUsed
+          ? "bg-gray-100 text-gray-400 pointer-events-none"
+          : "hover:border-blue-400"
+      }`}
+    >
       {s.text}
     </div>
   );
@@ -149,21 +147,22 @@ const WB_Unit8_Page45_Q3 = () => {
   const [showResults, setShowResults] = useState(false);
 
   // 🔧 Sensors optimized (drag only)
-const sensors = useSensors(
-  useSensor(MouseSensor, {
-    activationConstraint: {
-      distance: 10, // 🔥 زودناها شوي
-    },
-  }),
-  useSensor(TouchSensor, {
-    activationConstraint: {
-      delay: 180, // 🔥 زودناها شوي
-      tolerance: 5,
-    },
-  }),
-  useSensor(PointerSensor)
-);
+  const sensors = useSensors(
+    useSensor(MouseSensor, {
+      activationConstraint: {
+        distance: 10, // 🔥 زودناها شوي
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 180, // 🔥 زودناها شوي
+        tolerance: 5,
+      },
+    }),
+    useSensor(PointerSensor),
+  );
   const checkAnswers = () => {
+    if (showResults) return;
     const unanswered = Object.keys(CORRECT_C).filter((id) => !placed[id]);
 
     if (unanswered.length > 0) {
@@ -193,31 +192,31 @@ const sensors = useSensors(
     <DndContext
       sensors={sensors}
       onDragStart={(e) => setActiveId(e.active.id)}
-     onDragEnd={(e) => {
-  const { active, over } = e;
+      onDragEnd={(e) => {
+        const { active, over } = e;
 
-  // ✅ FIX 1: إذا ما في drop حقيقي → لا تعمل أي إشي
-  if (!over || !over.id.startsWith("d")) {
-    setActiveId(null);
-    return;
-  }
+        // ✅ FIX 1: إذا ما في drop حقيقي → لا تعمل أي إشي
+        if (!over || !over.id.startsWith("d")) {
+          setActiveId(null);
+          return;
+        }
 
-  setPlaced((prev) => {
-    const next = { ...prev };
+        setPlaced((prev) => {
+          const next = { ...prev };
 
-    // ✅ FIX 2: إزالة العنصر من مكانه القديم
-    Object.keys(next).forEach((k) => {
-      if (next[k] === active.id) next[k] = null;
-    });
+          // ✅ FIX 2: إزالة العنصر من مكانه القديم
+          Object.keys(next).forEach((k) => {
+            if (next[k] === active.id) next[k] = null;
+          });
 
-    // ✅ FIX 3: وضعه بالمكان الجديد
-    next[over.id] = active.id;
+          // ✅ FIX 3: وضعه بالمكان الجديد
+          next[over.id] = active.id;
 
-    return next;
-  });
+          return next;
+        });
 
-  setActiveId(null);
-}}
+        setActiveId(null);
+      }}
     >
       <div className="main-container-component">
         <div className="div-forall" style={{ gap: "10px" }}>

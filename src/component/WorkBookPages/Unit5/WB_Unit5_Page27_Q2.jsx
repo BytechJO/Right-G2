@@ -18,14 +18,13 @@ const WB_Unit5_Page27_Q2 = () => {
   const [selections, setSelections] = useState({});
   const [showResults, setShowResults] = useState(false);
 
-  const handleBoxClick = (qId) => {
+  const handleBoxClick = (qId, value) => {
     if (showResults) return;
-    setSelections((prev) => {
-      const current = prev[qId];
-      if (current === "✓") return { ...prev, [qId]: "✘" };
-      if (current === "✘") return { ...prev, [qId]: undefined };
-      return { ...prev, [qId]: "✓" };
-    });
+
+    setSelections((prev) => ({
+      ...prev,
+      [qId]: value,
+    }));
   };
 
   const getBoxClass = (qId) => {
@@ -79,7 +78,11 @@ const WB_Unit5_Page27_Q2 = () => {
       ValidationAlert.warning(`Score: ${score} / ${exerciseData.length}`);
     }
   };
+  const isThisOptionWrong = (item, value) => {
+    if (!showResults) return false;
 
+    return selections[item.id] === value && value !== item.correctAnswer;
+  };
   return (
     <div className="main-container-component">
       <div className="div-forall" style={{ gap: "30px" }}>
@@ -99,30 +102,65 @@ const WB_Unit5_Page27_Q2 = () => {
             {exerciseData.map((item, index) => (
               <div key={item.id} className="flex items-center gap-4">
                 <div className="relative">
-                  <div
-                    onClick={() => handleBoxClick(item.id)}
-                    className={`w-8 h-8 border-2 rounded-md flex items-center justify-center cursor-pointer transition-all ${getBoxClass(item.id)}`}
-                  >
-                    <span
-                      className={`text-2xl font-bold ${
-                        selections[item.id] === "✓"
-                          ? "text-green-600"
-                          : "text-red-600"
-                      }`}
-                    >
-                      {selections[item.id]}
-                    </span>
-                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className="flex gap-2 relative">
+                      {/* ✅ YES BOX */}
+                      <div className="relative">
+                        <div
+                          onClick={() => handleBoxClick(item.id, "✓")}
+                          className={`w-10 h-10 border-2 rounded-md flex items-center justify-center cursor-pointer transition-all
+      ${
+        selections[item.id] === "✓"
+          ? "border-green-600 bg-green-50"
+          : "border-gray-400"
+      }
+      ${isThisOptionWrong(item, "✓") ? "border-red-500 bg-white" : ""}
+    `}
+                        >
+                          <span className="text-green-600 font-bold text-2xl">
+                            ✓
+                          </span>
+                        </div>
 
-                  {isWrong(item) && (
-                    <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-sm font-bold shadow border-2 border-white">
-                      ✕
+                        {/* ❌ فوق البوكس الغلط فقط */}
+                        {isThisOptionWrong(item, "✓") && (
+                          <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-sm font-bold shadow border-2 border-white">
+                            ✕
+                          </div>
+                        )}
+                      </div>
+
+                      {/* ❌ NO BOX */}
+                      <div className="relative">
+                        <div
+                          onClick={() => handleBoxClick(item.id, "✘")}
+                          className={`w-10 h-10 border-2 rounded-md flex items-center justify-center cursor-pointer transition-all
+      ${
+        selections[item.id] === "✘"
+          ? "border-red-600 bg-red-50"
+          : "border-gray-400"
+      }
+      ${isThisOptionWrong(item, "✘") ? "border-red-500  bg-white" : ""}
+    `}
+                        >
+                          <span className="text-red-600 font-bold text-2xl">
+                            ✘
+                          </span>
+                        </div>
+
+                        {/* ❌ فوق البوكس الغلط فقط */}
+                        {isThisOptionWrong(item, "✘") && (
+                          <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-sm font-bold shadow border-2 border-white">
+                            ✕
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  )}
-                </div>
 
-                <span className="font-bold text-blue-600">{index + 1}</span>
-                <p className="text-lg">{item.sentence}</p>
+                    <span className="font-bold text-blue-600">{index + 1}</span>
+                    <p className="text-lg">{item.sentence}</p>
+                  </div>
+                </div>
               </div>
             ))}
           </div>

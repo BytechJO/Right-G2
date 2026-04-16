@@ -26,7 +26,7 @@ const wordBank = [
 const questions = [
   { id: 1, subject: "She", correct: "She is writing." },
   { id: 2, subject: "She", correct: "She is watching." },
-  { id: 3, subject: "She", correct: "She is making." },
+  { id: 3, subject: "He", correct: "He is making." },
   { id: 4, subject: "She", correct: "She is reading" },
   { id: 5, subject: "He", correct: "He is drawing." },
   { id: 6, subject: "He", correct: "He is searching." },
@@ -34,11 +34,11 @@ const questions = [
 
 const correctAnswers = {
   1: "writing",
-  2: "searching",
+  2: "watching",
   3: "making",
-  4: "watching",
+  4: "reading",
   5: "drawing",
-  6: "reading",
+  6: "searching",
 };
 
 const DraggableWord = ({ word, disabled }) => {
