@@ -1,10 +1,10 @@
 // استيراد كل الصور من المجلد
-const images = import.meta.glob("../../assets/imgs/pages/flach-card/Flashcards Grade 2_page-*.jpg", {
+const images = import.meta.glob("../../assets/imgs/pages/flach-card/*.png", {
   eager: true,
 });
 
 // استيراد كل الأصوات
-const audios = import.meta.glob("/Right 1 FC/audio/*.mp3", {
+const audios = import.meta.glob("../../assets/audio/FlashCard/*.mp3", {
   eager: true,
 });
 
@@ -20,8 +20,8 @@ const audioFiles = Object.keys(audios)
 // تحويل الصور إلى Flash Pages مع الأصوات المرتبة
 export const flashPages = Object.keys(images)
   .sort((a, b) => {
-    const numA = Number(a.match(/(\d+)\.jpg$/)[1]);
-    const numB = Number(b.match(/(\d+)\.jpg$/)[1]);
+    const numA = Number(a.match(/(\d+)\.png$/)[1]);
+    const numB = Number(b.match(/(\d+)\.png$/)[1]);
     return numA - numB;
   })
   .map((key, index) => {

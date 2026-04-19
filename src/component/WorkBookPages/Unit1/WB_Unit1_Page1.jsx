@@ -1,5 +1,5 @@
 import React from 'react'
-import page_1 from "../../../assets/imgs/pages/workbook-cover.jpg";
+import page_1 from "../../../assets/imgs/pages/workbook-cover.png";
 const WB_Unit2_Page1 = () => {
   return (
     <div className="page1-img-wrapper"

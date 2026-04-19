@@ -6,10 +6,11 @@ import BottomBar from "./Book/Navbar/BottomBar";
 import LeftSidebar from "./Book/Sidebars/LeftSidebar";
 import RightSidebar from "./Book/Sidebars/RightSidebar";
 // === cover img ===
-import workbookCover from "../assets/imgs/pages/workbook-cover.jpg";
-import stbookCover from "../assets/imgs/pages/classbook-cover.jpg";
-import teacherBookCover from "../assets/imgs/pages/classbook-cover.jpg";
-
+import workbookCover from "../assets/imgs/pages/workbook-cover.png";
+import stbookCover from "../assets/imgs/pages/classbook-cover.png";
+import teacherBookCover from "../assets/imgs/pages/Right InternationalTB/Page_001.png";
+import fcBookCover from "../assets/imgs/pages/flach-card/Flashcards Grade 2_Page_01.png";
+import posterBookCover from "../assets/imgs/pages/posters/Right G2 Poster 48x33_Page_01.png"
 // === VIEWERS ===
 import FlashCardViewer from "./FlashCardPages/FlashCardPages";
 
@@ -17,7 +18,8 @@ import FlashCardViewer from "./FlashCardPages/FlashCardPages";
 import Popup from "./Popup/Popup";
 import LessonNavigator from "./StudentPages/LessonNavigator";
 // import teacherPdf from "../../public/Right International TB G2-Apple’s iMac (3).pdf";
-const teacherPdf = "../../public/Right International TB G2-Apple’s iMac (3).pdf"
+const teacherPdf =
+  "../../public/Right International TB G2-Apple’s iMac (3).pdf";
 // === ASSETS ===
 import logo from "../assets/Page 01/PMAAlogo.svg";
 import menu from "../assets/Page 01/menu.svg";
@@ -39,11 +41,14 @@ import {
   workbookPages,
   teacherPages,
   flashPages,
+
 } from "./BookData";
+import { postersPages } from "./BookData/postersPages";
 import WorkBookNavigator from "./WorkBookPages/WorkBookNavigator";
 // import { postersVocabPages } from "./BookData/postersVocabPages";
 // import PosterVocabNavigator from "./PostersVocabPages/PosterVocabNavigator";
 import TeacherBook from "./TeacherBookPages/TeacherBook";
+import PosterBook from "./PostersPages/PosterBook";
 
 export default function Book() {
   // ===========================================================
@@ -79,6 +84,7 @@ export default function Book() {
     work: workbookPages(openPopup, goToUnit),
     teacher: teacherPages.map((t) => <TeacherBook teacher={t} />),
     flash: flashPages,
+    posters :postersPages,
   }[activeTab];
 
   // ===========================================================
@@ -115,7 +121,7 @@ export default function Book() {
     setZoom(1);
     localStorage.setItem("activeTab", activeTab);
     localStorage.setItem("pageIndex", pageIndex);
-    if (activeTab === "flash") {
+    if (activeTab === "flash" || activeTab === "posters") {
       setViewMode("single"); // بوستر = صفحة واحدة دائمًا
     } else {
       if (!isMobile) {
@@ -190,7 +196,7 @@ export default function Book() {
 
   const nextPage = () => {
     // =============== Posters → always single ===============
-    if (activeTab === "flash") {
+    if (activeTab === "flash" || activeTab === "posters") {
       if (pageIndex < pages.length - 1) {
         setPageIndex(pageIndex + 1);
       }
@@ -213,7 +219,7 @@ export default function Book() {
 
   const prevPage = () => {
     // Posters → always one page
-    if ( activeTab === "flash") {
+    if (activeTab === "flash" || activeTab === "posters") {
       if (pageIndex > 0) setPageIndex(pageIndex - 1);
       return;
     }
@@ -408,18 +414,17 @@ export default function Book() {
     },
   ];
 
-
   const flashUnits = [
-    { id: 1, label: "Flashcards", start: 2, pages: flashPages.length },
+    { id: 1, label: "Flashcards", start: 2, pages: flashPages.length-1 },
   ];
 
   // const posterUnits = [
-  //   { id: 1, label: "Posters", start: 2, pages: posterPages.length },
+  //   { id: 1, label: "Posters", start: 2, pages: 1 },
   // ];
-  // const posterVocabUnits = [
-  //   { id: 1, label: "Unit 1", start: 1, pages: 1 },
-  //   { id: 2, label: "Unit 2", start: 1, pages: 1 },
-  // ];
+  const posterUnits = [
+    { id: 1, label: "Posters", start: 2, pages:  postersPages.length-1},
+
+  ];
 
   // ===========================================================
   //                 📌 PAGE RENDERER
@@ -427,6 +432,9 @@ export default function Book() {
   function renderPage(content) {
     if (activeTab === "flash") {
       return <FlashCardViewer card={content} openPopup={openPopup} />;
+    }
+    if (activeTab === "posters") {
+      return <PosterBook posters={content} />;
     }
     if (typeof content === "string") {
       return <img src={content} className="w-full h-full object-contain" />;
@@ -443,58 +451,58 @@ export default function Book() {
     { id: "teacher", label: "Teacher’s Book" },
     { id: "flash", label: "Flashcards" },
     // { id: "poster", label: "Grammar Poster" },
-    // { id: "posterVocab", label: "Posters" },
+   { id: "posters", label: "Posters" },
   ];
   const sidebarUnits = {
     student: studentUnits,
     work: workbookUnits,
     teacher: teacherUnits,
     flash: flashUnits,
-    // poster: posterUnits,
-    // posterVocab: posterVocabUnits,
+    posters: posterUnits,
+ 
   }[activeTab];
 
   const studentBookInfo = {
     cover: stbookCover,
-    title: `Right 1 Class Book`,
+    title: `Right 2 Class Book`,
     pages: studentPages().length,
   };
 
   const workbookInfo = {
     cover: workbookCover,
-    title: "Right 1 Workbook",
+    title: "Right 2 Workbook",
     pages: workbookPages().length,
   };
 
   const teacherInfo = {
     cover: teacherBookCover,
-    title: "Right 1 Teacher's Book",
-    pages: teacherPages.length,
+    title: "Right 2 Teacher's Book",
+    pages: teacherPages.length-1,
   };
 
-  // const flashInfo = {
-  //   cover: fcBookCover,
-  //   title: "Right 1 flashcard",
-  //   pages: flashPages.length,
-  // };
+  const flashInfo = {
+    cover: fcBookCover,
+    title: "Right 2 flashcard",
+    pages: flashPages.length-1,
+  };
 
   // const posterInfo = {
   //   cover: posterBookCover,
-  //   title: "Right 1 Grammar Poster",
+  //   title: "Right 2 Poster",
   //   pages: posterPages.length,
   // };
-  // const posterVocabInfo = {
-  //   cover: "",
-  //   title: "Right 1 Posters",
-  //   pages: postersVocabPages().length,
-  // };
+  const posterVocabInfo = {
+    cover: posterBookCover,
+    title: "Right 2 Posters",
+    pages: postersPages.length-1,
+  };
   const bookInfoSelector = {
     student: studentBookInfo,
     work: workbookInfo,
     teacher: teacherInfo,
-    // flash: flashInfo,
+    flash: flashInfo,
     // poster: posterInfo,
-    // posterVocab: posterVocabInfo,
+    posters: posterVocabInfo,
   };
   const isLastPage = pageIndex === pages.length - 1;
   const isLastSpread = viewMode === "spread" && pageIndex === pages.length - 2;
@@ -554,8 +562,8 @@ export default function Book() {
 
         {/* POSTERS ALWAYS SINGLE PAGE */}
         {isMobile ||
-        activeTab === "poster" ||
-        activeTab === "posterVocab" ||
+        // activeTab === "poster" ||
+        activeTab === "posters" ||
         activeTab === "flash" ||
         viewMode === "single" ||
         pageIndex === 0 ||
@@ -653,7 +661,7 @@ export default function Book() {
         )}
 
         {/* ========== POSTER VOCAB ========== */}
-        {popupContent?.tab === "posterVocab" &&
+        {popupContent?.tab === "posters" &&
           popupContent?.type === "exercise" && (
             <PosterVocabNavigator
               startIndex={popupContent.data.startIndex}

@@ -1,5 +1,5 @@
 
-import page_1 from "../../../assets/imgs/pages/classbook-cover.jpg";
+import page_1 from "../../../assets/imgs/pages/classbook-cover.png";
 const Page1 = () => {
 
 

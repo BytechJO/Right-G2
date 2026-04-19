@@ -15,7 +15,17 @@ img {
 .content-wrapper {
   overflow: auto;
 }
-
+.page1-img-wrapper-posters {
+  width: 100%;
+  height: 100%;
+  min-height: 80vh;
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  background-position: top left;
+  aspect-ratio: 813 / 558;
+  position: relative;
+  display: block;
+}
 button {
   cursor: pointer;
 }
@@ -193,7 +203,7 @@ img {
   background-size: 100% auto;
   background-repeat: no-repeat;
   background-position: top left;
-  aspect-ratio: 879 / 1280;
+  aspect-ratio: 858 / 1280;
   position: relative;
   display: block;
 }
@@ -205,7 +215,7 @@ img {
   background-size: 100% auto;
   background-repeat: no-repeat;
   background-position: top left;
-  aspect-ratio: 813 / 1114;
+  aspect-ratio: 827 / 1173;
   position: relative;
   display: block;
 }
