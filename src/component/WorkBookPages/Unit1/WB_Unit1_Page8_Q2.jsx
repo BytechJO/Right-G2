@@ -55,7 +55,7 @@ function DraggableImage({ item }) {
       {...listeners}
       src={item.src}
       alt={item.id}
-      className="max-w-24 max-h-24 object-contain bg-white border rounded-md shadow-sm cursor-grab active:cursor-grabbing"
+      className="max-w-24 max-h-24 object-contain bg-white border rounded-md shadow-sm cursor-grab touch-none active:cursor-grabbing"
     />
   );
 }
