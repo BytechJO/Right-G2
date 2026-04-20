@@ -43,12 +43,11 @@ import {
   flashPages,
 
 } from "./BookData";
-import { postersPages } from "./BookData/postersPages";
+
 import WorkBookNavigator from "./WorkBookPages/WorkBookNavigator";
-// import { postersVocabPages } from "./BookData/postersVocabPages";
-// import PosterVocabNavigator from "./PostersVocabPages/PosterVocabNavigator";
+import { postersVocabPages } from "./BookData/postersVocabPages";
 import TeacherBook from "./TeacherBookPages/TeacherBook";
-import PosterBook from "./PostersPages/PosterBook";
+
 
 export default function Book() {
   // ===========================================================
@@ -84,7 +83,10 @@ export default function Book() {
     work: workbookPages(openPopup, goToUnit),
     teacher: teacherPages.map((t) => <TeacherBook teacher={t} />),
     flash: flashPages,
-    posters :postersPages,
+    // poster: posterPages.map((p) => (
+    //   <PosterViewer poster={p} openPopup={openPopup} />
+    // )),
+    posterVocab: postersVocabPages(openPopup, goToUnit),
   }[activeTab];
 
   // ===========================================================
@@ -121,7 +123,11 @@ export default function Book() {
     setZoom(1);
     localStorage.setItem("activeTab", activeTab);
     localStorage.setItem("pageIndex", pageIndex);
-    if (activeTab === "flash" || activeTab === "posters") {
+    if (
+      activeTab === "poster" ||
+      activeTab === "flash" ||
+      activeTab === "posterVocab"
+    ) {
       setViewMode("single"); // بوستر = صفحة واحدة دائمًا
     } else {
       if (!isMobile) {
@@ -196,7 +202,7 @@ export default function Book() {
 
   const nextPage = () => {
     // =============== Posters → always single ===============
-    if (activeTab === "flash" || activeTab === "posters") {
+    if (activeTab === "posterVocab" || activeTab === "flash") {
       if (pageIndex < pages.length - 1) {
         setPageIndex(pageIndex + 1);
       }
@@ -219,7 +225,7 @@ export default function Book() {
 
   const prevPage = () => {
     // Posters → always one page
-    if (activeTab === "flash" || activeTab === "posters") {
+    if (activeTab === "posterVocab" || activeTab === "flash") {
       if (pageIndex > 0) setPageIndex(pageIndex - 1);
       return;
     }
@@ -415,15 +421,23 @@ export default function Book() {
   ];
 
   const flashUnits = [
-    { id: 1, label: "Flashcards", start: 2, pages: flashPages.length-1 },
+    { id: 1, label: "Flashcards", start: 2, pages: flashPages.length },
   ];
 
   // const posterUnits = [
-  //   { id: 1, label: "Posters", start: 2, pages: 1 },
+  //   { id: 1, label: "Posters", start: 2, pages: posterPages.length },
   // ];
-  const posterUnits = [
-    { id: 1, label: "Posters", start: 2, pages:  postersPages.length-1},
-
+  const posterVocabUnits = [
+    { id: 1, label: "Unit 1", start: 2, pages: 1 },
+    { id: 2, label: "Unit 2", start: 3, pages: 1 },
+    { id: 3, label: "Unit 3", start: 4, pages: 1 },
+    { id: 4, label: "Unit 4", start: 5, pages: 1 },
+    { id: 5, label: "Unit 5", start: 6, pages: 1 },
+    { id: 6, label: "Unit 6", start: 7, pages: 1 },
+    { id: 7, label: "Unit 7", start: 8, pages: 1 },
+    { id: 8, label: "Unit 8", start: 9, pages: 1 },
+    { id: 9, label: "Unit 9", start: 10, pages: 1 },
+    { id: 10, label: "Unit 10", start: 11, pages: 1 },
   ];
 
   // ===========================================================
@@ -432,9 +446,6 @@ export default function Book() {
   function renderPage(content) {
     if (activeTab === "flash") {
       return <FlashCardViewer card={content} openPopup={openPopup} />;
-    }
-    if (activeTab === "posters") {
-      return <PosterBook posters={content} />;
     }
     if (typeof content === "string") {
       return <img src={content} className="w-full h-full object-contain" />;
@@ -451,15 +462,15 @@ export default function Book() {
     { id: "teacher", label: "Teacher’s Book" },
     { id: "flash", label: "Flashcards" },
     // { id: "poster", label: "Grammar Poster" },
-   { id: "posters", label: "Posters" },
+    { id: "posterVocab", label: "Posters" },
   ];
   const sidebarUnits = {
     student: studentUnits,
     work: workbookUnits,
     teacher: teacherUnits,
     flash: flashUnits,
-    posters: posterUnits,
- 
+    // poster: posterUnits,
+    posterVocab: posterVocabUnits,
   }[activeTab];
 
   const studentBookInfo = {
@@ -477,24 +488,24 @@ export default function Book() {
   const teacherInfo = {
     cover: teacherBookCover,
     title: "Right 2 Teacher's Book",
-    pages: teacherPages.length-1,
+    pages: teacherPages.length,
   };
 
   const flashInfo = {
     cover: fcBookCover,
     title: "Right 2 flashcard",
-    pages: flashPages.length-1,
+    pages: flashPages.length,
   };
 
   // const posterInfo = {
   //   cover: posterBookCover,
-  //   title: "Right 2 Poster",
+  //   title: "Right 1 Grammar Poster",
   //   pages: posterPages.length,
   // };
   const posterVocabInfo = {
     cover: posterBookCover,
     title: "Right 2 Posters",
-    pages: postersPages.length-1,
+    pages: postersVocabPages().length,
   };
   const bookInfoSelector = {
     student: studentBookInfo,
@@ -502,7 +513,7 @@ export default function Book() {
     teacher: teacherInfo,
     flash: flashInfo,
     // poster: posterInfo,
-    posters: posterVocabInfo,
+    posterVocab: posterVocabInfo,
   };
   const isLastPage = pageIndex === pages.length - 1;
   const isLastSpread = viewMode === "spread" && pageIndex === pages.length - 2;
@@ -563,7 +574,7 @@ export default function Book() {
         {/* POSTERS ALWAYS SINGLE PAGE */}
         {isMobile ||
         // activeTab === "poster" ||
-        activeTab === "posters" ||
+        activeTab === "posterVocab" ||
         activeTab === "flash" ||
         viewMode === "single" ||
         pageIndex === 0 ||
@@ -660,14 +671,7 @@ export default function Book() {
           />
         )}
 
-        {/* ========== POSTER VOCAB ========== */}
-        {popupContent?.tab === "posters" &&
-          popupContent?.type === "exercise" && (
-            <PosterVocabNavigator
-              startIndex={popupContent.data.startIndex}
-              mode="posterVocab"
-            />
-          )}
+
 
         {/* ========== STUDENT + TEACHER ONLY ========== */}
         {(popupContent?.tab === "student" || popupContent?.tab === "teacher") &&

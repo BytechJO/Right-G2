@@ -52,7 +52,7 @@ const Page4_vocabulary = () => {
     {
       start: 0,
       end: 3.85,
-      text: "Page four, unit one vocabulary.",
+      text: "Page 4, unit 1 vocabulary.",
     },
     { start: 4.02, end: 6.45, text: "1 father" },
     { start: 6.52, end: 9.18, text: "2 knock" },
