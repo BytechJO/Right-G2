@@ -1,13 +1,13 @@
-import page1 from "../../assets/imgs/pages/posters/Right G2 U1 Poster/U1Poster-01.png";
-import page2 from "../../assets/imgs/pages/posters/Right G2 U2 Poster/U2Poster.png";
-import page3 from "../../assets/imgs/pages/posters/Right G2 U3 Poster/U3Poster.png";
-import page4 from "../../assets/imgs/pages/posters/Right G2 U4 Poster/U4Poster.png";
-import page5 from "../../assets/imgs/pages/posters/Right G2 U5 Poster/U5Poster.png";
-import page6 from "../../assets/imgs/pages/posters/Right G2 U6 Poster/U6Poster.png";
-import page7 from "../../assets/imgs/pages/posters/Right G2 U7 Poster/U7Poster.png";
-import page8 from "../../assets/imgs/pages/posters/Right G2 U8 Poster/U8Poster.png";
-import page9 from "../../assets/imgs/pages/posters/Right G2 U9 Poster/U9Poster.png";
-import page10 from "../../assets/imgs/pages/posters/Right G2 U10 Poster/U10Poster.png";
+import page1 from "../../assets/imgs/pages/posters/U1.png";
+import page2 from "../../assets/imgs/pages/posters/U2Poster.png";
+import page3 from "../../assets/imgs/pages/posters/U3Poster.png";
+import page4 from "../../assets/imgs/pages/posters/U4Poster.png";
+import page5 from "../../assets/imgs/pages/posters/U5Poster.png";
+import page6 from "../../assets/imgs/pages/posters/U6Poster.png";
+import page7 from "../../assets/imgs/pages/posters/U7Poster.png";
+import page8 from "../../assets/imgs/pages/posters/U8Poster.png";
+import page9 from "../../assets/imgs/pages/posters/U9Poster.png";
+import page10 from "../../assets/imgs/pages/posters/U10Poster.png";
 import coverImage from "../../assets/imgs/pages/posters/Right G2 Poster 48x33_Page_01.png";
 // nums
 import num1 from "../../assets/imgs/pages/posters/Right G2 U1 Poster/num1.svg";
@@ -173,8 +173,8 @@ export const posterData = [
     ],
 
     nums: [num1, num2, num3, num4, num5, num6, num7, num8, num9],
-    vocabBottom: "9%",
-    vocabRight: "78.5%",
+    vocabBottom: "51%",
+    vocabRight: "77.5%",
     positions: [
       { top: "31%", left: "17%" },
       { top: "20.5%", left: "27%" },
@@ -233,8 +233,8 @@ export const posterData = [
     ],
 
     nums: [num1, num2, num3, num4, num5, num6, num7, num8, num9, num10],
-    vocabBottom: "10%",
-    vocabRight: "79.5%",
+    vocabBottom: "57%",
+    vocabRight: "79%",
     positions: [
       { top: "28%", left: "21%" },
       { top: "31%", left: "12%" },
@@ -297,8 +297,8 @@ export const posterData = [
     ],
 
     nums: [num1, num2, num3, num4, num5, num6, num7, num8, num9, num10, num11],
-    vocabBottom: "10%",
-    vocabRight: "78%",
+    vocabBottom: "62%",
+    vocabRight: "77%",
     positions: [
       { top: "26%", left: "20%" },
       { top: "20%", left: "78%" },
@@ -378,8 +378,8 @@ export const posterData = [
       num11,
       num12,
     ],
-    vocabBottom: "9%",
-    vocabRight: "80%",
+    vocabBottom: "66%",
+    vocabRight: "79%",
     positions: [
       { top: "45%", left: "85%" },
       { top: "26%", left: "74%" },
@@ -448,8 +448,8 @@ export const posterData = [
     ],
 
     nums: [num1, num2, num3, num4, num5, num6, num7, num8, num9, num10],
-    vocabBottom: "10.5%",
-    vocabRight: "78%",
+    vocabBottom: "58%",
+    vocabRight: "77%",
     positions: [
       { top: "10%", left: "53%" },
       { top: "35%", left: "61%" },
@@ -511,7 +511,7 @@ export const posterData = [
     ],
 
     nums: [num1, num2, num3, num4, num5, num6, num7, num8, num9, num10],
-    vocabBottom: "11.5%",
+    vocabBottom: "58%",
     vocabRight: "80%",
     positions: [
       { top: "57%", left: "23%" },
@@ -602,7 +602,7 @@ export const posterData = [
     ],
 
     vocabularyAudio: vocabulary_unit7,
-    vocabBottom: "9.5%",
+    vocabBottom: "62%",
     vocabRight: "77.5%",
     captions: [
       { start: 0.14, end: 1.62, text: "Unit 7 vocabulary." },
@@ -637,7 +637,7 @@ export const posterData = [
     ],
 
     nums: [num1, num2, num3, num4, num5, num6, num7, num8, num9, num10],
-    vocabBottom: "9.5%",
+    vocabBottom: "56%",
     vocabRight: "80%",
     positions: [
       { top: "23%", left: "28%" },
@@ -701,7 +701,7 @@ export const posterData = [
     ],
 
     nums: [num1, num2, num3, num4, num5, num6, num7, num8, num9, num10],
-    vocabBottom: "7.5%",
+    vocabBottom: "64.5%",
     vocabRight: "78%",
     positions: [
       { top: "21%", left: "31%" },
@@ -765,8 +765,8 @@ export const posterData = [
     ],
 
     nums: [num1, num2, num3, num4, num5, num6, num7, num8, num9, num10],
-    vocabBottom: "6.5%",
-    vocabRight: "79%",
+    vocabBottom: "68.5%",
+    vocabRight: "78.5%",
     positions: [
       { top: "30.5%", left: "39%" },
       { top: "48%", left: "23%" },

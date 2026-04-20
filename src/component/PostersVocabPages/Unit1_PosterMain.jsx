@@ -12,7 +12,9 @@ const PosterMain = ({ openPopup, data }) => {
     sounds,
     positions,
     vocabularyAudio,
-    captions,vocabBottom,vocabRight
+    captions,
+    vocabBottom,
+    vocabRight,
   } = data;
 
   const [clickedIndex, setClickedIndex] = useState(null);
@@ -40,14 +42,18 @@ const PosterMain = ({ openPopup, data }) => {
   };
 
   return (
-    <div>
+    <div style={{width:"850px"}}>
       {/* Image + Words */}
-      <div style={{ position: "relative", width: "fit-content" }}>
-        
+      <div
+        className="poster-wrapper"
+        style={{
+          backgroundImage:  `url(${image})`,
+        }}
+      >
         {/* Words */}
         <div
           className="vocab_container_poster_vocab"
-          style={{ bottom: vocabBottom, right:vocabRight }}
+          style={{ bottom: vocabBottom, right: vocabRight,height:"2%" }}
         >
           {words.map((text, i) => (
             <h6
@@ -72,17 +78,12 @@ const PosterMain = ({ openPopup, data }) => {
               position: "absolute",
               top: positions[i]?.top,
               left: positions[i]?.left,
-              height: "26px",
+              height: "2vw",
             }}
           />
         ))}
 
-        {/* Poster Image */}
-        <img
-          src={image}
-          alt="poster"
-          className="poster-grammar-img max-w-full max-h-[80vh] object-fill rounded-xl shadow-lg"
-        />
+     
       </div>
 
       {/* Audio Button */}
@@ -91,10 +92,7 @@ const PosterMain = ({ openPopup, data }) => {
         onClick={() =>
           openPopup(
             "audio",
-            <AudioWithCaption
-              src={vocabularyAudio}
-              captions={captions}
-            />
+            <AudioWithCaption src={vocabularyAudio} captions={captions} />,
           )
         }
       >
