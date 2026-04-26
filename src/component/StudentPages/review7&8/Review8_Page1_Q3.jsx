@@ -7,7 +7,8 @@ import img3 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 72/
 import img4 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 72/Ex B 4.svg";
 import img5 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 72/Ex B 5.svg";
 import img6 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 72/Ex B 6.svg";
-
+import trueIcon from "../../../assets/imgs/true.svg";
+import falseIcon from "../../../assets/imgs/false.svg";
 const Review8_Page1_Q3 = () => {
   const items = [
     { img: img1, text: "I have three dresses.", correct: "yes" },
@@ -82,7 +83,7 @@ const Review8_Page1_Q3 = () => {
         </h5>
 
         {/* GRID */}
-        <div className="grid grid-cols-2 gap-x-4 gap-y-2 mt-4 w-full">
+        <div className="grid grid-cols-2 gap-x-16 gap-y-2 mt-4 w-full">
           {items.map((item, i) => {
             const isWrongYes =
               locked && selected[i] === "yes" && item.correct !== "yes";
@@ -105,14 +106,14 @@ const Review8_Page1_Q3 = () => {
                       src={item.img}
                       style={{
                         width: "auto",
-                        height: "100px",
+                        height: "90px",
                         // border: "2px solid red",
                       }}
                       className="rounded-lg"
                     />
                   </div>
                   {/* sentence */}
-                  <span className="text-[20px]">{item.text}</span>
+                  <span className="ml-10 text-[20px] w-[60%]">{item.text}</span>
                 </div>
                 {/* answer box */}
                 <div className="flex flex-col gap-2 justify-center h-[150px]">
@@ -120,16 +121,19 @@ const Review8_Page1_Q3 = () => {
                   <div className="relative">
                     <button
                       onClick={() => choose(i, "yes")}
-                      className={`w-10 h-10 border rounded text-lg ${
-                        selected[i] === "yes" ? "bg-blue-600 text-white" : ""
+                      className={`w-10 h-10 border flex items-center justify-center rounded text-lg ${
+                        selected[i] === "yes" ? "border-2 border-blue-800 text-white" : ""
                       }`}
                     >
-                      ✓
+                      <img
+                      src={trueIcon}
+                      style={{ height: "25px", width: "auto" }}
+                    />
                     </button>
 
                     {/* ❌ فوق زر yes إذا غلط */}
                     {isWrongYes && (
-                      <div className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold shadow border-2 border-white">
+                      <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold shadow border-2 border-white">
                         ✕
                       </div>
                     )}
@@ -139,16 +143,19 @@ const Review8_Page1_Q3 = () => {
                   <div className="relative">
                     <button
                       onClick={() => choose(i, "no")}
-                      className={`w-10 h-10 border rounded text-lg ${
-                        selected[i] === "no" ? "bg-blue-600 text-white" : ""
+                      className={`w-10 h-10 border rounded flex items-center justify-center text-lg ${
+                        selected[i] === "no" ? "border-2 border-blue-800 text-white" : ""
                       }`}
                     >
-                      ✗
+                      <img
+                      src={falseIcon}
+                      style={{ height: "25px", width: "auto" }}
+                    />
                     </button>
 
                     {/* ❌ فوق زر no إذا غلط */}
                     {isWrongNo && (
-                      <div className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold shadow border-2 border-white">
+                      <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold shadow border-2 border-white">
                         ✕
                       </div>
                     )}

@@ -8,9 +8,9 @@
 
 /* ====== QUESTION CARD ====== */
 .CB-review1-p2-q1-question-box {
-  border: 2px solid #ff6b57;
+  /* border: 2px solid #ff6b57; */
   border-radius: 16px;
-  padding: 16px;
+  /* padding: 16px; */
   background: #fff;
   display: flex;
   flex-direction: column;
@@ -18,7 +18,15 @@
   gap: 12px;
   position: relative;
 }
-
+.CB-review1-p2-q1-true {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 22px;
+    height: 28px;
+    pointer-events: none;
+}
 /* رقم السؤال */
 .CB-review1-p2-q1-question-text {
   width: 100%;
@@ -36,7 +44,7 @@
 /* صورتين جنب بعض */
 .CB-review1-p2-q1-flex > div:first-child {
   display: flex;
-  gap: 14px;
+  gap: 5px;
 }
 
 .CB-review1-p2-q2-img {
@@ -47,8 +55,11 @@
 
 /* ====== OPTIONS ====== */
 .CB-review1-p2-q1-options-box {
-  display: flex;
-  gap: 20px;
+    display: flex;
+    gap: 20px;
+    width: 70%;
+    margin-left: 20px;
+    justify-content: space-between;
 }
 
 /* wrapper لكل زر */
@@ -78,8 +89,9 @@
 
 /* لما يختار الطالب */
 .CB-review1-p2-q1-option-btn.is-selected {
-  background: #777cfd;
+  /* background: #777cfd; */
   color: white;
+  border: 3px solid #777cfd;
 }
 
 /* ====== WRONG ICON ====== */

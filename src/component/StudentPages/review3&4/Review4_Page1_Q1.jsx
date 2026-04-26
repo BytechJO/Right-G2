@@ -205,24 +205,19 @@ export default function Review4_Page1_Q1() {
           justifyContent: "center",
           alignItems: "center",
           padding: "30px",
+          marginBottom:"20px"
         }}
       >
         <div
           className="div-forall"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "30px",
-            width: "60%",
-            justifyContent: "flex-start",
-          }}
+          
         >
-          <div className="crossword-container">
+         
             <h3 className="header-title-page8">
               <span style={{ marginRight: "20px" }}>A</span> Look and complete
               the crossword puzzle.
             </h3>
-
+ <div className="crossword-container">
             <Droppable droppableId="letters-bank" isDropDisabled>
               {(provided) => (
                 <div
@@ -230,9 +225,9 @@ export default function Review4_Page1_Q1() {
                   {...provided.droppableProps}
                   style={{
                     display: "flex",
-                    gap: "10px",
+                    gap: "15px",
                     padding: "10px",
-                    border: "2px dashed #ccc",
+                    // border: "2px dashed #ccc",
                     borderRadius: "10px",
                     // margin: "10px 0",
                     alignItems: "center",

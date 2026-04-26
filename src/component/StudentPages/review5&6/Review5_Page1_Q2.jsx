@@ -108,13 +108,13 @@ Score: ${score} / ${total}
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
+      <div className="div-forall">
         <h5 className="header-title-page8">
           <span style={{ marginRight: "20px" }}>B</span>
           Look, circle, and write.
         </h5>
 
-        <div className="grid grid-cols-2 gap-y-[60px] gap-x-7 mt-5">
+        <div className="grid grid-cols-2 gap-y-[60px] gap-x-30 mt-5">
           {items.map((item, i) => {
             const isWrong =
               showResult && selected[i] && selected[i] !== item.correct;
@@ -136,7 +136,7 @@ Score: ${score} / ${total}
                     }}
                   />
 
-                  <span>{item.start}</span>
+                  <span style={{textWrap:"nowrap"}}>{item.start}</span>
 
                   <span
                     onClick={() => chooseOption(i, item.options[0])}
@@ -165,7 +165,7 @@ Score: ${score} / ${total}
 
                 <div className="relative">
                   <div
-                    className={`border-b-2 w-[260px] min-h-6 text-[18px]
+                    className={`border-b-2 w-[350px] min-h-6 text-[18px]
     ${
       showResult
         ? isCorrect

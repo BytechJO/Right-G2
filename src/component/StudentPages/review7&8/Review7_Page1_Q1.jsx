@@ -91,7 +91,7 @@ const Review7_Page1_Q1 = () => {
 
         {/* IMAGE */}
 
-        <div className="flex justify-center mb-8">
+        <div className="flex justify-center">
           <img
             src={img1}
             className="object-contain rounded-xl"

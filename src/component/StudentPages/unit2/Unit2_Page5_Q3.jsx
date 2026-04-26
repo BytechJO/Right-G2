@@ -240,7 +240,7 @@ const Unit2_Page5_Q3 = () => {
       }}
     >
       <div className="div-forall">
-        <h5 className="header-title-page8 pb-2.5 mb-10">
+        <h5 className="header-title-page8 pb-2.5">
           <span className="ex-A" style={{ marginRight: "10px" }}>
             C
           </span>
@@ -268,11 +268,11 @@ const Unit2_Page5_Q3 = () => {
         >
           {/* Grid Wrapper */}
           <div
-            className="border-2 border-[#f28c63] px-4 pt-4 pb-5"
+            className="px-4 pt-4 pb-5"
             style={{ width: "fit-content", margin: "0 auto" }}
           >
             <div
-              className="bg-[#daf5ff] rounded-[15px] p-2 sm:p-[15px]"
+              className="bg-[#daf5ff] rounded-[15px] p-2 sm:p-[15px] mb-10"
               style={{
                 userSelect: "none",
                 width: "max-content",

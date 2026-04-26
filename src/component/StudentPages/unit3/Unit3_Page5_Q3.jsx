@@ -35,8 +35,9 @@ const Unit3_Page5_Q3 = () => {
   const [locked, setLocked] = useState(false);
 
   const wordBank = [
-    { id: "w1", text: "make a sandwich" },
+    
     { id: "w2", text: "can’t fly a kite" },
+    { id: "w1", text: "make a sandwich" },
   ];
 
   const onDragEnd = (result) => {
@@ -151,6 +152,7 @@ const Unit3_Page5_Q3 = () => {
             <span className="ex-A">B</span>Look and write.
           </h5>
 
+   <div className="flex flex-col gap-5">
           {/* WORD BANK */}
           <Droppable droppableId="word-bank" direction="horizontal">
             {(provided) => (
@@ -243,7 +245,7 @@ const Unit3_Page5_Q3 = () => {
                 </div>
               </div>
             ))}
-          </div>
+          </div></div>
         </div>
 
         {/* ❌ الأزرار كما هي */}

@@ -77,17 +77,17 @@ const showAnswers = () => {
 };
   return (
       <div className="main-container-component">
-        <div className="div-forall gap-2">
+        <div className="div-forall">
         <h5 className="header-title-page8 mb-10">
           <span style={{ marginRight: "20px" }}>C</span>
           Look, read, and circle.
         </h5>
 
         {/* GRID */}
-        <div className="grid grid-cols-3 gap-3 mt-6">
+        <div className="grid grid-cols-3 gap-3">
           {items.map((item, i) => (
             <div key={i} className="text-center">
-              <div className=" mb-2">
+              <div className="text-xl mb-2">
                 <span
                   style={{
                     fontWeight: "bold",

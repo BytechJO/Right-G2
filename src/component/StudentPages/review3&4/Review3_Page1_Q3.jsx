@@ -23,7 +23,7 @@ const Review3_Page1_Q3 = () => {
     },
   ];
 
-  const wordBank = ["No, he can't.", "Yes,she can."];
+  const wordBank = ["Yes,she can.", "No, he can't."];
 
   const [questionInputs, setQuestionInputs] = useState(
     items.map((item) => Array(item.blanksCount).fill("")),
@@ -142,7 +142,7 @@ const Review3_Page1_Q3 = () => {
           padding: "30px",
         }}
       >
-        <div className="div-forall" style={{ width: "60%" ,gap:"20px"}}>
+        <div className="div-forall">
           <h5 className="header-title-page8">
             <span style={{ marginRight: "20px" }}>C</span>Look and answer the
             questions.
@@ -155,9 +155,9 @@ const Review3_Page1_Q3 = () => {
                 {...provided.droppableProps}
                 style={{
                   display: "flex",
-                  gap: "10px",
+                  gap: "60px",
                   padding: "10px",
-                  border: "2px dashed #ccc",
+                  // border: "2px dashed #ccc",
                   borderRadius: "10px",
                   justifyContent: "center",
                 }}
@@ -197,13 +197,13 @@ const Review3_Page1_Q3 = () => {
 
           {items.map((item, i) => {
             const isWrong = wrongMarks.some(
-              (w) => w.type === "answer" && w.qIndex === i
+              (w) => w.type === "answer" && w.qIndex === i,
             );
 
             return (
               <div className="content-CB-unit4-p6-q1">
-                <div className="CB-unit4-p6-q1-img-container">
-                  <span className="CB-unit4-p6-q1-index">{i + 1}</span>
+                <div className="flex w-[56%]">
+                  <span className="text-2xl text-blue-800 font-bold mr-5">{i + 1}</span>
                   <img
                     src={item.image}
                     alt=""
@@ -212,7 +212,7 @@ const Review3_Page1_Q3 = () => {
                 </div>
                 <div key={i} className="question-box-CB-unit4-p6-q1">
                   <div className="CB-unit4-p6-q1-title-container">
-                    <span className="CB-unit4-p6-q1-index">{i + 1}</span>
+                   
                     <p style={{ width: "100%", display: "flex" }}>
                       {item.questionParts.map((part, idx) => {
                         if (part === "") {
@@ -248,7 +248,7 @@ const Review3_Page1_Q3 = () => {
                         return (
                           <span
                             key={idx}
-                            style={{ width: "100%", fontSize: "18px" }}
+                            style={{ width: "100%", fontSize: "20px" }}
                           >
                             {" "}
                             {part}{" "}

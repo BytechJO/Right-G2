@@ -27,36 +27,35 @@ const Unit10_Page5_Q3 = () => {
   const [checked, setChecked] = useState(false);
   const [locked, setLocked] = useState(false);
 
- const toggleWord = (qId, word) => {
-  if (locked) return;
+  const toggleWord = (qId, word) => {
+    if (locked) return;
 
-  const question = questions.find((q) => q.id === qId);
-  const maxSelections = question.correct.length;
+    const question = questions.find((q) => q.id === qId);
+    const maxSelections = question.correct.length;
 
-  setSelected((prev) => {
-    const current = prev[qId] || [];
+    setSelected((prev) => {
+      const current = prev[qId] || [];
 
-    // إذا الكلمة موجودة → احذفها
-    if (current.includes(word)) {
+      // إذا الكلمة موجودة → احذفها
+      if (current.includes(word)) {
+        return {
+          ...prev,
+          [qId]: current.filter((w) => w !== word),
+        };
+      }
+
+      // ❌ إذا وصل الحد (عدد الإجابات الصحيحة)
+      if (current.length >= maxSelections) {
+        return prev;
+      }
+
+      // ✅ إضافة
       return {
         ...prev,
-        [qId]: current.filter((w) => w !== word),
+        [qId]: [...current, word],
       };
-    }
-
-    // ❌ إذا وصل الحد (عدد الإجابات الصحيحة)
-    if (current.length >= maxSelections) {
-      
-      return prev;
-    }
-
-    // ✅ إضافة
-    return {
-      ...prev,
-      [qId]: [...current, word],
-    };
-  });
-};
+    });
+  };
   const reset = () => {
     setSelected({});
     setChecked(false);
@@ -143,12 +142,12 @@ const Unit10_Page5_Q3 = () => {
             className="flex items-center gap-10 mb-4 px-4 py-3 rounded-xl bg-[#f5eee8]"
           >
             {/* رقم */}
-            <span className="font-bold w-5">{q.id}</span>
+            <span className="font-bold text-[22px] w-5">{q.id}</span>
 
             {/* الكلمات */}
             <div className="flex gap-10 flex-wrap items-center">
               {/* الكلمة الأساسية */}
-              <div className="bg-[#e8ddd5] px-3 py-1 rounded-full font-medium">
+              <div className="bg-[#e8ddd5] px-3 py-1 rounded-full font-medium text-[22px]">
                 {q.base}
               </div>
 
@@ -162,7 +161,7 @@ const Unit10_Page5_Q3 = () => {
                     key={i}
                     onClick={() => toggleWord(q.id, word)}
                     className={`
-                      relative px-3 py-1 rounded-full cursor-pointer transition text-[17px]
+                      relative px-3 py-1 rounded-full cursor-pointer transition text-[22px]
                       ${
                         isSelected
                           ? checked

@@ -147,23 +147,18 @@ const Review3_Page1_Q1 = () => {
           justifyContent: "center",
           alignItems: "center",
           padding: "30px",
+          marginBottom:"50px"
         }}
       >
         <div
           className="div-forall"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            // gap: "30px",
-            width: "60%",
-            justifyContent: "flex-start",
-          }}
+         
         >
           <h5 className="header-title-page8">
             <span style={{ marginRight: "20px" }}>A</span> Look, read, and
             circle. Then, write.
           </h5>
-
+       <div className="flex flex-col gap-10">
           <Droppable droppableId="bank" isDropDisabled>
             {(provided) => (
               <div
@@ -171,9 +166,9 @@ const Review3_Page1_Q1 = () => {
                 {...provided.droppableProps}
                 style={{
                   display: "flex",
-                  gap: "10px",
+                  gap: "30px",
                   padding: "10px",
-                  border: "2px dashed #ccc",
+                  // border: "2px dashed #ccc",
                   borderRadius: "10px",
                   // margin: "10px 0",
                   alignItems: "center",
@@ -215,10 +210,14 @@ const Review3_Page1_Q1 = () => {
             )}
           </Droppable>
 
-          <div className="question-grid-CB-review2-p2-q3">
+          <div className="question-grid-CB-review3-p1-q1">
             {items.map((item, i) => (
               <div className="question-box-CB-review2-p2-q3" key={i}>
-                <span
+               
+
+                <div className="img-option-CB-review2-p2-q3">
+                 <div className="flex gap-5"> 
+                 <span
                   style={{
                     fontSize: "22px",
                     fontWeight: "600",
@@ -226,15 +225,12 @@ const Review3_Page1_Q1 = () => {
                   }}
                 >
                   {i + 1}
-                </span>
-
-                <div className="img-option-CB-review2-p2-q3">
-                  <img
+                </span>  <img
                     src={item.img}
                     className="q-img-CB-review2-p2-q3"
                     style={{ height: "auto", width: "200px" }}
                   />
-
+</div>
                   {/*choices */}
                   <div className="choices-CB-review2-p2-q3">
                     {["can", "can't"].map((op, index) => (
@@ -305,6 +301,7 @@ const Review3_Page1_Q1 = () => {
                 </div>
               </div>
             ))}
+          </div>
           </div>
         </div>
         <div className="action-buttons-container">

@@ -79,33 +79,42 @@ const Unit8_Page5_Q2 = () => {
   };
 
   const Blank = ({ id }) => (
-    <Droppable droppableId={id}>
-      {(provided) => (
-        <span className="relative inline-block min-w-[90px] h-[50px] mx-2 text-center">
-          {/* ❌ */}
-          {isWrong(id) && (
-            <span className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold border-2 border-white shadow-md">
-              ✕
+  <Droppable droppableId={id}>
+    {(provided, snapshot) => (
+      <span className="relative inline-block min-w-[90px] h-[50px] mx-2 text-center">
+        
+        {/* ❌ */}
+        {isWrong(id) && (
+          <span className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold border-2 border-white shadow-md">
+            ✕
+          </span>
+        )}
+
+        <span
+          ref={provided.innerRef}
+          {...provided.droppableProps}
+          className={`inline-block w-full h-full border-b-2 transition-all duration-200
+            ${
+              snapshot.isDraggingOver
+                ? "bg-blue-100 border-2 border-dashed border-blue-500 rounded-md"
+                : isWrong(id)
+                ? "border-red-500"
+                : "border-black"
+            }
+          `}
+        >
+          {answers[id] && (
+            <span className="text-red-600 font-semibold">
+              {answers[id]}
             </span>
           )}
 
-          <span
-            ref={provided.innerRef}
-            {...provided.droppableProps}
-            className={`inline-block w-full h-full border-b-2
-            ${isWrong(id) ? "border-red-500" : "border-black"}
-          `}
-          >
-            {answers[id] && (
-              <span className="text-red-600 font-semibold">{answers[id]}</span>
-            )}
-
-            {provided.placeholder}
-          </span>
+          {provided.placeholder}
         </span>
-      )}
-    </Droppable>
-  );
+      </span>
+    )}
+  </Droppable>
+);
   const isWordUsed = (word) => {
     return Object.values(answers).includes(word);
   };
@@ -120,17 +129,18 @@ const Unit8_Page5_Q2 = () => {
         <div className="div-forall">
           {" "}
           {/* ❌ الهيدر كما هو */}
-          <h5 className="header-title-page8 mb-8">
+          <h5 className="header-title-page8">
             <span style={{ color: "#2e3192", marginRight: "20px" }}>2</span>Look
             and complete the poem. Then say.
           </h5>
+          <div className="flex flex-col gap-5">
           {/* word bank */}
           <Droppable droppableId="bank" direction="horizontal" isDropDisabled>
             {(provided) => (
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="flex gap-4 justify-center border-2 border-dashed border-gray-500 p-2 rounded-lg"
+                className="flex gap-5 justify-center p-2 rounded-lg"
               >
                 {options.map((word, index) => {
                   const used = isWordUsed(word);
@@ -147,7 +157,7 @@ const Unit8_Page5_Q2 = () => {
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
-                          className={`px-4 py-2 border rounded-lg shadow transition-all
+                          className={`px-4 py-2 text-xl border-2 border-blue-900 rounded-lg shadow transition-all
             ${
               used
                 ? "bg-gray-300 text-gray-500 cursor-not-allowed opacity-50"
@@ -209,7 +219,7 @@ const Unit8_Page5_Q2 = () => {
               />
               on the Moon.
             </div>
-          </div>
+          </div></div>
         </div>
 
         {/* buttons */}

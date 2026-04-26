@@ -7,6 +7,8 @@ import img3 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 91/Asset
 import img4 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 91/Asset 62.svg";
 import sound1 from "../../../assets/audio/ClassBook/U 10/cd64pg91-instruction1-adult-lady_sUW7j1i5.mp3";
 import QuestionAudioPlayer from "../../QuestionAudioPlayer";
+import trueIcon from "../../../assets/imgs/true.svg";
+import falseIcon from "../../../assets/imgs/false.svg";
 const Review10_Page2_Q1 = () => {
   const stopAtSecond = 9.479;
   const [locked, setLocked] = useState(false); // ⭐ NEW — قفل التعديل بعد Show Answer
@@ -14,12 +16,16 @@ const Review10_Page2_Q1 = () => {
   // ================================
   // ✔ Captions Array
   // ================================
-const captions = [
-  { start: 0.379, end: 9.479, text: "Page 91, review 10, exercise D. Do they both have the same vowel sound? Listen and write ✓ or X." },
-  { start: 10.599, end: 17.079, text: "1, leaf, ten. 2, jeep, bean." },
-  { start: 18.139, end: 20.899, text: "3, tent, jet." },
-  { start: 21.979, end: 24.920, text: "4, green, reed." }
-];
+  const captions = [
+    {
+      start: 0.379,
+      end: 9.479,
+      text: "Page 91, review 10, exercise D. Do they both have the same vowel sound? Listen and write ✓ or X.",
+    },
+    { start: 10.599, end: 17.079, text: "1, leaf, ten. 2, jeep, bean." },
+    { start: 18.139, end: 20.899, text: "3, tent, jet." },
+    { start: 21.979, end: 24.92, text: "4, green, reed." },
+  ];
   const questions = [
     {
       id: 1,
@@ -111,12 +117,7 @@ const captions = [
         padding: "30px",
       }}
     >
-      <div
-        className="div-forall"
-        style={{
-          gap: "20px",
-        }}
-      >
+      <div className="div-forall">
         <h5 className="header-title-page8">
           <span style={{ marginRight: "15px" }}>D</span>
           Do they both have the same{" "}
@@ -183,21 +184,28 @@ const captions = [
                 <div style={{ display: "flex", gap: "10px" }}>
                   {/* ✓ */}
                   <button
+                    className="flex justify-center items-center"
                     onClick={() => selectAnswer(q.id, "✓")}
                     style={{
                       width: "40px",
                       height: "40px",
-                      border: "2px solid #f87171",
+                      // border: "2px solid gray",
                       borderRadius: "8px",
                       fontSize: "18px",
                       fontWeight: "bold",
-                      background: answers[q.id] === "✓" ? "#777cfd" : "white",
+                      border:
+                        answers[q.id] === "✓"
+                          ? "2px solid #777cfd"
+                          : "2px solid #f87171",
                       color: answers[q.id] === "✓" ? "white" : "black",
                       cursor: "pointer",
                       position: "relative", // ⭐ مهم
                     }}
                   >
-                    ✓
+                    <img
+                      src={trueIcon}
+                      style={{ height: "25px", width: "auto" }}
+                    />
                     {showResult[index] === "wrong" && answers[q.id] === "✓" && (
                       <span className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold shadow border-2 border-white">
                         ✕
@@ -207,21 +215,28 @@ const captions = [
 
                   {/* ✗ */}
                   <button
+                    className="flex justify-center items-center"
                     onClick={() => selectAnswer(q.id, "✗")}
                     style={{
                       width: "40px",
                       height: "40px",
-                      border: "2px solid #f87171",
+                      // border: "2px solid gray",
                       borderRadius: "8px",
                       fontSize: "18px",
                       fontWeight: "bold",
-                      background: answers[q.id] === "✗" ? "#777cfd" : "white",
+                      border:
+                        answers[q.id] === "✗"
+                          ? "2px solid #777cfd"
+                          : "2px solid #f87171",
                       color: answers[q.id] === "✗" ? "white" : "black",
                       cursor: "pointer",
                       position: "relative", // ⭐ مهم
                     }}
                   >
-                    ✗
+                    <img
+                      src={falseIcon}
+                      style={{ height: "25px", width: "auto" }}
+                    />
                     {showResult[index] === "wrong" && answers[q.id] === "✗" && (
                       <span className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold shadow border-2 border-white">
                         ✕

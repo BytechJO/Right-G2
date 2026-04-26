@@ -110,13 +110,23 @@ export default function Review10_Page2_Q3() {
     setChecked(false);
   };
 
-  const showAnswers = () => {
-    setAnswers(items.map((item) => item.correct[0].split("")));
-    setLetterBank(items.map(() => []));
-    setLocked(true);
-    setChecked(true);
-  };
+const showAnswers = () => {
+  // حط الإجابات
+  setAnswers(items.map((item) => item.correct[0].split("")));
 
+  // 🔥 خلّي كل الحروف used
+  const updatedBank = items.map((item) =>
+    item.scrambled[0].split("").map((l) => ({
+      value: l,
+      used: true,
+    })),
+  );
+
+  setLetterBank(updatedBank);
+
+  setLocked(true);
+  setChecked(true);
+};
   const checkAnswers = () => {
     if (locked) return;
 
@@ -158,7 +168,7 @@ export default function Review10_Page2_Q3() {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="main-container-component">
-        <div className="div-forall gap-2">
+        <div className="div-forall">
           <h5 className="header-title-page8">
             <span className=" mr-4">G</span>
             Unscramble and write the words.
@@ -193,11 +203,11 @@ export default function Review10_Page2_Q3() {
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
-                                    className={`w-8 h-8 flex items-center justify-center rounded border
+                                    className={`w-9 h-9 flex items-center justify-center rounded border
                                   ${
-                                    letter.used
-                                      ? "bg-gray-300 cursor-not-allowed"
-                                      : "bg-yellow-200 cursor-grab"
+                                   letter.used
+  ? "bg-gray-300 text-gray-500 opacity-60 cursor-not-allowed"
+  : "bg-white border-2 border-blue-900 cursor-grab hover:bg-blue-50"
                                   }
                                 `}
                                   >
@@ -215,16 +225,38 @@ export default function Review10_Page2_Q3() {
                   {/* ✍️ SLOT */}
                   <div style={{ position: "relative" }}>
                     <Droppable droppableId={`slot-${i}`} direction="horizontal">
-                      {(provided) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.droppableProps}
-                          className={`w-90 border-b-2 border-black h-10 flex items-center gap-0 px-2 ${
-                            checked && answers[i].join("") !== item.correct[0]
-                              ? "border-b-2 border-red-500"
-                              : ""
-                          }`}
-                        >
+  {(provided, snapshot) => (
+    <div
+      ref={provided.innerRef}
+      {...provided.droppableProps}
+      style={{
+        width: "360px",
+        height: "40px",
+        display: "flex",
+        alignItems: "center",
+        padding: "0 8px",
+        position: "relative",
+
+        // 🔥 الايفيكت
+        borderBottom: `2px ${
+          snapshot.isDraggingOver ? " dashed #2563eb" : "solid gray"
+        }`,
+        backgroundColor: snapshot.isDraggingOver
+          ? "#bfdbfe"
+          : "",
+        // borderRadius: "8px",
+        transition: "all 0.2s ease",
+
+        // ❌ حالة الخطأ
+        ...(checked &&
+        answers[i].join("") !== item.correct[0]
+          ? { border: "2px dashed red", backgroundColor: "#fee2e2" }
+          : {}),
+
+        // ✨ تكبير خفيف
+        transform: snapshot.isDraggingOver ? "scale(1.02)" : "scale(1)",
+      }}
+    >
                           {answers[i].map((letter, letterIndex) => {
                             const key = `${i}-${letterIndex}`;
 

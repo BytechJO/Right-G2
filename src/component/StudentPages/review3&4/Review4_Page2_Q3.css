@@ -14,3 +14,11 @@
     border: 2px solid white;
     justify-content: center;
 }
+
+.question-grid-CB-review4-p2-q3 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 80px;
+    row-gap: 50px;
+    margin-top: 20px;
+}

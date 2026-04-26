@@ -3,7 +3,7 @@ import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Page8_Q3.css";
 import img1 from "../../../assets/imgs/Right 2 Unit 1 Stellas Family/Page 8/Page8-Ex B 1.svg";
 import img2 from "../../../assets/imgs/Right 2 Unit 1 Stellas Family/Page 8/Page8-Ex B 2.svg";
-import img3 from "../../../assets/imgs/Right 2 Unit 1 Stellas Family/Page 8/Page8-Ex B 3.svg"
+import img3 from "../../../assets/imgs/Right 2 Unit 1 Stellas Family/Page 8/Page8-Ex B 3.svg";
 
 const Page8_Q3 = () => {
   const [answers, setAnswers] = useState(Array(3).fill(null));
@@ -97,13 +97,7 @@ const Page8_Q3 = () => {
     >
       <div
         className="div-forall"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "30px",
-          width: "60%",
-          justifyContent: "flex-start",
-        }}
+       
       >
         <div>
           <h5 className="header-title-page8">
@@ -132,26 +126,28 @@ const Page8_Q3 = () => {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  gap: "14px",
+                  gap: "30px",
+                  flexDirection:"column"
                 }}
               >
-                <span
-                  style={{
-                    color: "#2c5287",
-                    fontSize: "20px",
-                    fontWeight: "700",
-                  }}
-                >
-                  {i + 1}
-                </span>
-                <div className="img-div-CB-unit1-p8-q3">
-                  <img
-                    src={q.img}
-                    className="q3-image-CB-unit1-p8-q3"
-                    style={{ height: "150px", width: "auto" }}
-                  />
+                <div className="flex">
+                  <span
+                    style={{
+                      color: "#2c5287",
+                      fontSize: "20px",
+                      fontWeight: "700",
+                    }}
+                  >
+                    {i + 1}
+                  </span>
+                  <div className="img-div-CB-unit1-p8-q3">
+                    <img
+                      src={q.img}
+                      className="q3-image-CB-unit1-p8-q3"
+                      style={{ height: "150px", width: "auto" }}
+                    />
+                  </div>
                 </div>
-
                 <div className="options-row-CB-unit1-p8-q3">
                   {q.options.map((word, optIndex) => {
                     const isSelected = answers[i] === optIndex;

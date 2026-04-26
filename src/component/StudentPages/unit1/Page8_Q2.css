@@ -46,7 +46,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #f7fbff;
+  /* background: #f7fbff; */
   transition: 0.2s ease-in-out;
 }
 

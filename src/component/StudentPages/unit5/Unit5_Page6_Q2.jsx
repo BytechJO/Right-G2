@@ -40,7 +40,7 @@ const Unit5_Page6_Q2 = () => {
   const [wrongInputs, setWrongInputs] = useState([]);
   const [locked, setLocked] = useState(false);
   const [showAnswer, setShowAnswer] = useState(false);
-const [hoveredWord, setHoveredWord] = useState(null);
+  const [hoveredWord, setHoveredWord] = useState(null);
   const [userInputs, setUserInputs] = useState({
     1: "",
     2: "",
@@ -149,29 +149,22 @@ const [hoveredWord, setHoveredWord] = useState(null);
           padding: "30px",
         }}
       >
-        <div
-          className="div-forall"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "30px",
-            width: "60%",
-            justifyContent: "flex-start",
-          }}
-        >
+        <div className="div-forall">
           <h5 className="header-title-page8">
             {" "}
             <span className="ex-A">E</span>Look and write
           </h5>
           <div className="CB-unit5-p6-q2-container" ref={containerRef}>
             {questions.map((q) => (
-              <div className="CB-unit5-p6-q2-row" key={q.id}>
+              <div className="CB-unit5-p6-q2-row mb-10" key={q.id}>
                 <div
                   className="CB-unit5-p6-q2-row-inner"
                   style={{
                     display: "flex",
                     width: "100%",
                     justifyContent: "space-between",
+                    gap: "60px",
+                    alignItems: "center",
                   }}
                 >
                   {/* Image */}
@@ -181,7 +174,9 @@ const [hoveredWord, setHoveredWord] = useState(null);
                       display: "flex",
                     }}
                   >
-                    <span className="CB-unit5-p6-q2-number">{q.id}</span>
+                    <span className="font-bold text-2xl text-blue-800">
+                      {q.id}
+                    </span>
                     <img
                       src={q.image}
                       alt=""
@@ -208,12 +203,12 @@ const [hoveredWord, setHoveredWord] = useState(null);
                           className="CB-unit5-p6-q2-word-bank"
                           style={{
                             display: "flex",
-                            gap: "10px",
+                            gap: "30px",
                             padding: "10px",
-                            border: "2px dashed #ccc",
+                            // border: "2px dashed #ccc",
                             borderRadius: "10px",
                             alignItems: "center",
-                            width: "300px",
+                            width: "90%",
                             justifyContent: "center",
                           }}
                         >
@@ -307,9 +302,7 @@ const [hoveredWord, setHoveredWord] = useState(null);
                                     padding: "2px 6px",
                                     borderRadius: "6px",
                                     color:
-                                      hoveredWord === key
-                                        ? "red"
-                                        : "black",
+                                      hoveredWord === key ? "red" : "black",
                                     transition: "0.2s",
                                   }}
                                 >

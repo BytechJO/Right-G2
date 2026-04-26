@@ -95,7 +95,7 @@ const Review5_Page1_Q1 = () => {
               }}
             />
           </div>
-
+           <div className="flex flex-col gap-5">
           {/* OPTIONS */}
           <Droppable droppableId="bank" direction="horizontal" isDropDisabled>
             {(provided) => (
@@ -186,6 +186,7 @@ const Review5_Page1_Q1 = () => {
                 </div>
               );
             })}
+          </div>
           </div>
         </div>
 

@@ -104,7 +104,7 @@ const Review9_Page1_Q3 = () => {
   };
   return (
     <div className="main-container-component">
-      <div className="div-forall gap-2">
+      <div className="div-forall">
         {/* HEADER */}
         <h5 className="header-title-page8 mb-10">
           <span style={{ marginRight: "20px" }}>C</span>
@@ -153,6 +153,7 @@ const Review9_Page1_Q3 = () => {
                       style={{
                         padding: "2px 6px",
                         borderRadius: "10px",
+                        textWrap:"nowrap",
                         border: isSelected
                           ? "2px solid red"
                           : "2px solid transparent",

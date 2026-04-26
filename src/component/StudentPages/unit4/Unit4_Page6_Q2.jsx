@@ -126,10 +126,7 @@ const Unit4_Page6_Q2 = () => {
         <div
           className="div-forall"
           style={{
-            display: "flex",
-            flexDirection: "column",
-            // gap: "30px",
-            width: "60%",
+         
             marginBottom: "40px",
           }}
         >
@@ -147,9 +144,9 @@ const Unit4_Page6_Q2 = () => {
                 {...provided.droppableProps}
                 style={{
                   display: "flex",
-                  gap: "10px",
+                  gap: "30px",
                   padding: "10px",
-                  border: "2px dashed #ccc",
+                  // border: "2px dashed #ccc",
                   borderRadius: "10px",
                   // margin: "10px 0",
                   flexWrap: "wrap",

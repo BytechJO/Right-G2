@@ -195,7 +195,7 @@ const Unit4_Page5_Q1 = () => {
               <div key={w.char} className="CB-review1-p2-q1-word-box">
                 <h5
                   className={`
-    CB-review1-p2-q1-word ${w.color}
+    CB-unit4-p5-q1-word ${w.color}
     ${locked ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
     ${start ? "hover:text-red-600 hover:underline hover:scale-110" : ""}
     transition-all duration-200

@@ -151,6 +151,8 @@ const Unit8_Page6_Q2 = () => {
           Look and match.
         </h5>
 
+
+<div className="flex flex-col gap-2">
         {images.map((item, i) => (
           <div key={i} className="flex items-center justify-between my-8">
             {/* LEFT IMAGE */}
@@ -214,6 +216,7 @@ const Unit8_Page6_Q2 = () => {
             </div>
           </div>
         ))}
+        </div>
       </div>
 
       {/* LINES SVG */}

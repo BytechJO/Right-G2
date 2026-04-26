@@ -136,8 +136,9 @@ const FourImagesWithAudio = ({
           display: "flex",
           flexDirection: "column",
           justifyContent: "flex-start",
-          width: "60%",
+          width: "70%",
           alignItems: "flex-start",
+          marginTop:"25px"
         }}
       >
         <h5 className="header-title-page8" style={{ fontSize: "25px" }}>
@@ -232,7 +233,7 @@ const FourImagesWithAudio = ({
 
               {/* Play */}
               <button className="play-btn2" onClick={togglePlay}>
-                {isPlaying ? <FaPause size={26} /> : <FaPlay size={26} />}
+                {isPlaying ? <FaPause size={20} /> : <FaPlay size={20} />}
               </button>
 
               {/* Settings */}

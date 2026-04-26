@@ -109,18 +109,13 @@ const Review2_Page1_Q4 = () => {
       >
         <div
           className="div-forall"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "30px",
-            width: "60%",
-            justifyContent: "flex-start",
-          }}
+        
         >
-          <div className="component-wrapper">
             <h3 className="header-title-page8">
               <span style={{ marginRight: "20px" }}>D</span> Look and write.
             </h3>
+          <div className="flex flex-col gap-10">
+
             <Droppable droppableId="bank" direction="horizontal">
               {(provided) => (
                 <div
@@ -128,9 +123,9 @@ const Review2_Page1_Q4 = () => {
                   {...provided.droppableProps}
                   style={{
                     display: "flex",
-                    gap: "12px",
+                    gap: "30px",
                     padding: "12px",
-                    border: "2px dashed #ccc",
+                    // border: "2px dashed #ccc",
                     borderRadius: "10px",
                     justifyContent: "center",
                   }}

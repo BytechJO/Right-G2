@@ -6,7 +6,8 @@ import img2 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 71/
 import img3 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 71/Ex C 3.svg";
 import img4 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 71/Ex C 4.svg";
 import img5 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 71/Ex C 5.svg";
-
+import trueIcon from "../../../assets/imgs/true.svg";
+import falseIcon from "../../../assets/imgs/false.svg";
 import audio5 from "../../../assets/audio/ClassBook/U 8/cd49pg71-instruction1-adult-lady_ejSLDj8H.mp3";
 import QuestionAudioPlayer from "../../QuestionAudioPlayer";
 const Review7_Page2_Q1 = () => {
@@ -81,7 +82,7 @@ const Review7_Page2_Q1 = () => {
   };
 
   return (
-    <div className="main-container-component">
+    <div className="main-container-component mb-20">
       <div className="div-forall">
         <h5 className="header-title-page8">
           <span style={{ marginRight: "20px" }}>C</span>
@@ -117,7 +118,7 @@ const Review7_Page2_Q1 = () => {
 
                     {/* Wrong Icon */}
                     {isWrong && (
-                      <div className="absolute top-6 -right-3 w-7 h-7 bg-red-500 rounded-full flex items-center justify-center border-2 border-white">
+                      <div className="absolute top-6 -right-3 w-7 h-7 bg-red-500 rounded-full flex items-center justify-center border-2 border-white shadow-xl">
                         <span className="text-white font-bold">✕</span>
                       </div>
                     )}
@@ -126,20 +127,26 @@ const Review7_Page2_Q1 = () => {
                 <div className="flex gap-2 mt-2">
                   <button
                     onClick={() => choose(i, "yes")}
-                    className={`w-10 h-10 border rounded text-lg ${
-                      selected[i] === "yes" ? "bg-green-500 text-white" : ""
+                    className={`w-10 h-10 border flex items-center justify-center rounded text-lg ${
+                      selected[i] === "yes" ? "border-2 border-blue-800 text-white" : ""
                     }`}
                   >
-                    ✓
+                    <img
+                      src={trueIcon}
+                      style={{ height: "25px", width: "auto" }}
+                    />
                   </button>
 
                   <button
                     onClick={() => choose(i, "no")}
-                    className={`w-10 h-10 border rounded text-lg ${
-                      selected[i] === "no" ? "bg-red-500 text-white" : ""
+                    className={`w-10 h-10 border flex items-center justify-center rounded text-lg ${
+                      selected[i] === "no" ? "border-2 border-blue-800 text-white" : ""
                     }`}
                   >
-                    ✗
+                    <img
+                      src={falseIcon}
+                      style={{ height: "25px", width: "auto" }}
+                    />
                   </button>
                 </div>
               </div>

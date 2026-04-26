@@ -86,13 +86,13 @@ setShowResult(true); // 🔥 هذا الناقص
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
+      <div className="div-forall">
         <h5 className="header-title-page8">
           <span className=" mr-4">F</span>
           Look, circle, and write.
         </h5>
         <div className="flex w-full">
-          <div className="grid grid-cols-3 gap-y-10 gap-x-[60px] mt-10 justify-center w-full">
+          <div className="grid grid-cols-3 gap-y-25 gap-x-[60px] mt-10 justify-center w-full">
             {items.map((item, i) => {
               const isWrong =
                 showResult && selected[i] && selected[i] !== item.correct;

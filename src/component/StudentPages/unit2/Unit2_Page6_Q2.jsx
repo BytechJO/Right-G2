@@ -151,12 +151,12 @@ const Unit2_Page6_Q2 = () => {
       <div
         style={{ display: "flex", justifyContent: "center", padding: "30px" }}
       >
-        <div className="div-forall" style={{ width: "60%" }}>
+        <div className="div-forall">
           {/* ❌ الهيدر كما هو */}
           <h5 className="header-title-page8">
             <span className="ex-A">E</span>Look and write.
           </h5>
-
+<div className="flex flex-col gap-2">
           {/* WORD BANK */}
           <Droppable droppableId="word-bank" direction="horizontal">
             {(provided) => (
@@ -244,6 +244,7 @@ const Unit2_Page6_Q2 = () => {
                 </div>
               </div>
             ))}
+          </div>
           </div>
         </div>
 

@@ -109,7 +109,7 @@ const Unit7_Page6_Q1 = () => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="main-container-component">
-        <div className="div-forall" style={{ gap: "20px" }}>
+        <div className="div-forall">
           <h5 className="header-title-page8" style={{ marginBottom: "20px" }}>
             <span className="ex-A">D </span>Read and write.
           </h5>
@@ -120,7 +120,7 @@ const Unit7_Page6_Q1 = () => {
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="flex flex-wrap justify-center gap-3 mb-10 border-2 border-dashed border-gray-500 p-2 rounded-lg"
+                className="flex flex-wrap justify-center gap-3 p-2 rounded-lg"
               >
                 {wordBank.map((word, index) => {
                   const used = isWordUsed(word);

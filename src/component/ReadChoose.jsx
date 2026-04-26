@@ -2,30 +2,49 @@ import React, { useState } from "react";
 import "./ReadChoose.css";
 import read from "../assets/Page 01/P1 listen and repeat 01.svg";
 const letters = ["a", "b", "c", "d", "e", "f"];
+import ValidationAlert from "./Popup/ValidationAlert";
 
 const ReadChoose = ({ data }) => {
   const [answers, setAnswers] = useState(Array(data.questions.length).fill(""));
 
   const [checked, setChecked] = useState(false);
   const [wrongQuestions, setWrongQuestions] = useState([]);
-
+const [score, setScore] = useState(0);
   const handleSelect = (qIndex, option) => {
     const updated = [...answers];
     updated[qIndex] = option;
     setAnswers(updated);
   };
-  const checkAnswers = () => {
-    let wrong = [];
+ const checkAnswers = () => {
+  let wrong = [];
+  let correctCount = 0;
 
-    data.questions.forEach((q, index) => {
-      if (answers[index] !== q.correct) {
-        wrong.push(index);
-      }
-    });
+  data.questions.forEach((q, index) => {
+    if (answers[index] === q.correct) {
+      correctCount++;
+    } else {
+      wrong.push(index);
+    }
+  });
 
-    setWrongQuestions(wrong);
-    setChecked(true);
-  };
+  setWrongQuestions(wrong);
+  setChecked(true);
+  setScore(correctCount);
+
+  // ⭐ الفيدباك للطالب
+  const total = data.questions.length;
+    const color = correctCount === total ? "green" : correctCount === 0 ? "red" : "orange";
+
+ ValidationAlert[
+      correctCount === total ? "success" : correctCount === 0 ? "error" : "warning"
+    ](`
+      <div style="font-size:20px;text-align:center;">
+        <span style="color:${color};font-weight:bold;">
+          Score: ${correctCount} / ${total}
+        </span>
+      </div>
+    `);
+};
   const showCorrectAnswers = () => {
     const correctAnswers = data.questions.map((q) => q.correct);
 
@@ -47,6 +66,7 @@ const ReadChoose = ({ data }) => {
         justifyContent: "center",
         alignItems: "center",
         padding: "30px",
+        marginTop:"40px"
       }}
     >
       <div
@@ -54,20 +74,21 @@ const ReadChoose = ({ data }) => {
         style={{
           display: "flex",
           flexDirection: "column",
-          gap: "30px",
-          width: "60%",
+          gap: "40px",
+          width: "52%",
           justifyContent: "flex-start",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <img src={read} style={{ height: "90px", width: "90px" }} />{" "}
+        <div style={{ display: "flex", alignItems: "center" ,gap:"30px"}}>
+          <img src={read} style={{ height: "130px", width: "130px" }} />{" "}
           <h3 className="RCU-unit-read-choose-title">{data.title}</h3>
         </div>
+        <div className="border-2 border-red-600 rounded-xl p-10 flex flex-col gap-10">
         {data.questions.map((q, qIndex) => (
           <div key={qIndex} className="RCU-unit-read-choose-question">
-            <div>
+            <div className="flex gap-2 items-center">
               <span className="RCU-unit-read-choose-q-number">
-                {qIndex + 1}
+                {qIndex + 1}.
               </span>
 
               <span className="RCU-unit-read-choose-q-text">{q.text}</span>
@@ -105,6 +126,7 @@ const ReadChoose = ({ data }) => {
             </div>
           </div>
         ))}
+        </div>
       </div>
       <div className="action-buttons-container">
         <button className="try-again-button" onClick={reset}>

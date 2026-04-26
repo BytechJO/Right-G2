@@ -136,11 +136,13 @@ const Review5_Page2_Q4 = () => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="main-container-component">
-        <div className="div-forall" style={{ gap: "20px" }}>
+        <div className="div-forall">
           <h5 className="header-title-page8">
             <span className="mr-4">G</span>
             Read, look, and complete the sentences.
           </h5>
+
+          <div className="flex flex-col gap-5">
 
           {/* WORD BANK */}
 
@@ -149,7 +151,7 @@ const Review5_Page2_Q4 = () => {
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="flex gap-5 justify-center mb-[30px] border-2 border-blue-800 border-dashed p-4 rounded-lg"
+                className="flex gap-10 justify-center p-4 rounded-lg"
               >
                 {options.map((word, i) => {
                   const isUsed = Object.values(answers).includes(word);
@@ -253,6 +255,7 @@ const Review5_Page2_Q4 = () => {
                 })}
               </div>
             ))}
+          </div>
           </div>
         </div>
 

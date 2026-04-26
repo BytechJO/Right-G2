@@ -1,6 +1,7 @@
 .shorti-container-CB-unit3-p6-q2 {
   flex-direction: column;
-  gap: 25px;
+  row-gap: 60px;
+  column-gap: 3px;
   display: grid;
   grid-template-columns: repeat(3,1fr);
   justify-items: center;
@@ -9,6 +10,7 @@
 
 .question-box-CB-unit3-p6-q2 {
   display: flex;
+  flex-direction: column;
   gap: 20px;
 }
 
@@ -96,6 +98,7 @@
 .question-box2-CB-unit3-p6-q2 {
   display: flex;
   flex-direction: column;
+  gap: 20px;
 }
 
 @media screen and (max-width: 1024px) and (max-height: 600px) {

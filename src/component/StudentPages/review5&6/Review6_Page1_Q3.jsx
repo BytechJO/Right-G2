@@ -96,14 +96,15 @@ She goes to bed at nine.
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
+      <div className="div-forall">
         <h5 className="header-title-page8">
           <span style={{ marginRight: "20px" }}>C</span>
           Read and circle <span style={{ color: "#0b0f7bff" }}>
             true
           </span> or <span style={{ color: "#0b0f7bff" }}>false</span>.
         </h5>
-
+          
+          <div className="flex flex-col gap-5">
         {/* passage + image */}
         <div className="flex items-center gap-[30px] mb-[30px]">
           <div className="border-2 border-[#e23d3d] rounded-[10px] p-[15px] leading-[1.6] text-[18px] flex-1">
@@ -134,7 +135,7 @@ She goes to bed at nine.
                 <div className="flex gap-5">
                   <span
                     onClick={() => selectAnswer(i, "True")}
-                    className={`relative cursor-pointer px-2 py-[3px] ${
+                    className={`relative text-[20px] cursor-pointer px-2 py-[3px] ${
                       answers[i] === "True"
                         ? "font-bold border-2 border-blue-500 rounded-full"
                         : "hover:bg-gray-100 rounded-full"
@@ -150,7 +151,7 @@ She goes to bed at nine.
 
                   <span
                     onClick={() => selectAnswer(i, "False")}
-                    className={`relative cursor-pointer px-2 py-[3px] ${
+                    className={`relative text-[20px] cursor-pointer px-2 py-[3px] ${
                       answers[i] === "False"
                         ? "font-bold border-2 border-blue-500 rounded-full"
                         : "hover:bg-gray-100 rounded-full"
@@ -167,6 +168,7 @@ She goes to bed at nine.
               </div>
             );
           })}
+        </div>
         </div>
       </div>
 

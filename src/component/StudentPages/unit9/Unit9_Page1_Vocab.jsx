@@ -3,6 +3,7 @@ import backgroundImage from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Gr
 import page2_2 from "../../../assets/imgs/Voca.svg";
 import vocabulary from "../../../assets/audio/ClassBook/U 9/CD52.Pg76_Instruction1_Adult Lady.mp3";
 import "./Unit9_Page1.css";
+import ModernVocabularyComponent from "../../ModernVocabularyComponent";
 import num1 from "../../../assets/imgs/Num1.svg";
 import num2 from "../../../assets/imgs/Num2.svg";
 import num3 from "../../../assets/imgs/Num3.svg";
@@ -23,30 +24,8 @@ import sound7 from "../../../assets/audio/ClassBook/U 9/unit9-sound7.mp3";
 import sound8 from "../../../assets/audio/ClassBook/U 9/unit9-sound8.mp3";
 import sound9 from "../../../assets/audio/ClassBook/U 9/unit9-sound9.mp3";
 import sound10 from "../../../assets/audio/ClassBook/U 9/unit9-sound10.mp3";
-import { TbMessageCircle } from "react-icons/tb";
-import { IoMdSettings } from "react-icons/io";
-import { FaPlay, FaPause } from "react-icons/fa";
+
 const Unit9_Page1_Vocab = () => {
-  const mainAudioRef = useRef(null);
-  const clickAudioRef = useRef(null);
-
-  const [paused, setPaused] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(null);
-  const [activeIndex2, setActiveIndex2] = useState(null);
-  const [showContinue, setShowContinue] = useState(false);
-  const stopAtSecond = 3.0;
-  const [clickedIndex, setClickedIndex] = useState(null);
-  // إعدادات الصوت
-  const [showSettings, setShowSettings] = useState(false);
-  const [volume, setVolume] = useState(1);
-  const [activeSpeed, setActiveSpeed] = useState(1);
-  const settingsRef = useRef(null);
-  const [forceRender, setForceRender] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [current, setCurrent] = useState(0);
-  const [duration, setDuration] = useState(0);
-
-  const [showCaption, setShowCaption] = useState(false);
 
   // ================================
   // ✔ Captions Array
@@ -66,101 +45,7 @@ const Unit9_Page1_Vocab = () => {
     { start: 26.16, end: 28.08, text: "9, ironing clothes." },
     { start: 29.36, end: 30.82, text: "10, cooking." },
   ];
-  // 🎵 فترات الكلمات داخل الأوديو الرئيسي
-  const wordTimings = [
-    { start: 4.6, end: 5.92, text: "One, soccer." },
-    { start: 6.76, end: 8.24, text: "Two, hen." },
-    { start: 9.1, end: 10.18, text: "Three, chess." },
-    { start: 11.7, end: 12.8, text: "Four, thinking." },
-    { start: 14.3, end: 16.3, text: "Five, sending an email." },
-    { start: 17.68, end: 19.46, text: "Six, listening to the radio." },
-    { start: 20.92, end: 21.9, text: "Seven, glasses." },
-    { start: 23.54, end: 25.08, text: "Eight, looking." },
 
-    { start: 26.16, end: 28.08, text: "Nine, ironing clothes." },
-    { start: 29.36, end: 30.82, text: "Ten, cooking." },
-  ];
-
-  // ================================
-  // ✔ Update caption highlight
-  // ================================
-  const updateCaption = (time) => {
-    const index = captions.findIndex(
-      (cap) => time >= cap.start && time <= cap.end,
-    );
-    setActiveIndex(index);
-  };
-
-  // ================================
-  // ✔ Update Word highlight
-  // ================================
-  const updateWord = (time) => {
-    const wordIndex = wordTimings.findIndex(
-      (w) => time >= w.start && time <= w.end,
-    );
-    setActiveIndex2(wordIndex);
-  };
-  // ================================
-  // ✔ INITIAL PLAY & STOP AT SECOND
-  // ================================
-  useEffect(() => {
-    const audio = mainAudioRef.current;
-    if (!audio) return;
-
-    audio.currentTime = 0;
-    audio.play();
-
-    const interval = setInterval(() => {
-      if (audio.currentTime >= stopAtSecond) {
-        audio.pause();
-        setPaused(true);
-        setIsPlaying(false);
-        setShowContinue(true);
-        clearInterval(interval);
-      }
-    }, 100);
-
-    // عند انتهاء الأوديو يرجع يبطل أنيميشن + يظهر Continue
-    const handleEnded = () => {
-      audio.currentTime = 0;
-      setActiveIndex(null);
-      setActiveIndex2(null);
-      setPaused(true);
-      setShowContinue(true);
-      setIsPlaying(false);
-    };
-
-    audio.addEventListener("ended", handleEnded);
-
-    return () => {
-      clearInterval(interval);
-      audio.removeEventListener("ended", handleEnded);
-    };
-  }, []);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setForceRender((prev) => prev + 1);
-    }, 1000); // كل ثانية
-
-    return () => clearInterval(timer);
-  }, []);
-
-  const togglePlay = () => {
-    const audio = mainAudioRef.current;
-
-    if (!audio) return;
-
-    if (audio.paused) {
-      audio.play();
-      setPaused(false);
-      setIsPlaying(true);
-    } else {
-      audio.pause();
-      setPaused(true);
-      setIsPlaying(false);
-    }
-  };
   const wordAudios = [
     sound1,
     sound2,
@@ -173,179 +58,17 @@ const Unit9_Page1_Vocab = () => {
     sound9,
     sound10,
   ];
-  const playWordAudio = (index) => {
-    // أوقفي الأوديو الرئيسي
-    mainAudioRef.current.pause();
-
-    // أوقفي أي كلمة شغالة
-    wordRefs.current.forEach((ref) => {
-      if (ref.current) {
-        ref.current.pause();
-        ref.current.currentTime = 0;
-      }
-    });
-
-    const audio = wordRefs.current[index].current;
-    if (!audio) return;
-
-    // تشغيل الصوت من البداية
-    audio.currentTime = 0;
-    audio.play();
-
-    // 🔥 فعل الأنيميشن على طول فترة التشغيل
-    setClickedIndex(index);
-
-    // 🔥 عند انتهاء الصوت -> أطفئ الأنيميشن
-    audio.onended = () => {
-      setClickedIndex(null);
-    };
-  };
 
   const nums = [num1, num2, num3, num4, num5, num6, num7, num8, num9, num10];
-  const wordRefs = useRef(wordAudios.map(() => React.createRef()));
 
   return (
-    <div
-      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
-    >
-      <div
-        className="audio-popup-vocab-container"
-        style={{
-          width: "30%",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          margin: "0px 20px",
-          position: "relative",
-          alignItems: "center",
-        }}
-      >
-        <div className="audio-popup-vocab">
-          <div className="audio-inner player-ui">
-            <audio
-              ref={mainAudioRef}
-              src={vocabulary}
-              onTimeUpdate={(e) => {
-                const time = e.target.currentTime;
-                setCurrent(time);
-                updateCaption(time);
-                updateWord(time); // 🔥 أهم خطوة
-              }}
-              onLoadedMetadata={(e) => setDuration(e.target.duration)}
-            ></audio>
-
-            {/* Time + Slider */}
-            <div className="top-row">
-              <span className="audio-time">
-                {new Date(current * 1000).toISOString().substring(14, 19)}
-              </span>
-
-              <input
-                type="range"
-                min="0"
-                max={duration}
-                value={current}
-                className="audio-slider"
-                onChange={(e) => {
-                  mainAudioRef.current.currentTime = e.target.value;
-                  updateCaption(Number(e.target.value));
-                }}
-                style={{
-                  background: `linear-gradient(to right, #430f68 ${
-                    (current / duration) * 100
-                  }%, #d9d9d9ff ${(current / duration) * 100}%)`,
-                }}
-              />
-
-              <span className="audio-time">
-                {new Date(duration * 1000).toISOString().substring(14, 19)}
-              </span>
-            </div>
-
-            {/* Buttons */}
-            <div className="bottom-row">
-              <div
-                className={`round-btn ${showCaption ? "active" : ""}`}
-                onClick={() => setShowCaption(!showCaption)}
-              >
-                <TbMessageCircle size={36} />
-              </div>
-
-              <button className="play-btn2" onClick={togglePlay}>
-                {isPlaying ? <FaPause size={26} /> : <FaPlay size={26} />}
-              </button>
-
-              <div>
-                <button
-                  className={`round-btn ${showSettings ? "active" : ""}`}
-                  onClick={() => setShowSettings(!showSettings)}
-                >
-                  <IoMdSettings size={36} />
-                </button>
-
-                {showSettings && (
-                  <div className="settings-popup">
-                    <label>Volume</label>
-                    <input
-                      type="range"
-                      min="0"
-                      max="1"
-                      step="0.05"
-                      value={volume}
-                      onChange={(e) => {
-                        setVolume(e.target.value);
-                        mainAudioRef.current.volume = e.target.value;
-                      }}
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div
-        style={{
-          position: "relative",
-          marginTop: "5px",
-          width: "fit-content",
-        }}
-      >
-        <div className={`caption-inPopup ${showCaption ? "show" : ""}`}>
-          {captions.map((cap, i) => (
-            <p
-              key={i}
-              id={`caption-${i}`}
-              className={`caption-inPopup-line2 ${
-                activeIndex === i ? "active" : ""
-              }`}
-            >
-              {cap.text}
-            </p>
-          ))}
-        </div>
-        {/* كلمة + صورة صغيرة */}
-
-        <img
-          src={page2_2}
-          style={{
-            height: "320px",
-            width: "auto",
-            position: "absolute",
-            bottom: "0%",
-            right: "0%",
-            borderRadius: "5%",
-          }}
-        />
-
-        {/* النصوص */}
-        <div
-          className="vocab_container"
-          style={{ bottom: "3.4%", right: "1.5%",width:"145px" }}
-        >
-          {[
-            "soccer",
+     <ModernVocabularyComponent
+      backgroundImage={backgroundImage}
+      mainAudio={vocabulary}
+      wordAudios={wordAudios}
+      nums={nums}
+      vocabulary={[
+        "soccer",
             "hen",
             "chess",
             "thinking",
@@ -355,51 +78,30 @@ const Unit9_Page1_Vocab = () => {
             "looking",
             "ironing clothes",
             "cooking",
-          ].map((text, i) => (
-            <h6
-              key={i}
-              className={
-                (activeIndex2 === i && current >= 3.2) || clickedIndex === i
-                  ? "active"
-                  : ""
-              }
-              onClick={() => playWordAudio(i)}
-            >
-              {i + 1} {text}
-            </h6>
-          ))}
-        </div>
+      ]}
+ markers={[
+  { id: 1, top: "25%", left: "28%" },
 
-        {/* الأرقام */}
-        {nums.map((num, i) => (
-          <img
-            key={i}
-            src={num}
-            id={`num-${i + 1}-unit9`}
-            className={`num-img ${
-              (activeIndex2 === i && current >= 3.2) || clickedIndex === i
-                ? "active"
-                : ""
-            }`}
-            style={{
-              height: "20px",
-              width: "auto",
-              position: "absolute",
-            }}
-          />
-        ))}
+  { id: 2, top: "29%", left: "14%" }, // 100-71
 
-        {/* الصورة الرئيسية */}
-        <img
-          src={backgroundImage}
-          alt="interactive"
-          style={{ height: "75vh" }}
-        />
-      </div>
-      {wordAudios.map((src, i) => (
-        <audio key={i} ref={wordRefs.current[i]} src={src} />
-      ))}
-    </div>
+  { id: 3, top: "55%", left: "35.5%" },
+
+  { id: 4, top: "44%", left: "41%" },
+
+  { id: 5, top: "46%", left: "19%" },
+
+  { id: 6, top: "30%", left: "37%" }, // 100-70 , 100-63
+
+  { id: 7, top: "38.5%", left: "56%" }, // 100-61.5 , 100-44
+
+  { id: 8, top: "48%", left: "53%" },
+
+  { id: 9, top: "45%", left: "65%" },
+
+  { id: 10, top: "23%", left: "55%" }, // 100-77 , 100-45
+]}
+      captions={captions}
+    />
   );
 };
 

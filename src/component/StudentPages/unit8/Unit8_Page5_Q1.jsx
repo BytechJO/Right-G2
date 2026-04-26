@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
-
+import trueIcon from "../../../assets/imgs/true.svg";
+import falseIcon from "../../../assets/imgs/false.svg";
 import img1 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 68/Ex A 1.svg";
 import img2 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 68/Ex A 2.svg";
 import img3 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 68/Ex A 3.svg";
@@ -85,7 +86,7 @@ const Unit8_Page5_Q1 = () => {
   };
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
+      <div className="div-forall">
         <h5 className="header-title-page8">
           <span className="ex-A" style={{ marginRight: "20px" }}>
             A
@@ -107,12 +108,6 @@ const Unit8_Page5_Q1 = () => {
               key={i}
               className="flex flex-col items-center justify-center gap-3 relative mt-4"
             >
-              {/* ❌ */}
-              {isWrong(i) && (
-                <span className="absolute top-6 right-1 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold border-2 border-white shadow-md">
-                  ✕
-                </span>
-              )}
               {/* number in corner */}
               <span className="absolute -top-1 -left-1 text-lg font-bold">
                 {i + 1}
@@ -127,23 +122,39 @@ const Unit8_Page5_Q1 = () => {
               </div>
 
               {/* answers on right */}
-              <div className="flex gap-2 justify-center h-[150px]">
+              <div className="flex gap-2 justify-center h-[150px] relative">
                 <button
                   onClick={() => choose(i, "yes")}
-                  className={`w-10 h-10 border rounded text-lg ${
-                    selected[i] === "yes" ? "bg-green-500 text-white" : ""
+                  className={`w-10 h-10 border flex items-center justify-center rounded text-lg ${
+                    selected[i] === "yes"
+                      ? "border-2 border-blue-800 text-white"
+                      : ""
                   }`}
                 >
-                  ✓
+                  <img src={trueIcon} style={{ height: "25px" }} />
+
+                  {isWrong(i) && selected[i] === "yes" && item.correct !== "yes" && (
+                    <span className="absolute -top-2 right-10 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold border-2 border-white shadow-md">
+                      ✕
+                    </span>
+                  )}
                 </button>
 
                 <button
                   onClick={() => choose(i, "no")}
-                  className={`w-10 h-10 border rounded text-lg ${
-                    selected[i] === "no" ? "bg-red-500 text-white" : ""
+                  className={`w-10 h-10 flex items-center justify-center border rounded text-lg ${
+                    selected[i] === "no"
+                      ? "border-2 border-blue-800 text-white"
+                      : ""
                   }`}
                 >
-                  ✗
+                  <img src={falseIcon} style={{ height: "25px" }} />
+
+                  {isWrong(i) && selected[i] === "no" && item.correct !== "no" && (
+                    <span className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold border-2 border-white shadow-md">
+                      ✕
+                    </span>
+                  )}
                 </button>
               </div>
             </div>

@@ -15,6 +15,27 @@
 
 }
 
+.CB-unit4-p5-q1-word {
+    width: 100px;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 20px;
+    font-size: 20px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.CB-unit4-p5-q1-word.l {
+    background: #f9e6dc;
+    /* border: 2px solid #e53935; */
+}
+.CB-unit4-p5-q1-word.r {
+    background: #f9e6dc;
+    /* border: 2px solid #e53935; */
+}
 
 .CB-unit4-p5-q1-images {
   display: flex;

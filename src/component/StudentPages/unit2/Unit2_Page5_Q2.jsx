@@ -5,7 +5,7 @@ import img3 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 14
 import img4 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 14/Ex B 4.svg";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Unit2_Page5_Q2.css";
-
+import trueIcon from "../../../assets/imgs/true.svg"
 const Unit2_Page5_Q2 = () => {
   const questions = [
     {
@@ -160,7 +160,7 @@ const Unit2_Page5_Q2 = () => {
 
               </div>
 
-              <div>
+              <div className="flex flex-col gap-2">
                 {q.items.map((item, idx) => {
                   const isSelected = answers[q.id] === idx;
                   const isWrong = results[q.id] === "wrong" && isSelected;
@@ -171,10 +171,17 @@ const Unit2_Page5_Q2 = () => {
                         <input
                           type="text"
                           readOnly
-                          value={isSelected ? "✓" : ""}
+                          value={""}
                           onFocus={() => handleSelect(q.id, idx)}
                           className="CB-unit2-p5-q2-input"
                         />
+{isSelected && (
+                          <img
+                            src={trueIcon}
+                            alt="true"
+                            className="CB-unit2-p14-q2-true"
+                          />
+                        )}
 
                         {isWrong && <span className="CB-unit2-p5-q2-x">✕</span>}
                       </div>

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
+import trueIcon from "../../../assets/imgs/true.svg";
 
 import img1 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 81/Ex E 1.svg";
 import img2 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 81/Ex E 2.svg";
@@ -93,13 +94,13 @@ const total = questions.length;
     return answers[q.id] === opt && opt !== q.correct;
   };
   return (
-    <div className="main-container-component">
-      <div className="div-forall gap-2 mb-10">
+    <div className="main-container-component mb-10">
+      <div className="div-forall">
         <h5 className="header-title-page8">
           <span className="ex-A me-4">E</span>Look, read, and write
           <span style={{ color: "#2e3192" }}>✓</span>.
         </h5>
-
+        <div className="flex flex-col gap-5">
         {questions.map((q) => (
           <div key={q.id} className="flex items-center gap-6 mb-6">
             {/* الرقم + الصورة */}
@@ -126,7 +127,7 @@ const total = questions.length;
                   >
                     {/* checkbox */}
                     <div
-                      className={`relative w-8 h-8 rounded-lg border-2 flex items-center justify-center transition
+                      className={`relative w-[45px] h-[45px] rounded-lg border-2 flex items-center justify-center transition
     ${
       isSelected
         ? checked
@@ -148,7 +149,10 @@ const total = questions.length;
                               : "text-blue-800"
                           }`}
                         >
-                          ✓
+                          <img
+                        src={trueIcon}
+                        style={{ height: "25px", width: "auto" }}
+                      />
                           {isWrongOption(q, opt) && (
                             <div
                               className="
@@ -170,14 +174,14 @@ const total = questions.length;
                     </div>
 
                     {/* النص */}
-                    <span className="text-[16px]">{opt}</span>
+                    <span className="text-[20px]">{opt}</span>
                   </div>
                 );
               })}
             </div>
           </div>
         ))}
-      </div>
+      </div></div>
 
       <div className="action-buttons-container">
         <button onClick={reset} className="try-again-button">

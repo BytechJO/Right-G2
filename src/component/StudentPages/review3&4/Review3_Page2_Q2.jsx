@@ -107,15 +107,7 @@ const Review3_Page2_Q2 = () => {
           padding: "30px",
         }}
       >
-        <div
-          className="div-forall"
-          style={{
-            width: "60%",
-            display: "flex",
-            flexDirection: "column",
-            gap: "20px",
-          }}
-        >
+        <div className="div-forall">
           <h5 className="header-title-page8">
             <span style={{ marginRight: "20px" }}>F</span> Read and complete the
             sentences. Use the words from the box.
@@ -159,14 +151,14 @@ const Review3_Page2_Q2 = () => {
                           }`}
                           style={{
                             padding: "7px 14px",
-                            border: "2px solid #b81212ff",
+                            // border: "2px solid #b81212ff",
                             borderRadius: "8px",
                             fontWeight: "bold",
-                            background: isUsed ? "#ccc" : "white",
+                            fontSize:"20px",
+                            textDecoration: isUsed ? "line-through" : "",
                             opacity: isUsed ? 0.6 : 1,
                             cursor: isUsed ? "not-allowed" : "grab",
                             ...provided.draggableProps.style,
-                        
                           }}
                         >
                           {word}

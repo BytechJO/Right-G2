@@ -159,7 +159,8 @@ const Page9_Q2 = () => {
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
                                 style={{
-                                  background: isUsed ? "#ccc" : "white",
+                                  // background: isUsed ? "#ccc" : "",
+                                  textDecoration:  isUsed ? "line-through" : "",
                                   opacity: isUsed ? 0.6 : 1,
                                   cursor: isUsed ? "not-allowed" : "grab",
                                   ...provided.draggableProps.style,

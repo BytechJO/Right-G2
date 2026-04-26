@@ -159,12 +159,13 @@ She’s watering the flowers.`,
   };
 
   return (
-    <div ref={containerRef} className="main-container-component relative">
+    <div ref={containerRef} className="main-container-component relative mb-10">
       <div className="div-forall gap-2">
         {" "}
         <h5 className="header-title-page8 ">
           <span className="ex-A mr-5">B</span> Look, read, and match.
         </h5>
+        <div className="flex flex-col">
         {images.map((item, i) => (
           <div key={i} className="flex justify-between items-center my-3">
             {/* WORD SIDE */}
@@ -255,7 +256,7 @@ She’s watering the flowers.`,
               />
             </div>
           </div>
-        ))}
+        ))}</div>
       </div>
 
       <svg className="absolute top-0 left-0 w-full h-full pointer-events-none">

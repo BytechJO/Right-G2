@@ -85,12 +85,12 @@ export default function Review8_Page1_Q3() {
     setAnswers(updated);
     setUsedLetterIds((prev) => prev.filter((id) => id !== idToRemove));
   };
- const resetAll = () => {
-  setAnswers(items.map(() => ["", ""]));
-  setUsedLetterIds([]); // ✅ مهم
-  setLocked(false);
-  setShowResult(false);
-};
+  const resetAll = () => {
+    setAnswers(items.map(() => ["", ""]));
+    setUsedLetterIds([]); // ✅ مهم
+    setLocked(false);
+    setShowResult(false);
+  };
 
   const showAnswers = () => {
     setAnswers(items.map((item) => item.correct));
@@ -144,15 +144,18 @@ export default function Review8_Page1_Q3() {
             <span style={{ marginRight: "20px" }}>B</span>
             Unscramble the words and write the sentences.
           </h5>
-
+    <div className="flex flex-col gap-2">
           {items.map((item, i) => (
             <div key={i} className="mb-8 mt-4">
-              <div className="flex items-center gap-4 flex-wrap">
-                <span className="font-bold text-lg w-5">{i + 1}</span>
-                <span className="text-lg">{item.sentence}</span>
-
+              <div className="flex gap-4 flex-col">
+                <div className="flex items-center gap-4">
+                  <span className="font-bold text-xl w-5">{i + 1}</span>
+                  <span className="text-xl">
+                    {item.sentence} {item.scrambled[0]} {item.scrambled[1]}
+                  </span>
+                </div>
                 {/* الكلمات */}
-                <div className="flex gap-8">
+                <div className="flex gap-8 mt-3 ml-8">
                   {item.scrambled.map((word, wordIndex) => {
                     const letters = word.split("");
                     const dropId = `slot-${i}-${wordIndex}`;
@@ -190,11 +193,11 @@ export default function Review8_Page1_Q3() {
                                         {...provided.draggableProps}
                                         {...provided.dragHandleProps}
                                         className={`
-  w-8 h-8 flex items-center justify-center rounded border
+  w-9 h-9 text-xl flex items-center justify-center rounded border-2 border-gray-500
   ${
     isUsed
       ? "bg-gray-300 cursor-not-allowed opacity-50"
-      : "bg-yellow-200 cursor-grab"
+      : "bg-white cursor-grab"
   }
 `}
                                       >
@@ -211,18 +214,19 @@ export default function Review8_Page1_Q3() {
                         </Droppable>
 
                         {/* ✏️ input */}
+                     
                         <Droppable droppableId={dropId}>
                           {(provided) => (
                             <div
                               ref={provided.innerRef}
                               {...provided.droppableProps}
-                              className={`min-w-[120px] h-10 relative border-0 border-b-2 border-black px-3 py-2 text-lg text-center
+                              className={`w-[100%] h-10 relative border-0 border-b-2 border-black px-3 py-2 text-lg text-center
   ${
     answers[i][wordIndex] === item.correct[wordIndex]
       ? "border-black"
       : showResult
         ? "border-red-500"
-        : "border-black"
+        : "border-gray-500"
   }
 `}
                             >
@@ -249,21 +253,32 @@ export default function Review8_Page1_Q3() {
                               {provided.placeholder}
                             </div>
                           )}
-                        </Droppable>
-                      </div>
+                        </Droppable></div>
+                      
                     );
                   })}
                 </div>
               </div>
 
               <div className="mt-3 ml-8">
-                <div className="w-full max-w-[500px] border-2 border-gray-400 rounded-lg px-3 py-2 text-lg text-center">
-                  {item.sentence} {answers[i].join(" ")}
-                </div>
+                <div className="w-full max-w-[500px] border-2 border-gray-500 rounded-lg px-3 py-3 text-lg flex gap-2 flex-wrap items-center">
+
+  <span>{item.sentence}</span>
+
+  {item.correct.map((word, wordIndex) => (
+    <span
+      key={wordIndex}
+      className="min-w-[80px] h-[30px] border-b-2 border-gray-600 text-center px-2"
+    >
+      {answers[i][wordIndex]}
+    </span>
+  ))}
+
+</div>
               </div>
             </div>
           ))}
-
+</div>
           {/* buttons */}
           <div className="action-buttons-container">
             <button className="try-again-button" onClick={resetAll}>

@@ -3,3 +3,22 @@
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
 }
+
+.wrong-icon-CB-unit3-p5-q1 {
+    position: absolute;
+    top: -12px;
+    right: -13px;
+    width: 26px;
+    height: 26px;
+    background: red;
+    color: white;
+    border-radius: 50%;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 999999;
+    border: 2px solid white;
+}

@@ -126,11 +126,11 @@ const Unit10_Page6_Q2 = () => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="main-container-component">
-        <div className="div-forall gap-2">
+        <div className="div-forall">
           <h5 className="header-title-page8">
             <span className="ex-A mr-5">E</span>Read and label.
           </h5>
-
+             <div>
           {/* ================= BANK ================= */}
           <Droppable droppableId="bank" direction="horizontal">
             {(provided) => (
@@ -139,10 +139,10 @@ const Unit10_Page6_Q2 = () => {
                 {...provided.droppableProps}
                 style={{
                   display: "flex",
-                  gap: "15px",
+                  gap: "50px",
                   justifyContent: "center",
                   marginBottom: "30px",
-                  border: "2px dashed gray",
+                  // border: "2px dashed gray",
                   padding: "10px",
                   borderRadius: "10px",
                 }}
@@ -297,7 +297,7 @@ const Unit10_Page6_Q2 = () => {
               ))}
             </div>
           </div>
-
+</div>
           {/* ================= BUTTONS ================= */}
 
           <Button

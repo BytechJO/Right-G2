@@ -8,6 +8,8 @@ import img4 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photogra
 import img5 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 38/Asset 34.svg";
 import sound1 from "../../../assets/audio/ClassBook/U 4/cd26pg37-instruction1-adult-lady_NPuiMbFv.mp3";
 import QuestionAudioPlayer from "../../QuestionAudioPlayer";
+import trueIcon from "../../../assets/imgs/true.svg";
+import falseIcon from "../../../assets/imgs/false.svg";
 const Review4_Page2_Q1 = () => {
   const stopAtSecond = 11.0;
   const [locked, setLocked] = useState(false); // ⭐ NEW — قفل التعديل بعد Show Answer
@@ -123,16 +125,7 @@ const Review4_Page2_Q1 = () => {
         padding: "30px",
       }}
     >
-      <div
-        className="div-forall"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "20px",
-          width: "60%",
-          justifyContent: "flex-start",
-        }}
-      >
+      <div className="div-forall">
         <h5 className="header-title-page8">
           <span style={{ marginRight: "20px" }}>C</span> Does it have{" "}
           <span style={{ color: "#2e3192" }}>long a</span>? Listen and write
@@ -157,7 +150,7 @@ const Review4_Page2_Q1 = () => {
                 </span>
               </p>
 
-              <div className="CB-review1-p2-q1-flex">
+              <div className="flex flex-col flex-wrap">
                 <div style={{ display: "flex" }}>
                   <img src={q.image} alt="" className="CB-review1-p2-q1-img" />
                 </div>
@@ -171,7 +164,10 @@ const Review4_Page2_Q1 = () => {
                       }`}
                       onClick={() => selectAnswer(q.id, "✓")}
                     >
-                      ✓
+                      <img
+                        src={trueIcon}
+                        style={{ height: "25px", width: "auto" }}
+                      />
                     </div>
 
                     {showResult[index] === "wrong" && answers[q.id] === "✓" && (
@@ -187,7 +183,10 @@ const Review4_Page2_Q1 = () => {
                       }`}
                       onClick={() => selectAnswer(q.id, "✗")}
                     >
-                      ✗
+                      <img
+                        src={falseIcon}
+                        style={{ height: "25px", width: "auto" }}
+                      />
                     </div>
 
                     {showResult[index] === "wrong" && answers[q.id] === "✗" && (

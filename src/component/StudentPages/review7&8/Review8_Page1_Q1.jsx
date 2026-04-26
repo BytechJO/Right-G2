@@ -137,7 +137,7 @@ const Review8_Page1_Q1 = () => {
           </h5>
 
           {/* IMAGES */}
-          <div>
+          <div className="flex flex-col gap-10">
             <div className="flex justify-center gap-8 ">
               <div className="relative">
                 <img
@@ -168,7 +168,7 @@ const Review8_Page1_Q1 = () => {
                 <div
                   ref={provided.innerRef}
                   {...provided.droppableProps}
-                  className="flex flex-wrap gap-4 justify-center mb-5 border-2 border-dashed border-gray-300 p-4 rounded-lg"
+                  className="flex flex-wrap gap-5 justify-center p-4 rounded-lg"
                 >
                   {answersBank.map((a, index) => {
                     const isUsed = Object.values(answers).includes(a);

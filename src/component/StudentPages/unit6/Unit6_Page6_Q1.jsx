@@ -97,7 +97,7 @@ const Unit6_Page6_Q1 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
+      <div className="div-forall">
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">F</span> Read and draw.
         </h1>

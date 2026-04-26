@@ -3,8 +3,8 @@ import sound2 from "../../../assets/audio/ClassBook/U 2/Pg10a_1.2_Adult Lady.mp3
 import sound3 from "../../../assets/audio/ClassBook/U 2/Pg10a_1.3_Adult Lady.mp3";
 import Rabbit from "../../../assets/Page 01/Rabbit.svg";
 import img1 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 10-11/10-01.svg";
-import img2 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 10-11/1-02.svg";
-import img3 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 10-11/1-03.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 10-11/Untitled-10_Artboard 1 copy.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 10-11/Untitled-10_Artboard 1 copy 2.svg";
 
 import FourImagesWithAudio from "../../FourImagesWithAudio";
 import longAudio from "../../../assets/audio/ClassBook/U 2/page10-unit2-listen.mp3";

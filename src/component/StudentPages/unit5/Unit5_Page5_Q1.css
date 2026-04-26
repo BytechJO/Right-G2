@@ -22,6 +22,7 @@
 .CB-unit5-p5-q1-options {
   display: flex;
   justify-content: space-evenly;
+  width: 100%;
 }
 
 .CB-unit5-p5-q1-box {
@@ -32,7 +33,7 @@
 
 .CB-unit5-p5-q1-img {
   width: auto;
-  height: 90px;
+  height: 100px;
   object-fit: contain;
 }
 
@@ -46,8 +47,8 @@
   cursor: pointer;
   position: relative;
   transition: 0.25s ease;
-  height: 130px;
-  width: 130px;
+  width: 150px;
+  height: 150px;
 }
 
 /* لما الطالب يختار الكلمة */
@@ -58,8 +59,7 @@
   justify-content: center;
   background: transparent;
   color: black;
-  /* width: 130px;
-  height: 130px; */
+
 }
 
 /* علامة الغلط */

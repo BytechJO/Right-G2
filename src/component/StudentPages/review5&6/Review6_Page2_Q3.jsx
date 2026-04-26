@@ -174,23 +174,20 @@ const Review6_Page2_Q3 = () => {
     setShowedAnswer(true);
   };
 
- const checkAnswers = () => {
-  if (showedAnswer) return;
+  const checkAnswers = () => {
+    if (showedAnswer) return;
 
-  // ⭐ تحقق إذا ما لقى كل الكلمات
-  if (foundWords.length !== words.length) {
-    ValidationAlert.info(
-      "Oops!",
-      "Please find all words first."
-    );
-    return;
-  }
+    // ⭐ تحقق إذا ما لقى كل الكلمات
+    if (foundWords.length !== words.length) {
+      ValidationAlert.info("Oops!", "Please find all words first.");
+      return;
+    }
 
-  const score = foundWords.length;
-  const total = words.length;
-  const color = score === total ? "green" : score === 0 ? "red" : "orange";
+    const score = foundWords.length;
+    const total = words.length;
+    const color = score === total ? "green" : score === 0 ? "red" : "orange";
 
-  const msg = `
+    const msg = `
     <div style="font-size:20px;text-align:center;">
       <span style="color:${color};font-weight:bold">
         Score: ${score} / ${total}
@@ -198,13 +195,13 @@ const Review6_Page2_Q3 = () => {
     </div>
   `;
 
-  setIsChecked(true);
-  setLocked(true);
+    setIsChecked(true);
+    setLocked(true);
 
-  if (score === total) ValidationAlert.success(msg);
-  else if (score === 0) ValidationAlert.error(msg);
-  else ValidationAlert.warning(msg);
-};
+    if (score === total) ValidationAlert.success(msg);
+    else if (score === 0) ValidationAlert.error(msg);
+    else ValidationAlert.warning(msg);
+  };
   const renderLine = (cells, key, opacity = 0.6) => {
     if (!cells || cells.length < 2) return null;
 
@@ -235,7 +232,7 @@ const Review6_Page2_Q3 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
+      <div className="div-forall">
         <h5 className="header-title-page8">
           <span style={{ marginRight: "20px" }}>F</span> Find the words.
         </h5>

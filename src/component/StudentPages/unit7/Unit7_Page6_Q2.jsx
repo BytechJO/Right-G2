@@ -105,12 +105,12 @@ const Unit7_Page6_Q2 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
+      <div className="div-forall">
         <h5 className="header-title-page8">
           <span className="ex-A">E</span> Read, write, and check <span className="text-blue-900">✓</span>.
         </h5>
 
-        <div className="grid grid-cols-2 gap-y-5 gap-x-[60px] mt-5">
+        <div className="grid grid-cols-2 gap-y-10 gap-x-[60px] mt-5">
           {questions.map((q, i) => (
             <div key={i} className="flex flex-col gap-2.5">
               <div className="text-[18px]">

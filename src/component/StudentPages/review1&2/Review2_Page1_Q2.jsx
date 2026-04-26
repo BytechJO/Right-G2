@@ -99,12 +99,7 @@ const Review2_Page1_Q2 = () => {
       >
         <div
           className="div-forall"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "30px",
-            width: "60%",
-          }}
+         
         >
           <h5 className="header-title-page8">
             {" "}
@@ -119,9 +114,9 @@ const Review2_Page1_Q2 = () => {
                 {...provided.droppableProps}
                 style={{
                   display: "flex",
-                  gap: "10px",
+                  gap: "60px",
                   padding: "10px",
-                  border: "2px dashed #ccc",
+                  // border: "2px dashed #ccc",
                   borderRadius: "10px",
                   // margin: "10px 0",
                   alignItems: "center",

@@ -151,167 +151,167 @@ const Review4_Page1_Q2 = () => {
           justifyContent: "center",
           alignItems: "center",
           padding: "30px",
+          marginBottom: "50px",
         }}
       >
-        <div
-          className="div-forall"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            // gap: "30px",
-            width: "60%",
-            justifyContent: "flex-start",
-          }}
-        >
+        <div className="div-forall">
           <h5 className="header-title-page8">
             <span style={{ marginRight: "20px" }}>B</span> Look, read, circle,
             and complete.
           </h5>
-
-          <Droppable droppableId="bank" isDropDisabled>
-            {(provided) => (
-              <div
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-                style={{
-                  display: "flex",
-                  gap: "10px",
-                  padding: "10px",
-                  border: "2px dashed #ccc",
-                  borderRadius: "10px",
-                  // margin: "10px 0",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                {items.map((item, index) => {
-                  const isUsed = answers.some((row) =>
-                    row.includes(item.correctInput),
-                  );
-                  return (
-                    <Draggable
-                      key={item.correctInput}
-                      draggableId={`word-${item.correctInput}`}
-                      index={index}
-                      isDragDisabled={locked || isUsed}
-                    >
-                      {(provided) => (
-                        <span
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          className="CB-unit2-p6-q2-word"
-                          style={{
-                            background: isUsed ? "#ccc" : "white",
-                            opacity: isUsed ? 0.6 : 1,
-                            cursor: isUsed ? "not-allowed" : "grab",
-                            ...provided.draggableProps.style,
-                          }}
-                        >
-                          {item.correctInput}
-                        </span>
-                      )}
-                    </Draggable>
-                  );
-                })}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-
-          <div className="question-grid-CB-review4-p1-q2">
-            {items.map((item, i) => (
-              <div className="question-box-CB-review4-p1-q2" key={i}>
-                <span
+          <div className="flex flex-col gap-10">
+            <Droppable droppableId="bank" isDropDisabled>
+              {(provided) => (
+                <div
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
                   style={{
-                    fontSize: "22px",
-                    fontWeight: "600",
-                    color: "#1d4f7b",
+                    display: "flex",
+                    gap: "20px",
+                    padding: "10px",
+                    // border: "2px dashed #ccc",
+                    borderRadius: "10px",
+                    // margin: "10px 0",
+                    alignItems: "center",
+                    justifyContent: "center",
                   }}
                 >
-                  {i + 1}
-                </span>
+                  {[
+                    "nurse",
+                    "mechanic",
+                    "teacher",
+                    "fisherman",
+                    "clerk",
+                    "police officer",
+                  ].map((item, index) => {
+                    const isUsed = answers.some((row) =>
+                      row.includes(item.correctInput),
+                    );
+                    return (
+                      <Draggable
+                        key={item}
+                        draggableId={`word-${item}`}
+                        index={index}
+                        isDragDisabled={locked || isUsed}
+                      >
+                        {(provided) => (
+                          <span
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            className="CB-unit2-p6-q2-word"
+                            style={{
+                              background: isUsed ? "#ccc" : "white",
+                              opacity: isUsed ? 0.6 : 1,
+                              cursor: isUsed ? "not-allowed" : "grab",
+                              ...provided.draggableProps.style,
+                            }}
+                          >
+                            {item}
+                          </span>
+                        )}
+                      </Draggable>
+                    );
+                  })}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
 
-                <div className="img-option-CB-review2-p2-q3">
-                  <img
-                    src={item.img}
-                    className="q-img-CB-review2-p2-q3"
-                    style={{ height: "auto", width: "200px" }}
-                  />
+            <div className="question-grid-CB-review4-p1-q2">
+              {items.map((item, i) => (
+                <div className="question-box-CB-review4-p1-q2" key={i}>
+                  <span
+                    style={{
+                      fontSize: "22px",
+                      fontWeight: "600",
+                      color: "#1d4f7b",
+                    }}
+                  >
+                    {i + 1}
+                  </span>
 
-                  {/*choices */}
-                  <div className="choices-CB-review2-p2-q3">
-                    {item.option.map((op, index) => (
-                      <div className="circle-wrapper" key={index}>
-                        <div
-                          className={`circle-choice-CB-review4-p1-q2 ${
-                            selected[i] === `${op}` ? "active" : ""
-                          }`}
-                          onClick={() => !locked && handleSelect(op, i)}
-                        >
-                          {op}
+                  <div className="img-option-CB-review2-p2-q3">
+                    <img
+                      src={item.img}
+                      className="q-img-CB-review2-p2-q3"
+                      style={{ height: "auto", width: "200px" }}
+                    />
+
+                    {/*choices */}
+                    <div className="choices-CB-review2-p2-q3">
+                      {item.option.map((op, index) => (
+                        <div className="circle-wrapper" key={index}>
+                          <div
+                            className={`circle-choice-CB-review4-p1-q2 ${
+                              selected[i] === `${op}` ? "active" : ""
+                            }`}
+                            onClick={() => !locked && handleSelect(op, i)}
+                          >
+                            {op}
+                          </div>
+
+                          {showResult &&
+                            selected[i] === `${op}` &&
+                            selected[i] !== item.correct && (
+                              <div className="CB-review4-p1-q2-error-badge">
+                                ✕
+                              </div>
+                            )}
                         </div>
+                      ))}
+                    </div>
+                  </div>
 
-                        {showResult &&
-                          selected[i] === `${op}` &&
-                          selected[i] !== item.correct && (
-                            <div className="CB-review4-p1-q2-error-badge">
-                              ✕
-                            </div>
+                  {/* writing input */}
+                  <div className="input-wrapper-CB-review4-p1-q2">
+                    {item.input}
+
+                    <Droppable droppableId={`slot-${i}`}>
+                      {(provided, snapshot) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.droppableProps}
+                          className={`write-input-CB-review2-p2-q3 ${
+                            snapshot.isDraggingOver ? "drag-over-cell" : ""
+                          }`}
+                        >
+                          <span style={{ marginRight: "10px" }}>
+                            {item.first}
+                          </span>
+                          {answers[i] && (
+                            <Draggable
+                              draggableId={`filled-${answers[i]}`}
+                              index={0}
+                              isDragDisabled={true}
+                            >
+                              {(provided) => (
+                                <span
+                                  ref={provided.innerRef}
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                >
+                                  {answers[i]}
+                                </span>
+                              )}
+                            </Draggable>
                           )}
-                      </div>
-                    ))}
+                          {provided.placeholder}
+                        </div>
+                      )}
+                    </Droppable>
+
+                    {showResult &&
+                      answers[i].trim() !== "" &&
+                      answers[i].trim().toLowerCase() !==
+                        item.correctInput.toLowerCase() &&
+                      wrongInputs.includes(i) && (
+                        <div className="CB-review4-p1-q2-error-badge">✕</div>
+                      )}
                   </div>
                 </div>
-
-                {/* writing input */}
-                <div className="input-wrapper-CB-review4-p1-q2">
-                  {item.input}
-
-                  <Droppable droppableId={`slot-${i}`}>
-                    {(provided, snapshot) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                        className={`write-input-CB-review2-p2-q3 ${
-                          snapshot.isDraggingOver ? "drag-over-cell" : ""
-                        }`}
-                      >
-                        <span style={{ marginRight: "10px" }}>
-                          {item.first}
-                        </span>
-                        {answers[i] && (
-                          <Draggable
-                            draggableId={`filled-${answers[i]}`}
-                            index={0}
-                            isDragDisabled={true}
-                          >
-                            {(provided) => (
-                              <span
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                                {...provided.dragHandleProps}
-                              >
-                                {answers[i]}
-                              </span>
-                            )}
-                          </Draggable>
-                        )}
-                        {provided.placeholder}
-                      </div>
-                    )}
-                  </Droppable>
-
-                  {showResult &&
-                    answers[i].trim() !== "" &&
-                    answers[i].trim().toLowerCase() !==
-                      item.correctInput.toLowerCase() &&
-                    wrongInputs.includes(i) && (
-                      <div className="CB-review4-p1-q2-error-badge">✕</div>
-                    )}
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
         <div className="action-buttons-container">

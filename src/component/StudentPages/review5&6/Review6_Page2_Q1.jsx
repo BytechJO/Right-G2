@@ -115,7 +115,7 @@ export default function Review6_Page2_Q1() {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="main-container-component">
-        <div className="div-forall" style={{ gap: "20px" }}>
+        <div className="div-forall">
           <h5 className="header-title-page8">
             <span style={{ marginRight: "20px" }}>D</span>
             Listen, read, and complete the story.
@@ -126,9 +126,10 @@ export default function Review6_Page2_Q1() {
             captions={captions}
             stopAtSecond={stopAtSecond}
           />
-
+   
+   <div className="flex flex-col gap-5">
           {/* STORY */}
-          <div className="flex items-center gap-[3%] mb-5 flex-wrap">
+          <div className="flex items-center gap-[3%] flex-wrap">
             <div className="text-[20px] leading-loose flex-1">
               Andrew rides his
               {/* SLOT 0 */}
@@ -295,7 +296,7 @@ export default function Review6_Page2_Q1() {
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="flex gap-[15px] justify-center mt-5 border-2 border-dashed border-blue-800 p-4 rounded-lg"
+                className="flex gap-[60px] justify-center mb-10 p-4 rounded-lg"
               >
                 {words.map((word, i) => {
                   const isWordUsed = (id) => {
@@ -334,6 +335,7 @@ export default function Review6_Page2_Q1() {
               </div>
             )}
           </Droppable>
+          </div>
         </div>
 
         <div className="action-buttons-container">

@@ -6,6 +6,8 @@ import img2 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 17
 import img3 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 17/Ex D 3.svg";
 import sound1 from "../../../assets/audio/ClassBook/U 2/cd11pg17-instruction1-adult-lady_0dI0ldka.mp3";
 import QuestionAudioPlayer from "../../QuestionAudioPlayer";
+import trueIcon from "../../../assets/imgs/true.svg";
+import falseIcon from "../../../assets/imgs/false.svg";
 const Review1_Page2_Q2 = () => {
   const stopAtSecond = 13.74;
   const [locked, setLocked] = useState(false); // ⭐ NEW — قفل التعديل بعد Show Answer
@@ -22,7 +24,6 @@ const Review1_Page2_Q2 = () => {
     },
     { start: 14.9, end: 22.08, text: "1, lion, lamp. 2, radio, log." },
     { start: 23.1, end: 26.86, text: "3, robot,rainbow." },
-    
   ];
 
   const questions = [
@@ -136,7 +137,11 @@ const Review1_Page2_Q2 = () => {
         <div className="CB-review1-p2-q1-container">
           {questions.map((q, index) => (
             <div key={q.id} className="CB-review1-p2-q1-question-box">
-              <p
+             
+
+              <div className="CB-review1-p2-q1-flex">
+                <div style={{ display: "flex" }}>
+                   <p
                 className="CB-review1-p2-q1-question-text"
                 style={{ fontSize: "20px" }}
               >
@@ -144,9 +149,6 @@ const Review1_Page2_Q2 = () => {
                   {q.id}.
                 </span>
               </p>
-
-              <div className="CB-review1-p2-q1-flex">
-                <div style={{ display: "flex" }}>
                   <img src={q.image} alt="" className="CB-review1-p2-q2-img" />
                 </div>
 
@@ -159,7 +161,11 @@ const Review1_Page2_Q2 = () => {
                       }`}
                       onClick={() => selectAnswer(q.id, "✓")}
                     >
-                      ✓
+                      <img
+                        src={trueIcon}
+                        alt="true"
+                        className="CB-review1-p2-q1-true"
+                      />
                     </div>
 
                     {showResult[index] === "wrong" && answers[q.id] === "✓" && (
@@ -175,7 +181,11 @@ const Review1_Page2_Q2 = () => {
                       }`}
                       onClick={() => selectAnswer(q.id, "✗")}
                     >
-                      ✗
+                      <img
+                        src={falseIcon}
+                        alt="true"
+                        className="CB-review1-p2-q1-true"
+                      />
                     </div>
 
                     {showResult[index] === "wrong" && answers[q.id] === "✗" && (

@@ -115,16 +115,12 @@ const Review3_Page2_Q1 = () => {
           justifyContent: "center",
           alignItems: "center",
           padding: "30px",
+          marginBottom:"50px"
         }}
       >
         <div
           className="div-forall"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "20px",
-            width: "60%",
-          }}
+         
         >
           <h5 className="header-title-page8">
             <span style={{ marginRight: "20px" }}>E</span>Look, listen, and
@@ -135,7 +131,8 @@ const Review3_Page2_Q1 = () => {
             captions={captions}
             stopAtSecond={stopAtSecond}
           />
-
+           
+           <div className="flex flex-col gap-10">
           {/* 🔤 Word Bank */}
           <Droppable droppableId="bank" direction="horizontal" isDropDisabled>
             {(provided) => (
@@ -144,9 +141,9 @@ const Review3_Page2_Q1 = () => {
                 {...provided.droppableProps}
                 style={{
                   display: "flex",
-                  gap: "10px",
+                  gap: "30px",
                   padding: "10px",
-                  border: "2px dashed #ccc",
+                  // border: "2px dashed #ccc",
                   borderRadius: "10px",
                   // margin: "10px 0",
                   alignItems: "center",
@@ -191,14 +188,17 @@ const Review3_Page2_Q1 = () => {
           <div className="row-content10-CB-review3-p2-q1">
             {[img1, img2, img3, img4, img5, img6].map((img, index) => (
               <div className="row2-CB-review2-p1-q2" key={index}>
-                <img src={img} style={{ height: "120px", width: "auto" }} />
-
+             
+             <div className="flex">   
+              <span className="text-xl font-bold text-blue-800">{index+1}</span>
+              <img src={img} style={{ height: "120px", width: "auto" }} />
+</div>
                 <Droppable droppableId={`slot-${index}`}>
                   {(provided, snapshot) => (
                     <div
                       ref={provided.innerRef}
                       {...provided.droppableProps}
-                      className={`q-input-CB-review2-p2-q1 ${
+                      className={`q-input-CB-review3-p2-q1 ${
                         snapshot.isDraggingOver ? "drag-over-cell" : ""
                       }`}
                     >
@@ -232,7 +232,7 @@ const Review3_Page2_Q1 = () => {
                 </Droppable>
               </div>
             ))}
-          </div>
+          </div></div>
         </div>
 
         <div className="action-buttons-container">

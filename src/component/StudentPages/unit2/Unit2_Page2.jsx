@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import page_2 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 11.png";
 import img1_letter from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 10-11/10-02.svg";
-import img2_letter from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 10-11/1-05.svg";
-import img3_letter from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 10-11/1-06.svg";
+import img2_letter from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 10-11/Untitled-10_Artboard 1 copy 3.svg";
+import img3_letter from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 10-11/Untitled-10_Artboard 1 copy 5.svg";
 import Rabbit from "../../../assets/Page 01/Rabbit.svg";
 import soundListen from "../../../assets/audio/ClassBook/U 2/pg11-reading-adult-lady_LwfXrCnU.mp3";
 import sound1_letter from "../../../assets/audio/ClassBook/U 2/Pg11_1.1_Adult Lady.mp3";

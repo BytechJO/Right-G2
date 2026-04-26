@@ -76,7 +76,7 @@ const Review8_Page2_Q3 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall gap-5">
+      <div className="div-forall">
         {" "}
         {/* العنوان */}
         <h5 className="header-title-page8">
@@ -124,7 +124,7 @@ const Review8_Page2_Q3 = () => {
                   {parts[1]}
                 </span>
 
-                <div className="flex gap-6 text-xl">
+                <div className="flex gap-20 text-xl w-[30%]" style={{justifyContent:"flex-start"}}>
                   {q.options.map((opt, idx) => (
                     <span
                       key={idx}

@@ -116,18 +116,21 @@ const Review10_Page1_Q2 = () => {
   return (
     <DragDropContext key={resetKey} onDragEnd={onDragEnd}>
       <div className="main-container-component">
-        <div className="div-forall gap-2">
+        <div className="div-forall">
           <h5 className="header-title-page8 ">
-            <span style={{ marginRight: "20px" }}>A</span> Look, read and write.
-          </h5>
+            <span style={{ marginRight: "20px" }}>B</span>Read and write the question.
 
+
+          </h5>
+          
+          <div className="flex flex-col gap-5">
           {/* ANSWERS BANK */}
           <Droppable droppableId="bank" direction="horizontal">
             {(provided) => (
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="flex flex-wrap gap-4 justify-center mb-5 border-2 border-dashed border-gray-500 p-2 rounded-lg"
+                className="flex flex-wrap gap-4 justify-center mb-5 p-2 rounded-lg"
               >
              {answersBank.map((a, index) => {
   const isUsed = Object.values(answers).includes(a.id);
@@ -172,29 +175,45 @@ const Review10_Page1_Q2 = () => {
               <div key={startIndex} className="w-full">
                 <div className="flex justify-between px-10">
                   {questions.slice(startIndex, startIndex + 2).map((q) => (
-                    <div key={q.id} className="flex flex-col items-start">
+                    <div key={q.id} className="flex flex-col items-start gap-5">
+                      <div className="flex gap-5 items-center justify-center">
                       <span className="font-bold text-lg">{q.id}</span>
 
                       <Droppable droppableId={`answer-${q.id}`}>
-                        {(provided) => (
-                          <div
-                            ref={provided.innerRef}
-                            {...provided.droppableProps}
-                            style={{
-                              width: "300px",
-                              borderBottom: "2px solid black",
-                              minHeight: "35px",
-                              marginTop: "10px",
-                              display: "flex",
-                              alignItems: "center",
-                              position: "relative",
-                            }}
-                          >
+  {(provided, snapshot) => (
+    <div
+      ref={provided.innerRef}
+      {...provided.droppableProps}
+
+      style={{
+        width: "300px",
+        minHeight: "35px",
+        marginTop: "10px",
+        display: "flex",
+        alignItems: "center",
+        position: "relative",
+
+        // 🔥 الايفيكت
+        borderBottom: `2px ${
+          snapshot.isDraggingOver ? "dashed #2563eb" : "solid black"
+        }`,
+        backgroundColor: snapshot.isDraggingOver
+          ? "#bfdbfe"
+          : "",
+        // borderRadius: "8px",
+        transition: "all 0.2s ease",
+        paddingLeft: "10px",
+
+        // optional تكبير بسيط
+        transform: snapshot.isDraggingOver ? "scale(1.02)" : "scale(1)",
+      }}
+            isDragDisabled={true}
+    >
                             {answers[q.id] && (
                               <Draggable
                                 draggableId={answers[q.id]}
                                 index={0}
-                                isDragDisabled={locked}
+                                isDragDisabled={true}
                               >
                                 {(provided) => (
                                   <div
@@ -222,7 +241,7 @@ const Review10_Page1_Q2 = () => {
                           </div>
                         )}
                       </Droppable>
-
+                      </div>
                       <span className="text-gray-400 text-lg">
                         {q.sentence}
                       </span>
@@ -232,7 +251,7 @@ const Review10_Page1_Q2 = () => {
               </div>
             ))}
           </div>
-
+</div>
           {/* BUTTONS */}
           <div className="action-buttons-container mt-10">
             <button onClick={reset} className="try-again-button">

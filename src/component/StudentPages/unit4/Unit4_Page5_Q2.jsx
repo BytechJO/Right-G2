@@ -153,13 +153,7 @@ const Unit4_Page5_Q2 = () => {
     >
       <div
         className="div-forall"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "30px",
-          width: "60%",
-          justifyContent: "flex-start",
-        }}
+        
       >
         <h3 className="header-title-page8">
           <span style={{ color: "#2e3192" }}>2</span>Listen and circle.

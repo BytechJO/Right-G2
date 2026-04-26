@@ -129,13 +129,13 @@ const onDragEnd = (result) => {
   return (
     <DragDropContext key={resetKey} onDragEnd={onDragEnd}>
       <div className="main-container-component">
-        <div className="div-forall gap-2">
+        <div className="div-forall">
           <h5 className="header-title-page8 ">
             <span style={{ marginRight: "20px" }}>A</span> Look, read and write.
           </h5>
 
           {/* IMAGES */}
-          <div>
+          <div className="flex flex-col gap-5">
             {/* ANSWERS BANK */}
 
             <Droppable droppableId="bank" direction="horizontal">
@@ -143,7 +143,7 @@ const onDragEnd = (result) => {
                 <div
                   ref={provided.innerRef}
                   {...provided.droppableProps}
-                  className="flex flex-wrap gap-4 justify-center mb-5 border-2 border-dashed border-gray-500 p-2 rounded-lg"
+                  className="flex flex-wrap gap-4 justify-center mb-5 p-2 rounded-lg"
                 >
                   {answersBank.map((a, index) => {
                     const isUsed = Object.values(answers).includes(a);
@@ -162,7 +162,7 @@ const onDragEnd = (result) => {
                             style={{
                               ...provided.draggableProps.style,
 
-                              padding: "4px",
+                              padding: "8px",
                               border: "2px solid #0013a5ff",
                               borderRadius: "8px",
                               display: "flex",
@@ -210,21 +210,33 @@ const onDragEnd = (result) => {
                         </div>
 
                         {/* خط */}
-                        <Droppable droppableId={`answer-${q.id}`}>
-                          {(provided) => (
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.droppableProps}
-                              style={{
-                                width: "300px",
-                                borderBottom: "2px solid black",
-                                minHeight: "35px",
-                                marginTop: "10px",
-                                display: "flex",
-                                alignItems: "center",
-                                position: "relative",
-                              }}
-                            >
+                      <Droppable droppableId={`answer-${q.id}`}>
+  {(provided, snapshot) => (
+    <div
+      ref={provided.innerRef}
+      {...provided.droppableProps}
+      style={{
+        width: "300px",
+        minHeight: "35px",
+        marginTop: "10px",
+        display: "flex",
+        alignItems: "center",
+        position: "relative",
+        transition: "all 0.2s ease",
+
+        // 🔥 الإيفيكت
+        borderBottom: snapshot.isDraggingOver
+          ? "2px dashed #3b82f6"
+          : isWrongAnswer(q.id)
+          ? "2px solid #ef4444"
+          : "2px solid black",
+
+        backgroundColor: snapshot.isDraggingOver ? "#dbeafe" : "transparent",
+
+        // ✨ optional
+        transform: snapshot.isDraggingOver ? "scale(1.03)" : "scale(1)",
+      }}
+    >
                               {answers[q.id] && (
                                 <Draggable
                                   draggableId={answers[q.id]}

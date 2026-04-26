@@ -158,7 +158,7 @@ const Review6_Page2_Q2 = () => {
   };
   return (
     <div className="main-container-component relative" ref={containerRef}>
-      <div className="div-forall" style={{ gap: "20px" }}>
+      <div className="div-forall" >
         {" "}
         <h5 className="header-title-page8">
           <span style={{ marginRight: "20px" }}>E</span>

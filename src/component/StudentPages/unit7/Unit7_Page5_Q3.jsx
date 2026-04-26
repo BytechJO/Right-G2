@@ -122,16 +122,16 @@ const Unit7_Page5_Q3 = () => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="main-container-component">
-        <div className="div-forall" style={{ gap: "20px" }}>
+        <div className="div-forall">
           <h5 className="header-title-page8">
             <span className="ex-A mr-2.5">B</span>Look and write.
           </h5>
-
+          <div className="flex flex-col gap-5">
           {questions.map((q, i) => {
             return (
               <div key={i} className="flex flex-col gap-4 w-full max-w-[800px]">
                 <div className="flex items-center gap-4">
-                  <span className="font-bold w-5">{q.id}</span>
+                  <span className="font-bold text-[22px] w-5">{q.id}</span>
 
                   {q.type === "complete" && (
                     <div className="flex items-center gap-4">
@@ -252,6 +252,7 @@ const Unit7_Page5_Q3 = () => {
               </div>
             );
           })}
+          </div>
         </div>
 
         <div className="action-buttons-container">

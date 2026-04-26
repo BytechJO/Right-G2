@@ -19,6 +19,15 @@
  
 }
 
+.CB-unit1-p9-q1-true {
+  position: absolute;
+ top: 84%;
+    left: 80%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+}
 /* 👦 صورة السؤال */
 .CB-unit1-p9-q1-img {
   /* width: 100%; */

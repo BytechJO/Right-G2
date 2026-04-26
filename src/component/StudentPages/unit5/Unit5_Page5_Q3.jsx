@@ -245,7 +245,7 @@ setLocked(true);
   return (
     <div className="wordsearch-wrapper">
       <div className="page8-wrapper">
-        <div className="div-forall" style={{ width: "60%" }}>
+        <div className="div-forall" style={{ width: "60%" ,   marginBottom:"30px"}}>
           <h3 className="header-title-page8">
             <span className="ex-A">B</span>Find and circle.
           </h3>

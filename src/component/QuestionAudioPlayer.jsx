@@ -180,7 +180,7 @@ export default function QuestionAudioPlayer({
 
             {/* Play */}
             <button className="play-btn2" onClick={togglePlay}>
-              {isPlaying ? <FaPause size={26} /> : <FaPlay size={26} />}
+              {isPlaying ? <FaPause size={20} /> : <FaPlay size={20} />}
             </button>
 
             {/* Settings */}

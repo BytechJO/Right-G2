@@ -27,6 +27,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 20px;
 }
 
 .q-img-CB-review2-p1-q2 {

@@ -41,9 +41,10 @@ const Unit4_Page6_Q1 = () => {
   ];
 
   const wordBank = [
+    "Do you want a computer?",
     "Yes, I do.",
     "robot",
-    "Do you want a computer?",
+
     "No, I don't. I want a dress",
   ];
 
@@ -201,162 +202,173 @@ const Unit4_Page6_Q1 = () => {
             <span className="ex-A">D</span>Complete the conversations.
           </h5>
 
-          {/* WORD BANK */}
-          <Droppable droppableId="bank" isDropDisabled={showCorrect}>
-            {(provided) => (
-              <div
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-                style={{
-                  display: "flex",
-                  gap: "10px",
-                  padding: "10px",
-                  border: "2px dashed #ccc",
-                  borderRadius: "10px",
-                  justifyContent: "center",
-                }}
-              >
-                {wordBank.map((word, index) => {
-                  const countInAnswers = answers.filter(
-                    (ans) => ans === word,
-                  ).length;
+          <div className="flex flex-col gap-10">
+            {/* WORD BANK */}
+            <Droppable droppableId="bank" isDropDisabled={showCorrect}>
+              {(provided) => (
+                <div
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                  style={{
+                    display: "flex",
+                    gap: "30px",
+                    padding: "10px",
+                    // border: "2px dashed #ccc",
+                    borderRadius: "10px",
+                    justifyContent: "center",
+                  }}
+                >
+                  {wordBank.map((word, index) => {
+                    const countInAnswers = answers.filter(
+                      (ans) => ans === word,
+                    ).length;
 
-                  const countInQuestions = questionInputs.reduce((acc, row) => {
-                    return acc + row.filter((val) => val === word).length;
-                  }, 0);
+                    const countInQuestions = questionInputs.reduce(
+                      (acc, row) => {
+                        return acc + row.filter((val) => val === word).length;
+                      },
+                      0,
+                    );
 
-                  const totalUsed = countInAnswers + countInQuestions;
+                    const totalUsed = countInAnswers + countInQuestions;
 
-                  // 👇 فقط Yes, I do. لها limit = 3
-                  const limit = word === "Yes, I do." ? 3 : 1;
+                    // 👇 فقط Yes, I do. لها limit = 3
+                    const limit = word === "Yes, I do." ? 3 : 1;
 
-                  const isUsed = totalUsed >= limit;
-                  return (
-                    <Draggable
-                      key={word}
-                      draggableId={`word-${word}`}
-                      index={index}
-                      isDragDisabled={showCorrect || isUsed}
-                    >
-                      {(provided) => (
-                        <span
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          className="CB-unit2-p6-q2-word"
-                          style={{
-                            background: isUsed ? "#ccc" : "white",
-                            opacity: isUsed ? 0.6 : 1,
-                            cursor: isUsed ? "not-allowed" : "grab",
-                            ...provided.draggableProps.style,
-                          }}
-                        >
-                          {word}
-                        </span>
-                      )}
-                    </Draggable>
-                  );
-                })}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-
-          {/* CONTENT */}
-
-          {items.map((item, i) => {
-            return (
-              <div className="content-CB-unit4-p6-q1">
-                <div className="CB-unit4-p6-q1-img-container">
-                  <span className="CB-unit4-p6-q1-index">{i + 1}</span>
-                  <img
-                    src={item.image}
-                    alt=""
-                    style={{ height: "150px", width: "200px" }}
-                  />
+                    const isUsed = totalUsed >= limit;
+                    return (
+                      <Draggable
+                        key={word}
+                        draggableId={`word-${word}`}
+                        index={index}
+                        isDragDisabled={showCorrect || isUsed}
+                      >
+                        {(provided) => (
+                          <span
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            className="CB-unit2-p6-q2-word"
+                            style={{
+                              background: isUsed ? "#ccc" : "white",
+                              opacity: isUsed ? 0.6 : 1,
+                              cursor: isUsed ? "not-allowed" : "grab",
+                              ...provided.draggableProps.style,
+                            }}
+                          >
+                            {word}
+                          </span>
+                        )}
+                      </Draggable>
+                    );
+                  })}
+                  {provided.placeholder}
                 </div>
-                <div key={i} className="question-box-CB-unit4-p6-q1">
-                  <div className="CB-unit4-p6-q1-title-container">
+              )}
+            </Droppable>
+
+            {/* CONTENT */}
+
+            {items.map((item, i) => {
+              return (
+                <div className="content-CB-unit4-p6-q1">
+                  <div className="CB-unit4-p6-q1-img-container">
                     <span className="CB-unit4-p6-q1-index">{i + 1}</span>
-                    <p style={{ width: "90%", display: "flex" }}>
-                      {item.questionParts.map((part, idx) => {
-                        if (part === "") {
-                          const blankIndex =
-                            item.questionParts
-                              .slice(0, idx + 1)
-                              .filter((p) => p === "").length - 1;
+                    <img
+                      src={item.image}
+                      alt=""
+                      style={{ height: "150px", width: "200px" }}
+                    />
+                  </div>
+                  <div key={i} className="question-box-CB-unit4-p6-q1">
+                    <div className="CB-unit4-p6-q1-title-container">
+                      <span className="CB-unit4-p6-q1-index">{i + 1}</span>
+                      <p style={{ width: "90%", display: "flex" }}>
+                        {item.questionParts.map((part, idx) => {
+                          if (part === "") {
+                            const blankIndex =
+                              item.questionParts
+                                .slice(0, idx + 1)
+                                .filter((p) => p === "").length - 1;
+
+                            return (
+                              <Droppable
+                                key={idx}
+                                droppableId={`q-${i}-${blankIndex}`}
+                                isDropDisabled={showCorrect}
+                              >
+                                {(provided, snapshot) => (
+                                  <div
+                                    className="w-full"
+                                    style={{ whiteSpace: "nowrap" }}
+                                  >
+                                    <span
+                                      ref={provided.innerRef}
+                                      {...provided.droppableProps}
+                                      className={`question-blank-CB-unit4-p6-q1 ${
+                                        isQuestionWrong(i, blankIndex)
+                                          ? "input-error"
+                                          : ""
+                                      } ${
+                                        snapshot.isDraggingOver
+                                          ? "drag-over"
+                                          : ""
+                                      }`}
+                                    >
+                                      {questionInputs[i][blankIndex]}
+                                      {provided.placeholder}
+                                    </span>
+
+                                    {isQuestionWrong(i, blankIndex) && (
+                                      <span className="error-icon">✕</span>
+                                    )}
+                                  </div>
+                                )}
+                              </Droppable>
+                            );
+                          }
 
                           return (
-                            <Droppable
+                            <span
                               key={idx}
-                              droppableId={`q-${i}-${blankIndex}`}
-                              isDropDisabled={showCorrect}
+                              style={{ width: "100%", fontSize: "18px" }}
                             >
-                              {(provided, snapshot) => (
-                                <div className="w-full" style={{whiteSpace:"nowrap"}}>
-                                  <span
-                                    ref={provided.innerRef}
-                                    {...provided.droppableProps}
-                                    className={`question-blank-CB-unit4-p6-q1 ${
-                                      isQuestionWrong(i, blankIndex)
-                                        ? "input-error"
-                                        : ""
-                                    }`}
-                                  >
-                                    {questionInputs[i][blankIndex]}
-                                    {provided.placeholder}
-                                  </span>
-
-                                  {isQuestionWrong(i, blankIndex) && (
-                                    <span className="error-icon">✕</span>
-                                  )}
-                                </div>
-                              )}
-                            </Droppable>
+                              {" "}
+                              {part}{" "}
+                            </span>
                           );
-                        }
-
-                        return (
-                          <span
-                            key={idx}
-                            style={{ width: "100%", fontSize: "18px" }}
+                        })}
+                      </p>
+                    </div>
+                    <Droppable
+                      droppableId={`a-${i}`}
+                      isDropDisabled={showCorrect}
+                    >
+                      {(provided, snapshot) => (
+                        <div>
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.droppableProps}
+                            className={`answer-input-CB-unit4-p6-q1 ${
+                              isAnswerWrong(i) ? "input-error" : ""
+                            } ${snapshot.isDraggingOver ? "drag-over" : ""}`}
                           >
-                            {" "}
-                            {part}{" "}
-                          </span>
-                        );
-                      })}
-                    </p>
-                  </div>
-                  <Droppable
-                    droppableId={`a-${i}`}
-                    isDropDisabled={showCorrect}
-                  >
-                    {(provided, snapshot) => (
-                      <div>
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.droppableProps}
-                          className={`answer-input-CB-unit4-p6-q1 ${
-                            isAnswerWrong(i) ? "input-error" : ""
-                          }`}
-                        >
-                          {answers[i]}
-                          {provided.placeholder}
+                            {answers[i]}
+                            {provided.placeholder}
+                          </div>
+
+                          {isAnswerWrong(i) && (
+                            <span className="error-icon">✕</span>
+                          )}
                         </div>
-
-                        {isAnswerWrong(i) && (
-                          <span className="error-icon">✕</span>
-                        )}
-                      </div>
-                    )}
-                  </Droppable>
+                      )}
+                    </Droppable>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
-
         {/* BUTTONS */}
         <div className="action-buttons-container">
           <button onClick={resetAll} className="try-again-button">

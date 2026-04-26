@@ -84,14 +84,14 @@ const captions = [
 
   return (
     <div className="main-container-component">
-      <div className="div-forall gap-2">
+      <div className="div-forall">
         <h5 className="header-title-page8 mb-10">
           <span style={{ marginRight: "20px" }}>D</span>
           Does it have a<span style={{ color: "#2e3192" }}> short a </span>or
           <span style={{ color: "#2e3192" }}> long a</span>? Listen, read, and
           circle.
         </h5>
-
+         <div className="flex flex-col gap-10">
         <QuestionAudioPlayer
           src={sound1}
           captions={captions}
@@ -151,6 +151,7 @@ const captions = [
               </div>
             );
           })}
+        </div>
         </div>
       </div>
 

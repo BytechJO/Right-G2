@@ -174,11 +174,7 @@ const Review2_Page2_Q3 = () => {
         <div
           className="div-forall"
           style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "10px",
-            width: "60%",
-            justifyContent: "flex-start",
+           
             marginBottom: "50px",
           }}
         >
@@ -192,6 +188,8 @@ const Review2_Page2_Q3 = () => {
             captions={captions}
             stopAtSecond={stopAtSecond}
           />
+
+          <div className="flex flex-col gap-2">
           <Droppable droppableId="bank" isDropDisabled>
             {(provided) => (
               <div
@@ -199,9 +197,9 @@ const Review2_Page2_Q3 = () => {
                 {...provided.droppableProps}
                 style={{
                   display: "flex",
-                  gap: "10px",
+                  gap: "60px",
                   padding: "10px",
-                  border: "2px dashed #ccc",
+                  // border: "2px dashed #ccc",
                   borderRadius: "10px",
                   // margin: "10px 0",
                   alignItems: "center",
@@ -333,6 +331,7 @@ const Review2_Page2_Q3 = () => {
                 </div>
               </div>
             ))}
+          </div>
           </div>
         </div>
         <div className="action-buttons-container">

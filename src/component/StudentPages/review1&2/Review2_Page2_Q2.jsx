@@ -95,16 +95,12 @@ const Review2_Page2_Q2 = () => {
         justifyContent: "center",
         alignItems: "center",
         padding: "30px",
+        marginBottom:"50px"
       }}
     >
       <div
         className="div-forall"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          width: "60%",
-          justifyContent: "flex-start",
-        }}
+        
       >
         <div>
           <h5 className="header-title-page8">

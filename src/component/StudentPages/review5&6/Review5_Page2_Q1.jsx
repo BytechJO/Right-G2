@@ -7,7 +7,8 @@ import img2 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 53/Asset 7
 import img3 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 53/Asset 36.svg";
 import QuestionAudioPlayer from "../../QuestionAudioPlayer";
 import sound1 from "../../../assets/audio/ClassBook/U 6/cd37pg53-instruction1-adult-lady_VEAoL9d5.mp3";
-
+import trueIcon from "../../../assets/imgs/true.svg";
+import falseIcon from "../../../assets/imgs/false.svg";
 const Review1_Page2_Q2 = () => {
   const stopAtSecond = 10.399;
   const [locked, setLocked] = useState(false); // ⭐ NEW — قفل التعديل بعد Show Answer
@@ -24,7 +25,6 @@ const Review1_Page2_Q2 = () => {
     { start: 11.439, end: 14.659, text: "1, knee, tea." },
     { start: 15.679, end: 19.02, text: "2, tape. Three." },
     { start: 20.1, end: 23.34, text: "3, bee, sleep" },
-   
   ];
   const questions = [
     {
@@ -112,16 +112,7 @@ const Review1_Page2_Q2 = () => {
         padding: "30px",
       }}
     >
-      <div
-        className="div-forall"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          // gap: "20px",
-          width: "60%",
-          justifyContent: "flex-start",
-        }}
-      >
+      <div className="div-forall">
         <h5 className="header-title-page8">
           <span style={{ marginRight: "15px" }}>D</span>Do they both have{" "}
           <span style={{ color: "#2e3192" }}>long e</span>? Listen and write
@@ -138,7 +129,7 @@ const Review1_Page2_Q2 = () => {
             <div key={q.id} className="CB-review1-p2-q1-question-box">
               <p
                 className="CB-review1-p2-q1-question-text"
-                style={{ fontSize: "20px" ,border:"none" }}
+                style={{ fontSize: "20px", border: "none" }}
               >
                 <span style={{ color: "darkblue", fontWeight: "700" }}>
                   {q.id}.
@@ -164,7 +155,10 @@ const Review1_Page2_Q2 = () => {
                       }`}
                       onClick={() => selectAnswer(q.id, "✓")}
                     >
-                      ✓
+                      <img
+                        src={trueIcon}
+                        style={{ height: "25px", width: "auto" }}
+                      />
                     </div>
 
                     {showResult[index] === "wrong" && answers[q.id] === "✓" && (
@@ -180,7 +174,10 @@ const Review1_Page2_Q2 = () => {
                       }`}
                       onClick={() => selectAnswer(q.id, "✗")}
                     >
-                      ✗
+                      <img
+                        src={falseIcon}
+                        style={{ height: "25px", width: "auto" }}
+                      />
                     </div>
 
                     {showResult[index] === "wrong" && answers[q.id] === "✗" && (

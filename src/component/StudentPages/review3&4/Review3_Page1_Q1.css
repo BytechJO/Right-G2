@@ -16,6 +16,14 @@
     justify-content: center;
 }
 
+.question-grid-CB-review3-p1-q1 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 80px;
+    row-gap: 50px;
+    margin-top: 20px;
+}
+
 .wrong-mark-CB-review3-p1-q1 {
     position: absolute;
     top: -13px;

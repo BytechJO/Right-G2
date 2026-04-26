@@ -103,7 +103,7 @@
 .fullscreen-size {
   background: #fff;
   border-radius: 0;
-  padding: 20px;
+  padding: 40px;
   animation: fadeIn 0.2s ease;
 
   width: 100vw;
@@ -134,7 +134,7 @@
 /* ✅ زر الإغلاق */
 /* ============================= */
 .popup-close-btn {
-  position: fixed; /* ⭐ ثابت مع السكرول */
+  position: absolute; /* ⭐ ثابت مع السكرول */
   top: 10px; /* مسافة بسيطة من الأعلى */
   right: 10px; /* مسافة من اليمين */
   background: none;

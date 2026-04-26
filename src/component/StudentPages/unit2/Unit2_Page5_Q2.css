@@ -17,6 +17,16 @@
   gap: 16px;
 }
 
+.CB-unit2-p14-q2-true {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 44px;
+    height: 26px;
+    pointer-events: none;
+}
+
 /* ===============================
    QUESTION BOX
 ================================ */
@@ -47,6 +57,7 @@
   align-items: center;
  justify-content: flex-start;
   margin-bottom: 6px;
+  gap: 20px;
 }
 
 /* ===============================

@@ -133,18 +133,19 @@ const Unit9_Page6_Q1 = () => {
   };
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="main-container-component">
-        <div className="div-forall gap-2 mb-10">
+      <div className="main-container-component mb-10">
+        <div className="div-forall">
           {/* ❌ الهيدر كما هو */}
           <h5 className="header-title-page8">
             <span className="ex-A mr-4">D</span>Look and write .
           </h5>
+          <div>
           <Droppable droppableId="bank" direction="horizontal">
             {(provided) => (
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="flex gap-4 justify-center flex-wrap mb-3 border-2 border-dashed border-gray-400 p-4 rounded-lg"
+                className="flex gap-4 justify-center flex-wrap mb-3 p-4 rounded-lg"
               >
                 {sentences.map((s, index) => {
                   const isUsed = Object.values(answers).includes(s);
@@ -185,54 +186,54 @@ const Unit9_Page6_Q1 = () => {
                   className=" object-contain"
                 />
 
-                <Droppable droppableId={`slot-${q.id}`}>
-                  {(provided) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.droppableProps}
-                      className="relative border-b-2 flex-1 min-h-[35px]"
-                    >
-                      {answers[`slot-${q.id}`] && (
-                        <Draggable
-                          draggableId={`slot-${q.id}-${answers[`slot-${q.id}`]}`}
-                          index={0}
-                          isDragDisabled={locked}
-                        >
-                          {(provided) => (
-                            <span
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              className="text-blue-800 cursor-pointer text-xl"
-                            >
-                              {answers[`slot-${q.id}`]}
-                            </span>
-                          )}
-                        </Draggable>
-                      )}
+               <Droppable droppableId={`slot-${q.id}`}>
+  {(provided, snapshot) => (
+    <div
+      ref={provided.innerRef}
+      {...provided.droppableProps}
+      className={`
+        relative flex-1 min-h-[35px] border-b-2 transition-all duration-200
+        ${
+          snapshot.isDraggingOver
+            ? "bg-blue-100 border-blue-400 border-dashed"
+            : isWrongAnswer(q.id)
+            ? "border-red-500"
+            : "border-black"
+        }
+      `}
+    >
+      {answers[`slot-${q.id}`] && (
+        <Draggable
+          draggableId={`slot-${q.id}-${answers[`slot-${q.id}`]}`}
+          index={0}
+          isDragDisabled={locked}
+        >
+          {(provided) => (
+            <span
+              ref={provided.innerRef}
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+              className="text-blue-800 cursor-pointer text-xl"
+            >
+              {answers[`slot-${q.id}`]}
+            </span>
+          )}
+        </Draggable>
+      )}
 
-                      {isWrongAnswer(q.id) && (
-                        <div
-                          className="
-      absolute -top-2 -right-2
-      w-7 h-7
-      bg-red-500 text-white
-      rounded-full
-      flex items-center justify-center
-      text-sm font-bold
-      border-2 border-white
-      z-10 shadow-lg
-    "
-                        >
-                          ✕
-                        </div>
-                      )}
-                      {provided.placeholder}
-                    </div>
-                  )}
-                </Droppable>
+      {isWrongAnswer(q.id) && (
+        <div className="absolute -top-2 -right-2 w-7 h-7 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold border-2 border-white z-10 shadow-lg">
+          ✕
+        </div>
+      )}
+
+      {provided.placeholder}
+    </div>
+  )}
+</Droppable>
               </div>
             ))}
+          </div>
           </div>
         </div>
 

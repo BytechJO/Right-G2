@@ -134,7 +134,7 @@ export default function Review6_Page1_Q2() {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="main-container-component">
-        <div className="div-forall" style={{ gap: "20px" }}>
+        <div className="div-forall">
           <h5 className="header-title-page8">
             <span className="mr-4">B</span>
             Unscramble and write.
@@ -154,7 +154,7 @@ export default function Review6_Page1_Q2() {
                     <span className="font-bold">{i + 1}</span>
                     <h1>{item.scrambled.join(" ")}</h1>
                   </div>
-                  <div className="flex gap-6">
+                  <div className="flex gap-6 flex-wrap">
                     {item.scrambled.map((chunk, wordIndex) => {
                       const letters = chunk.split("");
 
@@ -190,7 +190,7 @@ export default function Review6_Page1_Q2() {
                                           ref={provided.innerRef}
                                           {...provided.draggableProps}
                                           {...provided.dragHandleProps}
-                                          className={`px-2 py-1 border rounded font-bold transition-all
+                                          className={`px-2 py-1 border-2 border-gray-500 bg-white text-[22px] h-[40px] w-[40px] flex items-center justify-center rounded font-bold transition-all
                                             ${
                                               used
                                                 ? "bg-gray-300 text-gray-500 opacity-50 cursor-not-allowed"
@@ -223,7 +223,7 @@ export default function Review6_Page1_Q2() {
                                       onClick={() =>
                                         removeLetter(i, wordIndex, slotIndex)
                                       }
-                                      className={`w-7 h-7 text-center text-lg transition-all duration-200 cursor-pointer
+                                      className={`w-7 h-7 text-center text-[22px] transition-all duration-200 cursor-pointer
     ${
       snapshot.isDraggingOver
         ? "border-b-2 border-blue-500 bg-blue-100 scale-110"
@@ -251,7 +251,7 @@ export default function Review6_Page1_Q2() {
                     type="text"
                     value={built}
                     readOnly
-                    className="w-[300px] border-b-2 border-[#444] text-[18px] outline-none bg-transparent"
+                    className="w-[90%] border-b-2 border-gray-600 text-[22px] outline-none bg-transparent"
                   />
                   {isWrong && (
                     <div className="absolute -top-2 left-70 ml-3 w-6 h-6 bg-red-500 rounded-full flex items-center text-sm justify-center text-white font-bold border-2 border-white shadow-lg">
@@ -260,7 +260,7 @@ export default function Review6_Page1_Q2() {
                   )}
                 </div>
 
-                <hr />
+             
               </div>
             );
           })}

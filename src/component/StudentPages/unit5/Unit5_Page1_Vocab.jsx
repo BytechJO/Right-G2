@@ -3,6 +3,7 @@ import backgroundImage from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It
 import page2_2 from "../../../assets/imgs/Voca.svg";
 import vocabulary from "../../../assets/audio/ClassBook/U 5/Pg40_Vocab_Adult Lady.mp3";
 import "./Unit5_Page1.css";
+import ModernVocabularyComponent from "../../ModernVocabularyComponent";
 import num1 from "../../../assets/imgs/Num1.svg";
 import num2 from "../../../assets/imgs/Num2.svg";
 import num3 from "../../../assets/imgs/Num3.svg";
@@ -24,30 +25,8 @@ import sound7 from "../../../assets/audio/ClassBook/U 5/unit5-sound7.mp3";
 import sound8 from "../../../assets/audio/ClassBook/U 5/unit5-sound8.mp3";
 import sound9 from "../../../assets/audio/ClassBook/U 5/unit5-sound9.mp3";
 import sound10 from "../../../assets/audio/ClassBook/U 5/unit5-sound10.mp3";
-import { TbMessageCircle } from "react-icons/tb";
-import { IoMdSettings } from "react-icons/io";
-import { FaPlay, FaPause } from "react-icons/fa";
+
 const Unit5_Page1_Vocab = () => {
-  const mainAudioRef = useRef(null);
-  const clickAudioRef = useRef(null);
-
-  const [paused, setPaused] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(null);
-  const [activeIndex2, setActiveIndex2] = useState(null);
-  const [showContinue, setShowContinue] = useState(false);
-  const stopAtSecond = 3.0;
-  const [clickedIndex, setClickedIndex] = useState(null);
-  // إعدادات الصوت
-  const [showSettings, setShowSettings] = useState(false);
-  const [volume, setVolume] = useState(1);
-  const [activeSpeed, setActiveSpeed] = useState(1);
-  const settingsRef = useRef(null);
-  const [forceRender, setForceRender] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [current, setCurrent] = useState(0);
-  const [duration, setDuration] = useState(0);
-
-  const [showCaption, setShowCaption] = useState(false);
 
   // ================================
   // ✔ Captions Array
@@ -66,100 +45,7 @@ const Unit5_Page1_Vocab = () => {
     { start: 23.139, end: 25.0, text: "8, happy." },
     { start: 26.059, end: 30.719, text: "9, look. 10, tablecloth." },
   ];
-  // 🎵 فترات الكلمات داخل الأوديو الرئيسي
-  const wordTimings = [
-    { start: 4.239, end: 6.32, text: "One, kitchen." },
-    { start: 6.5, end: 8.6, text: " Two, carry." },
-    { start: 8.9, end: 10.659, text: "Three, fruit." },
-    { start: 11.719, end: 13.399, text: "Four, meat." },
-    { start: 14.42, end: 16.18, text: "Five, fish." },
-    { start: 17.299, end: 19.219, text: "Six, rice." },
-    { start: 20.299, end: 22.079, text: "Seven, chicken." },
-    { start: 23.139, end: 25.0, text: "Eight, happy." },
-    { start: 26.059, end: 28.3, text: "Nine, look." },
-    { start: 28.9, end: 30.719, text: "Ten, tablecloth." },
-  ];
 
-  // ================================
-  // ✔ Update caption highlight
-  // ================================
-  const updateCaption = (time) => {
-    const index = captions.findIndex(
-      (cap) => time >= cap.start && time <= cap.end,
-    );
-    setActiveIndex(index);
-  };
-
-  // ================================
-  // ✔ Update Word highlight
-  // ================================
-  const updateWord = (time) => {
-    const wordIndex = wordTimings.findIndex(
-      (w) => time >= w.start && time <= w.end,
-    );
-    setActiveIndex2(wordIndex);
-  };
-  // ================================
-  // ✔ INITIAL PLAY & STOP AT SECOND
-  // ================================
-  useEffect(() => {
-    const audio = mainAudioRef.current;
-    if (!audio) return;
-
-    audio.currentTime = 0;
-    audio.play();
-
-    const interval = setInterval(() => {
-      if (audio.currentTime >= stopAtSecond) {
-        audio.pause();
-        setPaused(true);
-        setIsPlaying(false);
-        setShowContinue(true);
-        clearInterval(interval);
-      }
-    }, 100);
-
-    // عند انتهاء الأوديو يرجع يبطل أنيميشن + يظهر Continue
-    const handleEnded = () => {
-      audio.currentTime = 0;
-      setActiveIndex(null);
-      setActiveIndex2(null);
-      setPaused(true);
-      setShowContinue(true);
-      setIsPlaying(false);
-    };
-
-    audio.addEventListener("ended", handleEnded);
-
-    return () => {
-      clearInterval(interval);
-      audio.removeEventListener("ended", handleEnded);
-    };
-  }, []);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setForceRender((prev) => prev + 1);
-    }, 1000); // كل ثانية
-
-    return () => clearInterval(timer);
-  }, []);
-
-  const togglePlay = () => {
-    const audio = mainAudioRef.current;
-
-    if (!audio) return;
-
-    if (audio.paused) {
-      audio.play();
-      setPaused(false);
-      setIsPlaying(true);
-    } else {
-      audio.pause();
-      setPaused(true);
-      setIsPlaying(false);
-    }
-  };
   const wordAudios = [
     sound1,
     sound2,
@@ -172,233 +58,51 @@ const Unit5_Page1_Vocab = () => {
     sound9,
     sound10,
   ];
-  const playWordAudio = (index) => {
-    // أوقفي الأوديو الرئيسي
-    mainAudioRef.current.pause();
-
-    // أوقفي أي كلمة شغالة
-    wordRefs.current.forEach((ref) => {
-      if (ref.current) {
-        ref.current.pause();
-        ref.current.currentTime = 0;
-      }
-    });
-
-    const audio = wordRefs.current[index].current;
-    if (!audio) return;
-
-    // تشغيل الصوت من البداية
-    audio.currentTime = 0;
-    audio.play();
-
-    // 🔥 فعل الأنيميشن على طول فترة التشغيل
-    setClickedIndex(index);
-
-    // 🔥 عند انتهاء الصوت -> أطفئ الأنيميشن
-    audio.onended = () => {
-      setClickedIndex(null);
-    };
-  };
 
   const nums = [num1, num2, num3, num4, num5, num6, num7, num8, num9, num10];
   const wordRefs = useRef(wordAudios.map(() => React.createRef()));
 
   return (
-    <div
-      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
-    >
-      <div
-        className="audio-popup-vocab-container"
-        style={{
-          width: "30%",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          margin: "0px 20px",
-          position: "relative",
-          alignItems: "center",
-        }}
-      >
-        <div className="audio-popup-vocab">
-          <div className="audio-inner player-ui">
-            <audio
-              ref={mainAudioRef}
-              src={vocabulary}
-              onTimeUpdate={(e) => {
-                const time = e.target.currentTime;
-                setCurrent(time);
-                updateCaption(time);
-                updateWord(time); // 🔥 أهم خطوة
-              }}
-              onLoadedMetadata={(e) => setDuration(e.target.duration)}
-            ></audio>
+    <ModernVocabularyComponent
+      backgroundImage={backgroundImage}
+      mainAudio={vocabulary}
+      wordAudios={wordAudios}
+      nums={nums}
+      vocabulary={[
+        "kitchen",
+        "carry",
+        "fruit",
+        "meat",
+        "fish",
+        "rice",
+        "chicken",
+        "happy",
+        "look",
+        "tablecloth",
+      ]}
+      markers={[
+        { id: 1, top: "30%", left: "53%" },
 
-            {/* Time + Slider */}
-            <div className="top-row">
-              <span className="audio-time">
-                {new Date(current * 1000).toISOString().substring(14, 19)}
-              </span>
+        { id: 2, top: "40%", left: "55%" }, // 100-60
 
-              <input
-                type="range"
-                min="0"
-                max={duration}
-                value={current}
-                className="audio-slider"
-                onChange={(e) => {
-                  mainAudioRef.current.currentTime = e.target.value;
-                  updateCaption(Number(e.target.value));
-                }}
-                style={{
-                  background: `linear-gradient(to right, #430f68 ${
-                    (current / duration) * 100
-                  }%, #d9d9d9ff ${(current / duration) * 100}%)`,
-                }}
-              />
+        { id: 3, top: "48%", left: "26.5%" },
 
-              <span className="audio-time">
-                {new Date(duration * 1000).toISOString().substring(14, 19)}
-              </span>
-            </div>
+        { id: 4, top: "47%", left: "52%" },
 
-            {/* Buttons */}
-            <div className="bottom-row">
-              <div
-                className={`round-btn ${showCaption ? "active" : ""}`}
-                onClick={() => setShowCaption(!showCaption)}
-              >
-                <TbMessageCircle size={36} />
-              </div>
+        { id: 5, top: "49%", left: "46%" },
 
-              <button className="play-btn2" onClick={togglePlay}>
-                {isPlaying ? <FaPause size={26} /> : <FaPlay size={26} />}
-              </button>
+        { id: 6, top: "55%", left: "42%" }, // 100-45 , 100-58
 
-              <div>
-                <button
-                  className={`round-btn ${showSettings ? "active" : ""}`}
-                  onClick={() => setShowSettings(!showSettings)}
-                >
-                  <IoMdSettings size={36} />
-                </button>
+        { id: 7, top: "47%", left: "48%" }, // 100-53 , 100-52
 
-                {showSettings && (
-                  <div className="settings-popup">
-                    <label>Volume</label>
-                    <input
-                      type="range"
-                      min="0"
-                      max="1"
-                      step="0.05"
-                      value={volume}
-                      onChange={(e) => {
-                        setVolume(e.target.value);
-                        mainAudioRef.current.volume = e.target.value;
-                      }}
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+        { id: 8, top: "31%", left: "41%" }, // 100-69 , 100-59
 
-      <div
-        style={{
-          position: "relative",
-          marginTop: "5px",
-          width: "fit-content",
-        }}
-      >
-        <div className={`caption-inPopup ${showCaption ? "show" : ""}`}>
-          {captions.map((cap, i) => (
-            <p
-              key={i}
-              id={`caption-${i}`}
-              className={`caption-inPopup-line2 ${
-                activeIndex === i ? "active" : ""
-              }`}
-            >
-              {cap.text}
-            </p>
-          ))}
-        </div>
-        {/* كلمة + صورة صغيرة */}
+        { id: 9, top: "46%", left: "61%" }, // 100-54 , 100-39
 
-        <img
-          src={page2_2}
-          style={{
-            height: "280px",
-            width: "auto",
-            position: "absolute",
-            bottom: "0%",
-            right: "0%",
-            borderRadius: "5%",
-          }}
-        />
-
-        {/* النصوص */}
-        <div
-          className="vocab_container"
-          style={{ bottom: "1.4%", right: "4.5%" }}
-        >
-          {[
-            "kitchen",
-            "carry",
-            "fruit",
-            "meat",
-            "fish",
-            "rice",
-            "chicken",
-            "happy",
-            "look",
-            "tablecloth",
-          ].map((text, i) => (
-            <h6
-              key={i}
-              className={
-                (activeIndex2 === i && current >= 3.2) || clickedIndex === i
-                  ? "active"
-                  : ""
-              }
-              onClick={() => playWordAudio(i)}
-            >
-              {i + 1} {text}
-            </h6>
-          ))}
-        </div>
-
-        {/* الأرقام */}
-        {nums.map((num, i) => (
-          <img
-            key={i}
-            src={num}
-            id={`num-${i + 1}-unit5`}
-            className={`num-img ${
-              (activeIndex2 === i && current >= 3.2) || clickedIndex === i
-                ? "active"
-                : ""
-            }`}
-            style={{
-              height: "20px",
-              width: "auto",
-              position: "absolute",
-            }}
-          />
-        ))}
-
-        {/* الصورة الرئيسية */}
-        <img
-          src={backgroundImage}
-          alt="interactive"
-          style={{ height: "75vh" }}
-        />
-      </div>
-      {wordAudios.map((src, i) => (
-        <audio key={i} ref={wordRefs.current[i]} src={src} />
-      ))}
-    </div>
+        { id: 10, top: "63%", left: "39%" }, // 100-37 , 100-61
+      ]}
+      captions={captions}
+    />
   );
 };
 

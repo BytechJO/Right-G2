@@ -74,7 +74,7 @@ const Review1_Page1_Q1 = () => {
 
   return (
     <div style={{ display: "flex", justifyContent: "center", padding: "30px" }}>
-      <div className="div-forall" style={{ width: "60%" }}>
+      <div className="div-forall" style={{ marginBottom:"50px"}}>
         {/* الهيدر كما هو */}
         <h5 className="header-title-page8">
           <span style={{ marginRight: "20px"}}>A</span>Look,

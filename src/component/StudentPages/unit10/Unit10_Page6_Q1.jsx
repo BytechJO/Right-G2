@@ -136,18 +136,19 @@ const Unit10_Page6_Q1 = () => {
   };
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="main-container-component">
-        <div className="div-forall gap-2">
+      <div className="main-container-component mb-10">
+        <div className="div-forall">
           {/* ❌ الهيدر كما هو */}
           <h5 className="header-title-page8">
             <span className="ex-A mr-5">D</span>Look and write .
           </h5>
+          <div>
           <Droppable droppableId="bank" direction="horizontal">
             {(provided) => (
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="flex gap-3 justify-center flex-wrap mb-5 border-2 border-dashed border-gray-500 p-3 rounded-lg"
+                className="flex gap-5 justify-center flex-wrap mb-5 p-3 rounded-lg"
               >
                 {sentences.map((s, index) => {
                   const isUsed = Object.values(answers).includes(s);
@@ -208,20 +209,28 @@ const Unit10_Page6_Q1 = () => {
               />
 
               <Droppable droppableId={`slot-${q.id}`}>
-                {(provided) => (
-                  <div
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
-                    className="relative"
-                    style={{
-                      flex: 1,
-                      borderBottom: "2px solid #333",
-                      minHeight: "30px",
-                      display: "flex",
-                      alignItems: "center",
-                      paddingLeft: "10px",
-                    }}
-                  >
+  {(provided, snapshot) => (
+    <div
+      ref={provided.innerRef}
+      {...provided.droppableProps}
+      className="relative transition-all duration-200"
+      style={{
+        flex: 1,
+        minHeight: "30px",
+        display: "flex",
+        alignItems: "center",
+        paddingLeft: "10px",
+
+        // 🔥 الإيفيكت
+        borderBottom: snapshot.isDraggingOver
+          ? "2px dashed #3b82f6"
+          : isWrongAnswer(q.id)
+          ? "2px solid #ef4444"
+          : "2px solid #333",
+
+        backgroundColor: snapshot.isDraggingOver ? "#dbeafe" : "transparent",
+      }}
+    >
                     {answers[`slot-${q.id}`] && (
                       <Draggable
                         draggableId={`slot-${q.id}-${answers[`slot-${q.id}`]}`}
@@ -269,6 +278,7 @@ const Unit10_Page6_Q1 = () => {
               </Droppable>
             </div>
           ))}
+          </div>
         </div>
 
         <div className="action-buttons-container">

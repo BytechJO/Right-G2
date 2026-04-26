@@ -147,9 +147,9 @@ const captions = [
     return showResult && selected[index] !== items[index].correct;
   };
   return (
-    <div className="main-container-component">
+    <div className="main-container-component mb-20">
       <div className="div-forall">
-        <h5 className="header-title-page8 mb-5">
+        <h5 className="header-title-page8">
           <span className="ex-A mr-4">A</span>
           <span style={{ color: "#2e3192" }}>1</span>
           Listen, circle, and write.
@@ -160,7 +160,7 @@ const captions = [
           stopAtSecond={8.43}
         />
         <div className="flex w-full">
-          <div className="grid grid-cols-3 gap-y-10 w-full gap-x-[60px] mt-10 justify-center">
+          <div className="grid grid-cols-3 gap-y-25 w-full gap-x-[60px] mt-10 justify-center">
             {items.map((item, i) => (
               <div
                 key={i}

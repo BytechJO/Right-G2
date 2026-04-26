@@ -219,7 +219,7 @@ const Unit7_Page5_Q2 = () => {
     <DragDropContext onDragEnd={onDragEnd}>
       {/* كل الكود تبعك */}
       <div className="main-container-component relative" ref={containerRef}>
-        <div className="div-forall" style={{ gap: "20px" }}>
+        <div className="div-forall">
           <h5 className="header-title-page8">
             <span style={{ color: "#2e3192" }}>2</span>
             Match and write.

@@ -5,11 +5,7 @@ import img1 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 27/Ex D 1
 import img2 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 27/Ex D 2.svg";
 import img3 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 27/Ex D 3.svg";
 
-
 const Unit3_Page6_Q1 = () => {
-  // ===============================
-  // 🔵 1) الأسئلة (كلها داخل نفس الكومبونينت)
-  // ===============================
   const questions = [
     {
       id: 1,
@@ -22,13 +18,12 @@ const Unit3_Page6_Q1 = () => {
         },
         { type: "text", value: "." },
       ],
-      correct: ["He","can't","sing a song."],
+      correct: ["He", "can't", "sing a song."],
       image: img1,
     },
-
     {
       id: 2,
-       parts: [
+      parts: [
         { type: "blank", options: ["She", "He"] },
         { type: "blank", options: ["can", "can't"] },
         {
@@ -37,12 +32,12 @@ const Unit3_Page6_Q1 = () => {
         },
         { type: "text", value: "." },
       ],
-      correct: ["He","can","play the drum."],
+      correct: ["He", "can", "play the drum."],
       image: img2,
     },
     {
       id: 3,
-   parts: [
+      parts: [
         { type: "blank", options: ["She", "He"] },
         { type: "blank", options: ["can", "can't"] },
         {
@@ -51,39 +46,31 @@ const Unit3_Page6_Q1 = () => {
         },
         { type: "text", value: "." },
       ],
-      correct: ["She","can","take a photo."],
+      correct: ["She", "can", "take a photo."],
       image: img3,
-    }
+    },
   ];
 
-  // ===============================
-  // 🔵 2) حفظ اختيارات الطالب
-  // ===============================
   const [answers, setAnswers] = useState(
     questions.map((q) =>
-      q.parts.map((p) => (p.type === "blank" ? null : null)),
-    ),
+      q.parts.map((p) => (p.type === "blank" ? null : null))
+    )
   );
+
   const [showResult, setShowResult] = useState(false);
   const [locked, setLocked] = useState(false);
 
-  // ===============================
-  // 🔵 3) الضغط على خيار
-  // ===============================
   const handleSelect = (qIndex, blankIndex, option) => {
-    if (locked || showResult) return; // ❌ لا يسمح بالتعديل بعد Show Answer
+    if (locked || showResult) return;
     const updated = [...answers];
     updated[qIndex][blankIndex] = option;
     setAnswers(updated);
     setShowResult(false);
   };
 
-  // ===============================
-  // 🔵 4) فحص الإجابات
-  // ===============================
   const checkAnswers = () => {
-    if (locked || showResult) return; // ❌ لا يسمح بالتعديل بعد Show Answer
-    // تحقق إذا الطالب ما اختار ولا شيء
+    if (locked || showResult) return;
+
     const selectedCount = answers.flat().filter((a) => a !== null).length;
     if (selectedCount === 0) {
       ValidationAlert.info("");
@@ -106,12 +93,12 @@ const Unit3_Page6_Q1 = () => {
       correct === total ? "green" : correct === 0 ? "red" : "orange";
 
     const scoreMessage = `
-    <div style="font-size: 20px; margin-top: 10px; text-align:center;">
-      <span style="color:${color}; font-weight:bold;">
-        Score: ${correct} / ${total}
-      </span>
-    </div>
-  `;
+      <div style="font-size: 20px; margin-top: 10px; text-align:center;">
+        <span style="color:${color}; font-weight:bold;">
+          Score: ${correct} / ${total}
+        </span>
+      </div>
+    `;
 
     if (correct === total) ValidationAlert.success(scoreMessage);
     else if (correct === 0) ValidationAlert.error(scoreMessage);
@@ -119,18 +106,14 @@ const Unit3_Page6_Q1 = () => {
 
     setShowResult(true);
   };
-  const showAnswers = () => {
-    // اجابة كل سؤال = correct array
-    const correctFilled = questions.map((q) => [...q.correct]);
 
+  const showAnswers = () => {
+    const correctFilled = questions.map((q) => [...q.correct]);
     setAnswers(correctFilled);
     setShowResult(true);
-    setLocked(true); // 🔒 قفل الإجابات
+    setLocked(true);
   };
 
-  // ===============================
-  // 🔵 JSX
-  // ===============================
   return (
     <div
       style={{
@@ -141,129 +124,132 @@ const Unit3_Page6_Q1 = () => {
         padding: "30px",
       }}
     >
-      <div
-        className="div-forall"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "30px",
-          width: "60%",
-          justifyContent: "flex-start",
-        }}
-      >
+      <div className="div-forall">
         <h3 className="header-title-page8">
           <span className="ex-A">D</span>Look, read, and circle.
         </h3>
+
         <div className="content-container-CB-unit3-p6-q1">
-  {questions.map((q, qIndex) => (
-    <div className="question-row-CB-unit3-p6-q1" key={q.id}>
-      <div className="sentence-CB-unit3-p6-q1">
-        <div
-          style={{
-            display: "flex",
-            // width: "100%",
-            justifyContent: "center",
-            alignItems: "flex-start",
-          }}
-        >
-          <span
-            className="header-title-page8"
-            style={{
-              color: "#2c5287",
-              fontWeight: "700",
-              fontSize: "20px",
-            }}
-          >
-            {q.id}
-          </span>
-
-          <img
-            src={q.image}
-            className="question-img-CB-unit3-p6-q1"
-            style={{ width: "300px" ,height:"150px" }}
-          />
-        </div>
-
-        <div
-          style={{
-            display: "flex",
-            width: "100%",
-            justifyContent: "space-around",
-            alignItems: "center",
-          }}
-        >
-          {q.parts.map((part, pIndex) => {
-            if (part.type === "text") {
-              return (
-                <span
-                  key={pIndex}
-                  className="sentence-text-CB-unit3-p6-q1"
+          {questions.map((q, qIndex) => (
+            <div className="question-row-CB-unit3-p6-q1" key={q.id}>
+              <div className="sentence-CB-unit3-p6-q1">
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "20px",
+                    justifyContent: "center",
+                    alignItems: "flex-start",
+                  }}
                 >
-                  {part.value}
-                </span>
-              );
-            }
+                  <span
+                    className="header-title-page8"
+                    style={{
+                      color: "#2c5287",
+                      fontWeight: "700",
+                      fontSize: "25px",
+                    }}
+                  >
+                    {q.id}
+                  </span>
 
-            if (part.type === "blank") {
-              const actualBlankIndex = q.parts
-                .filter((p) => p.type === "blank")
-                .indexOf(part);
+                  <img
+                    src={q.image}
+                    className="question-img-CB-unit3-p6-q1"
+                    style={{ width: "300px", height: "150px" }}
+                  />
+                </div>
 
-              return (
-                <span
-                  key={pIndex}
-                  className="blank-options-CB-unit3-p6-q1"
+                <div
+                  style={{
+                    display: "flex",
+                    width: "100%",
+                    justifyContent: "space-around",
+                    alignItems: "center",
+                  }}
                 >
-                  {part.options.map((opt, optIndex) => {
-                    const isSelected =
-                      answers[qIndex][actualBlankIndex] === opt;
-
-                    const isWrongSelected =
-                      showResult &&
-                      isSelected &&
-                      opt !== q.correct[actualBlankIndex];
-
-                    return (
-                      <div
-                        key={optIndex}
-                        className="option-wrapper-CB-unit3-p6-q1"
-                      >
+                  {q.parts.map((part, pIndex) => {
+                    if (part.type === "text") {
+                      return (
                         <span
-                          className={`option-word-CB-unit3-p6-q1 ${
-                            isSelected ? "selected" : ""
-                          }`}
-                          onClick={() =>
-                            handleSelect(qIndex, actualBlankIndex, opt)
-                          }
+                          key={pIndex}
+                          className="sentence-text-CB-unit3-p6-q1"
                         >
-                          {opt}
+                          {part.value}
                         </span>
+                      );
+                    }
 
-                        {isWrongSelected && !locked && (
-                          <div className="wrong-mark-CB-unit3-p6-q1">✕</div>
-                        )}
-                      </div>
-                    );
+                    if (part.type === "blank") {
+                      const blanks = q.parts.filter(
+                        (p) => p.type === "blank"
+                      );
+                      const actualBlankIndex = blanks.indexOf(part);
+                      const isLastBlank =
+                        actualBlankIndex === blanks.length - 1;
+
+                      return (
+                        <span
+                          key={pIndex}
+                          className={`blank-options-CB-unit3-p6-q1 ${
+                            isLastBlank ? "last-blank !border-none" : ""
+                          }`}
+                        >
+                          {part.options.map((opt, optIndex) => {
+                            const isSelected =
+                              answers[qIndex][actualBlankIndex] === opt;
+
+                            const isWrongSelected =
+                              showResult &&
+                              isSelected &&
+                              opt !== q.correct[actualBlankIndex];
+
+                            return (
+                              <div
+                                key={optIndex}
+                                className="option-wrapper-CB-unit3-p6-q1"
+                              >
+                                <span
+                                  className={`option-word-CB-unit3-p6-q1 ${
+                                    isSelected ? "selected" : ""
+                                  }`}
+                                  onClick={() =>
+                                    handleSelect(
+                                      qIndex,
+                                      actualBlankIndex,
+                                      opt
+                                    )
+                                  }
+                                >
+                                  {opt}
+                                </span>
+
+                                {isWrongSelected && !locked && (
+                                  <div className="wrong-mark-CB-unit3-p6-q1">
+                                    ✕
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </span>
+                      );
+                    }
                   })}
-                </span>
-              );
-            }
-          })}
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
-    </div>
-  ))}
-</div>
 
-      </div>
       <div className="action-buttons-container">
         <button
           className="try-again-button"
           onClick={() => {
             setAnswers(
               questions.map((q) =>
-                q.parts.map((p) => (p.type === "blank" ? null : null)),
-              ),
+                q.parts.map((p) => (p.type === "blank" ? null : null))
+              )
             );
             setShowResult(false);
             setLocked(false);
@@ -271,9 +257,11 @@ const Unit3_Page6_Q1 = () => {
         >
           Start Again ↻
         </button>
+
         <button onClick={showAnswers} className="show-answer-btn">
           Show Answer
         </button>
+
         <button onClick={checkAnswers} className="check-button2">
           Check Answer ✓
         </button>

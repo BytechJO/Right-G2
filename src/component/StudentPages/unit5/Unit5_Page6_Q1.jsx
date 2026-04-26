@@ -226,27 +226,22 @@ const Unit5_Page6_Q1 = () => {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          padding: "30px",
+          padding: "30px",    marginBottom:"30px"
         }}
       >
         <div
           className="div-forall"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            width: "60%",
-            justifyContent: "flex-start",
-          }}
+         
         >
-          <div className="page8-q1-container">
+         
             <h4 className="header-title-page8">
               <span className="ex-A">D</span> Unscramble and write. Then, match.
             </h4>
-
+ <div className="page8-q1-container">
             <div className="container12" ref={containerRef}>
               {questions.map((q, i) => (
                 <div className="CB-unit5-p6-q1-row" key={q.id}>
-                  <div style={{ width: "50%" }}>
+                  <div className="flex flex-col gap-5"style={{ width: "50%"}}>
                     <div className="CB-unit5-p6-q1-word-with-dot">
                      
 <span className="CB-unit5-p6-q1-number mr-5">{q.id}</span>
@@ -387,9 +382,9 @@ const Unit5_Page6_Q1 = () => {
                       <div
                         className={`
     CB-unit5-p6-q1-dot CB-unit5-p6-q1-dot-end
-    transition-all duration-200
+    transition-all duration-200 z-9999
 
-    ${activeImage === images[i] ? "scale-150 bg-red-600" : ""}
+    ${activeImage === images[i] ? "scale-110 bg-red-600" : ""}
   `}
                         data-image={images[i]}
                         id={`dot-img-${q.id}`}

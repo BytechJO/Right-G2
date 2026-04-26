@@ -386,7 +386,7 @@ correctGroups.forEach((group) => {
         }}
       >
         <div className="flex flex-col">
-        <h4 className="header-title-page8">
+        <h4 className="header-title-page8 mb-2">
           <span className="ex-A">A</span> Listen, write, and match.
         </h4>
           <span className="text-gray-400 text-xs">Double-tap the image to start matching the image with the words below.</span>

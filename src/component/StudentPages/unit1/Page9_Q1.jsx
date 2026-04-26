@@ -3,6 +3,7 @@ import img1 from "../../../assets/imgs/Right 2 Unit 1 Stellas Family/Page 9/Page
 import img2 from "../../../assets/imgs/Right 2 Unit 1 Stellas Family/Page 9/Page9-Ex D 1.svg";
 
 import ValidationAlert from "../../Popup/ValidationAlert";
+import trueIcon from "../../../assets/imgs/true.svg";
 import "./Page9_Q1.css";
 
 const Page9_Q1 = () => {
@@ -87,14 +88,14 @@ const Page9_Q1 = () => {
 
     const color =
       correctCount === total ? "green" : correctCount === 0 ? "red" : "orange";
-  const msg = `
+    const msg = `
       <div style="font-size:20px;text-align:center;">
         <span style="color:${color};font-weight:bold">
           Score: ${correctCount} / ${total}
         </span>
       </div>
     `;
-    
+
     if (correctCount === total) ValidationAlert.success(msg);
     else if (correctCount === 0) ValidationAlert.error(msg);
     else ValidationAlert.warning(msg);
@@ -156,52 +157,73 @@ const Page9_Q1 = () => {
           {questions.map((q) => (
             <div key={q.id} className="CB-unit1-p9-q1-box">
               <img src={q.image} alt="" className="CB-unit1-p9-q1-img" />
-              <div>
-                {q.items1.map((item, idx) => {
-                  const isSelected = answers[q.id]?.part1 === idx;
-                  const isWrong =
-                    results[q.id]?.part1 === "wrong" && isSelected;
+              <div className="flex flex-col gap-10">
+                <div className="flex flex-col gap-2">
+                  {q.items1.map((item, idx) => {
+                    const isSelected = answers[q.id]?.part1 === idx;
+                    const isWrong =
+                      results[q.id]?.part1 === "wrong" && isSelected;
 
-                  return (
-                    <div key={idx} className="CB-unit1-p9-q1-row">
-                      <div className="CB-unit1-p9-q1-input-box">
-                        <input
-                          type="text"
-                          readOnly
-                          value={isSelected ? "✓" : ""}
-                          onFocus={() => handleSelect(q.id, "part1", idx)}
-                          className="CB-unit1-p9-q1-input"
-                        />
+                    return (
+                      <div key={idx} className="CB-unit1-p9-q1-row">
+                        <div className="CB-unit1-p9-q1-input-box">
+                          <input
+                            type="text"
+                            readOnly
+                            value=""
+                            onFocus={() => handleSelect(q.id, "part1", idx)}
+                            className="CB-unit1-p9-q1-input"
+                          />
+                          {isSelected && (
+                            <img
+                              src={trueIcon}
+                              alt="true"
+                              className="CB-unit1-p9-q1-true"
+                            />
+                          )}
 
-                        {isWrong && <span className="CB-unit1-p9-q1-x">✕</span>}
+                          {isWrong && (
+                            <span className="CB-unit1-p9-q1-x">✕</span>
+                          )}
+                        </div>
+                        <span className="CB-unit1-p9-q1-text">{item.text}</span>
                       </div>
-                      <span className="CB-unit1-p9-q1-text">{item.text}</span>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
+                <div className="flex flex-col gap-2">
+                  {q.items2.map((item, idx) => {
+                    const isSelected = answers[q.id]?.part2 === idx;
+                    const isWrong =
+                      results[q.id]?.part2 === "wrong" && isSelected;
 
-                {q.items2.map((item, idx) => {
-                  const isSelected = answers[q.id]?.part2 === idx;
-                  const isWrong =
-                    results[q.id]?.part2 === "wrong" && isSelected;
+                    return (
+                      <div key={idx} className="CB-unit1-p9-q1-row">
+                        <div className="CB-unit1-p9-q1-input-box">
+                          <input
+                            type="text"
+                            readOnly
+                            value=""
+                            onFocus={() => handleSelect(q.id, "part2", idx)}
+                            className="CB-unit1-p9-q1-input"
+                          />
+                          {isSelected && (
+                            <img
+                              src={trueIcon}
+                              alt="true"
+                              className="CB-unit1-p9-q1-true"
+                            />
+                          )}
 
-                  return (
-                    <div key={idx} className="CB-unit1-p9-q1-row">
-                      <div className="CB-unit1-p9-q1-input-box">
-                        <input
-                          type="text"
-                          readOnly
-                          value={isSelected ? "✓" : ""}
-                          onFocus={() => handleSelect(q.id, "part2", idx)}
-                          className="CB-unit1-p9-q1-input"
-                        />
-
-                        {isWrong && <span className="CB-unit1-p9-q1-x">✕</span>}
+                          {isWrong && (
+                            <span className="CB-unit1-p9-q1-x">✕</span>
+                          )}
+                        </div>
+                        <span className="CB-unit1-p9-q1-text">{item.text}</span>
                       </div>
-                      <span className="CB-unit1-p9-q1-text">{item.text}</span>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </div>
             </div>
           ))}

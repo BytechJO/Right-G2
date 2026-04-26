@@ -2,9 +2,10 @@
 
 .CB-unit2-p6-q2-word-bank {
   display: flex;
-  gap: 12px;
+  gap: 30px;
   padding: 12px;
-  border: 2px dashed #cfcfcf;
+  font-size: 22px;
+  /* border: 2px dashed #cfcfcf; */
   border-radius: 12px;
   justify-content: center;
   margin-bottom: 25px;
@@ -14,9 +15,9 @@
   padding: 6px 14px;
   border-radius: 8px;
   border: 2px solid #2c5287;
-  font-weight: 700;
+  /* font-weight: 700; */
   background: #fff;
-  font-size: 14px;
+  font-size:18px;
   cursor: grab;
   user-select: none;
 }
@@ -69,7 +70,7 @@
 }
 
 .CB-unit2-p6-q2-text {
-  font-size: 15px;
+  font-size: 20px;
 }
 
 /* ================= INPUT LINE ================= */
@@ -81,7 +82,7 @@
   display: inline-flex;
   align-items: center;
   font-weight: 600;
-  font-size: 15px;
+  font-size: 20px;
   padding: 2px 4px;
   position: relative;
 }

@@ -78,7 +78,7 @@ export default function Review6_Page1_Q1() {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
+      <div className="div-forall">
         <h5 className="header-title-page8 mb-5">
           <span className=" mr-4">A</span>
           Look, read, and number.

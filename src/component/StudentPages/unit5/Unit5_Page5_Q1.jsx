@@ -124,17 +124,12 @@ const Unit5_Page5_Q1 = () => {
         justifyContent: "center",
         alignItems: "center",
         padding: "30px",
+         marginBottom:"30px"
       }}
     >
       <div
         className="div-forall"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          position: "relative",
-          width: "60%",
-          gap: "30px",
-        }}
+      
       >
         <div>
           <h5 className="header-title-page8">
@@ -159,14 +154,17 @@ const Unit5_Page5_Q1 = () => {
         >
           <div className="CB-unit5-p5-q1-container">
             {items.map((item, index) => (
-              <div className="CB-unit5-p5-q1-options">
+              <div className="ds-group-box-CB-unit5-p5-2" >
                 <span
                   style={{
                     fontWeight: "700",
+                    fontSize:"22px",
+                    color:"#1d4f7b"
                   }}
                 >
                   {index + 1}
                 </span>
+                <div className="CB-unit5-p5-q1-options">
                 {item.items.map((choice, chIndex) => (
                   <div
                     key={chIndex}
@@ -189,6 +187,7 @@ const Unit5_Page5_Q1 = () => {
                     ) : null}
                   </div>
                 ))}
+                </div>
               </div>
             ))}
           </div>

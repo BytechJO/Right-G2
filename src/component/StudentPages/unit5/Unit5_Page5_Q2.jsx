@@ -102,13 +102,7 @@ const Unit5_Page5_Q2 = () => {
     >
       <div
         className="div-forall"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "30px",
-          width: "60%",
-          justifyContent: "flex-start",
-        }}
+      
       >
         <h3 className="header-title-page8">
           <span style={{ color: "#2e3192" ,marginRight:"20px"}}>2</span>  Which picture has a different   <span style={{ color: "#2e3192" }}>long vowel sound</span>? Write <span style={{ color: "#2e3192" }}>✗</span>.

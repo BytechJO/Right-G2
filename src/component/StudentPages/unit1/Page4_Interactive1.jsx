@@ -93,6 +93,7 @@ const Page4_Interactive1 = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          gap:"30px",
         }}
       >
         <div
@@ -114,6 +115,8 @@ const Page4_Interactive1 = () => {
               height: "70vh",
               cursor: "pointer",
               display: "block",
+                borderRadius:"15px",
+
             }}
           />
 

@@ -130,12 +130,7 @@ const Page8_Q1 = () => {
       >
         <div
           className="div-forall"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "30px",
-            width: "60%",
-          }}
+          
         >
           <h5 className="header-title-page8">
             <span className="ex-A">A</span>{" "}
@@ -152,16 +147,16 @@ const Page8_Q1 = () => {
                 {...provided.droppableProps}
                 style={{
                   display: "flex",
-                  gap: "10px",
+                  gap: "70px",
                   padding: "10px",
-                  border: "2px dashed #ccc",
+                  // border: "2px dashed #ccc",
                   borderRadius: "10px",
                   // margin: "10px 0",
                   alignItems: "center",
                   justifyContent: "center",
                 }}
               >
-                {wordBank.map((word, index) => {
+                {["lamb","run","rabbit"].map((word, index) => {
                   const isUsed = answers.includes(word);
                   return (
                     <Draggable

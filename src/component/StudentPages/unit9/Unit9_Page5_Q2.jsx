@@ -1,4 +1,3 @@
-
 import "./Unit9_Page5_Q2.css";
 import sound1 from "../../../assets/audio/ClassBook/U 9/cd56pg80-instruction2-adult-lady_nSSY2Pgz.mp3";
 import img1 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 80/Asset 48.svg";
@@ -43,10 +42,18 @@ const Unit9_Page5_Q2 = () => {
   const [resetKey, setResetKey] = useState(0);
   const stopAtSecond = 9.899; // عدلها حسب طول الأوديو عندك
 
-const captions = [
-  { start: 0.479, end: 9.899, text: "Page 80, Right Activities. Exercise A, number 2. Which picture has a long A? Listen, circle, and write." },
-  { start: 10.979, end: 21.659, text: "1, pain, bat. 2, rat, shake. 3, hat, day" }
-];
+  const captions = [
+    {
+      start: 0.479,
+      end: 9.899,
+      text: "Page 80, Right Activities. Exercise A, number 2. Which picture has a long A? Listen, circle, and write.",
+    },
+    {
+      start: 10.979,
+      end: 21.659,
+      text: "1, pain, bat. 2, rat, shake. 3, hat, day",
+    },
+  ];
 
   const handleSelect = (qId, index) => {
     if (locked) return;
@@ -199,19 +206,20 @@ const captions = [
             captions={captions}
             stopAtSecond={stopAtSecond}
           />
-
+          
+          <div className="flex flex-col gap-5">
           {/* WORD BANK */}
           <Droppable droppableId="word-bank" direction="horizontal">
             {(provided) => (
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="border-2 border-dashed border-gray-400 rounded-lg p-3"
+                className="rounded-lg p-3"
                 style={{
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
-                  gap: "16px",
+                  gap: "60px",
                   flexWrap: "wrap",
                   minHeight: "52px",
                 }}
@@ -229,16 +237,16 @@ const captions = [
                         <div
                           ref={provided.innerRef}
                           {...provided.draggableProps}
-                          {...(provided.dragHandleProps)}
+                          {...provided.dragHandleProps}
                           style={{
                             padding: "8px 18px",
                             borderRadius: "12px",
                             fontWeight: "bold",
                             fontSize: "20px",
                             userSelect: "none",
-
-                            background: isUsed ? "#e5e7eb" : "#dbeafe",
-                            color: isUsed ? "#9ca3af" : "#1d4ed8",
+                            border: "2px solid #000589ff",
+                            background: isUsed ? "#e5e7eb" : "white",
+                            color: isUsed ? "#9ca3af" : "",
                             cursor: isUsed || locked ? "not-allowed" : "grab",
 
                             ...provided.draggableProps.style,
@@ -410,7 +418,7 @@ const captions = [
                 );
               })}
             </div>
-          </div>
+          </div></div>
         </div>
 
         <div className="action-buttons-container">

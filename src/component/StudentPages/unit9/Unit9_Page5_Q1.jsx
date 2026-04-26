@@ -209,19 +209,20 @@ const Unit9_Page5_Q1 = () => {
             captions={captions}
             stopAtSecond={stopAtSecond}
           />
-
+           
+           <div className="flex flex-col gap-5">
           {/* WORD BANK */}
           <Droppable droppableId="word-bank" direction="horizontal">
             {(provided) => (
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="border-2 border-dashed border-gray-400 rounded-lg p-3"
+                className="rounded-lg p-3"
                 style={{
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
-                  gap: "16px",
+                  gap: "60px",
                   flexWrap: "wrap",
                   minHeight: "52px",
                 }}
@@ -246,9 +247,9 @@ const Unit9_Page5_Q1 = () => {
                             fontWeight: "bold",
                             fontSize: "20px",
                             userSelect: "none",
-
-                            background: isUsed ? "#e5e7eb" : "#dbeafe",
-                            color: isUsed ? "#9ca3af" : "#1d4ed8",
+                            border:"2px solid #000589ff",
+                            background: isUsed ? "#e5e7eb" : "white",
+                            color: isUsed ? "#9ca3af" : "",
                             cursor: isUsed || locked ? "not-allowed" : "grab",
 
                             ...provided.draggableProps.style,
@@ -420,6 +421,7 @@ const Unit9_Page5_Q1 = () => {
                 );
               })}
             </div>
+          </div>
           </div>
         </div>
 

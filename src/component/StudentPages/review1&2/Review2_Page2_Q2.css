@@ -29,10 +29,13 @@
 .ck-x-options-CB-review2-p2-q2 {
   display: flex;
   gap: 10px;
-  background: #e8dcd2;
+  background: #f8e4db;
     padding: 6px 12px;
   border-radius: 20px;
   height: 50px;
+      width: 60%;
+    justify-content: space-evenly;
+    align-items: center;
 }
 
 /* شكل الزر */
@@ -40,18 +43,18 @@
   min-width: 55px;
   padding: 6px 12px;
   border-radius: 20px;
-  background: #e8dcd2;
+  background: #f8e4db;
   text-align: center;
   cursor: pointer;
   position: relative;
-  font-size: 16px;
+  font-size: 20px;
   transition: 0.2s;
 }
 
 /* تأثير الدائرة عند الاختيار */
 .ck-x-option-CB-review2-p2-q2.selected {
   border: 2px solid #e53935;
-  background: white;
+  /* background: white; */
   font-weight: bold;
 }
 

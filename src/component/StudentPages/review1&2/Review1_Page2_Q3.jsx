@@ -152,18 +152,14 @@ const Review1_Page2_Q3 = () => {
       >
         <div
           className="div-forall"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "30px",
-            width: "60%",
-          }}
+        
         >
           <h5 className="header-title-page8">
             <span style={{ marginRight: "20px" }}>F</span> Circle and
             write.{" "}
           </h5>
-
+           
+           <div className="flex flex-col gap-10">
           {/* 🔤 Word Bank */}
           <Droppable droppableId="bank" direction="horizontal" isDropDisabled>
             {(provided) => (
@@ -172,9 +168,9 @@ const Review1_Page2_Q3 = () => {
                 {...provided.droppableProps}
                 style={{
                   display: "flex",
-                  gap: "10px",
+                  gap: "60px",
                   padding: "10px",
-                  border: "2px dashed #ccc",
+                  // border: "2px dashed #ccc",
                   borderRadius: "10px",
                   // margin: "10px 0",
                   alignItems: "center",
@@ -285,6 +281,7 @@ const Review1_Page2_Q3 = () => {
                 </div>
               </div>
             ))}
+          </div>
           </div>
         </div>
 

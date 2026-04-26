@@ -179,14 +179,15 @@ const Review1_Page1_Q2 = () => {
             <span style={{ marginRight: "20px" }}>B</span>Look, read, and
             unscramble the word. Then, rewrite the sentence.
           </h5>
-
+          
+          <div>
           {/* WORD BANK */}
           <Droppable droppableId="word-bank" direction="horizontal">
             {(provided) => (
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="CB-unit2-p6-q2-word-bank"
+                className="CB-unit2-p6-q2-word-bank flex-wrap"
               >
                 {wordBank.map((w, i) => {
                   const isUsed = answers.some((row) => row.includes(w.id));
@@ -267,6 +268,7 @@ const Review1_Page1_Q2 = () => {
                 </div>
               </div>
             ))}
+          </div>
           </div>
         </div>
 

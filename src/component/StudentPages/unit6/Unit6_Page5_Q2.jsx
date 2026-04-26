@@ -97,7 +97,7 @@ const Unit6_Page5_Q2 = () => {
   };
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
+      <div className="div-forall">
         <div>
           <h5 className="header-title-page8">
             <span style={{ color: "#2e3192" }}> 2 </span> Read and circle the{" "}

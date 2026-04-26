@@ -170,10 +170,6 @@ const Review3_Page1_Q2 = () => {
                     alignItems: "flex-start",
                   }}
                 >
-                  <span style={{ color: "darkblue", fontWeight: "700" }}>
-                    {index + 1}
-                  </span>
-
                   <div>
                     <div style={{ position: "relative" }}>
                       <h5
@@ -181,13 +177,16 @@ const Review3_Page1_Q2 = () => {
     CB-review3-p1-q2-word
     ${locked || showAnswer ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
     ${firstDot?.wordId === wordObj.id ? "text-red-600 underline scale-105" : ""}
-    transition-all duration-200
+    transition-all duration-200 gap-5
   `}
                         onClick={() =>
                           document.getElementById(`${wordObj.id}-dot`).click()
                         }
                       >
-                        {wordObj.text}
+                        <span style={{ color: "darkblue", fontWeight: "700",marginRight:"5px"}}>
+                          {index + 1}
+                        </span>
+                       <span>{wordObj.text}</span> 
                       </h5>
 
                       {wrongImages.includes(wordObj.id) && (

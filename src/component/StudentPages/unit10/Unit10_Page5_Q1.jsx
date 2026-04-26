@@ -7,6 +7,8 @@ import img2 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 86/Asset
 import img3 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 86/Asset 52.svg";
 import sound1 from "../../../assets/audio/ClassBook/U 10/cd61pg86-instruction1-adult-lady_cLv0ekXg.mp3";
 import QuestionAudioPlayer from "../../QuestionAudioPlayer";
+import trueIcon from "../../../assets/imgs/true.svg";
+import falseIcon from "../../../assets/imgs/false.svg";
 const Unit10_Page5_Q1 = () => {
   const stopAtSecond = 11.019;
   const [locked, setLocked] = useState(false); // ⭐ NEW — قفل التعديل بعد Show Answer
@@ -113,6 +115,7 @@ const Unit10_Page5_Q1 = () => {
           <span style={{ color: "#2e3192" }}>✓</span> or
           <span style={{ color: "#2e3192" }}>✗</span>.
         </h5>
+        <div>
         <div
           style={{
             display: "flex",
@@ -157,7 +160,10 @@ const Unit10_Page5_Q1 = () => {
                       }`}
                       onClick={() => selectAnswer(q.id, "✓")}
                     >
-                      ✓
+                     <img
+                        src={trueIcon}
+                        style={{ height: "25px", width: "auto" }}
+                      />
                     </div>
 
                     {showResult[index] === "wrong" && answers[q.id] === "✓" && (
@@ -173,7 +179,10 @@ const Unit10_Page5_Q1 = () => {
                       }`}
                       onClick={() => selectAnswer(q.id, "✗")}
                     >
-                      ✗
+                       <img
+                        src={falseIcon}
+                        style={{ height: "25px", width: "auto" }}
+                      />
                     </div>
 
                     {showResult[index] === "wrong" && answers[q.id] === "✗" && (
@@ -185,7 +194,7 @@ const Unit10_Page5_Q1 = () => {
             </div>
           ))}
         </div>
-
+</div>
         <div className="action-buttons-container">
           <button onClick={resetAnswers} className="try-again-button">
             Start Again ↻

@@ -3,6 +3,8 @@ import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Unit6_Page5_Q1.css";
 import QuestionAudioPlayer from "../../QuestionAudioPlayer";
 import audio from "../../../assets/audio/ClassBook/U 6/cd36pg50-instruction1-adult-lady_FI6JMTVT.mp3";
+import trueIcon from "../../../assets/imgs/true.svg";
+
 const Unit6_Page5_Q1 = () => {
   const questions = [
     { id: 1, optionA: "bike", optionB: "kite", correct: "A" },
@@ -13,12 +15,16 @@ const Unit6_Page5_Q1 = () => {
     { id: 6, optionA: "kite", optionB: "five", correct: "A" },
   ];
 
-const captions = [
-  { start: 0.419, end: 8.779, text: "Page 50, Right Activities. Exercise A, Number 1. Listen, read, and write ✓." },
-  { start: 9.819, end: 16.34, text: "1, bike. 2, light. 3, five." },
-  { start: 17.379, end: 19.059, text: "4, tight." },
-  { start: 20.079, end: 24.5, text: "5, night. 6, kite" }
-];
+  const captions = [
+    {
+      start: 0.419,
+      end: 8.779,
+      text: "Page 50, Right Activities. Exercise A, Number 1. Listen, read, and write ✓.",
+    },
+    { start: 9.819, end: 16.34, text: "1, bike. 2, light. 3, five." },
+    { start: 17.379, end: 19.059, text: "4, tight." },
+    { start: 20.079, end: 24.5, text: "5, night. 6, kite" },
+  ];
   const [answers, setAnswers] = useState({});
   const [wrongRows, setWrongRows] = useState([]);
   const [locked, setLocked] = useState(false);
@@ -39,35 +45,32 @@ const captions = [
   // ============================
   // Check Answer
   // ============================
- const checkAnswers = () => {
-  if (locked || showAnswer) return;
+  const checkAnswers = () => {
+    if (locked || showAnswer) return;
 
-  // ⭐ تحقق إذا في سؤال فاضي
-  if (Object.keys(answers).length !== questions.length) {
-    ValidationAlert.info(
-      "Oops!",
-      "Please answer all questions first."
-    );
-    return;
-  }
+    // ⭐ تحقق إذا في سؤال فاضي
+    if (Object.keys(answers).length !== questions.length) {
+      ValidationAlert.info("Oops!", "Please answer all questions first.");
+      return;
+    }
 
-  let correctCount = 0;
-  let wrongTemp = [];
+    let correctCount = 0;
+    let wrongTemp = [];
 
-  questions.forEach((q) => {
-    if (answers[q.id] === q.correct) correctCount++;
-    else wrongTemp.push(q.id);
-  });
+    questions.forEach((q) => {
+      if (answers[q.id] === q.correct) correctCount++;
+      else wrongTemp.push(q.id);
+    });
 
-  setWrongRows(wrongTemp);
-  setLocked(true);
+    setWrongRows(wrongTemp);
+    setLocked(true);
 
-  const total = questions.length;
+    const total = questions.length;
 
-  let color =
-    correctCount === total ? "green" : correctCount === 0 ? "red" : "orange";
+    let color =
+      correctCount === total ? "green" : correctCount === 0 ? "red" : "orange";
 
-  const message = `
+    const message = `
     <div style="font-size:20px;text-align:center;">
       <span style="color:${color};font-weight:bold;">
         Score: ${correctCount} / ${total}
@@ -75,10 +78,10 @@ const captions = [
     </div>
   `;
 
-  if (correctCount === total) ValidationAlert.success(message);
-  else if (correctCount === 0) ValidationAlert.error(message);
-  else ValidationAlert.warning(message);
-};
+    if (correctCount === total) ValidationAlert.success(message);
+    else if (correctCount === 0) ValidationAlert.error(message);
+    else ValidationAlert.warning(message);
+  };
 
   // ============================
   // Show Answer
@@ -112,16 +115,7 @@ const captions = [
         padding: "30px",
       }}
     >
-      <div
-        className="div-forall"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          position: "relative",
-          width: "60%",
-          gap: "30px",
-        }}
-      >
+      <div className="div-forall">
         <div>
           <h5 className="header-title-page8">
             <span className="ex-A">A</span>{" "}
@@ -134,11 +128,11 @@ const captions = [
         <div className="CB-unit6-p5-q1-container" style={{ marginTop: "20px" }}>
           {questions.map((q, i) => (
             <div key={q.id} className="CB-unit6-p5-q1-row">
-              <span style={{ width: "20px" }}>{q.id}</span>
+              <span className="text-xl font-bold text-blue-900" style={{ width: "20px" }}>{q.id}</span>
 
               {/* Option A */}
               <div className="CB-unit6-p5-q1-options">
-                <span>{q.optionA}</span>
+                <span >{q.optionA}</span>
 
                 <div className="CB-unit6-p5-q1-input-wrapper">
                   <input
@@ -147,9 +141,14 @@ const captions = [
                       answers[q.id] === "A" ? "selected" : ""
                     }`}
                     onClick={() => handleSelect(q.id, "A")}
-                    value={answers[q.id] === "A" ? "✓" : ""}
+                    value={""}
                   />
-
+                  {answers[q.id] === "A" && (
+                    <img className="absolute top-0 left-4"
+                      src={trueIcon}
+                      style={{ height: "25px", width: "auto" }}
+                    />
+                  )}
                   {locked && answers[q.id] === "A" && q.correct !== "A" && (
                     <span className="CB-unit6-p5-q1-wrong-icon">✕</span>
                   )}
@@ -167,9 +166,14 @@ const captions = [
                       answers[q.id] === "B" ? "selected" : ""
                     }`}
                     onClick={() => handleSelect(q.id, "B")}
-                    value={answers[q.id] === "B" ? "✓" : ""}
+                    value={""}
                   />
-
+                  {answers[q.id] === "B" && (
+                    <img className="absolute top-0 left-4"
+                      src={trueIcon}
+                      style={{ height: "25px", width: "auto" }}
+                    />
+                  )}
                   {locked && answers[q.id] === "B" && q.correct !== "B" && (
                     <span className="CB-unit6-p5-q1-wrong-icon">✕</span>
                   )}
