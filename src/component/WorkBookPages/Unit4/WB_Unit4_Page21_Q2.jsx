@@ -85,16 +85,16 @@ const WB_Unit4_Page21_Q2 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
-        <h1 className="WB-header-title-page8 mb-10">
+      <div className="div-forall">
+        <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">B</span>Look, read, and circle.
         </h1>
 
         <div className="grid grid-cols-2 gap-12">
           {data.map((item) => (
             <div key={item.id} className="flex flex-col items-center gap-6">
-              <div className="flex items-center gap-3 text-xl text-gray-800 flex-wrap justify-between w-full">
-                <div className="flex items-center gap-3 justify-center">
+              <div className="flex items-center gap-3 text-xl text-gray-800 flex-wrap w-full">
+                <div className="flex items-start gap-3 justify-center">
                   <span className="font-bold text-blue-900 text-2xl">
                     {item.id}
                   </span>
@@ -102,6 +102,7 @@ const WB_Unit4_Page21_Q2 = () => {
                     src={item.img}
                     alt=""
                     className="max-w-32 max-h-32 object-contain rounded-xl"
+                    style={{width:"150px"}}
                   />
                 </div>
                 <div className="flex flex-col rounded-2xl gap-2">
@@ -115,9 +116,9 @@ const WB_Unit4_Page21_Q2 = () => {
                         onClick={() => handleSelect(item.id, option)}
                         className={`relative px-4 py-2 w-35 rounded-full border-2 transition-all${
                           userSelections[item.id] === option
-                            ? "bg-blue-500 text-white border-blue-500"
+                            ? "text-white border-blue-500"
                             : "bg-white text-gray-800 border-gray-300 hover:border-blue-400"
-                        } ${isSelected && "bg-blue-500 text-white border-blue-500"}`}
+                        } ${isSelected && "border-blue-500"}`}
                       >
                         {option}
 

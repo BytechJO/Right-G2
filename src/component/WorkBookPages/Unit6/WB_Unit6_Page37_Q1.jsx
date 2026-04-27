@@ -177,12 +177,12 @@ const WB_Unit6_Page37_Q1 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
+      <div className="div-forall">
         <h1 className="WB-header-title-page8">
           <div className="WB-ex-A">I</div>Read, look, and match.
         </h1>
 
-        <div className="border rounded-xl overflow-hidden text-xs">
+        <div className="border rounded-xl overflow-hidden text-[18px]">
           <table className="w-full text-center">
             <thead>
               <tr>

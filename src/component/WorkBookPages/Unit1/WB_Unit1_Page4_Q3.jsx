@@ -79,42 +79,39 @@ const WB_Unit1_Page4_Q3 = () => {
   /**
    * التحقق من الإجابات
    */
- const checkAnswers = () => {
-  if (showAnswers || checked) return;
+  const checkAnswers = () => {
+    if (showAnswers || checked) return;
 
-  // ⭐ تحقق إذا مش كل العناصر موصّلة
-  const totalQuestions = Object.keys(correctMatches).length;
+    // ⭐ تحقق إذا مش كل العناصر موصّلة
+    const totalQuestions = Object.keys(correctMatches).length;
 
-  if (Object.keys(matches).length !== totalQuestions) {
-    ValidationAlert.info(
-      "Oops!",
-      "Please match all sentences first."
-    );
-    return;
-  }
-
-  let currentScore = 0;
-
-  Object.keys(correctMatches).forEach((leftId) => {
-    const userMatch = matches[leftId];
-    const correctMatch = correctMatches[leftId];
-
-    if (userMatch && userMatch === correctMatch) {
-      currentScore += 1;
+    if (Object.keys(matches).length !== totalQuestions) {
+      ValidationAlert.info("Oops!", "Please match all sentences first.");
+      return;
     }
-  });
 
-  setScore(currentScore);
-  setChecked(true);
+    let currentScore = 0;
 
-  if (currentScore === totalQuestions) {
-    ValidationAlert.success(`Score: ${currentScore} / ${totalQuestions}`);
-  } else if (currentScore > 0) {
-    ValidationAlert.warning(`Score: ${currentScore} / ${totalQuestions}`);
-  } else {
-    ValidationAlert.error(`Score: ${currentScore} / ${totalQuestions}`);
-  }
-};
+    Object.keys(correctMatches).forEach((leftId) => {
+      const userMatch = matches[leftId];
+      const correctMatch = correctMatches[leftId];
+
+      if (userMatch && userMatch === correctMatch) {
+        currentScore += 1;
+      }
+    });
+
+    setScore(currentScore);
+    setChecked(true);
+
+    if (currentScore === totalQuestions) {
+      ValidationAlert.success(`Score: ${currentScore} / ${totalQuestions}`);
+    } else if (currentScore > 0) {
+      ValidationAlert.warning(`Score: ${currentScore} / ${totalQuestions}`);
+    } else {
+      ValidationAlert.error(`Score: ${currentScore} / ${totalQuestions}`);
+    }
+  };
 
   /**
    * عرض الإجابات الصحيحة
@@ -165,121 +162,133 @@ const WB_Unit1_Page4_Q3 = () => {
   }, [matches]);
 
   return (
-    <div className="p-8 bg-white rounded-3xl max-w-4xl mx-auto">
-      <div className="flex items-center gap-4 mb-12">
-        <div className="WB-ex-A">E</div>
-        <h1 className="WB-header-title-page8">Look, read, and match.</h1>
-      </div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: "30px",
+      }}
+    >
+      <div className="div-forall">
+        <h1 className="WB-header-title-page8">
+          {" "}
+          <div className="WB-ex-A">E</div> Look, read, and match.
+        </h1>
 
-      <div ref={containerRef} className="flex justify-between gap-20 relative">
-        {/* Left Side */}
-        <div className="space-y-12">
-          {data.left.map((item) => {
-            const isWrong =
-              checked &&
-              matches[item.id] &&
-              matches[item.id] !== correctMatches[item.id];
-            const isConnected = matches[item.id] !== undefined;
+        <div
+          ref={containerRef}
+          className="flex justify-between gap-20 relative"
+        >
+          {/* Left Side */}
+          <div className="space-y-12">
+            {data.left.map((item) => {
+              const isWrong =
+                checked &&
+                matches[item.id] &&
+                matches[item.id] !== correctMatches[item.id];
+              const isConnected = matches[item.id] !== undefined;
 
-            return (
-              <div key={item.id} className="flex items-center gap-6 relative">
-                {isWrong && (
-                  <div className="wb-wrong-icon-unit1-page4-q3">✕</div>
-                )}
+              return (
+                <div key={item.id} className="flex items-center gap-6 relative">
+                  {isWrong && (
+                    <div className="wb-wrong-icon-unit1-page4-q3">✕</div>
+                  )}
 
-                <span className="font-bold text-blue-900 text-xl">
-                  {item.id}
-                </span>
-                <img
-                  src={item.img}
-                  alt=""
-                  className="max-w-16 max-h-16 rounded-full object-cover"
-                />
+                  <span className="font-bold text-blue-900 text-xl">
+                    {item.id}
+                  </span>
+                  <img
+                    src={item.img}
+                    alt=""
+                    className="max-w-16 max-h-16 rounded-full object-cover"
+                  />
 
-                {/* جعل النص قابلاً للنقر بدون خلفية */}
-                <span
-                  onClick={() => handleLeftClick(item.id)}
-                  className={`text-xl cursor-pointer transition-all duration-200 ${
-                    selectedLeft === item.id
-                      ? "text-red-600 font-bold underline decoration-red-600 decoration-2 underline-offset-2"
-                      : isConnected
+                  {/* جعل النص قابلاً للنقر بدون خلفية */}
+                  <span
+                    onClick={() => handleLeftClick(item.id)}
+                    className={`text-xl cursor-pointer transition-all duration-200 ${
+                      selectedLeft === item.id
+                        ? "text-red-600 font-bold underline decoration-red-600 decoration-2 underline-offset-2"
+                        : isConnected
+                          ? "text-black-600 font-semibold"
+                          : "text-gray-700 hover:text-red-500 hover:underline hover:decoration-red-500 hover:decoration-2 hover:underline-offset-2"
+                    }`}
+                  >
+                    {item.text}
+                  </span>
+
+                  {/* نقطة الاتصال من اليسار */}
+                  <div
+                    ref={(el) => (leftRefs.current[item.id] = el)}
+                    onClick={() => handleLeftClick(item.id)}
+                    className={`w-4 h-4 rounded-full cursor-pointer transition-all ${
+                      selectedLeft === item.id
+                        ? "bg-red-500 scale-125 shadow-lg"
+                        : isConnected
+                          ? "bg-red-500"
+                          : "bg-[#eb533c]"
+                    }`}
+                    title="انقر للاختيار"
+                  />
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Right Side */}
+          <div
+            className="space-y-18 flex flex-col items-center"
+            style={{ justifyContent: "space-evenly" }}
+          >
+            {data.right.map((item) => {
+              const isConnected = Object.values(matches).includes(item.id);
+
+              return (
+                <div key={item.id} className="flex items-center justify-end">
+                  {/* نقطة الاتصال من اليمين */}
+                  <div
+                    ref={(el) => (rightRefs.current[item.id] = el)}
+                    onClick={() => handleRightClick(item.id)}
+                    className={`w-4 h-4 rounded-full cursor-pointer transition-all ${
+                      isConnected ? "bg-red-500" : "bg-[#eb533c]"
+                    }`}
+                    title="انقر للتوصيل"
+                  />
+
+                  {/* جعل النص قابلاً للنقر بدون خلفية */}
+                  <span
+                    onClick={() => handleRightClick(item.id)}
+                    className={`text-xl cursor-pointer transition-all duration-200 w-24 text-right ${
+                      isConnected
                         ? "text-black-600 font-semibold"
                         : "text-gray-700 hover:text-red-500 hover:underline hover:decoration-red-500 hover:decoration-2 hover:underline-offset-2"
-                  }`}
-                >
-                  {item.text}
-                </span>
+                    }`}
+                  >
+                    {item.text}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
 
-                {/* نقطة الاتصال من اليسار */}
-                <div
-                  ref={(el) => (leftRefs.current[item.id] = el)}
-                  onClick={() => handleLeftClick(item.id)}
-                  className={`w-4 h-4 rounded-full cursor-pointer transition-all ${
-                    selectedLeft === item.id
-                      ? "bg-red-500 scale-125 shadow-lg"
-                      : isConnected
-                        ? "bg-red-500"
-                        : "bg-[#eb533c]"
-                  }`}
-                  title="انقر للاختيار"
-                />
-              </div>
-            );
-          })}
+          {/* رسم الخطوط بين العناصر الموصولة */}
+          <svg className="absolute top-0 left-0 w-full h-full pointer-events-none">
+            {lines.map((line, index) => (
+              <line
+                key={index}
+                x1={line.x1}
+                y1={line.y1}
+                x2={line.x2}
+                y2={line.y2}
+                stroke="red"
+                strokeWidth="2"
+              />
+            ))}
+          </svg>
         </div>
-
-        {/* Right Side */}
-        <div className="space-y-23.5">
-          {data.right.map((item) => {
-            const isConnected = Object.values(matches).includes(item.id);
-
-            return (
-              <div
-                key={item.id}
-                className="flex items-center gap-6 justify-end"
-              >
-                {/* نقطة الاتصال من اليمين */}
-                <div
-                  ref={(el) => (rightRefs.current[item.id] = el)}
-                  onClick={() => handleRightClick(item.id)}
-                  className={`w-4 h-4 rounded-full cursor-pointer transition-all ${
-                    isConnected ? "bg-red-500" : "bg-[#eb533c]"
-                  }`}
-                  title="انقر للتوصيل"
-                />
-
-                {/* جعل النص قابلاً للنقر بدون خلفية */}
-                <span
-                  onClick={() => handleRightClick(item.id)}
-                  className={`text-xl cursor-pointer transition-all duration-200 w-24 text-right ${
-                    isConnected
-                      ? "text-black-600 font-semibold"
-                      : "text-gray-700 hover:text-red-500 hover:underline hover:decoration-red-500 hover:decoration-2 hover:underline-offset-2"
-                  }`}
-                >
-                  {item.text}
-                </span>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* رسم الخطوط بين العناصر الموصولة */}
-        <svg className="absolute top-0 left-0 w-full h-full pointer-events-none">
-          {lines.map((line, index) => (
-            <line
-              key={index}
-              x1={line.x1}
-              y1={line.y1}
-              x2={line.x2}
-              y2={line.y2}
-              stroke="red"
-              strokeWidth="2"
-            />
-          ))}
-        </svg>
       </div>
-
       <Button
         handleShowAnswer={handleShowAnswer}
         handleStartAgain={handleStartAgain}

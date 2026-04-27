@@ -235,14 +235,14 @@ const WB_Unit2_Page11_Q2 = () => {
         </h1>
 
         <div
-          className="family-completion-activity p-6"
+          className="family-completion-activity"
           dir="ltr"
         >
           <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId="wordBank" direction="horizontal">
               {(provided) => (
                 <div
-                  className="words-box mb-2 border-2 border-gray-500 border-dashed rounded-xl flex flex-wrap justify-center items-center min-h-[65px]"
+                  className="words-box mb-5 rounded-xl flex flex-wrap gap-5 justify-center items-center min-h-[65px]"
                   ref={provided.innerRef}
                   {...provided.droppableProps}
                 >
@@ -259,7 +259,7 @@ const WB_Unit2_Page11_Q2 = () => {
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
                           style={provided.draggableProps.style}
-                          className={`m-1 px-4 py-2 border-2 rounded-full font-medium shadow-sm transition-colors ${
+                          className={`m-1  px-4 py-2 border-2 rounded-lg font-medium shadow-sm transition-colors ${
                             word.isUsed
                               ? "bg-gray-200 text-gray-400 cursor-not-allowed"
                               : snapshot.isDragging
@@ -296,7 +296,7 @@ const WB_Unit2_Page11_Q2 = () => {
                           <span
                             ref={provided.innerRef}
                             {...provided.droppableProps}
-                            className={`relative inline-flex items-center justify-center w-[100px] h-[40px] px-2 py-2 border-2 rounded-lg bg-white ${
+                            className={`relative inline-flex items-center justify-center w-[100px] h-[40px] px-2 py-2 border-b-2 ${
                               snapshot.isDraggingOver
                                 ? "border-blue-500 bg-blue-50"
                                 : isWrongAnswer(sentence.id)

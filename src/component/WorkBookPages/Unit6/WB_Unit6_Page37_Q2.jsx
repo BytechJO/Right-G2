@@ -90,7 +90,7 @@ const SentenceBuilder = ({
   return (
     <div className="space-y-3">
       {/* WORD BANK */}{" "}
-      <div className="flex flex-wrap gap-2 p-3 bg-gray-100 rounded-lg min-h-[50px] items-center">
+      <div className="flex flex-wrap gap-2 p-3 rounded-lg min-h-[50px] items-center">
         {availableWords.map((word) => {
           const used = isUsed(word.id);
 
@@ -100,11 +100,11 @@ const SentenceBuilder = ({
               onClick={() => {
                 if (!used) handleWordClick(word);
               }}
-              className={`px-3 py-1 border rounded-md transition
+              className={`px-3 py-1 border-2 rounded-md transition
             ${
               used
                 ? "bg-gray-100 text-gray-400 cursor-not-allowed opacity-60"
-                : "bg-white border-gray-400 hover:bg-blue-100 cursor-pointer"
+                : "bg-white border-blue-900 hover:bg-blue-100 cursor-pointer"
             }`}
             >
               {word.text}
@@ -252,7 +252,7 @@ const WB_Unit6_Page37_Q2 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
+      <div className="div-forall">
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">J</span>Unscramble and write.
         </h1>
@@ -281,14 +281,14 @@ const WB_Unit6_Page37_Q2 = () => {
             </div>
           ))}
         </div>
-        <div className="mt-20">
+      
+      </div>  <div>
           <Button
             handleShowAnswer={handleShowAnswer}
             handleStartAgain={handleStartAgain}
             checkAnswers={checkAnswers}
           />
         </div>
-      </div>
     </div>
   );
 };

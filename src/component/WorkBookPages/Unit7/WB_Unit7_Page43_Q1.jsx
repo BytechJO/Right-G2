@@ -102,14 +102,15 @@ const WB_Unit7_Page43_Q1 = () => {
   return (
     <div className="main-container-component">
       {" "}
-      <div className="div-forall gap-2">
+      <div className="div-forall">
         {" "}
-        <h1 className="WB-header-title-page8 mb-10">
+        <h1 className="WB-header-title-page8">
           {" "}
           <span className="WB-ex-A">I</span>Look, read the clue, and write.{" "}
         </h1>
+        <div className="flex flex-col gap-5">
         {/* WORD BANK */}
-        <div className="flex flex-wrap justify-center gap-6 w-full mb-2 p-4 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">
+        <div className="flex flex-wrap justify-center gap-6 w-full mb-2 p-4 rounded-xl">
           {wordsToDrag.map((word) => {
             const isUsed = Object.values(userAnswers).includes(word);
 
@@ -141,7 +142,7 @@ const WB_Unit7_Page43_Q1 = () => {
           {exerciseData.map((item) => (
             <div
               key={item.id}
-              className="flex items-center justify-center gap-6 relative"
+              className="flex items-start justify-center gap-6 relative"
             >
               <span className="text-xl font-bold text-blue-800">{item.id}</span>
               <div className="flex items-end">
@@ -182,7 +183,7 @@ const WB_Unit7_Page43_Q1 = () => {
               </div>
             </div>
           ))}
-        </div>
+        </div></div>
         <div className="mt-20 flex justify-center">
           <Button
             handleShowAnswer={handleShowAnswer}

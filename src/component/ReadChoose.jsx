@@ -65,8 +65,8 @@ const [score, setScore] = useState(0);
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        padding: "30px",
-        marginTop:"40px"
+        // padding: "30px",
+        // marginTop:"40px"
       }}
     >
       <div

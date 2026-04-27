@@ -24,7 +24,7 @@
   flex: 1;
  width: 75%;
   /* text-align: center; */
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 700;
   border-radius: 20px;
   display: inline-block;
@@ -44,8 +44,9 @@
 }
 
 .WB-unit2-page15-q1-number {
-  font-weight: 800;
-  color: purple;
+  font-weight: 700;
+  color: rgb(0, 64, 128);
+  font-size: 22px;
 }
 
 .WB-unit2-page15-q1-image-side {
@@ -121,4 +122,5 @@
   left: 27%;
   top: 19%;
   z-index: 99;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.23);
 }

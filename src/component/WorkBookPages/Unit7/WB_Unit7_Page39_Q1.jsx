@@ -98,12 +98,12 @@ export default function WB_Unit7_Page39_Q1() {
   };
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
+      <div className="div-forall">
         <h1 className="WB-header-title-page8">
           {" "}
           <span className="WB-ex-A">A</span>Look and read. Write the number.
         </h1>
-
+    <div className="flex flex-col gap-5">
         {/* Images */}
         <div className="grid grid-cols-4 gap-4 mb-8">
           {[1, 2, 3, 4].map((num) => (
@@ -124,7 +124,7 @@ export default function WB_Unit7_Page39_Q1() {
         <div className="space-y-6 mb-8">
           {exerciseDataK.questions.map((question, idx) => (
             <div key={question.id} className="flex items-center gap-4">
-              <span className="font-bold text-lg text-black">
+              <span className="font-bold text-xl text-black">
                 {String.fromCharCode(97 + idx)}.
               </span>
               <div className="relative">
@@ -151,11 +151,11 @@ export default function WB_Unit7_Page39_Q1() {
                   </div>
                 )}
               </div>
-              <p className="text-lg text-gray-700 flex-1">{question.text}</p>
+              <p className="text-xl text-gray-900 flex-1">{question.text}</p>
             </div>
           ))}
         </div>
-
+</div>
         <Button
           handleShowAnswer={handleShowAnswer}
           handleStartAgain={handleStartAgain}

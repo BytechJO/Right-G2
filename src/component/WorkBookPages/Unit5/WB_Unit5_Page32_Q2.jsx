@@ -202,8 +202,8 @@ export default function WB_Unit5_Page32_Q2() {
   };
   return (
     <div key={resetKey} className="main-container-component">
-      <div className="div-forall" style={{ gap:"10px" }}>
-        <h1 className="WB-header-title-page8  mb-6">
+      <div className="div-forall">
+        <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">B</span> Listen and circle the pictures that
           have the same
           <span className="text-blue-900 font-bold"> vowel sound</span>.
@@ -229,8 +229,8 @@ export default function WB_Unit5_Page32_Q2() {
               )}
 
               <div className="w-20 shrink-0">
-                <span className="text-blue-600 font-bold mr-1">{q.id}</span>
-                <span className="font-semibold text-gray-700">{q.word}</span>
+                <span className="text-blue-900 text-xl font-bold mr-2">{q.id}</span>
+                <span className="font-semibold text-gray-700 text-xl">{q.word}</span>
               </div>
 
               <div className="flex flex-1 justify-around">

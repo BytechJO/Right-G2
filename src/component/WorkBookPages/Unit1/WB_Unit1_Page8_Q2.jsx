@@ -20,6 +20,7 @@ import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 8
 import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 8/Ex B 5.svg";
 import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 8/Ex B 6.svg";
 import img7 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 8/Ex B 7.svg";
+
 const ALL_IMAGES = [
   { id: "lamb", src: img1, letter: "l" },
   { id: "ruler", src: img2, letter: "r" },
@@ -30,8 +31,8 @@ const ALL_IMAGES = [
   { id: "run", src: img7, letter: "r" },
 ];
 
-// مكون الصورة القابلة للسحب
-function DraggableImage({ item }) {
+// ⭐ Draggable Image
+function DraggableImage({ item, isDisabled }) {
   const {
     attributes,
     listeners,
@@ -39,35 +40,41 @@ function DraggableImage({ item }) {
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: item.id });
+  } = useSortable({
+    id: item.id,
+    disabled: isDisabled,
+  });
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    opacity: isDragging ? 0.5 : 1,
+    opacity: isDisabled ? 0.4 : isDragging ? 1 : 1,
+    height: "100px",
+    width: "100px",
+    cursor: isDisabled ? "not-allowed" : "grab",
   };
 
   return (
     <img
       ref={setNodeRef}
       style={style}
-      {...attributes}
-      {...listeners}
+      {...(!isDisabled ? attributes : {})}
+      {...(!isDisabled ? listeners : {})}
       src={item.src}
       alt={item.id}
-      className="max-w-24 max-h-24 object-contain bg-white border rounded-md shadow-sm cursor-grab touch-none active:cursor-grabbing"
+      className="object-contain bg-white border rounded-md shadow-sm"
     />
   );
 }
 
-// مكون الصندوق (منطقة الإفلات)
-function DropZone({ id, items, letter }) {
+// ⭐ Drop Zone
+function DropZone({ id, items, letter, onRemoveItem, showAnswer }) {
   const { setNodeRef, isOver } = useSortable({ id });
 
   return (
     <div
       ref={setNodeRef}
-      className={`w-full sm:w-64 min-h-[200px] border-4 border-dashed rounded-lg flex flex-col items-center p-4 transition-colors ${
+      className={`w-full sm:w-88 min-h-[250px] border-3 border-dashed rounded-lg flex flex-col items-center p-4 ${
         isOver ? "border-blue-500 bg-blue-50" : "border-gray-400"
       }`}
     >
@@ -75,51 +82,71 @@ function DropZone({ id, items, letter }) {
         {letter.toUpperCase()}
       </span>
 
-      <SortableContext items={items.map((i) => i.id)}>
-        <div className="flex flex-wrap justify-center gap-2">
-          {items.map((item) => (
-            <DraggableImage key={item.id} item={item} />
-          ))}
-        </div>
-      </SortableContext>
+      <div className="flex flex-wrap justify-center gap-2">
+        {items.map((item) => {
+          const isWrong = showAnswer && item.letter !== id;
+
+          return (
+            <div
+              key={item.id}
+              style={{ position: "relative" }}
+              onClick={() => onRemoveItem(item, id)}
+            >
+              <img
+                src={item.src}
+                alt={item.id}
+                className="w-24 h-24 object-contain bg-white border rounded-md shadow cursor-pointer"
+                style={{ height: "100px", width: "100px" }}
+              />
+
+              {/* ❌ أيقونة الخطأ */}
+              {isWrong && (
+                <div className="wrong-icon-wb-unit1-p8-q2">
+                  ✕
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
 
-// المكون الرئيسي
+// ⭐ Main Component
 const WB_Unit1_Page8_Q2_DND = () => {
   const [containers, setContainers] = useState({
     available: ALL_IMAGES,
     r: [],
     l: [],
   });
+
+  const [usedItems, setUsedItems] = useState([]); // ⭐ الجديد
   const [activeItem, setActiveItem] = useState(null);
-  const [validation, setValidation] = useState({
-    show: false,
-    score: 0,
-    total: ALL_IMAGES.length,
-  });
-  const [showAnswer, setShowAnswer] = useState(false); // ⭐ NEW
+  const [showAnswer, setShowAnswer] = useState(false);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor),
   );
 
-  const findContainer = (id) => {
-    if (id in containers) return id;
-    return Object.keys(containers).find((key) =>
-      containers[key].find((item) => item.id === id),
-    );
-  };
-
   const handleDragStart = (event) => {
     const { active } = event;
     const item = ALL_IMAGES.find((i) => i.id === active.id);
     setActiveItem(item);
-    setValidation({ show: false, score: 0, total: ALL_IMAGES.length });
   };
+  const handleRemoveItem = (item, fromContainer) => {
+    if (showAnswer) return;
 
+    // حذف من الصندوق
+    setContainers((prev) => ({
+      ...prev,
+      [fromContainer]: prev[fromContainer].filter((i) => i.id !== item.id),
+    }));
+
+    // رجّعها available (شيلها من used)
+    setUsedItems((prev) => prev.filter((id) => id !== item.id));
+  };
   const handleDragEnd = (event) => {
     const { active, over } = event;
 
@@ -128,63 +155,47 @@ const WB_Unit1_Page8_Q2_DND = () => {
       return;
     }
 
-    const fromContainer = findContainer(active.id);
     const toContainer = over.id;
 
-    if (fromContainer === toContainer) {
-      setActiveItem(null);
-      return;
-    }
-
-    // تأكد أن الهدف صندوق فعلي
     if (!containers[toContainer]) {
       setActiveItem(null);
       return;
     }
 
-    setContainers((prev) => {
-      const newContainers = { ...prev };
+    const movedItem = ALL_IMAGES.find((i) => i.id === active.id);
 
-      // إزالة العنصر من الصندوق الأصلي
-      newContainers[fromContainer] = newContainers[fromContainer].filter(
-        (item) => item.id !== active.id,
-      );
+    // ❌ منع التكرار
+    if (usedItems.includes(active.id)) {
+      setActiveItem(null);
+      return;
+    }
 
-      // منع التكرار قبل الإضافة
-      const alreadyExists = newContainers[toContainer].some(
-        (item) => item.id === active.id,
-      );
+    setContainers((prev) => ({
+      ...prev,
+      [toContainer]: [...prev[toContainer], movedItem],
+    }));
 
-      if (!alreadyExists) {
-        const movedItem = ALL_IMAGES.find((i) => i.id === active.id);
-        newContainers[toContainer] = [...newContainers[toContainer], movedItem];
-      }
-
-      return newContainers;
-    });
+    setUsedItems((prev) => [...prev, active.id]);
 
     setActiveItem(null);
   };
 
   const handleCheckAnswers = () => {
-        if (showAnswer) return; // ❌ ممنوع التعديل بعد Show Answer
+    if (showAnswer) return;
 
-    // إذا لم يتم توزيع كل الصور
-    if (containers.available.length > 0) {
-      ValidationAlert.info("Please drag all images into the boxes!");
+    if (usedItems.length !== ALL_IMAGES.length) {
+      ValidationAlert.info("Please drag all images!");
       return;
     }
 
     let correctCount = 0;
 
-    // احسب الصح في صندوق r
     correctCount += containers.r.filter((img) => img.letter === "r").length;
-
-    // احسب الصح في صندوق l
     correctCount += containers.l.filter((img) => img.letter === "l").length;
 
     const total = ALL_IMAGES.length;
-setShowAnswer(true)
+    setShowAnswer(true);
+
     if (correctCount === total) {
       ValidationAlert.success(`Score: ${correctCount}/${total}`);
     } else if (correctCount > 0) {
@@ -193,19 +204,25 @@ setShowAnswer(true)
       ValidationAlert.error(`Score: ${correctCount}/${total}`);
     }
   };
-
+const isWrongPlacement = (item, containerId) => {
+  return showAnswer && item.letter !== containerId;
+};
   const handleReset = () => {
     setContainers({ available: ALL_IMAGES, r: [], l: [] });
-    setShowAnswer(false)
-    setValidation({ show: false, score: 0, total: ALL_IMAGES.length });
+    setUsedItems([]);
+    setShowAnswer(false);
   };
 
   const handleShowAnswer = () => {
-    const correctContainers = { available: [], r: [], l: [] };
-    ALL_IMAGES.forEach((img) => correctContainers[img.letter].push(img));
-    setShowAnswer(true)
+    const correctContainers = { available: ALL_IMAGES, r: [], l: [] };
+
+    ALL_IMAGES.forEach((img) => {
+      correctContainers[img.letter].push(img);
+    });
+
+    setUsedItems(ALL_IMAGES.map((img) => img.id));
     setContainers(correctContainers);
-    setValidation({ show: false, score: 0, total: ALL_IMAGES.length });
+    setShowAnswer(true);
   };
 
   return (
@@ -223,69 +240,64 @@ setShowAnswer(true)
           padding: "30px",
         }}
       >
-        <div
-          className="div-forall"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "30px",
-            width: "60%",
-            justifyContent: "flex-start",
-          }}
-        >
+        <div className="div-forall">
           <h1 className="WB-header-title-page8">
-            <span className="WB-ex-A">B</span>What are they? Write the words in
-            the correct places.
+            <span className="WB-ex-A">B</span> What are they? Write the words in the correct places.
           </h1>
 
-          {/* منطقة الصور المتاحة */}
-          <div className="flex flex-wrap justify-center items-center gap-4 mb-8 p-4 min-h-[120px] bg-gray-100 rounded-lg border-2 border-dashed">
-            <SortableContext items={containers.available.map((i) => i.id)}>
+          {/* ⭐ Available Images */}
+          <div className="grid grid-cols-7 gap-2 mb-8">
+            <SortableContext
+              key={usedItems.length} // ⭐ هذا الحل
+              items={containers.available.map((i) => i.id)}
+            >
               {containers.available.map((item) => (
-                <DraggableImage key={item.id} item={item} />
+                <DraggableImage
+                  key={item.id}
+                  item={item}
+                  isDisabled={usedItems.includes(item.id)}
+                />
               ))}
             </SortableContext>
-            {containers.available.length === 0 && (
-              <span className="text-gray-400">
-                All images have been placed!
-              </span>
-            )}
           </div>
 
-          {/* الصناديق */}
-          <div className="flex flex-col sm:flex-row gap-10 justify-center mb-6">
-            <DropZone id="r" items={containers.r} letter="r" />
-            <DropZone id="l" items={containers.l} letter="l" />
+          {/* ⭐ Drop Zones */}
+          <div className="flex gap-10 mb-6">
+          <DropZone
+  id="r"
+  items={containers.r}
+  letter="r"
+  onRemoveItem={handleRemoveItem}
+  showAnswer={showAnswer}
+/>
+
+<DropZone
+  id="l"
+  items={containers.l}
+  letter="l"
+  onRemoveItem={handleRemoveItem}
+  showAnswer={showAnswer}
+/>
+           
           </div>
 
-          {validation.show && (
-            <ValidationAlert
-              score={validation.score}
-              total={validation.total}
-            />
-          )}
+          <Button
+            handleShowAnswer={handleShowAnswer}
+            handleStartAgain={handleReset}
+            checkAnswers={handleCheckAnswers}
+          />
 
-          <div className="mt-6">
-            <Button
-              handleShowAnswer={handleShowAnswer}
-              handleStartAgain={handleReset}
-              checkAnswers={handleCheckAnswers}
-            />
-          </div>
-        </div>
-
-        <DragOverlay>
-          {activeItem ? (
-            <>
+          {/* ⭐ Drag Preview */}
+          <DragOverlay>
+            {activeItem ? (
               <img
                 src={activeItem.src}
                 alt={activeItem.id}
-                className="max-w-24 max-h-24 object-contain bg-white border rounded-md shadow-lg"
+                style={{ height: "120px" }}
               />
-              <h5>{activeItem.id}</h5>
-            </>
-          ) : null}
-        </DragOverlay>
+            ) : null}
+          </DragOverlay>
+        </div>
       </div>
     </DndContext>
   );

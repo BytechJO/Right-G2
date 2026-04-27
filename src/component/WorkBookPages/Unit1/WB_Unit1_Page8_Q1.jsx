@@ -9,58 +9,41 @@ import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 8
 import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 8/Ex A 5.svg";
 import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 8/Ex A 6.svg";
 
-import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-
 const data = [
-  { img: img1, scrambled: "emon", answer: "l", pattern: "emon" },
-  { img: img2, scrambled: "at", answer: "r", pattern: "at" },
-  {
-    img: img3,
-    scrambled: "abbit",
-    answer: "r",
-    pattern: "abbit",
-  },
-
-  { img: img4, scrambled: "obot", answer: "r", pattern: "obot" },
-  { img: img5, scrambled: "amp", answer: "l", pattern: "amp" },
-  { img: img6, scrambled: "uler", answer: "r", pattern: "uler" },
+  { img: img1, answer: "l", pattern: "emon" },
+  { img: img2, answer: "r", pattern: "at" },
+  { img: img3, answer: "r", pattern: "abbit" },
+  { img: img4, answer: "r", pattern: "obot" },
+  { img: img5, answer: "l", pattern: "amp" },
+  { img: img6, answer: "r", pattern: "uler" },
 ];
+
+const options = ["r", "l"];
 
 const WB_Unit1_Page8_Q1 = () => {
   const [inputs, setInputs] = useState(Array(data.length).fill(""));
   const [wrongInputs, setWrongInputs] = useState(
-    Array(data.length).fill(false),
+    Array(data.length).fill(false)
   );
-  const [showAnswer, setShowAnswer] = useState(false); // ⭐ NEW
-  const lettersBank = [...new Set(data.map((item) => item.answer))].map(
-    (letter, i) => ({
-      id: `l-${i}`,
-      value: letter,
-    }),
-  );
+  const [showAnswer, setShowAnswer] = useState(false);
 
-  const onDragEnd = (result) => {
-    if (!result.destination || showAnswer) return;
+  const handleChange = (value, index) => {
+    if (showAnswer) return;
 
-    const letter = result.draggableId;
-    const targetIndex = Number(result.destination.droppableId);
-
-    setInputs((prev) => {
-      const copy = [...prev];
-      copy[targetIndex] = letter; // ✔ نفس الحرف مسموح يتكرر
-      return copy;
-    });
+    const newInputs = [...inputs];
+    newInputs[index] = value;
+    setInputs(newInputs);
 
     setWrongInputs(Array(data.length).fill(false));
   };
 
   const checkAnswers = () => {
-    if (showAnswer) return; // ❌ ممنوع التعديل بعد Show Answer
+    if (showAnswer) return;
 
-    if (inputs.some((val) => val.trim() === "")) {
+    if (inputs.some((val) => val === "")) {
       ValidationAlert.info(
         "Oops!",
-        "Please fill in all the answers before checking.",
+        "Please fill in all the answers before checking."
       );
       return;
     }
@@ -69,7 +52,7 @@ const WB_Unit1_Page8_Q1 = () => {
     const wrongFlags = [];
 
     data.forEach((item, index) => {
-      if (inputs[index].toLowerCase() === item.answer) {
+      if (inputs[index] === item.answer) {
         correctCount++;
         wrongFlags[index] = false;
       } else {
@@ -79,6 +62,7 @@ const WB_Unit1_Page8_Q1 = () => {
 
     setWrongInputs(wrongFlags);
     setShowAnswer(true);
+
     const total = data.length;
     const color =
       correctCount === total ? "green" : correctCount === 0 ? "red" : "orange";
@@ -97,11 +81,10 @@ const WB_Unit1_Page8_Q1 = () => {
   };
 
   const handleShowAnswer = () => {
-    setShowAnswer(true);
     const correct = data.map((item) => item.answer);
-    setInputs(correct); // ⭐ تعبئة الإجابة الصحيحة
+    setInputs(correct);
     setWrongInputs(Array(data.length).fill(false));
-    
+    setShowAnswer(true);
   };
 
   const reset = () => {
@@ -111,8 +94,7 @@ const WB_Unit1_Page8_Q1 = () => {
   };
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <div
+       <div
         style={{
           display: "flex",
           flexDirection: "column",
@@ -123,146 +105,76 @@ const WB_Unit1_Page8_Q1 = () => {
       >
         <div
           className="div-forall"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "30px",
-            width: "60%",
-            justifyContent: "flex-start",
-          }}
+          
         >
-          <div className="unscramble-container">
-            <h3 className="WB-header-title-page8">
-              <span className="WB-ex-A">A</span> Look and write the missing
-              letters. Read.
-            </h3>
+      <h3 className="WB-header-title-page8">
+        <span className="WB-ex-A">A</span> Look and write the missing letters.
+      </h3>
 
-            <Droppable droppableId="letters" direction="horizontal">
-              {(provided) => (
-                <div
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                  style={{
-                    display: "flex",
-                    gap: "12px",
-                    padding: "10px",
-                    border: "2px dashed #ccc",
-                    borderRadius: "10px",
-                    marginTop: "20px",
-                    justifyContent: "center",
-                    width: "100%",
-                    // justifyContent: "center",
-                  }}
-                >
-                  {lettersBank.map((l, i) => (
-                    <Draggable
-                      key={l.id}
-                      draggableId={l.value}
-                      index={i}
-                      isDragDisabled={showAnswer}
-                    >
-                      {(provided) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          style={{
-                            padding: "7px 14px",
-                            border: "2px solid #2c5287",
-                            borderRadius: "8px",
-                            background: "white",
-                            fontWeight: "bold",
-                            cursor: "grab",
-                            fontSize: "22px",
-                            ...provided.draggableProps.style,
-                          }}
-                        >
-                          {l.value}
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
+      <div className="unscramble-row-wb-unit1-p8-q1">
+       {data.map((item, index) => (
+  <div className="unscramble-box" key={index}>
+    <div className="WB-unit1-p8-q1-middle-section"> 
+    {/* الصف العلوي */}
+    <div className="input-row-wb-unit1-p8-q1">
+      <span className="num">{index + 1}</span>
 
-            <div className="unscramble-row-wb-unit1-p8-q1 ">
-              {data.map((item, index) => (
-                <div className="unscramble-box" key={index}>
-                  
-                  <div className="input-row-wb-unit1-p8-q1">
-                    <span
-                      className="num"
-                      style={{ fontSize: "25px", fontWeight: "600" }}
-                    >
-                      {index + 1}
-                    </span>
-
-                    <div className="input-wrapper-wb-unit1-page8-q1">
-                      <Droppable
-                        droppableId={String(index)}
-                        isDropDisabled={showAnswer}
-                      >
-                        {(provided, snapshot) => (
-                          <div
-                            ref={provided.innerRef}
-                            {...provided.droppableProps}
-                            className={`WB-unit1-p8-q1-input ${
-                            snapshot.isDraggingOver ? "drag-over-cell" : ""
-                          }`}
-                            style={{
-                              background: snapshot.isDraggingOver
-                                ? "#e3f2fd"
-                                : "white",
-                              fontSize: "25px",
-                              fontWeight: "600",
-                            }}
-                          >
-                            {inputs[index]}
-                            {provided.placeholder}
-                          </div>
-                        )}
-                      </Droppable>
-
-                      {/* ❌ علامة الخطأ */}
-                      {wrongInputs[index] && (
-                        <div className="error-icon-wb-unit1-p8-q1">✕</div>
-                      )}
-                    </div>
-
-                    <span className="pattern" style={{ fontSize: "22px" }}>
-                      {item.pattern}
-                    </span>
-                    <div className="img-box-wb-unit1-p8-q1">
-                    <img src={item.img} alt="" />
-                  </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+      {/* ⭐ input */}
+      <div className="input-wrapper-wb-unit1-page8-q1">
+        <div className="WB-unit1-p8-q1-input">
+          {inputs[index]}
         </div>
 
-        {/* ⭐ BUTTONS */}
-        <div className="action-buttons-container">
-          <button onClick={reset} className="try-again-button">
-            Start Again ↻
-          </button>
-
-          <button
-            onClick={handleShowAnswer}
-            className="show-answer-btn swal-continue"
-          >
-            Show Answer
-          </button>
-
-          <button onClick={checkAnswers} className="check-button2">
-            Check Answer ✓
-          </button>
-        </div>
+        {wrongInputs[index] && (
+          <div className="error-icon-wb-unit1-p8-q1">✕</div>
+        )}
       </div>
-    </DragDropContext>
+        <span className="WB-unit1-p8-q1-pattern">{item.pattern}</span>
+    </div>
+
+    {/* الكلمة + الصورة */}
+   
+    
+
+      <div className="img-box-wb-unit1-p8-q1">
+        <img src={item.img} alt="" />
+      </div>
+    </div>
+
+    {/* ⭐ الخيارات تحت */}
+    <div className="WB-unit1-p8-q1-choices">
+      {options.map((opt) => (
+        <button
+          key={opt}
+          onClick={() => handleChange(opt, index)}
+          disabled={showAnswer}
+          className={`WB-unit1-p8-q1-choice-btn ${
+            inputs[index] === opt ? "selected" : ""
+          }`}
+        >
+          {opt}
+        </button>
+      ))}
+    </div>
+
+  </div>
+))}
+      </div>
+
+      <div className="action-buttons-container">
+        <button onClick={reset} className="try-again-button">
+          Start Again ↻
+        </button>
+
+        <button onClick={handleShowAnswer} className="show-answer-btn">
+          Show Answer
+        </button>
+
+        <button onClick={checkAnswers} className="check-button2">
+          Check Answer ✓
+        </button>
+      </div>
+    </div></div>
   );
 };
 

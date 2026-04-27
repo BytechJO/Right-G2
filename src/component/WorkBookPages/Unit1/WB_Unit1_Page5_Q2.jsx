@@ -149,7 +149,8 @@ const getWordUsageCount = (word) => {
           <h1 className="WB-header-title-page8">
             <div className="WB-ex-A">G</div>Look, read, and complete.
           </h1>
-
+          
+          <div >
           <div className="flex justify-center">
             <Droppable
               droppableId="words"
@@ -162,14 +163,15 @@ const getWordUsageCount = (word) => {
                   {...provided.droppableProps}
                   style={{
                     display: "flex",
-                    gap: "10px",
+                    gap: "30px",
                     padding: "10px",
-                    border: "2px dashed #ccc",
+                    // border: "2px dashed #ccc",
                     borderRadius: "10px",
-                    // margin: "10px 0",
+                    marginBottom: "30px",
                     alignItems: "center",
                     justifyContent: "center",
                     width: "80%",
+                  
                   }}
                 >
                   {words.map((word, index) => {
@@ -286,7 +288,7 @@ const isUsed = usageCount >= WORD_LIMITS[word.text];
               );
             })}
           </div>
-
+</div>
           <div className="mt-16 flex justify-center">
             <Button
               handleShowAnswer={handleShowAnswer}

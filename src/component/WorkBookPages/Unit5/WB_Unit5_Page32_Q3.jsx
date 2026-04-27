@@ -167,10 +167,10 @@ const checkAnswers = () => {
   };
   const getWordClass = (col, word) => {
     const base =
-      "px-3 py-2 rounded-lg text-sm font-semibold cursor-move transition-all border-2 ";
+      "px-3 py-2 rounded-lg text-lg font-semibold cursor-move transition-all border-2 ";
 
     if (!showResult) {
-      return base + "bg-blue-500 text-white border-blue-500 hover:bg-blue-600";
+      return base + "border-blue-900 hover:bg-blue-100";
     }
 
     const isCorrect = correctAnswers[col].includes(word);
@@ -185,7 +185,7 @@ const checkAnswers = () => {
 
   const getColClass = (col) => {
     const base =
-      "border-2 border-dashed rounded-xl p-4 min-h-[160px] transition-all";
+      "border-2 border-dashed border-gray-300 rounded-xl p-4 min-h-[160px] transition-all";
 
     if (!showResult) {
       return base + "border-gray-300 bg-white hover:border-blue-400";
@@ -212,7 +212,7 @@ const checkAnswers = () => {
           <div
             onDragOver={(e) => e.preventDefault()}
             onDrop={handleDropOnBank}
-            className="flex flex-wrap gap-3 p-4 bg-gray-100 rounded-xl min-h-[80px] border-2 border-dashed border-gray-300"
+            className="flex flex-wrap gap-3 p-4 rounded-xl min-h-[80px]"
           >
             {wordBank.map((word) => {
               const used = isWordUsed(word);
@@ -225,7 +225,7 @@ const checkAnswers = () => {
                     if (!used) handleDragStart(word, "bank");
                   }}
                   onDragEnd={handleDragEnd}
-                  className={`px-4 py-2 border-2 rounded-lg text-sm font-semibold shadow-sm transition-all
+                  className={`px-4 py-2 border-2 rounded-lg text-lg font-semibold shadow-sm transition-all
         ${
           used
             ? "bg-gray-100 text-gray-400 cursor-not-allowed opacity-60"
@@ -250,7 +250,7 @@ const checkAnswers = () => {
               <div className="flex items-center gap-2 mb-3">
                 <img src={col.img} alt={col.key} style={{ height: "120px" }} />
 
-                <span className="font-bold text-gray-700 text-lg">
+                <span className="font-bold text-gray-700 text-xl">
                   {col.key}
                 </span>
                 <span className="text-xs text-gray-400">

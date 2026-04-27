@@ -4,7 +4,8 @@ import React, { useState } from "react";
 import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import placeholderImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page27/Ex B 1.svg";
-
+import trueIcon from "../../../assets/imgs/true.svg";
+import falseIcon from "../../../assets/imgs/false.svg";
 const exerciseData = [
   { id: "b1", sentence: "I don't like rice.", correctAnswer: "✘" },
   { id: "b2", sentence: "I like stew.", correctAnswer: "✘" },
@@ -85,7 +86,7 @@ const WB_Unit5_Page27_Q2 = () => {
   };
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "30px" }}>
+      <div className="div-forall">
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">B</span>Look, read, and write{" "}
           <span style={{ color: "navy" }}>✓</span> or{" "}
@@ -111,14 +112,14 @@ const WB_Unit5_Page27_Q2 = () => {
                           className={`w-10 h-10 border-2 rounded-md flex items-center justify-center cursor-pointer transition-all
       ${
         selections[item.id] === "✓"
-          ? "border-green-600 bg-green-50"
+          ? "border-blue-900 bg-blue-50"
           : "border-gray-400"
       }
       ${isThisOptionWrong(item, "✓") ? "border-red-500 bg-white" : ""}
     `}
                         >
                           <span className="text-green-600 font-bold text-2xl">
-                            ✓
+                            <img src={trueIcon} style={{ height: "25px" }} />
                           </span>
                         </div>
 
@@ -137,14 +138,14 @@ const WB_Unit5_Page27_Q2 = () => {
                           className={`w-10 h-10 border-2 rounded-md flex items-center justify-center cursor-pointer transition-all
       ${
         selections[item.id] === "✘"
-          ? "border-red-600 bg-red-50"
+          ? "border-blue-900 bg-blue-50"
           : "border-gray-400"
       }
       ${isThisOptionWrong(item, "✘") ? "border-red-500  bg-white" : ""}
     `}
                         >
                           <span className="text-red-600 font-bold text-2xl">
-                            ✘
+                            <img src={falseIcon} style={{ height: "25px" }} />
                           </span>
                         </div>
 
@@ -157,8 +158,8 @@ const WB_Unit5_Page27_Q2 = () => {
                       </div>
                     </div>
 
-                    <span className="font-bold text-blue-600">{index + 1}</span>
-                    <p className="text-lg">{item.sentence}</p>
+                    <span className="font-bold text-blue-900 text-xl">{index + 1}</span>
+                    <p className="text-xl">{item.sentence}</p>
                   </div>
                 </div>
               </div>

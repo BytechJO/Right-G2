@@ -41,12 +41,12 @@ const Unit9_Page2 = ({ openPopup }) => {
     title: "Read and circle.",
     questions: [
       {
-        text: "Helen likes",
+        text: "Grandpa is listening to the radio because",
         options: ["grapes.", "carrots.", "rice."],
         correct: "rice.",
       },
       {
-        text: "Tom doesn’t like",
+        text: "My dad and uncle are not playing soccer because",
         options: ["meat.", "apple juice.", "fish."],
         correct: "fish.",
       },

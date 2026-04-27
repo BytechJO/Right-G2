@@ -11,7 +11,9 @@ import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 3
 import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 38/Ex B 4.svg";
 import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 38/Ex B 5.svg";
 import QuestionAudioPlayer from "../../QuestionAudioPlayer";
-
+import trueIcon from "../../../assets/imgs/true.svg";
+import falseIcon from "../../../assets/imgs/false.svg";
+import { tr } from "framer-motion/client";
 const exerciseData = [
   { id: "b1", src: img1, correctAnswer: "✓" },
   { id: "b2", src: img2, correctAnswer: "✓" },
@@ -116,7 +118,7 @@ const WB_Unit6_Page38_Q2 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
+      <div className="div-forall">
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">C</span>Does it have long i? Listen and
           write <span className="text-blue-900">✓</span> or{" "}
@@ -139,15 +141,15 @@ const WB_Unit6_Page38_Q2 = () => {
                 />
               </div>
               <div className="relative">
-               <div className="flex gap-2">
-  {/* ✅ YES BOX */}
-  <div className="relative">
-    <div
-      onClick={() => handleBoxClick(item.id, "✓")}
-      className={`w-12 h-12 border-2 rounded-md flex items-center justify-center cursor-pointer transition-all
+                <div className="flex gap-2">
+                  {/* ✅ YES BOX */}
+                  <div className="relative">
+                    <div
+                      onClick={() => handleBoxClick(item.id, "✓")}
+                      className={`w-12 h-12 border-2 rounded-md flex items-center justify-center cursor-pointer transition-all
         ${
           selections[item.id] === "✓"
-            ? "border-green-600 bg-green-50"
+            ? "border-blue-900 bg-blue-100"
             : "border-gray-400"
         }
         ${
@@ -158,28 +160,30 @@ const WB_Unit6_Page38_Q2 = () => {
             : ""
         }
       `}
-    >
-      <span className="text-green-600 text-2xl font-bold">✓</span>
-    </div>
+                    >
+                      <span className="text-green-600 text-2xl font-bold">
+                        <img src={trueIcon} style={{ height: "25px" }} />
+                      </span>
+                    </div>
 
-    {/* ❌ error on YES */}
-    {showResults &&
-      selections[item.id] === "✓" &&
-      selections[item.id] !== item.correctAnswer && (
-        <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold border-2 border-white">
-          ✕
-        </div>
-      )}
-  </div>
+                    {/* ❌ error on YES */}
+                    {showResults &&
+                      selections[item.id] === "✓" &&
+                      selections[item.id] !== item.correctAnswer && (
+                        <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold border-2 border-white">
+                          ✕
+                        </div>
+                      )}
+                  </div>
 
-  {/* ❌ NO BOX */}
-  <div className="relative">
-    <div
-      onClick={() => handleBoxClick(item.id, "✘")}
-      className={`w-12 h-12 border-2 rounded-md flex items-center justify-center cursor-pointer transition-all
+                  {/* ❌ NO BOX */}
+                  <div className="relative">
+                    <div
+                      onClick={() => handleBoxClick(item.id, "✘")}
+                      className={`w-12 h-12 border-2 rounded-md flex items-center justify-center cursor-pointer transition-all
         ${
           selections[item.id] === "✘"
-            ? "border-red-600 bg-red-50"
+            ? "border-blue-900 bg-blue-100"
             : "border-gray-400"
         }
         ${
@@ -190,20 +194,23 @@ const WB_Unit6_Page38_Q2 = () => {
             : ""
         }
       `}
-    >
-      <span className="text-red-600 text-2xl font-bold">✘</span>
-    </div>
+                    >
+                      <span className="text-red-600 text-2xl font-bold">
+                        {" "}
+                        <img src={falseIcon} style={{ height: "25px" }} />
+                      </span>
+                    </div>
 
-    {/* ❌ error on NO */}
-    {showResults &&
-      selections[item.id] === "✘" &&
-      selections[item.id] !== item.correctAnswer && (
-        <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold border-2 border-white">
-          ✕
-        </div>
-      )}
-  </div>
-</div>
+                    {/* ❌ error on NO */}
+                    {showResults &&
+                      selections[item.id] === "✘" &&
+                      selections[item.id] !== item.correctAnswer && (
+                        <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold border-2 border-white">
+                          ✕
+                        </div>
+                      )}
+                  </div>
+                </div>
               </div>
             </div>
           ))}

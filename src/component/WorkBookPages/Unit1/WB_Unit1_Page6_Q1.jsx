@@ -144,17 +144,12 @@ const WB_Unit1_Page6_Q1 = () => {
       >
         <div
           className="div-forall"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "30px",
-            width: "60%",
-            justifyContent: "flex-start",
-          }}
+       
         >
           <h1 className="WB-header-title-page8">
             <span className="WB-ex-A">H</span>Look, read, and complete.
           </h1>
+          <div className="flex flex-col gap-5">
           <Droppable droppableId="words" direction="horizontal">
             {(provided) => (
               <div
@@ -164,7 +159,7 @@ const WB_Unit1_Page6_Q1 = () => {
                   display: "flex",
                   gap: "10px",
                   padding: "10px",
-                  border: "2px dashed #ccc",
+                  // border: "2px dashed #ccc",
                   borderRadius: "10px",
                   // margin: "10px 0",
                   alignItems: "center",
@@ -194,7 +189,7 @@ const WB_Unit1_Page6_Q1 = () => {
                             background: isUsed ? "#ccc" : "white",
                             opacity: isUsed ? 0.6 : 1,
                             cursor: isUsed ? "not-allowed" : "grab",
-                            fontSize: "15px",
+                            fontSize: "18px",
                             ...provided.draggableProps.style,
                           }}
                         >
@@ -437,7 +432,7 @@ const WB_Unit1_Page6_Q1 = () => {
               </div>
             </div>
           </div>
-
+</div>
           <Button
             handleShowAnswer={handleShowAnswer}
             handleStartAgain={handleStartAgain}

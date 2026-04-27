@@ -124,7 +124,7 @@ const WB_Unit1_Page7_Q2 = () => {
               {...provided.droppableProps}
               className={`inline-flex mx-3 px-2 min-h-[15px] ${width} items-center justify-center border-b-2 text-center text-lg align-middle ${
                 snapshot.isDraggingOver
-                  ? "bg-yellow-100 border-yellow-400"
+                  ? "bg-blue-100 border-blue-400 border-dashed"
                   : "border-gray-400"
               } ${isWrong &&"border-red-500"}`}
             >
@@ -150,26 +150,20 @@ const WB_Unit1_Page7_Q2 = () => {
       >
         <div
           className="div-forall"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            // gap: "30px",
-            width: "60%",
-            justifyContent: "flex-start",
-          }}
+          
         >
           <h1 className="WB-header-title-page8">
             <span className="WB-ex-A">L</span> Look, read, and complete. Use the
             words from the box.
           </h1>
 
-          <div className="family-completion-activity p-6" dir="ltr">
+          <div className="family-completion-activity p-6 flex flex-col gap-5" dir="ltr">
             <Droppable droppableId="words" direction="horizontal">
               {(provided) => (
                 <div
                   ref={provided.innerRef}
                   {...provided.droppableProps}
-                  className="words-box mb-8 p-4 border-2 border-gray-400 rounded-xl border-dashed flex flex-wrap justify-center items-center gap-2"
+                  className="words-box mb-2 p-4 flex flex-wrap justify-center items-center gap-5"
                 >
                   {words.map((word, index) => {
                     const isUsed = Object.values(answers).includes(word);
@@ -186,7 +180,7 @@ const WB_Unit1_Page7_Q2 = () => {
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
-                            className="px-4 py-2 bg-white border-2 border-blue-700 rounded text-blue-700 font-medium shadow-sm"
+                            className="px-4 py-2 bg-white border-2 border-blue-900 rounded text-blue-900 font-medium shadow-sm"
                             style={{
                               ...provided.draggableProps.style, // 🔥 هذا أهم سطر
                               background: isUsed ? "#ccc" : "white",

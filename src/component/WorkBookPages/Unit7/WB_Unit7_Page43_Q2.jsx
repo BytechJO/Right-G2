@@ -181,7 +181,7 @@ const WB_Unit7_Page43_Q2 = () => {
           ref={containerRef}
           className="flex justify-between items-center gap-20 relative mb-20"
         >
-          <div className="space-y-26">
+          <div className="space-y-20">
             {exerciseData.left.map((item) => {
               const isWrong =
                 showResults &&
@@ -234,7 +234,7 @@ const WB_Unit7_Page43_Q2 = () => {
             })}
           </div>
 
-          <div className="space-y-8">
+          <div className="space-y-2">
             {exerciseData.right.map((item) => (
               <div key={item.id} className="flex items-center gap-6">
                 <div

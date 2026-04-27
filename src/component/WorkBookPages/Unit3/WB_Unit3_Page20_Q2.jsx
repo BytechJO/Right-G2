@@ -1,5 +1,4 @@
-import React, { useMemo, useState, useRef, useEffect } from "react";
-import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+import React, { useMemo, useState } from "react";
 import sound from "../../../assets/audio/WorkBook/cd3pg20instruction-adult-lady_bOtPfDKP.mp3";
 import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
@@ -9,7 +8,6 @@ import QuestionAudioPlayer from "../../QuestionAudioPlayer";
 const conversations = [
   {
     id: "conv1",
-    audioSrc: "/audio/conversation1.mp3",
     lines: [
       {
         speaker: "Stella",
@@ -40,7 +38,6 @@ const conversations = [
   },
   {
     id: "conv2",
-    audioSrc: "/audio/conversation2.mp3",
     lines: [
       {
         speaker: "Stella",
@@ -70,18 +67,13 @@ const conversations = [
 ];
 
 const buildInitialState = () => {
-  const state = {
-    wordBank: [
-      { id: "bank_y", text: "y" },
-      { id: "bank_j", text: "j" },
-    ],
-  };
+  const state = {};
 
   conversations.forEach((conv) => {
     conv.lines.forEach((line) => {
       line.text.forEach((part) => {
         if (typeof part === "object") {
-          state[part.id] = [];
+          state[part.id] = "";
         }
       });
     });
@@ -97,56 +89,14 @@ const WB_Unit3_Page20_Q2 = () => {
 
   const stopAtSecond = 9.159;
 
-  // ================================
-  // ✔ Captions Array
-  // ================================
-const captions = [
-  {
-    start: 0.5,
-    end: 9.159,
-    text: "Page 20 phonics, exercise B. Listen and write the missing letters. Practice the conversation in pairs.",
-  },
-  {
-    start: 10.199,
-    end: 11.619,
-    text: "Where's my yo-yo, John?",
-  },
-  {
-    start: 12.719,
-    end: 14.239,
-    text: "Which one?",
-  },
-  {
-    start: 14.239,
-    end: 16.92,
-    text: "The yellow one. It's yellow like a banana.",
-  },
-  {
-    start: 17.94,
-    end: 19.1,
-    text: "Oh, yes. Here you are.",
-  },
-  {
-    start: 20.159,
-    end: 21.5,
-    text: "Where are my jeans, John?",
-  },
-  {
-    start: 22.559,
-    end: 24.119,
-    text: "Which ones?",
-  },
-  {
-    start: 24.119,
-    end: 26.739,
-    text: "The blue ones that I bought with the red jacket.",
-  },
-  {
-    start: 27.76,
-    end: 28.379,
-    text: "Here you are.",
-  },
-];
+  const captions = [
+    {
+      start: 0.5,
+      end: 9.159,
+      text: "Page 20 phonics, exercise B. Listen and write the missing letters. Practice the conversation in pairs.",
+    },
+  ];
+
   const allBlanks = useMemo(() => {
     const blanks = [];
     conversations.forEach((conv) => {
@@ -163,91 +113,24 @@ const captions = [
 
   const isWrongAnswer = (blankId, correctLetter) => {
     if (!showResults) return false;
-    const dropped = items[blankId]?.[0]?.text;
-    if (!dropped) return false;
-
-    return normalize(dropped) !== normalize(correctLetter);
+    if (!items[blankId]) return false;
+    return normalize(items[blankId]) !== normalize(correctLetter);
   };
 
-  const onDragEnd = (result) => {
-      if (showResults) return; // ✅ يمنع أي سحب
-    const { source, destination } = result;
-    if (!destination) return;
+  const handleChange = (blankId, value) => {
+    if (showResults) return;
 
-    setShowResults(false);
-
-    if (
-      source.droppableId === destination.droppableId &&
-      source.index === destination.index
-    ) {
-      return;
-    }
-
-    setItems((prev) => {
-      const newState = { ...prev };
-
-      // إذا السحب من wordBank إلى فراغ: نعمل clone
-      if (
-        source.droppableId === "wordBank" &&
-        destination.droppableId !== "wordBank"
-      ) {
-        const sourceItem = prev.wordBank[source.index];
-        const destList = Array.from(newState[destination.droppableId]);
-
-        const clonedItem = {
-          id: `${sourceItem.text}_${destination.droppableId}_${Date.now()}`,
-          text: sourceItem.text,
-        };
-
-        destList.splice(0, destList.length, clonedItem);
-        newState[destination.droppableId] = destList;
-        return newState;
-      }
-
-      // إذا من فراغ إلى wordBank: نحذف من الفراغ فقط
-      if (
-        source.droppableId !== "wordBank" &&
-        destination.droppableId === "wordBank"
-      ) {
-        newState[source.droppableId] = [];
-        return newState;
-      }
-
-      // إذا من فراغ إلى فراغ
-      if (
-        source.droppableId !== "wordBank" &&
-        destination.droppableId !== "wordBank"
-      ) {
-        const sourceList = Array.from(newState[source.droppableId]);
-        const destList = Array.from(newState[destination.droppableId]);
-        const [movedItem] = sourceList.splice(source.index, 1);
-
-        destList.splice(0, destList.length, movedItem);
-
-        newState[source.droppableId] = sourceList;
-        newState[destination.droppableId] = destList;
-        return newState;
-      }
-
-      return newState;
-    });
+    setItems((prev) => ({
+      ...prev,
+      [blankId]: value,
+    }));
   };
 
   const handleShowAnswer = () => {
-    const filledAnswers = {
-      wordBank: [
-        { id: "bank_y", text: "y" },
-        { id: "bank_j", text: "j" },
-      ],
-    };
+    const filledAnswers = {};
 
-    allBlanks.forEach((blank, index) => {
-      filledAnswers[blank.id] = [
-        {
-          id: `ans_${index + 1}`,
-          text: blank.correct,
-        },
-      ];
+    allBlanks.forEach((blank) => {
+      filledAnswers[blank.id] = blank.correct;
     });
 
     setItems(filledAnswers);
@@ -261,9 +144,8 @@ const captions = [
 
   const checkAnswers = () => {
     if (showResults) return;
-    const allFilled = allBlanks.every(
-      (blank) => items[blank.id] && items[blank.id].length > 0,
-    );
+
+    const allFilled = allBlanks.every((blank) => items[blank.id]);
 
     if (!allFilled) {
       ValidationAlert.info("Please fill all blanks first.");
@@ -276,7 +158,7 @@ const captions = [
     const total = allBlanks.length;
 
     allBlanks.forEach((blank) => {
-      if (normalize(items[blank.id][0]?.text) === normalize(blank.correct)) {
+      if (normalize(items[blank.id]) === normalize(blank.correct)) {
         score++;
       }
     });
@@ -292,131 +174,74 @@ const captions = [
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
+      <div className="div-forall">
         <h1 className="WB-header-title-page8">
-          <span className="WB-ex-A">B</span> Listen and drag the missing
+          <span className="WB-ex-A">B</span> Listen and select the missing
           letters.
         </h1>
+
         <QuestionAudioPlayer
           src={sound}
           captions={captions}
           stopAtSecond={stopAtSecond}
         />
-        <DragDropContext onDragEnd={onDragEnd}>
-          {/* Word Bank */}
-          <div className="p-2 border-2 border-gray-400 border-dashed rounded-xl bg-gray-50">
-            <Droppable droppableId="wordBank" direction="horizontal">
-              {(provided) => (
-                <div
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                  className="flex flex-wrap justify-center items-center gap-3 min-h-[42px]"
-                >
-                  {items.wordBank.map((letter, index) => (
-                    <Draggable
-                      key={letter.id}
-                      draggableId={letter.id}
-                      index={index}
-                      isDragDisabled={showResults}
-                    >
-                      {(provided, snapshot) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          className={`w-10 h-10 flex items-center justify-center rounded-full bg-blue-500 text-white font-bold text-lg shadow-sm cursor-grab ${
-                            snapshot.isDragging ? "rotate-2" : ""
-                          }`}
-                        >
-                          {letter.text}
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
+
+        <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-8 mt-4">
+          <img
+            src={placeholderImg}
+            alt="conversation"
+            style={{ height: "180px" }}
+          />
+
+          <div className="space-y-6">
+            {conversations.map((conv) => (
+              <div key={conv.id}>
+                {conv.lines.map((line, lineIndex) => (
+                  <p
+                    key={lineIndex}
+                    className="text-lg leading-10 flex flex-wrap items-center"
+                  >
+                    <span className="font-bold w-20 inline-block">
+                      {line.speaker}:
+                    </span>
+
+                    {line.text.map((part, partIndex) =>
+                      typeof part === "string" ? (
+                        <span key={partIndex}>{part}</span>
+                      ) : (
+                        <span key={part.id} className="relative mx-1">
+                          <select
+                            value={items[part.id] || ""}
+                            onChange={(e) =>
+                              handleChange(part.id, e.target.value)
+                            }
+                            disabled={showResults}
+                            className={`border-b-2 px-1 text-[22px] font-bold bg-transparent outline-none cursor-pointer
+                              ${
+                                isWrongAnswer(part.id, part.correct)
+                                  ? "border-red-500"
+                                  : "border-gray-400"
+                              }`}
+                          >
+                            <option value=""></option>
+                            <option value="y">y</option>
+                            <option value="j">j</option>
+                          </select>
+
+                          {isWrongAnswer(part.id, part.correct) && (
+                            <span className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-red-500 text-white flex items-center justify-center text-sm font-bold shadow-lg border-2 border-white">
+                              ✕
+                            </span>
+                          )}
+                        </span>
+                      ),
+                    )}
+                  </p>
+                ))}
+              </div>
+            ))}
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-8 mt-2">
-            <img
-              src={placeholderImg}
-              alt="conversation"
-              className="object-contain rounded-lg shadow-sm md:mx-0 mt-25"
-              
-                  style={{height:"180px",width:"auto"}}
-            />
-
-            <div className="space-y-6">
-              {conversations.map((conv, index) => (
-                <div key={conv.id}>
-                  {conv.lines.map((line, lineIndex) => (
-                    <p
-                      key={lineIndex}
-                      className="text-lg leading-10 flex flex-wrap items-center"
-                    >
-                      <span className="font-bold w-20 inline-block">
-                        {line.speaker}:
-                      </span>
-
-                      {line.text.map((part, partIndex) =>
-                        typeof part === "string" ? (
-                          <span key={partIndex}>{part}</span>
-                        ) : (
-                          <Droppable key={part.id} droppableId={part.id} isDropDisabled={showResults}>
-                            {(provided, snapshot) => (
-                              <span
-                                ref={provided.innerRef}
-                                {...provided.droppableProps}
-                                className={`relative inline-flex align-middle mx-1 w-8 h-9 items-center justify-center border-b-2 font-bold transition-all
-        ${
-          snapshot.isDraggingOver
-            ? "border-blue-500 bg-blue-100 scale-110"
-            : "border-gray-400"
-        }
-        ${isWrongAnswer(part.id, part.correct) ? "border-red-500" : "border-gray-400"}
-      `}
-                              >
-                                {items[part.id].map((letter, index) => (
-                                  <Draggable
-                                    key={letter.id}
-                                    draggableId={letter.id}
-                                    index={index}
-                                    isDragDisabled={true}
-                                  >
-                                    {(provided) => (
-                                      <span
-                                        ref={provided.innerRef}
-                                        {...provided.draggableProps}
-                                        {...provided.dragHandleProps}
-                                        className="w-7 h-7 flex items-center justify-center bg-white rounded shadow-sm text-red-600 font-bold"
-                                      >
-                                        {letter.text}
-                                      </span>
-                                    )}
-                                  </Draggable>
-                                ))}
-
-                                {isWrongAnswer(part.id, part.correct) && (
-                                  <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-red-500 text-white flex items-center justify-center text-[10px] font-bold border-2 border-white shadow-lg">
-                                    ✕
-                                  </span>
-                                )}
-
-                                {provided.placeholder}
-                              </span>
-                            )}
-                          </Droppable>
-                        ),
-                      )}
-                    </p>
-                  ))}
-                </div>
-              ))}
-            </div>
-          </div>
-        </DragDropContext>
+        </div>
 
         <div className="mt-10 flex justify-center">
           <Button

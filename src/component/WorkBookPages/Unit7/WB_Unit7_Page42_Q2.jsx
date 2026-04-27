@@ -104,10 +104,10 @@ const DraggableLetter = ({ id, letter, disabled }) => {
       {...listeners}
       {...attributes}
       disabled={disabled}
-      className={`px-2 py-1 rounded-lg font-bold border-2 ${
+      className={`h-8 w-8 text-lg flex items-center px-2 py-1 rounded-lg font-bold border-2 ${
         disabled
           ? "bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed"
-          : "bg-gray-200 text-gray-800 border-gray-300 cursor-grab active:cursor-grabbing hover:bg-gray-300"
+          : "border-blue-900 text-gray-800 cursor-grab active:cursor-grabbing hover:bg-gray-300"
       }`}
     >
       {letter}
@@ -143,7 +143,7 @@ const WordDropZone = ({
         type="button"
         onClick={onRemoveLastLetter}
         disabled={showResults}
-        className={`w-full min-h-[40px] px-4 py-2 border-2 border-dashed rounded-lg font-semibold text-xl text-center transition-colors
+        className={`w-full min-h-[40px] px-4 py-2 border-b-2 font-semibold text-xl text-center transition-colors
   ${resultClass}
   ${!showResults ? "hover:text-red-500" : ""}
 `}
@@ -316,14 +316,14 @@ const WB_Unit7_Page42_Q2 = () => {
           collisionDetection={closestCenter}
           onDragEnd={handleDragEnd}
         >
-          <div className="p-6 space-y-8">
+          <div className="p-6 space-y-6">
             {exerciseData.sentences.map((sentence, idx) => {
               return (
                 <div
                   key={sentence.id}
-                  className="bg-blue-50 p-4 rounded-lg flex gap-6 items-start w-full"
+                  className="border-blue-900 border-2 p-4 rounded-lg flex gap-6 items-start w-full"
                 >
-                  <div className="flex flex-col w-[50%]">
+                  <div className="flex flex-col w-full">
                     <p className="text-lg mb-5 leading-10">
                       <span className="font-bold">{idx + 1}.</span>{" "}
                       {sentence.questionParts.map((part, partIndex) => (
@@ -349,7 +349,7 @@ const WB_Unit7_Page42_Q2 = () => {
                         return (
                           <div
                             key={`${sentence.id}-${wordIndex}`}
-                            className="space-y-2"
+                            className="space-y-4"
                           >
                             <WordDropZone
                               dropId={`drop-${sentence.id}-${wordIndex}`}
@@ -361,7 +361,7 @@ const WB_Unit7_Page42_Q2 = () => {
                               }
                             />
 
-                            <div className="flex flex-wrap gap-2">
+                            <div className="flex flex-wrap gap-2 w-full">
                               {word.scrambled.map((letter, letterIndex) => {
                                 const isUsed =
                                   usedLetters[sentence.id][wordIndex].includes(

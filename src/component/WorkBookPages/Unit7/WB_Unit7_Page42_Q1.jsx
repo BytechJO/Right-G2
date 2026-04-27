@@ -195,15 +195,15 @@ const WB_Unit7_Page42_Q1 = () => {
   return (
     <div className="main-container-component">
       <div className="div-forall">
-        <h1 className="WB-header-title-page8 mb-10">
+        <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">G</span>
           Look and write missing letters.
         </h1>
 
         <div className="flex flex-col">
           {/* الكلمات الجانبية */}
-          <div className="w-full border-2 border-gray-500 p-5 rounded-lg">
-            <div className="flex gap-2 justify-center items-center text-lg">
+          <div className="w-full rounded-lg">
+            <div className="flex gap-5 justify-center items-center text-lg">
               {["November", "March", "September", "February", "January"].map(
                 (month) => (
                   <div

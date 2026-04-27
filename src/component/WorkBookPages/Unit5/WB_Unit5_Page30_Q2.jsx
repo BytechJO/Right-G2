@@ -28,32 +28,32 @@ export default function WB_Unit5_Page30_Q2() {
     },
   ];
 
- const handleSelect = (qId, option) => {
-  if (showResults || showAnswers) return;
+  const handleSelect = (qId, option) => {
+    if (showResults || showAnswers) return;
 
-  setAnswers((prev) => {
-    const current = prev[qId] || [];
+    setAnswers((prev) => {
+      const current = prev[qId] || [];
 
-    // إذا الخيار موجود → شيله (toggle)
-    if (current.includes(option)) {
+      // إذا الخيار موجود → شيله (toggle)
+      if (current.includes(option)) {
+        return {
+          ...prev,
+          [qId]: current.filter((o) => o !== option),
+        };
+      }
+
+      // ❌ إذا وصل 2 خيارات، لا تسمح بإضافة ثالث
+      if (current.length >= 2) {
+        return prev;
+      }
+
+      // ✅ أضف الخيار
       return {
         ...prev,
-        [qId]: current.filter((o) => o !== option),
+        [qId]: [...current, option],
       };
-    }
-
-    // ❌ إذا وصل 2 خيارات، لا تسمح بإضافة ثالث
-    if (current.length >= 2) {
-      return prev;
-    }
-
-    // ✅ أضف الخيار
-    return {
-      ...prev,
-      [qId]: [...current, option],
-    };
-  });
-};
+    });
+  };
   const correctAnswers = {
     1: ["pasta", "bread"],
     2: ["bread", "fish"],
@@ -122,55 +122,61 @@ export default function WB_Unit5_Page30_Q2() {
   const handleStartAgain = () => {
     setAnswers({});
     setScore(null);
-    setShowResults(false)
+    setShowResults(false);
     setShowAnswers(false);
   };
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px", marginBottom: "50px" }}>
+      <div className="div-forall" style={{ marginBottom: "50px" }}>
         <h1 className="WB-header-title-page8">
           {" "}
           <span className="WB-ex-A">H</span>Look, read, and circle
         </h1>
 
-        <p className="text-gray-700 leading-relaxed">
-          Megan likes fruit, vegetables, and milk. She doesn’t like bread or
-          fish. Her mom likes meat and vegetables. She doesn’t like candy,
-          fruit, or soda. Her dad likes pasta, chicken, and bread. He doesn’t
-          like coffee, tea, or milk. Megan’s brother, Jimmy, likes vegetables,
-          nuts, and soup. He doesn’t like candy, burgers, or fruit.
-        </p>
+        <div className="flex flex-col gap-10">
+          <p className="text-gray-700 leading-relaxed text-[18px]">
+            Megan likes fruit, vegetables, and milk. She doesn’t like bread or
+            fish. Her mom likes meat and vegetables. She doesn’t like candy,
+            fruit, or soda. Her dad likes pasta, chicken, and bread. He doesn’t
+            like coffee, tea, or milk. Megan’s brother, Jimmy, likes vegetables,
+            nuts, and soup. He doesn’t like candy, burgers, or fruit.
+          </p>
 
-        <div className="space-y-4">
-          {questions.map((q) => (
-            <div key={q.id} className="relative p-3 rounded-lg">
-              <p className="font-medium mb-2">
-                {q.id}. {q.text}
-                {q.options.map((opt) => (
-                  <button
-                    key={opt}
-                    onClick={() => handleSelect(q.id, opt)}
-                    className={`lg:ml-10 px-3 py-1 border rounded-full transition
+          <div className="space-y-4">
+            {questions.map((q) => (
+              <div key={q.id} className="relative p-3 rounded-lg">
+                <div className="flex">
+                  <span className="text-[18px] mb-2 w-80">
+                    {" "}
+                    {q.id}. {q.text}
+                  </span>
+                  <div className="flex gap-10">
+                    {q.options.map((opt) => (
+                      <button
+                        key={opt}
+                        onClick={() => handleSelect(q.id, opt)}
+                        className={`w-30 h-10 px-3 py-1 border rounded-full transition
                     ${
                       answers[q.id]?.includes(opt)
-                        ? "bg-blue-500 text-white border-blue-500"
-                        : "bg-white hover:bg-blue-100"
+                        ? "border-2 border-blue-900"
+                        : "border-gray-500 hover:bg-blue-100"
                     }`}
-                  >
-                    {opt}
-                  </button>
-                ))}
-              </p>
-              {isWrong(q.id) && (
-                <div className="absolute top-2 left-0 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-sm font-bold shadow border-2 border-white">
-                  ✕
+                      >
+                        {opt}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              )}
-            </div>
-          ))}
+                {isWrong(q.id) && (
+                  <div className="absolute top-2 left-0 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-sm font-bold shadow border-2 border-white">
+                    ✕
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
-
         <Button
           handleShowAnswer={handleShowAnswer}
           handleStartAgain={handleStartAgain}

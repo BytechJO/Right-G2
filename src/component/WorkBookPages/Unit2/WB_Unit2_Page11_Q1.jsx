@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../Button";
+
 import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 11/Ex E 1.svg";
 import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 11/Ex E 2.svg";
 import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 11/Ex E 3.svg";
@@ -9,7 +10,6 @@ import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 1
 
 import "./WB_Unit2_Page11_Q1.css";
 
-// بيانات التمرين
 const exerciseData = [
   {
     id: 1,
@@ -46,70 +46,73 @@ const exerciseData = [
 const WB_Unit2_Page11_Q1 = () => {
   const [userAnswers, setUserAnswers] = useState(
     exerciseData.reduce((acc, item) => {
-      acc[item.id] = { question: "", selectedOption: null };
+      acc[item.id] = "";
       return acc;
     }, {}),
   );
+
   const [checked, setChecked] = useState(false);
   const [locked, setLocked] = useState(false);
 
-  // Function للتحقق من الإجابات
+  // ⭐ اختيار الجواب
+  const handleSelect = (id, value) => {
+    if (locked) return;
+
+    setUserAnswers((prev) => ({
+      ...prev,
+      [id]: value,
+    }));
+  };
+
   const checkAnswers = () => {
     if (checked || locked) return;
-    // ✅ تحقق إذا في سؤال بدون إجابة
-    const unanswered = exerciseData.some(
-      (item) => !userAnswers[item.id].question,
-    );
+
+    const unanswered = exerciseData.some((item) => !userAnswers[item.id]);
 
     if (unanswered) {
       ValidationAlert.info("Please answer all questions first!");
       return;
     }
 
-    // 🔹 إذا كلهم متجاوبين، كمل التصحيح
     let correctCount = 0;
-    let totalItems = exerciseData.length;
+    const total = exerciseData.length;
 
     exerciseData.forEach((item) => {
-      const userAns = userAnswers[item.id];
-
-      if (
-        userAns.question.trim().toLowerCase() ===
-        item.correctQuestion.trim().toLowerCase()
-      ) {
+      if (userAnswers[item.id] === item.correctQuestion) {
         correctCount++;
       }
     });
 
     setChecked(true);
+    setLocked(true);
 
-    if (correctCount === totalItems) {
-      ValidationAlert.success(`Score: ${correctCount}/${totalItems}`);
+    if (correctCount === total) {
+      ValidationAlert.success(`Score: ${correctCount}/${total}`);
     } else if (correctCount > 0) {
-      ValidationAlert.warning(`Score: ${correctCount}/${totalItems}`);
+      ValidationAlert.warning(`Score: ${correctCount}/${total}`);
     } else {
-      ValidationAlert.error(`Score: ${correctCount}/${totalItems}`);
+      ValidationAlert.error(`Score: ${correctCount}/${total}`);
     }
   };
+
   const handleShowAnswer = () => {
     const answers = {};
     exerciseData.forEach((item) => {
-      answers[item.id] = {
-        question: item.correctQuestion,
-        selectedOption: item.correctOption,
-      };
+      answers[item.id] = item.correctQuestion;
     });
+
     setUserAnswers(answers);
     setChecked(true);
+    setLocked(true);
   };
 
   const handleTryAgain = () => {
-    setUserAnswers(
-      exerciseData.reduce((acc, item) => {
-        acc[item.id] = { question: "", selectedOption: null };
-        return acc;
-      }, {}),
-    );
+    const reset = {};
+    exerciseData.forEach((item) => {
+      reset[item.id] = "";
+    });
+
+    setUserAnswers(reset);
     setChecked(false);
     setLocked(false);
   };
@@ -118,57 +121,61 @@ const WB_Unit2_Page11_Q1 = () => {
     <div className="main-container-component">
       <div className="div-forall">
         <h1 className="WB-header-title-page8">
-          <span className="WB-ex-A">E</span>Look and answer the questions.
+          <span className="WB-ex-A">E</span> Look and answer the questions.
         </h1>
+        <div className="grid grid-cols-2 gap-5 ">
+          {exerciseData.map((item) => {
+            const isWrong =
+              checked &&
+              userAnswers[item.id] &&
+              userAnswers[item.id] !== item.correctQuestion;
 
-        {exerciseData.map((item) => {
-          const isWrong =
-            checked &&
-            userAnswers[item.id].question &&
-            userAnswers[item.id].question.trim().toLowerCase() !==
-              item.correctQuestion.trim().toLowerCase();
-          return (
-            <div
-              key={item.id}
-              className="mb-6 flex items-center gap-4"
-              style={{ justifyContent: "space-around" }}
-            >
-              <div className="relative">
-                <label className="block text-lg font-medium mb-2">
-                  {item.id}. {item.questionText}
-                </label>
-                <select
-                  disabled={locked}
-                  value={userAnswers[item.id].question}
-                  onChange={(e) =>
-                    setUserAnswers({
-                      ...userAnswers,
-                      [item.id]: {
-                        ...userAnswers[item.id],
-                        question: e.target.value,
-                      },
-                    })
-                  }
-                  className="relative w-full rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                  style={{ border: "1px solid" }}
-                >
-                  <option value="" style={{ color: "gray", opacity: "0.5" }}>
-                    -- Select answer --
-                  </option>
-                  <option value="yes, it is">Yes, it is</option>
-                  <option value="no, it isn't">No, it isn't</option>
-                </select>
-                {/* ❌ علامة الخطأ */}
-                {isWrong && <div className="wrong-icon-unit2-page11-q1">✕</div>}
+            return (
+              <div
+                key={item.id}
+                className="mb-6 flex items-center gap-4"
+                style={{ justifyContent: "flex-start" }}
+              >
+                <div className="relative flex gap-5 items-center">
+                  <div className="flex flex-col gap-5">
+                    <label className="block text-xl font-medium">
+                     <span className="text-2xl text-blue-900 font-semibold"> {item.id}.</span> {item.questionText}
+                    </label>
+
+                   
+                 
+                  {/* ⭐ Buttons بدل select */}
+                  <div style={{ display: "flex", gap: "20px" }}>
+                    {["yes, it is", "no, it isn't"].map((option) => (
+                      <button
+                        key={option}
+                        onClick={() => handleSelect(item.id, option)}
+                        disabled={locked}
+                        className={`option-btn-wb-unit2-page11-q1 ${
+                          userAnswers[item.id] === option ? "selected" : ""
+                        }`}
+                      >
+                        {option}
+                      </button>
+                    ))}
+                  </div>
+ </div>
+                  {/* ❌ Wrong icon */}
+                  {isWrong && (
+                    <div className="wrong-icon-unit2-page11-q1">✕</div>
+                  )}
+                   <img
+                      src={item.src}
+                      className="object-contain"
+                      style={{height:"100px" ,width:"100px"}}
+                      alt=""
+                    />
+                </div>
               </div>
-              <img
-                src={item.src}
-                className="max-w-25 max-h-20 object-contain "
-              />
-            </div>
-          );
-        })}
-        <div className="mt-12 flex justify-center">
+            );
+          })}
+        </div>
+        <div className="flex justify-center">
           <Button
             handleShowAnswer={handleShowAnswer}
             handleStartAgain={handleTryAgain}

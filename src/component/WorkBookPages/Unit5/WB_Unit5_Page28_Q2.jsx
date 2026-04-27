@@ -157,8 +157,8 @@ const WB_Unit5_Page28_Q2 = () => {
   };
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px", marginBottom: "50px" }}>
-        <h1 className="WB-header-title-page8 mb-10">
+      <div className="div-forall" style={{marginBottom: "50px" }}>
+        <h1 className="WB-header-title-page8">
           {" "}
           <span className="WB-ex-A">D</span> Look, read, and circle. Answer.
         </h1>
@@ -166,15 +166,17 @@ const WB_Unit5_Page28_Q2 = () => {
         <div className="space-y-6 mb-20">
           {exerciseDataD.map((q, index) => (
             <div key={q.id} className="flex items-center gap-x-6 gap-y-2">
-              <span className="font-bold text-blue-600">{index + 1}</span>
+              <div className="flex gap-1 items-start">
+              <span className="font-bold text-blue-900 text-xl">{index + 1}</span>
               <img
                 src={q.img}
                 alt={`Question ${index + 1}`}
-                className="max-w-24 max-h-24 object-contain rounded-lg bg-gray-50 border row-span-2"
+                style={{height:"150px",width:"150px"}}
+                className="object-contain"
               />
-
-              <div className="flex gap-20 items-center space-y-2">
-                <div className="flex flex-col gap-5 w-60">
+</div>
+              <div className="flex gap-10 items-center space-y-2 w-full">
+                <div className="flex flex-col gap-5 w-55">
                   {q.options.map((opt) => (
                     <div key={opt} className="relative">
                       <button
@@ -196,7 +198,7 @@ const WB_Unit5_Page28_Q2 = () => {
                   <select
                     value={answers[q.id] || ""}
                     onChange={(e) => handleInputChange(q.id, e.target.value)}
-                    className={`cursor-pointer w-full bg-transparent border-b-2 pb-1 focus:outline-none text-lg ${getInputClass(q.id, q.correctAnswer)}`}
+                    className={`cursor-pointer w-[300px] bg-transparent border-b-2 pb-1 focus:outline-none text-lg ${getInputClass(q.id, q.correctAnswer)}`}
                   >
                     <option value="" disabled>
                       select

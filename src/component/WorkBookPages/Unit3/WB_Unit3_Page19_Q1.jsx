@@ -192,15 +192,15 @@ const WB_Unit3_Page19_Q1 = () => {
   };
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
-        <h1 className="WB-header-title-page8 mb-10">
+      <div className="div-forall">
+        <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">I</span> Look, read, and drag the correct
           word.
         </h1>
 
         <DragDropContext onDragEnd={onDragEnd}>
           {/* Word Bank */}
-          <div className="p-2 border-2 border-gray-400 border-dashed rounded-xl min-h-[42px]">
+          <div className="p-2 rounded-xl min-h-[42px]">
             <Droppable droppableId="wordBank" direction="horizontal">
               {(provided) => (
                 <div
@@ -223,7 +223,7 @@ const WB_Unit3_Page19_Q1 = () => {
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
-                            className={`px-4 py-2 rounded-lg transition
+                            className={`px-4 py-2 rounded-lg transition text-[20px]
   ${
     isUsed
       ? "bg-gray-200 text-gray-400 cursor-not-allowed opacity-60 border border-blue-800"
@@ -249,47 +249,57 @@ const WB_Unit3_Page19_Q1 = () => {
                 <div className="flex items-center gap-4">
                   <span className="font-bold text-blue-600">{index + 1}</span>
 
-                  <img src={q.img} alt="" className="max-w-20 max-h-20" />
+                  <img src={q.img} alt=""  style={{height:"120px" ,width:"120px"}}/>
 
-                  <Droppable droppableId={q.id}>
-                    {(provided) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                        className={`min-w-[90px] min-h-[42px] border-b-2 border-gray-400 flex items-center justify-center ${isWrong(q.id) && "border-red-500"}`}
-                      >
-                        {items[q.id].map((word, i) => (
-                          <Draggable
-                            key={word.id}
-                            draggableId={word.id}
-                            index={i}
-                            isDragDisabled={true}
-                          >
-                            {(provided) => (
-                              <div
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                                {...provided.dragHandleProps}
-                                className="px-3 py-1 rounded"
-                              >
-                                {word.text}
-                              </div>
-                            )}
-                          </Draggable>
-                        ))}
-                        {provided.placeholder}
-                      </div>
-                    )}
-                  </Droppable>
+               <Droppable droppableId={q.id}>
+  {(provided, snapshot) => (
+    <div
+      ref={provided.innerRef}
+      {...provided.droppableProps}
+      className={`
+        min-w-[90px] min-h-[42px] border-b-2 flex items-center justify-center 
+        transition-all duration-200
+        ${
+          snapshot.isDraggingOver
+            ? "bg-blue-100 border-dashed border-blue-400"
+            : isWrong(q.id)
+            ? "border-red-500"
+            : "border-gray-400"
+        }
+      `}
+    >
+      {items[q.id].map((word, i) => (
+        <Draggable
+          key={word.id}
+          draggableId={word.id}
+          index={i}
+          isDragDisabled={true}
+        >
+          {(provided) => (
+            <div
+              ref={provided.innerRef}
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+              className="px-3 py-1 rounded text-[20px]"
+            >
+              {word.text}
+            </div>
+          )}
+        </Draggable>
+      ))}
+      {provided.placeholder}
+    </div>
+  )}
+</Droppable>
                   {isWrong(q.id) && (
                     <div className="absolute top-3 right-43 bg-red-500 text-white w-6 h-6 flex items-center justify-center rounded-full text-sm font-bold shadow-lg border-2 border-white">
                       ✕
                     </div>
                   )}
-                  <span>{q.endText}</span>
+                  <span className="text-[20px]">{q.endText}</span>
                 </div>
 
-                <p className="ml-12 text-gray-600">{q.answer}</p>
+                <p className="ml-12 text-gray-600 text-[20px]">{q.answer}</p>
               </div>
             ))}
           </div>

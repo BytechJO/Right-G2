@@ -93,13 +93,13 @@ const WB_Unit3_Page18_Q1 = () => {
   };
 
   const getClass = (qId) => {
-    if (!showResults || !answers[qId]) return "border-gray-300";
+    if (!showResults || !answers[qId]) return "border-gray-50";
 
     if (!isCorrect(qId)) {
       return "border-red-500";
     }
 
-    return "border-gray-300";
+    return "border-gray-50";
   };
 
   const handleShowAnswer = () => {
@@ -148,13 +148,13 @@ const WB_Unit3_Page18_Q1 = () => {
   };
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
+      <div className="div-forall">
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">G</span>
           Look, read, and write.
         </h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-15">
           {writeQuestions.map((q, index) => {
             const isWrong = (qId) => {
               if (!showResults || !answers[qId]) return false;
@@ -162,18 +162,17 @@ const WB_Unit3_Page18_Q1 = () => {
             };
             return (
               <div key={q.id} className="space-y-2 relative">
-                <div className="flex items-center gap-4">
+                <div className="flex items-start gap-4">
                   <span className="font-bold text-blue-600 text-xl">
                     {index + 1}
                   </span>
+                  <div className="flex flex-col gap-5">
                   <img
                     src={q.img}
                     alt={`Question ${index + 1}`}
                     className="w-full max-h-24 object-cover rounded-lg shadow-sm"
                   />
-                </div>
-
-                <div
+                  <div
                   className={`flex items-center gap-2 border-b-2 pb-1 ${getClass(q.id)}`}
                 >
                   {/* before */}
@@ -182,10 +181,10 @@ const WB_Unit3_Page18_Q1 = () => {
                     onChange={(e) =>
                       handleChange(q.id, "before", e.target.value)
                     }
-                    className="bg-transparent focus:outline-none text-xl"
+                    className="bg-transparent focus:outline-none text-[20px] border-b-2 border-gray-500 w-15"
                   >
                     <option value="" disabled>
-                      _____
+                    
                     </option>
                     {q.beforeOptions.map((opt) => (
                       <option key={opt} value={opt}>
@@ -205,10 +204,10 @@ const WB_Unit3_Page18_Q1 = () => {
                     onChange={(e) =>
                       handleChange(q.id, "after", e.target.value)
                     }
-                    className="bg-transparent focus:outline-none text-2xl"
+                    className="bg-transparent focus:outline-none text-[20px] border-b-2 border-gray-500 w-40"
                   >
                     <option value="" disabled>
-                      ______________
+                     
                     </option>
                     {q.afterOptions.map((opt) => (
                       <option key={opt} value={opt}>
@@ -222,6 +221,10 @@ const WB_Unit3_Page18_Q1 = () => {
                     </div>
                   )}
                 </div>
+                  </div>
+                </div>
+
+                
               </div>
             );
           })}

@@ -106,15 +106,17 @@ const WB_Unit6_Page38_Q1 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
+      <div className="div-forall">
         {" "}
-        <h1 className="WB-header-title-page8 mb-2">
+        <h1 className="WB-header-title-page8">
           {" "}
           <span className="WB-ex-A">A</span>Look, read, and write. Use the words
           from the box.{" "}
         </h1>
+
+        <div>
         {/* WORD BANK */}
-        <div className="mb-6 border-2 border-dashed flex items-center justify-center border-blue-400">
+        <div className="mb-6 flex items-center justify-center">
           <div className="flex flex-wrap gap-2 p-3 bg-gray-50 rounded-lg">
             {wordBank.map((item) => {
               const isUsed = Object.values(answers).includes(item.word);
@@ -130,7 +132,7 @@ const WB_Unit6_Page38_Q1 = () => {
                 ${
                   isUsed
                     ? "bg-gray-200 text-gray-400 cursor-not-allowed opacity-60"
-                    : "bg-blue-500 text-white cursor-move hover:bg-blue-600"
+                    : "border-2 border-blue-900 cursor-move hover:bg-blue-100"
                 }`}
                 >
                   {item.word}
@@ -157,13 +159,13 @@ const WB_Unit6_Page38_Q1 = () => {
                   key={num}
                   onDragOver={handleDragOver}
                   onDrop={(e) => handleDrop(e, num)}
-                  className={`relative flex items-center gap-3 p-1 border-2 rounded-lg transition-colors active:bg-blue-50 ${
+                  className={`relative flex items-center gap-3 p-1 border-b-2 transition-colors active:bg-blue-50 ${
                     answers[num]
                       ? "border-blue-300"
                       : "border-dashed border-gray-300 bg-white"
                   }  ${isWrongAnswer(num) && "border-red-500"}`}
                 >
-                  <span className="text-lg font-semibold w-8">{num}.</span>
+                  <span className="text-xl text-blue-900 font-semibold w-8">{num}.</span>
 
                   <div className="flex-1 min-h-[50px] flex items-center">
                     {answers[num] ? (
@@ -188,7 +190,7 @@ const WB_Unit6_Page38_Q1 = () => {
               ))}
             </div>
           </div>
-        </div>
+        </div></div>
         <Button
           handleShowAnswer={handleShowAnswer}
           handleStartAgain={handleStartAgain}

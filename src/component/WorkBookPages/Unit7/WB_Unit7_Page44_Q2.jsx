@@ -149,18 +149,19 @@ const WB_Unit7_Page44_Q2 = () => {
   return (
     <div className="main-container-component">
       {" "}
-      <div className="div-forall gap-2">
+      <div className="div-forall">
         {" "}
-        <h2 className="WB-header-title-page8  mb-10">
+        <h2 className="WB-header-title-page8">
           {" "}
           <span className="WB-ex-A">B</span>
           Look, read, and write the words under the correct column.{" "}
         </h2>
+        <div className="flex flex-col gap-5">
         {/* WORD BANK */}
         <div
           onDragOver={(e) => e.preventDefault()}
           onDrop={returnToPool}
-          className="border-2 border-gray-300 rounded-full px-8 py-4 flex flex-wrap justify-center gap-6 mb-12 bg-gray-50"
+          className="rounded-full px-8 py-4 flex flex-wrap justify-center gap-4"
         >
           {exerciseBWords.map((word) => {
             const used = isUsed(word);
@@ -172,7 +173,7 @@ const WB_Unit7_Page44_Q2 = () => {
                 onDragStart={() => {
                   if (!used) onDragStart(word);
                 }}
-                className={`text-xl font-bold transition
+                className={`text-xl font-bold transition border-2 border-blue-900 px-5 py-2 rounded-lg
               ${
                 used
                   ? "text-gray-400 cursor-not-allowed opacity-60"
@@ -244,7 +245,8 @@ const WB_Unit7_Page44_Q2 = () => {
             </div>
           ))}
         </div>
-        <div className="mt-16 flex justify-center">
+        </div>
+        <div className="flex justify-center">
           <Button
             handleShowAnswer={handleShowAnswer}
             handleStartAgain={handleTryAgain}

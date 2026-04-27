@@ -158,20 +158,20 @@ const WB_Unit7_Page39_Q2 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
+      <div className="div-forall mb-10">
         {" "}
         <h1 className="WB-header-title-page8">
           {" "}
           <div className="WB-ex-A">B</div>Look and write sentences.{" "}
         </h1>
-        <div className="grid grid-cols-2 gap-8 mb-8">
+        <div className="grid grid-cols-2 gap-16 mb-8">
           {exerciseDataL.sentences.map((sentence, idx) => {
             const builtSentence = (userAnswers[sentence.id] || []).join(" ");
 
             return (
               <div key={sentence.id} className="space-y-4">
                 <div className="flex items-start gap-2">
-                  <span className="font-bold text-lg text-blue-700 mb-4">
+                  <span className="font-bold text-xl text-blue-900 mb-4">
                     {idx + 1}
                   </span>
 
@@ -182,7 +182,7 @@ const WB_Unit7_Page39_Q2 = () => {
                 </div>
 
                 {/* WORD BANK */}
-                <div className="flex flex-wrap gap-2 min-h-14 p-2 border-2 border-dashed border-gray-400 rounded-lg bg-white">
+                <div className="flex flex-wrap gap-3 min-h-14 p-2 rounded-lg bg-white">
                   {sentence.words.map((word) => {
                     const isUsed = (userAnswers[sentence.id] || []).includes(
                       word,
@@ -199,7 +199,7 @@ const WB_Unit7_Page39_Q2 = () => {
                       ${
                         isUsed
                           ? "bg-gray-200 text-gray-400 cursor-not-allowed opacity-60"
-                          : "bg-gray-200 text-gray-800 hover:bg-gray-300 cursor-move"
+                          : "border-2 border-blue-900 text-gray-800 hover:bg-gray-300 cursor-move"
                       }`}
                       >
                         {word}
@@ -211,7 +211,7 @@ const WB_Unit7_Page39_Q2 = () => {
                 {/* ANSWER */}
                 <div className="relative">
                   <div
-                    className={`min-h-15 border-2 border-dashed border-gray-300 rounded-lg p-2 bg-gray-50 ${isWrongSentence(sentence) &&"border-red-500"}`}
+                    className={`min-h-8 border-b-2 border-gray-500 w-80 p-2${isWrongSentence(sentence) &&"border-red-500"}`}
                     onDragOver={handleDragOver}
                     onDrop={() => handleDropOnBlank(sentence.id)}
                   >

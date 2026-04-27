@@ -279,8 +279,8 @@ const returnWordToBank = (qId, wordIndex) => {
 };
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
-        <h1 className="WB-header-title-page8 mb-10">
+      <div className="div-forall">
+        <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">C</span> Look, unscramble, and write. Match.
         </h1>
 
@@ -328,7 +328,7 @@ const returnWordToBank = (qId, wordIndex) => {
             </div>
 
             {/* RIGHT */}
-            <div className="flex-1 space-y-5">
+            <div className="flex-1 space-y-5.5">
               {data.questions.map((q) => (
                 <div key={q.id}>
                   <div className="flex items-center gap-3">
@@ -364,7 +364,7 @@ const returnWordToBank = (qId, wordIndex) => {
                           <div
                             ref={provided.innerRef}
                             {...provided.droppableProps}
-                            className="flex items-center justify-center gap-2 mt-2 border-2 border-gray-500 rounded p-2 min-h-[52px]"
+                            className="flex items-center justify-start gap-2 mt-2 rounded p-2 min-h-[52px]"
                           >
                             {items[`bank-${q.id}`].map((word, i) => {
                               const isUsed = usedWordsPerQuestion(q.id).some(
@@ -383,11 +383,11 @@ const returnWordToBank = (qId, wordIndex) => {
                                       ref={provided.innerRef}
                                       {...provided.draggableProps}
                                       {...provided.dragHandleProps}
-                                      className={`px-3 py-1 rounded text-sm transition
+                                      className={`px-3 py-1 rounded text-sm transition bg-white border-2 border-blue-900
             ${
               isUsed || showResults
-                ? "bg-gray-100 text-gray-400 border border-gray-200 cursor-not-allowed opacity-60"
-                : "bg-gray-200 text-black cursor-grab"
+                ? "text-gray-400 border border-blue-900 cursor-not-allowed opacity-60"
+                : "bg-gray-200 text-black cursor-grab border border-blue-900"
             }`}
                                     >
                                       {word.text}
@@ -411,7 +411,7 @@ const returnWordToBank = (qId, wordIndex) => {
                           <div
                             ref={provided.innerRef}
                             {...provided.droppableProps}
-                            className="relative min-h-[40px] w-50 border-b-2 flex w-full"
+                            className="relative min-h-[40px] w-50 border-b-2 border-gray-400 flex w-full"
                           >
                             {items[`answer-${q.id}`].map((word, i) => (
                               <Draggable

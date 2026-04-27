@@ -137,7 +137,7 @@ export default function WB_Unit5_Page32_Q1() {
   };
   return (
     <div key={resetKey} className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px", marginBottom: "50px" }}>
+      <div className="div-forall" >
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">A</span> Look and write
           <span className="text-navy" style={{ color: "navy" }}>
@@ -154,7 +154,7 @@ export default function WB_Unit5_Page32_Q1() {
           {questions.map((q) => (
             <div
               key={q.id}
-              className="relative flex flex-col items-center gap-2 bg-gray-50 rounded-xl p-4"
+              className="relative flex flex-col items-center gap-2 rounded-xl p-4"
             >
               {isIncorrect(q.id) && (
                 <div className="absolute top-2 right-2 w-7 h-7 rounded-full bg-red-500 flex items-center justify-center shadow-md border-2 border-white">
@@ -162,14 +162,14 @@ export default function WB_Unit5_Page32_Q1() {
                 </div>
               )}
               <div className="flex gap-4">
-                <p className="text-lg text-blue-800 font-bold">{q.id}</p>
-                <img src={q.src} className="max-w-40 max-h-20" />
+                <p className="text-xl text-blue-900 font-bold">{q.id}</p>
+                <img src={q.src} style={{height:"120px",width:"120px"}}/>
               </div>
               <p className="text-2xl font-bold text-gray-700 tracking-widest">
                 {q.prefix}
                 <span
                   className={`mx-1 px-1 rounded ${
-                    answers[q.id] ? "text-blue-600" : "text-gray-300"
+                    answers[q.id] ? "text-blue-800" : "text-gray-300"
                   }`}
                 >
                   {answers[q.id] || "__"}

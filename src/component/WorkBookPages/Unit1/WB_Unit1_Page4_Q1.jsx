@@ -224,18 +224,13 @@ const WB_Unit1_Page4_Q1 = () => {
       >
         <div
           className="div-forall"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            width: "60%",
-            justifyContent: "flex-start",
-          }}
+       
         >
-          <div className="page8-q1-container">
+      
             <h4 className="WB-header-title-page8">
               <span className="WB-ex-A">C</span> Look, trace, read, and write.
             </h4>
-
+    <div className="page8-q1-container">
             <div
               className="container12"
               ref={containerRef}
@@ -251,7 +246,8 @@ const WB_Unit1_Page4_Q1 = () => {
                     style={{
                       width: "50%",
                       display: "flex",
-                      alignItems: "center",
+                      alignItems: "flex-start",
+                      gap:"10px"
                     }}
                   >
                     <span className="CB-unit5-p6-q1-number">{q.id}</span>
@@ -381,7 +377,7 @@ const WB_Unit1_Page4_Q1 = () => {
                   <div className="CB-unit5-p6-q1-match-section">
                     <div className="CB-unit5-p6-q1-dot-wrapper">
                       <div
-                        className="CB-unit5-p6-q1-dot CB-unit5-p6-q1-dot-end"
+                        className="CB-unit5-p6-q1-dot CB-unit5-p6-q1-dot-end"style={{top:"-22px"}}
                         data-image={images[i]}
                         id={`dot-img-${q.id}`}
                         onClick={handleEndDotClick}

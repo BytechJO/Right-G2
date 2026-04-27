@@ -83,7 +83,7 @@ export default function WB_Unit5_Page31_Q1() {
   };
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px", marginBottom: "50px" }}>
+      <div className="div-forall">
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">I</span>Look, read and circle.
         </h1>
@@ -95,10 +95,11 @@ export default function WB_Unit5_Page31_Q1() {
             return (
               <div
                 key={q.id}
-                className="flex items-center gap-3 rounded-xl p-4"
+                className="flex items-center justify-between w-full gap-30 rounded-xl p-4 text-[20px]"
               >
+                <div className="flex items-start">
                 {/* Number */}
-                <span className="font-bold w-5 shrink-0">{q.id}</span>
+                <span className="font-bold w-5 shrink-0 text-xl text-blue-900">{q.id}</span>
 
                 <img
                   src={q.src}
@@ -106,7 +107,7 @@ export default function WB_Unit5_Page31_Q1() {
                   className="object-contain "
                   style={{ height: "120px", width: "250px" }}
                 />
-
+</div>
                 <div className="relative flex flex-wrap items-center gap-2 flex-1">
                   <span className="font-semibold text-gray-700">
                     {q.subject}
@@ -114,13 +115,13 @@ export default function WB_Unit5_Page31_Q1() {
                   <div className="flex flex-col gap-5">
                     <button
                       onClick={() => handleSelect(q.id, "likes")}
-                      className={`px-3 py-1 rounded-full font-semibold text-sm border-2
+                      className={`px-3 py-1 rounded-full font-semibold text-[18px] border-2
 ${
   selected === "likes"
     ? isWrong(q.id)
       ? "border-red-500 text-black"
-      : "border-blue-800 text-black"
-    : "border-gray-300 hover:border-red-400 text-gray-600"
+      : "border-blue-900 text-black"
+    : "border-gray-300 hover:border-blue-900 text-gray-600"
 }`}
                     >
                       likes
@@ -128,13 +129,13 @@ ${
 
                     <button
                       onClick={() => handleSelect(q.id, "doesn't like")}
-                      className={`px-3 py-1 rounded-full font-semibold text-sm border-2
+                      className={`px-3 py-1 rounded-full font-semibold text-[18px] border-2
 ${
   selected === "doesn't like"
     ? isWrong(q.id)
       ? "border-red-500 text-black"
-      : "border-blue-800 text-black"
-    : "border-gray-300 hover:border-red-400 text-gray-600"
+      : "border-blue-900 text-black"
+    : "border-gray-300 hover:border-blue-900 text-gray-600"
 }`}
                     >
                       doesn't like

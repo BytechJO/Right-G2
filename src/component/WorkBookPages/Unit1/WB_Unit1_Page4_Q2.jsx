@@ -152,20 +152,13 @@ const WB_Unit1_Page4_Q2 = () => {
       <div className="page8-wrapper">
         <div
           className="div-forall"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "flex-start",
-            alignItems: "flex-start",
-            position: "relative",
-            width: "60%",
-            gap: "10px",
-          }}
+        
         >
           <h3 className="WB-header-title-page8">
             <span className="WB-ex-A">D</span> Look and complete. Read.
           </h3>
-
+             
+             <div>
           <Droppable droppableId="letters" isDropDisabled>
             {(provided) => (
               <div
@@ -173,11 +166,11 @@ const WB_Unit1_Page4_Q2 = () => {
                 {...provided.droppableProps}
                 style={{
                   display: "flex",
-                  gap: "10px",
+                  gap: "30px",
                   padding: "10px",
-                  border: "2px dashed #ccc",
+                  // border: "2px dashed #ccc",
                   borderRadius: "10px",
-                  // margin: "10px 0",
+                  marginBottom: "40px",
                   alignItems: "center",
                   width: "100%",
                   justifyContent: "center",
@@ -220,9 +213,10 @@ const WB_Unit1_Page4_Q2 = () => {
 
           {data.map((item, qIndex) => (
             <div className="row-missing" key={qIndex}>
-              <span className="num">{qIndex + 1}.</span>
+            
 
-              <div className="sentence-review4-p2-q1">
+              <div className="sentence-wb-unit1-page4-q2">
+                  <span className="num">{qIndex + 1}.</span>
                 {item.parts.map((p, blankIndex) => (
                   <span key={blankIndex} className="sentence-part">
                     {p.before}
@@ -271,7 +265,7 @@ const WB_Unit1_Page4_Q2 = () => {
               </div>
             </div>
           ))}
-        </div>
+        </div></div>
         <div className="action-buttons-container">
           <button
             className="try-again-button"

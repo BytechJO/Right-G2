@@ -3,7 +3,8 @@ import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 6
 import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 6/Ex J 2.svg";
 import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 6/Ex J 3.svg";
 import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 6/Ex J 4.svg";
-
+import trueIcon from "../../../assets/imgs/true.svg"
+import falseIcon from "../../../assets/imgs/false.svg"
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../Button";
 
@@ -105,13 +106,7 @@ const WB_Unit1_Page6_Q3 = () => {
     >
       <div
         className="div-forall"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "30px",
-          width: "60%",
-          justifyContent: "flex-start",
-        }}
+       
       >
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">J</span>Look, read, and write{" "}
@@ -122,7 +117,7 @@ const WB_Unit1_Page6_Q3 = () => {
         <div className="grid grid-cols-2 gap-x-20 gap-y-12">
           {data.map((item) => (
             <div key={item.id} className="flex items-center gap-2">
-              <div className="relative rounded-2xl p-2 w-full h-full flex items-center justify-center">
+              <div className="relative rounded-2xl p-2 w-full h-full flex items-start justify-center gap-2">
                 <span className="font-bold text-blue-900 text-2xl">
                   {item.id}
                 </span>
@@ -133,7 +128,7 @@ const WB_Unit1_Page6_Q3 = () => {
                   style={{ height: "120px", width: "auto" }}
                 />
 
-                <div className="absolute -bottom-11 right-14 flex gap-1 p-1 bg-white/80 rounded-tl-xl">
+                <div className="absolute -bottom-11 -right-14 flex gap-1 p-1 bg-white/80 rounded-tl-xl">
                   <div className="relative">
                     <button
                       onClick={() => handleSelect(item.id, "✓")}
@@ -143,7 +138,8 @@ const WB_Unit1_Page6_Q3 = () => {
                           : "border-gray-300 hover:border-gray-400"
                       } ${showAnswers && item.correct === "✓" ? "bg-gray-300 text-black" : ""}`}
                     >
-                      ✓
+                                           <img src={trueIcon} style={{height:"25px"}} />
+
                     </button>
 
                     {isWrongSelection(item, "✓") && (
@@ -182,7 +178,7 @@ const WB_Unit1_Page6_Q3 = () => {
                           : "border-gray-300 hover:border-gray-400"
                       } ${showAnswers && item.correct === "X" ? "bg-gray-300 text-black" : ""}`}
                     >
-                      X
+                      <img src={falseIcon} style={{height:"25px"}} />
                     </button>
 
                     {isWrongSelection(item, "X") && (
@@ -214,7 +210,7 @@ const WB_Unit1_Page6_Q3 = () => {
                 </div>
               </div>
 
-              <span className="text-lg text-gray-800 font-medium w-full">
+              <span className="text-lg text-gray-800 font-medium w-full text-nowrap">
                 {item.text}
               </span>
             </div>

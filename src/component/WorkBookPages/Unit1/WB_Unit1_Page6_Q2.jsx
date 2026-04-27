@@ -143,20 +143,14 @@ const WB_Unit1_Page6_Q2 = () => {
     >
       <div
         className="div-forall"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "30px",
-          width: "60%",
-          justifyContent: "flex-start",
-        }}
+       
       >
         <h1 className="WB-header-title-page8">
           {" "}
           <span className="WB-ex-A">I</span>Look, read, and circle.
         </h1>
 
-        <div className="grid grid-cols-2 gap-x-20 gap-y-5" style={{justifyItems:"start"}}>
+        <div className="grid grid-cols-2 gap-x-50 gap-y-5" style={{justifyItems:"start"}}>
           {data.map((item) => (
             <div key={item.id} className="flex flex-col gap-6 w-full">
               <div className="flex items-start gap-4 max-w-full">
@@ -182,7 +176,7 @@ const WB_Unit1_Page6_Q2 = () => {
                       <button
                         key={p}
                         onClick={() => handleSelect(item.id, "pronoun", p)}
-                        className={`relative px-4 py-1 rounded-full border-2 transition-all ${
+                        className={`relative px-4 py-1 rounded-full border-2 text-nowrap transition-all ${
                           userSelections[item.id].pronoun === p
                             ? "border-red-500 bg-red-50"
                             : "border-transparent hover:border-gray-300"
@@ -211,7 +205,7 @@ const WB_Unit1_Page6_Q2 = () => {
                       <button
                         key={r}
                         onClick={() => handleSelect(item.id, "relation", r)}
-                        className={`relative px-4 py-1 rounded-full border-2 transition-all ${
+                        className={`relative px-4 py-1 rounded-full border-2  text-nowrap transition-all ${
                           userSelections[item.id].relation === r
                             ? "border-red-500 bg-red-50"
                             : "border-transparent hover:border-gray-300"

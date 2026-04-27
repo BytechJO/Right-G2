@@ -40,7 +40,7 @@ const QuestionItem = ({
   isWrong,
 }) => {
   return (
-    <div className="flex items-center gap-4 p-5 rounded-xl">
+    <div className="flex items-center gap-4 p-2 rounded-xl">
       <span className="font-semibold text-blue-600">{index + 1}.</span>
 
       <img

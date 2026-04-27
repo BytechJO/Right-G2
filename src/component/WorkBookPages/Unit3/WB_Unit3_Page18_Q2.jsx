@@ -139,9 +139,9 @@ const WB_Unit3_Page18_Q2 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
-        <div className="page7-q2-container2">
-          <h1 className="WB-header-title-page8 mb-10">
+      <div className="div-forall">
+        
+          <h1 className="WB-header-title-page8">
             <span className="WB-ex-A">H</span>Read, look, and match.
           </h1>
 
@@ -216,7 +216,7 @@ const WB_Unit3_Page18_Q2 = () => {
             </div>
 
             {/* الصور */}
-            <div className="CB-review3-p1-q2-images-row">
+            <div className="CB-review3-p1-q2-images-row" style={{justifyContent:"space-between"}}>
               {images.map((img) => (
                 <div key={img.id} className="CB-review3-p1-q2-img-box">
                   <img
@@ -242,6 +242,7 @@ const WB_Unit3_Page18_Q2 = () => {
                         ? "bg-red-600 scale-125 shadow-lg"
                         : ""
                     }`}
+                    // style={{left:"92px"}}
                     data-image={img.id}
                     id={`${img.id}-dot`}
                     onClick={handleEndDotClick}
@@ -266,7 +267,7 @@ const WB_Unit3_Page18_Q2 = () => {
             </svg>
           </div>
         </div>
-      </div>
+
       <div className="action-buttons-container">
         <button
           onClick={() => {

@@ -132,7 +132,7 @@ const ReadChartAndAnswer = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
+      <div className="div-forall">
         <h1 className="WB-header-title-page8">
           {" "}
           <span className="WB-ex-A">H</span> Read the chart. Answer the
@@ -186,7 +186,7 @@ const ReadChartAndAnswer = () => {
                     className={`cursor-pointer w-full mb-6  pb-1 text-lg border-b-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors ${getSelectClass(q.id, q.correctAnswer)}`}
                   >
                     <option value="" disabled>
-                      ______________________________
+                   
                     </option>
                     {answerOptions.map((option) => (
                       <option key={option} value={option}>

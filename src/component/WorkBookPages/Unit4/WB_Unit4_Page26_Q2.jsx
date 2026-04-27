@@ -134,7 +134,7 @@ const handleShowAnswer = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
+      <div className="div-forall">
         <h1 className="WB-header-title-page8">
           {" "}
           <span className="WB-ex-A">B</span> Unscramble the words. Complete the
@@ -148,11 +148,11 @@ const handleShowAnswer = () => {
         {/* الصورة والفراغات */}
         <div className="space-y-4 mb-13">
           {/* عرض الحروف المبعثرة لكل كلمة */}
-          <div className="space-y-3 mb-8 p-4 border-2 border-dashed border-gray-300 rounded-lg grid grid-cols-3">
+          <div className="space-y-3 mb-8 p-4 rounded-lg grid grid-cols-3">
             {scrambledWords.map((word) => (
               <div key={word.id} className="space-y-2">
                 {/* عرض الحروف المبعثرة */}
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 w-50">
                   {word.letters.map((letter, letterIndex) => {
                     const isSelected =
                       userArrangements[word.id]?.includes(letterIndex);
@@ -177,7 +177,7 @@ const handleShowAnswer = () => {
                 </div>
 
                 {/* إنبوتات لترتيب الحروف */}
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 w-full">
                   <div className="flex gap-1 bg-white border-2 border-gray-300 rounded-lg p-2">
                     {Array.from({ length: word.correct.length }).map(
                       (_, idx) => {

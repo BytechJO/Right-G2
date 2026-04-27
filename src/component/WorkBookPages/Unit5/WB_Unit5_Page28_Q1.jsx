@@ -163,25 +163,26 @@ const WB_Unit5_Page28_Q1 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px", marginBottom: "50px" }}>
+      <div className="div-forall" style={{ marginBottom: "50px" }}>
         <h1 className="WB-header-title-page8 mb-10">
           <span className="WB-ex-A">C</span> Look, read, and write.
         </h1>
 
-        <div className="grid gap-10" style={{ gridTemplateColumns: "1fr 1fr" }}>
+        <div className="space-y-5">
           {exerciseData.map((q, index) => {
             const usedQ = droppedWords[`${q.id}-question`] || [];
             const usedA = droppedWords[`${q.id}-answer`] || [];
 
             return (
-              <div key={q.id} className="space-y-4">
-                <div className="flex items-center gap-4">
-                  <span>{index + 1}</span>
+              <div key={q.id} className="space-y-4 flex items-center">
+                <div className="flex items-start gap-4">
+                  <span className="text-xl text-blue-900 font-semibold">{index + 1}</span>
                   <img src={q.img} className="max-h-32" />
                 </div>
-
+                  <div className="flex w-full justify-around">
+                  <div>
                 {/* Question Word Bank */}
-                <div className="flex flex-wrap gap-2 p-2 border rounded">
+                <div className="flex flex-wrap gap-2 p-2 rounded">
                   {q.questionWords.map((word, i) => {
                     const id = `${q.id}-q-${i}|${word}`;
                     const isUsed = usedQ.some((w) => w.startsWith(`${q.id}-q-${i}|`));
@@ -192,7 +193,7 @@ const WB_Unit5_Page28_Q1 = () => {
                         onClick={() =>
                           handleWordClick(q.id, "question", word, i)
                         }
-                        className={`px-3 py-1 border rounded cursor-pointer transition
+                        className={`px-3 py-1 border-2 border-blue-900 rounded cursor-pointer transition
           ${
             isUsed
               ? "bg-gray-200 text-gray-400 cursor-not-allowed"
@@ -228,9 +229,11 @@ const WB_Unit5_Page28_Q1 = () => {
                     </div>
                   )}
                 </div>
+            </div>
 
+            <div>
                 {/* Answer Word Bank */}
-                <div className="flex flex-wrap gap-2 p-3 border rounded">
+                <div className="flex flex-wrap gap-2 p-2 rounded">
                   {q.answerWords.map((word, i) => {
                     const id = `${q.id}-a-${i}|${word}`;
                   const isUsed = usedA.some((w) => w.startsWith(`${q.id}-a-${i}|`));
@@ -239,7 +242,7 @@ const WB_Unit5_Page28_Q1 = () => {
                       <div
                         key={id}
                         onClick={() => handleWordClick(q.id, "answer", word, i)}
-                        className={`px-3 py-1 border rounded cursor-pointer transition
+                        className={`px-3 py-1 border-2 border-blue-900 rounded cursor-pointer transition
           ${
             isUsed
               ? "bg-gray-200 text-gray-400 cursor-not-allowed"
@@ -273,6 +276,8 @@ const WB_Unit5_Page28_Q1 = () => {
                       ✕
                     </div>
                   )}
+                </div>
+                </div>
                 </div>
               </div>
             );

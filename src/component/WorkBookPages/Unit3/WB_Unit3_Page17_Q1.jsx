@@ -51,19 +51,21 @@ const WB_Unit3_Page17_Q1 = () => {
 
   // دالة لتحديث الاختيار والكتابة معاً
   const handleSelect = (qId, choice) => {
+    if (showResults) return;
     setSelections((prev) => ({ ...prev, [qId]: choice }));
     const question = circleQuestions.find((q) => q.id === qId);
     setWrittenAnswers((prev) => ({
       ...prev,
       [qId]: `${choice} ${question.phrase}`,
     }));
-    setShowResults(false);
+    // setShowResults(false);
   };
 
   // دالة لتحديث النص المكتوب يدوياً
   const handleTextChange = (qId, value) => {
+    if (showResults) return;
     setWrittenAnswers((prev) => ({ ...prev, [qId]: value }));
-    setShowResults(false);
+    // setShowResults(false);
   };
 
   // دالة لتحديد تنسيق الأزرار (الدائرة)
@@ -132,17 +134,17 @@ const WB_Unit3_Page17_Q1 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
+      <div className="div-forall">
         <h1 className="WB-header-title-page8">
           {" "}
           <span className="WB-ex-A">E</span>Look, read and circle. Write.
         </h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
           {circleQuestions.map((q, index) => (
             <div key={q.id} className="space-y-3">
               <div className="flex items-center gap-4">
-                <span className="font-bold text-blue-600">{index + 1}</span>
+                <span className="font-bold text-blue-600 text-[20px]" >{index + 1}</span>
                 <img
                   src={q.img}
                   alt={q.phrase}
@@ -154,20 +156,20 @@ const WB_Unit3_Page17_Q1 = () => {
                     <button
                       key={opt}
                       onClick={() => handleSelect(q.id, opt)}
-                      className={`px-4 py-1 border-2 rounded-full font-semibold transition-all ${getButtonClass(q.id, opt)}`}
+                      className={`w-20 px-4 py-1 border-2 rounded-full font-semibold transition-all ${getButtonClass(q.id, opt)}`}
                     >
                       {opt}
                     </button>
                   ))}
                 </div>
-                <span className="text-gray-700">{q.phrase}</span>
+                <span className="text-gray-700 text-[20px]">{q.phrase}</span>
               </div>
               <div className="relative">
                 <input
                   type="text"
                   value={writtenAnswers[q.id] || ""}
                   onChange={(e) => handleTextChange(q.id, e.target.value)}
-                  className={`w-full bg-transparent border-b-2 pb-1 focus:outline-none transition-colors
+                  className={`text-[20px] w-full bg-transparent border-b-2 pb-1 focus:outline-none transition-colors
   ${
     showResults &&
     writtenAnswers[q.id]?.trim().toLowerCase() !==

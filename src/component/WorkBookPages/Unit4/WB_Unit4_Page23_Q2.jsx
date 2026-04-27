@@ -75,13 +75,14 @@ const WB_Unit4_Page23_Q2 = () => {
   return (
     <div ref={captureRef}>
       <div className="main-container-component">
-        <div className="div-forall" style={{ gap: "20px" }}>
-          <h1 className="WB-header-title-page8 mb-10">
+        <div className="div-forall">
+          <h1 className="WB-header-title-page8">
             {" "}
+
             <span className="WB-ex-A">F</span>Ask your friend. Write "Yes" or
             "No."
           </h1>
-
+      <div className="flex flex-col gap-5">
           <div className="mb-4 p-3 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center gap-2">
             <p className="text-lg font-medium">Do you want</p>
             <input
@@ -139,7 +140,7 @@ const WB_Unit4_Page23_Q2 = () => {
               ))}
             </tbody>
           </table>
-
+</div>
           <div className="action-buttons-container">
             <button onClick={handleStartAgain} className="try-again-button">
               Start Again ↻

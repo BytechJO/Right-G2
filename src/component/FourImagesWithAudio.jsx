@@ -136,7 +136,7 @@ const FourImagesWithAudio = ({
           display: "flex",
           flexDirection: "column",
           justifyContent: "flex-start",
-          width: "70%",
+          width: "60%",
           alignItems: "flex-start",
           marginTop:"25px"
         }}

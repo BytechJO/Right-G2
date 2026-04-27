@@ -17,3 +17,22 @@
   font-weight: bold;
   
 }
+
+.option-btn-wb-unit2-page11-q1 {
+  padding: 8px 14px;
+  border: 2px solid rgb(226, 224, 224);
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.option-btn-wb-unit2-page11-q1:hover {
+  background: #e6f0ff;
+}
+
+.option-btn-wb-unit2-page11-q1.selected {
+  border:2px solid #2c5287;
+  /* color: white; */
+}

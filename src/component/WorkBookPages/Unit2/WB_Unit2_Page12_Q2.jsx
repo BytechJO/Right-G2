@@ -207,43 +207,38 @@ export default function WritingExercise() {
     setInputs((prev) => ({ ...prev, [inputName]: value }));
   };
 
- const checkAnswers = () => {
-  if (locked) return;
+  const checkAnswers = () => {
+    if (locked) return;
 
-  // ⭐ تحقق إذا في input فاضي
-  const hasEmpty = Object.values(inputs).some(
-    (value) => value.trim() === ""
-  );
+    // ⭐ تحقق إذا في input فاضي
+    const hasEmpty = Object.values(inputs).some((value) => value.trim() === "");
 
-  if (hasEmpty) {
-    ValidationAlert.info(
-      "Oops!",
-      "Please complete all fields first."
-    );
-    return;
-  }
+    if (hasEmpty) {
+      ValidationAlert.info("Oops!", "Please complete all fields first.");
+      return;
+    }
 
-  let score = 0;
-  const newResults = {};
+    let score = 0;
+    const newResults = {};
 
-  for (const key in correctAnswers) {
-    const isCorrect = inputs[key] === correctAnswers[key];
-    newResults[key] = isCorrect;
-    if (isCorrect) score++;
-  }
+    for (const key in correctAnswers) {
+      const isCorrect = inputs[key] === correctAnswers[key];
+      newResults[key] = isCorrect;
+      if (isCorrect) score++;
+    }
 
-  setResults(newResults);
+    setResults(newResults);
 
-  if (score === 8) {
-    ValidationAlert.success(`Score: ${score} / 8`);
-  } else if (score > 0) {
-    ValidationAlert.warning(`Score: ${score} / 8`);
-  } else {
-    ValidationAlert.error(`Score: ${score} / 8`);
-  }
+    if (score === 8) {
+      ValidationAlert.success(`Score: ${score} / 8`);
+    } else if (score > 0) {
+      ValidationAlert.warning(`Score: ${score} / 8`);
+    } else {
+      ValidationAlert.error(`Score: ${score} / 8`);
+    }
 
-  setLocked(true);
-};
+    setLocked(true);
+  };
 
   const resetExercise = () => {
     setInputs(Object.fromEntries(Object.keys(inputs).map((k) => [k, ""])));
@@ -283,7 +278,7 @@ export default function WritingExercise() {
         <h1 className="header-title-page8">
           <span className="ex-A">H</span> Look, trace, and write.
         </h1>
-        <div className="p-8 font-sans w-full">
+        <div className="font-sans w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
             {/* LEFT SIDE */}
             <div className="space-y-8">
@@ -297,7 +292,11 @@ export default function WritingExercise() {
                         className={`border-b-2 pb-2 ${getInputBorderColor(`input${q.number}_1`)}`}
                       >
                         <select
-                          className="bg-transparent outline-none"
+                          className={`bg-transparent outline-none ${
+                            inputs[`input${q.number}_1`] === ""
+                              ? "text-gray-400"
+                              : "text-black"
+                          }`}
                           value={inputs[`input${q.number}_1`]}
                           onChange={(e) =>
                             handleSelectChange(
@@ -306,7 +305,9 @@ export default function WritingExercise() {
                             )
                           }
                         >
-                          <option value="">-- Select Question --</option>
+                          <option value="" disabled hidden>
+                            -- Select Question --
+                          </option>
                           <option value="Is this a">Is this a</option>
                           <option value="Are these">Are these</option>
                         </select>
@@ -320,7 +321,7 @@ export default function WritingExercise() {
                       {results[`input${q.number}_1`] === false && (
                         <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center border-2 border-white shadow-lg">
                           <span className="text-white text-sm font-bold">
-                             ✕
+                            ✕
                           </span>
                         </div>
                       )}
@@ -331,7 +332,11 @@ export default function WritingExercise() {
                         className={`border-b-2 pb-2 ${getInputBorderColor(`input${q.number}_2`)}`}
                       >
                         <select
-                          className="bg-transparent outline-none"
+                          className={`bg-transparent outline-none ${
+                            inputs[`input${q.number}_2`] === ""
+                              ? "text-gray-400"
+                              : "text-black"
+                          }`}
                           value={inputs[`input${q.number}_2`]}
                           onChange={(e) =>
                             handleSelectChange(
@@ -340,7 +345,9 @@ export default function WritingExercise() {
                             )
                           }
                         >
-                          <option value="">-- Select Answer --</option>
+                          <option value="" disabled hidden>
+                            -- Select Answer --
+                          </option>
                           <option value="Yes, they are.">Yes, they are.</option>
                           <option value="No, they aren't.">
                             No, they aren't.
@@ -354,7 +361,7 @@ export default function WritingExercise() {
                       {results[`input${q.number}_2`] === false && (
                         <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center border-2 border-white shadow-lg">
                           <span className="text-white text-sm font-bold">
-                             ✕
+                            ✕
                           </span>
                         </div>
                       )}

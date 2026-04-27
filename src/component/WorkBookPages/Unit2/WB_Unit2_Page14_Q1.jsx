@@ -147,7 +147,7 @@ const WB_Unit2_Page14_Q1 = () => {
        
    
           <QuestionAudioPlayer src={sound} captions={captions} stopAtSecond={stopAtSecond}/>
-        <div className="">
+        <div className="grid grid-cols-2 gap-15">
           {listenQuestions.map((question, index) => (
             <div key={question.id} className="flex items-center gap-4">
               <span className="font-bold text-blue-600 text-xl">

@@ -80,51 +80,53 @@ const SentenceBuilder = ({
   };
 
   return (
-    <div className="space-y-3 w-full">
+    <div className="space-y-1 w-full">
       {/* WORD BANK */}
-      <div className="flex flex-wrap gap-2 p-3 bg-gray-100 rounded-lg min-h-[50px] items-center">
-        <img src={src} className="object-contain" style={{ height: "100px" }} />
-
-        {availableWords.map((word) => (
-          <button
-            key={word.id}
-            disabled={word.used}
-            onClick={() => handleWordClick(word)}
-            className={`px-3 py-1 border rounded-md shadow-sm transition-all font-medium
+      <div className="flex gap-2 p-3 rounded-lg min-h-[50px] items-center">
+        <img src={src} className="object-contain" style={{ height: "120px" }} />
+        <div className="flex flex-col gap-5 w-full">
+          <div  className="flex gap-5 w-full">
+            {availableWords.map((word) => (
+              <button
+                key={word.id}
+                disabled={word.used}
+                onClick={() => handleWordClick(word)}
+                className={`px-3 py-1 border rounded-md shadow-sm transition-all font-medium
               ${
                 word.used
                   ? "bg-gray-200 text-gray-400 border-gray-300 cursor-not-allowed opacity-50"
                   : "bg-white text-gray-800 border-gray-400 hover:bg-blue-100 hover:border-blue-500"
               }  
             `}
-          >
-            {word.text}
-          </button>
-        ))}
-      </div>
-
-      {/* ANSWER BOX */}
-      <div className="relative">
-        <div
-          className={`flex flex-wrap gap-2 p-3 border-2 rounded-lg min-h-[60px] items-center ${isWrong ? "border-red-500" : "border-gray-500"}`}
-        >
-          {chosenWords.map((word) => (
-            <button
-              key={word.id}
-              onClick={() => handleRemoveWord(word)}
-              className="px-3 py-1 cursor-pointer hover:text-red-500"
-              title="Click to remove"
-            >
-              {word.text}
-            </button>
-          ))}
-        </div>
-
-        {isWrong && (
-          <div className="absolute -top-2 -right-2 bg-red-500 text-white w-7 h-7 flex items-center justify-center rounded-full text-base font-bold shadow-lg border-2 border-white">
-            ✕
+              >
+                {word.text}
+              </button>
+            ))}
           </div>
-        )}
+          {/* ANSWER BOX */}
+          <div className="relative">
+            <div
+              className={`flex flex-wrap gap-2 p-3 border-2 rounded-lg min-h-[60px] items-center ${isWrong ? "border-red-500" : "border-gray-400"}`}
+            >
+              {chosenWords.map((word) => (
+                <button
+                  key={word.id}
+                  onClick={() => handleRemoveWord(word)}
+                  className="px-3 py-1 cursor-pointer hover:text-red-500"
+                  title="Click to remove"
+                >
+                  {word.text}
+                </button>
+              ))}
+            </div>
+
+            {isWrong && (
+              <div className="absolute -top-2 -right-2 bg-red-500 text-white w-7 h-7 flex items-center justify-center rounded-full text-base font-bold shadow-lg border-2 border-white">
+                ✕
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -167,7 +169,7 @@ const WB_Unit2_Page13_Q1 = () => {
   const [userAnswers, setUserAnswers] = useState({});
   const [showResults, setShowResults] = useState(false);
   const [showAnswers, setShowAnswers] = useState(false);
-
+const [resetKey, setResetKey] = useState(0);
   const handleShowAnswer = () => {
     const filledAnswers = {};
 
@@ -222,12 +224,12 @@ const WB_Unit2_Page13_Q1 = () => {
     setShowResults(true);
   };
 
-  const handleStartAgain = () => {
-    setUserAnswers({});
-    setShowResults(false);
-    setShowAnswers(false);
-  };
-
+ const handleStartAgain = () => {
+  setUserAnswers({});
+  setShowResults(false);
+  setShowAnswers(false);
+  setResetKey((prev) => prev + 1); // ⭐ trigger
+};
   return (
     <div className="main-container-component">
       <div className="div-forall">
@@ -243,7 +245,8 @@ const WB_Unit2_Page13_Q1 = () => {
                 {index + 1}.
               </span>
 
-              <SentenceBuilder
+          <SentenceBuilder
+  key={sentence.id + resetKey}
                 id={sentence.id}
                 scrambled={sentence.scrambled}
                 correct={sentence.correct}

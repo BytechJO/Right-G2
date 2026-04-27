@@ -152,7 +152,7 @@ const WB_Unit6_Page34_Q1 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
+      <div className="div-forall">
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">C</span>Read, look, and number.
         </h1>
@@ -162,9 +162,9 @@ const WB_Unit6_Page34_Q1 = () => {
           onDragStart={(e) => setActiveId(e.active.id)}
           onDragEnd={handleDragEnd}
         >
-          <div className="p-6 max-w-4xl mx-auto">
+          <div >
             <div className="flex flex-col md:flex-row gap-8">
-              <div className="flex-1 space-y-3 text-lg font-medium text-gray-600">
+              <div className="flex-1 space-y-6 text-xl font-medium text-gray-600">
                 <p className="flex gap-3">
                   <span className="text-blue-900 text-xl font-bold">1</span>
                   Helen gets up.

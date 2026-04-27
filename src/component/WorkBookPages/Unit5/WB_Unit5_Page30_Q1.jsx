@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
-
+import falseIcon from "../../../assets/imgs/false.svg";
 // صور الجمل (استبدل المسارات بالمسارات الفعلية)
 import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 30/Ex G 1.svg";
 import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 30/Ex G 2.svg";
@@ -180,13 +180,15 @@ const CorrectSentenceExercise = () => {
     setShowResults(false);
     setDraggedWord(null);
   };
-
+  const isWordUsed = (word) => {
+    return Object.values(userAnswers).includes(word);
+  };
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" ,marginBottom:"30px"}}>
+      <div className="div-forall" style={{ marginBottom: "30px" }}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">G</span> Look, read, and write{" "}
-          <span className="text-blue-800">✕</span> over the mistake. Rewrite the
+          <span className="text-blue-900">✕</span> over the mistake. Rewrite the
           sentence.
         </h1>
 
@@ -199,16 +201,16 @@ const CorrectSentenceExercise = () => {
             return (
               <div
                 key={sentence.id}
-                className="space-y-4 flex justify-between gap-5"
+                className="border-2 border-blue-900 rounded-[23px] flex justify-between gap-5"
               >
                 {/* رقم الجملة والجملة الخاطئة مع إمكانية النقر على الكلمات */}
-                <div className="flex items-start gap-4 w-full">
-                  <span className="text-lg font-bold text-gray-700 min-w-8">
+                <div className="flex items-start gap-2 w-full p-[20px]">
+                  <span className="text-xl font-semibold text-blue-900 mt-1">
                     {sentence.id}
                   </span>
                   <div className="flex-1 space-y-3">
                     {/* الجملة الخاطئة - الكلمات قابلة للنقر */}
-                    <div className="flex flex-wrap items-center gap-2 text-lg">
+                    <div className="flex flex-wrap items-center gap-2 text-[20px]">
                       {incorrectWords.map((word, wordIndex) => (
                         <button
                           key={wordIndex}
@@ -225,7 +227,7 @@ const CorrectSentenceExercise = () => {
                           {word}
                           {markedWords[sentence.id] === wordIndex && (
                             <span className="absolute -top-2 -right-2 text-2xl text-red-600 font-bold">
-                              ✕
+                              <img src={falseIcon} style={{ height: "25px" }} />
                             </span>
                           )}
                         </button>
@@ -233,22 +235,29 @@ const CorrectSentenceExercise = () => {
                     </div>
 
                     {/* Word Bank لهذه الجملة */}
-                    <div className="p-3 border-2 border-dashed border-blue-400 rounded-lg bg-blue-50">
+                    <div className="rounded-lg">
                       <div className="flex flex-wrap gap-2">
-                        {sentence.wordBank.map((word) => (
-                          <div
-                            key={word}
-                            draggable
-                            onDragStart={() => handleDragStart(word)}
-                            className={`px-3 py-1 rounded-lg text-sm font-medium cursor-move transition-all ${
-                              draggedWord === word
-                                ? "bg-yellow-300 opacity-50"
-                                : "bg-blue-500 text-white hover:bg-blue-600"
-                            }`}
-                          >
-                            {word}
-                          </div>
-                        ))}
+                        {sentence.wordBank.map((word) => {
+                          const used = isWordUsed(word);
+
+                          return (
+                            <div
+                              key={word}
+                              draggable={!used && !showResults}
+                              onDragStart={() => handleDragStart(word)}
+                              className={`px-3 py-1 rounded-lg text-lg font-medium transition-all
+        ${
+          used
+            ? "bg-gray-200 opacity-40 cursor-not-allowed border border-gray-400"
+            : "border-2 border-blue-900 hover:bg-blue-50 cursor-move"
+        }
+        ${draggedWord === word ? "opacity-40" : ""}
+      `}
+                            >
+                              {word}
+                            </div>
+                          );
+                        })}
                       </div>
                     </div>
 
@@ -256,14 +265,14 @@ const CorrectSentenceExercise = () => {
                     <div
                       onDragOver={handleDragOver}
                       onDrop={() => handleDrop(sentence.id)}
-                      className={`relative p-2 border-2 rounded-lg transition-all ${
+                      className={`relative p-2 rounded-lg transition-all ${
                         userAnswers[sentence.id]
                           ? showResults
                             ? isAnswerCorrect(sentence.id)
-                              ? "border-gray-400 bg-gray-50 "
-                              : "border-gray-400 bg-gray-50"
-                            : "border-blue-500 bg-blue-50"
-                          : "border-dashed border-gray-400 bg-gray-50 hover:bg-gray-100"
+                              ? "border-gray-400"
+                              : "border-gray-400"
+                            : "border-blue-500"
+                          : "border-blue-500"
                       }`}
                     >
                       {showResults &&
@@ -281,14 +290,14 @@ const CorrectSentenceExercise = () => {
                             return (
                               <div
                                 key={wordIndex}
-                                className={`px-3 py-2 rounded-lg border-2 transition-all ${
+                                className={`px-3 py-2 border-b-2 transition-all ${
                                   userAnswers[sentence.id]
                                     ? showResults
                                       ? isAnswerCorrect(sentence.id)
                                         ? "border-blue-500"
                                         : "border-red-500"
-                                      : "border-blue-500 bg-blue-200"
-                                    : "border-dashed border-gray-400 bg-gray-200"
+                                      : "border-blue-900 bg-blue-50"
+                                    : "border-blue-900"
                                 }`}
                               >
                                 {userAnswers[sentence.id] ? (
@@ -334,7 +343,7 @@ const CorrectSentenceExercise = () => {
                   src={sentence.image}
                   alt={`Sentence ${sentence.id}`}
                   className="rounded-lg object-contain"
-                  style={{ height: "180px", width: "auto" }}
+                  style={{ height: "215px", width: "auto" }}
                 />
               </div>
             );

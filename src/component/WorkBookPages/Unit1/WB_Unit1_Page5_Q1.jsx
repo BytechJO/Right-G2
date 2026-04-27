@@ -89,18 +89,12 @@ const WB_Unit1_Page5_Q1 = () => {
     >
       <div
         className="div-forall"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          // gap: "30px",
-          width: "60%",
-          justifyContent: "flex-start",
-        }}
+      
       >
         <h1 className="WB-header-title-page8">
           <div className="WB-ex-A">F</div>Look, read, and circle.
         </h1>
-      </div>
+     
 
       <div className="grid grid-cols-3 gap-12">
         {data.map((item) => {
@@ -111,9 +105,9 @@ const WB_Unit1_Page5_Q1 = () => {
           return (
             <div
               key={item.id}
-              className="flex flex-col items-center gap-6 relative"
+              className="flex flex-col items-center justify-center gap-6 relative"
             >
-              <div className="flex items-start gap-4 w-full">
+              <div className="flex items-start gap-4 w-full justify-center">
                 <span className="font-bold text-blue-900 text-2xl">
                   {item.id}
                 </span>
@@ -124,9 +118,9 @@ const WB_Unit1_Page5_Q1 = () => {
                 />
               </div>
 
-              <div className="flex items-center gap-2 text-xl text-gray-800 flex-wrap justify-center">
+              <div className="flex items-center gap-2 text-xl text-gray-800 flex-col justify-center">
                 <span>This is Stella's</span>
-                <div className="flex flex-col border-2 border-gray-400 rounded-2xl overflow-hidden">
+                <div className="flex flex-col border-2 border-gray-400 rounded-2xl overflow-hidden w-[130px]">
                   {item.options.map((option) => (
                     <button
                       key={option}
@@ -149,7 +143,7 @@ const WB_Unit1_Page5_Q1 = () => {
           );
         })}
       </div>
-
+ </div>
       <div className="mt-16 flex justify-center">
         <Button
           handleShowAnswer={handleShowAnswer}

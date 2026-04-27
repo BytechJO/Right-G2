@@ -373,7 +373,7 @@ const WB_Unit1_Page3_Q2 = () => {
                       </Droppable>
                     </div>
 
-                    <div className="flex items-start justify-start w-8 h-8 flex-shrink-0">
+                    <div className="flex items-end justify-start w-8 h-8 flex-shrink-0">
                       <div
                         className={`rounded-full cursor-pointer transition-all shadow-md ${
                           selectedWordDot === q.id.toString()

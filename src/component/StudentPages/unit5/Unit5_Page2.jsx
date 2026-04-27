@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import page_2 from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 41.png";
 import img1_letter from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 40-41/1-05.svg";
-import img2_letter from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 40-41/Asset 1.svg";
-import img3_letter from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 40-41/Asset 2.svg";
-import img4_letter from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 40-41/Asset 3.svg";
+import img2_letter from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 40-41/1-06.svg";
+import img3_letter from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 40-41/1-07.svg";
+import img4_letter from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 40-41/1-08.svg";
 import Rabbit from "../../../assets/Page 01/Rabbit.svg";
 import soundListen from "../../../assets/audio/ClassBook/U 5/pg41-reading-adult-lady_RORtRLQ4.mp3";
 import sound1_letter from "../../../assets/audio/ClassBook/U 5/Pg41_1.1_Adult Lady.mp3";

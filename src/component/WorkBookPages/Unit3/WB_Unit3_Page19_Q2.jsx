@@ -156,9 +156,9 @@ const handleShowAnswer = () => {
     .filter((key) => key !== "wordBank")
     .flatMap((key) => items[key]);
   return (
-    <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
-        <h1 className="WB-header-title-page8 mb-10">
+    <div className="main-container-component mb-15">
+      <div className="div-forall">
+        <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">J</span> Drag the correct answer.
         </h1>
 
@@ -169,7 +169,7 @@ const handleShowAnswer = () => {
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="flex flex-wrap justify-center gap-3 p-2 border-2 border-gray-400 border-dashed rounded-xl min-h-[40px]"
+                className="flex flex-wrap justify-center gap-3 p-2 rounded-xl min-h-[40px] text-[20px]"
               >
                 {items.wordBank.map((word, index) => {
                   const isUsed = usedWords.some((w) => w.id === word.id);
@@ -187,7 +187,7 @@ const handleShowAnswer = () => {
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
-                          className={`px-4 py-2 rounded-lg text-sm transition
+                          className={`px-4 py-2 rounded-lg text-[20px] transition
             ${
               isUsed ||showResults
                 ? "bg-gray-100 text-gray-400 border border-blue-800 cursor-not-allowed opacity-70"
@@ -206,15 +206,15 @@ const handleShowAnswer = () => {
           </Droppable>
 
           {/* Questions */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-20 mt-2">
             {answerQuestions.map((q, index) => (
               <div
                 key={q.id}
-                className="relative flex flex-col items-center justify-center w-full"
+                className="relative flex flex-col justify-center w-full gap-5"
               >
                 <div className="flex gap-2">
                   <p className="font-bold text-blue-600">{index + 1}</p>
-                  <p>{q.question}</p>
+                  <p className="text-[20px]">{q.question}</p>
                 </div>
                 <img
                   src={q.img}
@@ -223,11 +223,17 @@ const handleShowAnswer = () => {
                 />
 
                 <Droppable droppableId={q.id}>
-                  {(provided) => (
+                  {(provided ,snapshot) => (
                     <div
                       ref={provided.innerRef}
                       {...provided.droppableProps}
-                      className={`w-[90%] min-h-[42px] border-b-2 border-gray-400 flex items-center justify-center ${isWrong(q.id) && "border-red-500"}`}
+                      className={`w-[90%] min-h-[30px] border-b-2 flex items-center justify-center ${isWrong(q.id) && "border-red-500"}  ${
+          snapshot.isDraggingOver
+            ? "bg-blue-100 border-blue-400 border-dashed"
+            : isWrong(q.id)
+            ? "border-red-500"
+            : "border-gray-400"
+        }`}
                     >
                       {items[q.id].map((word, i) => (
                         <Draggable
@@ -240,7 +246,7 @@ const handleShowAnswer = () => {
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
-                              // className="bg-white px-3 py-1 rounded shadow"
+                              className="text-[20px]"
                             >
                               {word.text}
                             </div>

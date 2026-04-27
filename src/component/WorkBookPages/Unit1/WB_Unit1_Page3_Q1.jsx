@@ -137,7 +137,8 @@ const WB_Unit1_Page3_Q1 = () => {
           <h5 className="WB-header-title-page8">
             <span className="WB-ex-A">A</span>Look and write.
           </h5>
-
+           
+           <div className="flex flex-col gap-5">
           {/* WORD BANK */}
           <Droppable droppableId="word-bank" direction="horizontal">
             {(provided) => (
@@ -225,7 +226,7 @@ const WB_Unit1_Page3_Q1 = () => {
                 </div>
               </div>
             ))}
-          </div>
+          </div></div>
         </div>
 
         {/* ❌ الأزرار كما هي */}

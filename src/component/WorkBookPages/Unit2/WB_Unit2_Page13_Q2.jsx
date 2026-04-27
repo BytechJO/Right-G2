@@ -6,7 +6,7 @@ import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 1
 import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 13/Ex J 3.svg";
 import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 13/Ex J 4.svg";
 import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 13/Ex J 5.svg";
-
+import trueIcon from "../../../assets/imgs/true.svg"
 // بيانات التمرين: الأسئلة، الصور، والإجابات الصحيحة
 const exerciseQuestions = [
   { id: "q1", text: "Those are birds.", img: img1, correctAnswer: false }, // الصورة لطائر واحد، والجملة تقول "birds"
@@ -113,16 +113,16 @@ const WB_Unit2_Page13_Q2 = () => {
       <div className="div-forall">
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">J</span>Look, read, and write{" "}
-          <span style={{ color: "navy" }}>✔</span>.
+          <span style={{ color: "navy" }}>✓</span>.
         </h1>
 
-        <div className="space-y-4">
+        <div className="flex flex-col justify-start" >
           {exerciseQuestions.map((question, index) => (
             <div
               key={question.id}
               className="grid grid-cols-[auto_1fr_auto] items-center gap-x-6 p-3 rounded-lg hover:bg-gray-50"
             >
-              <div className="w-90 flex items-center justify-center">
+              <div className="w-66 flex items-center justify-center">
                 {/* الصورة */}
                 <img
                   src={question.img}
@@ -133,10 +133,10 @@ const WB_Unit2_Page13_Q2 = () => {
               </div>
               {/* النص */}
               <div className="flex items-center gap-3">
-                <span className="font-bold text-blue-600 text-lg">
+                <span className="font-bold text-blue-600 text-xl">
                   {index + 1}
                 </span>
-                <p className="text-lg text-gray-800">{question.text}</p>
+                <p className="text-xl text-gray-800">{question.text}</p>
               </div>
 
               {/* مربعات الاختيار (True/False) */}
@@ -157,10 +157,11 @@ const WB_Unit2_Page13_Q2 = () => {
                   )}
                   <div
                     onClick={() => handleSelectAnswer(question.id, true)}
-                    className={`w-8 h-8 border-2 rounded-md cursor-pointer flex items-center justify-center transition-all ${getCheckboxClass(question.id, true)}`}
+                    className={`w-10 h-10 border-2 rounded-md cursor-pointer flex items-center justify-center transition-all ${getCheckboxClass(question.id, true)}`}
                   >
                     {userAnswers[question.id] === true && (
-                      <span className="text-2xl text-blue-600">✓</span>
+                      <img src={trueIcon} style={{height:"25px"}}/>
+                   
                     )}
                   </div>
                 </div>
@@ -173,10 +174,11 @@ const WB_Unit2_Page13_Q2 = () => {
                   )}
                   <div
                     onClick={() => handleSelectAnswer(question.id, false)}
-                    className={`w-8 h-8 border-2 rounded-md cursor-pointer flex items-center justify-center transition-all ${getCheckboxClass(question.id, false)}`}
+                    className={`w-10 h-10 border-2 rounded-md cursor-pointer flex items-center justify-center transition-all ${getCheckboxClass(question.id, false)}`}
                   >
                     {userAnswers[question.id] === false && (
-                      <span className="text-2xl text-blue-600">✓</span>
+                                          <img src={trueIcon} style={{height:"25px"}}/>
+
                     )}
                   </div>
                 </div>

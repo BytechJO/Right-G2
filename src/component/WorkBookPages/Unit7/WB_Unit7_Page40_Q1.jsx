@@ -81,7 +81,7 @@ const WB_Unit7_Page40_Q1 = () => {
 
   const getSelectClass = (field) => {
     if (!showResults) {
-      return "mx-3 p-2 w-100 text-center text-lg border-b-2 cursor-pointer";
+      return "mx-3 p-2 w-100 text-center text-lg border-b-2 border-gray-400 cursor-pointer";
     }
 
     const isCorrect = answers[field] === correctAnswers[field];
@@ -93,7 +93,7 @@ const WB_Unit7_Page40_Q1 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
+      <div className="div-forall">
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">G</span>Look, read and write.
         </h1>
@@ -102,7 +102,7 @@ const WB_Unit7_Page40_Q1 = () => {
           <div className="flex w-full">
             <div className="sentences">
               <div className="flex items-center gap-4 p-5">
-                <span className="font-semibold text-blue-600 mr-2">1.</span>
+                <span className="font-semibold text-blue-900 text-xl mr-2">1.</span>
                 <img src={img1} className="max-w-40 max-h-30 object-contain" />
                 <div className="flex-1">
                   <p className="text-xl text-black curesor-pointer">
@@ -142,7 +142,7 @@ const WB_Unit7_Page40_Q1 = () => {
               </div>
 
               <div className="flex items-center gap-4 p-5 rounded-xl">
-                <span className="font-semibold text-blue-600 mr-2">2.</span>
+                <span className="font-semibold text-blue-900 text-xl mr-2">2.</span>
                 <img src={img2} className="max-w-40 max-h-30 object-contain" />
                 <div className="flex-1">
                   <p className="text-xl text-black curesor-pointer">
@@ -182,14 +182,14 @@ const WB_Unit7_Page40_Q1 = () => {
               </div>
 
               <div className="flex items-center gap-4 p-5 rounded-xl">
-                <span className="font-semibold text-blue-600 mr-2">3.</span>
+                <span className="font-semibold text-blue-900 text-xl mr-2">3.</span>
                 <img src={img3} className="max-w-40 max-h-30 object-contain" />
                 <div className="flex-1">
                   <p className="text-xl text-black curesor-pointer">
                     what day is it today?
                   </p>
-                  <p className="text-xl text-gray-800">
-                    It is
+                  <div className="text-xl text-gray-800 text-nowrap flex items-center">
+                  <span className="text-xl text-gray-800 text-nowrap">  It is</span>
                     <span className="relative inline-block">
                       <select
                         value={answers.sentence3}
@@ -217,7 +217,7 @@ const WB_Unit7_Page40_Q1 = () => {
                         </div>
                       )}
                     </span>
-                  </p>
+                  </div>
                 </div>
               </div>
             </div>

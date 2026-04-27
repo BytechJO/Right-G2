@@ -181,7 +181,7 @@ const WB_Unit6_Page36_Q1 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
+      <div className="div-forall">
         <h1 className="WB-header-title-page8">
           <div className="WB-ex-A">G</div>Read, look, and match.
         </h1>
@@ -190,7 +190,7 @@ const WB_Unit6_Page36_Q1 = () => {
           ref={containerRef}
           className="flex justify-between items-center gap-20 relative mb-20"
         >
-          <div className="space-y-22">
+          <div className="space-y-18">
             {exerciseData.left.map((item) => (
               <div key={item.id} className="flex items-center gap-6 w-full">
                 <div className="text-right flex gap-5 items-center">
@@ -201,7 +201,7 @@ const WB_Unit6_Page36_Q1 = () => {
                   <div className="relative ">
                     <p
                       onClick={() => handleLeftClick(item.id)}
-                      className={`text-xl border-2 rounded p-2 text-left cursor-pointer transition transform active:scale-95 w-[200px]
+                      className={`text-xl border-2 rounded-lg p-2 text-left cursor-pointer transition transform active:scale-95 w-[200px]
     ${
       selectedLeft === item.id
         ? "text-red-600 underline border-red-600 scale-105 shadow-md"
@@ -231,7 +231,7 @@ const WB_Unit6_Page36_Q1 = () => {
             ))}
           </div>
 
-          <div className="space-y-10">
+          <div className="space-y-5">
             {exerciseData.right.map((item) => (
               <div key={item.id} className="flex items-center gap-6">
                 <div

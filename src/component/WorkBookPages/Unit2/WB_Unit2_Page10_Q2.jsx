@@ -197,6 +197,8 @@ const WB_Unit2_Page10_Q2 = () => {
 
     if (correctCount === totalItems) {
       ValidationAlert.success(`Score: ${correctCount}/${totalItems}`);
+    } else if (correctCount > 0) {
+      ValidationAlert.warning(`Score: ${correctCount}/${totalItems}`);
     } else {
       ValidationAlert.error(`Score: ${correctCount}/${totalItems}`);
     }
@@ -243,7 +245,7 @@ const WB_Unit2_Page10_Q2 = () => {
             <span className="WB-ex-A">D</span> Unscramble, look, write, and
             answer.
           </h1>
-        </div>
+       
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           {exerciseData.map((item) => {
@@ -257,11 +259,12 @@ const WB_Unit2_Page10_Q2 = () => {
             return (
               <div key={item.id} className="flex flex-col gap-4 relative">
                 <div className="flex items-start gap-3">
-                  <span className="text-blue-700 font-bold text-xl">
+                  <span className="text-blue-700 font-bold text-xl mt-[20px]">
                     {item.id}
                   </span>
 
                   <div className="flex flex-col gap-3">
+                    
                     <Droppable
                       droppableId={`bank-${item.id}`}
                       direction="horizontal"
@@ -271,7 +274,7 @@ const WB_Unit2_Page10_Q2 = () => {
                         <div
                           ref={provided.innerRef}
                           {...provided.droppableProps}
-                          className="min-h-[56px] w-full border border-dashed border-gray-400 rounded-lg p-3 flex flex-wrap gap-2 bg-gray-50"
+                          className="min-h-[56px] w-full rounded-lg p-3 flex flex-wrap gap-2"
                         >
                           {userAnswers[item.id].wordBank.map((word, index) => (
                             <Draggable
@@ -285,7 +288,7 @@ const WB_Unit2_Page10_Q2 = () => {
                                   ref={provided.innerRef}
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
-                                  className={`px-3 py-1 border rounded-md text-lg
+                                  className={`px-3 py-1 border-1 border-blue-900 rounded-md text-lg
                                     ${
                                       word.isUsed
                                         ? "bg-gray-200 text-gray-400 cursor-not-allowed"
@@ -434,7 +437,7 @@ const WB_Unit2_Page10_Q2 = () => {
             );
           })}
         </div>
-
+ </div>
         <div className="mt-12 flex justify-center">
           <Button
             handleShowAnswer={handleShowAnswer}

@@ -86,14 +86,14 @@ const WB_Unit7_Page41_Q2 = () => {
           <span className="WB-ex-A">F</span>
           Look, read, and number the events in the story.
         </h1>
-
+         <div className="flex flex-col gap-5">
         {/* Story */}
-        <div className="p-6 rounded-lg mb-8">
-          <p className="text-black text-l">{exerciseDataN.story}</p>
+        <div className="rounded-lg">
+          <p className="text-black text-[18px]">{exerciseDataN.story}</p>
         </div>
 
         {/* Events */}
-        <div className="space-y-4 mb-8">
+        <div className="space-y-2 mb-8">
           {exerciseDataN.events.map((event, idx) => {
             const correctAnswer = exerciseDataN.events.find(
               (e) => e.id === event.id
@@ -104,11 +104,11 @@ const WB_Unit7_Page41_Q2 = () => {
 
             return (
               <div key={event.id} className="flex items-center gap-4">
-                <span className="font-bold text-lg text-gray-700 w-6">
+                <span className="font-bold text-lg text-gray-900 w-6">
                   {String.fromCharCode(97 + idx)}.
                 </span>
 
-                <p className="text-lg text-gray-700 flex-1">
+                <p className="text-[20px] text-gray-900 flex-1">
                   {event.text}
                 </p>
 
@@ -144,7 +144,7 @@ const WB_Unit7_Page41_Q2 = () => {
             );
           })}
         </div>
-
+</div>
         {/* Buttons */}
         <Button
           handleStartAgain={handleStartAgain}

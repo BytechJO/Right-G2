@@ -5,7 +5,7 @@ import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 1
 import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 19/Asset 34.svg";
 import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 19/Asset 35.svg";
 import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 19/Asset 36.svg";
-
+import trueIcon from "../../../assets/imgs/true.svg";
 import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
@@ -41,18 +41,13 @@ const WB_Unit3_Page19_Q3 = () => {
   const [showResults, setShowResults] = useState(false);
 
   const handleSelect = (qId, optionId) => {
-    if(showResults)return
+    if (showResults) return;
     setSelections((prev) => ({ ...prev, [qId]: optionId }));
     setShowResults(false);
   };
 
-
   const isWrongSelected = (qId, option) => {
     return showResults && selections[qId] === option.id && !option.isCorrect;
-  };
-
-  const isCorrectSelected = (qId, option) => {
-    return showResults && option.isCorrect;
   };
 
   const handleShowAnswer = () => {
@@ -71,7 +66,7 @@ const WB_Unit3_Page19_Q3 = () => {
   };
 
   const checkAnswers = () => {
-    if(showResults)return
+    if (showResults) return;
     const allAnswered = checkQuestions.every((q) => selections[q.id]);
 
     if (!allAnswered) {
@@ -100,7 +95,7 @@ const WB_Unit3_Page19_Q3 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
+      <div className="div-forall">
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">K</span>Look, read, and write{" "}
           <span style={{ color: "navy" }}>✓</span>.
@@ -109,32 +104,36 @@ const WB_Unit3_Page19_Q3 = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {checkQuestions.map((q, index) => (
             <div key={q.id} className="space-y-3">
-              <span className="font-bold text-blue-600">{index + 1}</span>
+              <span className="font-bold text-blue-900 text-[20px]">
+                {index + 1}
+              </span>
 
               {q.options.map((opt) => (
                 <div
                   key={opt.id}
                   onClick={() => handleSelect(q.id, opt.id)}
-                  className={`cursor-pointer transition-colors relative`}
+                  className="cursor-pointer"
                 >
-                  <img
-                    src={opt.img}
-                    alt="option"
-                    // className="max-w-50 h-50 rounded-md"
-                    style={{ height: "170px" }}
-                  />
-
-                  {/* مربع الاختيار الأساسي */}
-                  <div
-                    className={`absolute bottom-0 right-6 w-10 h-10 border-2 rounded-xl bg-white flex items-center justify-center
-    ${isWrongSelected(q.id, opt) ? "border-red-500" : "border-gray-400"}
+                  <div className="relative inline-block">
+                    <img
+                      src={opt.img}
+                      style={{ height: "150px" }}
+                      className="block"
+                    /> 
+                     {/* مربع الاختيار الأساسي */}
+                 <div
+  className={`absolute bottom-0 right-0 w-10 h-10 border-2 rounded-xl bg-white flex items-center justify-center
+    ${isWrongSelected(q.id, opt) ? "border-red-500" : "border-black"}
   `}
-                  >
+>
                     {selections[q.id] === opt.id && (
-                      <span className="text-xl font-bold text-blue-600">✓</span>
+                      <img src={trueIcon} style={{ height: "25px" }} />
                     )}
                   </div>
 
+                  </div>
+
+                
                   {/* X أبيض داخل دائرة حمراء للاختيار الخاطئ */}
                   {isWrongSelected(q.id, opt) && (
                     <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-red-500 text-white flex items-center justify-center text-sm font-bold shadow border-2 border-white">
@@ -144,7 +143,7 @@ const WB_Unit3_Page19_Q3 = () => {
                 </div>
               ))}
 
-              <p className="text-center text-lg">{q.sentence}</p>
+              <p className="text-center text-[20px]">{q.sentence}</p>
             </div>
           ))}
         </div>

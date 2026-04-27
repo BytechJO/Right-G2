@@ -38,8 +38,16 @@
   font-size: 25px;
   font-weight: bold;
   color: #2c5287;
+  margin-right: 20px;
 }
-
+.sentence-wb-unit1-page4-q2 {
+    text-align: center;
+    display: flex;
+    /* margin-top: 35px; */
+    font-size: 25px;
+    flex-wrap: wrap;
+    align-items: center;
+}
 .sentence {
   display: flex;
   align-items: center;

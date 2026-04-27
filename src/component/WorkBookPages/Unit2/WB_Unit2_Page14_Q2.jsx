@@ -53,10 +53,10 @@ function DraggableWord({ word }) {
       style={style}
       {...listeners}
       {...attributes}
-      className={`text-lg font-medium px-4 py-2 rounded-lg shadow-sm
+      className={`text-lg font-medium px-4 py-2 rounded-lg shadow-sm border-2 border-blue-900
         ${
           word.used
-            ? "bg-gray-200 text-gray-400 cursor-not-allowed opacity-50"
+            ? "text-gray-400 cursor-not-allowed opacity-50"
             : "bg-gray-100 text-gray-700 cursor-grab active:cursor-grabbing"
         }
       `}
@@ -73,7 +73,7 @@ function DropZone({ id, children, className }) {
     <div
       ref={setNodeRef}
       className={className}
-      style={{ backgroundColor: isOver ? "#e0f2fe" : undefined }}
+      style={{ backgroundColor: isOver ? "white" : undefined,fontSize:"22px" ,fontWeight:"600" }}
     >
       {children}
     </div>
@@ -194,10 +194,12 @@ const DragAndDropWrite = () => {
             <span className="WB-ex-A">B</span> Look, read, and write.
           </h1>
 
+
+<div className="flex flex-col gap-5">
           {/* WORD BANK */}
           <DropZone
             id="word-bank"
-            className="flex flex-wrap justify-center items-center gap-4 p-4 border-2 border-dashed border-gray-400 rounded-lg"
+            className="flex flex-wrap justify-center items-center gap-4 p-4 rounded-lg"
           >
             {wordBank.map((word) => (
               <DraggableWord key={word.text} word={word} />
@@ -242,7 +244,7 @@ const DragAndDropWrite = () => {
               );
             })}
           </div>
-
+</div>
           <div className="mt-10 flex justify-center">
             <Button
               handleStartAgain={handleStartAgain}

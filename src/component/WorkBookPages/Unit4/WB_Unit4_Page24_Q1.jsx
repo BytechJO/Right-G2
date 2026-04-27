@@ -7,7 +7,7 @@ import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page24
 import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page24/Ex G 4.svg";
 import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page24/Ex G 5.svg";
 import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page24/Ex G 6.svg";
-
+import trueIcon from "../../../assets/imgs/true.svg"
 const questions = [
   {
     id: 1,
@@ -96,19 +96,19 @@ const WB_Unit4_Page24_Q1 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px"  ,marginBottom:"30px"}}>
-        <h1 className="WB-header-title-page8 mb-6">
+      <div className="div-forall">
+        <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">G</span>Look, read, and write{" "}
           <span style={{ color: "navy" }}>✓</span>.
         </h1>
 
-        <div className="space-y-4">
+        <div className="space-y-1">
           {questions.map((q) => (
             <div
               key={q.id}
-              className="flex flex-col gap-4"
+              className="flex flex-col"
             >
-              <p className={`mr-50 text-lg font-medium`}>
+              <p className={`mr-50 text-[20px] font-medium`}>
                 {q.id}. {q.question}
               </p>
 
@@ -135,7 +135,7 @@ const WB_Unit4_Page24_Q1 = () => {
                 </div>
                 <div className="flex flex-col gap-5">
                   <div className="relative">
-                    <label className="flex items-center gap-2 cursor-pointer">
+                    <label className="flex items-center gap-2 cursor-pointer text-xl">
                       
                       <input
                         type="radio"
@@ -152,7 +152,7 @@ const WB_Unit4_Page24_Q1 = () => {
                         }
                          ${isWrong(q) && answers[q.id] === "yes" && "border-red-500 "}`}
                       >
-                        ✓
+                        { answers[q.id] === "yes" &&<img src={trueIcon} style={{height:"25px"}}/> }
                         {isWrong(q) && answers[q.id] === "yes" && (
                         <div className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-sm font-bold shadow border-2 border-white">
                           ✕
@@ -163,7 +163,7 @@ const WB_Unit4_Page24_Q1 = () => {
                     </label>
                   </div>
                   <div className="relative">
-                    <label className="flex items-center gap-2 cursor-pointer">
+                    <label className="flex items-center gap-2 cursor-pointer text-xl" >
                       
                       <input
                         type="radio"
@@ -180,7 +180,7 @@ const WB_Unit4_Page24_Q1 = () => {
                         }
                       ${isWrong(q) && answers[q.id] === "no" && "border-red-500 "}`}
                       >
-                        ✓
+                        { answers[q.id] === "no" &&<img src={trueIcon} style={{height:"25px"}}/> }
                         {isWrong(q) && answers[q.id] === "no" && (
                         <div className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-sm font-bold shadow border-2 border-white">
                           ✕

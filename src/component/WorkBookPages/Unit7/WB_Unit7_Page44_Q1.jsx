@@ -7,6 +7,7 @@ import snowImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Pag
 import examImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 44/Ex A 3.svg";
 import bowImg from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 44/Ex A 4.svg";
 import QuestionAudioPlayer from "../../QuestionAudioPlayer";
+import trueIcon from "../../../assets/imgs/true.svg";
 const exerciseAData = [
   { id: 1, image: boatImg, options: ["o-e", "oa", "ow"], correct: "oa" },
   { id: 2, image: snowImg, options: ["o-e", "oa", "ow"], correct: "ow" },
@@ -93,10 +94,11 @@ const WB_Unit7_Page44_Q1 = () => {
   return (
     <div className="main-container-component">
       <div className="div-forall">
-        <h2 className="WB-header-title-page8  mb-5">
+        <h2 className="WB-header-title-page8">
           <span className="WB-ex-A">A</span>
           Listen and write <span className="text-blue-900">✓</span>.
         </h2>
+        <div className="flex flex-col gap-5">
         <QuestionAudioPlayer
           src={sound}
           captions={captions}
@@ -109,7 +111,8 @@ const WB_Unit7_Page44_Q1 = () => {
               <div className="w-[120px] h-[100px] flex items-center justify-center">
                 <img
                   src={item.image}
-                  className="max-w-full max-h-full object-contain"
+                  className="object-contain"
+                  style={{ height: "150px" }}
                 />
               </div>
               <div className="flex flex-col gap-3">
@@ -138,7 +141,7 @@ const WB_Unit7_Page44_Q1 = () => {
                         >
                           {isSelected && (
                             <span className="text-2xl font-bold text-blue-600">
-                              ✓
+                              <img src={trueIcon} style={{ height: "25px" }} />
                             </span>
                           )}
                         </div>
@@ -157,8 +160,8 @@ const WB_Unit7_Page44_Q1 = () => {
             </div>
           ))}
         </div>
-
-        <div className="mt-12 flex justify-center">
+</div>
+        <div className="flex justify-center">
           <Button
             handleShowAnswer={handleShowAnswer}
             handleStartAgain={handleTryAgain}

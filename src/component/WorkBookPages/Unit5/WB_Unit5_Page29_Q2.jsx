@@ -6,7 +6,7 @@ import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page29
 import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page29/Asset 19.svg";
 import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page29/Asset 20.svg";
 import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page29/Asset 21.svg";
-
+import trueIcon from "../../../assets/imgs/true.svg";
 const questions = [
   {
     id: 1,
@@ -106,8 +106,8 @@ const WB_Unit5_Page29_Q2 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
-        <h1 className="WB-header-title-page8 mb-10">
+      <div className="div-forall">
+        <h1 className="WB-header-title-page8">
           <div className="WB-ex-A">F</div>
           Look, read, and write <span style={{ color: "navy" }}>✓</span>.
         </h1>
@@ -117,18 +117,20 @@ const WB_Unit5_Page29_Q2 = () => {
             <div key={q.id} className="flex flex-col">
               <div className="grid grid-cols-[300px_300px] items-center gap-25">
                 <div className="flex gap-5">
-                  <span className="text-xl text-blue-800 font-bold">{q.id}</span>
-                <img
-                  src={q.img}
-                  alt=""
-                  className="object-contain"
-                  style={{ height: "100px", width: "auto" }}
-                />
+                  <span className="text-2xl text-blue-900 font-semibold">
+                    {q.id}
+                  </span>
+                  <img
+                    src={q.img}
+                    alt=""
+                    className="object-contain"
+                    style={{ height: "100px", width: "150px" }}
+                  />
                 </div>
 
                 <div className="flex flex-col gap-3">
                   <div className="relative">
-                    <label className="flex items-center gap-2 cursor-pointer">
+                    <label className="flex items-center gap-2 cursor-pointer text-lg">
                       <input
                         type="radio"
                         name={`q${q.id}`}
@@ -142,7 +144,11 @@ const WB_Unit5_Page29_Q2 = () => {
                           answers[q.id] === "yes" ? "text-green-600" : ""
                         }`}
                       >
-                        {answers[q.id] === "yes" ? "✓" : ""}
+                        {answers[q.id] === "yes" ? (
+                          <img src={trueIcon} style={{ height: "25px" }} />
+                        ) : (
+                          ""
+                        )}
                       </span>
 
                       {q.option1}
@@ -156,7 +162,7 @@ const WB_Unit5_Page29_Q2 = () => {
                   </div>
 
                   <div className="relative">
-                    <label className="flex items-center gap-2 cursor-pointer">
+                    <label className="flex items-center gap-2 cursor-pointer text-lg">
                       <input
                         type="radio"
                         name={`q${q.id}`}
@@ -170,7 +176,11 @@ const WB_Unit5_Page29_Q2 = () => {
                           answers[q.id] === "no" ? "text-green-600" : ""
                         }`}
                       >
-                        {answers[q.id] === "no" ? "✓" : ""}
+                        {answers[q.id] === "no" ? (
+                          <img src={trueIcon} style={{ height: "25px" }} />
+                        ) : (
+                          ""
+                        )}
                       </span>
 
                       {q.option2}

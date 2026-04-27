@@ -5,9 +5,10 @@
 }
 
 .CB-unit5-p5-q1-container {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 76%;
 }
 .CB-unit5-p5-q1-choice {
   width: 140px;

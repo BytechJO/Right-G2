@@ -90,7 +90,7 @@ const SentenceBuilder = ({
   return (
     <div className="space-y-3">
       {/* WORD BANK */}{" "}
-      <div className="flex flex-wrap gap-2 p-3 bg-gray-100 rounded-lg min-h-[50px] items-center">
+      <div className="flex flex-wrap gap-2 p-3 rounded-lg min-h-[50px] items-center">
         {availableWords.map((word) => {
           const used = isUsed(word.id);
 
@@ -100,11 +100,11 @@ const SentenceBuilder = ({
               onClick={() => {
                 if (!used) handleWordClick(word);
               }}
-              className={`px-3 py-1 border rounded-md transition
+              className={`px-3 py-1 border-2 text-lg rounded-md transition
             ${
               used
                 ? "bg-gray-100 text-gray-400 cursor-not-allowed opacity-60"
-                : "bg-white border-gray-400 hover:bg-blue-100 cursor-pointer"
+                : "bg-white border-blue-900 hover:bg-blue-100 cursor-pointer"
             }`}
             >
               {word.text}
@@ -115,7 +115,7 @@ const SentenceBuilder = ({
       {/* ANSWER */}
       <div className="relative">
         <div
-          className={`flex flex-wrap gap-2 p-3 border-2 rounded-lg min-h-[60px] ${getBoxClassName()} ${isIncorrectAnswer() && "border-red-500"}`}
+          className={`flex flex-wrap gap-2 p-3 text-lg border-2 rounded-lg min-h-[60px] ${getBoxClassName()} ${isIncorrectAnswer() && "border-red-500"}`}
         >
           {chosenWords.map((word) => (
             <button
@@ -256,18 +256,18 @@ const WB_Unit5_Page31_Q2 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px", marginBottom: "50px" }}>
+      <div className="div-forall mb-10">
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">J</span>Unscramble and write.
         </h1>
 
-        <div className="space-y-2 grid grid-cols-2">
+        <div className="space-y-2">
           {exerciseSentences.map((sentence, index) => (
             <div
               key={sentence.id}
               className="flex items-start gap-4 p-4 rounded-xl transition-all hover:bg-gray-50"
             >
-              <span className="font-bold text-blue-600 text-xl pt-2">
+              <span className="font-bold text-blue-900 text-xl pt-4">
                 {index + 1}.
               </span>
               <div className="flex-1">
@@ -285,14 +285,15 @@ const WB_Unit5_Page31_Q2 = () => {
             </div>
           ))}
         </div>
-        <div className="mt-20">
+        
+      </div>
+      <div >
           <Button
             handleShowAnswer={handleShowAnswer}
             handleStartAgain={handleStartAgain}
             checkAnswers={checkAnswers}
           />
         </div>
-      </div>
     </div>
   );
 };

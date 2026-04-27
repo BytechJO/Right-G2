@@ -49,7 +49,7 @@ const DraggableWord = ({ word, isUsed, showResults }) => {
       style={style}
       {...listeners}
       {...attributes}
-      className={`px-3 py-1 rounded-md shadow-sm transition-opacity border-1 border-blue-800
+      className={`text-lg px-3 py-1 rounded-md shadow-sm transition-opacity border-1 border-blue-900
   ${
     showResults || isUsed
       ? "opacity-40 cursor-not-allowed"
@@ -63,16 +63,21 @@ const DraggableWord = ({ word, isUsed, showResults }) => {
 };
 
 const DropZone = ({ id, children, borderColor }) => {
-  const { setNodeRef } = useDroppable({ id });
+  const { setNodeRef, isOver } = useDroppable({ id });
 
-  return (
-    <div
-      ref={setNodeRef}
-      className={`w-full border-b-2 pb-1 transition-colors ${borderColor}`}
-    >
-      {children}
-    </div>
-  );
+ 
+ return (
+  <div
+    ref={setNodeRef}
+    className={`w-full border-b-2 pb-1 transition-all duration-200
+      ${borderColor}
+      ${isOver ? "bg-blue-100 scale-105 border-blue-500 border-dashed shadow-md" : ""}
+    `}
+  >
+    {children}
+  </div>
+);
+
 };
 
 const WB_Unit3_Page16_Q1 = () => {
@@ -146,14 +151,14 @@ const WB_Unit3_Page16_Q1 = () => {
   return (
     <DndContext onDragEnd={handleDragEnd} collisionDetection={closestCenter}>
       <div className="main-container-component">
-        <div className="div-forall" style={{ gap: "20px" }}>
+        <div className="div-forall">
           <h1 className="WB-header-title-page8">
             {" "}
             <span className="WB-ex-A">C</span>Look, read, and label the
             pictures. Use the words from the box.
           </h1>
-
-          <div className="flex flex-wrap justify-center gap-3 p-3 mb-6 border-2 border-gray-400 border-dashed rounded-lg">
+        <div className="flex flex-col gap-5">
+          <div className="flex flex-wrap justify-center gap-5 p-3 mb-6 rounded-lg">
             {wordBankWords.map((word) => (
               <DraggableWord
                 key={word}
@@ -191,7 +196,7 @@ const WB_Unit3_Page16_Q1 = () => {
               </div>
             ))}
           </div>
-
+</div>
           <div className="mt-20 flex justify-center">
             <Button
               handleShowAnswer={handleShowAnswer}

@@ -125,14 +125,14 @@ const WB_Unit4_Page25_Q2 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
+      <div className="div-forall">
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">J</span>Look, read, and circle.
         </h1>
 
         <div className="grid grid-cols-2 gap-x-20 gap-y-16">
           {data.map((item) => (
-            <div key={item.id} className="flex flex-col items-center gap-6">
+            <div key={item.id} className="flex items-center gap-6 flex-wrap">
               <div className="flex items-start gap-4 max-w-full">
                 <span className="font-bold text-blue-900 text-2xl">
                   {item.id}
@@ -141,7 +141,7 @@ const WB_Unit4_Page25_Q2 = () => {
                   src={item.img}
                   alt=""
                   className="object-contain rounded-xl "
-                   style={{height:"100px",width:"auto"}}
+                   style={{height:"120px",width:"120px"}}
                 />
               </div>
 
@@ -153,7 +153,7 @@ const WB_Unit4_Page25_Q2 = () => {
                     <div key={r} className="relative">
                       <button
                         onClick={() => handleSelect(item.id, "relation", r)}
-                        className={`w-50 px-4 py-1 rounded-full border-2 font-medium transition-all ${getButtonClass(item, r)} ${isWrong(item) &&
+                        className={`w-40 px-4 py-1 rounded-full border-2 font-medium transition-all ${getButtonClass(item, r)} ${isWrong(item) &&
                         userSelections[item.id]?.relation === r && "border-red-500 bg-white"}`}
                       >
                         {r}

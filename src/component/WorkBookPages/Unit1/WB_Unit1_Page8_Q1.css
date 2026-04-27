@@ -18,6 +18,46 @@ position: relative;
     /* object-fit: fill; */
 }
 
+
+/* input فوق */
+
+/* النص + الصورة */
+.WB-unit1-p8-q1-middle-section {
+  display: flex;
+ 
+  align-items: center;
+  gap: 5px;
+}
+
+.WB-unit1-p8-q1-pattern {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+/* الخيارات تحت */
+.WB-unit1-p8-q1-choices {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.WB-unit1-p8-q1-choice-btn {
+  padding: 6px 14px;
+  border: 2px solid #2c5287;
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 22px;
+  height: 45px;
+  width:45px
+}
+
+.WB-unit1-p8-q1-choice-btn.selected {
+  background: #2c5287;
+  color: white;
+}
+
 .WB-unit1-p8-q1-input {
     flex: 1;
     min-height: 22px;
@@ -25,7 +65,7 @@ position: relative;
     display: inline-flex;
     align-items: center;
     font-weight: 600;
-    font-size: 20px;
+    font-size: 22px;
     padding: 2px 4px;
     position: relative;
     width: 100%;
@@ -53,4 +93,23 @@ position: relative;
   border: 2px solid white;
   font-size: 14px;
   font-weight: bold; 
+}
+
+.wrong-icon-wb-unit1-p8-q2 {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: red;
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  border: 2px solid white;
+
 }

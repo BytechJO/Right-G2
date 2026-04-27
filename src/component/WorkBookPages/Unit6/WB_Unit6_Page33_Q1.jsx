@@ -58,7 +58,7 @@ function DraggableWord({ word, isUsed }) {
       style={style}
       {...attributes}
       {...listeners}
-      className={`px-4 py-1 bg-white border-2 border-gray-300 rounded-full shadow-sm cursor-grab active:cursor-grabbing font-medium text-blue-600 ${
+      className={`px-4 py-1 bg-white border-2 border-gray-300 rounded-lg h-10 w-25 flex item-center justify-center shadow-sm cursor-grab active:cursor-grabbing font-medium text-blue-600 ${
         isUsed ? "pointer-events-none bg-gray-100" : "hover:border-blue-400"
       }`}
     >
@@ -172,14 +172,14 @@ const WB_Unit6_Page33_Q1 = () => {
       onDragEnd={handleDragEnd}
     >
       <div className="main-container-component">
-        <div className="div-forall" style={{ gap: "20px" }}>
+        <div className="div-forall">
           <h1 className="WB-header-title-page8">
             <div className="WB-ex-A">A</div>
             Describe Stella's day. Read and write.
           </h1>
 
           <div className="p-6 max-w-4xl mx-auto font-sans">
-            <div className="flex flex-wrap justify-center gap-4 p-4 bg-gray-50 rounded-lg border-2 border-dashed mb-6">
+            <div className="flex flex-wrap justify-center gap-4 mb-6 w-full">
               <SortableContext items={WORDS.map((w) => w.id)}>
                 {WORDS.map((word) => (
                   <DraggableWord
@@ -196,17 +196,17 @@ const WB_Unit6_Page33_Q1 = () => {
                 <img
                   src={img1}
                   alt="get up"
-                  className="max-w-50 max-h-28 object-contain"
+                  className="max-h-28 object-contain"
                 />
                 <img
                   src={img2}
                   alt="brush"
-                  className="max-w-50 max-h-28 object-contain"
+                  className="max-h-28 object-contain"
                 />
                 <img
                   src={img3}
                   alt="wash"
-                  className="max-w-50 max-h-28 object-contain"
+                  className="max-h-28 object-contain"
                 />
               </div>
 
@@ -239,17 +239,17 @@ const WB_Unit6_Page33_Q1 = () => {
                 <img
                   src={img4}
                   alt="eat"
-                  className="max-w-50 max-h-28 object-contain"
+                  className="max-h-28 object-contain"
                 />
                 <img
                   src={img5}
                   alt="say"
-                  className="max-w-50 max-h-28 object-contain"
+                  className="max-h-28 object-contain"
                 />
                 <img
                   src={img6}
                   alt="go"
-                  className="max-w-50 max-h-28 object-contain"
+                  className="max-h-28 object-contain"
                 />
               </div>
 

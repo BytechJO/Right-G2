@@ -60,7 +60,7 @@ const checkAnswers = () => {
   return (
     <div ref={captureRef}>
       <div className="main-container-component">
-        <div className="div-forall" style={{ gap: "20px" }}>
+        <div className="div-forall">
           <h1 className="WB-header-title-page8">
             <span className="WB-ex-A">E</span>What do you want? Circle and write
             "Yes, I do." or "No, I don't."
@@ -75,8 +75,8 @@ const checkAnswers = () => {
 
               return (
                 <div key={item.id} className="flex items-center gap-4">
-                  <span className="font-bold text-blue-600">{index + 1}</span>
-                  <p className="text-lg">Do you want {item.item}?</p>
+                  <span className="font-bold text-blue-600 text-xl">{index + 1}</span>
+                  <p className="text-xl">Do you want {item.item}?</p>
                   <img
                     src={item.img}
                     alt={item.item}
@@ -101,7 +101,7 @@ const checkAnswers = () => {
 
                   {/* مربع الحوار */}
                   <div className="flex-1 h-12 px-4 flex items-center bg-gray-100 rounded-full border border-gray-300 relative">
-                    <p className="text-lg font-medium text-gray-700">
+                    <p className="text-xl font-medium text-gray-700">
                       {answerText}
                     </p>
                     {/* شكل ذيل مربع الحوار */}

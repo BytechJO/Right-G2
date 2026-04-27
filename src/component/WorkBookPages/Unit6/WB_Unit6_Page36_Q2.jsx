@@ -51,7 +51,7 @@ function DraggablePhrase({ phrase, isUsed }) {
       style={style}
       {...attributes}
       {...listeners}
-      className={`px-4 py-1 bg-white border-2 border-gray-300 rounded-full touch-none shadow-sm cursor-grab text-blue-600 font-medium ${isUsed ? "bg-gray-100 text-gray-400 pointer-events-none" : "hover:border-blue-400"}`}
+      className={`px-4 py-1 w-40 flex items-center justify-center bg-white border-2 border-gray-300 rounded-lg touch-none shadow-sm cursor-grab text-blue-600 text-lg font-medium ${isUsed ? "bg-gray-100 text-gray-400 pointer-events-none" : "hover:border-blue-400"}`}
     >
       {phrase.text}
     </div>
@@ -143,13 +143,14 @@ const WB_Unit6_Page36_Q2 = () => {
       onDragEnd={handleDragEnd}
     >
       <div className="main-container-component" ref={captureRef}>
-        <div className="div-forall" style={{ gap: "20px" }}>
-          <h1 className="WB-header-title-page8 mb-3">
+        <div className="div-forall mb-10">
+          <h1 className="WB-header-title-page8">
             <span className="WB-ex-A">H</span> Write questions. Use the phrases
             in the boxes.
           </h1>
 
-          <div className="flex flex-wrap justify-center gap-3 mb-4 p-5 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">
+<div className="flex flex-col gap-5">
+          <div className="flex flex-wrap justify-center gap-3 mb-4 p-5">
             <SortableContext items={PHRASES.map((p) => p.id)}>
               {PHRASES.map((phrase) => (
                 <DraggablePhrase
@@ -214,7 +215,7 @@ const WB_Unit6_Page36_Q2 = () => {
             />
           </div>
 
-          <div className="action-buttons-container">
+       </div>   <div className="action-buttons-container">
             <button onClick={handleStartAgain} className="try-again-button">
               Start Again ↻
             </button>

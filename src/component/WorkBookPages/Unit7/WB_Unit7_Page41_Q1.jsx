@@ -96,15 +96,15 @@ const WB_Unit7_Page41_Q1 = () => {
   };
 
   return (
-    <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
+    <div className="main-container-component mb-10">
+      <div className="div-forall">
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">E</span>Look, read, and write.
         </h1>
 
-        <div className="grid grid-cols-2 gap-8 mb-8">
+        <div className="grid grid-cols-2 gap-8 mb-8" style={{justifyItems:"end"}}>
           {/* Questions */}
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-2 gap-x-32 gap-y-10" style={{justifyItems:"center"}}>
             {exerciseDataM.questions.map((question, idx) => {
               const isWrong =
                 showResults &&
@@ -156,10 +156,9 @@ const WB_Unit7_Page41_Q1 = () => {
             })}
           </div>
 
-          {/* Calendar */}
-          <div className="flex flex-col items-center">
+      
             <img src={img5} className="object-contain" style={{height:"550px",width:"auto"}} />
-          </div>
+      
         </div>
 
         <Button

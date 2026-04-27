@@ -348,7 +348,7 @@ const WB_Unit5_Page27_Q1 = () => {
           <span className="WB-ex-A">B</span>Look, read, and match.
         </h1>
 
-        <div className="flex flex-col items-center p-8">
+        <div className="flex flex-col items-center">
           <div
             className="flex flex-col items-center w-full relative"
             style={{
@@ -359,7 +359,7 @@ const WB_Unit5_Page27_Q1 = () => {
             ref={containerRef}
           >
             {/* Left Column (Images) */}
-            <div className="flex flex-row gap-4">
+            <div className="flex flex-row gap-13 w-full justify-between">
               {images.map((img) => (
                 <div
                   key={img.id}
@@ -374,7 +374,7 @@ const WB_Unit5_Page27_Q1 = () => {
             </div>
 
             {/* Center Column (Texts) */}
-            <div className="flex flex-row gap-15">
+            <div className="flex flex-row gap-15 w-full justify-between">
               {leftParts.map((l, i) => (
                 <div
                   key={i}
@@ -391,7 +391,7 @@ const WB_Unit5_Page27_Q1 = () => {
             </div>
 
             {/* Right Column (Images) */}
-            <div className="flex flex-row gap-4">
+            <div className="flex flex-row gap-13 w-full justify-between">
               {rightParts.map((r) => (
                 <div
                   key={r.id}

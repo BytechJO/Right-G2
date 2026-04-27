@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
-
+import trueIcon from "../../../assets/imgs/true.svg";
 const questions = [
   { id: "q1", text: "Can you climb a tree?" },
   { id: "q2", text: "Can you swim?" },
@@ -112,7 +112,7 @@ const WB_Unit3_Page15_Q2 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
+      <div className="div-forall">
         <h1 className="WB-header-title-page8">
           {" "}
           <span className="WB-ex-A">B</span>Read and write{" "}
@@ -146,9 +146,9 @@ const WB_Unit3_Page15_Q2 = () => {
                     className={`p-3 border-r border-gray-300 cursor-pointer transition-colors ${getCellClass(q.id, true)}`}
                   >
                     {selections[q.id] === true && (
-                      <span className="text-2xl text-blue-600 font-bold">
-                        ✓
-                      </span>
+                      <div className="flex justify-center items-center ">
+                        <img src={trueIcon} style={{ height: "25px" }} />
+                      </div>
                     )}
                   </td>
                   <td
@@ -156,9 +156,10 @@ const WB_Unit3_Page15_Q2 = () => {
                     className={`p-3 cursor-pointer transition-colors ${getCellClass(q.id, false)}`}
                   >
                     {selections[q.id] === false && (
-                      <span className="text-2xl text-blue-600 font-bold">
-                        ✓
-                      </span>
+                      <div className="flex justify-center items-center ">
+                        {" "}
+                        <img src={trueIcon} style={{ height: "25px" }} />
+                      </div>
                     )}
                   </td>
                 </tr>
