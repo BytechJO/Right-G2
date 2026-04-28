@@ -194,18 +194,42 @@ const WB_Unit9_Page54_Q1 = () => {
     setChecked(false);
     setLocked(false);
   };
+const handleRemoveWord = (key, wordIndex) => {
+  if (locked) return;
 
-  const renderSentence = (key, item) => {
-    return Array.isArray(userAnswers[key])
-      ? (userAnswers[key] || [])
-          .map((i) => item.scrambled[i])
-          .join(" ")
-      : userAnswers[key];
-  };
+  setUserAnswers((prev) => {
+    const updated = [...(prev[key] || [])];
+
+    // حذف الكلمة حسب موقعها في الجملة
+    updated.splice(wordIndex, 1);
+
+    return {
+      ...prev,
+      [key]: updated,
+    };
+  });
+};
+ const renderSentence = (key, item) => {
+  if (!Array.isArray(userAnswers[key])) return userAnswers[key];
+
+  return (userAnswers[key] || []).map((i, idx) => {
+    const word = item.scrambled[i];
+
+    return (
+      <span
+        key={idx}
+        onClick={() => handleRemoveWord(key, idx)}
+       className="mr-1 cursor-pointer hover:text-red-500 transition"
+      >
+        {word}
+      </span>
+    );
+  });
+};
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "30px" }}>
+      <div className="div-forall">
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">G</span> What is different? Look and write.
         </h1>
@@ -233,15 +257,7 @@ const WB_Unit9_Page54_Q1 = () => {
                         <div className="flex-1 min-h-[40px] border-b-2 border-gray-400 font-serif text-lg px-2 flex items-center relative">
                           {renderSentence(key, item)}
 
-                          {userAnswers[key] && !locked && (
-                            <button
-                              onClick={() => clearAnswer(key)}
-                              className="absolute right-0 text-xs text-red-400 hover:text-red-600"
-                            >
-                              clear
-                            </button>
-                          )}
-
+                      
                           {checked &&
                             renderSentence(key, item).toLowerCase().trim() !==
                               item.correct.toLowerCase() && (
@@ -265,7 +281,7 @@ const WB_Unit9_Page54_Q1 = () => {
                                 ${
                                   isUsed
                                     ? "bg-gray-100 text-gray-300 border-gray-200 cursor-not-allowed"
-                                    : "bg-gray-100 border-gray-300 hover:bg-blue-50 hover:border-blue-300"
+                                    : "border-blue-900 hover:bg-blue-50 hover:border-blue-300"
                                 }
                                 ${locked && "opacity-50"}
                               `}

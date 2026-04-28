@@ -89,18 +89,18 @@ export default function WB_Unit10_Page62_Q3() {
   const getCircleClass = (qId, val) => {
     const isSelected = answers[qId] === val;
     const base =
-      "px-4 py-2 rounded-full border-2 text-base font-bold transition-all cursor-pointer select-none ";
+      "px-2 py-2 rounded-full border-2 text-xl font-bold transition-all cursor-pointer select-none ";
     if (!isSelected)
       return base + "border-transparent text-gray-600 hover:border-gray-400";
-    if (!showResult) return base + "border-blue-500 text-blue-600 bg-blue-50";
+    if (!showResult) return base + "border-blue-900 text-blue-900 bg-blue-50";
     return answers[qId] === correctAnswers[qId]
-      ? base + "border-blue-500 text-blue-600"
+      ? base + "border-blue-900 text-blue-900"
       : base + "border-red-500";
   };
 
   return (
     <div key={resetKey} className="main-container-component">
-      <div className="div-forall" style={{ gap: "30px" }}>
+      <div className="div-forall">
         {" "}
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">C</span> Listen, look, and circle the
@@ -115,7 +115,7 @@ export default function WB_Unit10_Page62_Q3() {
           {questions.map((q) => (
             <div
               key={q.id}
-              className="relative flex flex-col items-center gap-3 p-4 bg-gray-50 rounded-2xl border-2 border-gray-100"
+              className="relative flex flex-col items-center gap-3 p-4 rounded-2xl border-2 border-gray-300"
             >
               {/* ❌ Wrong Answer */}
               {showResult &&

@@ -87,11 +87,11 @@ const DraggableWord = ({ word, disabled }) => {
       {...listeners}
       {...attributes}
       // style={style}
-      className={`px-4 py-2 border-2 rounded-lg font-bold text-sm touch-none
+      className={`px-4 py-2 border-2 rounded-lg font-bold text-lg touch-none
         ${
           disabled
             ? "bg-gray-100 text-gray-300 border-gray-200"
-            : "bg-white border-blue-400 text-blue-700 cursor-grab"
+            : "bg-white border-blue-900 text-blue-900 cursor-grab"
         }
       `}
     >
@@ -100,30 +100,35 @@ const DraggableWord = ({ word, disabled }) => {
   );
 };
 
-const DropZone = ({ id, value, correct, checked, locked, onDrop }) => {
-  const { setNodeRef } = useDroppable({ id });
+const DropZone = ({ id, value, correct, checked, locked }) => {
+  const { setNodeRef, isOver } = useDroppable({ id });
 
   const isWrong = checked && value && value !== correct;
 
   return (
     <div
       ref={setNodeRef}
-      className={`w-full h-10 border-b-2 flex items-center justify-center px-2 relative
-        ${!value ? "border-gray-300 border-dashed" : "border-gray-500"}
-        ${isWrong ? "border-red-500" : ""}
+      className={`w-full h-10 border-b-2 flex items-center justify-center px-2 relative transition-all duration-300
+      
+      ${!value ? "border-gray-400" : "border-gray-400 bg-blue-50"}
+      
+      // 🔥 تأثير أثناء السحب
+      ${isOver ? "bg-blue-100 scale-105 border-blue-600 shadow-md" : ""}
+      
+      // ❌ خطأ بعد التصحيح
+      ${isWrong ? "border-red-500 bg-white" : ""}
       `}
     >
       <span className="font-bold">{value}</span>
 
       {isWrong && (
-        <span className="absolute -top-2 -right-2 text-white bg-red-500 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold border-2 border-white shadow-lg">
+        <span className="absolute -top-2 -right-2 text-white bg-red-500 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold border-2 border-white shadow">
           ✕
         </span>
       )}
     </div>
   );
 };
-
 const WB_Unit9_Page53_Q1 = () => {
   const [userAnswers, setUserAnswers] = useState({
     1: "", // مثال محلول كما في الصورة
@@ -223,11 +228,12 @@ if (hasEmpty) {
       }}
     >
       <div className="main-container-component">
-        <div className="div-forall" style={{ gap: "20px" }}>
+        <div className="div-forall">
           <h1 className="WB-header-title-page8">
             <span className="WB-ex-A">E</span>Look and write. Read.
           </h1>
-
+      
+      <div className="flex flex-col gap-5">
             <div className="mb-12 border-2 border-gray-800 rounded-xl overflow-hidden shadow-sm">
           <div className="grid grid-cols-3 divide-x-2 divide-gray-800">
             <div className="p-4 flex flex-col gap-2">
@@ -264,7 +270,7 @@ if (hasEmpty) {
         </div>
 
           {/* Interactive Word Bank (Draggable) */}
-          <div className="flex flex-wrap justify-center gap-4 mb-2 p-4 bg-gray-50 rounded-xl border border-dashed border-gray-300">
+          <div className="flex flex-wrap justify-center gap-4 mb-2 p-4">
             {wordBank.map((word) => {
               const isUsed = Object.values(userAnswers).includes(word);
 
@@ -310,6 +316,8 @@ if (hasEmpty) {
                 </div>
               </div>
             ))}
+          </div>
+
           </div>
           <DragOverlay>
             {activeWord ? (

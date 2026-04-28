@@ -127,12 +127,12 @@ const WB_Unit10_Page60_Q1 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "30px" }}>
+      <div className="div-forall">
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">F</span>Complete. Look and match.
         </h1>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-10">
+      <div className="flex flex-col gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
           {QUESTIONS.map((q) => (
             <div key={q.id} className="relative group">
               <img
@@ -160,15 +160,15 @@ const WB_Unit10_Page60_Q1 = () => {
                   })
                 }
                 disabled={showResults}
-                className={`cursor-pointer absolute top-0 right-0 bg-white text-black w-10 h-10 rounded-md font-bold text-lg shadow-md border-2 ${
+                className={`cursor-pointer absolute top-0 right-0 bg-white text-black w-10 h-10 rounded-md font-bold text-lg shadow-md border-1 ${
                   showResults
                     ? answers[`${q.id}_num`] === CORRECT_F_NUM[`${q.id}_num`]
                       ? "border-gray-300"
                       : "border-red-500"
-                    : "border-blue-500"
+                    : "border-blue-900"
                 }`}
               >
-                <option value="">-</option>
+                <option value=""></option>
                 {QUESTIONS.map((opt) => (
                   <option key={opt.id} value={opt.num}>
                     {opt.num}
@@ -230,7 +230,7 @@ const WB_Unit10_Page60_Q1 = () => {
             </div>
           ))}
         </div>
-
+</div>
         <div className="mt-10 flex justify-center">
           <Button
             handleShowAnswer={() => {

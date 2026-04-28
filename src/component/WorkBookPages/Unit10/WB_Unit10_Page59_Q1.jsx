@@ -67,7 +67,7 @@ function DraggableAnswer({ item, isUsed }) {
       {...attributes}
       {...listeners}
       // التعديل: أضفنا شرط pointer-events-none فقط إذا كان العنصر مستخدم فعلياً
-      className={`p-2 bg-white border-2 border-gray-200 rounded-lg shadow-sm cursor-grab text-blue-700 font-medium text-sm text-center touch-none ${
+      className={`p-2 bg-white border-2 border-gray-200 rounded-lg shadow-sm cursor-grab text-blue-700 font-medium text-lg text-center touch-none ${
         isUsed ? "bg-gray-50 text-gray-300 pointer-events-none" : "hover:border-blue-400"
       }`}
     >
@@ -212,7 +212,7 @@ const WB_Unit10_Page59_Q1 = () => {
       }}
     >
       <div className="main-container-component">
-        <div className="div-forall" style={{ gap: "15px" }}>
+        <div className="div-forall">
           <h1 className="WB-header-title-page8">
             <span className="WB-ex-A">D</span> Look. Write the questions and
             then the answers.
@@ -304,7 +304,7 @@ const WB_Unit10_Page59_Q1 = () => {
             </div>
           </div>
 
-          <div className="mt-10 flex justify-center">
+          <div className="flex justify-center">
             <Button
               handleShowAnswer={() => {
                 setAnswers(CORRECT_D);
@@ -348,7 +348,7 @@ function DropZone({ id, content, isCorrect, isSubmitted }) {
           {ANSWERS_D.find((a) => a.id === content).text}
         </span>
       ) : (
-        <span className="text-gray-200 italic text-[10px]">
+        <span className="text-gray-300 italic text-[16px]">
           drop answer here...
         </span>
       )}

@@ -51,7 +51,7 @@ const SentenceBuilder = ({
   };
 
   const handleRemoveWord = (wordToRemove) => {
-    if(showResult ||forceAnswer)return
+    if (showResult || forceAnswer) return;
     const newChosenWords = chosenWords.filter((w) => w.id !== wordToRemove.id);
     setChosenWords(newChosenWords);
 
@@ -84,10 +84,10 @@ const SentenceBuilder = ({
 
   return (
     <div className="space-y-3">
-      <div className="flex flex-wrap gap-10 p-3 bg-gray-100 rounded-lg min-h-[50px] items-center">
-        <img src={src} className="max-w-50 max-h-24 object-contain" />
+      <div className="flex flex-wrap gap-10 border-2 border-gray-500 rounded-[20px] min-h-[50px] items-center">
+        <img src={src} className="object-contain" style={{ height: "150px" }} />
 
-        <div className="flex flex-col justify-center gap-5 w-80">
+        <div className="flex flex-col justify-center gap-4 w-80 p-3">
           <h5 className="text-lg">{scrambled.split(" ").join("/")}</h5>
 
           <div className="flex gap-2 flex-wrap">
@@ -101,7 +101,7 @@ const SentenceBuilder = ({
                     if (!isUsed) handleWordClick(word);
                   }}
                   disabled={isUsed}
-                  className={`px-3 py-1 border rounded-md shadow-sm transition-all font-medium
+                  className={`px-3 border rounded-md shadow-sm transition-all font-medium
                     ${
                       isUsed
                         ? "bg-gray-200 text-gray-400 border-gray-300 cursor-not-allowed opacity-50"
@@ -114,29 +114,28 @@ const SentenceBuilder = ({
               );
             })}
           </div>
-        </div>
-      </div>
-
-      <div className="relative">
-        <div
-          className={`flex flex-wrap gap-2 p-3 border-2 border-dashed rounded-lg min-h-[60px] transition-colors duration-300 items-center ${getBoxClassName()}`}
-        >
-          {chosenWords.map((word) => (
-            <button
-              key={word.id}
-              onClick={() => handleRemoveWord(word)}
-              className="px-1 py-1 cursor-pointer hover:text-red-500"
+          <div className="relative">
+            <div
+              className={`flex flex-wrap gap-2 px-3 border-2 border-dashed rounded-lg h-[40px] transition-colors duration-300 items-center ${getBoxClassName()}`}
             >
-              {word.text}
-            </button>
-          ))}
-        </div>
+              {chosenWords.map((word) => (
+                <button
+                  key={word.id}
+                  onClick={() => handleRemoveWord(word)}
+                  className="px-1 py-1 cursor-pointer hover:text-red-500"
+                >
+                  {word.text}
+                </button>
+              ))}
+            </div>
 
-        {isWrong && (
-          <div className="absolute -top-2 -right-2 bg-red-500 text-white w-7 h-7 flex items-center justify-center rounded-full text-base font-bold shadow-lg border-2 border-white">
-            ✕
+            {isWrong && (
+              <div className="absolute -top-2 -right-2 bg-red-500 text-white w-7 h-7 flex items-center justify-center rounded-full text-base font-bold shadow-lg border-2 border-white">
+                ✕
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
     </div>
   );
@@ -144,10 +143,22 @@ const SentenceBuilder = ({
 
 const WB_Unit9_Page51_Q2 = () => {
   const exerciseSentences = [
-    { id: "s1", scrambled: "are they soccer playing", correct: "they are playing soccer" },
-    { id: "s2", scrambled: "are we chess playing", correct: "we are playing chess" },
+    {
+      id: "s1",
+      scrambled: "are they soccer playing",
+      correct: "they are playing soccer",
+    },
+    {
+      id: "s2",
+      scrambled: "are we chess playing",
+      correct: "we are playing chess",
+    },
     { id: "s3", scrambled: "is she helping", correct: "she is helping" },
-    { id: "s4", scrambled: "is she clothes washing", correct: "she is washing clothes" },
+    {
+      id: "s4",
+      scrambled: "is she clothes washing",
+      correct: "she is washing clothes",
+    },
   ];
 
   const images = [img1, img2, img3, img4];
@@ -159,7 +170,7 @@ const WB_Unit9_Page51_Q2 = () => {
   const [showAnswers, setShowAnswers] = useState(false);
 
   const handleAnswerUpdate = (id, answer) => {
-    if(showResults ||showAnswers)return
+    if (showResults || showAnswers) return;
     setUserAnswers((prev) => ({ ...prev, [id]: answer }));
     if (showResults) {
       setShowResults(false);
@@ -168,7 +179,7 @@ const WB_Unit9_Page51_Q2 = () => {
   };
 
   const checkAnswers = () => {
-    if(showResults ||showAnswers)return
+    if (showResults || showAnswers) return;
     const unanswered = exerciseSentences.filter(
       (s) => !userAnswers[s.id] || userAnswers[s.id].trim() === "",
     );
@@ -203,11 +214,17 @@ const WB_Unit9_Page51_Q2 = () => {
     setScore({ correct: correctCount, total: exerciseSentences.length });
 
     if (correctCount === exerciseSentences.length)
-      ValidationAlert.success(`Score: ${correctCount}/${exerciseSentences.length}`);
+      ValidationAlert.success(
+        `Score: ${correctCount}/${exerciseSentences.length}`,
+      );
     else if (correctCount > 0)
-      ValidationAlert.warning(`Score: ${correctCount}/${exerciseSentences.length}`);
+      ValidationAlert.warning(
+        `Score: ${correctCount}/${exerciseSentences.length}`,
+      );
     else
-      ValidationAlert.error(`Score: ${correctCount}/${exerciseSentences.length}`);
+      ValidationAlert.error(
+        `Score: ${correctCount}/${exerciseSentences.length}`,
+      );
   };
 
   const handleStartAgain = () => {
@@ -226,33 +243,36 @@ const WB_Unit9_Page51_Q2 = () => {
     });
     setUserAnswers(allAnswers);
     setShowResults(true);
-    setScore({ correct: exerciseSentences.length, total: exerciseSentences.length });
+    setScore({
+      correct: exerciseSentences.length,
+      total: exerciseSentences.length,
+    });
   };
 
   const isAnswerWrong = (sentence) => {
-  if (!showResults) return false;
+    if (!showResults) return false;
 
-  const userAnswer = userAnswers[sentence.id] || "";
+    const userAnswer = userAnswers[sentence.id] || "";
 
-  const userWords = userAnswer
-    .replace(/[.,!?]/g, "")
-    .trim()
-    .split(/\s+/);
+    const userWords = userAnswer
+      .replace(/[.,!?]/g, "")
+      .trim()
+      .split(/\s+/);
 
-  const correctWords = sentence.correct
-    .replace(/[.,!?]/g, "")
-    .trim()
-    .split(/\s+/);
+    const correctWords = sentence.correct
+      .replace(/[.,!?]/g, "")
+      .trim()
+      .split(/\s+/);
 
-  const isCorrect =
-    userWords.length === correctWords.length &&
-    userWords.every((w, i) => w === correctWords[i]);
+    const isCorrect =
+      userWords.length === correctWords.length &&
+      userWords.every((w, i) => w === correctWords[i]);
 
-  return userAnswer && !isCorrect;
-};
+    return userAnswer && !isCorrect;
+  };
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "10px", marginBottom: "50px" }}>
+      <div className="div-forall" style={{ marginBottom: "10px" }}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">B</span>Look and write sentences.
         </h1>
@@ -260,7 +280,7 @@ const WB_Unit9_Page51_Q2 = () => {
         <div className="space-y-4">
           {exerciseSentences.map((sentence, index) => (
             <div key={sentence.id} className="flex items-start gap-4 p-4">
-              <span className="font-bold text-blue-600 text-xl pt-2">
+              <span className="font-bold text-blue-900 text-xl pt-2">
                 {index + 1}.
               </span>
 
@@ -281,7 +301,7 @@ const WB_Unit9_Page51_Q2 = () => {
           ))}
         </div>
 
-        <div className="mt-20">
+        <div>
           <Button
             handleShowAnswer={handleShowAnswer}
             handleStartAgain={handleStartAgain}

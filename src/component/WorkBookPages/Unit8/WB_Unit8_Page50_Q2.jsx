@@ -61,15 +61,15 @@ function DraggableWord({ word, isUsed }) {
   return (
     <div
       ref={setNodeRef}
-      style={style}
+      // style={style}
       {...(!isUsed ? listeners : {})}
       {...(!isUsed ? attributes : {})}
-      className={`px-4 py-2 bg-white border rounded-lg shadow-sm text-blue-700 text-sm font-bold ${
+      className={`px-4 py-2 bg-white border-2 border-blue-900 rounded-lg shadow-sm text-blue-900 text-lg font-bold ${
         isUsed
           ? "bg-gray-100 text-gray-300 border-gray-200 cursor-not-allowed opacity-60"
           : isDragging
             ? "cursor-grabbing shadow-lg"
-            : "cursor-grab hover:border-blue-400"
+            : "cursor-grab hover:bg-blue-100"
       }`}
     >
       {word}
@@ -94,11 +94,11 @@ function DropSlot({ id, value, showResults, onClear }) {
   return (
     <div
       ref={setNodeRef}
-      className={`relative min-h-[54px] border-2 border-dashed rounded-xl flex items-center justify-center px-3 transition-all ${slotStyle}`}
+      className={`relative min-h-[54px] border-b-2 text-lg flex items-center justify-center px-3 transition-all ${slotStyle}`}
     >
       {value ? (
         <div className="flex items-center gap-2">
-          <span className="font-bold text-blue-900 hover:text-red-500 curser-pointer" onClick={() => onClear(id)}>
+          <span className="font-bold text-lg text-blue-900 hover:text-red-500 curser-pointer" onClick={() => onClear(id)}>
             {value}
           </span>
         </div>
@@ -213,15 +213,15 @@ const WB_Unit8_Page50_Q2 = () => {
       <div className="main-container-component">
         <div
           className="div-forall"
-          style={{ gap: "10px", marginBottom: "50px" }}
+          style={{  marginBottom: "50px" }}
         >
-          <h1 className="WB-header-title-page8  mb-10">
+          <h1 className="WB-header-title-page8">
             <span className="WB-ex-A">B</span> Read and write the words in the
             correct column.
           </h1>
-
-          <div className="mb-5 p-4 bg-blue-50 rounded-2xl border border-blue-100">
-            <div className="flex flex-wrap justify-center gap-3">
+<div className="flex flex-col gap-5">
+          <div className="p-4">
+            <div className="flex flex-wrap justify-center gap-7">
               {WORDS.map((word) => (
                 <DraggableWord
                   key={word}
@@ -279,8 +279,8 @@ const WB_Unit8_Page50_Q2 = () => {
               </div>
             </div>
           </div>
-
-          <div className="mt-12 flex justify-center">
+</div>
+          <div className="flex justify-center">
             <Button
               handleShowAnswer={handleShowAnswer}
               handleStartAgain={handleReset}

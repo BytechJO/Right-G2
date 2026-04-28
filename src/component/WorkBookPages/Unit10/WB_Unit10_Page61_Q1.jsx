@@ -62,7 +62,7 @@ const DraggableWord = ({ word, disabled }) => {
         ${
           disabled
             ? "bg-gray-200 text-gray-400 cursor-not-allowed border-gray-200"
-            : "bg-white cursor-grab hover:bg-blue-50 border-blue-500 text-blue-700"
+            : "bg-white cursor-grab hover:bg-blue-50 border-blue-900 text-blue-900"
         }
       `}
     >
@@ -72,17 +72,23 @@ const DraggableWord = ({ word, disabled }) => {
 };
 
 const DropZone = ({ id, value, correct, showResult, subject }) => {
-  const { setNodeRef } = useDroppable({ id: `${id}` });
+  const { setNodeRef, isOver } = useDroppable({ id: `${id}` });
 
   const isWrong = showResult && value && value !== correct;
 
   return (
     <div
       ref={setNodeRef}
-      className={`relative border-b-2 pb-1 mb-3 min-h-[38px] flex items-center gap-1
-        ${!showResult || !value ? "border-gray-300" : ""}
-        ${showResult && value === correct ? "border-gray-400" : ""}
-        ${isWrong ? "border-red-500" : ""}
+      className={`relative border-b-2 pb-1 mb-3 min-h-[38px] flex items-center gap-1 transition-all duration-300
+      
+      ${!showResult || !value ? "border-gray-300" : ""}
+      ${showResult && value === correct ? "border-gray-400" : ""}
+      
+      // 🔥 hover أثناء السحب
+      ${isOver ? "bg-blue-100 scale-105 border-blue-600 shadow-md" : ""}
+      
+      // ❌ خطأ
+      ${isWrong ? "border-red-500 bg-white" : ""}
       `}
     >
       {isWrong && (
@@ -91,10 +97,16 @@ const DropZone = ({ id, value, correct, showResult, subject }) => {
         </div>
       )}
 
-      <span className="text-gray-700 text-lg font-semibold">{subject} is</span>
+      <span className="text-gray-900 text-lg font-semibold">
+        {subject} is
+      </span>
+
+
 
       {value && (
-        <span className="font-bold text-lg ml-1 text-blue-600">{value}.</span>
+        <span className="font-bold text-lg ml-1 text-blue-900">
+          {value}.
+        </span>
       )}
     </div>
   );
@@ -185,7 +197,7 @@ export default function ExerciseH() {
       }}
     >
       <div className="main-container-component">
-        <div className="div-forall" style={{ gap: "10px" }}>
+        <div className="div-forall">
           <h1 className="WB-header-title-page8">
             <span className="WB-ex-A">H</span>Look and write sentences.
           </h1>
@@ -193,9 +205,9 @@ export default function ExerciseH() {
           <div className="max-w-full max-h-48 flex items-center justify-center mb-6 text-gray-400 text-sm">
             <img src={img} alt="exercise" style={{ height: "240px" }} />
           </div>
-
+         <div className="flex flex-col gap-5">
           {/* Global Word Bank */}
-          <div className="mb-8 flex flex-wrap justify-center gap-2 border-2 border-dashed border-gray-300 rounded-lg p-3 shadow-sm">
+          <div className="flex flex-wrap justify-center gap-2 rounded-lg p-3">
             {wordBank.map((word) => {
               const isUsed = usedWords.includes(word);
 
@@ -214,7 +226,7 @@ export default function ExerciseH() {
 
             {questions.map((q) => (
               <div key={q.id} className="flex items-start gap-3">
-                <span className="text-blue-600 font-bold w-5 shrink-0 pt-2">
+                <span className="text-blue-900 text-xl font-bold w-5 shrink-0 pt-2">
                   {q.id}
                 </span>
 
@@ -229,6 +241,7 @@ export default function ExerciseH() {
                 </div>
               </div>
             ))}
+          </div>
           </div>
           <DragOverlay>
             {activeWord && (

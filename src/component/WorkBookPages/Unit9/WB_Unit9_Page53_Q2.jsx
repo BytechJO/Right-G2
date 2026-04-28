@@ -9,7 +9,8 @@ import imgC from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 5
 import imgD from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 53/Ex F 4.svg";
 import imgE from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 53/Ex F 5.svg";
 import imgF from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 53/Ex F 6.svg";
-
+import trueIcon from "../../../assets/imgs/true.svg";
+import falseIcon from "../../../assets/imgs/false.svg";
 const exerciseFData = [
   { id: 1, sentence: "She isn't playing chess with her friend.", correct: "e" },
   { id: 2, sentence: "I'm sending an e-mail to my friend.", correct: "f" },
@@ -88,7 +89,7 @@ const WB_Unit9_Page53_Q2 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "30px" }}>
+      <div className="div-forall">
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">F</span>Read and look. Match pictures with
           sentences.
@@ -97,15 +98,18 @@ const WB_Unit9_Page53_Q2 = () => {
         <div className="flex flex-col md:flex-row gap-12">
           {/* Sentences with Select */}
           <div className="flex-1 flex flex-col gap-2">
-            {exerciseFData.map((item,i) => (
-              <div key={item.id} className="flex items-center w-full justify-between gap-4 text-lg">
+            {exerciseFData.map((item, i) => (
+              <div
+                key={item.id}
+                className="flex items-center w-full justify-between gap-4 text-lg"
+              >
                 <div className="flex items-center gap-4 text-lg">
                   <div className="relative">
                     <select
                       value={userAnswers[item.id]}
                       onChange={(e) => handleSelect(item.id, e.target.value)}
                       disabled={locked}
-                      className={`w-12 h-10 border-b-2 border-gray-400 bg-transparent text-center font-bold text-blue-700 focus:outline-none appearance-none cursor-pointer
+                      className={`w-12 h-10 border-b-2 text-lg border-gray-400 bg-transparent text-center font-bold text-blue-900 focus:outline-none appearance-none cursor-pointer
                                        
                                         ${checked && userAnswers[item.id] !== item.correct && userAnswers[item.id] !== "" ? " border-red-500" : ""}
                                     `}
@@ -123,38 +127,42 @@ const WB_Unit9_Page53_Q2 = () => {
                       </span>
                     )}
                   </div>
-                  <span className="font-bold text-blue-800 w-4">{item.id}</span>
+                  <span className="font-bold text-blue-900 w-4">{item.id}</span>
                   <span className="text-gray-800 font-medium">
                     {item.sentence}
                   </span>
                 </div>
 
-                 <div
-              key={imagesData[i].id}
-              className="relative border border-gray-800 rounded-3xl overflow-hidden shadow-sm bg-gray-50"
-            >
-              <img
-                src={imagesData[i].src}
-                alt={imagesData[i].id}
-                className="object-cover"
-                style={{height:"120px",width:"auto"}}
-              />
-              <div className="absolute top-1 left-1 bg-white/80 px-1.5 rounded font-bold text-sm border border-gray-300 z-20">
-                {imagesData[i].id}
-              </div>
-              <div className="absolute bottom-1 right-1 w-8 h-8 border border-gray-400 rounded bg-white flex items-center justify-center z-20">
-                {imagesData[i].check ? (
-                  <span className="text-green-600 font-bold text-lg">✓</span>
-                ) : (
-                  <span className="text-red-600 font-bold text-lg">✕</span>
-                )}
-              </div>
-            </div>
+                <div
+                  key={imagesData[i].id}
+                  className="relative border border-gray-800 rounded-3xl overflow-hidden shadow-sm bg-gray-50"
+                >
+                  <img
+                    src={imagesData[i].src}
+                    alt={imagesData[i].id}
+                    className="object-cover"
+                    style={{ height: "120px", width: "auto" }}
+                  />
+                  <div className="absolute top-1 left-1 bg-white/80 px-1.5 rounded font-bold text-sm border border-gray-300 z-20">
+                    {imagesData[i].id}
+                  </div>
+                  <div className="absolute bottom-1 right-1 w-8 h-8 border border-gray-400 rounded bg-white flex items-center justify-center z-20">
+                    {imagesData[i].check ? (
+                      <span className="text-green-600 font-bold text-lg">
+                        {" "}
+                        <img src={trueIcon} style={{ height: "25px" }} />
+                      </span>
+                    ) : (
+                      <span className="text-red-600 font-bold text-lg">
+                        {" "}
+                        <img src={falseIcon} style={{ height: "25px" }} />
+                      </span>
+                    )}
+                  </div>
+                </div>
               </div>
             ))}
           </div>
-
-        
         </div>
 
         <div className="mt-12 flex justify-center">

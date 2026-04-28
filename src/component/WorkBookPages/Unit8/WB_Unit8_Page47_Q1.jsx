@@ -47,10 +47,10 @@ function DraggablePhrase({ item, isUsed }) {
       {...listeners}
       // ✅ FIX: منع الكليك
       onClick={(e) => e.preventDefault()}
-      className={`px-4 py-1 bg-white border-2 border-gray-300 rounded-full shadow-sm cursor-grab text-blue-600 font-medium text-sm touch-none select-none ${
+      className={`px-4 py-1 bg-white border-2 border-blue-900 rounded-full shadow-sm cursor-grab text-blue-900 font-medium text-lg touch-none select-none ${
         isUsed
           ? "bg-gray-100 text-gray-400 pointer-events-none"
-          : "hover:border-blue-400"
+          : "hover:bg-gray-100"
       }`}
     >
       {item.text}
@@ -69,10 +69,10 @@ function DropSlot({
 
   const borderColor = isSubmitted
     ? isCorrect
-      ? "border-blue-400 bg-blue-50"
+      ? "border-blue-900 bg-blue-50"
       : "border-red-500"
     : isOver
-      ? "border-blue-400 bg-blue-50"
+      ? "border-blue-900 bg-blue-50"
       : "border-gray-300";
 
   const isWrong = isSubmitted && content && !isCorrect;
@@ -81,10 +81,10 @@ function DropSlot({
     <div className="relative inline-block">
       <div
         ref={setNodeRef}
-        className={`inline-block min-w-[100px] h-8 border-b-2 mx-1 px-2 text-center align-bottom transition-all ${borderColor}`}
+        className={`inline-block w-[200px] h-8 border-b-2 mx-1 px-2 text-center align-bottom transition-all ${borderColor}`}
       >
         {content ? (
-          <span className="font-bold text-sm text-blue-800">
+          <span className="font-bold text-lg text-blue-900">
             {PHRASES_F.find((p) => p.id === content).text}
           </span>
         ) : (
@@ -184,8 +184,8 @@ const WB_Unit8_Page47_Q1 = () => {
       }}
     >
       <div className="main-container-component">
-        <div className="div-forall" style={{ gap: "10px" }}>
-          <h1 className="WB-header-title-page8  mb-10">
+        <div className="div-forall">
+          <h1 className="WB-header-title-page8">
             <span className="WB-ex-A">F</span> Look into Sue's closet. Read and
             write.
           </h1>
@@ -200,7 +200,7 @@ const WB_Unit8_Page47_Q1 = () => {
             </div>
 
             <div className="flex-1 space-y-6 text-lg">
-              <div className="flex flex-wrap justify-center gap-2 p-4 bg-blue-50 rounded-xl border-2 border-dashed border-blue-200 mb-4">
+              <div className="flex flex-wrap justify-center gap-2 p-4 rounded-xl mb-4">
                 {PHRASES_F.map((p) => (
                   <DraggablePhrase
                     key={p.id}

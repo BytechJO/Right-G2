@@ -76,7 +76,7 @@ function DraggableSentence({ s, isUsed }) {
         e.preventDefault();
         e.stopPropagation(); // 🔥 مهم جداً
       }}
-      className={`p-3 md:p-2 bg-white border-2 border-blue-100 rounded-lg shadow-sm cursor-grab text-blue-700 text-base md:text-sm font-medium touch-none select-none ${
+      className={`p-3 md:p-2 bg-white border-2 border-blue-100 rounded-lg shadow-sm cursor-grab text-blue-700 text-base md:text-lg font-medium touch-none select-none ${
         isUsed
           ? "bg-gray-100 text-gray-400 pointer-events-none"
           : "hover:border-blue-400"
@@ -115,11 +115,11 @@ function DropZone({ id, imgSrc, content, isCorrect, isSubmitted }) {
         className={`flex-1 h-10 border-b-2 flex items-center px-2 transition-all ${borderColor}`}
       >
         {content ? (
-          <span className="font-bold text-sm text-blue-900">
+          <span className="font-bold text-lg text-blue-900">
             {SENTENCES.find((s) => s.id === content).text}
           </span>
         ) : (
-          <span className="text-gray-300 text-xs italic">drop sentence...</span>
+          <span className="text-gray-300 text-sm italic">drop sentence...</span>
         )}
       </div>
 
@@ -219,8 +219,8 @@ const WB_Unit8_Page45_Q3 = () => {
       }}
     >
       <div className="main-container-component">
-        <div className="div-forall" style={{ gap: "10px" }}>
-          <h1 className="WB-header-title-page8  mb-10">
+        <div className="div-forall">
+          <h1 className="WB-header-title-page8">
             <span className="WB-ex-A">C</span>
             Look and write.
           </h1>

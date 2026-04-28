@@ -31,10 +31,10 @@ function DraggableWord({ word, disabled }) {
   return (
     <div
       ref={setNodeRef}
-      style={style}
-      {...(!disabled ? listeners : {})}
+      {...listeners}
       {...attributes}
-      className={`p-2 border-2 border-blue-800 rounded-lg font-bold text-center transition-all touch-none
+      style={style}
+      className={`p-2 border-2 border-blue-900 rounded-lg font-bold text-center transition-all touch-none
         ${
           disabled
             ? "bg-gray-200 text-gray-400 cursor-not-allowed opacity-60"
@@ -48,32 +48,44 @@ function DraggableWord({ word, disabled }) {
 }
 
 /* 🔹 Drop */
-function DropInput({ id, value, onChange, submitted, feedback, isWrong }) {
-  const { setNodeRef } = useDroppable({
+function DropInput({ id, value, submitted, isWrong, activeWord }) {
+  const { setNodeRef, isOver } = useDroppable({
     id: `drop-${id}`,
   });
 
   return (
-    <div ref={setNodeRef} className="flex-1 relative">
+    <div
+      ref={setNodeRef}
+      className={`flex-1 relative transition-all duration-200
+        ${isOver ? "scale-105" : ""}
+      `}
+    >
       <input
         type="text"
         value={value}
-        onChange={onChange}
-        disabled={submitted}
-        placeholder="Type your answer..."
-        className={`flex-1 px-4 py-2 border-2 rounded-lg font-semibold focus:outline-none transition-all ${
-          submitted
-            ? !isWrong
-              ? "border-gray-300 focus:border-blue-500"
-              : "border-red-500 bg-red-50"
-            : "border-gray-300 focus:border-blue-500"
-        }`}
         readOnly
+        placeholder="Drop here..."
+        className={`w-full px-4 py-2 border-2 rounded-lg font-semibold transition-all
+          
+          ${
+            isOver
+              ? "border-blue-600 bg-blue-50 shadow-lg"
+              : "border-gray-300 bg-white"
+          }
+
+          ${
+            activeWord && !value
+              ? "animate-pulse border-dashed border-blue-400"
+              : ""
+          }
+
+          ${submitted && isWrong ? "border-red-500 bg-red-50" : ""}
+        `}
       />
 
       {/* ❌ */}
       {isWrong && (
-        <div className="absolute -top-2 right-16 bg-red-500 text-white w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold border-2 border-white shadow">
+        <div className="absolute -top-2 right-2 bg-red-500 text-white w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold border-2 border-white shadow">
           ✕
         </div>
       )}
@@ -121,7 +133,7 @@ const DrawAndAnswerQuestion = () => {
   const [submitted, setSubmitted] = useState(false);
   const [feedback, setFeedback] = useState({});
   const [showAnswers, setShowAnswers] = useState(false);
-
+const [activeWord, setActiveWord] = useState(null);
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(TouchSensor, {
@@ -204,7 +216,7 @@ const DrawAndAnswerQuestion = () => {
   /* ================= CHECK ================= */
 
   const handleCheckAnswers = () => {
-if(submitted || showAnswers)return
+    if (submitted || showAnswers) return;
     // 🔴 VALIDATION
     if (Object.keys(answers).length < images.length) {
       ValidationAlert.info(
@@ -254,100 +266,107 @@ if(submitted || showAnswers)return
   };
   const usedWords = Object.values(answers);
   return (
-    <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
+    <DndContext
+      sensors={sensors}
+      onDragStart={({ active }) => setActiveWord(active.id)}
+      onDragEnd={(event) => {
+        handleDragEnd(event);
+        setActiveWord(null);
+      }}
+    >
       <div className="main-container-component">
         <div
           className="div-forall flex flex-row"
-          style={{ gap: "10px", marginBottom: "30px" }}
+          style={{ marginBottom: "10px" }}
         >
           {/* Header */}
-          <div className="mb-8">
-            <h1 className="WB-header-title-page8">
-              <span className="WB-ex-A">I</span>Draw, and then ask and answer.
-            </h1>
-          </div>
 
-          {/* Word Bank */}
-          <div>
-            <div className="bg-white border-2 border-gray-400 border-dashed rounded-2xl p-2 inline-block shadow-md w-full">
-              <div className="flex gap-4 flex-wrap flex justify-center items-center">
-                {images.map((word) => (
-                  <DraggableWord
-                    key={word.correctAnswer}
-                    word={word.correctAnswer}
-                    disabled={usedWords.includes(word.correctAnswer)}
-                  />
-                ))}
+          <h1 className="WB-header-title-page8">
+            <span className="WB-ex-A">I</span>Draw, and then ask and answer.
+          </h1>
+
+          <div className="flex flex-col gap-5">
+            {/* Word Bank */}
+            <div>
+              <div className="bg-white rounded-2xl p-2 inline-block w-full">
+                <div className="flex gap-4 flex-wrap flex justify-center items-center">
+                  {images.map((word) => (
+                    <DraggableWord
+                      key={word.correctAnswer}
+                      word={word.correctAnswer}
+                      disabled={usedWords.includes(word.correctAnswer)}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Drawing + Questions */}
-          <div className="grid grid-cols-2 gap-8 mb-8">
-            {images.map((image) => (
-              <div
-                key={image.id}
-                className="bg-white rounded-xl shadow-lg p-6 border-2 border-gray-200"
-              >
-                {/* Canvas */}
-                <div className="mb-4 flex justify-center">
-                  
-                  <canvas
-                    ref={(el) => (canvasRefs.current[image.id] = el)}
-                    onMouseDown={(e) => handleMouseDown(e, image.id)}
-                    onMouseMove={(e) => handleMouseMove(e, image.id)}
-                    onMouseUp={handleMouseUp}
-                    onMouseLeave={handleMouseUp}
-                    height={200}
-                    width={300}
-                    className="border-2 border-gray-300 rounded-lg cursor-crosshair bg-gray-50 flex justify-center items-center"
-                  />
-                </div>
-
-                {/* Input */}
-                <div className="bg-gray-50 rounded-lg p-4 border-2 border-gray-300">
-                  <p className="text-base font-bold text-gray-800 mb-3">
-                    {image.question}
-                  </p>
-
-                  <div className="flex gap-2">
-                    <DropInput
-                      id={image.id}
-                      value={answers[image.id] || ""}
-                      onChange={(e) => {
-                        const newValue = e.target.value;
-
-                        setAnswers((prev) => {
-                          const updated = { ...prev };
-
-                          if (!newValue) {
-                            delete updated[image.id]; // 👈 هذا المهم
-                          } else {
-                            updated[image.id] = newValue;
-                          }
-
-                          return updated;
-                        });
-                      }}
-                     
-                      submitted={submitted}
-                      feedback={feedback[image.id]}
-                      isWrong={
-                        submitted &&
-                        !showAnswers &&
-                        answers[image.id]?.trim() &&
-                        answers[image.id].toLowerCase().trim() !==
-                          image.correctAnswer.toLowerCase()
-                      }
+            {/* Drawing + Questions */}
+            <div className="grid grid-cols-2 gap-8 mb-8">
+              {images.map((image) => (
+                <div
+                  key={image.id}
+                  className="bg-white rounded-xl shadow-lg p-6 border-2 border-gray-200"
+                >
+                  {/* Canvas */}
+                  <div className="mb-4 flex justify-center">
+                    <canvas
+                      ref={(el) => (canvasRefs.current[image.id] = el)}
+                      onMouseDown={(e) => handleMouseDown(e, image.id)}
+                      onMouseMove={(e) => handleMouseMove(e, image.id)}
+                      onMouseUp={handleMouseUp}
+                      onMouseLeave={handleMouseUp}
+                      height={200}
+                      width={300}
+                      className="border-2 border-gray-300 rounded-lg cursor-crosshair bg-gray-50 flex justify-center items-center"
                     />
                   </div>
+
+                  {/* Input */}
+                  <div className="bg-gray-50 rounded-lg p-4 border-2 border-gray-300">
+                    <p className="text-base font-bold text-gray-800 mb-3">
+                      {image.question}
+                    </p>
+
+                    <div className="flex gap-2">
+                      <DropInput
+                        id={image.id}
+                        value={answers[image.id] || ""}
+                        submitted={submitted}
+                        activeWord={activeWord}
+                        onChange={(e) => {
+                          const newValue = e.target.value;
+
+                          setAnswers((prev) => {
+                            const updated = { ...prev };
+
+                            if (!newValue) {
+                              delete updated[image.id]; // 👈 هذا المهم
+                            } else {
+                              updated[image.id] = newValue;
+                            }
+
+                            return updated;
+                          });
+                        }}
+                        feedback={feedback[image.id]}
+                        isWrong={
+                          submitted &&
+                          !showAnswers &&
+                          answers[image.id]?.trim() &&
+                          answers[image.id].toLowerCase().trim() !==
+                            image.correctAnswer.toLowerCase()
+                        }
+                      />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-          <div className="flex gap-2">
-            <img src={img5} style={{ height: "160px" }} />
-            <img src={img6} style={{ height: "160px" }} />
+              ))}
+            </div>
+            <div className="flex gap-2">
+              <img src={img5} style={{ height: "160px" }} />
+              <img src={img6} style={{ height: "160px" }} />
+            </div>
           </div>
           <Button
             handleShowAnswer={handleShowAnswer}

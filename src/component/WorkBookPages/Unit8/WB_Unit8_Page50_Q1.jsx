@@ -102,17 +102,18 @@ const WB_Unit8_Page50_Q1 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "10px"}}>
+      <div className="div-forall">
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">A</span> Listen and write the missing
           letters.
         </h1>
+        <div className="flex flex-col gap-5">
         <QuestionAudioPlayer
           src={sound}
           captions={captions}
           stopAtSecond={6.35}
         />
-        <div className="grid grid-cols-2 md:grid-cols-2 gap-10">
+        <div className="grid grid-cols-2 md:grid-cols-2 gap-2">
           {[1, 2, 3, 4, 5, 6].map((num, idx) => {
             const parts = WORD_PARTS[idx];
             const key1 = `q${num}_1`;
@@ -121,7 +122,7 @@ const WB_Unit8_Page50_Q1 = () => {
             return (
               <div key={num} className="flex items-center gap-3 p-4">
                 <div className="flex gap-4 justify-center items-center">
-                  <span className="self-start font-bold text-blue-900 text-lg">
+                  <span className="self-start font-bold text-blue-900 text-xl">
                     {num}
                   </span>
                   <img
@@ -207,8 +208,8 @@ const WB_Unit8_Page50_Q1 = () => {
             );
           })}
         </div>
-
-        <div className="mt-10 flex justify-center">
+</div>
+        <div className="flex justify-center">
           <Button
             handleShowAnswer={() => {
               setAnswers({ ...CORRECT_A });

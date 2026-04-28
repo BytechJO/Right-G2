@@ -99,29 +99,29 @@ const WB_Unit10_Page60_Q2 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "30px" }}>
+      <div className="div-forall">
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">G</span>Unscramble and write each sentence.
         </h1>
 
-        <div className="space-y-10">
+        <div className="space-y-6">
           {DATA.map((item, idx) => {
             const userSentence = answers[item.id].join(" ").replace(" .", ".");
             const isCorrect =
               userSentence.toLowerCase() === item.correct.toLowerCase();
 
             return (
-              <div key={item.id} className="space-y-4 p-4 rounded-2xl">
+              <div key={item.id} className="space-y-2 p-4 rounded-2xl">
                 <div className="flex items-center gap-3">
                   <div className="flex flex-col">
-                    <h2 className="font-bold text-black-600 flex gap-2">
+                    <h2 className="font-bold text-black-600 flex gap-2 items-center">
                       {" "}
-                      <span className="font-bold text-blue-800 text-lg">
+                      <span className="font-bold text-blue-900 text-xl">
                         {idx + 1}
                       </span>{" "}
                       {item.scrambled.join(" ")}
                     </h2>
-                    <div className="flex flex-wrap gap-2 border-2 border-dashed border-gray-400 w-160 p-2 rounded-lg">
+                    <div className="flex flex-wrap gap-2 w-160 p-2 rounded-lg">
                       {item.scrambled.map((word, wIdx) => {
                         const countInAnswer = answers[item.id].filter(
                           (w) => w === word,
@@ -139,7 +139,7 @@ const WB_Unit10_Page60_Q2 = () => {
                             className={`px-3 py-1 rounded-lg text-lg font-medium transition-all ${
                               isUsed
                                 ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                                : "bg-white border-2 border-blue-500 text-blue-700 hover:border-blue-400 hover:shadow-sm"
+                                : "bg-white border-2 border-blue-900 text-blue-900 hover:border-blue-400 hover:shadow-sm"
                             }`}
                           >
                             {word}
@@ -151,7 +151,7 @@ const WB_Unit10_Page60_Q2 = () => {
                 </div>
 
                 <div
-                  className={`relative min-h-[50px] p-3 border-b-2 flex flex-wrap gap-1 items-center transition-all ${showResults && answers[item.id].length > 0 && !isCorrect &&"border-red-500"}`}
+                  className={`relative min-h-[50px] p-3 border-b-2 border-gray-400 flex flex-wrap gap-1 items-center transition-all ${showResults && answers[item.id].length > 0 && !isCorrect &&"border-red-500"}`}
                 >
                   {/* ❌ Wrong Answer */}
                   {showResults && answers[item.id].length > 0 && !isCorrect && (

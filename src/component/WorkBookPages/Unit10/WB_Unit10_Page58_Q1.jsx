@@ -75,11 +75,11 @@ function DropSlot({ id, prefix, content, isCorrect, isSubmitted }) {
         )}
         <span className="text-gray-700 mr-2">{prefix}</span>
         {content ? (
-          <span className="text-blue-900 font-bold">
+          <span className="text-blue-900 font-bold text-lg">
             {ACTIVITIES_B.find((a) => a.id === content).text}.
           </span>
         ) : (
-          <span className="text-gray-200 italic text-xs">drop here...</span>
+          <span className="text-gray-200 italic text-sm">drop here...</span>
         )}
       </div>
     </div>
@@ -149,7 +149,7 @@ const WB_Unit10_Page58_Q1 = () => {
       }}
     >
       <div className="main-container-component">
-        <div className="div-forall" style={{ gap: "30px" }}>
+        <div className="div-forall">
           <h1 className="WB-header-title-page8">
             <span className="WB-ex-A">B</span> Look, ask, and answer. Then
             write.
@@ -242,7 +242,7 @@ const WB_Unit10_Page58_Q1 = () => {
             </div>
           </div>
 
-          <div className="mt-10 flex justify-center">
+          <div className="flex justify-center">
             <Button
               handleShowAnswer={() => {
                 setAnswers(CORRECT_B);

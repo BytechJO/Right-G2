@@ -123,12 +123,12 @@ const WB_Unit10_Page58_Q2 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "15px" }}>
+      <div className="div-forall">
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">C</span>Read, look, and write.
         </h1>
 
-        <div className="space-y-8">
+        <div className="space-y-4">
           {/* الفقرة الأولى - البنت */}
           <div className="flex flex-col md:flex-row items-center gap-10">
             <img
@@ -139,7 +139,7 @@ const WB_Unit10_Page58_Q2 = () => {
 
             />
             <div className="flex-1 text-xl leading-loose text-gray-700 w-[90%]">
-              <span className="font-bold text-blue-600 mr-2">1</span>
+              <span className="font-bold text-blue-900 mr-2">1</span>
               She is wearing a <ColorSelect id="c1_1" /> T-shirt, a{" "}
               <ColorSelect id="c1_2" /> hat,
               <ColorSelect id="c1_3" /> socks, and <ColorSelect id="c1_4" />{" "}
@@ -150,7 +150,7 @@ const WB_Unit10_Page58_Q2 = () => {
           {/* الفقرة الثانية - الولد */}
           <div className="flex flex-col md:flex-row items-center gap-10">
             <div className="flex-1 text-xl leading-loose text-gray-700">
-              <span className="font-bold text-blue-600 mr-2">2</span>
+              <span className="font-bold text-blue-900 mr-2">2</span>
               He is wearing a <ColorSelect id="c2_1" /> T-shirt, a{" "}
               <ColorSelect id="c2_2" /> cap,
               <ColorSelect id="c2_3" /> socks and <ColorSelect id="c2_4" />{" "}

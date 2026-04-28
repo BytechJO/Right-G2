@@ -44,7 +44,7 @@ const DraggableWord = ({ word, disabled }) => {
       {...listeners}
       {...attributes}
       style={style}
-      className={`px-6 py-2 border border-blue-500 rounded-xl shadow-sm font-bold text-gray-700 text-sm touch-none
+      className={`px-6 py-2 border border-blue-900 rounded-xl shadow-sm font-bold text-gray-700 text-lg touch-none
         ${
           disabled
             ? "bg-gray-200 opacity-40 cursor-not-allowed"
@@ -65,7 +65,7 @@ const DropZone = ({ id, value, correct, checked }) => {
   return (
     <div
       ref={setNodeRef}
-      className={`flex-1 h-10 border-b-2 flex items-center justify-center font-serif text-lg relative
+      className={`flex-1 h-10 border-b-2 flex items-center justify-center text-lg relative
         ${!value ? "border-gray-300 border-dashed" : ""}
         ${checked && value === correct ? "border-blue-500" : ""}
         ${isWrong ? "border-red-500" : ""}
@@ -182,13 +182,14 @@ const checkAnswers = () => {
       }}
     >
       <div className="main-container-component">
-        <div className="div-forall" style={{ gap: "15px" }}>
+        <div className="div-forall">
           <h1 className="WB-header-title-page8">
             <span className="WB-ex-A">I</span>Look and write.
           </h1>
-
+            
+            <div className="flex flex-col gap-10">
           {/* Word Bank */}
-          <div className="mb-12 border-2 border-dashed border-gray-500 rounded-2xl p-4 flex justify-center gap-8 bg-gray-50 shadow-sm">
+          <div className="rounded-2xl p-4 flex justify-center gap-8">
             {wordBank.map((word) => {
               const isUsed = Object.values(userAnswers).includes(word);
 
@@ -238,6 +239,7 @@ const checkAnswers = () => {
               </div>
             ))}
           </div>
+          </div>
 <DragOverlay>
   {activeWord && (
     <div className="px-4 py-2 bg-white border-2 border-blue-500 rounded-lg shadow-xl font-bold">
@@ -245,7 +247,7 @@ const checkAnswers = () => {
     </div>
   )}
 </DragOverlay>
-          <div className="mt-16 flex justify-center">
+          <div className="flex justify-center">
             <Button
               handleShowAnswer={handleShowAnswer}
               handleStartAgain={handleTryAgain}

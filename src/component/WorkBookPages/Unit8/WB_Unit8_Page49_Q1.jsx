@@ -47,7 +47,7 @@ function DraggableSentence({ item, isUsed }) {
       // 👇✨ هذا يمنع الكليك من أنه يتحول drag
       onClick={(e) => e.preventDefault()}
 
-      className={`p-3 bg-white border-2 border-gray-200 rounded-xl shadow-sm cursor-grab text-blue-700 font-medium text-sm touch-none ${
+      className={`p-3 bg-white border-2 border-gray-200 rounded-xl shadow-sm cursor-grab text-blue-700 font-medium text-[16px] touch-none ${
         // 👇✨ مهم: ما نخليها disabled إلا إذا فعلاً مستخدمة
         isUsed && !isDragging
           ? "bg-gray-50 text-gray-300 pointer-events-none"
@@ -58,23 +58,33 @@ function DraggableSentence({ item, isUsed }) {
     </div>
   );
 }
+import { useDroppable } from "@dnd-kit/core";
 
 function DropSlot({ id, content, isCorrect, isSubmitted }) {
-  const { setNodeRef, isOver } = useSortable({ id });
+  const { setNodeRef, isOver } = useDroppable({ id });
 
   return (
     <div
       ref={setNodeRef}
-      className={`w-full min-h-[45px] border-b-2 flex items-center justify-between px-4 transition-all border-blue-400 ${isSubmitted && !isCorrect && "border-red-500"}`}
+      className={`w-full min-h-[45px] border-b-2 flex items-center justify-between px-4 transition-all duration-300
+      
+      border-blue-400
+      
+      // 🔥 Hover أثناء السحب
+      ${isOver ? "bg-blue-100 scale-105 border-blue-600 shadow-md" : ""}
+      
+      // ❌ غلط بعد التصحيح
+      ${isSubmitted && !isCorrect ? "border-red-500 bg-white" : ""}
+      `}
     >
       {content ? (
         <>
-          <span className="text-blue-900 font-bold text-sm">
+          <span className="text-blue-900 font-bold text-lg">
             {SENTENCES_J.find((s) => s.id === content)?.text}
           </span>
 
           {isSubmitted && !isCorrect && (
-            <div className="w-6 h-6 flex items-center justify-center rounded-full bg-red-500 text-white text-sm font-bold shadow-sm border-2 border-white shadow-lg">
+            <div className="w-6 h-6 flex items-center justify-center rounded-full bg-red-500 text-white text-sm font-bold shadow-sm border-2 border-white">
               ✕
             </div>
           )}
@@ -146,7 +156,7 @@ const sensors = useSensors(
       <div className="main-container-component">
         <div
           className="div-forall"
-          style={{ gap: "10px", marginBottom: "50px" }}
+          style={{ marginBottom: "10px" }}
         >
           <h1 className="WB-header-title-page8">
             <span className="WB-ex-A">J</span> Read, look, and write the
@@ -220,7 +230,7 @@ isUsed={Object.values(answers).some((val) => val === s.id)}    />
             </div>
           </div>
 
-          <div className="mt-10 flex justify-center">
+          <div className="flex justify-center">
             <Button
               handleShowAnswer={() => {
                 setAnswers(CORRECT_J);

@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import {
   DndContext,
@@ -21,40 +20,46 @@ import imgSueClosetG from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Fold
 import imgJohnClosetG from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 47/Ex G 2.svg";
 import imgSue from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 47/Ex G 3.svg";
 
+const WORD_LIMITS = {
+  g1: 1,
+  g2: 1,
+  g3: 1,
+  g4: 3, // 👈 has
+  g5: 1,
+  g6: 1,
+  g7: 1,
+};
 const WORDS_G = [
   { id: "g1", text: "two" },
   { id: "g2", text: "I don't have" },
   { id: "g3", text: "I have" },
-  { id: "g4", text: "has" },
+  { id: "g4", text: "has" }, // 👈 وحدة بس
   { id: "g5", text: "doesn't have" },
-  { id: "g6", text: "has" },
-  { id: "g7", text: "has" },
 ];
-
 const CORRECT_G = {
   g1: "g1",
   g2: "g2",
   g3: "g3",
   g4: "g4",
   g5: "g5",
-  g6: "g6",
-  g7: "g7",
+  g6: "g4", // 👈 has
+  g7: "g4", // 👈 has
 };
 
-function DraggableWord({ item, isUsed }) {
+function DraggableWord({ item, isDisabled }) {
   const {
     attributes,
     listeners,
     setNodeRef,
     transform,
     transition,
-    isDragging,
+
   } = useDraggable({ id: item.id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    opacity: isDragging || isUsed ? 0.5 : 1,
+    opacity: isDisabled? 0.5 : 1,
   };
 
   return (
@@ -63,17 +68,14 @@ function DraggableWord({ item, isUsed }) {
       style={style}
       {...attributes}
       {...listeners}
-
       // 👇🔥 يمنع الكليك نهائياً
       onPointerDown={(e) => e.stopPropagation()}
       onClick={(e) => e.preventDefault()}
-
-      className={`px-3 py-1 bg-white border-2 border-gray-300 rounded-lg shadow-sm cursor-grab text-blue-600 font-medium text-lg touch-none ${
-        // 👇✨ لا تعمل disable إلا إذا فعلاً مستخدمة
-        isUsed && !isDragging
-          ? "bg-gray-100 text-gray-400 pointer-events-none"
-          : "hover:border-blue-400"
-      }`}
+      className={`px-3 py-1 bg-white border-2 border-blue-900 rounded-lg shadow-sm cursor-grab text-blue-900 font-medium text-lg touch-none  ${
+    isDisabled
+      ? "bg-gray-100 text-gray-400 pointer-events-none"
+      : "bg-white border-blue-900 text-blue-900 cursor-grab hover:bg-blue-100"
+  }`}
     >
       {item.text}
     </div>
@@ -93,8 +95,8 @@ function DropSlotG({ id, content, isCorrect, isSubmitted }) {
           isWrong
             ? "border-red-500"
             : isOver
-            ? "border-blue-400 bg-blue-50"
-            : "border-blue-400"
+              ? "border-blue-900 bg-blue-50"
+              : "border-blue-400"
         }`}
       >
         {content ? (
@@ -130,24 +132,27 @@ const WB_Unit8_Page47_Q2 = () => {
   const [showResults, setShowResults] = useState(false);
 
   // 🔥 أهم تعديل للتابلت
-const sensors = useSensors(
-  useSensor(MouseSensor, {
-    activationConstraint: {
-      distance: 8, // 👈 لازم يتحرك فعلياً
-    },
-  }),
-  useSensor(TouchSensor, {
-    activationConstraint: {
-      delay: 150, // 👈 يمنع tap السريع
-      tolerance: 5,
-    },
-  }),
-  useSensor(PointerSensor, {
-    activationConstraint: {
-      distance: 8,
-    },
-  })
-);
+  const sensors = useSensors(
+    useSensor(MouseSensor, {
+      activationConstraint: {
+        distance: 8, // 👈 لازم يتحرك فعلياً
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 150, // 👈 يمنع tap السريع
+        tolerance: 5,
+      },
+    }),
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
+  );
+  const getUsageCount = (wordId) => {
+  return Object.values(answers).filter((val) => val === wordId).length;
+};
   const checkAnswers = () => {
     if (showResults) return;
 
@@ -180,28 +185,40 @@ const sensors = useSensors(
       sensors={sensors}
       collisionDetection={closestCenter}
       onDragStart={(e) => setActiveId(e.active.id)}
-      onDragEnd={(e) => {
-        const { active, over } = e;
+     onDragEnd={(e) => {
+  const { active, over } = e;
 
-        if (!over || !over.id.startsWith("g")) {
-          setActiveId(null);
-          return;
-        }
+  if (!over || !over.id.startsWith("g")) {
+    setActiveId(null);
+    return;
+  }
 
-        setAnswers((prev) => {
-          const next = { ...prev };
+  setAnswers((prev) => {
+    const next = { ...prev };
 
-          // 🔧 FIX move (مش copy)
-          Object.keys(next).forEach((k) => {
-            if (next[k] === active.id) next[k] = null;
-          });
+    // 🔥 احسب الاستخدام الحالي
+    const usage =
+      Object.values(next).filter((val) => val === active.id).length;
 
-          next[over.id] = active.id;
-          return next;
-        });
+    // 🚫 لو وصل الحد
+    if (usage >= WORD_LIMITS[active.id]) {
+      return prev;
+    }
 
-        setActiveId(null);
-      }}
+    // 🔥 فقط الكلمات single-use تنحذف من مكانها القديم
+    if (WORD_LIMITS[active.id] === 1) {
+      Object.keys(next).forEach((k) => {
+        if (next[k] === active.id) next[k] = null;
+      });
+    }
+
+    // إضافة للكلمة
+    next[over.id] = active.id;
+    return next;
+  });
+
+  setActiveId(null);
+}}
     >
       <div className="main-container-component">
         <div className="div-forall" style={{ gap: "10px" }}>
@@ -209,83 +226,83 @@ const sensors = useSensors(
             <span className="WB-ex-A">G</span>Read and write.
           </h1>
 
-          <div className="flex flex-wrap justify-center gap-2 p-4 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200 mb-5">
-          {WORDS_G.map((w) => (
-  <DraggableWord
-    key={w.id}
-    item={w}
-isUsed={Object.values(answers).some((val) => val === w.id)}  />
-))}
-          </div>
-
-
           <div className="flex flex-col lg:flex-row gap-8 items-center">
-            {/* فقرة سو */}
-            <div className="flex-1 space-y-6">
-              <div className="bg-white p-6 rounded-3xl border-2 border-gray-200 relative shadow-sm">
-                <p className="text-lg leading-relaxed">
-                  Hello! This is my closet. I have{" "}
-                  <DropSlotG
-                    id="g1"
-                    content={answers.g1}
-                    isCorrect={answers.g1 === CORRECT_G.g1}
-                    isSubmitted={showResults}
-                  />{" "}
-                  shirts, but{" "}
-                  <DropSlotG
-                    id="g2"
-                    content={answers.g2}
-                    isCorrect={answers.g2 === CORRECT_G.g2}
-                    isSubmitted={showResults}
-                  />{" "}
-                  any skirts.
-                  <DropSlotG
-                    id="g3"
-                    content={answers.g3}
-                    isCorrect={answers.g3 === CORRECT_G.g3}
-                    isSubmitted={showResults}
-                  />{" "}
-                  a big hat. It{" "}
-                  <DropSlotG
-                    id="g4"
-                    content={answers.g4}
-                    isCorrect={answers.g4 === CORRECT_G.g4}
-                    isSubmitted={showResults}
-                  />{" "}
-                  a feather.
-                </p>
-                <div className="absolute -right-4 top-1/2 transform -translate-y-1/2 w-0 h-0 border-t-[15px] border-t-transparent border-l-[20px] border-l-gray-200 border-b-[15px] border-b-transparent"></div>
+            <div className="flex flex-col gap-18">
+              <div className="flex flex-wrap justify-center gap-2 rounded-xl ">
+                {WORDS_G.map((w) => (
+                  <DraggableWord
+  key={w.id}
+  item={w}
+  isDisabled={getUsageCount(w.id) >= WORD_LIMITS[w.id]}
+/>
+                ))}
               </div>
+              {/* فقرة سو */}
+              <div className="flex-1 space-y-6">
+                <div className="bg-white p-6 rounded-3xl border-2 border-gray-200 relative shadow-sm">
+                  <p className="text-lg leading-relaxed">
+                    Hello! This is my closet. I have{" "}
+                    <DropSlotG
+                      id="g1"
+                      content={answers.g1}
+                      isCorrect={answers.g1 === CORRECT_G.g1}
+                      isSubmitted={showResults}
+                    />{" "}
+                    shirts, but{" "}
+                    <DropSlotG
+                      id="g2"
+                      content={answers.g2}
+                      isCorrect={answers.g2 === CORRECT_G.g2}
+                      isSubmitted={showResults}
+                    />{" "}
+                    any skirts.
+                    <DropSlotG
+                      id="g3"
+                      content={answers.g3}
+                      isCorrect={answers.g3 === CORRECT_G.g3}
+                      isSubmitted={showResults}
+                    />{" "}
+                    a big hat. It{" "}
+                    <DropSlotG
+                      id="g4"
+                      content={answers.g4}
+                      isCorrect={answers.g4 === CORRECT_G.g4}
+                      isSubmitted={showResults}
+                    />{" "}
+                    a feather.
+                  </p>
+                  <div className="absolute -right-4 top-1/2 transform -translate-y-1/2 w-0 h-0 border-t-[15px] border-t-transparent border-l-[20px] border-l-gray-200 border-b-[15px] border-b-transparent"></div>
+                </div>
 
-              <div className="bg-white p-6 rounded-3xl border-2 border-gray-200 relative shadow-sm">
-                <p className="text-lg leading-relaxed">
-                  This is John's closet. He
-                  <DropSlotG
-                    id="g5"
-                    content={answers.g5}
-                    isCorrect={answers.g5 === CORRECT_G.g5}
-                    isSubmitted={showResults}
-                  />{" "}
-                  a tie. He{" "}
-                  <DropSlotG
-                    id="g6"
-                    content={answers.g6}
-                    isCorrect={answers.g6 === CORRECT_G.g6}
-                    isSubmitted={showResults}
-                  />{" "}
-                  a cap. He{" "}
-                  <DropSlotG
-                    id="g7"
-                    content={answers.g7}
-                    isCorrect={answers.g7 === CORRECT_G.g7}
-                    isSubmitted={showResults}
-                  />{" "}
-                  a pair of pants.
-                </p>
-                <div className="absolute -right-4 top-1/2 transform -translate-y-1/2 w-0 h-0 border-t-[15px] border-t-transparent border-l-[20px] border-l-gray-200 border-b-[15px] border-b-transparent"></div>
+                <div className="bg-white p-6 rounded-3xl border-2 border-gray-200 relative shadow-sm">
+                  <p className="text-lg leading-relaxed">
+                    This is John's closet. He
+                    <DropSlotG
+                      id="g5"
+                      content={answers.g5}
+                      isCorrect={answers.g5 === CORRECT_G.g5}
+                      isSubmitted={showResults}
+                    />{" "}
+                    a tie. He{" "}
+                    <DropSlotG
+                      id="g6"
+                      content={answers.g6}
+                      isCorrect={answers.g6 === CORRECT_G.g6}
+                      isSubmitted={showResults}
+                    />{" "}
+                    a cap. He{" "}
+                    <DropSlotG
+                      id="g7"
+                      content={answers.g7}
+                      isCorrect={answers.g7 === CORRECT_G.g7}
+                      isSubmitted={showResults}
+                    />{" "}
+                    a pair of pants.
+                  </p>
+                  <div className="absolute -right-4 top-1/2 transform -translate-y-1/2 w-0 h-0 border-t-[15px] border-t-transparent border-l-[20px] border-l-gray-200 border-b-[15px] border-b-transparent"></div>
+                </div>
               </div>
             </div>
-
             {/* الشخصية والخزائن */}
             <div className="flex flex-col items-center gap-4">
               <img src={imgSue} alt="Sue" className="max-w-40 max-h-40" />

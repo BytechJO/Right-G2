@@ -50,7 +50,7 @@ function DraggableWord({ item, isUsed }) {
       style={style}
       {...attributes}
       {...listeners}
-      className={`px-6 py-2 bg-white border-2 border-gray-300 rounded-xl shadow-sm cursor-grab text-blue-700 font-bold ${isUsed ? "bg-gray-100 text-gray-400 pointer-events-none" : "hover:border-blue-400 hover:shadow-md transition-all"}`}
+      className={`px-6 py-2 bg-white border-2 border-blue-900 rounded-xl shadow-sm cursor-grab text-blue-900 font-bold ${isUsed ? "bg-gray-100 text-gray-400 pointer-events-none" : "hover:bg-blue-100 hover:shadow-md transition-all"}`}
     >
       {item.text}
     </div>
@@ -75,7 +75,7 @@ function DropSlot({ id, content, isCorrect, isSubmitted }) {
     >
       {/* النص */}
       {content ? (
-        <span className="text-blue-900 font-bold">
+        <span className="text-blue-900 font-bold text-lg">
           {WORDS_C.find((w) => w.id === content).text}
         </span>
       ) : (
@@ -131,15 +131,15 @@ const WB_Unit8_Page50_Q3 = () => {
       <div className="main-container-component">
         <div
           className="div-forall"
-          style={{ gap: "10px", marginBottom: "50px" }}
+          style={{marginBottom: "50px" }}
         >
           <h1 className="WB-header-title-page8 mb-10">
             {" "}
             <span className="WB-ex-A">C</span>Read and complete the sentences.
             Use the words from the box.
           </h1>
-
-          <div className="flex justify-center gap-4 mb-5 p-3 rounded-2xl border-2 border-dashed border-gray-400">
+       <div className="flex flex-col gap-5">
+          <div className="flex justify-center gap-20 mb-5 p-3 rounded-2xl ">
             <SortableContext items={WORDS_C.map((w) => w.id)}>
               {WORDS_C.map((w) => (
                 <DraggableWord
@@ -165,7 +165,7 @@ const WB_Unit8_Page50_Q3 = () => {
               </p>
             ))}
           </div>
-
+</div>
           <div className="mt-12 flex justify-center">
             <Button
               handleShowAnswer={() => {

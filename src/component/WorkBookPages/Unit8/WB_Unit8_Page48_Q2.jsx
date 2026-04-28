@@ -39,12 +39,12 @@ const DraggableItem = ({ id, text, disabled }) => {
       ref={setNodeRef}
       {...listeners}
       {...attributes}
-      style={style}
+      // style={style}
       className={`px-4 py-2 rounded-lg border-2 touch-none font-medium
         ${
           disabled
             ? "bg-gray-200 text-gray-400 border-gray-300"
-            : "bg-white border-blue-200 cursor-grab hover:border-blue-500 text-blue-700"
+            : "bg-white border-blue-900 cursor-grab hover:bg-blue-100 text-blue-900"
         }`}
     >
       {text}
@@ -52,27 +52,33 @@ const DraggableItem = ({ id, text, disabled }) => {
   );
 };
 
-const DropZone = ({ id, children, isCorrect, showResults }) => {
-  const { setNodeRef } = useDroppable({ id });
+function DropZone({ id, children, isCorrect, showResults }) {
+  const { setNodeRef, isOver } = useDroppable({ id });
 
   return (
     <div
       ref={setNodeRef}
-      className={`relative min-w-[180px] h-10 mx-2 px-4 flex items-center justify-center rounded-lg border-2 border-dashed transition-all
-      ${children ? "border-blue-400 bg-blue-50" : "border-gray-300 bg-gray-50"}
+      className={`relative min-w-[180px] h-10 mx-2 px-4 flex items-center justify-center border-b-2 text-lg transition-all duration-200
+     // 🔥 لما نسحب فوقه
+      ${isOver ? "bg-blue-100 scale-105 border-blue-600 shadow-md" : ""}   
+      ${children ? "border-blue-900" : "border-blue-900 bg-gray-50"}
+      
+    
+      
+      // ❌ غلط بعد التصحيح
       ${showResults && isCorrect === false ? "border-red-500 bg-white" : ""}
       `}
     >
       {children}
 
       {showResults && isCorrect === false && (
-        <div className="absolute right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
+        <div className="absolute right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold border-2 border-white shadow-lg">
           ✕
         </div>
       )}
     </div>
   );
-};
+}
 
 const WB_Unit8_Page48_Q2 = () => {
   const initialData = [
@@ -96,9 +102,9 @@ const WB_Unit8_Page48_Q2 = () => {
     },
     {
       id: 4,
-      subject: "Grandpa has",
-      verb: "glasses",
-      correct: "glasses",
+      subject: "Grandpa",
+      verb: "has glasses",
+      correct: "has glasses",
     },
     {
       id: 5,
@@ -197,46 +203,48 @@ const WB_Unit8_Page48_Q2 = () => {
       }}
     >
       <div className="main-container-component">
-        <div className="div-forall" style={{ gap: "10px" }}>
-          <h1 className="WB-header-title-page8  mb-10">
+        <div className="div-forall">
+          <h1 className="WB-header-title-page8">
             <span className="WB-ex-A">I</span>Look and write.
           </h1>
-          <div className="bg-gray-50 p-6 rounded-xl border-2 border-gray-300 border-dashed">
-            <div className="flex flex-wrap gap-3">
-              {options.map((opt, i) => (
-                <DraggableItem
-                  key={i}
-                  id={`opt-${i}`}
-                  text={opt}
-                  disabled={usedOptions.includes(opt) || showResults}
-                />
-              ))}
-            </div>
-          </div>
-
-          <div className="relative flex gap-4 mb-10">
-            <div className="flex flex-col md:flex-row justify-between w-full relative">
-              <img src={img2} style={{ height: "550px", width: "auto" }} />
+          <div className="flex flex-col gap-5">
+            <div className="px-6">
+              <div className="flex flex-wrap gap-3 justify-center">
+                {options.map((opt, i) => (
+                  <DraggableItem
+                    key={i}
+                    id={`opt-${i}`}
+                    text={opt}
+                    disabled={usedOptions.includes(opt) || showResults}
+                  />
+                ))}
+              </div>
             </div>
 
-            <div className="flex flex-col justify-center gap-6 mt-6 space-y-6 w-full">
-              {initialData.map((item, idx) => (
-                <div key={idx} className="flex items-center">
-                  <span className="font-bold text-blue-600 mr-4 w-6">
-                    {item.id}
-                  </span>
-                  <span className="mr-2 font-medium w-[150px]">
-                    {item.subject}
-                  </span>
-                  <DropZone
-                    id={`${idx}`}
-                    isCorrect={isCorrect[idx]}
-                    showResults={showResults}
-                  >
-                    {userAnswers[idx]}
-                  </DropZone>
-                </div>
-              ))}
+            <div className="relative flex gap-4 mb-3">
+              <div className="flex flex-col md:flex-row justify-between w-full relative">
+                <img src={img2} style={{ height: "550px", width: "auto" }} />
+              </div>
+
+              <div className="flex flex-col justify-center gap-6 mt-6 space-y-6 w-full">
+                {initialData.map((item, idx) => (
+                  <div key={idx} className="flex items-center">
+                    <span className="font-bold text-blue-600 mr-4 w-6">
+                      {item.id}
+                    </span>
+                    <span className="mr-2 font-medium w-[150px]">
+                      {item.subject}
+                    </span>
+                    <DropZone
+                      id={`${idx}`}
+                      isCorrect={isCorrect[idx]}
+                      showResults={showResults}
+                    >
+                      {userAnswers[idx]}
+                    </DropZone>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
           <DragOverlay>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import img from "../../../assets/imgs/test6.png";
 import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
-
+import trueIcon from "../../../assets/imgs/true.svg";
 const exerciseQuestions = [
   {
     id: "q1",
@@ -32,7 +32,7 @@ const WB_Unit9_Page52_Q1 = () => {
   const [score, setScore] = useState(null);
 
   const handleSelectAnswer = (questionId, answer) => {
-     if (showResults) return;
+    if (showResults) return;
     setUserAnswers((prev) => ({
       ...prev,
       [questionId]: answer,
@@ -122,7 +122,7 @@ const WB_Unit9_Page52_Q1 = () => {
         </h1>
 
         <div className="space-y-2">
-          <p class="text-lg leading-7 text-gray-800 mt-6 ml-10 font-bold">
+          <p class="text-[18px] leading-7 text-gray-800 mt-6 ml-10">
             My mom is listening to the radio in her bedroom. Dad is on the
             computer sending an e-mail. My brother is playing football with his
             friends. My little sister is looking for her doll. I’m ironing
@@ -137,10 +137,10 @@ const WB_Unit9_Page52_Q1 = () => {
               <div></div>
 
               <div className="flex items-center gap-3">
-                <span className="font-bold text-blue-900 text-lg">
+                <span className="font-bold text-blue-900 text-[20px]">
                   {index + 1}
                 </span>
-                <p className="text-lg text-gray-800">{question.text}</p>
+                <p className="text-[20px] text-gray-800">{question.text}</p>
               </div>
 
               <div className="flex items-center gap-x-4">
@@ -154,13 +154,16 @@ const WB_Unit9_Page52_Q1 = () => {
                   <div className="relative">
                     <div
                       onClick={() => handleSelectAnswer(question.id, true)}
-                      className={`w-8 h-8 border-2 rounded-md cursor-pointer flex items-center justify-center transition-all ${getCheckboxClass(
+                      className={`w-[45px] h-[45px] border-2 rounded-md cursor-pointer flex items-center justify-center transition-all ${getCheckboxClass(
                         question.id,
                         true,
                       )}`}
                     >
                       {userAnswers[question.id] === true && (
-                        <span className="text-2xl text-blue-600">✓</span>
+                        <span className="text-2xl text-blue-600">
+                          {" "}
+                          <img src={trueIcon} style={{ height: "25px" }} />
+                        </span>
                       )}
                     </div>
 
@@ -185,13 +188,16 @@ const WB_Unit9_Page52_Q1 = () => {
                   <div className="relative">
                     <div
                       onClick={() => handleSelectAnswer(question.id, false)}
-                      className={`w-8 h-8 border-2 rounded-md cursor-pointer flex items-center justify-center transition-all ${getCheckboxClass(
+                      className={`w-[45px] h-[45px] border-2 rounded-md cursor-pointer flex items-center justify-center transition-all ${getCheckboxClass(
                         question.id,
                         false,
                       )}`}
                     >
                       {userAnswers[question.id] === false && (
-                        <span className="text-2xl text-blue-600">✓</span>
+                        <span className="text-2xl text-blue-600">
+                          {" "}
+                          <img src={trueIcon} style={{ height: "25px" }} />
+                        </span>
                       )}
                     </div>
 
@@ -211,7 +217,7 @@ const WB_Unit9_Page52_Q1 = () => {
           ))}
         </div>
 
-        <div className="mt-10 flex justify-center">
+        <div className="flex justify-center">
           <Button
             handleShowAnswer={handleShowAnswer}
             handleStartAgain={handleStartAgain}

@@ -99,7 +99,7 @@ export default function WB_Unit10_Page62_Q2() {
       "relative flex flex-col items-center gap-3 p-4 rounded-2xl border-2 transition-all duration-300 ";
 
     if (!showResult || !answers[qId]) {
-      return base + "border-blue-600 bg-gray-50";
+      return base + "border-blue-900";
     }
 
     return answers[qId] === correctAnswers[qId]
@@ -111,27 +111,27 @@ export default function WB_Unit10_Page62_Q2() {
     const isSelected = answers[qId] === val;
 
     const base =
-      "px-3 py-1 rounded-lg border-2 text-sm font-bold transition-all cursor-pointer ";
+      "px-3 py-1 rounded-lg border-2 text-lg font-bold transition-all cursor-pointer ";
 
     if (!isSelected) {
       return (
         base +
-        "border-blue-600 text-blue-900 hover:border-blue-400 hover:bg-blue-50"
+        "border-blue-900 text-blue-900 hover:border-blue-900 hover:bg-blue-50"
       );
     }
 
     if (!showResult) {
-      return base + "border-blue-500 bg-blue-500 text-white";
+      return base + "border-blue-900 bg-blue-100";
     }
 
     return answers[qId] === correctAnswers[qId]
-      ? base + "border-blue-500 bg-blue-500 text-white"
-      : base + "border-blue-500 bg-blue-500 text-white";
+      ? base + "border-blue-900 bg-blue-100 text-white"
+      : base + "border-blue-900 bg-blue-500 text-white";
   };
 
   return (
     <div key={resetKey} className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
+      <div className="div-forall">
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">B</span>Look and write the missing letters.
         </h1>
@@ -155,7 +155,7 @@ export default function WB_Unit10_Page62_Q2() {
               <img src={q.emoji} className="max-w-45 max-h-30" />
 
               {/* Word */}
-              <p className="text-base font-bold text-gray-700 tracking-wide">
+              <p className="text-xl font-bold text-gray-700 tracking-wide">
                 {q.parts[0]}
                 <span className="mx-1 px-1 rounded font-bold text-blue-600">
                   {answers[q.id] || "__"}

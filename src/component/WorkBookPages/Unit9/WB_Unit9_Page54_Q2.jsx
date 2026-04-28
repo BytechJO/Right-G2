@@ -73,7 +73,7 @@ function DraggableItem({ type, value, parentId, children, disabled }) {
       style={style}
       {...(!disabled ? listeners : {})}
       {...(!disabled ? attributes : {})}
-      className={`px-3 py-1 bg-white border-2 border-blue-400 rounded-lg shadow-sm touch-none
+      className={`px-3 py-1 bg-white text-lg border-2 border-blue-900 rounded-lg shadow-sm touch-none
         ${disabled ? "opacity-40 cursor-not-allowed" : "cursor-grab hover:bg-blue-50"}
         ${isDragging ? "opacity-0" : ""}
       `}
@@ -208,13 +208,13 @@ const WB_Unit9_Page54_Q2 = () => {
       onDragEnd={handleDragEnd}
     >
       <div className="main-container-component">
-        <div className="div-forall" style={{ gap: "30px" }}>
+        <div className="div-forall">
           <h1 className="WB-header-title-page8">
             <span className="WB-ex-A">H</span>Which one is different? Look and write.
           </h1>
-
+         <div className="flex flex-col gap-5">
           {/* Sentence Bank */}
-          <div className="mb-10 p-4 bg-gray-50 rounded-xl border-2 border-blue-400 border-dashed flex flex-wrap gap-4 font-serif italic">
+          <div className="p-4 flex flex-wrap justify-center gap-4">
             {sentenceBank.map((s) => {
               const isUsed = usedSentences.has(s);
 
@@ -290,7 +290,7 @@ const WB_Unit9_Page54_Q2 = () => {
                   <DropZone id={item.id} type="sentence">
                     <div className="relative">
                       <div
-                        className={`min-w-[250px] h-[50px] border-b-2 px-2 py-2 font-serif italic ${
+                        className={`min-w-[250px] h-[50px] border-b-2 px-2 py-2 text-lg ${
                           checked &&
                           answers[item.id].sentence &&
                           answers[item.id].sentence !== item.correctSentence &&
@@ -313,7 +313,7 @@ const WB_Unit9_Page54_Q2 = () => {
               </div>
             ))}
           </div>
-
+</div>
           <div className="mt-16 flex justify-center">
             <Button
               handleShowAnswer={handleShowAnswer}

@@ -509,14 +509,17 @@ const ReadAndColor = () => {
   };
   return (
     <div className="main-container-component relative">
-      <div className="div-forall" style={{ gap: "10px" }}>
+      <div className="div-forall">
+        <div>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">D</span> Read and color.
         </h1>
         <p className="text-sm text-gray-500 mb-6">
           💡 Click on any part to color it instantly
         </p>
+</div>
 
+<div>
         <div className="flex justify-around items-start gap-4 mb-8">
           {Object.entries(charactersData).map(([key, data]) => (
             <Character
@@ -559,7 +562,7 @@ const ReadAndColor = () => {
           </div>
         )}
 
-        <div className="text-start text-xl leading-relaxed text-gray-700 mb-8 bg-gray-50 p-4 rounded-lg">
+        <div className="text-start text-[18px] leading-relaxed text-gray-700 mb-8 bg-gray-50 p-4 rounded-lg">
           <p>
             Peter has gray pants and a green jacket. His shoes are black. Joanna
             has a yellow dress, white socks, and brown shoes. Mark has red
@@ -567,8 +570,8 @@ const ReadAndColor = () => {
             and a pink shirt. Her glasses are purple.
           </p>
         </div>
-
-        <div className="flex justify-center gap-4 mt-8">
+</div>
+        <div className="flex justify-center gap-4">
           <Button
             handleStartAgain={handleStartAgain}
             checkAnswers={checkAnswers}

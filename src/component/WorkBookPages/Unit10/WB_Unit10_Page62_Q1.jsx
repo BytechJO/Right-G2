@@ -91,7 +91,7 @@ function DroppableColumn({ id, className, children }) {
   return (
     <div
       ref={setNodeRef}
-      className={`${className} ${isOver ? "border-blue-500 bg-blue-50/60" : ""}`}
+      className={`${className} ${isOver ? "border-blue-900 bg-blue-50/60" : ""}`}
     >
       {children}
     </div>
@@ -202,7 +202,7 @@ export default function WB_Unit10_Page62_Q1() {
       "px-3 py-1 rounded-lg text-lg w-20 font-semibold border-2 transition-all ";
 
     if (!showResult) {
-      return `${base}text-blue border-blue-500 cursor-grab active:cursor-grabbing hover:bg-blue-100`;
+      return `${base}text-blue border-blue-900 cursor-grab active:cursor-grabbing hover:bg-blue-100`;
     }
 
     return correctAnswers[colId].includes(word)
@@ -218,7 +218,7 @@ export default function WB_Unit10_Page62_Q1() {
       onDragCancel={handleDragCancel}
     >
       <div className="main-container-component">
-        <div className="div-forall" style={{ gap: "20px" ,marginBottom:"30px"}}>
+        <div className="div-forall" style={{ marginBottom:"30px"}}>
           <h1 className="WB-header-title-page8" style={{ alignItems: "flex-start" }}>
             <span className="WB-ex-A">A</span>
             <span style={{ whiteSpace: "wrap" }}>
@@ -227,7 +227,7 @@ export default function WB_Unit10_Page62_Q1() {
             </span>
           </h1>
 
-          <div className="grid grid-cols-4 gap-2 p-4 bg-blue-50 border-2 border-blue-100 rounded-xl mb-6">
+          <div className="grid grid-cols-4 gap-2 p-4 border-blue-100 rounded-xl mb-6">
             {wordBank.map((word) => {
               const isUsed = usedWords.includes(word);
 
@@ -244,10 +244,10 @@ export default function WB_Unit10_Page62_Q1() {
                     id={`bank-${word}`}
                     word={word}
                     disabled={isUsed || showResult}
-                    className={`px-3 py-1 rounded-lg text-lg font-semibold border transition-all ${
+                    className={`h-10 w-25 px-3 py-1 rounded-lg text-lg font-semibold border-2 transition-all ${
                       isUsed
                         ? "bg-gray-200 text-gray-400 border-gray-200 cursor-not-allowed"
-                        : "bg-white text-gray-600 border-gray-300 cursor-grab active:cursor-grabbing hover:bg-blue-50"
+                        : "bg-white text-gray-600 border-blue-900 cursor-grab active:cursor-grabbing hover:bg-blue-50"
                     }`}
                   />
                 </div>
@@ -266,7 +266,7 @@ export default function WB_Unit10_Page62_Q1() {
                 <DroppableColumn
                   key={col.id}
                   id={col.id}
-                  className="relative border-2 rounded-2xl p-4 min-h-[160px]"
+                  className="relative border-2 border-gray-400 rounded-2xl p-4 min-h-[160px]"
                 >
                   {isWrong && (
                     <div className="absolute -top-2 -right-2 w-7 h-7 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold border-2 border-white shadow">

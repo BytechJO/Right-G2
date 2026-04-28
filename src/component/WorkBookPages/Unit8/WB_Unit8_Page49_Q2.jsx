@@ -64,7 +64,7 @@ function DraggableK({ item, isUsed }) {
       onClick={(e) => e.preventDefault()}
       // 👆 يمنع الكليك من أنه يتعامل كـ drag
 
-      className={`p-2 bg-white border border-gray-200 rounded-lg shadow-sm cursor-grab text-blue-700 touch-none text-sm font-medium ${
+      className={`p-2 bg-white border border-gray-200 rounded-lg shadow-sm cursor-grab text-blue-700 touch-none text-[16px] font-medium ${
         // 👇✨ تعديل الشرط
         isUsed && !isDragging
           ? "bg-gray-50 text-gray-300 pointer-events-none"
@@ -93,7 +93,7 @@ function DropSlotK({ id, content, isCorrect, isSubmitted }) {
     >
       {/* المحتوى */}
       {content ? (
-        <span className="text-blue-900 font-bold text-sm">
+        <span className="text-blue-900 font-bold text-[18px]">
           {OPTIONS_K.find((o) => o.id === content).text}
         </span>
       ) : (
@@ -168,7 +168,7 @@ const WB_Unit8_Page49_Q2 = () => {
       <div className="main-container-component">
         <div
           className="div-forall"
-          style={{ gap: "10px", marginBottom: "50px" }}
+          style={{ marginBottom: "50px" }}
         >
           <h1 className="WB-header-title-page8">
             <span className="WB-ex-A">K</span> Read, look, and answer.
@@ -176,7 +176,7 @@ const WB_Unit8_Page49_Q2 = () => {
 
           <div className="flex flex-col lg:flex-row gap-6">
             {/* Section A */}
-            <div className="flex-1 space-y-4 p-4">
+            <div className="flex-1 space-y-4">
               <div className="relative">
                 <img
                   src={imgRoomA}
@@ -190,7 +190,7 @@ const WB_Unit8_Page49_Q2 = () => {
               <div className="space-y-4">
                 {[1, 2, 3, 4].map((n) => (
                   <div key={n} className="space-y-1">
-                    <p className="text-sm font-bold text-gray-600">
+                    <p className="text-[18px] font-bold text-gray-600">
                       {n}. How many{" "}
                       {["crayons", "beds", "dolls", "pictures"][n - 1]} does she
                       have?
@@ -207,7 +207,7 @@ const WB_Unit8_Page49_Q2 = () => {
             </div>
 
             {/* Section B */}
-            <div className="flex-1 space-y-4 p-4">
+            <div className="flex-1 space-y-4">
               <div className="relative">
                 <img
                   src={imgRoomB}
@@ -221,7 +221,7 @@ const WB_Unit8_Page49_Q2 = () => {
               <div className="space-y-4">
                 {[1, 2, 3, 4].map((n) => (
                   <div key={n} className="space-y-1">
-                    <p className="text-sm font-bold text-gray-600">
+                    <p className="text-[18px] font-bold text-gray-600">
                       {n}. How many{" "}
                       {["computers", "pictures", "robots", "lamps"][n - 1]} does
                       he have?

@@ -63,7 +63,7 @@ function DraggableActivity({ item, isUsed }) {
       style={style}
       {...attributes}
       {...listeners}
-      className={`p-2 bg-white border-2 border-gray-200 rounded-xl shadow-sm cursor-grab text-blue-700 font-medium text-sm text-center touch-none ${isUsed ? "bg-gray-50 text-gray-300 pointer-events-none" : "hover:border-blue-400 hover:shadow-md transition-all"}`}
+      className={`p-2 bg-white border-2 border-gray-200 rounded-xl shadow-sm cursor-grab text-blue-700 font-medium text-base text-center touch-none ${isUsed ? "bg-gray-50 text-gray-300 pointer-events-none" : "hover:border-blue-400 hover:shadow-md transition-all"}`}
     >
       {item.text}
     </div>
@@ -93,7 +93,7 @@ function DropSlot({ id, content, isCorrect, isSubmitted }) {
       )}
 
       {content ? (
-        <span className="text-blue-900 font-bold text-sm text-center">
+        <span className="text-blue-900 font-bold text-lg text-center">
           {ACTIVITIES.find((a) => a.id === content).text}
         </span>
       ) : (
@@ -194,7 +194,7 @@ onDragEnd={(e) => {
 }}
     >
       <div className="main-container-component">
-        <div className="div-forall" style={{ gap: "15px" }}>
+        <div className="div-forall">
           <h1 className="WB-header-title-page8">
             <span className="WB-ex-A">A</span>Look and write.
           </h1>
@@ -204,7 +204,7 @@ onDragEnd={(e) => {
             <div className="flex-[2] grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
               {QUESTIONS.map((q) => (
                 <div key={q.id} className="space-y-3">
-                  <p className="text-gray-700 font-bold text-sm">{q.text}</p>
+                  <p className="text-gray-700 font-bold text-lg">{q.text}</p>
                   <div className="bg-gray-50 p-2 rounded-xl border border-gray-100 flex justify-center">
                     <img
                       src={q.img}

@@ -93,21 +93,21 @@ export default function SpotTheDifference() {
     setSubmitted(true);
   };
   return (
-    <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "10px" }}>
-        <h1 className="WB-header-title-page8  mb-10">
+    <div className="main-container-component mb-10">
+      <div className="div-forall">
+        <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">H</span>Look and find. Say.
         </h1>
-
+       <div className="flex flex-col gap-5">
         {/* Pictures */}
-        <div className="grid grid-cols-2 gap-6 mb-8">
-          <div className="bg-blue-100 p-6 rounded-lg border-4 border-gray-300">
+        <div className="grid grid-cols-2 gap-6" style={{justifyItems:"center"}}>
+          <div className="rounded-lg">
             <div className="text-center font-bold text-2xl mb-4">Picture A</div>
             <div className="text-6xl text-center">
-              <img src={img1} style={{ height: "350px", width: "auto" }} />
+              <img src={img1} className="rounded-lg" style={{ height: "350px", width: "auto" ,borderRadius:"9px"}} />
             </div>
           </div>
-          <div className="bg-green-100 p-6 rounded-lg border-4 border-gray-300">
+          <div className="rounded-lg">
             <div className="text-center font-bold text-2xl mb-4">Picture B</div>
             <div className="text-6xl text-center">
               <img src={img2} style={{ height: "350px", width: "auto" }} />
@@ -155,7 +155,7 @@ export default function SpotTheDifference() {
             </div>
           ))}
         </div>
-
+</div>
         {/* Buttons */}
         <Button
           handleShowAnswer={handleShowAnswer}

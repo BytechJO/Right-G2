@@ -9,7 +9,8 @@ import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 5
 import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 51/Ex A 5.svg";
 import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 51/Ex A 6.svg";
 import img7 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 51/Ex A 7.svg";
-
+import trueIcon from "../../../assets/imgs/true.svg";
+import falseIcon from "../../../assets/imgs/false.svg";
 const exerciseQuestions = [
   { id: "q1", text: "Mom is cooking.", img: img1, correctAnswer: false },
   {
@@ -58,7 +59,7 @@ const WB_Unit9_Page51_Q1 = () => {
       correct[q.id] = q.correctAnswer;
     });
     setUserAnswers(correct);
-    setShowResults(true)
+    setShowResults(true);
   };
 
   const handleStartAgain = () => {
@@ -122,7 +123,7 @@ const WB_Unit9_Page51_Q1 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "10px", marginBottom: "50px" }}>
+      <div className="div-forall" style={{marginBottom: "10px" }}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">A</span>
           Look, read, and write <span className="text-blue-900">✓</span> or{" "}
@@ -139,34 +140,37 @@ const WB_Unit9_Page51_Q1 = () => {
                 src={question.img}
                 alt={`Question ${index + 1}`}
                 className="object-contain"
-                style={{height:"100px",width:"auto"}}
+                style={{ height: "100px", width: "auto" }}
               />
 
               <div className="flex items-center gap-3">
-                <span className="font-bold text-blue-600 text-lg">
+                <span className="font-bold text-blue-900 text-[22px]">
                   {index + 1}
                 </span>
-                <p className="text-lg text-gray-800">{question.text}</p>
+                <p className="text-[20px] text-gray-800">{question.text}</p>
               </div>
 
               <div className="flex items-center gap-x-4">
                 <div className="flex flex-col items-center">
                   {index === 0 && (
                     <span className="font-semibold text-blue-800 mb-1 text-2xl">
-                      ✓
+                      <img src={trueIcon} style={{ height: "25px" }} />
                     </span>
                   )}
 
                   <div className="relative">
                     <div
                       onClick={() => handleSelectAnswer(question.id, true)}
-                      className={`w-8 h-8 border-2 rounded-md cursor-pointer flex items-center justify-center transition-all ${getCheckboxClass(
+                      className={`w-[45px] h-[45px] border-2 rounded-md cursor-pointer flex items-center justify-center transition-all ${getCheckboxClass(
                         question.id,
                         true,
                       )}`}
                     >
                       {userAnswers[question.id] === true && (
-                        <span className="text-2xl text-blue-600">✓</span>
+                        <span className="text-2xl text-blue-600">
+                          {" "}
+                          <img src={trueIcon} style={{ height: "25px" }} />
+                        </span>
                       )}
                     </div>
 
@@ -184,20 +188,23 @@ const WB_Unit9_Page51_Q1 = () => {
                 <div className="flex flex-col items-center">
                   {index === 0 && (
                     <span className="font-semibold text-blue-800 mb-1 text-2xl">
-                      ✕
+                      <img src={falseIcon} style={{ height: "25px" }} />
                     </span>
                   )}
 
                   <div className="relative">
                     <div
                       onClick={() => handleSelectAnswer(question.id, false)}
-                      className={`w-8 h-8 border-2 rounded-md cursor-pointer flex items-center justify-center transition-all ${getCheckboxClass(
+                      className={`w-[45px] h-[45px] border-2 rounded-md cursor-pointer flex items-center justify-center transition-all ${getCheckboxClass(
                         question.id,
                         false,
                       )}`}
                     >
                       {userAnswers[question.id] === false && (
-                        <span className="text-2xl text-blue-600">✕</span>
+                        <span className="text-2xl text-blue-600">
+                          {" "}
+                          <img src={falseIcon} style={{ height: "25px" }} />
+                        </span>
                       )}
                     </div>
 
@@ -217,7 +224,7 @@ const WB_Unit9_Page51_Q1 = () => {
           ))}
         </div>
 
-        <div className="mt-10 flex justify-center">
+        <div className="flex justify-center">
           <Button
             handleShowAnswer={handleShowAnswer}
             handleStartAgain={handleStartAgain}

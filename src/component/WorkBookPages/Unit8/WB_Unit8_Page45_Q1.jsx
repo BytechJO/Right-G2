@@ -72,7 +72,7 @@ function DraggableItem({ item, isUsed }) {
         e.preventDefault();
         e.stopPropagation();
       }}
-      className={`px-4 py-1 bg-white border-2 border-gray-300 rounded-full shadow-sm cursor-grab text-blue-600 font-medium touch-none select-none ${
+      className={`px-4 py-1 bg-white border-2 border-blue-900 rounded-lg shadow-sm cursor-grab text-lg text-blue-900 font-medium touch-none select-none ${
         isUsed
           ? "bg-gray-100 text-gray-400 pointer-events-none"
           : "hover:border-blue-400"
@@ -105,7 +105,7 @@ function DropSlot({ id, content, isCorrect, isSubmitted }) {
         className={`w-32 h-10 border-b-2 flex items-center justify-center transition-all ${borderColor}`}
       >
         {content ? (
-          <span className="font-bold">
+          <span className="font-bold text-xl">
             {CLOTHES.find((c) => c.id === content).text}
           </span>
         ) : (
@@ -201,13 +201,13 @@ const WB_Unit8_Page45_Q1 = () => {
       }}
     >
       <div className="main-container-component">
-        <div className="div-forall" style={{ gap: "10px" }}>
-          <h1 className="WB-header-title-page8  mb-10">
+        <div className="div-forall">
+          <h1 className="WB-header-title-page8">
             <span className="WB-ex-A">A</span>
             Look and write.
           </h1>
-
-          <div className="flex flex-wrap justify-center gap-3 mb-8 p-4 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">
+<div className="flex flex-col gap-5">
+          <div className="flex flex-wrap justify-center gap-3 p-4 rounded-xl">
             {CLOTHES.map((c) => (
               <DraggableItem
                 key={c.id}
@@ -242,8 +242,8 @@ const WB_Unit8_Page45_Q1 = () => {
               </div>
             ))}
           </div>
-
-          <div className="mt-10 flex justify-center">
+</div>
+          <div className="flex justify-center">
             <Button
               handleShowAnswer={() => {
                 setAnswers(CORRECT_ANSWERS);

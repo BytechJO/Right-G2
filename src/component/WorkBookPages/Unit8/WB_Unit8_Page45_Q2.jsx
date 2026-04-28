@@ -322,7 +322,7 @@ const LookAndMatch = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
+      <div className="div-forall">
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">B</span>Look and color.
         </h1>
@@ -330,7 +330,7 @@ const LookAndMatch = () => {
         <div className="flex justify-center items-center">
           <div
             className="flex justify-center items-center relative w-full"
-            style={{ height: "430px", minHeight: "430px" }}
+            style={{ height: "515px", minHeight: "430px" }}
           >
             <svg
               className="absolute inset-0 w-full h-full pointer-events-none"

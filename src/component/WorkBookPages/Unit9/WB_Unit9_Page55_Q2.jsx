@@ -53,8 +53,8 @@ const DraggableWord = ({ word, disabled }) => {
       ref={setNodeRef}
       {...listeners}
       {...attributes}
-      style={style}
-      className={`px-6 py-2 border border-blue-500 rounded-xl shadow-sm font-bold text-gray-700 text-sm touch-none
+      // style={style}
+      className={`px-6 py-2 border-2 border-blue-900 rounded-xl shadow-sm font-bold text-gray-700 text-lg touch-none
         ${
           disabled
             ? "bg-gray-200 opacity-40 cursor-not-allowed"
@@ -76,12 +76,12 @@ const DropZone = ({ id, value, correct, checked }) => {
     <div
       ref={setNodeRef}
       className={`min-w-[120px] h-10 border-b-2 flex items-center justify-center px-2 relative
-        ${!value ? "border-gray-300 border-dashed" : ""}
+        ${!value ? "border-gray-300" : ""}
         ${checked && value === correct ? "border-blue-500" : ""}
         ${isWrong ? "border-red-500" : ""}
       `}
     >
-      <span className="font-serif italic font-bold">{value}</span>
+      <span className="font-bold">{value}</span>
 
       {isWrong && (
         <span className="absolute -top-2 -right-2 text-white bg-red-500 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold border-2 border-white shadow">
@@ -187,12 +187,12 @@ const WB_Unit9_Page55_Q2 = () => {
       }}
     >
       <div className="main-container-component">
-        <div className="div-forall" style={{ gap: "15px" }}>
+        <div className="div-forall">
           <h1 className="WB-header-title-page8">
             <span className="WB-ex-A">J</span>Look and write. Read.
           </h1>
 
-          <div className="mb-12 border-2 border-gray-400 border-dashed rounded-2xl p-4 flex justify-center gap-8 bg-gray-50 shadow-sm">
+          <div className="p-4 flex justify-center gap-8">
             {wordBank.map((word) => {
               const isUsed = Object.values(userAnswers).includes(word);
 
@@ -210,7 +210,7 @@ const WB_Unit9_Page55_Q2 = () => {
             {exerciseJData.map((item) => (
               <div key={item.id} className="flex flex-col items-center gap-6">
                 <div className="flex items-start gap-4 w-full">
-                  <span className="text-2xl font-bold text-blue-800 w-6">
+                  <span className="text-2xl font-bold text-blue-900 w-6">
                     {item.id}
                   </span>
 
@@ -243,7 +243,7 @@ const WB_Unit9_Page55_Q2 = () => {
               </div>
             )}
           </DragOverlay>
-          <div className="mt-16 flex justify-center">
+          <div className="flex justify-center">
             <Button
               handleShowAnswer={handleShowAnswer}
               handleStartAgain={handleTryAgain}

@@ -116,7 +116,7 @@ const WB_Unit9_Page56_Q2 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ gap: "15px" }}>
+      <div className="div-forall">
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">B</span>Does it have a{" "}
           <span className="text-blue-900">long a</span> or{" "}
@@ -173,7 +173,7 @@ const WB_Unit9_Page56_Q2 = () => {
           ))}
         </div>
 
-        <div className="mt-16">
+        <div>
           <Button
             handleShowAnswer={handleShowAnswer}
             handleStartAgain={handleStartAgain}

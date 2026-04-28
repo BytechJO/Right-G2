@@ -63,7 +63,7 @@ const DraggableWord = ({ word, disabled }) => {
         ${
           disabled
             ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-            : "bg-white cursor-grab hover:bg-blue-50 border-gray-300"
+            : "bg-white cursor-grab hover:bg-blue-50 border-blue-900"
         }
       `}
     >
@@ -83,7 +83,7 @@ const DropZone = ({ id, value, correct, showResult }) => {
       className="relative w-full text-center border-b-2 border-gray-400 pb-1 min-h-[28px]"
     >
       {value ? (
-        <span className="font-bold text-base text-blue-600">{value}</span>
+        <span className="font-bold text-base text-blue-900">{value}</span>
       ) : (
         <span className="text-gray-300 text-sm">_ _ _</span>
       )}
@@ -172,7 +172,7 @@ export default function ExerciseA() {
 
   const getCardClass = (qId) => {
     if (!showResult || !answers[qId])
-      return "bg-gray-50 rounded-2xl p-4 flex flex-col items-center gap-3 border-2 border-transparent";
+      return "rounded-2xl p-4 flex flex-col items-center gap-3 border-2 border-transparent";
     return answers[qId] === correctAnswers[qId]
       ? "rounded-2xl p-4 flex flex-col items-center gap-3 border-2 border-gray-400"
       : "rounded-2xl p-4 flex flex-col items-center gap-3 border-2 border-red-400";
@@ -217,12 +217,17 @@ export default function ExerciseA() {
       }}
     >
       <div className="main-container-component">
-        <div className="div-forall" style={{ gap: "15px" }}>
+        <div className="div-forall">
           <h1 className="WB-header-title-page8">
             <span className="WB-ex-A">A</span>Look, listen, and write.
           </h1>
-
-          <div className="mb-8 flex flex-wrap justify-center gap-2 border-2 border-dashed border-gray-300 rounded-lg p-4 shadow-2">
+   <QuestionAudioPlayer
+            src={sound}
+            captions={captions}
+            stopAtSecond={6.1}
+          />
+          <div className="flex flex-col gap-5">
+          <div className="flex flex-wrap justify-center gap-8 rounded-lg p-4">
             {wordBank.map((word) => {
               const isUsed = usedWords.includes(word);
 
@@ -235,17 +240,13 @@ export default function ExerciseA() {
               );
             })}
           </div>
-          <QuestionAudioPlayer
-            src={sound}
-            captions={captions}
-            stopAtSecond={6.1}
-          />
+       
           {/* Questions grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
             {questions.map((q) => (
               <div key={q.id} className={getCardClass(q.id)}>
                 {/* Number */}
-                <span className="text-xs font-bold text-blue-500 self-start">
+                <span className="text-xl font-bold text-blue-900 self-start">
                   {q.id}
                 </span>
 
@@ -266,7 +267,7 @@ export default function ExerciseA() {
               </div>
             ))}
           </div>
-
+</div>
           <Button
             handleShowAnswer={handleShowAnswer}
             handleStartAgain={handleStartAgain}
