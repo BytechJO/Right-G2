@@ -247,7 +247,7 @@ const WB_Unit1_Page3_Q2 = () => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="main-container-component">
-        <div className="div-forall mb-22">
+        <div className="div-forall mb-10" style={{gap:"20px"}}>
           <h5 className="WB-header-title-page8">
             <span className="mr-5 WB-ex-A">B</span>
             Read and match.
@@ -347,10 +347,10 @@ const WB_Unit1_Page3_Q2 = () => {
                             <div
                               ref={provided.innerRef}
                               {...provided.droppableProps}
-                              className={`flex flex-row gap-1 p-2 rounded-md min-h-13 items-center transition-all flex-wrap w-full ${
+                              className={`flex flex-row gap-1 p-2 h-8 items-center transition-all flex-wrap w-full ${
                                 snapshot.isDraggingOver
-                                  ? "bg-blue-100 border-2 border-blue-600 shadow-md"
-                                  : "bg-white border-2 border-gray-300"
+                                  ? "bg-blue-100 border-b-2 border-blue-600 shadow-md"
+                                  : "bg-white border-b-2 border-gray-300"
                               }`}
                             >
                               {userInputs[q.id]?.map((item, index) => (
@@ -359,7 +359,7 @@ const WB_Unit1_Page3_Q2 = () => {
                                   onClick={() =>
                                     handleRemoveLetter(q.id, item.id)
                                   }
-                                  className="flex items-center justify-center w-7 h-7 text-lg text-black cursor-pointer transition-all hover:bg-red-100 hover:border-red-600 flex-shrink-0"
+                                  className="flex items-center justify-center w-2 h-7 text-xl text-black cursor-pointer transition-all hover:text-red-500 hover:border-red-600 flex-shrink-0"
                                 >
                                   {item.value}
                                 </span>

@@ -33,8 +33,9 @@ const WB_Unit1_Page3_Q1 = () => {
 
   const wordBank = [
     { id: "w1", text: "He's my father" },
+   
+    { id: "w3", text: "They're my father and mother" }, 
     { id: "w2", text: "Who are they?" },
-    { id: "w3", text: "They're my father and mother" },
   ];
 
   const onDragEnd = (result) => {
@@ -132,7 +133,7 @@ const WB_Unit1_Page3_Q1 = () => {
       <div
         style={{ display: "flex", justifyContent: "center", padding: "30px" }}
       >
-        <div className="div-forall" style={{ width: "60%" }}>
+        <div className="div-forall" style={{ gap: "20px" }}>
           {/* ❌ الهيدر كما هو */}
           <h5 className="WB-header-title-page8">
             <span className="WB-ex-A">A</span>Look and write.
@@ -145,7 +146,7 @@ const WB_Unit1_Page3_Q1 = () => {
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="CB-unit2-p6-q2-word-bank"
+                className="CB-unit2-p6-q2-word-bank" style={{marginBottom:"0px"}}
               >
                 {wordBank.map((w, i) => {
                   const isUsed = answers.some((row) => row.includes(w.id));
@@ -181,11 +182,11 @@ const WB_Unit1_Page3_Q1 = () => {
           </Droppable>
 
           {/* QUESTIONS */}
-          <div className="CB-unit2-p6-q2-content">
+          <div className="CB-unit2-p6-q2-content" style={{gap:"45px"}}>
             {questions.map((q, qIndex) => (
               <div key={qIndex} className="CB-unit2-p6-q2-row">
-                <div className="CB-unit2-p6-q2-left">
-                  <span className="CB-unit2-p6-q2-index">{qIndex + 1}</span>
+                <div className="CB-unit2-p6-q2-left" style={{alignItems:"flex-start"}}>
+                  <span className="font-bold text-2xl">{qIndex + 1}</span>
                   <img src={q.img} alt="" className="WB-unit1-p3-q1-img" />
                 </div>
 

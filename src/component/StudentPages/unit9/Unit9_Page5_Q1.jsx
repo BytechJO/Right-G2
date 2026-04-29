@@ -195,7 +195,7 @@ const Unit9_Page5_Q1 = () => {
   return (
     <DragDropContext key={resetKey} onDragEnd={onDragEnd}>
       <div className="main-container-component">
-        <div className="div-forall gap-2">
+        <div className="div-forall" style={{gap:"30px"}}>
           <h5 className="header-title-page8">
             <span className="ex-A" style={{ marginRight: "20px" }}>
               A

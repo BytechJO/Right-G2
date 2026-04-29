@@ -153,11 +153,11 @@ const Review4_Page2_Q3 = () => {
            marginBottom:"50px"
         }}
       >
-        <div className="div-forall">
+        <div className="div-forall" style={{gap:"20px"}}>
           <h5 className="header-title-page8">
             <span style={{ marginRight: "20px" }}>F</span> Circle and write.
           </h5>
-          <div className="flex flex-col gap-10">
+          <div className="flex flex-col gap-8">
             <Droppable droppableId="bank" isDropDisabled>
               {(provided) => (
                 <div
@@ -227,7 +227,7 @@ const Review4_Page2_Q3 = () => {
                       <img
                         src={item.img}
                         className="q-img-CB-review2-p2-q3"
-                        style={{ height: "auto", width: "200px" }}
+                        style={{ height: "auto", width: "140px" }}
                       />
                     </div>
                     {/* f / v choices */}
@@ -267,6 +267,7 @@ const Review4_Page2_Q3 = () => {
                           className={`write-input-CB-review2-p2-q3 ${
                             snapshot.isDraggingOver ? "drag-over-cell" : ""
                           }`}
+                          style={{borderBottom:"1px solid"}}
                         >
                           {answers[i] && (
                             <Draggable

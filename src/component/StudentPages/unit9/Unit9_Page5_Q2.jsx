@@ -195,7 +195,7 @@ const Unit9_Page5_Q2 = () => {
   return (
     <DragDropContext key={resetKey} onDragEnd={onDragEnd}>
       <div className="main-container-component">
-        <div className="div-forall gap-2">
+        <div className="div-forall" style={{gap:"30px"}}>
           <h5 className="header-title-page8">
             <span style={{ marginRight: "20px", color: "#2e3192" }}>2</span>
             Which picture has a<span style={{ color: "#2e3192" }}>long a</span>?

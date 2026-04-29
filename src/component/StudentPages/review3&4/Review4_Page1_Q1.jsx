@@ -209,7 +209,7 @@ export default function Review4_Page1_Q1() {
         }}
       >
         <div
-          className="div-forall"
+          className="div-forall"style={{gap:"20px"}}
           
         >
          
@@ -225,13 +225,14 @@ export default function Review4_Page1_Q1() {
                   {...provided.droppableProps}
                   style={{
                     display: "flex",
-                    gap: "15px",
+                    gap: "10px",
                     padding: "10px",
                     // border: "2px dashed #ccc",
                     borderRadius: "10px",
                     // margin: "10px 0",
                     alignItems: "center",
                     flexWrap: "wrap",
+                    width:"100%",
                     justifyContent: "center",
                   }}
                 >

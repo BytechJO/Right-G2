@@ -117,7 +117,7 @@ const Review10_Page2_Q1 = () => {
         padding: "30px",
       }}
     >
-      <div className="div-forall">
+      <div className="div-forall" >
         <h5 className="header-title-page8">
           <span style={{ marginRight: "15px" }}>D</span>
           Do they both have the same{" "}

@@ -138,13 +138,7 @@ const getWordUsageCount = (word) => {
       >
         <div
           className="div-forall"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            // gap: "30px",
-            width: "60%",
-            justifyContent: "flex-start",
-          }}
+         style={{gap:"20px"}}
         >
           <h1 className="WB-header-title-page8">
             <div className="WB-ex-A">G</div>Look, read, and complete.
@@ -224,14 +218,14 @@ const isUsed = usageCount >= WORD_LIMITS[word.text];
                   correctAnswers[item.id].a.toLowerCase();
               return (
                 <div key={item.id} className="flex flex-col items-center gap-6">
-                  <div className="flex items-start gap-4 w-full">
+                  <div className="flex items-start gap-4 w-full justify-evenly ">
                     <span className="font-bold text-blue-900 text-2xl">
                       {item.id}
                     </span>
                     <img
                       src={item.img}
                       alt=""
-                      style={{ height: "120px", width: "auto" }}
+                      style={{ height: "190px", width: "90px" }}
                     />
                   </div>
 

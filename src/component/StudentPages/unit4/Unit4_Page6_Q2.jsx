@@ -126,7 +126,7 @@ const Unit4_Page6_Q2 = () => {
         <div
           className="div-forall"
           style={{
-         
+         gap:"20px",
             marginBottom: "40px",
           }}
         >
@@ -194,7 +194,7 @@ const Unit4_Page6_Q2 = () => {
                   <img
                     src={img}
                     // className="q-img-CB-review2-p1-q2"
-                    style={{ height: "130px", width: "auto" }}
+                    style={{ height: "130px", width: "130px" }}
                   />
 
                   <Droppable droppableId={`slot-${index}`}>

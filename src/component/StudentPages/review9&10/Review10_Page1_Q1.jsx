@@ -129,7 +129,7 @@ const onDragEnd = (result) => {
   return (
     <DragDropContext key={resetKey} onDragEnd={onDragEnd}>
       <div className="main-container-component">
-        <div className="div-forall">
+        <div className="div-forall" style={{gap:"20px"}}>
           <h5 className="header-title-page8 ">
             <span style={{ marginRight: "20px" }}>A</span> Look, read and write.
           </h5>
@@ -229,7 +229,7 @@ const onDragEnd = (result) => {
           ? "2px dashed #3b82f6"
           : isWrongAnswer(q.id)
           ? "2px solid #ef4444"
-          : "2px solid black",
+          : "1px solid black",
 
         backgroundColor: snapshot.isDraggingOver ? "#dbeafe" : "transparent",
 

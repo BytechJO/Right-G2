@@ -63,39 +63,37 @@ const Unit8_Page1_Vocab = () => {
       wordAudios={wordAudios}
       nums={nums}
       vocabulary={[
-        "nurse",
-        "pilot",
-        "grow food",
-        "taxi driver",
-        "vet",
-        "clerk",
-        "photographer",
-        "fix cars",
-        "police officer",
-        "farmer",
-        "mechanic",
-        "chef",
+        "pay",
+        "find",
+        "cap",
+        "jacket",
+        "shorts",
+        "tie",
+        "socks",
+        "closet",
+        "dress",
+        "clothing store",
       ]}
       markers={[
-        { id: 1, top: "26%", left: "27%" },
+        { id: 1, top: "21%", left: "27%" },
 
-        { id: 2, top: "53%", left: "35%" }, // 100-47
+        { id: 2, top: "64%", left: "35%" }, // 100-47
 
-        { id: 3, top: "19%", left: "62.5%" },
+        { id: 3, top: "7%", left: "62.5%" },
 
-        { id: 4, top: "22%", left: "81%" },
+        { id: 4, top: "11%", left: "81%" },
 
-        { id: 5, top: "36%", left: "70%" },
+        { id: 5, top: "39%", left: "70%" },
 
-        { id: 6, top: "42%", left: "54%" }, // 100-58 , 100-46
+        { id: 6, top: "46%", left: "51%" }, // 100-58 , 100-46
 
-        { id: 7, top: "55.5%", left: "63%" }, // 100-44.5 , 100-37
+        { id: 7, top: "66.5%", left: "59%" }, // 100-44.5 , 100-37
 
-        { id: 8, top: "29%", left: "72%" },
+        { id: 8, top: "22%", left: "72%" },
 
-        { id: 9, top: "63%", left: "76%" }, // 100-37 , 100-24
+        { id: 9, top: "88%", left: "70%" }, // 100-37 , 100-24
 
-        { id: 10, top: "26.5%", left: "56%" }, // 100-73.5 , 100-44
+        { id: 10, top: "12.5%", left: "51%" }, // 100-73.5 , 100-44
       ]}
       captions={captions}
     />

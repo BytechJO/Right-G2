@@ -145,7 +145,7 @@ const Unit8_Page6_Q2 = () => {
   };
   return (
     <div className="main-container-component relative" ref={containerRef}>
-      <div className="div-forall">
+      <div className="div-forall" style={{gap:"20px"}}>
         <h5 className="header-title-page8">
           <span className="ex-A">E</span>
           Look and match.
@@ -154,7 +154,7 @@ const Unit8_Page6_Q2 = () => {
 
 <div className="flex flex-col gap-2">
         {images.map((item, i) => (
-          <div key={i} className="flex items-center justify-between my-8">
+          <div key={i} className="flex items-center justify-between my-4">
             {/* LEFT IMAGE */}
             <div className="flex items-center gap-6 w-[45%]">
               <div className="relative">

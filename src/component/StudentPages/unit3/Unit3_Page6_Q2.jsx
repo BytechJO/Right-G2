@@ -141,7 +141,7 @@ const Unit3_Page6_Q2 = () => {
         marginBottom: "50px",
       }}
     >
-      <div className="div-forall" style={{gap:"45px"}}>
+      <div className="div-forall" style={{gap:"30px"}}>
         <h5 className="header-title-page8">
           <span className="ex-A">E</span>Read and write{" "}
           <span style={{ color: "#2e3192" }}>✓</span>.

@@ -151,7 +151,7 @@ const Unit2_Page6_Q2 = () => {
       <div
         style={{ display: "flex", justifyContent: "center", padding: "30px" }}
       >
-        <div className="div-forall">
+        <div className="div-forall" style={{gap:"20px"}}>
           {/* ❌ الهيدر كما هو */}
           <h5 className="header-title-page8">
             <span className="ex-A">E</span>Look and write.

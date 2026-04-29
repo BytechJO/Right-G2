@@ -107,7 +107,7 @@ const Review3_Page2_Q2 = () => {
           padding: "30px",
         }}
       >
-        <div className="div-forall">
+        <div className="div-forall" style={{gap:"20px"}}>
           <h5 className="header-title-page8">
             <span style={{ marginRight: "20px" }}>F</span> Read and complete the
             sentences. Use the words from the box.

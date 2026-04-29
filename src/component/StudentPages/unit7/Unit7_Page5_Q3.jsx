@@ -122,11 +122,11 @@ const Unit7_Page5_Q3 = () => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="main-container-component">
-        <div className="div-forall">
+        <div className="div-forall" style={{gap:"20px"}}>
           <h5 className="header-title-page8">
             <span className="ex-A mr-2.5">B</span>Look and write.
           </h5>
-          <div className="flex flex-col gap-5">
+          <div className="flex flex-col gap-3">
           {questions.map((q, i) => {
             return (
               <div key={i} className="flex flex-col gap-4 w-full max-w-[800px]">
@@ -145,7 +145,7 @@ const Unit7_Page5_Q3 = () => {
                   )}
 
                   {q.type !== "complete" && (
-                    <div className="w-full flex flex-col gap-5">
+                    <div className="w-full flex flex-col gap-3">
                       {/* WORD BANK */}
                       <div className="flex items-center gap-4"> 
                         <img
@@ -221,7 +221,7 @@ const Unit7_Page5_Q3 = () => {
                               <div
                                 ref={provided.innerRef}
                                 {...provided.droppableProps}
-                                className={`border-b-2 h-full ${
+                                className={`border-b-1 h-full ${
                                   isWrong(i) ? "border-red-500" : "border-black"
                                 }`}
                               >

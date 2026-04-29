@@ -124,7 +124,7 @@ const Unit3_Page6_Q1 = () => {
         padding: "30px",
       }}
     >
-      <div className="div-forall">
+      <div className="div-forall"style={{gap:"20px"}}>
         <h3 className="header-title-page8">
           <span className="ex-A">D</span>Look, read, and circle.
         </h3>

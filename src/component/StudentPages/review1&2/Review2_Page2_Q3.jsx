@@ -175,7 +175,7 @@ const Review2_Page2_Q3 = () => {
           className="div-forall"
           style={{
            
-            marginBottom: "50px",
+            marginBottom: "50px",gap:"20px"
           }}
         >
           <h5 className="header-title-page8">
@@ -241,10 +241,14 @@ const Review2_Page2_Q3 = () => {
             )}
           </Droppable>
 
-          <div className="question-grid-CB-review2-p2-q3">
+          <div className="question-grid-CB-review2-p2-q3" style={{rowGap:"55px"}}>
             {items.map((item, i) => (
               <div className="question-box-CB-review2-p2-q3" key={i}>
-                <span
+                
+
+                <div className="img-option-CB-review2-p2-q3">
+                <div className="flex gap-2 items-start">
+                  <span
                   style={{
                     fontSize: "22px",
                     fontWeight: "600",
@@ -253,14 +257,12 @@ const Review2_Page2_Q3 = () => {
                 >
                   {i + 1}
                 </span>
-
-                <div className="img-option-CB-review2-p2-q3">
                   <img
                     src={item.img}
                     className="q-img-CB-review2-p2-q3"
-                    style={{ height: "120px", width: "auto" }}
+                    style={{ height: "90px", width: "auto" }}
                   />
-
+</div>
                   {/* f / v choices */}
                   <div className="choices-CB-review2-p2-q3">
                     {item.option.map((op, index) => (
@@ -287,7 +289,7 @@ const Review2_Page2_Q3 = () => {
                 </div>
 
                 {/* writing input */}
-                <div className="input-wrapper-CB-review2-p2-q3">
+                <div className="input-wrapper-CB-review2-p2-q3" style={{height:"25px"}}>
                   {item.input}
 
                   <Droppable droppableId={`slot-${i}`}>

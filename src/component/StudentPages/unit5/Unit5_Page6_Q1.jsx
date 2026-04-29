@@ -231,7 +231,7 @@ const Unit5_Page6_Q1 = () => {
       >
         <div
           className="div-forall"
-         
+         style={{gap:"30px"}}
         >
          
             <h4 className="header-title-page8">
@@ -241,7 +241,7 @@ const Unit5_Page6_Q1 = () => {
             <div className="container12" ref={containerRef}>
               {questions.map((q, i) => (
                 <div className="CB-unit5-p6-q1-row" key={q.id}>
-                  <div className="flex flex-col gap-5"style={{ width: "50%"}}>
+                  <div className="flex flex-col gap-2"style={{ width: "50%"}}>
                     <div className="CB-unit5-p6-q1-word-with-dot">
                      
 <span className="CB-unit5-p6-q1-number mr-5">{q.id}</span>

@@ -197,7 +197,7 @@ const Unit4_Page6_Q1 = () => {
           padding: "30px",
         }}
       >
-        <div className="div-forall" style={{ width: "60%" }}>
+        <div className="div-forall" style={{ width: "60%",gap:"20px" }}>
           <h5 className="header-title-page8">
             <span className="ex-A">D</span>Complete the conversations.
           </h5>

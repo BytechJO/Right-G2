@@ -89,6 +89,7 @@ const WB_Unit1_Page5_Q1 = () => {
     >
       <div
         className="div-forall"
+        style={{gap:"120px"}}
       
       >
         <h1 className="WB-header-title-page8">

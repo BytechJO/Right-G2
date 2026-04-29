@@ -157,8 +157,8 @@ const Review6_Page2_Q2 = () => {
     return correctMatches[imageIndex] !== textIndex;
   };
   return (
-    <div className="main-container-component relative" ref={containerRef}>
-      <div className="div-forall" >
+    <div className="main-container-component relative mb-5" ref={containerRef}>
+      <div className="div-forall" style={{gap:"20px"}} >
         {" "}
         <h5 className="header-title-page8">
           <span style={{ marginRight: "20px" }}>E</span>
@@ -166,7 +166,7 @@ const Review6_Page2_Q2 = () => {
         </h5>
         <div>
           {images.map((item, i) => (
-            <div key={i} className="flex justify-between items-center my-3">
+            <div key={i} className="flex justify-between items-center my-1">
               {/* WORD SIDE */}
               <div className="w-[45%] flex justify-start">
                 <div className="relative inline-block">

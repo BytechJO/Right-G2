@@ -154,7 +154,7 @@ const Review4_Page1_Q2 = () => {
           marginBottom: "50px",
         }}
       >
-        <div className="div-forall">
+        <div className="div-forall" style={{gap:"20px"}}> 
           <h5 className="header-title-page8">
             <span style={{ marginRight: "20px" }}>B</span> Look, read, circle,
             and complete.
