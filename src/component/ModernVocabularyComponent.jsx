@@ -117,7 +117,8 @@ const ModernVocabularyComponent = ({
       <div className="max-w-6xl w-full bg-white p-5 rounded-[2rem] overflow-hidden border border-slate-100 flex flex-col lg:flex-row relative">
         
         {/* ================= AUDIO ================= */}
-        <div className="flex flex-col justify-center items-center">
+        <div className="flex flex-col justify-center items-start">
+          <div className="flex w-full justify-center">
           <div
             className="audio-popup-vocab-container"
             style={{
@@ -231,7 +232,7 @@ const ModernVocabularyComponent = ({
               </div>
             </div>
           </div>
-
+</div>
           {/* ================= IMAGE + CAPTION ================= */}
           <div className="p-4 md:p-3 flex flex-col items-center justify-center relative">
             
@@ -300,8 +301,8 @@ const ModernVocabularyComponent = ({
           </div>
 
           {/* tip */}
-          <div className="p-5 bg-gradient-to-br from-purple-50 to-indigo-50 rounded-[1.5rem] border border-purple-100">
-            <p className="text-lg text-red-700 font-bold">
+          <div className="p-5 rounded-[1.5rem]">
+            <p className="text-red-700">
               💡 Tip: Click on the numbers or words to hear the pronunciation!
             </p>
           </div>

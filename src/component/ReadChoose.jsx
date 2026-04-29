@@ -74,7 +74,7 @@ const [score, setScore] = useState(0);
         style={{
           display: "flex",
           flexDirection: "column",
-          gap: "40px",
+          // gap: "40px",
           width: "52%",
           justifyContent: "flex-start",
         }}
