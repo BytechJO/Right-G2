@@ -77,7 +77,7 @@ const Review5_Page1_Q1 = () => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="main-container-component">
-        <div className="div-forall" style={{ marginBottom: "50px" }}>
+        <div className="div-forall" style={{ marginBottom: "50px" ,gap:"2px"}}>
           <h5 className="header-title-page8">
             <span style={{ marginRight: "20px" }}>A</span>
             Find and write.
@@ -91,11 +91,11 @@ const Review5_Page1_Q1 = () => {
               style={{
                 width: "100%",
 
-                height: "300px",
+                height: "263px",
               }}
             />
           </div>
-           <div className="flex flex-col gap-5">
+           <div className="flex flex-col">
           {/* OPTIONS */}
           <Droppable droppableId="bank" direction="horizontal" isDropDisabled>
             {(provided) => (
@@ -153,11 +153,11 @@ const Review5_Page1_Q1 = () => {
 
                   <Droppable droppableId={`slot-${i}`}>
                     {(provided, snapshot) => (
-                      <div className="relative">
+                      <div className="relative w-full">
                         <div
                           ref={provided.innerRef}
                           {...provided.droppableProps}
-                          className={`w-[140px] h-[35px] border-b-[3px] flex items-center justify-center ${
+                          className={`w-full h-[35px] border-b-[2px] flex items-center justify-center ${
                             snapshot.isDraggingOver ? "bg-blue-100" : ""
                           } ${
                             showResult

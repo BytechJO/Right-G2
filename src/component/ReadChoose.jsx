@@ -9,42 +9,56 @@ const ReadChoose = ({ data }) => {
 
   const [checked, setChecked] = useState(false);
   const [wrongQuestions, setWrongQuestions] = useState([]);
-const [score, setScore] = useState(0);
+  const [score, setScore] = useState(0);
   const handleSelect = (qIndex, option) => {
+    if (checked) return;
+
     const updated = [...answers];
     updated[qIndex] = option;
     setAnswers(updated);
   };
- const checkAnswers = () => {
-  let wrong = [];
-  let correctCount = 0;
+  const checkAnswers = () => {
+    if (checked) return;
 
-  data.questions.forEach((q, index) => {
-    if (answers[index] === q.correct) {
-      correctCount++;
-    } else {
-      wrong.push(index);
+    // ✅ تحقق إذا في أسئلة مش مجاوبة
+    const hasEmpty = answers.some((ans) => ans === "");
+
+    if (hasEmpty) {
+      ValidationAlert.info("Please answer all questions first.");
+      return;
     }
-  });
 
-  setWrongQuestions(wrong);
-  setChecked(true);
-  setScore(correctCount);
+    let wrong = [];
+    let correctCount = 0;
 
-  // ⭐ الفيدباك للطالب
-  const total = data.questions.length;
-    const color = correctCount === total ? "green" : correctCount === 0 ? "red" : "orange";
+    data.questions.forEach((q, index) => {
+      if (answers[index] === q.correct) {
+        correctCount++;
+      }
+    });
 
- ValidationAlert[
-      correctCount === total ? "success" : correctCount === 0 ? "error" : "warning"
+    setWrongQuestions(wrong);
+    setChecked(true);
+    setScore(correctCount);
+
+    const total = data.questions.length;
+    const color =
+      correctCount === total ? "green" : correctCount === 0 ? "red" : "orange";
+
+    ValidationAlert[
+      correctCount === total
+        ? "success"
+        : correctCount === 0
+          ? "error"
+          : "warning"
     ](`
-      <div style="font-size:20px;text-align:center;">
-        <span style="color:${color};font-weight:bold;">
-          Score: ${correctCount} / ${total}
-        </span>
-      </div>
-    `);
-};
+    <div style="font-size:20px;text-align:center;">
+      <span style="color:${color};font-weight:bold;">
+        Score: ${correctCount} / ${total}
+      </span>
+    </div>
+  `);
+  };
   const showCorrectAnswers = () => {
     const correctAnswers = data.questions.map((q) => q.correct);
 
@@ -79,53 +93,53 @@ const [score, setScore] = useState(0);
           justifyContent: "flex-start",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center" ,gap:"30px"}}>
+        <div style={{ display: "flex", alignItems: "center", gap: "30px" }}>
           <img src={read} style={{ height: "130px", width: "130px" }} />{" "}
           <h3 className="RCU-unit-read-choose-title">{data.title}</h3>
         </div>
-        <div className="border-2 border-red-600 rounded-xl p-10 flex flex-col gap-10">
-        {data.questions.map((q, qIndex) => (
-          <div key={qIndex} className="RCU-unit-read-choose-question">
-            <div className="flex gap-2 items-center">
-              <span className="RCU-unit-read-choose-q-number">
-                {qIndex + 1}.
-              </span>
+        <div className="border-2 border-red-600 rounded-xl p-10 flex flex-col gap-10 mb-10">
+          {data.questions.map((q, qIndex) => (
+            <div key={qIndex} className="RCU-unit-read-choose-question">
+              <div className="flex gap-2 items-center">
+                <span className="RCU-unit-read-choose-q-number">
+                  {qIndex + 1}.
+                </span>
 
-              <span className="RCU-unit-read-choose-q-text">{q.text}</span>
-            </div>
-            <div className="RCU-unit-read-choose-options">
-              {q.options.map((option, oIndex) => {
-                const isSelected = answers[qIndex] === option;
-                const isWrong = checked && isSelected && option !== q.correct;
+                <span className="RCU-unit-read-choose-q-text">{q.text}</span>
+              </div>
+              <div className="RCU-unit-read-choose-options">
+                {q.options.map((option, oIndex) => {
+                  const isSelected = answers[qIndex] === option;
+                  const isWrong = checked && isSelected && option !== q.correct;
 
-                const isCorrect = checked && option === q.correct;
+                  const isCorrect = checked && option === q.correct;
 
-                return (
-                  <div
-                    key={oIndex}
-                    className={`RCU-unit-read-choose-option
+                  return (
+                    <div
+                      key={oIndex}
+                      className={`RCU-unit-read-choose-option
         ${isSelected ? "RCU-selected" : ""}
-        ${isCorrect ? "RCU-correct" : ""}
+
         ${isWrong ? "RCU-wrong" : ""}
       `}
-                    onClick={() => {
-                      if (!checked) {
-                        handleSelect(qIndex, option);
-                      }
-                    }}
-                  >
-                    <span className="RCU-unit-read-choose-circle">
-                      {letters[oIndex]}
-                    </span>
-                    <span className="RCU-unit-read-choose-option-text">
-                      {option}
-                    </span>
-                  </div>
-                );
-              })}
+                      onClick={() => {
+                        if (!checked) {
+                          handleSelect(qIndex, option);
+                        }
+                      }}
+                    >
+                      <span className="RCU-unit-read-choose-circle">
+                        {letters[oIndex]}
+                      </span>
+                      <span className="RCU-unit-read-choose-option-text">
+                        {option}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
         </div>
       </div>
       <div className="action-buttons-container">

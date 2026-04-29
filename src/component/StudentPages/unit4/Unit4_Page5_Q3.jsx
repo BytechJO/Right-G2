@@ -110,10 +110,7 @@ const Unit4_Page5_Q3 = () => {
         padding: "30px",
       }}
     >
-      <div
-        className="div-forall"
-        
-      >
+      <div className="div-forall">
         <div>
           <h5 className="header-title-page8">
             <span className="ex-A">B</span>Look, read, and circle.
@@ -126,28 +123,27 @@ const Unit4_Page5_Q3 = () => {
               className="question-box-CB-unit4-p5-q3"
               style={{ width: "100%" }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  gap: "10px",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  width: "80%",
-                }}
-              >
-                <span
-                  style={{
-                    color: "#2c5287",
-                    fontSize: "20px",
-                    fontWeight: "700",
-                  }}
-                >
-                  {i + 1}
-                </span>
-              </div>
-
               <div style={{ display: "flex", gap: "10px" }}>
                 <div className="img-div-CB-unit4-p5-q3">
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "10px",
+                      flexDirection: "row",
+                      alignItems: "flex-start",
+                      width: "80%",
+                    }}
+                  >
+                    <span
+                      style={{
+                        // color: "#2c5287",
+                        fontSize: "20px",
+                        fontWeight: "700",
+                      }}
+                    >
+                      {i + 1}
+                    </span>
+                  </div>
                   <img
                     src={q.img}
                     className="q3-image-CB-unit4-p5-q3"
@@ -178,7 +174,9 @@ const Unit4_Page5_Q3 = () => {
                         }}
                       >
                         <>
-                          <span style={{ fontWeight: "700",marginRight:"10px" }}>
+                          <span
+                            style={{ fontWeight: "700", marginRight: "10px" }}
+                          >
                             {word.charAt(0)}
                           </span>
                           {word.slice(1)}

@@ -2,195 +2,34 @@ import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
 const wordsData = [
-  {
-    word: "boat",
-    correct: true,
-    top: "20px",
-    left: "40px",
-    color: "text-blue-500",
-    rotate: "-rotate-12",
-  },
-  {
-    word: "note",
-    correct: true,
-    top: "20px",
-    left: "160px",
-    color: "text-green-500",
-    rotate: "rotate-6",
-  },
-  {
-    word: "slow",
-    correct: true,
-    top: "20px",
-    left: "280px",
-    color: "text-red-500",
-    rotate: "rotate-3",
-  },
-  {
-    word: "green",
-    correct: false,
-    top: "20px",
-    left: "400px",
-    color: "text-purple-500",
-    rotate: "-rotate-6",
-  },
-  {
-    word: "name",
-    correct: false,
-    top: "20px",
-    left: "520px",
-    color: "text-blue-500",
-    rotate: "rotate-2",
-  },
+  { word: "boat", correct: true, top: "5%", left: "6%", color: "text-blue-500", rotate: "-rotate-12" },
+  { word: "note", correct: true, top: "5%", left: "24.6%", color: "text-green-500", rotate: "rotate-6" },
+  { word: "slow", correct: true, top: "5%", left: "43%", color: "text-red-500", rotate: "rotate-3" },
+  { word: "green", correct: false, top: "5%", left: "61.5%", color: "text-purple-500", rotate: "-rotate-6" },
+  { word: "name", correct: false, top: "5%", left: "80%", color: "text-blue-500", rotate: "rotate-2" },
 
-  {
-    word: "window",
-    correct: true,
-    top: "100px",
-    left: "60px",
-    color: "text-yellow-500",
-    rotate: "-rotate-12",
-  },
-  {
-    word: "home",
-    correct: true,
-    top: "110px",
-    left: "300px",
-    color: "text-orange-500",
-    rotate: "rotate-6",
-  },
-  {
-    word: "coat",
-    correct: true,
-    top: "100px",
-    left: "500px",
-    color: "text-green-500",
-    rotate: "rotate-2",
-  },
+  { word: "window", correct: true, top: "25%", left: "9.2%", color: "text-yellow-500", rotate: "-rotate-12" },
+  { word: "home", correct: true, top: "27.5%", left: "46%", color: "text-orange-500", rotate: "rotate-6" },
+  { word: "coat", correct: true, top: "25%", left: "77%", color: "text-green-500", rotate: "rotate-2" },
 
-  {
-    word: "goat",
-    correct: true,
-    top: "180px",
-    left: "40px",
-    color: "text-red-500",
-    rotate: "-rotate-12",
-  },
-  {
-    word: "snow",
-    correct: true,
-    top: "180px",
-    left: "200px",
-    color: "text-purple-500",
-    rotate: "rotate-2",
-  },
-  {
-    word: "kite",
-    correct: false,
-    top: "180px",
-    left: "330px",
-    color: "text-green-500",
-    rotate: "-rotate-6",
-  },
-  {
-    word: "yellow",
-    correct: true,
-    top: "180px",
-    left: "450px",
-    color: "text-blue-500",
-    rotate: "rotate-6",
-  },
-  {
-    word: "nine",
-    correct: false,
-    top: "180px",
-    left: "580px",
-    color: "text-yellow-500",
-    rotate: "-rotate-3",
-  },
+  { word: "goat", correct: true, top: "45%", left: "6%", color: "text-red-500", rotate: "-rotate-12" },
+  { word: "snow", correct: true, top: "45%", left: "30.7%", color: "text-purple-500", rotate: "rotate-2" },
+  { word: "kite", correct: false, top: "45%", left: "50.7%", color: "text-green-500", rotate: "-rotate-6" },
+  { word: "yellow", correct: true, top: "45%", left: "69.2%", color: "text-blue-500", rotate: "rotate-6" },
+  { word: "nine", correct: false, top: "45%", left: "89.2%", color: "text-yellow-500", rotate: "-rotate-3" },
 
-  {
-    word: "cop",
-    correct: false,
-    top: "260px",
-    left: "80px",
-    color: "text-blue-500",
-    rotate: "-rotate-6",
-  },
-  {
-    word: "shop",
-    correct: false,
-    top: "260px",
-    left: "240px",
-    color: "text-red-500",
-    rotate: "rotate-6",
-  },
-  {
-    word: "rope",
-    correct: true,
-    top: "260px",
-    left: "360px",
-    color: "text-yellow-500",
-    rotate: "-rotate-12",
-  },
-  {
-    word: "slope",
-    correct: true,
-    top: "260px",
-    left: "500px",
-    color: "text-purple-500",
-    rotate: "rotate-3",
-  },
+  { word: "cop", correct: false, top: "60%", left: "12.3%", color: "text-blue-500", rotate: "-rotate-6" },
+  { word: "shop", correct: false, top: "65%", left: "36.9%", color: "text-red-500", rotate: "rotate-6" },
+  { word: "rope", correct: true, top: "65%", left: "55.3%", color: "text-yellow-500", rotate: "-rotate-12" },
+  { word: "slope", correct: true, top: "65%", left: "77%", color: "text-purple-500", rotate: "rotate-3" },
 
-  {
-    word: "bot",
-    correct: false,
-    top: "340px",
-    left: "60px",
-    color: "text-purple-500",
-    rotate: "-rotate-12",
-  },
-  {
-    word: "five",
-    correct: false,
-    top: "360px",
-    left: "200px",
-    color: "text-green-500",
-    rotate: "rotate-6",
-  },
-  {
-    word: "sleep",
-    correct: false,
-    top: "360px",
-    left: "320px",
-    color: "text-blue-500",
-    rotate: "-rotate-6",
-  },
-  {
-    word: "row",
-    correct: true,
-    top: "360px",
-    left: "450px",
-    color: "text-red-500",
-    rotate: "rotate-6",
-  },
-  {
-    word: "cone",
-    correct: true,
-    top: "360px",
-    left: "550px",
-    color: "text-yellow-500",
-    rotate: "rotate-3",
-  },
+  { word: "bot", correct: false, top: "80%", left: "9.2%", color: "text-purple-500", rotate: "-rotate-12" },
+  { word: "five", correct: false, top: "90%", left: "30.7%", color: "text-green-500", rotate: "rotate-6" },
+  { word: "sleep", correct: false, top: "90%", left: "49.2%", color: "text-blue-500", rotate: "-rotate-6" },
+  { word: "row", correct: true, top: "90%", left: "69.2%", color: "text-red-500", rotate: "rotate-6" },
+  { word: "cone", correct: true, top: "85%", left: "84.6%", color: "text-yellow-500", rotate: "rotate-3" },
 
-  {
-    word: "clip",
-    correct: false,
-    top: "420px",
-    left: "60px",
-    color: "text-red-500",
-    rotate: "-rotate-3",
-  },
+  { word: "clip", correct: false, top: "90%", left: "16%", color: "text-red-500", rotate: "-rotate-3" },
 ];
 
 const Review7_Page2_Q2 = () => {
@@ -268,14 +107,14 @@ const toggleWord = (word) => {
     <div className="main-container-component">
       <div className="div-forall">
         {/* Title */}
-        <h5 className="header-title-page8" style={{ marginBottom: "20px" }}>
+        <h5 className="header-title-page8" >
           <span style={{ marginRight: "20px" }}>E</span>
           Circle and count the<span style={{ color: "#2e3192" }}>long o</span>
           words.
         </h5>
-        <div className="flex flex-col justify-center items-center gap-10 mb-30">
+        <div className="flex justify-center items-center gap-10 mb-10 flex-wrap">
           {/* LEFT BOX */}
-          <div className="bg-[#F9E5DC] rounded-3xl w-[650px] h-[500px] relative p-6">
+          <div className="bg-[#F9E5DC] rounded-3xl w-[600px] h-[400px] relative p-6">
             {wordsData.map((item, i) => {
               const isWrong =
                 locked && selected.includes(item.word) && !item.correct;

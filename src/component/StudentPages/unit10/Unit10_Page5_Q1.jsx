@@ -103,7 +103,7 @@ const Unit10_Page5_Q1 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall gap-2">
+      <div className="div-forall" style={{gap:"40px"}}>
         <h5 className="header-title-page8">
           <span style={{ marginRight: "15px" }} className="ex-A">
             A
@@ -115,7 +115,7 @@ const Unit10_Page5_Q1 = () => {
           <span style={{ color: "#2e3192" }}>✓</span> or
           <span style={{ color: "#2e3192" }}>✗</span>.
         </h5>
-        <div>
+        <div className="flex flex-col gap-5">
         <div
           style={{
             display: "flex",
@@ -133,21 +133,17 @@ const Unit10_Page5_Q1 = () => {
         <div className="CB-review1-p2-q1-container">
           {questions.map((q, index) => (
             <div key={q.id} className="CB-unit10-p5-q1-question-box">
-              <p
-                className="CB-review1-p2-q1-question-text"
-                style={{ fontSize: "20px" }}
-              >
-                <span style={{ color: "darkblue", fontWeight: "700" }}>
-                  {q.id}.
-                </span>
-              </p>
+             
 
               <div className="CB-review1-p2-q1-flex">
-                <div style={{ display: "flex" }}>
+                <div className="flex gap-5">
+                  <span style={{ fontSize:"20px",fontWeight: "700" }}>
+                  {q.id}
+                </span>
                   <img
                     src={q.image}
                     alt=""
-                    style={{ height: "160px", width: "auto" }}
+                    style={{ height: "150px", width: "auto" }}
                   />
                 </div>
 

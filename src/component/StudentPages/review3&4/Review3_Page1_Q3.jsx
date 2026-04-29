@@ -142,151 +142,155 @@ const Review3_Page1_Q3 = () => {
           padding: "30px",
         }}
       >
-        <div className="div-forall">
+        <div className="div-forall" style={{ gap: "40px" }}>
           <h5 className="header-title-page8">
             <span style={{ marginRight: "20px" }}>C</span>Look and answer the
             questions.
           </h5>
 
-          <Droppable droppableId="bank" isDropDisabled={showCorrect}>
-            {(provided) => (
-              <div
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-                style={{
-                  display: "flex",
-                  gap: "60px",
-                  padding: "10px",
-                  // border: "2px dashed #ccc",
-                  borderRadius: "10px",
-                  justifyContent: "center",
-                }}
-              >
-                {wordBank.map((word, index) => {
-                  const isUsed = answers.some((row) => row.includes(word));
-                  return (
-                    <Draggable
-                      key={word}
-                      draggableId={`word-${word}`}
-                      index={index}
-                      isDragDisabled={showCorrect || isUsed}
-                    >
-                      {(provided) => (
-                        <span
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          className="CB-unit2-p6-q2-word"
-                          style={{
-                            background: isUsed ? "#ccc" : "white",
-                            opacity: isUsed ? 0.6 : 1,
-                            cursor: isUsed ? "not-allowed" : "grab",
-                            ...provided.draggableProps.style,
-                          }}
-                        >
-                          {word}
-                        </span>
-                      )}
-                    </Draggable>
-                  );
-                })}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-
-          {items.map((item, i) => {
-            const isWrong = wrongMarks.some(
-              (w) => w.type === "answer" && w.qIndex === i,
-            );
-
-            return (
-              <div className="content-CB-unit4-p6-q1">
-                <div className="flex w-[56%]">
-                  <span className="text-2xl text-blue-800 font-bold mr-5">{i + 1}</span>
-                  <img
-                    src={item.image}
-                    alt=""
-                    style={{ height: "150px", width: "200px" }}
-                  />
-                </div>
-                <div key={i} className="question-box-CB-unit4-p6-q1">
-                  <div className="CB-unit4-p6-q1-title-container">
-                   
-                    <p style={{ width: "100%", display: "flex" }}>
-                      {item.questionParts.map((part, idx) => {
-                        if (part === "") {
-                          const blankIndex =
-                            item.questionParts
-                              .slice(0, idx + 1)
-                              .filter((p) => p === "").length - 1;
-
-                          return (
-                            <Droppable
-                              key={idx}
-                              droppableId={`q-${i}-${blankIndex}`}
-                              isDropDisabled={showCorrect}
-                            >
-                              {(provided, snapshot) => (
-                                <span
-                                  ref={provided.innerRef}
-                                  {...provided.droppableProps}
-                                  className={`question-blank-CB-unit4-p6-q1 ${
-                                    snapshot.isDraggingOver
-                                      ? "drag-over-cell"
-                                      : ""
-                                  }`}
-                                >
-                                  {questionInputs[i][blankIndex]}
-                                  {provided.placeholder}
-                                </span>
-                              )}
-                            </Droppable>
-                          );
-                        }
-
-                        return (
-                          <span
-                            key={idx}
-                            style={{ width: "100%", fontSize: "20px" }}
-                          >
-                            {" "}
-                            {part}{" "}
-                          </span>
-                        );
-                      })}
-                    </p>
-                  </div>
-
-                  <Droppable
-                    droppableId={`a-${i}`}
-                    isDropDisabled={showCorrect}
-                  >
-                    {(provided, snapshot) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                        className={`answer-input-CB-unit4-p6-q1  ${
-                          snapshot.isDraggingOver ? "drag-over-cell" : ""
-                        }`}
-                        style={{ position: "relative" }}
+          <div className="flex flex-col gap-5">
+            <Droppable droppableId="bank" isDropDisabled={showCorrect}>
+              {(provided) => (
+                <div
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                  style={{
+                    display: "flex",
+                    gap: "60px",
+                    padding: "10px",
+                    // border: "2px dashed #ccc",
+                    borderRadius: "10px",
+                    justifyContent: "center",
+                  }}
+                >
+                  {wordBank.map((word, index) => {
+                    const isUsed = answers.some((row) => row.includes(word));
+                    return (
+                      <Draggable
+                        key={word}
+                        draggableId={`word-${word}`}
+                        index={index}
+                        isDragDisabled={showCorrect || isUsed}
                       >
-                        {answers[i]}
-
-                        {isWrong && (
-                          <span className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold border-2 border-white">
-                            ✕
+                        {(provided) => (
+                          <span
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            className="CB-unit2-p6-q2-word"
+                            style={{
+                              background: isUsed ? "#ccc" : "white",
+                              opacity: isUsed ? 0.6 : 1,
+                              cursor: isUsed ? "not-allowed" : "grab",
+                              ...provided.draggableProps.style,
+                            }}
+                          >
+                            {word}
                           </span>
                         )}
-
-                        {provided.placeholder}
-                      </div>
-                    )}
-                  </Droppable>
+                      </Draggable>
+                    );
+                  })}
+                  {provided.placeholder}
                 </div>
-              </div>
-            );
-          })}
+              )}
+            </Droppable>
+            <div className="flex flex-col gap-5">
+              {items.map((item, i) => {
+                const isWrong = wrongMarks.some(
+                  (w) => w.type === "answer" && w.qIndex === i,
+                );
+
+                return (
+                  <div className="content-CB-unit4-p6-q1">
+                    <div className="flex w-[56%]">
+                      <span className="text-2xl text-blue-800 font-bold mr-5">
+                        {i + 1}
+                      </span>
+                      <img
+                        src={item.image}
+                        alt=""
+                        style={{ height: "150px", width: "200px" }}
+                      />
+                    </div>
+                    <div key={i} className="question-box-CB-unit4-p6-q1 flex flex-col justify-center">
+                      <div className="CB-unit4-p6-q1-title-container">
+                        <p style={{ width: "100%", display: "flex" }}>
+                          {item.questionParts.map((part, idx) => {
+                            if (part === "") {
+                              const blankIndex =
+                                item.questionParts
+                                  .slice(0, idx + 1)
+                                  .filter((p) => p === "").length - 1;
+
+                              return (
+                                <Droppable
+                                  key={idx}
+                                  droppableId={`q-${i}-${blankIndex}`}
+                                  isDropDisabled={showCorrect}
+                                >
+                                  {(provided, snapshot) => (
+                                    <span
+                                      ref={provided.innerRef}
+                                      {...provided.droppableProps}
+                                      className={`question-blank-CB-unit4-p6-q1 ${
+                                        snapshot.isDraggingOver
+                                          ? "drag-over-cell"
+                                          : ""
+                                      }`}
+                                    >
+                                      {questionInputs[i][blankIndex]}
+                                      {provided.placeholder}
+                                    </span>
+                                  )}
+                                </Droppable>
+                              );
+                            }
+
+                            return (
+                              <span
+                                key={idx}
+                                style={{ width: "100%", fontSize: "20px" }}
+                              >
+                                {" "}
+                                {part}{" "}
+                              </span>
+                            );
+                          })}
+                        </p>
+                      </div>
+
+                      <Droppable
+                        droppableId={`a-${i}`}
+                        isDropDisabled={showCorrect}
+                      >
+                        {(provided, snapshot) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.droppableProps}
+                            className={`answer-input-CB-unit4-p6-q1  ${
+                              snapshot.isDraggingOver ? "drag-over-cell" : ""
+                            }`}
+                            style={{ position: "relative" }}
+                          >
+                            {answers[i]}
+
+                            {isWrong && (
+                              <span className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold border-2 border-white">
+                                ✕
+                              </span>
+                            )}
+
+                            {provided.placeholder}
+                          </div>
+                        )}
+                      </Droppable>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
 
         <div className="action-buttons-container">

@@ -109,10 +109,12 @@ const Unit7_Page6_Q1 = () => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="main-container-component">
-        <div className="div-forall">
+        <div className="div-forall" style={{gap:"30px"}}>
           <h5 className="header-title-page8" style={{ marginBottom: "20px" }}>
             <span className="ex-A">D </span>Read and write.
           </h5>
+
+          <div className="flex flex-col gap-8">
 
           {/* WORD BANK */}
           <Droppable droppableId="bank" direction="horizontal">
@@ -203,8 +205,8 @@ const Unit7_Page6_Q1 = () => {
               </div>
             ))}
 </div>
-            <img src={img4} style={{ height: "450px", width: "auto" }} />
-          </div>
+            <img src={img4} style={{ height: "390px", width: "auto" }} />
+          </div></div>
           {/* BUTTONS */}
           <div className="action-buttons-container">
             <button onClick={reset} className="try-again-button">

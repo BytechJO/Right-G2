@@ -148,19 +148,20 @@ const captions = [
   };
   return (
     <div className="main-container-component mb-20">
-      <div className="div-forall">
+      <div className="div-forall" style={{gap:"40px"}}>
         <h5 className="header-title-page8">
           <span className="ex-A mr-4">A</span>
           <span style={{ color: "#2e3192" }}>1</span>
           Listen, circle, and write.
         </h5>
+        <div className="flex flex-col gap-8">
         <QuestionAudioPlayer
           src={sound1}
           captions={captions}
           stopAtSecond={8.43}
         />
         <div className="flex w-full">
-          <div className="grid grid-cols-3 gap-y-25 w-full gap-x-[60px] mt-10 justify-center">
+          <div className="grid grid-cols-3 gap-y-25 w-full gap-x-[60px] justify-center">
             {items.map((item, i) => (
               <div
                 key={i}
@@ -198,7 +199,7 @@ const captions = [
                   </div>
                 </div>
 
-                <div className="relative w-40 mt-2">
+                <div className="relative w-40">
                   {/* ❌ */}
                   {isWrong(i) && (
                     <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold border-2 border-white shadow-md">
@@ -217,7 +218,7 @@ const captions = [
               </div>
             ))}
           </div>
-        </div>
+        </div></div>
       </div>
 
       <div className="action-buttons-container">

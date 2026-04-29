@@ -138,43 +138,49 @@ const Unit3_Page6_Q2 = () => {
         justifyContent: "center",
         alignItems: "center",
         padding: "30px",
-        marginBottom:"50px"
+        marginBottom: "50px",
       }}
     >
-      <div className="div-forall">
+      <div className="div-forall" style={{gap:"45px"}}>
         <h5 className="header-title-page8">
           <span className="ex-A">E</span>Read and write{" "}
           <span style={{ color: "#2e3192" }}>✓</span>.
         </h5>
 
-        <div className="shorti-container-CB-unit3-p6-q2">
+        <div
+          className="shorti-container-CB-unit3-p6-q2 mt-0"
+          style={{ marginTop: "0px" }}
+        >
           {data.map((question) => (
             <div key={question.id} className="question-box-CB-unit3-p6-q2">
-              <div className="flex gap-2 items-center">
-                <span
-                  style={{
-                    color: "darkblue",
-                    fontWeight: "700",
-                    fontSize: "22px",
-                  }}
-                >
-                  {question.id}
-                </span>
-                <span
-                  className="text-xl font-semibold"
-                  style={{ textWrap: "nowrap" }}
+              <div className="question-box2-CB-unit3-p6-q2">
+                {/* الصورة الواحدة */}
+                <div className="flex gap-2 items-start">
+                  <span
+                    style={{
+                      // color: "darkblue",
+                      fontWeight: "700",
+                      fontSize: "22px",
+                    }}
+                  >
+                    {question.id}
+                  </span>
+                  <div className="flex flex-col gap-2">
+                  <img
+                    src={question.src}
+                    className="main-img-CB-unit3-p6-q2"
+                    alt=""
+                  />
+                   <span
+                  className="text-[18px]"
+                 
                 >
                   {question.text}
                 </span>
-              </div>
-              <div className="question-box2-CB-unit3-p6-q2">
-                {/* الصورة الواحدة */}
-                <img
-                  src={question.src}
-                  className="main-img-CB-unit3-p6-q2"
-                  alt=""
-                />
+                </div>
+                </div>
 
+               
                 {/* الخيارات */}
                 <div className="options-CB-unit3-p6-q2">
                   {question.options.map((opt, index) => (

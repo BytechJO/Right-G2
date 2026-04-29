@@ -146,9 +146,9 @@ const Unit3_Page5_Q3 = () => {
       <div
         style={{ display: "flex", justifyContent: "center", padding: "30px" }}
       >
-        <div className="div-forall" style={{ width: "60%" }}>
+        <div className="div-forall" style={{ gap:"30px" }}>
           {/* ❌ الهيدر كما هو */}
-          <h5 className="header-title-page8 mb-10">
+          <h5 className="header-title-page8">
             <span className="ex-A">B</span>Look and write.
           </h5>
 
@@ -159,7 +159,7 @@ const Unit3_Page5_Q3 = () => {
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="CB-unit2-p6-q2-word-bank"
+                className="CB-unit2-p6-q2-word-bank mb-0"
               >
                 {wordBank.map((w, i) => {
                   const isUsed = answers.some((row) => row.includes(w.id));
@@ -195,7 +195,7 @@ const Unit3_Page5_Q3 = () => {
           </Droppable>
 
           {/* QUESTIONS */}
-          <div className="CB-review1-p1-q2-content">
+          <div className="CB-review1-p1-q2-content" style={{gap:"16px"}}>
             {questions.map((q, qIndex) => (
               <div key={qIndex} className="CB-unit2-p6-q2-row">
                 <div className="CB-unit2-p6-q2-left-container">

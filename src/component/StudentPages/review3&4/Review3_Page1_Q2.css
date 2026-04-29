@@ -13,7 +13,7 @@
 }
 .CB-review3-p1-q2-word {
   white-space: pre-line;
-  text-wrap: nowrap;
+  /* text-wrap: nowrap; */
 }
 .CB-review3-p1-q2-images-row {
   display: flex;
@@ -25,7 +25,7 @@
   display: flex;
   justify-content: space-around;
   margin-bottom: 150px;
-  gap: 25px;
+  gap: 13px;
 }
 
 .CB-review3-p1-q2-img-box {
@@ -66,8 +66,8 @@
 
 .CB-review3-p1-q2-start-dot {
   position: absolute !important;
-    top: 60px;
-    left: 50%;
+    top: 80px;
+    left: 40%;
     transform: translateX(-50%);
 }
 
@@ -79,10 +79,10 @@
   /* border: 2px solid #4a90e2; */
   border-radius: 20px;
   background-color: #f9e6dc;
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 17px;
+  /* font-weight: 600; */
   /* color: #333; */
-  height: 70px;
+  height: 85px;
   position: relative;
   width: fit-content;
   margin-bottom: 25px;

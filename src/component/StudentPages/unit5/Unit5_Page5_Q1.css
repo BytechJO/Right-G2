@@ -1,14 +1,14 @@
 .container-CB-unit5-p5-q1 {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+
   gap: 10px;
 }
 
 .CB-unit5-p5-q1-container {
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
     gap: 10px;
-    width: 76%;
+    /* width: 76%; */
 }
 .CB-unit5-p5-q1-choice {
   width: 140px;
@@ -33,27 +33,31 @@
 }
 
 .CB-unit5-p5-q1-img {
-  width: auto;
+  width: 100px;
   height: 100px;
   object-fit: contain;
+  border: 3px solid transparent;
+  border-radius: 50%;
+
+
 }
 
 .CB-unit5-p5-q1-word {
   /* margin-top: 8px; */
   font-size: 20px;
 
-  padding: 6px 14px;
+  /* padding: 6px 14px; */
   border: 3px solid transparent;
   border-radius: 50%;
   cursor: pointer;
   position: relative;
   transition: 0.25s ease;
-  width: 150px;
-  height: 150px;
+  width: 100px;
+  height: 100px;
 }
 
 /* لما الطالب يختار الكلمة */
-.CB-unit5-p5-q1-word.selected {
+.CB-unit5-p5-q1-img.selected {
   border-color: #1d4f7b;
   display: flex;
   align-items: center;

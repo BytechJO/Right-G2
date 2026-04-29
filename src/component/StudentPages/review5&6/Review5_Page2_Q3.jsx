@@ -187,7 +187,7 @@ const Review5_Page2_Q4 = () => {
 
           {/* SENTENCES */}
 
-          <div className="flex flex-col gap-[60px]">
+          <div className="flex flex-col">
             {questions.map((q, qIndex) => (
               <div
                 key={qIndex}

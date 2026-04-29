@@ -131,18 +131,19 @@ const Review8_Page1_Q1 = () => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="main-container-component">
-        <div className="div-forall">
+        <div className="div-forall" style={{gap:"20px"}}>
           <h5 className="header-title-page8 ">
             <span style={{ marginRight: "20px" }}>A</span> Look and write.
           </h5>
 
           {/* IMAGES */}
-          <div className="flex flex-col gap-10">
-            <div className="flex justify-center gap-8 ">
+          <div className="flex flex-col gap-6">
+            <div className="flex justify-around w-full">
               <div className="relative">
                 <img
                   src={imgA}
-                  className="w-[380px]! h-[230px]! object-contain"
+                  className="object-contain"
+                    style={{ width: "auto", height: "165px" }}
                 />
                 <span className="absolute bottom-2 right-2 bg-yellow-300 rounded-full px-2 text-sm">
                   A
@@ -151,7 +152,7 @@ const Review8_Page1_Q1 = () => {
 
               <div className="relative">
                 <img
-                  style={{ width: "380px", height: "230px" }}
+                  style={{ width: "auto", height: "165px" }}
                   src={imgB}
                   className="object-contain"
                 />
@@ -168,7 +169,7 @@ const Review8_Page1_Q1 = () => {
                 <div
                   ref={provided.innerRef}
                   {...provided.droppableProps}
-                  className="flex flex-wrap gap-5 justify-center p-4 rounded-lg"
+                  className="flex flex-wrap w-full justify-between p-4 rounded-lg"
                 >
                   {answersBank.map((a, index) => {
                     const isUsed = Object.values(answers).includes(a);
@@ -203,7 +204,7 @@ const Review8_Page1_Q1 = () => {
 
             {/* QUESTIONS GRID */}
 
-            <div className="grid grid-cols-2 gap-x-16 mb-20">
+            <div className="grid grid-cols-2 gap-x-16">
               {/* LEFT - I */}
               <div>
                 {questions

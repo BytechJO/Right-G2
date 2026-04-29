@@ -153,6 +153,7 @@ const Unit4_Page5_Q2 = () => {
     >
       <div
         className="div-forall"
+        style={{gap:"54px"}}
         
       >
         <h3 className="header-title-page8">
@@ -164,9 +165,9 @@ const Unit4_Page5_Q2 = () => {
           stopAtSecond={stopAtSecond}
         />
        
-        <div className="content-container-CB-unit3-p6-q1">
+        <div className="flex gap-18">
           {questions.map((q, qIndex) => (
-            <div className="question-row-CB-unit3-p6-q1" key={q.id}>
+            <div className="flex gap-5" key={q.id}>
               <div className="sentence-CB-unit4-p5-q2">
                 <div
                   style={{
@@ -179,7 +180,7 @@ const Unit4_Page5_Q2 = () => {
                   <span
                     className="header-title-page8"
                     style={{
-                      color: "#2c5287",
+                      color: "black",
                       fontWeight: "700",
                       fontSize: "20px",
                     }}
@@ -198,7 +199,7 @@ const Unit4_Page5_Q2 = () => {
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    gap: "50px",
+                    gap: "5px",
                   }}
                 >
                   {q.parts.map((part, pIndex) => {

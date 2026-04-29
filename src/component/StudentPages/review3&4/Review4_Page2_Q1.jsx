@@ -125,7 +125,7 @@ const Review4_Page2_Q1 = () => {
         padding: "30px",
       }}
     >
-      <div className="div-forall">
+      <div className="div-forall" style={{ gap: "50px" }}>
         <h5 className="header-title-page8">
           <span style={{ marginRight: "20px" }}>C</span> Does it have{" "}
           <span style={{ color: "#2e3192" }}>long a</span>? Listen and write
@@ -140,26 +140,20 @@ const Review4_Page2_Q1 = () => {
 
         <div className="CB-review4-p2-q1-container">
           {questions.map((q, index) => (
-            <div key={q.id} className="CB-review1-p2-q1-question-box">
-              <p
-                className="CB-review1-p2-q1-question-text"
-                style={{ fontSize: "20px" }}
-              >
-                <span style={{ color: "darkblue", fontWeight: "700" }}>
-                  {q.id}.
-                </span>
-              </p>
-
-              <div className="flex flex-col flex-wrap">
+            <div key={q.id} className="CB-review1-p2-q1-question-box"style={{ gap: "20px" }}>
+              <div className="flex flex-col flex-wrap gap-5">
                 <div style={{ display: "flex" }}>
-                  <img src={q.image} alt="" className="CB-review1-p2-q1-img" />
+                  <span style={{ fontWeight: "700", fontSize: "20px" }}>
+                    {q.id}
+                  </span>
+                  <img src={q.image} alt="" style={{ height: "100px",width:"110px" }} />
                 </div>
 
                 <div className="CB-review1-p2-q1-options-box">
                   {/* خيار الصح */}
-                  <div className="CB-review1-p2-q1-option-wrapper">
+                  <div className="CB-review4-p2-q1-option-wrapper">
                     <div
-                      className={`CB-review1-p2-q1-option-btn ${
+                      className={`CB-review4-p2-q1-option-btn ${
                         answers[q.id] === "✓" ? "is-selected" : ""
                       }`}
                       onClick={() => selectAnswer(q.id, "✓")}
@@ -178,7 +172,7 @@ const Review4_Page2_Q1 = () => {
                   {/* خيار الخطأ */}
                   <div className="CB-review1-p2-q1-option-wrapper">
                     <div
-                      className={`CB-review1-p2-q1-option-btn ${
+                      className={`CB-review4-p2-q1-option-btn ${
                         answers[q.id] === "✗" ? "is-selected" : ""
                       }`}
                       onClick={() => selectAnswer(q.id, "✗")}

@@ -142,15 +142,9 @@ const Review3_Page1_Q2 = () => {
     >
       <div
         className="div-forall"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "30px",
-          width: "60%",
-          justifyContent: "flex-start",
-        }}
+       style={{gap:"45px"}}
       >
-        <div className="page7-q2-container2">
+      
           <h5 className="header-title-page8">
             {" "}
             <span style={{ marginRight: "20px" }}> B </span>Read and match.
@@ -178,7 +172,7 @@ const Review3_Page1_Q2 = () => {
     ${locked || showAnswer ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
     ${firstDot?.wordId === wordObj.id ? "text-red-600 underline scale-105" : ""}
     transition-all duration-200 gap-5
-  `}
+  `}   style={{width:"100%"}}
                         onClick={() =>
                           document.getElementById(`${wordObj.id}-dot`).click()
                         }
@@ -261,7 +255,6 @@ const Review3_Page1_Q2 = () => {
             </svg>
           </div>
         </div>
-      </div>
       <div className="action-buttons-container">
         <button
           onClick={() => {

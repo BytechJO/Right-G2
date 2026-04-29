@@ -1,6 +1,27 @@
 .CB-review4-p2-q1-container {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    display: flex;
+flex-wrap: wrap;
     gap: 45px;
     margin-top: 20px;
+}
+
+.CB-review4-p2-q1-option-btn {
+    width: 36px;
+    height: 36px;
+    border: 2px solid #ff6b57;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 22px;
+    font-weight: bold;
+    background: #fff;
+    transition: all 0.15s ease;
+}
+
+.CB-review4-p2-q1-option-btn.is-selected {
+    /* background: #777cfd; */
+    color: white;
+    border: 3px solid #777cfd;
 }

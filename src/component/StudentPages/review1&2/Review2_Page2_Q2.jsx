@@ -100,6 +100,7 @@ const Review2_Page2_Q2 = () => {
     >
       <div
         className="div-forall"
+        style={{gap:"50px"}}
         
       >
         <div>
@@ -126,7 +127,7 @@ const Review2_Page2_Q2 = () => {
           <div className="wh-container-CB-review2-p2-q2">
             {items.map((item, index) => (
               <div className="ck-x-item-CB-review2-p2-q2" key={index}>
-                <div style={{ display: "flex", gap: "20px" }}>
+                <div style={{ display: "flex", gap: "10px" }}>
                   <span
                     className="q-number"
                     style={{

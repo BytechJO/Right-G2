@@ -115,7 +115,7 @@ export default function Review6_Page2_Q1() {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="main-container-component">
-        <div className="div-forall">
+        <div className="div-forall" style={{gap:"40px"}}>
           <h5 className="header-title-page8">
             <span style={{ marginRight: "20px" }}>D</span>
             Listen, read, and complete the story.
@@ -129,7 +129,53 @@ export default function Review6_Page2_Q1() {
    
    <div className="flex flex-col gap-5">
           {/* STORY */}
-          <div className="flex items-center gap-[3%] flex-wrap">
+          <div className="flex items-center gap-[3%]">
+            <div   className="flex flex-col justify-between rounded-lg w-full" style={{height:"220px"}}>
+             {/* WORD BANK */}
+          <Droppable droppableId="bank" direction="horizontal" isDropDisabled>
+            {(provided) => (
+              <div
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+                className="flex justify-between rounded-lg w-[80%]"
+              >
+                {words.map((word, i) => {
+                  const isWordUsed = (id) => {
+                    return answers.some((a) => a?.id === id);
+                  };
+                  const used = isWordUsed(word.id);
+
+                  return (
+                    <Draggable
+                      key={word.id}
+                      draggableId={`word-${word.id}`}
+                      index={i}
+                      isDragDisabled={locked || used}
+                    >
+                      {(provided) => (
+                        <span
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          className={`px-3.5 py-1.5 border-2 rounded-lg font-bold transition-all
+            ${
+              used
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed opacity-50"
+                : "bg-white cursor-grab hover:bg-blue-100 border-[#2c5287]"
+            }
+          `}
+                        >
+                          {word.word}
+                        </span>
+                      )}
+                    </Draggable>
+                  );
+                })}
+
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
             <div className="text-[20px] leading-loose flex-1">
               Andrew rides his
               {/* SLOT 0 */}
@@ -277,64 +323,20 @@ export default function Review6_Page2_Q1() {
               </Droppable>
               .
             </div>
-
+</div>
             <img
               src={img1}
               alt=""
               style={{
-                width: "100%",
-                maxWidth: "320px",
-                height: "auto",
+                width: "auto",
+               
+                height: "220px",
                 borderRadius: "15px",
               }}
             />
           </div>
 
-          {/* WORD BANK */}
-          <Droppable droppableId="bank" direction="horizontal" isDropDisabled>
-            {(provided) => (
-              <div
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-                className="flex gap-[60px] justify-center mb-10 p-4 rounded-lg"
-              >
-                {words.map((word, i) => {
-                  const isWordUsed = (id) => {
-                    return answers.some((a) => a?.id === id);
-                  };
-                  const used = isWordUsed(word.id);
-
-                  return (
-                    <Draggable
-                      key={word.id}
-                      draggableId={`word-${word.id}`}
-                      index={i}
-                      isDragDisabled={locked || used}
-                    >
-                      {(provided) => (
-                        <span
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          className={`px-3.5 py-1.5 border-2 rounded-lg font-bold transition-all
-            ${
-              used
-                ? "bg-gray-300 text-gray-500 cursor-not-allowed opacity-50"
-                : "bg-white cursor-grab hover:bg-blue-100 border-[#2c5287]"
-            }
-          `}
-                        >
-                          {word.word}
-                        </span>
-                      )}
-                    </Draggable>
-                  );
-                })}
-
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
+         
           </div>
         </div>
 

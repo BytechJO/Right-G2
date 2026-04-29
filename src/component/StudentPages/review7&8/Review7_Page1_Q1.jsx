@@ -83,7 +83,7 @@ const Review7_Page1_Q1 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall" style={{gap:"45px"}}>
         <h5 className="header-title-page8">
           <span style={{ marginRight: "20px" }}>A</span>
           Look and circle.
@@ -95,7 +95,7 @@ const Review7_Page1_Q1 = () => {
           <img
             src={img1}
             className="object-contain rounded-xl"
-            style={{ height: "235px", width: "auto" }}
+            style={{ height: "190px", width: "auto" }}
           />
         </div>
 

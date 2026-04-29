@@ -198,7 +198,7 @@ const Review8_Page2_Q1 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall" style={{gap:"40px"}}>
         <h5 className="header-title-page8">
           <span style={{ marginRight: "15px" }}>D</span>
           Do they both have <span style={{ color: "#2e3192" }}>long u</span>?
@@ -206,7 +206,7 @@ const Review8_Page2_Q1 = () => {
           <span style={{ color: "#2e3192" }}>✓</span> or
           <span style={{ color: "#2e3192" }}>✗</span>.
         </h5>
-        <div>
+        <div className="flex flex-col gap-5">
           <div
             style={{
               display: "flex",
@@ -325,75 +325,66 @@ const Review8_Page2_Q1 = () => {
           </div>
           <div className="flex justify-center gap-8">
             {questions.map((q, index) => (
-              <div
-                key={q.id}
-                className="rounded-xl p-4 flex flex-col justify-between"
-              >
-                <div className="flex flex-col items-center">
-                  <div className="flex gap-2 items-center justify-center">
-                    <p className="text-[20px] font-bold text-blue-900">
-                      {q.id}.
-                    </p>
-                    <img
-                      src={q.image}
-                      alt=""
-                      style={{
-                        width: "auto",
-                        height: "200px",
-                      }}
-                      className="rounded-md"
-                    />
-                  </div>
-                  <div className="flex gap-4">
-                    {/* ✔ */}
-                    <div className="relative">
-                      <button
-                        onClick={() => selectAnswer(q.id, "✓")}
-                        className={`w-10 h-10 border-2 flex items-center justify-center rounded-md flex items-center justify-center text-xl font-bold transition
+              <div className="flex flex-col items-center w-full">
+                <div className="flex gap-2 items-center justify-center">
+                  <p className="text-[20px] font-bold h-[60%]">{q.id}.</p>
+                  <img
+                    src={q.image}
+                    alt=""
+                    style={{
+                      width: "auto",
+                      height: "200px",
+                    }}
+                    className="rounded-md"
+                  />
+                </div>
+                <div className="flex gap-4">
+                  {/* ✔ */}
+                  <div className="relative">
+                    <button
+                      onClick={() => selectAnswer(q.id, "✓")}
+                      className={`w-10 h-10 border-2 flex items-center ml-5 justify-center rounded-md text-xl font-bold transition
 ${
   answers[q.id] === "✓"
     ? "border-blue-800 text-white"
     : "bg-white text-black border-gray-500"
 }`}
-                      >
-                        <img
-                          src={trueIcon}
-                          style={{ height: "25px", width: "auto" }}
-                        />
-                      </button>
+                    >
+                      <img
+                        src={trueIcon}
+                        style={{ height: "25px", width: "auto" }}
+                      />
+                    </button>
 
-                      {showResult[index] === "wrong" &&
-                        answers[q.id] === "✓" && (
-                          <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold shadow border-2 border-white">
-                            ✕
-                          </span>
-                        )}
-                    </div>
+                    {showResult[index] === "wrong" && answers[q.id] === "✓" && (
+                      <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold shadow border-2 border-white">
+                        ✕
+                      </span>
+                    )}
+                  </div>
 
-                    {/* ✗ */}
-                    <div className="relative">
-                      <button
-                        onClick={() => selectAnswer(q.id, "✗")}
-                        className={`w-10 h-10 border-2 flex items-center justify-center rounded-md flex items-center justify-center text-xl font-bold transition
+                  {/* ✗ */}
+                  <div className="relative">
+                    <button
+                      onClick={() => selectAnswer(q.id, "✗")}
+                      className={`w-10 h-10 border-2 flex items-center justify-center rounded-md flex items-center justify-center text-xl font-bold transition
 ${
   answers[q.id] === "✗"
     ? "border-blue-800 text-white"
     : "bg-white text-black border-gray-500"
 }`}
-                      >
-                        <img
-                          src={falseIcon}
-                          style={{ height: "25px", width: "auto" }}
-                        />
-                      </button>
+                    >
+                      <img
+                        src={falseIcon}
+                        style={{ height: "25px", width: "auto" }}
+                      />
+                    </button>
 
-                      {showResult[index] === "wrong" &&
-                        answers[q.id] === "✗" && (
-                          <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold shadow border-2 border-white">
-                            ✕
-                          </span>
-                        )}
-                    </div>
+                    {showResult[index] === "wrong" && answers[q.id] === "✗" && (
+                      <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold shadow border-2 border-white">
+                        ✕
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>

@@ -129,7 +129,7 @@ const onDragEnd = (result) => {
   return (
     <DragDropContext key={resetKey} onDragEnd={onDragEnd}>
       <div className="main-container-component">
-        <div className="div-forall">
+        <div className="div-forall" style={{gap:"30px"}}>
           <h5 className="header-title-page8 ">
             <span style={{ marginRight: "20px" }}>A</span> Look, read and write.
           </h5>
@@ -202,7 +202,8 @@ const onDragEnd = (result) => {
                           <img
                             src={q.img}
                             style={{
-                              height: "120px",
+                              height: "auto",
+                              width:"225px",
                               // border: "2px solid red",
                               borderRadius: "10px",
                             }}

@@ -200,7 +200,7 @@ const Unit5_Page6_Q2 = () => {
                         <div
                           ref={provided.innerRef}
                           {...provided.droppableProps}
-                          className="CB-unit5-p6-q2-word-bank"
+                          // className="CB-unit5-p6-q2-word-bank"
                           style={{
                             display: "flex",
                             gap: "30px",
@@ -209,7 +209,7 @@ const Unit5_Page6_Q2 = () => {
                             borderRadius: "10px",
                             alignItems: "center",
                             width: "90%",
-                            justifyContent: "center",
+                            justifyContent: "flex-start",
                           }}
                         >
                           {q.scrambled.map((word, i) => {
@@ -230,13 +230,17 @@ const Unit5_Page6_Q2 = () => {
                                     {...provided.dragHandleProps}
                                     className="CB-unit5-p6-q2-word-box"
                                     style={{
-                                      padding: "2px 5px",
+                                      padding: "5px",
                                       border: "2px solid #2c5287",
                                       borderRadius: "8px",
                                       fontWeight: "bold",
                                       background: isUsed ? "#ccc" : "white",
                                       opacity: isUsed ? 0.6 : 1,
                                       cursor: isUsed ? "not-allowed" : "grab",
+                                      width:"90px",
+                                      display:"flex",
+                                      justifyContent:"center",
+                                      fontSize:"18px",
                                       ...provided.draggableProps.style,
                                     }}
                                   >

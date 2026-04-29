@@ -152,13 +152,13 @@ const Review3_Page1_Q1 = () => {
       >
         <div
           className="div-forall"
-         
+         style={{gap:"25px"}}
         >
           <h5 className="header-title-page8">
             <span style={{ marginRight: "20px" }}>A</span> Look, read, and
             circle. Then, write.
           </h5>
-       <div className="flex flex-col gap-10">
+       <div className="flex flex-col gap-6">
           <Droppable droppableId="bank" isDropDisabled>
             {(provided) => (
               <div
@@ -166,7 +166,7 @@ const Review3_Page1_Q1 = () => {
                 {...provided.droppableProps}
                 style={{
                   display: "flex",
-                  gap: "30px",
+                  gap: "10px",
                   padding: "10px",
                   // border: "2px dashed #ccc",
                   borderRadius: "10px",
@@ -228,7 +228,7 @@ const Review3_Page1_Q1 = () => {
                 </span>  <img
                     src={item.img}
                     className="q-img-CB-review2-p2-q3"
-                    style={{ height: "auto", width: "200px" }}
+                    style={{ height: "auto", width: "160px" }}
                   />
 </div>
                   {/*choices */}

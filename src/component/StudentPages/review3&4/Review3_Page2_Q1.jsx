@@ -120,6 +120,7 @@ const Review3_Page2_Q1 = () => {
       >
         <div
           className="div-forall"
+          style={{gap:"25px"}}
          
         >
           <h5 className="header-title-page8">
@@ -191,7 +192,7 @@ const Review3_Page2_Q1 = () => {
              
              <div className="flex">   
               <span className="text-xl font-bold text-blue-800">{index+1}</span>
-              <img src={img} style={{ height: "120px", width: "auto" }} />
+              <img src={img} style={{ height: "80px", width: "auto" }} />
 </div>
                 <Droppable droppableId={`slot-${index}`}>
                   {(provided, snapshot) => (

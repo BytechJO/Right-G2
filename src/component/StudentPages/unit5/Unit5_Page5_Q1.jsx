@@ -124,13 +124,10 @@ const Unit5_Page5_Q1 = () => {
         justifyContent: "center",
         alignItems: "center",
         padding: "30px",
-         marginBottom:"30px"
+        marginBottom: "30px",
       }}
     >
-      <div
-        className="div-forall"
-      
-      >
+      <div className="div-forall">
         <div>
           <h5 className="header-title-page8">
             <span className="ex-A">A</span>{" "}
@@ -154,39 +151,44 @@ const Unit5_Page5_Q1 = () => {
         >
           <div className="CB-unit5-p5-q1-container">
             {items.map((item, index) => (
-              <div className="ds-group-box-CB-unit5-p5-2" >
+              <div className="ds-group-box-CB-unit5-p5-2">
                 <span
                   style={{
                     fontWeight: "700",
-                    fontSize:"22px",
-                    color:"#1d4f7b"
+                    fontSize: "22px",
+                    // color:"#1d4f7b"
                   }}
                 >
                   {index + 1}
                 </span>
                 <div className="CB-unit5-p5-q1-options">
-                {item.items.map((choice, chIndex) => (
-                  <div
-                    key={chIndex}
-                    className={`CB-unit5-p5-q1-word
+                  {item.items.map((choice, chIndex) => (
+                    <div
+                      key={chIndex}
+                      className={`CB-unit5-p5-q1-word
               ${answers[index] === chIndex ? "selected" : ""}
               ${showResult && choice.isShortA ? "correct" : ""}
               ${showResult && answers[index] === chIndex && !choice.isShortA ? "wrong" : ""}`}
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                    }}
-                    onClick={() => handleSelect(index, chIndex)}
-                  >
-                    <img src={choice.img} className={`CB-unit5-p5-q1-img`} />
-                    {locked &&
-                    answers[index] === chIndex &&
-                    !choice.isShortA ? (
-                      <span className="CB-unit5-p5-q1-wrong-x">✕</span>
-                    ) : null}
-                  </div>
-                ))}
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                      }}
+                      onClick={() => handleSelect(index, chIndex)}
+                    >
+                      <img
+                        src={choice.img}
+                        className={`CB-unit5-p5-q1-img  ${answers[index] === chIndex ? "selected" : ""}
+              ${showResult && choice.isShortA ? "correct" : ""}
+              ${showResult && answers[index] === chIndex && !choice.isShortA ? "wrong" : ""}`}
+                      />
+                      {locked &&
+                      answers[index] === chIndex &&
+                      !choice.isShortA ? (
+                        <span className="CB-unit5-p5-q1-wrong-x">✕</span>
+                      ) : null}
+                    </div>
+                  ))}
                 </div>
               </div>
             ))}

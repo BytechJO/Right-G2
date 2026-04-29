@@ -96,7 +96,7 @@ const Review7_Page2_Q1 = () => {
           stopAtSecond={9.93}
         />
         {/* GRID */}
-        <div className="grid grid-cols-3 gap-3">
+        <div className="flex flex-wrap gap-3 w-full justify-between">
           {items.map((item, i) => {
             const isWrong = locked && selected[i] !== item.correct;
             return (
@@ -106,19 +106,19 @@ const Review7_Page2_Q1 = () => {
               >
                 {" "}
                 <div className="relative">
-                  <div className="flex gap-2 justify-center">
+                  <div className="flex">
                     {/* number in corner */}
                     <span className="text-lg font-bold">{i + 1}</span>
 
                     {/* image + audio */}
                     <img
                       src={item.img}
-                      className="w-[150px]! h-[150px]! object-contain"
+                      className="object-contain"style={{height:"100px",width:"auto"}}
                     />
 
                     {/* Wrong Icon */}
                     {isWrong && (
-                      <div className="absolute top-6 -right-3 w-7 h-7 bg-red-500 rounded-full flex items-center justify-center border-2 border-white shadow-xl">
+                      <div className="absolute top-0 -right-3 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center border-2 border-white shadow-lg">
                         <span className="text-white font-bold">✕</span>
                       </div>
                     )}
@@ -128,7 +128,7 @@ const Review7_Page2_Q1 = () => {
                   <button
                     onClick={() => choose(i, "yes")}
                     className={`w-10 h-10 border flex items-center justify-center rounded text-lg ${
-                      selected[i] === "yes" ? "border-2 border-blue-800 text-white" : ""
+                      selected[i] === "yes" ? "border-2 border-blue-800 text-white" : "border-red-700 "
                     }`}
                   >
                     <img
@@ -140,7 +140,7 @@ const Review7_Page2_Q1 = () => {
                   <button
                     onClick={() => choose(i, "no")}
                     className={`w-10 h-10 border flex items-center justify-center rounded text-lg ${
-                      selected[i] === "no" ? "border-2 border-blue-800 text-white" : ""
+                      selected[i] === "no" ? "border-2 border-blue-800 text-white" : "border-red-700 "
                     }`}
                   >
                     <img

@@ -76,7 +76,7 @@ const Review8_Page2_Q3 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall" style={{gap:"120px"}}>
         {" "}
         {/* العنوان */}
         <h5 className="header-title-page8">
@@ -84,7 +84,7 @@ const Review8_Page2_Q3 = () => {
           Circle and write.
         </h5>
         {/* الأسئلة */}
-        <div className="space-y-6">
+        <div className="space-y-18">
           {questions.map((q, i) => {
             const parts = q.sentence.split("_____");
             const isWrong =

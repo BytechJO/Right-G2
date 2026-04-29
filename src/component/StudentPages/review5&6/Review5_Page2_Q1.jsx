@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useRef, useEffect } from "react";
-import "./Review5_Page2_Q2.css";
+import "./Review5_Page2_Q1.css";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import img1 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 53/Asset 35.svg";
 import img2 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 53/Asset 75.svg";
@@ -124,33 +124,27 @@ const Review1_Page2_Q2 = () => {
           captions={captions}
           stopAtSecond={stopAtSecond}
         />
-        <div className="CB-review1-p2-q1-container">
+        <div className="CB-review5-p2-q1-container">
           {questions.map((q, index) => (
             <div key={q.id} className="CB-review1-p2-q1-question-box">
-              <p
-                className="CB-review1-p2-q1-question-text"
-                style={{ fontSize: "20px", border: "none" }}
-              >
-                <span style={{ color: "darkblue", fontWeight: "700" }}>
-                  {q.id}.
-                </span>
-              </p>
-
               <div className="CB-review1-p2-q1-flex">
-                <div style={{ display: "flex" }}>
+                <div style={{ display: "flex gap-6" }}>
+                  <span style={{ fontSize: "20px", fontWeight: "700" }}>
+                    {q.id}
+                  </span>
                   <img
                     src={q.image}
                     alt=""
                     className="CB-review1-p2-q1-img"
-                    style={{ width: "auto", height: "150px" }}
+                    style={{ width: "auto", height: "140px" }}
                   />
                 </div>
 
-                <div className="CB-review1-p2-q1-options-box">
+                <div className="CB-review5-p2-q1-options-box">
                   {/* خيار الصح */}
                   <div className="CB-review1-p2-q1-option-wrapper">
                     <div
-                      className={`CB-review1-p2-q1-option-btn ${
+                      className={`CB-review5-p2-q1-option-btn ${
                         answers[q.id] === "✓" ? "is-selected" : ""
                       }`}
                       onClick={() => selectAnswer(q.id, "✓")}
@@ -169,7 +163,7 @@ const Review1_Page2_Q2 = () => {
                   {/* خيار الخطأ */}
                   <div className="CB-review1-p2-q1-option-wrapper">
                     <div
-                      className={`CB-review1-p2-q1-option-btn ${
+                      className={`CB-review5-p2-q1-option-btn ${
                         answers[q.id] === "✗" ? "is-selected" : ""
                       }`}
                       onClick={() => selectAnswer(q.id, "✗")}

@@ -134,7 +134,7 @@ const Unit9_Page6_Q1 = () => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="main-container-component mb-10">
-        <div className="div-forall">
+        <div className="div-forall" style={{gap:"10px"}}>
           {/* ❌ الهيدر كما هو */}
           <h5 className="header-title-page8">
             <span className="ex-A mr-4">D</span>Look and write .
@@ -177,22 +177,23 @@ const Unit9_Page6_Q1 = () => {
           </Droppable>
           <div className="flex flex-col gap-2">
             {questions.map((q) => (
-              <div key={q.id} className="flex items-center gap-4 ">
-                <span className="font-bold w-5">{q.id}</span>
+              <div key={q.id} className="flex items-center">
+                <div className="flex justify-start gap-5">
+                <span className="font-bold text-[20px]">{q.id}</span>
 
                 <img
                   src={q.img}
-                  style={{ height: "130px", width: "auto" }}
+                  style={{ height: "auto", width: "70%" }}
                   className=" object-contain"
                 />
-
+</div>
                <Droppable droppableId={`slot-${q.id}`}>
   {(provided, snapshot) => (
     <div
       ref={provided.innerRef}
       {...provided.droppableProps}
       className={`
-        relative flex-1 min-h-[35px] border-b-2 transition-all duration-200
+        relative flex-1 min-h-[35px] border-b-1 transition-all duration-200
         ${
           snapshot.isDraggingOver
             ? "bg-blue-100 border-blue-400 border-dashed"

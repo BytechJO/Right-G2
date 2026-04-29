@@ -2,9 +2,9 @@ import React, { useState, useRef } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Review5_Page1_Q3.css";
 
-import img1 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 52/P52-1.svg";
-import img2 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 52/P52-2.svg";
-import img3 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 52/P52-3.svg";
+import img3 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 52/P52-1.svg";
+import img1 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 52/P52-2.svg";
+import img2 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 52/P52-3.svg";
 
 const Review5_Page1_Q3 = () => {
   const [lines, setLines] = useState([]);
@@ -150,7 +150,7 @@ const Review5_Page1_Q3 = () => {
           <span style={{ marginRight: "20px" }}>C</span>
           Look, read, and match.
         </h5>
-
+          <div>
         {images.map((item, i) => {
           const matchedLine = lines.find((line) => {
             const img =
@@ -180,29 +180,30 @@ const Review5_Page1_Q3 = () => {
               className="flex items-center justify-between my-[15px]"
             >
               <div className="flex items-center gap-2.5 w-[45%]">
-                <span className="text-[22px] font-bold">{i + 1}</span>
+                
 
                 <div
-                  className="relative cursor-pointer"
+                  className="relative cursor-pointer flex items-start"
                   onClick={() => handleDotClick(i, "image")}
                 >
+                  <span className="text-[22px] font-bold">{i + 1}</span>
                   <img
                     src={item.image}
                     alt=""
                     className={`${
                       showResult
                         ? isCorrect
-                          ? "border-2 border-red-500"
+                          ? ""
                           : isWrong
                             ? "border-3 border-red-500"
                             : "border-2 border-red-500"
                         : selected.image === i
-                          ? "border-3 border-red-600 scale-110"
-                          : "border-2 border-red-500"
+                          ? "scale-110"
+                          : ""
                     }`}
                     style={{
                       width: "200px",
-                      height: "150px",
+                      height: "120px",
                       borderRadius: "12px",
 
                       display: "block",
@@ -251,7 +252,7 @@ const Review5_Page1_Q3 = () => {
             </div>
           );
         })}
-
+</div>
         <svg className="absolute top-0 left-0 w-full h-full pointer-events-none">
           {lines.map((line, i) => {
             const imageIndex =

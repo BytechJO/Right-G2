@@ -104,13 +104,13 @@ const Review9_Page1_Q3 = () => {
   };
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall" style={{gap:"16px"}}>
         {/* HEADER */}
         <h5 className="header-title-page8 mb-10">
           <span style={{ marginRight: "20px" }}>C</span>
           Look and circle.
         </h5>
-
+         <div className="flex flex-col gap-5">
         {questions.map((q, index) => (
           <div
             key={q.id}
@@ -203,7 +203,7 @@ const Review9_Page1_Q3 = () => {
             />
           </div>
         ))}
-
+</div>
         {/* BUTTONS */}
         <div className="action-buttons-container">
           <button onClick={reset} className="try-again-button">

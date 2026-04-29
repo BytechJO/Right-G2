@@ -52,7 +52,7 @@ const Unit8_Page5_Q3 = () => {
   };
 
   const checkAnswers = () => {
-    if (locked) return;
+    if (locked||showResult) return;
     if (Object.values(answers).includes("")) {
       ValidationAlert.info("Please complete all answers.");
       return;
@@ -90,7 +90,7 @@ const Unit8_Page5_Q3 = () => {
   };
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall" style={{gap:"40px"}}>
         <h5 className="header-title-page8 mb-8">
           <span className="ex-A">B </span>
           Count and write.
@@ -98,15 +98,36 @@ const Unit8_Page5_Q3 = () => {
 
         {/* WORD BANK */}
 
-        <div className="flex gap-10">
+        <div className="flex gap-10 items-center">
           {/* QUESTIONS */}
 
           <div className="flex-1">
             {questions.map((q) => (
-              <div key={q.id} className="mb-10">
-                <div className="flex gap-3 text-lg">
+              <div key={q.id} className="mb-2">
+                <div className="flex gap-3 text-lg items-center">
                   <span className="text-[#2e3192] font-bold">{q.id}</span>
+                  <div className="flex w-full justify-between items-center">
                   <p>{q.question}</p>
+                    {/* OPTIONS FOR THIS QUESTION */}
+
+                <div className="flex gap-3 mt-3">
+                  {q.options.map((opt) => (
+                    <button
+                      key={opt}
+                      onClick={() =>{
+                        if(locked||showResult)return;
+                        setAnswers((prev) => ({
+                          ...prev,
+                          [q.id]: opt,
+                        }))
+                      }}
+                      className={`px-3 py-1 rounded-lg border-2 ${answers[q.id] === opt ? "border-blue-900" : "border-gray-400"}`}
+                    >
+                      {opt}
+                    </button>
+                  ))}
+                </div>
+                </div>
                 </div>
                 <div className="relative mt-2 h-10">
                   {/* ❌ */}
@@ -117,43 +138,22 @@ const Unit8_Page5_Q3 = () => {
                   )}
 
                   <div
-                    className={`border-b-2 py-1 text-lg h-10
-      ${isWrong(q.id) ? "border-red-500" : "border-black"}
-    `}
+                    className={`border-b-2 py-1 text-lg h-10 ${isWrong(q.id) ? "border-red-500" : "border-black"}`}
                   >
-                    <span className="text-blue-600 font-semibold">
+                    <span className="text-blue-900 font-semibold">
                       {answers[q.id] && `I have ${answers[q.id]} ${q.type}.`}
                     </span>
                   </div>
                 </div>
 
-                {/* OPTIONS FOR THIS QUESTION */}
-
-                <div className="flex gap-3 mt-3">
-                  {q.options.map((opt) => (
-                    <button
-                      key={opt}
-                      onClick={() =>
-                        setAnswers((prev) => ({
-                          ...prev,
-                          [q.id]: opt,
-                        }))
-                      }
-                      className={`px-3 py-1 rounded border
-${answers[q.id] === opt ? "bg-blue-500" : "bg-white"}
-`}
-                    >
-                      {opt}
-                    </button>
-                  ))}
-                </div>
+              
               </div>
             ))}
           </div>
 
           {/* IMAGE */}
 
-          <img src={img} className="w-[350px]! h-[400px]! " />
+          <img src={img} style={{height:"300px",width:"auto"}}/>
         </div>
 
         {/* BUTTONS */}

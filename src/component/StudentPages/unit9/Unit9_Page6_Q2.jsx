@@ -95,21 +95,21 @@ const total = questions.length;
   };
   return (
     <div className="main-container-component mb-10">
-      <div className="div-forall">
+      <div className="div-forall" style={{gap:"50px"}}>
         <h5 className="header-title-page8">
           <span className="ex-A me-4">E</span>Look, read, and write
           <span style={{ color: "#2e3192" }}>✓</span>.
         </h5>
         <div className="flex flex-col gap-5">
         {questions.map((q) => (
-          <div key={q.id} className="flex items-center gap-6 mb-6">
+          <div key={q.id} className="flex items-center gap-6 ">
             {/* الرقم + الصورة */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-start gap-3">
               <span className="font-bold w-5">{q.id}</span>
 
               <img
                 src={q.img}
-                style={{ height: "auto", width: "300px", objectFit: "cover" }}
+                style={{ height: "auto", width: "250px", objectFit: "cover" }}
               />
             </div>
 

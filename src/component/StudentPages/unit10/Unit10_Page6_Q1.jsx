@@ -137,128 +137,132 @@ const Unit10_Page6_Q1 = () => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="main-container-component mb-10">
-        <div className="div-forall">
+        <div className="div-forall" style={{ gap: "30px" }}>
           {/* ❌ الهيدر كما هو */}
           <h5 className="header-title-page8">
             <span className="ex-A mr-5">D</span>Look and write .
           </h5>
-          <div>
-          <Droppable droppableId="bank" direction="horizontal">
-            {(provided) => (
-              <div
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-                className="flex gap-5 justify-center flex-wrap mb-5 p-3 rounded-lg"
-              >
-                {sentences.map((s, index) => {
-                  const isUsed = Object.values(answers).includes(s);
-                  return (
-                    <Draggable
-                      key={`bank-${s}`}
-                      draggableId={`bank-${s}`}
-                      index={index}
-                      isDragDisabled={locked || isUsed}
-                    >
-                      {(provided) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps} // 🔥 دايمًا موجودة
-                          className={`px-4 py-2 rounded-full text-center
-        ${isUsed ? "bg-gray-300 text-gray-500 cursor-not-allowed" : "bg-blue-200 cursor-grab"}`}
-                        >
-                          {s}
-                        </div>
-                      )}
-                    </Draggable>
-                  );
-                })}
-
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-          {questions.map((q) => (
-            <div
-              key={q.id}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                marginBottom: "18px",
-              }}
-            >
-              <span
-                style={{
-                  fontWeight: "bold",
-                  fontSize: "18px",
-                  width: "25px",
-                }}
-              >
-                {q.id}
-              </span>
-
-              <img
-                src={q.img}
-                style={{
-                  height: "120px",
-                  width: "auto",
-
-                  borderRadius: "12px",
-                  marginRight: "20px",
-                }}
-              />
-
-              <Droppable droppableId={`slot-${q.id}`}>
-  {(provided, snapshot) => (
-    <div
-      ref={provided.innerRef}
-      {...provided.droppableProps}
-      className="relative transition-all duration-200"
-      style={{
-        flex: 1,
-        minHeight: "30px",
-        display: "flex",
-        alignItems: "center",
-        paddingLeft: "10px",
-
-        // 🔥 الإيفيكت
-        borderBottom: snapshot.isDraggingOver
-          ? "2px dashed #3b82f6"
-          : isWrongAnswer(q.id)
-          ? "2px solid #ef4444"
-          : "2px solid #333",
-
-        backgroundColor: snapshot.isDraggingOver ? "#dbeafe" : "transparent",
-      }}
-    >
-                    {answers[`slot-${q.id}`] && (
+          <div className="flex flex-col gap-10">
+            <Droppable droppableId="bank" direction="horizontal">
+              {(provided) => (
+                <div
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                  className="flex gap-5 w-full justify-between flex-wrap rounded-lg"
+                >
+                  {sentences.map((s, index) => {
+                    const isUsed = Object.values(answers).includes(s);
+                    return (
                       <Draggable
-                        draggableId={`slot-${q.id}-${answers[`slot-${q.id}`]}`}
-                        index={0}
-                        isDragDisabled={locked}
+                        key={`bank-${s}`}
+                        draggableId={`bank-${s}`}
+                        index={index}
+                        isDragDisabled={locked || isUsed}
                       >
                         {(provided) => (
-                          <div // ✅ بدل span
+                          <div
                             ref={provided.innerRef}
                             {...provided.draggableProps}
-                            {...provided.dragHandleProps}
+                            {...provided.dragHandleProps} // 🔥 دايمًا موجودة
+                            className={`px-4 py-2 rounded-full text-center
+        ${isUsed ? "bg-gray-300 text-gray-500 cursor-not-allowed" : "bg-blue-200 cursor-grab"}`}
                           >
-                            <span
-                              style={{
-                                fontWeight: "500",
-                                fontSize: "16px",
-                                cursor: "grab",
-                              }}
-                            >
-                              {answers[`slot-${q.id}`]}
-                            </span>
+                            {s}
                           </div>
                         )}
                       </Draggable>
-                    )}
-                    {isWrongAnswer(q.id) && (
-                      <div
-                        className="
+                    );
+                  })}
+
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+            <div>
+            {questions.map((q) => (
+              <div
+                key={q.id}
+                style={{
+                  display: "flex",
+                  alignItems: "flex-start",
+                  marginBottom: "18px",
+                }}
+              >
+                <span
+                  style={{
+                    fontWeight: "bold",
+                    fontSize: "18px",
+                    width: "25px",
+                  }}
+                >
+                  {q.id}
+                </span>
+                <div className="flex justify-center w-full">
+                <img
+                  src={q.img}
+                  style={{
+                    height: "auto",
+                    width: "35%",
+
+                    borderRadius: "12px",
+                    marginRight: "20px",
+                  }}
+                />
+
+                <Droppable droppableId={`slot-${q.id}`}>
+                  {(provided, snapshot) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.droppableProps}
+                      className="relative transition-all duration-200"
+                      style={{
+                        // flex: 1,
+                        minHeight: "30px",
+                        display: "flex",
+                        alignItems: "center",
+                        paddingLeft: "10px",
+                        width:"100%",
+
+                        // 🔥 الإيفيكت
+                        borderBottom: snapshot.isDraggingOver
+                          ? "2px dashed #3b82f6"
+                          : isWrongAnswer(q.id)
+                            ? "2px solid #ef4444"
+                            : "1px solid #333",
+
+                        backgroundColor: snapshot.isDraggingOver
+                          ? "#dbeafe"
+                          : "transparent",
+                      }}
+                    >
+                      {answers[`slot-${q.id}`] && (
+                        <Draggable
+                          draggableId={`slot-${q.id}-${answers[`slot-${q.id}`]}`}
+                          index={0}
+                          isDragDisabled={locked}
+                        >
+                          {(provided) => (
+                            <div // ✅ بدل span
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                            >
+                              <span
+                                style={{
+                                  fontWeight: "500",
+                                  fontSize: "16px",
+                                  cursor: "grab",
+                                }}
+                              >
+                                {answers[`slot-${q.id}`]}
+                              </span>
+                            </div>
+                          )}
+                        </Draggable>
+                      )}
+                      {isWrongAnswer(q.id) && (
+                        <div
+                          className="
       absolute -top-2 -right-2
       w-7 h-7
       bg-red-500 text-white
@@ -268,17 +272,18 @@ const Unit10_Page6_Q1 = () => {
       border-2 border-white
       z-10
     "
-                      >
-                        ✕
-                      </div>
-                    )}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            </div>
-          ))}
-          </div>
+                        >
+                          ✕
+                        </div>
+                      )}
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+                </div>
+              </div>
+            ))}
+          </div></div>
         </div>
 
         <div className="action-buttons-container">

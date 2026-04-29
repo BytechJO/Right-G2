@@ -78,16 +78,17 @@ export default function Review6_Page1_Q1() {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall" style={{gap:"25px"}}>
         <h5 className="header-title-page8 mb-5">
           <span className=" mr-4">A</span>
           Look, read, and number.
         </h5>
-
+     
+     <div className="flex flex-col gap-2">
         <div className="grid grid-cols-2 gap-y-5 gap-x-[60px]">
           {images.map((img) => (
             <div className="relative rounded-[14px] p-2.5 w-[85%] ">
-              <span className="absolute -left-5 -top-2.5 font-bold text-[18px]">
+              <span className="absolute -left-5 font-bold text-[18px]">
                 {img.id}
               </span>
 
@@ -95,7 +96,7 @@ export default function Review6_Page1_Q1() {
                 src={img.src}
                 alt=""
                 style={{
-                  width: "100%",
+                  width: "80%",
                   height: "auto",
                 }}
               />
@@ -121,7 +122,7 @@ export default function Review6_Page1_Q1() {
                     value={answers[i]}
                     disabled={locked}
                     onChange={(e) => handleChange(i, e.target.value)}
-                    className={`w-[45px] h-[45px] text-center mr-2 text-[20px] rounded-lg border-2 outline-none
+                    className={`w-[40px] h-[40px] text-center mr-2 text-[20px] rounded-lg border-2 outline-none
         ${
           showResult
             ? isCorrect
@@ -139,11 +140,12 @@ export default function Review6_Page1_Q1() {
                       ✕
                     </div>
                   )}
-                  <span className="text-lg font-bold">{q.text}</span>
+                  <span className="text-lg">{q.text}</span>
                 </div>
               </div>
             );
           })}
+        </div>
         </div>
       </div>
 

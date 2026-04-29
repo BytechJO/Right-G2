@@ -26,14 +26,24 @@ const Unit6_Page5_Q2 = () => {
     { id: "meat", x: 73.5, y: 65.5, w: 7, h: 7, correct: false },
     { id: "six", x: 69, y: 80, w: 5, h: 6, correct: false },
   ];
+  const MAX_CIRCLES = wordAreas.filter((w) => w.correct).length;
   const handleClick = (area) => {
     if (locked || showResult) return;
 
-    if (circles.some((c) => c.id === area.id)) {
+    const alreadySelected = circles.some((c) => c.id === area.id);
+
+    // إذا ضغط مرة ثانية → يشيلها (مسموح دائماً)
+    if (alreadySelected) {
       setCircles((prev) => prev.filter((c) => c.id !== area.id));
       return;
     }
 
+    // ❌ منع الإضافة إذا وصل الحد
+    if (circles.length >= MAX_CIRCLES) {
+      return;
+    }
+
+    // ✅ إضافة عادي
     setCircles((prev) => [
       ...prev,
       {

@@ -1,7 +1,7 @@
 .CB-unit5-p6-q2-word-section {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
+  /* gap: 10px; */
   width: 100%;
   flex-direction: column;
   margin-bottom: 10px;
