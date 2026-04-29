@@ -117,7 +117,7 @@ const ModernVocabularyComponent = ({
       <div className="max-w-6xl w-full bg-white p-5 rounded-[2rem] overflow-hidden border border-slate-100 flex flex-col lg:flex-row relative">
         
         {/* ================= AUDIO ================= */}
-        <div className="flex flex-col justify-center items-start">
+        <div className="flex flex-col justify-center items-center">
           <div
             className="audio-popup-vocab-container"
             style={{
