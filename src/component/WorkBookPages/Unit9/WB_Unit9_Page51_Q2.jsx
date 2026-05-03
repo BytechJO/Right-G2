@@ -101,7 +101,7 @@ const SentenceBuilder = ({
                     if (!isUsed) handleWordClick(word);
                   }}
                   disabled={isUsed}
-                  className={`px-3 border rounded-md shadow-sm transition-all font-medium
+                  className={`WB-word-bank 
                     ${
                       isUsed
                         ? "bg-gray-200 text-gray-400 border-gray-300 cursor-not-allowed opacity-50"

@@ -102,7 +102,7 @@ function DropZone({ id, imgSrc, content, isCorrect, isSubmitted }) {
         : "border-gray-300";
 
   return (
-    <div className="relative flex items-center gap-4 p-2 bg-gray-50 rounded-xl border border-gray-100">
+    <div className="relative flex items-center gap-4 p-2 rounded-xl border border-gray-100">
       <img
         src={imgSrc}
         alt="person"

@@ -53,7 +53,7 @@ function DraggableWord({ word }) {
       style={style}
       {...listeners}
       {...attributes}
-      className={`text-lg font-medium px-4 py-1 rounded-lg shadow-sm border-2 border-blue-900
+      className={`WB-word-bank
         ${
           word.used
             ? "text-gray-400 cursor-not-allowed opacity-50"

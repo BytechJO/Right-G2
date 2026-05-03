@@ -134,8 +134,8 @@ const WB_Unit7_Page44_Q1 = () => {
     isWrong
       ? "border-red-500"
       : isSelected
-        ? "bg-blue-50 border-blue-500"
-        : "border-gray-400 hover:bg-gray-50"
+        ? "border-blue-900"
+        : "border-gray-400 hover:border-blue-900"
   }
 `}
                         >

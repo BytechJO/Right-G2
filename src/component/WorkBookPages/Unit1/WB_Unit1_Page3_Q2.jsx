@@ -318,10 +318,10 @@ const WB_Unit1_Page3_Q2 = () => {
                                       ref={provided.innerRef}
                                       {...provided.draggableProps}
                                       {...provided.dragHandleProps}
-                                      className={`flex items-center justify-center w-8 h-8 border-2 border-gray-800 rounded text-lg font-bold transition-all touch-none ${
+                                      className={`flex items-center justify-center w-8 h-8 border-1 border-gray-300 rounded text-lg font-bold transition-all touch-none ${
                                         isUsed ||showAnswer
                                           ? "bg-gray-400 opacity-60 cursor-not-allowed"
-                                          : "bg-white cursor-grab hover:bg-blue-100 hover:border-blue-600 hover:shadow-md"
+                                          : "bg-white cursor-grab hover:border-blue-900 hover:shadow-md"
                                       }`}
                                       style={{
                                         ...provided.draggableProps.style,

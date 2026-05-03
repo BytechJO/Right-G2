@@ -87,13 +87,14 @@ const DraggableWord = ({ word, disabled }) => {
       {...listeners}
       {...attributes}
       // style={style}
-      className={`px-6 py-2 border-2 rounded-lg font-semibold text-[17px] touch-none
+      className={`WB-word-bank  touch-none
         ${
           disabled
             ? "bg-gray-100 text-gray-300 border-gray-200"
             : "bg-white border-blue-900 text-blue-900 cursor-grab"
         }
       `}
+        style={{padding:"9px 15px"}}
     >
       {word}
     </div>

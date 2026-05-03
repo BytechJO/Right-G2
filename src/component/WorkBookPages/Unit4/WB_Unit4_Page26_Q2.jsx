@@ -153,7 +153,7 @@ const handleShowAnswer = () => {
             {scrambledWords.map((word) => (
               <div key={word.id} className="space-y-2">
                 {/* عرض الحروف المبعثرة */}
-                <div className="flex flex-wrap gap-2 w-50">
+                <div className="flex gap-2 w-50">
                   {word.letters.map((letter, letterIndex) => {
                     const isSelected =
                       userArrangements[word.id]?.includes(letterIndex);
@@ -164,12 +164,13 @@ const handleShowAnswer = () => {
                           handleLetterClick(word.id, letter, letterIndex)
                         }
                         disabled={isSelected || showResults}
-                        className={`w-8 h-8 rounded-lg text-lg font-bold transition-all 
+                        className={`WB-word-bank
                         ${
                           isSelected
                             ? "bg-gray-300 text-gray-500 line-through cursor-not-allowed"
                             : "bg-blue-100 text-blue-600 border-2 border-blue-400 hover:bg-blue-200"
                         }`}
+                        // style={{flexWrap:"nowrap"}}
                       >
                         {letter}
                       </button>

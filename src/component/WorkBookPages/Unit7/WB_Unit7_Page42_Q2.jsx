@@ -104,7 +104,7 @@ const DraggableLetter = ({ id, letter, disabled }) => {
       {...listeners}
       {...attributes}
       disabled={disabled}
-      className={`h-8 w-8 text-lg flex items-center px-2 py-1 rounded-lg font-bold border-2 ${
+      className={`WB-word-bank  ${
         disabled
           ? "bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed"
           : "border-blue-900 text-gray-800 cursor-grab active:cursor-grabbing hover:bg-gray-300"

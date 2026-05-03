@@ -268,7 +268,7 @@ const WB_Unit1_Page4_Q1 = () => {
                           <div
                             ref={provided.innerRef}
                             {...provided.droppableProps}
-                            className="CB-unit5-p6-q1-word-bank"
+                            className="CB-unit5-p6-q1-word-bank flex gap-5"
                           >
                             {q.scrambled.map((word, i) => {
                               const isUsed = userInputs[q.id]?.includes(word);
@@ -286,7 +286,7 @@ const WB_Unit1_Page4_Q1 = () => {
                                       ref={provided.innerRef}
                                       {...provided.draggableProps}
                                       {...provided.dragHandleProps}
-                                      className="CB-unit5-p6-q1-word-box"
+                                      className="WB-word-bank flex items-center"
                                       style={{
                                         background: isUsed ? "#ccc" : "white",
                                         opacity: isUsed ? 0.6 : 1,

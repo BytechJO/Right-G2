@@ -100,7 +100,7 @@ const SentenceBuilder = ({
               onClick={() => {
                 if (!used) handleWordClick(word);
               }}
-              className={`px-3 py-1 border-2 text-lg rounded-md transition
+              className={`WB-word-bank 
             ${
               used
                 ? "bg-gray-100 text-gray-400 cursor-not-allowed opacity-60"

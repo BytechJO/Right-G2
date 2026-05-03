@@ -60,6 +60,7 @@ function DraggableWord({ item, isDisabled }) {
     transform: CSS.Transform.toString(transform),
     transition,
     opacity: isDisabled? 0.5 : 1,
+        padding: "5px 23px"
   };
 
   return (
@@ -71,7 +72,7 @@ function DraggableWord({ item, isDisabled }) {
       // 👇🔥 يمنع الكليك نهائياً
       onPointerDown={(e) => e.stopPropagation()}
       onClick={(e) => e.preventDefault()}
-      className={`px-3 py-1 bg-white border-2 border-blue-900 rounded-lg shadow-sm cursor-grab text-blue-900 font-medium text-lg touch-none  ${
+      className={`WB-word-bank ${
     isDisabled
       ? "bg-gray-100 text-gray-400 pointer-events-none"
       : "bg-white border-blue-900 text-blue-900 cursor-grab hover:bg-blue-100"

@@ -91,7 +91,7 @@ const SentenceBuilder = ({
                 key={word.id}
                 disabled={word.used}
                 onClick={() => handleWordClick(word)}
-                className={`px-3 py-1 border rounded-md shadow-sm transition-all font-medium
+                className={`WB-word-bank
               ${
                 word.used
                   ? "bg-gray-200 text-gray-400 border-gray-300 cursor-not-allowed opacity-50"

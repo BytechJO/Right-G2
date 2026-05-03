@@ -180,7 +180,7 @@ const WB_Unit1_Page7_Q2 = () => {
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
-                            className="px-4 py-2 bg-white border-2 border-blue-900 rounded text-blue-900 font-medium shadow-sm"
+                            className="WB-word-bank"
                             style={{
                               ...provided.draggableProps.style, // 🔥 هذا أهم سطر
                               background: isUsed ? "#ccc" : "white",

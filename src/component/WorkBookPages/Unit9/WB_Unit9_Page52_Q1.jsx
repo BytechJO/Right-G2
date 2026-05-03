@@ -99,7 +99,7 @@ const WB_Unit9_Page52_Q1 = () => {
         exerciseQuestions.find((q) => q.id === questionId).correctAnswer ===
         option;
       if (isSelected && isCorrect) {
-        return "border-blue-500 ";
+        return "border-blue-900 ";
       }
       if (isSelected && !isCorrect) {
         return "border-red-500";
@@ -107,8 +107,8 @@ const WB_Unit9_Page52_Q1 = () => {
     }
 
     return isSelected
-      ? "border-blue-500 bg-blue-100"
-      : "border-gray-300 bg-white";
+      ? "border-blue-900"
+      : "border-gray-300 bg-white hover:border-blue-900";
   };
 
   return (

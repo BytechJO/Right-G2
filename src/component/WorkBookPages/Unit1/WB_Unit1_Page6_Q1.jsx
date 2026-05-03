@@ -182,14 +182,13 @@ const WB_Unit1_Page6_Q1 = () => {
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
+                          className="WB-word-bank"
                           style={{
-                            padding: "7px 14px",
-                            border: "2px solid #2c5287",
-                            borderRadius: "8px",
+                            
                             background: isUsed ? "#ccc" : "white",
                             opacity: isUsed ? 0.6 : 1,
                             cursor: isUsed ? "not-allowed" : "grab",
-                            fontSize: "17px",
+                            // fontSize: "17px",
                             ...provided.draggableProps.style,
                           }}
                         >

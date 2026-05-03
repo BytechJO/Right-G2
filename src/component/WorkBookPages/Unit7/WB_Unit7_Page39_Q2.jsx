@@ -196,7 +196,7 @@ const WB_Unit7_Page39_Q2 = () => {
                         onDragStart={() => {
                           if (!isUsed) handleDragStart(sentence.id, word);
                         }}
-                        className={`px-3 py-2 rounded-lg font-semibold transition
+                        className={`WB-word-bank 
                       ${
                         isUsed
                           ? "bg-gray-200 text-gray-400 cursor-not-allowed opacity-60"

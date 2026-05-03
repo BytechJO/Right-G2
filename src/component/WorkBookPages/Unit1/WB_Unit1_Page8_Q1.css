@@ -43,7 +43,7 @@ position: relative;
 
 .WB-unit1-p8-q1-choice-btn {
   /* padding: 6px 14px; */
-  border: 2px solid #2c5287;
+  border: 1px solid #bbbbbb;
   background: white;
   border-radius: 8px;
   cursor: pointer;
@@ -54,8 +54,9 @@ position: relative;
 }
 
 .WB-unit1-p8-q1-choice-btn.selected {
-  background: #2c5287;
-  color: white;
+    border: 2px solid #2c5287;
+
+  /* color: white; */
 }
 
 .WB-unit1-p8-q1-input {

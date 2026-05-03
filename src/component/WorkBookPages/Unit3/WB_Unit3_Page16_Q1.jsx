@@ -49,7 +49,7 @@ const DraggableWord = ({ word, isUsed, showResults }) => {
       style={style}
       {...listeners}
       {...attributes}
-      className={`text-lg px-3 py-1 rounded-md shadow-sm transition-opacity border-1 border-blue-900
+      className={`WB-word-bank
   ${
     showResults || isUsed
       ? "opacity-40 cursor-not-allowed"

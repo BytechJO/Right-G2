@@ -73,7 +73,7 @@ const WB_Unit3_Page17_Q1 = () => {
     const isSelected = selections[qId] === choice;
 
     return isSelected
-      ? "border-blue-500 bg-blue-100 text-blue-700"
+      ? "border-2 border-blue-900"
       : "border-gray-300 bg-white";
   };
 
@@ -156,7 +156,7 @@ const WB_Unit3_Page17_Q1 = () => {
                     <button
                       key={opt}
                       onClick={() => handleSelect(q.id, opt)}
-                      className={`w-20 px-4 py-1 border-2 rounded-full font-semibold transition-all ${getButtonClass(q.id, opt)}`}
+                      className={`w-20 px-4 py-1 border-1 rounded-full font-semibold transition-all ${getButtonClass(q.id, opt)}`}
                     >
                       {opt}
                     </button>

@@ -274,7 +274,7 @@ const WB_Unit2_Page10_Q2 = () => {
                         <div
                           ref={provided.innerRef}
                           {...provided.droppableProps}
-                          className="min-h-[56px] w-full rounded-lg p-3 flex flex-wrap gap-2 justify-between"
+                          className="min-h-[56px] w-full rounded-lg p-3 flex flex-wrap justify-between"
                         >
                           {userAnswers[item.id].wordBank.map((word, index) => (
                             <Draggable
@@ -288,7 +288,7 @@ const WB_Unit2_Page10_Q2 = () => {
                                   ref={provided.innerRef}
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
-                                  className={`px-3 py-1 border-1 border-blue-900 rounded-md text-[18px]
+                                  className={`WB-word-bank
                                     ${
                                       word.isUsed
                                         ? "bg-gray-200 text-gray-400 cursor-not-allowed"

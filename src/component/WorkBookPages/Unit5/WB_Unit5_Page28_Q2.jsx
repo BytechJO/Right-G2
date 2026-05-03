@@ -67,12 +67,12 @@ const WB_Unit5_Page28_Q2 = () => {
     const isSelected = selections[qId] === option;
     if (showResults) {
       if (option === correctOption)
-        return "border-blue-500 bg-blue-100 text-blue-800";
+        return "border-blue-900 ";
       if (isSelected && option !== correctOption)
         return "border-red-500";
     }
-    if (isSelected) return "border-blue-500 bg-blue-100 text-blue-800";
-    return "border-gray-300 bg-white hover:bg-gray-50";
+    if (isSelected) return "border-blue-900";
+    return "border-gray-300 bg-white hover:border-blue-900";
   };
 
   const getInputClass = (qId, correctAnswer) => {

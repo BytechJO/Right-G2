@@ -47,6 +47,7 @@ function DraggableWord({ word, isUsed }) {
     transform: CSS.Transform.toString(transform),
     transition,
     opacity: isDragging || isUsed ? 0.5 : 1,
+      padding: "5px 23px"
   };
 
   return (
@@ -55,9 +56,10 @@ function DraggableWord({ word, isUsed }) {
       style={style}
       {...attributes}
       {...listeners}
-      className={`px-4 py-1 bg-white border-2 border-blue-900 rounded-lg h-10 w-25 flex item-center justify-center shadow-sm cursor-grab active:cursor-grabbing font-medium text-blue-900 ${
+      className={`WB-word-bank  ${
         isUsed ? "pointer-events-none bg-gray-100" : "hover:border-blue-400"
       }`}
+      
     >
       {word.text}
     </div>

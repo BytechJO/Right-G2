@@ -101,8 +101,8 @@ const WB_Unit4_Page26_Q1 = () => {
   const getButtonClass = (qId, option) => {
     const isSelected = selections[qId] === option;
 
-    if (isSelected) return "border-blue-500 bg-blue-100 text-blue-800";
-    return "border-gray-300 bg-white hover:bg-gray-50";
+    if (isSelected) return "border-blue-900";
+    return "border-gray-300 bg-white hover:border-blue-900";
   };
 
   const handleShowAnswer = () => {

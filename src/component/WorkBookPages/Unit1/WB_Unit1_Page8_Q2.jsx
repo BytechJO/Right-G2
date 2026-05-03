@@ -262,7 +262,7 @@ const isWrongPlacement = (item, containerId) => {
           </div>
 
           {/* ⭐ Drop Zones */}
-          <div className="flex gap-10 mb-6">
+          <div className="flex gap-10 mb-6 justify-center">
           <DropZone
   id="r"
   items={containers.r}

@@ -149,8 +149,8 @@ const WB_Unit6_Page38_Q2 = () => {
                       className={`w-12 h-12 border-2 rounded-md flex items-center justify-center cursor-pointer transition-all
         ${
           selections[item.id] === "✓"
-            ? "border-blue-900 bg-blue-100"
-            : "border-gray-400"
+            ? "border-blue-900"
+            : "border-gray-400 hover:border-blue-900"
         }
         ${
           showResults &&
@@ -183,8 +183,8 @@ const WB_Unit6_Page38_Q2 = () => {
                       className={`w-12 h-12 border-2 rounded-md flex items-center justify-center cursor-pointer transition-all
         ${
           selections[item.id] === "✘"
-            ? "border-blue-900 bg-blue-100"
-            : "border-gray-400"
+            ? "border-blue-900"
+            : "border-gray-400 hover:border-blue-900"
         }
         ${
           showResults &&

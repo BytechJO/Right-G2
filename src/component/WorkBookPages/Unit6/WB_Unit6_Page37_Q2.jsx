@@ -100,12 +100,13 @@ const SentenceBuilder = ({
               onClick={() => {
                 if (!used) handleWordClick(word);
               }}
-              className={`px-3 py-1 border-2 rounded-md transition
+              className={`WB-word-bank 
             ${
               used
                 ? "bg-gray-100 text-gray-400 cursor-not-allowed opacity-60"
                 : "bg-white border-blue-900 hover:bg-blue-100 cursor-pointer"
             }`}
+            style={{padding:"4px 10px"}}
             >
               {word.text}
             </button>
@@ -252,7 +253,7 @@ const WB_Unit6_Page37_Q2 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall"  style={{gap:"25px"}}>
+      <div className="div-forall"  style={{gap:"50px"}}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">J</span>Unscramble and write.
         </h1>

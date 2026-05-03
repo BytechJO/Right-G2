@@ -277,7 +277,7 @@ const handleRemoveWord = (key, wordIndex) => {
                               key={i}
                               onClick={() => !isUsed && handleWordClick(key, word, i)}
                               disabled={locked || isUsed}
-                              className={`px-2 py-1 border rounded text-sm transition-all
+                              className={`WB-word-bank
                                 ${
                                   isUsed
                                     ? "bg-gray-100 text-gray-300 border-gray-200 cursor-not-allowed"
@@ -285,6 +285,7 @@ const handleRemoveWord = (key, wordIndex) => {
                                 }
                                 ${locked && "opacity-50"}
                               `}
+                              style={{fontSize:"16px"}}
                             >
                               {word}
                             </button>

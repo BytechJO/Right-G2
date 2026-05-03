@@ -100,7 +100,7 @@ const WB_Unit6_Page34_Q2 = () => {
                         key={opt}
                         onClick={() => handleSelect(q.id, opt)}
                         className={`relative text-left px-4 py-2 rounded-lg border-2 transition
-    ${isSelected ? "border-blue-900 bg-blue-100" : "border-gray-300"} ${isWrongSelected && "border-red-500 bg-white"}`}
+    ${isSelected ? "border-blue-900" : "border-gray-300 hover:border-blue-900"} ${isWrongSelected && "border-red-500 bg-white"}`}
                       >
                         <span className="font-bold mr-2">
                           {String.fromCharCode(97 + index)}.

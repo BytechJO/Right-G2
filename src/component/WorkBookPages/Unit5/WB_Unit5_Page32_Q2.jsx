@@ -172,15 +172,15 @@ export default function WB_Unit5_Page32_Q2() {
     const isCorrectOption = q.correct.includes(idx);
 
     if (!isSelected) {
-      return "cursor-pointer rounded-xl p-2 border-2 border-transparent hover:border-blue-300 transition-all";
+      return "cursor-pointer rounded-xl p-2 border-2 border-transparent hover:border-blue-900 transition-all";
     }
 
     if (!showResult) {
-      return "cursor-pointer rounded-xl p-2 border-2 border-blue-500 bg-blue-50";
+      return "cursor-pointer rounded-xl p-2 border-2 border-blue-900 bg-blue-50";
     }
 
     return isCorrectOption
-      ? "cursor-pointer rounded-xl p-2 border-2 border-blue-500 bg-blue-50"
+      ? "cursor-pointer rounded-xl p-2 border-2 border-blue-900 bg-blue-50"
       : "cursor-pointer rounded-xl p-2 border-2 border-red-500";
   };
 

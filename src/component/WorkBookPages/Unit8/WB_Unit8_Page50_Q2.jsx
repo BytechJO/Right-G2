@@ -64,13 +64,14 @@ function DraggableWord({ word, isUsed }) {
       // style={style}
       {...(!isUsed ? listeners : {})}
       {...(!isUsed ? attributes : {})}
-      className={`px-4 py-2 bg-white border-2 border-blue-900 rounded-lg shadow-sm text-blue-900 text-lg font-bold ${
+      className={`WB-word-bank  ${
         isUsed
           ? "bg-gray-100 text-gray-300 border-gray-200 cursor-not-allowed opacity-60"
           : isDragging
             ? "cursor-grabbing shadow-lg"
             : "cursor-grab hover:bg-blue-100"
       }`}
+        style={{padding:"9px 15px"}}
     >
       {word}
     </div>

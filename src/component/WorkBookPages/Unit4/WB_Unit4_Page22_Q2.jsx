@@ -193,7 +193,7 @@ const WB_Unit4_Page22_Q2 = () => {
                         <div
                           key={id}
                           onClick={() => addWord(`${q.id}-question`, id, "q")}
-                          className={`px-3 py-1 border-2 border-blue-900 rounded cursor-pointer transition
+                          className={`WB-word-bank 
           ${
             isUsed
               ? "bg-gray-200 text-gray-400 cursor-not-allowed"
@@ -245,7 +245,7 @@ const WB_Unit4_Page22_Q2 = () => {
                         <div
                           key={id}
                           onClick={() => addWord(`${q.id}-answer`, id, "a")}
-                          className={`px-3 py-1 border-2 border-blue-900 rounded cursor-pointer transition
+                          className={`WB-word-bank 
                         
           ${
             isUsed

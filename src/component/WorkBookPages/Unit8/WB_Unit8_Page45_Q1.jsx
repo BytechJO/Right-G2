@@ -59,6 +59,7 @@ function DraggableItem({ item, isUsed }) {
     transform: CSS.Transform.toString(transform),
     transition,
     opacity: isDragging || isUsed ? 0.5 : 1,
+        padding: "5px 23px"
   };
 
   return (
@@ -72,7 +73,7 @@ function DraggableItem({ item, isUsed }) {
         e.preventDefault();
         e.stopPropagation();
       }}
-      className={`px-4 py-1 bg-white border-2 border-blue-900 rounded-lg shadow-sm cursor-grab text-lg text-blue-900 font-medium touch-none select-none ${
+      className={`WB-word-bank ${
         isUsed
           ? "bg-gray-100 text-gray-400 pointer-events-none"
           : "hover:border-blue-400"

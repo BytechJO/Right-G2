@@ -114,7 +114,7 @@ const WB_Unit3_Page16_Q2 = () => {
               </span>
 
               <div className="flex-1">
-                <p className="mb-2 text-gray-800 text-[20px]">{q.text}</p>
+                <p className="mb-4 text-gray-800 text-[20px]">{q.text}</p>
 
                 {/* image + options */}
                 <div className="flex items-start gap-6">

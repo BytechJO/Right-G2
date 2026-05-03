@@ -223,7 +223,7 @@ const WB_Unit3_Page19_Q1 = () => {
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
-                            className={`px-4 py-1 rounded-lg transition text-[20px]
+                            className={`WB-word-bank
   ${
     isUsed
       ? "bg-gray-200 text-gray-400 cursor-not-allowed opacity-60 border border-blue-800"

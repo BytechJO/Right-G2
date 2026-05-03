@@ -191,7 +191,7 @@ const WB_Unit1_Page4_Q2 = () => {
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
-                            className="CB-unit2-p6-q2-word"
+                            className="WB-word-bank"
                             style={{
                               background: isUsed ? "#ccc" : "white",
                               opacity: isUsed ? 0.6 : 1,

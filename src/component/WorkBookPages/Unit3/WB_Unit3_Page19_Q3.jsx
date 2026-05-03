@@ -95,7 +95,7 @@ const WB_Unit3_Page19_Q3 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall" style={{gap:"80px"}}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">K</span>Look, read, and write{" "}
           <span style={{ color: "navy" }}>✓</span>.
@@ -147,7 +147,7 @@ const WB_Unit3_Page19_Q3 = () => {
           ))}
         </div>
 
-        <div className="mt-10 flex justify-center">
+        <div className="flex justify-center">
           <Button
             handleShowAnswer={handleShowAnswer}
             handleStartAgain={handleStartAgain}

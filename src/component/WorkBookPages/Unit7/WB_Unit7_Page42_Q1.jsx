@@ -208,7 +208,8 @@ const WB_Unit7_Page42_Q1 = () => {
                 (month) => (
                   <div
                     key={month}
-                    className="border px-3 py-1 bg-white text-lg rounded-md text-center"
+                    className="WB-word-bank"
+                      style={{padding:"9px 22px"}}
                   >
                     {month}
                   </div>

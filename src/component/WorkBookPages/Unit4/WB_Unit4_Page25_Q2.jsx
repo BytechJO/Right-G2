@@ -117,22 +117,22 @@ const WB_Unit4_Page25_Q2 = () => {
     const isSelected = userSelections[item.id].relation === r;
 
     if (isSelected) {
-      return "border-blue-500 bg-blue-100 text-blue-800"; // اختيار المستخدم الحالي
+      return "border-blue-900"; // اختيار المستخدم الحالي
     }
 
-    return "border-gray-300 bg-white hover:bg-gray-50"; // الحالة الافتراضية
+    return "border-gray-300 bg-white hover:border-blue-900"; // الحالة الافتراضية
   };
 
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall" style={{gap:"90px"}}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">J</span>Look, read, and circle.
         </h1>
 
         <div className="grid grid-cols-2 gap-x-20 gap-y-10">
           {data.map((item) => (
-            <div key={item.id} className="flex items-center gap-6 flex-wrap">
+            <div key={item.id} className="flex items-center gap-6">
               <div className="flex items-start gap-4 max-w-full">
                 <span className="font-bold text-blue-900 text-2xl">
                   {item.id}

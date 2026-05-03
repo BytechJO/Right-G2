@@ -121,7 +121,7 @@ export default function WB_Unit5_Page32_Q1() {
   const getBtnClass = (qId, val) => {
     const selected = answers[qId] === val;
     if (!selected)
-      return "px-3 py-1 rounded-lg border-2 border-gray-300 text-gray-600 hover:border-blue-400 transition-all";
+      return "px-3 py-1 rounded-lg border-2 border-gray-300 text-gray-600 hover:border-blue-900 transition-all";
     if (!showResult)
       return "px-3 py-1 rounded-lg border-2 border-blue-800";
     return answers[qId] === correctAnswers[qId]

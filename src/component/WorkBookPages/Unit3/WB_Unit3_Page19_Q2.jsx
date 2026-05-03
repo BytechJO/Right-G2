@@ -187,7 +187,7 @@ const handleShowAnswer = () => {
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
-                          className={`px-4 py-1 rounded-lg text-[20px] transition
+                          className={`WB-word-bank 
             ${
               isUsed ||showResults
                 ? "bg-gray-100 text-gray-400 border border-blue-800 cursor-not-allowed opacity-70"

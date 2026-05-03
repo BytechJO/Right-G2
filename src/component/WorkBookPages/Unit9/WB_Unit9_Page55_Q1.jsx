@@ -46,6 +46,7 @@ const DraggableWord = ({ word, disabled }) => {
     transform: transform
       ? `translate(${transform.x}px, ${transform.y}px)`
       : undefined,
+
   };
 
   return (
@@ -53,8 +54,8 @@ const DraggableWord = ({ word, disabled }) => {
       ref={setNodeRef}
       {...listeners}
       {...attributes}
-      style={style}
-      className={`px-6 py-2 border border-blue-900 rounded-xl shadow-sm font-semibold text-gray-700 text-[17px] touch-none
+      style={{style,padding:"9px 22px"}}
+      className={`WB-word-bank touch-none
         ${
           disabled
             ? "bg-gray-200 opacity-40 cursor-not-allowed"

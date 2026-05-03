@@ -116,9 +116,9 @@ const WB_Unit4_Page21_Q2 = () => {
                         onClick={() => handleSelect(item.id, option)}
                         className={`relative px-4 py-2 w-35 rounded-full border-2 transition-all${
                           userSelections[item.id] === option
-                            ? "text-white border-blue-500"
+                            ? "text-white border-blue-900"
                             : "bg-white text-gray-800 border-gray-300 hover:border-blue-400"
-                        } ${isSelected && "border-blue-500"}`}
+                        } ${isSelected && "border-blue-900"}`}
                       >
                         {option}
 

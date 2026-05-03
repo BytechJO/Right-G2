@@ -33,8 +33,8 @@ function DraggableWord({ word, disabled }) {
       ref={setNodeRef}
       {...listeners}
       {...attributes}
-      style={style}
-      className={`p-2 border border-blue-900 rounded-lg font-bold text-center transition-all touch-none
+      style={{style ,padding:"9px 22px"}}
+      className={`WB-word-bank touch-none
         ${
           disabled
             ? "bg-gray-200 text-gray-400 cursor-not-allowed opacity-60"

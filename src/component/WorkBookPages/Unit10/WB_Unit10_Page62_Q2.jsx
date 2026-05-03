@@ -96,7 +96,7 @@ export default function WB_Unit10_Page62_Q2() {
   // ✅ FIXED
   const getCardClass = (qId) => {
     const base =
-      "relative flex flex-col items-center gap-3 p-4 rounded-2xl border-2 transition-all duration-300 ";
+      "relative flex flex-col items-center gap-3 p-4 rounded-2xl border-2 border-gray-300 transition-all duration-300 ";
 
     if (!showResult || !answers[qId]) {
       return base + "border-blue-900";
@@ -116,12 +116,12 @@ export default function WB_Unit10_Page62_Q2() {
     if (!isSelected) {
       return (
         base +
-        "border-blue-900 text-blue-900 hover:border-blue-900 hover:bg-blue-50"
+        "border-gray-300 hover:border-blue-900"
       );
     }
 
     if (!showResult) {
-      return base + "border-blue-900 bg-blue-100";
+      return base + "border-blue-900";
     }
 
     return answers[qId] === correctAnswers[qId]

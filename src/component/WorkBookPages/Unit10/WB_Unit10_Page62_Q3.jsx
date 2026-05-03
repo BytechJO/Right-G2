@@ -91,8 +91,8 @@ export default function WB_Unit10_Page62_Q3() {
     const base =
       "px-2 py-2 rounded-full border-2 text-xl font-bold transition-all cursor-pointer select-none ";
     if (!isSelected)
-      return base + "border-transparent text-gray-600 hover:border-gray-400";
-    if (!showResult) return base + "border-blue-900 text-blue-900 bg-blue-50";
+      return base + "border-transparent text-gray-600 hover:border-blue-900";
+    if (!showResult) return base + "border-blue-900 text-blue-900";
     return answers[qId] === correctAnswers[qId]
       ? base + "border-blue-900 text-blue-900"
       : base + "border-red-500";

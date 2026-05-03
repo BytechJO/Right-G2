@@ -37,6 +37,7 @@ function DraggablePhrase({ item, isUsed }) {
       ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
       : undefined,
     opacity: isDragging || isUsed ? 0.5 : 1,
+        padding: "5px 23px"
   };
 
   return (
@@ -47,7 +48,7 @@ function DraggablePhrase({ item, isUsed }) {
       {...listeners}
       // ✅ FIX: منع الكليك
       onClick={(e) => e.preventDefault()}
-      className={`px-4 py-1 bg-white border-2 border-blue-900 rounded-full shadow-sm cursor-grab text-blue-900 font-medium text-lg touch-none select-none ${
+      className={`WB-word-bank touch-none select-none ${
         isUsed
           ? "bg-gray-100 text-gray-400 pointer-events-none"
           : "hover:bg-gray-100"

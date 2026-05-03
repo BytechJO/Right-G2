@@ -160,7 +160,7 @@ export default function WB_Unit5_Page30_Q2() {
                     ${
                       answers[q.id]?.includes(opt)
                         ? "border-2 border-blue-900"
-                        : "border-gray-500 hover:bg-blue-100"
+                        : "border-gray-500 hover:border-blue-900 hover:border-2"
                     }`}
                       >
                         {opt}

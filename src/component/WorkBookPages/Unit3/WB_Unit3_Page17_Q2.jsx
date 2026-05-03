@@ -205,16 +205,17 @@ const WB_Unit3_Page17_Q2 = () => {
                                         {...(!used
                                           ? provided.dragHandleProps
                                           : {})}
+                                          className="WB-word-bank"
                                         style={{
                                           width: "32px",
                                           height: "32px",
                                           display: "inline-flex",
                                           alignItems: "center",
                                           justifyContent: "center",
-                                          border: "2px solid #2c5287",
-                                          borderRadius: "8px",
-                                          background: "white",
-                                          fontWeight: "bold",
+                                          // border: "2px solid #2c5287",
+                                          // borderRadius: "8px",
+                                          // background: "white",
+                                          // fontWeight: "bold",
                                           textTransform: "lowercase",
                                           opacity: used ? 0.35 : 1,
                                           cursor: used ? "not-allowed" : "grab",

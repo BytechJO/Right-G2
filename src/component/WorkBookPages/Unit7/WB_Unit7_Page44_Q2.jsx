@@ -173,13 +173,14 @@ const WB_Unit7_Page44_Q2 = () => {
                 onDragStart={() => {
                   if (!used) onDragStart(word);
                 }}
-                className={`text-lg font-bold transition border-2 border-blue-900 px-5 py-2 rounded-lg
+                className={`WB-word-bank 
               ${
                 used
                   ? "text-gray-400 cursor-not-allowed opacity-60"
                   : "cursor-grab hover:text-blue-600"
               }
             `}
+              style={{padding:"9px 15px"}}
               >
                 {word}
               </div>

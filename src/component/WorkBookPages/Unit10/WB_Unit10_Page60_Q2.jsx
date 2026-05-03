@@ -111,7 +111,7 @@ const WB_Unit10_Page60_Q2 = () => {
               userSentence.toLowerCase() === item.correct.toLowerCase();
 
             return (
-              <div key={item.id} className="space-y-2 p-4 rounded-2xl">
+              <div key={item.id} className="space-y-1 p-4 rounded-2xl">
                 <div className="flex items-center gap-3">
                   <div className="flex flex-col">
                     <h2 className="font-semibold text-black-600 text-lg flex gap-2 items-center">
@@ -136,7 +136,7 @@ const WB_Unit10_Page60_Q2 = () => {
                             key={wIdx}
                             onClick={() => handleWordClick(item.id, word, wIdx)}
                             disabled={isUsed || showResults}
-                            className={`px-2 py-1 rounded-lg text-lg transition-all ${
+                            className={`WB-word-bank ${
                               isUsed
                                 ? "bg-gray-200 text-gray-400 cursor-not-allowed"
                                 : "bg-white border-2 border-blue-900 text-blue-900 hover:border-blue-400 hover:shadow-sm"

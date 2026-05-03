@@ -254,7 +254,7 @@ const WB_Unit10_Page59_Q1 = () => {
                             })
                           }
                           disabled={showResults}
-                          className={`p-1 border-b-2 bg-transparent w-25 focus:outline-none font-bold ${
+                          className={`p-1 border-b-2 border-gray-300 bg-transparent w-25 focus:outline-none font-bold ${
                             showResults &&
                             answers[`${q.id}_sel`] &&
                             answers[`${q.id}_sel`] !==

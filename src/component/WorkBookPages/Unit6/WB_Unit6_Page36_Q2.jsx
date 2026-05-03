@@ -51,7 +51,7 @@ function DraggablePhrase({ phrase, isUsed }) {
       style={style}
       {...attributes}
       {...listeners}
-      className={`px-4 py-1 w-40 flex items-center justify-center bg-white border-2 border-gray-300 rounded-lg touch-none shadow-sm cursor-grab text-blue-600 text-lg font-medium ${isUsed ? "bg-gray-100 text-gray-400 pointer-events-none" : "hover:border-blue-400"}`}
+      className={`WB-word-bank ${isUsed ? "bg-gray-100 text-gray-400 pointer-events-none" : "hover:border-blue-400"}`}
     >
       {phrase.text}
     </div>

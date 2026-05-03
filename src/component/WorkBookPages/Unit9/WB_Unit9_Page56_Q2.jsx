@@ -153,8 +153,8 @@ const WB_Unit9_Page56_Q2 = () => {
                       onClick={() => handleSelect(item.id, option)}
                       className={`relative px-4 py-1 transition-all border-2 rounded-lg ${
                         userSelections[item.id] === option
-                          ? "border-blue-500 bg-blue-100"
-                          : "border-gray-300 hover:border-blue-400"
+                          ? "border-blue-900"
+                          : "border-gray-300 hover:border-blue-900"
                       } ${wrongAnswers[item.id] &&
                         userSelections[item.id] === option &&"border-red-500 bg-white"}`}
                     >

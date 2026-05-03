@@ -128,12 +128,13 @@ const WB_Unit6_Page38_Q1 = () => {
                   onDragStart={(e) => {
                     if (!isUsed) handleDragStart(e, item.word);
                   }}
-                  className={`px-4 py-2 rounded-lg transition shadow-sm
+                  className={`WB-word-bank 
                 ${
                   isUsed
                     ? "bg-gray-200 text-gray-400 cursor-not-allowed opacity-60"
                     : "border-2 border-blue-900 cursor-move hover:bg-blue-100"
                 }`}
+                  style={{padding:"9px 22px"}}
                 >
                   {item.word}
                 </div>

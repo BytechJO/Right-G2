@@ -105,7 +105,7 @@ const WB_Unit1_Page8_Q1 = () => {
       >
         <div
           className="div-forall"
-           style={{gap:"45px"}}
+           style={{gap:"80px"}}
         >
       <h3 className="WB-header-title-page8">
         <span className="WB-ex-A">A</span> Look and write the missing letters.

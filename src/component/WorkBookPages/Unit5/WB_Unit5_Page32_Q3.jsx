@@ -201,7 +201,7 @@ const checkAnswers = () => {
 
   return (
     <div key={resetKey} className="main-container-component">
-      <div className="div-forall" style={{ gap: "20px" }}>
+      <div className="div-forall" style={{ gap: "40px" }}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">C</span> Write the words in the correct
           column.
@@ -212,7 +212,7 @@ const checkAnswers = () => {
           <div
             onDragOver={(e) => e.preventDefault()}
             onDrop={handleDropOnBank}
-            className="flex flex-wrap gap-3 p-4 rounded-xl min-h-[80px]"
+            className="flex flex-wrap gap-3 p-4 rounded-xl min-h-[80px] justify-between"
           >
             {wordBank.map((word) => {
               const used = isWordUsed(word);
@@ -225,13 +225,14 @@ const checkAnswers = () => {
                     if (!used) handleDragStart(word, "bank");
                   }}
                   onDragEnd={handleDragEnd}
-                  className={`px-4 py-2 border-2 rounded-lg text-lg font-semibold shadow-sm transition-all
+                  className={`WB-word-bank 
         ${
           used
             ? "bg-gray-100 text-gray-400 cursor-not-allowed opacity-60"
             : "bg-white border-gray-300 cursor-move hover:border-blue-400 hover:bg-blue-50"
         }
       `}
+      // style={{justifyContent:"space-between"}}
                 >
                   {word}
                 </button>

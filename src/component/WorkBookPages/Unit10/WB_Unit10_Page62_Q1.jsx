@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import {
   DndContext,
@@ -33,7 +32,16 @@ const wordImages = {
   green: img8,
 };
 
-const wordBank = ["sleep", "feet", "ten", "bed", "net", "read", "bread", "green"];
+const wordBank = [
+  "sleep",
+  "feet",
+  "ten",
+  "bed",
+  "net",
+  "read",
+  "bread",
+  "green",
+];
 
 const fixedWords = { ee: [], e: [], ea: [] };
 
@@ -159,7 +167,9 @@ export default function WB_Unit10_Page62_Q1() {
     const totalPlaced = placed.ee.length + placed.e.length + placed.ea.length;
 
     if (totalPlaced < wordBank.length) {
-      ValidationAlert.info("Please place all words before checking your answers.");
+      ValidationAlert.info(
+        "Please place all words before checking your answers.",
+      );
       return;
     }
 
@@ -218,12 +228,18 @@ export default function WB_Unit10_Page62_Q1() {
       onDragCancel={handleDragCancel}
     >
       <div className="main-container-component">
-        <div className="div-forall" style={{ marginBottom:"30px" ,gap:"15px"}}>
-          <h1 className="WB-header-title-page8" style={{ alignItems: "flex-start" }}>
+        <div
+          className="div-forall"
+          style={{ marginBottom: "30px", gap: "15px" }}
+        >
+          <h1
+            className="WB-header-title-page8"
+            style={{ alignItems: "flex-start" }}
+          >
             <span className="WB-ex-A">A</span>
             <span style={{ whiteSpace: "wrap" }}>
-              What are the middle letters of these words? Look and write the words
-              in the correct place.
+              What are the middle letters of these words? Look and write the
+              words in the correct place.
             </span>
           </h1>
 
@@ -244,11 +260,12 @@ export default function WB_Unit10_Page62_Q1() {
                     id={`bank-${word}`}
                     word={word}
                     disabled={isUsed || showResult}
-                    className={`h-10 w-25 px-3 py-1 rounded-lg text-lg font-semibold border-2 transition-all ${
+                    className={`WB-word-bank  ${
                       isUsed
                         ? "bg-gray-200 text-gray-400 border-gray-200 cursor-not-allowed"
                         : "bg-white text-gray-600 border-blue-900 cursor-grab active:cursor-grabbing hover:bg-blue-50"
                     }`}
+                    style={{ width: "20px", padding: "9px 22px" }}
                   />
                 </div>
               );

@@ -112,7 +112,7 @@ const WB_Unit5_Page27_Q2 = () => {
                           className={`w-10 h-10 border-2 rounded-md flex items-center justify-center cursor-pointer transition-all
       ${
         selections[item.id] === "✓"
-          ? "border-blue-900 bg-blue-50"
+          ? "border-blue-900"
           : "border-gray-400"
       }
       ${isThisOptionWrong(item, "✓") ? "border-red-500 bg-white" : ""}
@@ -138,7 +138,7 @@ const WB_Unit5_Page27_Q2 = () => {
                           className={`w-10 h-10 border-2 rounded-md flex items-center justify-center cursor-pointer transition-all
       ${
         selections[item.id] === "✘"
-          ? "border-blue-900 bg-blue-50"
+          ? "border-blue-900"
           : "border-gray-400"
       }
       ${isThisOptionWrong(item, "✘") ? "border-red-500  bg-white" : ""}

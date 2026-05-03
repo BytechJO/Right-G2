@@ -245,7 +245,7 @@ const CorrectSentenceExercise = () => {
                               key={word}
                               draggable={!used && !showResults}
                               onDragStart={() => handleDragStart(word)}
-                              className={`px-3 py-1 rounded-lg text-lg font-medium transition-all
+                              className={`WB-word-bank 
         ${
           used
             ? "bg-gray-200 opacity-40 cursor-not-allowed border border-gray-400"

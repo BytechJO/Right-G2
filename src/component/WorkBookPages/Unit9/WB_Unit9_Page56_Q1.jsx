@@ -58,8 +58,8 @@ const DraggableWord = ({ word, disabled }) => {
       ref={setNodeRef}
       {...listeners}
       {...attributes}
-      style={style}
-      className={`px-4 py-2 rounded-lg border-2 font-semibold touch-none
+      style={{style ,padding:"5px 22px"}}
+      className={`WB-word-bank touch-none
         ${
           disabled
             ? "bg-gray-200 text-gray-400 cursor-not-allowed"

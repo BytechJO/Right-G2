@@ -132,11 +132,11 @@ export default function SpotTheDifference() {
                     className={`relative w-full p-3 text-left rounded-lg border-2 transition ${
                       answers[q.id] === idx
                         ? idx === q.correct && submitted
-                          ? "bg-blue-200 border-blue-500"
+                          ? "bg-gray-100 border-blue-900"
                           : idx !== q.correct && submitted
                             ? "border-red-500 bg-red-50"
-                            : "bg-blue-200 border-blue-500"
-                        : "bg-gray-100 border-gray-300 hover:bg-gray-200"
+                            : "bg-gray-100 border-blue-900"
+                        : "bg-gray-100 border-gray-300 hover:border-blue-900"
                     }`}
                   >
                     {stmt}

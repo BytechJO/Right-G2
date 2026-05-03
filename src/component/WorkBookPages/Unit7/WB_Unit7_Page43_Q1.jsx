@@ -121,13 +121,14 @@ const WB_Unit7_Page43_Q1 = () => {
                 onDragStart={() => {
                   if (!isUsed) onDragStart(word);
                 }}
-                className={`px-4 py-2 border-2 rounded-full transition-all text-lg
+                className={`WB-word-bank 
               ${
                 isUsed
                   ? "bg-gray-200 text-gray-400 border-gray-300 cursor-not-allowed opacity-60"
-                  : "bg-white border-blue-400 text-blue-700 cursor-grab hover:bg-blue-50"
+                  : "bg-white border-blue-400 cursor-grab hover:bg-blue-50"
               }
             `}
+              style={{padding:"9px 22px"}}
               >
                 {word}
               </div>

@@ -40,12 +40,13 @@ const DraggableItem = ({ id, text, disabled }) => {
       {...listeners}
       {...attributes}
       // style={style}
-      className={`px-4 py-2 rounded-lg border-2 touch-none font-medium
+      className={`WB-word-bank touch-none
         ${
           disabled
             ? "bg-gray-200 text-gray-400 border-gray-300"
             : "bg-white border-blue-900 cursor-grab hover:bg-blue-100 text-blue-900"
         }`}
+          style={{padding:"9px 15px"}}
     >
       {text}
     </div>

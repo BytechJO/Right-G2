@@ -383,12 +383,13 @@ const returnWordToBank = (qId, wordIndex) => {
                                       ref={provided.innerRef}
                                       {...provided.draggableProps}
                                       {...provided.dragHandleProps}
-                                      className={`px-3 py-1 rounded text-sm transition bg-white border-2 border-blue-900
+                                      className={`WB-word-bank 
             ${
               isUsed || showResults
                 ? "text-gray-400 border border-blue-900 cursor-not-allowed opacity-60"
                 : "bg-gray-200 text-black cursor-grab border border-blue-900"
             }`}
+            style={{padding:"1px 14px"}}
                                     >
                                       {word.text}
                                     </span>

@@ -70,13 +70,14 @@ function DraggableItem({ type, value, parentId, children, disabled }) {
   return (
     <div
       ref={setNodeRef}
-      style={style}
+      style={{style,padding:"9px 22px"}}
       {...(!disabled ? listeners : {})}
       {...(!disabled ? attributes : {})}
-      className={`px-3 py-1 bg-white text-lg border-2 border-blue-900 rounded-lg shadow-sm touch-none
+      className={`WB-word-bank touch-none
         ${disabled ? "opacity-40 cursor-not-allowed" : "cursor-grab hover:bg-blue-50"}
         ${isDragging ? "opacity-0" : ""}
       `}
+
     >
       {children}
     </div>
