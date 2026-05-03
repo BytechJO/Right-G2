@@ -103,11 +103,11 @@ const WB_Unit3_Page19_Q3 = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {checkQuestions.map((q, index) => (
-            <div key={q.id} className="space-y-3">
+            <div key={q.id} className="flex gap-5">
               <span className="font-bold text-blue-900 text-[20px]">
                 {index + 1}
               </span>
-
+                <div className="flex flex-col">
               {q.options.map((opt) => (
                 <div
                   key={opt.id}
@@ -119,21 +119,19 @@ const WB_Unit3_Page19_Q3 = () => {
                       src={opt.img}
                       style={{ height: "150px" }}
                       className="block"
-                    /> 
-                     {/* مربع الاختيار الأساسي */}
-                 <div
-  className={`absolute bottom-0 right-0 w-10 h-10 border-2 rounded-xl bg-white flex items-center justify-center
+                    />
+                    {/* مربع الاختيار الأساسي */}
+                    <div
+                      className={`absolute bottom-0 right-0 w-10 h-10 border-2 rounded-xl bg-white flex items-center justify-center
     ${isWrongSelected(q.id, opt) ? "border-red-500" : "border-black"}
   `}
->
-                    {selections[q.id] === opt.id && (
-                      <img src={trueIcon} style={{ height: "25px" }} />
-                    )}
+                    >
+                      {selections[q.id] === opt.id && (
+                        <img src={trueIcon} style={{ height: "25px" }} />
+                      )}
+                    </div>
                   </div>
 
-                  </div>
-
-                
                   {/* X أبيض داخل دائرة حمراء للاختيار الخاطئ */}
                   {isWrongSelected(q.id, opt) && (
                     <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-red-500 text-white flex items-center justify-center text-sm font-bold shadow border-2 border-white">
@@ -142,8 +140,9 @@ const WB_Unit3_Page19_Q3 = () => {
                   )}
                 </div>
               ))}
-
-              <p className="text-center text-[20px]">{q.sentence}</p>
+               <p className="text-center text-[20px]">{q.sentence}</p>
+</div>
+             
             </div>
           ))}
         </div>

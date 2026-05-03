@@ -89,7 +89,7 @@ const WB_Unit9_Page53_Q2 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall" style={{gap:"25px"}}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">F</span>Read and look. Match pictures with
           sentences.
@@ -135,30 +135,16 @@ const WB_Unit9_Page53_Q2 = () => {
 
                 <div
                   key={imagesData[i].id}
-                  className="relative border border-gray-800 rounded-3xl overflow-hidden shadow-sm bg-gray-50"
+                  className="relative overflow-hidden"
                 >
                   <img
                     src={imagesData[i].src}
                     alt={imagesData[i].id}
                     className="object-cover"
-                    style={{ height: "120px", width: "auto" }}
+                    style={{ height: "90px", width: "auto" }}
                   />
-                  <div className="absolute top-1 left-1 bg-white/80 px-1.5 rounded font-bold text-sm border border-gray-300 z-20">
-                    {imagesData[i].id}
-                  </div>
-                  <div className="absolute bottom-1 right-1 w-8 h-8 border border-gray-400 rounded bg-white flex items-center justify-center z-20">
-                    {imagesData[i].check ? (
-                      <span className="text-green-600 font-bold text-lg">
-                        {" "}
-                        <img src={trueIcon} style={{ height: "25px" }} />
-                      </span>
-                    ) : (
-                      <span className="text-red-600 font-bold text-lg">
-                        {" "}
-                        <img src={falseIcon} style={{ height: "25px" }} />
-                      </span>
-                    )}
-                  </div>
+                  
+    
                 </div>
               </div>
             ))}

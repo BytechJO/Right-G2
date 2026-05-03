@@ -7,11 +7,11 @@
 }
 
 .WB-unit3-page18-q2-word {
-  width: 180px; /* نفس عرض الصور */
+  width: 150px; /* نفس عرض الصور */
   height: 90px; /* نفس الارتفاع */
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   text-align: center;
   flex-wrap: wrap;

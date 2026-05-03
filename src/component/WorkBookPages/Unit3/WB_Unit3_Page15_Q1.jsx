@@ -24,7 +24,7 @@ const rows = [
     wordKey: "drum",
     imageKey: "img2",
     img: img2,
-    imgHeight: "110px",
+    imgHeight: "100px",
   },
   {
     id: 3,
@@ -205,7 +205,7 @@ const WB_Unit3_Page15_Q1 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"30px"}}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">A</span>Read, look, and match.
         </h1>
@@ -287,7 +287,7 @@ const WB_Unit3_Page15_Q1 = () => {
                         .querySelector(`[data-image="${row.imageKey}"]`)
                         ?.click()
                     }
-                    style={{ height: "120px", width: "auto" }}
+                    style={{ height: "100px", width: "auto" }}
                   />
                 </div>
               </div>
@@ -310,7 +310,7 @@ const WB_Unit3_Page15_Q1 = () => {
         </div>
       </div>
 
-      <div className="mt-12 flex justify-center">
+      <div className="flex justify-center">
         <Button
           handleShowAnswer={handleShowAnswer}
           handleStartAgain={resetState}

@@ -106,7 +106,7 @@ const WB_Unit6_Page38_Q1 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"25px"}}>
         {" "}
         <h1 className="WB-header-title-page8">
           {" "}
@@ -117,7 +117,7 @@ const WB_Unit6_Page38_Q1 = () => {
         <div>
         {/* WORD BANK */}
         <div className="mb-6 flex items-center justify-center">
-          <div className="flex flex-wrap gap-2 p-3 bg-gray-50 rounded-lg">
+          <div className="flex flex-wrap gap-10 p-3 rounded-lg">
             {wordBank.map((item) => {
               const isUsed = Object.values(answers).includes(item.word);
 
@@ -167,7 +167,7 @@ const WB_Unit6_Page38_Q1 = () => {
                 >
                   <span className="text-xl text-blue-900 font-semibold w-8">{num}.</span>
 
-                  <div className="flex-1 min-h-[50px] flex items-center">
+                  <div className="flex-1 min-h-[45px] flex items-center">
                     {answers[num] ? (
                       <span className="text-lg font-medium text-blue-700">
                         {answers[num]}

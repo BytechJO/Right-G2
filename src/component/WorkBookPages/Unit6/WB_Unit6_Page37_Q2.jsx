@@ -252,16 +252,16 @@ const WB_Unit6_Page37_Q2 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"25px"}}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">J</span>Unscramble and write.
         </h1>
 
-        <div className="space-y-2 flex flex-col">
+        <div className="space-y-4 flex flex-col">
           {exerciseSentences.map((sentence, index) => (
             <div
               key={sentence.id}
-              className="flex items-start gap-4 p-4 rounded-xl transition-all hover:bg-gray-50"
+              className="flex items-start gap-4 p-y-4 p-x-3 rounded-xl transition-all hover:bg-gray-50"
             >
               <span className="font-bold text-blue-600 text-xl pt-2">
                 {index + 1}.

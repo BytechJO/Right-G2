@@ -162,7 +162,7 @@ const WB_Unit7_Page42_Q1 = () => {
               value={userValue || ""}
               onChange={(e) => handleSelectLetter(word.id, idx, e.target.value)}
               disabled={showResults}
-             className={`w-6 text-center text-lg font-semibold border-0 border-b-2 appearance-none focus:outline-none
+             className={`w-4 text-center text-lg font-semibold border-0 border-b-2 appearance-none focus:outline-none
   ${isLetterWrong(word, idx) ? "border-red-500 text-black bg-white" : "border-black text-black bg-white"}
 `}
             >
@@ -194,7 +194,7 @@ const WB_Unit7_Page42_Q1 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"25px"}}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">G</span>
           Look and write missing letters.
@@ -218,8 +218,8 @@ const WB_Unit7_Page42_Q1 = () => {
           </div>
 
           {/* الصورة + الانبوت */}
-          <div className="flex-1">
-            <div className="relative w-full">
+          <div className="flex-1 flex justify-center items-center">
+            <div className="relative w-[70%] flex justify-center items-center">
               <img
                 src={img}
                 alt="exercise"

@@ -213,13 +213,13 @@ const WB_Unit8_Page50_Q2 = () => {
       <div className="main-container-component">
         <div
           className="div-forall"
-          style={{  marginBottom: "50px" }}
+          style={{  marginBottom: "50px" ,gap:"25px"}}
         >
           <h1 className="WB-header-title-page8">
             <span className="WB-ex-A">B</span> Read and write the words in the
             correct column.
           </h1>
-<div className="flex flex-col gap-5">
+<div className="flex flex-col gap-2">
           <div className="p-4">
             <div className="flex flex-wrap justify-center gap-7">
               {WORDS.map((word) => (

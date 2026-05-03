@@ -192,7 +192,7 @@ const WB_Unit3_Page19_Q1 = () => {
   };
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"25px"}}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">I</span> Look, read, and drag the correct
           word.
@@ -206,7 +206,7 @@ const WB_Unit3_Page19_Q1 = () => {
                 <div
                   ref={provided.innerRef}
                   {...provided.droppableProps}
-                  className="flex flex-wrap justify-center gap-3"
+                  className="flex flex-wrap justify-center gap-10"
                 >
                   {items.wordBank.map((word, index) => {
                     const isUsed = usedWords.some((w) => w.id === word.id);
@@ -223,7 +223,7 @@ const WB_Unit3_Page19_Q1 = () => {
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
-                            className={`px-4 py-2 rounded-lg transition text-[20px]
+                            className={`px-4 py-1 rounded-lg transition text-[20px]
   ${
     isUsed
       ? "bg-gray-200 text-gray-400 cursor-not-allowed opacity-60 border border-blue-800"
@@ -247,10 +247,11 @@ const WB_Unit3_Page19_Q1 = () => {
             {fillInQuestions.map((q, index) => (
               <div key={q.id} className="relative">
                 <div className="flex items-center gap-4">
-                  <span className="font-bold text-blue-600">{index + 1}</span>
+                  <div className="flex gap-5">
+                  <span className="font-bold text-blue-900 text-xl">{index + 1}</span>
 
                   <img src={q.img} alt=""  style={{height:"120px" ,width:"120px"}}/>
-
+</div>
                <Droppable droppableId={q.id}>
   {(provided, snapshot) => (
     <div

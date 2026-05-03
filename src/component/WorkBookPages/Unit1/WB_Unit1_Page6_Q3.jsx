@@ -106,7 +106,7 @@ const WB_Unit1_Page6_Q3 = () => {
     >
       <div
         className="div-forall"
-       
+       style={{gap:"45px"}}
       >
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">J</span>Look, read, and write{" "}
@@ -114,7 +114,7 @@ const WB_Unit1_Page6_Q3 = () => {
           <span style={{ color: "navy" }}>✗</span>.
         </h1>
 
-        <div className="grid grid-cols-2 gap-x-20 gap-y-12">
+        <div className="grid grid-cols-2 gap-x-20 gap-y-25">
           {data.map((item) => (
             <div key={item.id} className="flex items-center gap-2">
               <div className="relative rounded-2xl p-2 w-full h-full flex items-start justify-center gap-2">
@@ -128,7 +128,7 @@ const WB_Unit1_Page6_Q3 = () => {
                   style={{ height: "120px", width: "auto" }}
                 />
 
-                <div className="absolute -bottom-11 -right-14 flex gap-1 p-1 bg-white/80 rounded-tl-xl">
+                <div className="absolute -bottom-11 flex gap-5 p-1 bg-white/80 rounded-tl-xl">
                   <div className="relative">
                     <button
                       onClick={() => handleSelect(item.id, "✓")}

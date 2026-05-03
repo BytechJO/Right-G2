@@ -225,11 +225,11 @@ const isUsed = usageCount >= WORD_LIMITS[word.text];
                     <img
                       src={item.img}
                       alt=""
-                      style={{ height: "190px", width: "90px" }}
+                      style={{ height: "160px", width: "90px" }}
                     />
                   </div>
 
-                  <div className="flex flex-col gap-4 w-full text-xl text-gray-800">
+                  <div className="flex flex-col gap-4 w-[75%] text-xl text-gray-800">
                     <div className="flex items-center gap-2 relative">
                       <span>Who's</span>
                       <Droppable droppableId={`${item.id}-q`}>

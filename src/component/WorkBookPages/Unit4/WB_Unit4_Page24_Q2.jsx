@@ -132,14 +132,14 @@ const ReadChartAndAnswer = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"35px"}}>
         <h1 className="WB-header-title-page8">
           {" "}
           <span className="WB-ex-A">H</span> Read the chart. Answer the
           questions.
         </h1>
 
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-2">
           {/* الجزء الأيسر: الجدول والصور */}
           <div className="flex gap-8 space-y-6">
             <table className="w-full border-collapse shadow-md rounded-lg overflow-hidden">
@@ -172,7 +172,7 @@ const ReadChartAndAnswer = () => {
           </div>
 
           {/* الجزء الأيمن: الأسئلة والأجوبة */}
-          <div className="space-y-6">
+          <div className="space-y-2">
             {questions.map((q, index) => (
               <div key={q.id} className="flex gap-2">
                 <div className="flex items-baseline gap-2">
@@ -183,7 +183,7 @@ const ReadChartAndAnswer = () => {
                   <select
                     value={answers[q.id] || ""}
                     onChange={(e) => handleSelectChange(q.id, e.target.value)}
-                    className={`cursor-pointer w-full mb-6  pb-1 text-lg border-b-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors ${getSelectClass(q.id, q.correctAnswer)}`}
+                    className={`cursor-pointer w-full mb-5  pb-1 text-lg border-b-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors ${getSelectClass(q.id, q.correctAnswer)}`}
                   >
                     <option value="" disabled>
                    
@@ -205,7 +205,7 @@ const ReadChartAndAnswer = () => {
           </div>
         </div>
 
-        <div className="mt-10 flex justify-center">
+        <div className="flex justify-center">
           <Button
             handleShowAnswer={handleShowAnswer}
             handleStartAgain={handleStartAgain}

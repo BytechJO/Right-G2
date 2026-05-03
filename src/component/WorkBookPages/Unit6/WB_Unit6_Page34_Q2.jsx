@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../Button";
 
-import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 34/Ex D 1.svg";
-import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 34/Ex D 2.svg";
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 34/Ex D 2.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 34/Ex D 1.svg";
 import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 34/Ex D 3.svg";
 
 const QUESTIONS = [
@@ -68,7 +68,7 @@ const WB_Unit6_Page34_Q2 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"25px"}}>
         <h1 className="WB-header-title-page8">
           <div className="WB-ex-A">D</div>Look, read, and circle.
         </h1>
@@ -84,8 +84,8 @@ const WB_Unit6_Page34_Q2 = () => {
                   <img
                     src={q.image}
                     alt="question"
-                    className="object-cover rounded-lg border-2 border-black"
-                    style={{height:"150px" }}
+                    className="object-cover rounded-lg "
+                    style={{height:"140px" }}
                   />
                 </div>
                 <div className="flex flex-col gap-3">

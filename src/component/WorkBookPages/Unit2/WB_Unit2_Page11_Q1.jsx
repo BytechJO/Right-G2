@@ -119,7 +119,7 @@ const WB_Unit2_Page11_Q1 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"45px"}}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">E</span> Look and answer the questions.
         </h1>

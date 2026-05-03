@@ -100,7 +100,7 @@ export default function WB_Unit10_Page62_Q3() {
 
   return (
     <div key={resetKey} className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall" style={{gap:"45px"}}>
         {" "}
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">C</span> Listen, look, and circle the

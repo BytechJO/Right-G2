@@ -157,13 +157,13 @@ const WB_Unit5_Page28_Q2 = () => {
   };
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{marginBottom: "50px" }}>
+      <div className="div-forall" style={{marginBottom: "30px" ,gap:"25px"}}>
         <h1 className="WB-header-title-page8">
           {" "}
           <span className="WB-ex-A">D</span> Look, read, and circle. Answer.
         </h1>
 
-        <div className="space-y-6 mb-20">
+        <div className="space-y-6">
           {exerciseDataD.map((q, index) => (
             <div key={q.id} className="flex items-center gap-x-6 gap-y-2">
               <div className="flex gap-1 items-start">
@@ -171,7 +171,7 @@ const WB_Unit5_Page28_Q2 = () => {
               <img
                 src={q.img}
                 alt={`Question ${index + 1}`}
-                style={{height:"150px",width:"150px"}}
+                style={{height:"100px",width:"150px"}}
                 className="object-contain"
               />
 </div>
@@ -181,7 +181,7 @@ const WB_Unit5_Page28_Q2 = () => {
                     <div key={opt} className="relative">
                       <button
                         onClick={() => handleSelect(q.id, opt)}
-                        className={`w-full text-left px-4 py-2 rounded-full border-2 text-lg transition-all ${getOptionClass(q.id, opt, q.correctOption)}`}
+                        className={`w-full text-left px-4 py-2 rounded-full border-2 text-[17px] transition-all ${getOptionClass(q.id, opt, q.correctOption)}`}
                       >
                         {opt}
                       </button>

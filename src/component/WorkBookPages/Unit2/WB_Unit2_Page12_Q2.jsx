@@ -274,9 +274,9 @@ export default function WritingExercise() {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall">
-        <h1 className="header-title-page8">
-          <span className="ex-A">H</span> Look, trace, and write.
+      <div className="div-forall"  style={{gap:"40px"}}>
+         <h1 className="WB-header-title-page8">
+          <span className="WB-ex-A">H</span> Look, trace, and write.
         </h1>
         <div className="font-sans w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
@@ -284,7 +284,7 @@ export default function WritingExercise() {
             <div className="space-y-8">
               {questions.map((q) => (
                 <div key={q.id} className="flex items-start space-x-3 text-lg">
-                  <span className="font-bold text-gray-500">{q.number}</span>
+                  <span className="font-bold text-blue-900">{q.number}</span>
 
                   <div className="w-full space-y-4">
                     <div className="relative">

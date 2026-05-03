@@ -139,7 +139,7 @@ const WB_Unit3_Page18_Q2 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"40px"}}>
         
           <h1 className="WB-header-title-page8">
             <span className="WB-ex-A">H</span>Read, look, and match.
@@ -147,7 +147,7 @@ const WB_Unit3_Page18_Q2 = () => {
 
           <div className="CB-review3-p1-q2-wrapper" ref={containerRef}>
             {/* الجمل */}
-            <div className="CB-review3-p1-q2-words-row">
+            <div className="CB-review3-p1-q2-words-row" style={{gap:"0px"}}>
               {words.map((wordObj, index) => (
                 <div
                   key={wordObj.id}
@@ -205,7 +205,7 @@ const WB_Unit3_Page18_Q2 = () => {
                           ? "bg-red-600 scale-125 shadow-lg"
                           : ""
                       }`}
-                      style={{ top: "100%" }}
+                      style={{ top: "100%" ,left:"45%"}}
                       data-word-id={wordObj.id}
                       id={`${wordObj.id}-dot`}
                       onClick={handleStartDotClick}
@@ -216,7 +216,7 @@ const WB_Unit3_Page18_Q2 = () => {
             </div>
 
             {/* الصور */}
-            <div className="CB-review3-p1-q2-images-row" style={{justifyContent:"space-between"}}>
+            <div className="CB-review3-p1-q2-images-row" style={{justifyContent:"space-around"}}>
               {images.map((img) => (
                 <div key={img.id} className="CB-review3-p1-q2-img-box">
                   <img

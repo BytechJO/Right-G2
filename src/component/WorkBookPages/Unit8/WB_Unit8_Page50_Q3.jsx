@@ -131,9 +131,9 @@ const WB_Unit8_Page50_Q3 = () => {
       <div className="main-container-component">
         <div
           className="div-forall"
-          style={{marginBottom: "50px" }}
+          style={{marginBottom: "50px" ,gap:"40px"}}
         >
-          <h1 className="WB-header-title-page8 mb-10">
+          <h1 className="WB-header-title-page8">
             {" "}
             <span className="WB-ex-A">C</span>Read and complete the sentences.
             Use the words from the box.

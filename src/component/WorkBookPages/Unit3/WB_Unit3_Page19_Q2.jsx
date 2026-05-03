@@ -157,7 +157,7 @@ const handleShowAnswer = () => {
     .flatMap((key) => items[key]);
   return (
     <div className="main-container-component mb-15">
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"25px"}}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">J</span> Drag the correct answer.
         </h1>
@@ -187,7 +187,7 @@ const handleShowAnswer = () => {
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
-                          className={`px-4 py-2 rounded-lg text-[20px] transition
+                          className={`px-4 py-1 rounded-lg text-[20px] transition
             ${
               isUsed ||showResults
                 ? "bg-gray-100 text-gray-400 border border-blue-800 cursor-not-allowed opacity-70"
@@ -206,14 +206,14 @@ const handleShowAnswer = () => {
           </Droppable>
 
           {/* Questions */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-20 mt-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-y-12 gap-x-15">
             {answerQuestions.map((q, index) => (
               <div
                 key={q.id}
-                className="relative flex flex-col justify-center w-full gap-5"
+                className="relative flex flex-col justify-center w-full"
               >
-                <div className="flex gap-2">
-                  <p className="font-bold text-blue-600">{index + 1}</p>
+                <div className="flex gap-2 items-center">
+                  <p className="font-bold text-blue-900 text-xl">{index + 1}</p>
                   <p className="text-[20px]">{q.question}</p>
                 </div>
                 <img
@@ -227,7 +227,7 @@ const handleShowAnswer = () => {
                     <div
                       ref={provided.innerRef}
                       {...provided.droppableProps}
-                      className={`w-[90%] min-h-[30px] border-b-2 flex items-center justify-center ${isWrong(q.id) && "border-red-500"}  ${
+                      className={`w-[90%] min-h-[35px] border-b-2 flex items-center justify-center ${isWrong(q.id) && "border-red-500"}  ${
           snapshot.isDraggingOver
             ? "bg-blue-100 border-blue-400 border-dashed"
             : isWrong(q.id)

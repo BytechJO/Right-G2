@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 
 import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 18/Ex G 1.svg";
-import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 18/Ex G 4.svg";
-import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 18/Ex G 2.svg";
-import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 18/Ex G 5.svg";
-import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 18/Ex G 3.svg";
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 18/Ex G 2.svg";
+import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 18/Ex G 3.svg";
+import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 18/Ex G 4.svg";
+import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 18/Ex G 5.svg";
 import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 18/Ex G 6.svg";
 
 import Button from "../Button";
@@ -148,7 +148,7 @@ const WB_Unit3_Page18_Q1 = () => {
   };
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"30px"}}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">G</span>
           Look, read, and write.

@@ -106,7 +106,7 @@ const WB_Unit5_Page29_Q2 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall mb-10"  style={{gap:"35px"}}>
         <h1 className="WB-header-title-page8">
           <div className="WB-ex-A">F</div>
           Look, read, and write <span style={{ color: "navy" }}>✓</span>.
@@ -115,7 +115,7 @@ const WB_Unit5_Page29_Q2 = () => {
         <div className="space-y-4 mb-5">
           {questions.map((q) => (
             <div key={q.id} className="flex flex-col">
-              <div className="grid grid-cols-[300px_300px] items-center gap-25">
+              <div className="grid grid-cols-[1fr_1fr] items-center">
                 <div className="flex gap-5">
                   <span className="text-2xl text-blue-900 font-semibold">
                     {q.id}

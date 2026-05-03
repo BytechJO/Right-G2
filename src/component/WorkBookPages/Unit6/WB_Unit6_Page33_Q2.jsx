@@ -10,7 +10,8 @@ import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../Button";
-
+import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 33/Asset 19.svg"
+import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 33/Asset 20.svg"
 const QUESTIONS = [
   { id: "q1", text: "1 What time does she have lunch?" },
   { id: "q2", text: "2 What time does she go to school?" },
@@ -63,7 +64,7 @@ function DraggableSentence({ answer, isUsed }) {
       style={style}
       {...attributes}
       {...(!isUsed ? listeners : {})}
-      className={`p-2 border rounded shadow-sm text-sm transition
+      className={`w-full p-2 border rounded shadow-sm text-sm transition
         ${
           isUsed
             ? "bg-gray-100 text-gray-400 cursor-not-allowed"
@@ -167,7 +168,7 @@ const WB_Unit6_Page33_Q2 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall mb-10">
+      <div className="div-forall mb-10"  style={{gap:"25px"}}>
         <h1 className="WB-header-title-page8">
           <div className="WB-ex-A">B</div>Read and write.
         </h1>
@@ -193,7 +194,7 @@ const WB_Unit6_Page33_Q2 = () => {
             </div>
 
             {/* القسم الأيمن: بنك الإجابات والجداول المساعدة */}
-            <div className="w-full md:w-80 space-y-4">
+            <div className="flex flex-col items-center w-full md:w-90 space-y-4">
               <div className="p-4 bg-blue-50 rounded-lg border-2 border-blue-200">
                 <h3 className="font-bold text-blue-800 mb-3 text-center">
                   Answers Bank
@@ -211,62 +212,13 @@ const WB_Unit6_Page33_Q2 = () => {
                 </div>
               </div>
 
-              <div className="border rounded overflow-hidden text-xs">
-                <table className="w-full text-center">
-                  <thead className="bg-gray-100">
-                    <tr>
-                      <th className="p-1 border">Activity</th>
-                      <th className="p-1 border">Time</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="p-1 border">get up</td>
-                      <td className="p-1 border">6:00</td>
-                    </tr>
-                    <tr>
-                      <td className="p-1 border">wash face</td>
-                      <td className="p-1 border">6:30</td>
-                    </tr>
-                    <tr>
-                      <td className="p-1 border">go to school</td>
-                      <td className="p-1 border">7:30</td>
-                    </tr>
-                    <tr>
-                      <td className="p-1 border">have lunch</td>
-                      <td className="p-1 border">12:00</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div className="border rounded overflow-hidden text-xs">
-                <table className="w-full text-center">
-                  <thead className="bg-gray-100">
-                    <tr>
-                      <th className="p-1 border">Activity</th>
-                      <th className="p-1 border">Time</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="p-1 border">go home</td>
-                      <td className="p-1 border">2:00</td>
-                    </tr>
-                    <tr>
-                      <td className="p-1 border">do homework</td>
-                      <td className="p-1 border">4:30</td>
-                    </tr>
-                    <tr>
-                      <td className="p-1 border">have dinner</td>
-                      <td className="p-1 border">8:30</td>
-                    </tr>
-                    <tr>
-                      <td className="p-1 border">go to bed</td>
-                      <td className="p-1 border">9:30</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+       
+                <img src={img1} style={{height:"200px",width:"70%"}}/>
+           
+            
+                <img src={img2}  style={{height:"200px",width:"70%"}}/>
+               
+         
             </div>
           </div>
 

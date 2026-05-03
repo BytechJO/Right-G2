@@ -87,7 +87,7 @@ const DraggableWord = ({ word, disabled }) => {
       {...listeners}
       {...attributes}
       // style={style}
-      className={`px-4 py-2 border-2 rounded-lg font-bold text-lg touch-none
+      className={`px-4 py-2 border-2 rounded-lg font-semibold text-[17px] touch-none
         ${
           disabled
             ? "bg-gray-100 text-gray-300 border-gray-200"
@@ -228,40 +228,40 @@ if (hasEmpty) {
       }}
     >
       <div className="main-container-component">
-        <div className="div-forall">
+        <div className="div-forall" style={{gap:"20px"}}>
           <h1 className="WB-header-title-page8">
             <span className="WB-ex-A">E</span>Look and write. Read.
           </h1>
       
-      <div className="flex flex-col gap-5">
-            <div className="mb-12 border-2 border-gray-800 rounded-xl overflow-hidden shadow-sm">
+      <div className="flex flex-col gap-3">
+            <div className="border-2 border-gray-800 rounded-xl overflow-hidden shadow-sm">
           <div className="grid grid-cols-3 divide-x-2 divide-gray-800">
             <div className="p-4 flex flex-col gap-2">
-              <div className="flex justify-between text-xl font-medium">
+              <div className="flex justify-between text-lg font-medium">
                 <span>ride</span> <span>-</span>{" "}
                 <span className="text-blue-700">riding</span>
               </div>
-              <div className="flex justify-between text-xl font-medium">
+              <div className="flex justify-between text-lg font-medium">
                 <span>wear</span> <span>-</span>{" "}
                 <span className="text-blue-700">wearing</span>
               </div>
             </div>
             <div className="p-4 flex flex-col gap-2">
-              <div className="flex justify-between text-xl font-medium">
+              <div className="flex justify-between text-lg font-medium">
                 <span>eat</span> <span>-</span>{" "}
                 <span className="text-blue-700">eating</span>
               </div>
-              <div className="flex justify-between text-xl font-medium">
+              <div className="flex justify-between text-lg font-medium">
                 <span>iron</span> <span>-</span>{" "}
                 <span className="text-blue-700">ironing</span>
               </div>
             </div>
             <div className="p-4 flex flex-col gap-2">
-              <div className="flex justify-between text-xl font-medium">
+              <div className="flex justify-between text-lg font-medium">
                 <span>cook</span> <span>-</span>{" "}
                 <span className="text-blue-700">cooking</span>
               </div>
-              <div className="flex justify-between text-xl font-medium">
+              <div className="flex justify-between text-lg font-medium">
                 <span>sing</span> <span>-</span>{" "}
                 <span className="text-blue-700">singing</span>
               </div>

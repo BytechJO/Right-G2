@@ -185,7 +185,7 @@ const CorrectSentenceExercise = () => {
   };
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ marginBottom: "30px" }}>
+      <div className="div-forall" style={{ marginBottom: "30px" ,gap:"30px"}}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">G</span> Look, read, and write{" "}
           <span className="text-blue-900">✕</span> over the mistake. Rewrite the
@@ -210,7 +210,7 @@ const CorrectSentenceExercise = () => {
                   </span>
                   <div className="flex-1 space-y-3">
                     {/* الجملة الخاطئة - الكلمات قابلة للنقر */}
-                    <div className="flex flex-wrap items-center gap-2 text-[20px]">
+                    <div className="flex flex-wrap items-center gap-2 text-[18px]">
                       {incorrectWords.map((word, wordIndex) => (
                         <button
                           key={wordIndex}
@@ -343,7 +343,7 @@ const CorrectSentenceExercise = () => {
                   src={sentence.image}
                   alt={`Sentence ${sentence.id}`}
                   className="rounded-lg object-contain"
-                  style={{ height: "215px", width: "auto" }}
+                  style={{ height: "200px", width: "auto" }}
                 />
               </div>
             );

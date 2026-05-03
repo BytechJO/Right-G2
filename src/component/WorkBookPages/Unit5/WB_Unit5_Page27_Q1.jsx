@@ -343,42 +343,47 @@ const WB_Unit5_Page27_Q1 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall mb-5" style={{gap:"45px"}}>
         <h1 className="WB-header-title-page8">
-          <span className="WB-ex-A">B</span>Look, read, and match.
+          <span className="WB-ex-A">A</span>Look, read, and match.
         </h1>
 
-        <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center">
           <div
             className="flex flex-col items-center w-full relative"
             style={{
               justifyContent: "space-between",
-              width: "100%",
-              gap: "100px",
+              width: "85%",
+              gap: "90px",
             }}
             ref={containerRef}
           >
             {/* Left Column (Images) */}
-            <div className="flex flex-row gap-13 w-full justify-between">
+            <div className="flex flex-row gap-5 w-full justify-between">
               {images.map((img) => (
                 <div
                   key={img.id}
-                  className={`relative cursor-pointer ${locked ? "opacity-50" : ""} ${firstPoint?.id === img.id ? "ring-2 ring-red-400 rounded" : ""}`}
+                  className={`relative cursor-pointer ${locked ? "opacity-50" : ""} ${firstPoint?.id === img.id ? "ring-2 ring-red-600 rounded" : ""}`}
                   data-image={img.id}
                   onClick={(e) => (firstPoint ? handleEnd(e) : handleStart(e))}
                 >
                   <div className="dot w-3 h-3 bg-red-500 rounded-full absolute -bottom-3 right-10" />
-                  <img src={img.src} alt="" className="max-w-24 max-h-24" />
+                  <img
+                    src={img.src}
+                    alt=""
+                    className="object-cover"
+                    style={{height:"80px",width:"100px"}}
+                  />
                 </div>
               ))}
             </div>
 
             {/* Center Column (Texts) */}
-            <div className="flex flex-row gap-15 w-full justify-between">
+            <div className="flex flex-row gap-0 w-full justify-between">
               {leftParts.map((l, i) => (
                 <div
                   key={i}
-                  className={`flex flex-col items-center gap-5 p-2 cursor-pointer border rounded ${locked ? "opacity-50" : ""} ${firstPoint?.id === l.id && firstPoint?.type === "centerText" ? "bg-red-100 border-red-400" : "border-transparent"}`}
+                  className={`w-[100px] flex flex-col items-center gap-5 p-2 cursor-pointer border rounded ${locked ? "opacity-50" : ""} ${firstPoint?.id === l.id && firstPoint?.type === "centerText" ? "bg-red-100 border-red-600" : "border-transparent"}`}
                   data-left-id={l.id}
                   onClick={(e) => (firstPoint ? handleEnd(e) : handleStart(e))}
                 >
@@ -391,70 +396,71 @@ const WB_Unit5_Page27_Q1 = () => {
             </div>
 
             {/* Right Column (Images) */}
-            <div className="flex flex-row gap-13 w-full justify-between">
+            <div className="flex flex-row gap-5 w-full justify-between">
               {rightParts.map((r) => (
                 <div
                   key={r.id}
                   className={`relative cursor-pointer ${locked ? "opacity-50" : ""} ${firstPoint?.id === r.id ? "ring-2 ring-blue-400 rounded" : ""}`}
                   data-image={r.id}
-                  onClick={(e) => handleEnd(e)}
+                  onClick={(e) =>  handleEnd(e)}
                 >
-                  <div className="dot w-3 h-3 bg-red-500 rounded-full absolute -top-3 left-10" />
+                  <div className="dot w-3 h-3 bg-red-500 rounded-full absolute -top-3 right-11" />
                   <img
                     src={r.src}
                     alt=""
-                    className="max-w-24 max-h-24 object-cover"
+                     style={{height:"90px",width:"100px"}}
+                    className="object-cover"
                   />
                 </div>
               ))}
             </div>
 
             {/* SVG Layer for Lines */}
-         {/* SVG Layer for Lines */}
-<svg className="absolute top-0 left-0 w-full h-full pointer-events-none z-0">
-  {lines.map((l, i) => {
-    return (
-      <g key={i}>
-        <line
-          x1={l.x1}
-          y1={l.y1}
-          x2={l.x2}
-          y2={l.y2}
-          stroke="red"
-          strokeWidth="3"
-          strokeLinecap="round"
-        />
+            <svg className="absolute top-0 left-0 w-full h-full pointer-events-none z-0">
+              {lines.map((l, i) => {
+                const midX = (l.x1 + l.x2) / 2;
+                const midY = (l.y1 + l.y2) / 2;
 
-        {checked && wrongLineIndexes.includes(i) && (
-          <g>
-            <circle
-              cx={l.x2}
-              cy={l.y2 - 18}
-              r="10"
-              fill="red"
-              stroke="white"
-              strokeWidth="2"
-            />
-            <text
-              x={l.x2}
-              y={l.y2 - 18}
-              textAnchor="middle"
-              dominantBaseline="central"
-              fill="white"
-              fontSize="14"
-              fontWeight="bold"
-            >
-              ✕
-            </text>
-          </g>
-        )}
-      </g>
-    );
-  })}
-</svg>
+                return (
+                  <g key={i}>
+                    <line
+                      x1={l.x1}
+                      y1={l.y1}
+                      x2={l.x2}
+                      y2={l.y2}
+                      stroke="red"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                    />
+
+                    {checked && wrongLineIndexes.includes(i) && (
+                      <>
+                        <circle
+                          cx={midX + 12}
+                          cy={midY - 12}
+                          r="9"
+                          fill="red"
+                        />
+                        <text
+                          x={midX + 12}
+                          y={midY - 12}
+                          textAnchor="middle"
+                          dominantBaseline="central"
+                          fill="white"
+                          fontSize="14"
+                          fontWeight="bold"
+                        >
+                          ✕
+                        </text>
+                      </>
+                    )}
+                  </g>
+                );
+              })}
+            </svg>
           </div>
 
-          <div className="mt-16">
+          <div>
             <Button
               handleShowAnswer={handleShowAnswer}
               handleStartAgain={handleTryAgain}

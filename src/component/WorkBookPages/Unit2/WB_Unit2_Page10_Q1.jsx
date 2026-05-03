@@ -136,7 +136,7 @@ const WB_Unit2_Page10_Q1 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"40px"}}>
         <h1 className="WB-header-title-page8">
           {" "}
           <span className="WB-ex-A">C</span>Look, read, and circle.
@@ -148,7 +148,7 @@ const WB_Unit2_Page10_Q1 = () => {
         >
           {data.map((item) => (
             <div key={item.id} className="flex flex-col items-center gap-6">
-              <div className="flex items-center gap-3 text-xl text-gray-800 justify-center">
+              <div className="flex items-center gap-3 text-lg text-gray-800 justify-center">
                 <span className="font-bold text-blue-900 text-2xl">
                   {item.id}
                 </span>
@@ -156,7 +156,7 @@ const WB_Unit2_Page10_Q1 = () => {
                   src={item.img}
                   alt=""
                   className="object-contain rounded-xl"
-                  style={{ height: "120px", width: "120px" }}
+                  style={{ height: "100px", width: "120px" }}
                 />
                 <div className="flex flex-col rounded-2xl gap-5 w-30">
                   {item.options.map((option) => (

@@ -152,7 +152,7 @@ const WB_Unit4_Page26_Q1 = () => {
   };
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"25px"}}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">A</span>Listen and circle the correct long a
           sound.
@@ -167,15 +167,15 @@ const WB_Unit4_Page26_Q1 = () => {
           {exerciseData.map((item, index) => (
             <div
               key={item.id}
-              className="flex items-center text-center gap-5"
+              className="flex items-center text-center gap-2"
             >
               <div className="flex items-start gap-2">
                 <span className="font-bold text-blue-900 text-xl">{index + 1}</span>
                 <img
                   src={item.img}
                   alt={item.word}
-                  className="object-contain border rounded-lg p-1"
-                   style={{height:"120px",width:"120px"}}
+                  className="object-contain rounded-lg p-1"
+                   style={{height:"120px",width:"100px"}}
                 />
               </div>
               <div className="flex flex-col justify-center gap-4">
@@ -202,7 +202,7 @@ const WB_Unit4_Page26_Q1 = () => {
           ))}
         </div>
 
-        <div className="mt-12 flex justify-center">
+        <div className="flex justify-center">
           <Button
             handleShowAnswer={handleShowAnswer}
             handleStartAgain={handleStartAgain}

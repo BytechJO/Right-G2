@@ -202,7 +202,7 @@ export default function WB_Unit5_Page32_Q2() {
   };
   return (
     <div key={resetKey} className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall mb-10"  style={{gap:"30px"}}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">B</span> Listen and circle the pictures that
           have the same
@@ -218,7 +218,7 @@ export default function WB_Unit5_Page32_Q2() {
           {questions.map((q, qi) => (
             <div
               key={q.id}
-              className={`relative flex items-center gap-2 px-4 py-3 ${
+              className={`relative flex items-center gap-2 px-4 py-0 ${
                 qi % 2 === 0 ? "bg-white" : "bg-gray-50"
               }`}
             >

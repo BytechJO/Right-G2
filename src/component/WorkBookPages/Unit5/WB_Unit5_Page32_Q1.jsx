@@ -137,7 +137,7 @@ export default function WB_Unit5_Page32_Q1() {
   };
   return (
     <div key={resetKey} className="main-container-component">
-      <div className="div-forall" >
+      <div className="div-forall"  style={{gap:"25px"}}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">A</span> Look and write
           <span className="text-navy" style={{ color: "navy" }}>
@@ -163,7 +163,7 @@ export default function WB_Unit5_Page32_Q1() {
               )}
               <div className="flex gap-4">
                 <p className="text-xl text-blue-900 font-bold">{q.id}</p>
-                <img src={q.src} style={{height:"120px",width:"120px"}}/>
+                <img src={q.src} style={{height:"100px",width:"120px"}}/>
               </div>
               <p className="text-2xl font-bold text-gray-700 tracking-widest">
                 {q.prefix}

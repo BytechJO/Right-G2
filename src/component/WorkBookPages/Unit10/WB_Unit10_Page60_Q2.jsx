@@ -99,12 +99,12 @@ const WB_Unit10_Page60_Q2 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"25px"}}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">G</span>Unscramble and write each sentence.
         </h1>
 
-        <div className="space-y-6">
+        <div>
           {DATA.map((item, idx) => {
             const userSentence = answers[item.id].join(" ").replace(" .", ".");
             const isCorrect =
@@ -114,7 +114,7 @@ const WB_Unit10_Page60_Q2 = () => {
               <div key={item.id} className="space-y-2 p-4 rounded-2xl">
                 <div className="flex items-center gap-3">
                   <div className="flex flex-col">
-                    <h2 className="font-bold text-black-600 flex gap-2 items-center">
+                    <h2 className="font-semibold text-black-600 text-lg flex gap-2 items-center">
                       {" "}
                       <span className="font-bold text-blue-900 text-xl">
                         {idx + 1}
@@ -136,7 +136,7 @@ const WB_Unit10_Page60_Q2 = () => {
                             key={wIdx}
                             onClick={() => handleWordClick(item.id, word, wIdx)}
                             disabled={isUsed || showResults}
-                            className={`px-3 py-1 rounded-lg text-lg font-medium transition-all ${
+                            className={`px-2 py-1 rounded-lg text-lg transition-all ${
                               isUsed
                                 ? "bg-gray-200 text-gray-400 cursor-not-allowed"
                                 : "bg-white border-2 border-blue-900 text-blue-900 hover:border-blue-400 hover:shadow-sm"

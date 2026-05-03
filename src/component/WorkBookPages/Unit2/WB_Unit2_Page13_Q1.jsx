@@ -82,7 +82,7 @@ const SentenceBuilder = ({
   return (
     <div className="space-y-1 w-full">
       {/* WORD BANK */}
-      <div className="flex gap-2 p-3 rounded-lg min-h-[50px] items-center">
+      <div className="flex gap-2 rounded-lg min-h-[50px] items-center">
         <img src={src} className="object-contain" style={{ height: "120px" }} />
         <div className="flex flex-col gap-5 w-full">
           <div  className="flex gap-5 w-full">
@@ -112,7 +112,7 @@ const SentenceBuilder = ({
                 <button
                   key={word.id}
                   onClick={() => handleRemoveWord(word)}
-                  className="px-3 py-1 cursor-pointer hover:text-red-500"
+                  className="px-1 py-1 cursor-pointer hover:text-red-500"
                   title="Click to remove"
                 >
                   {word.text}
@@ -232,7 +232,7 @@ const [resetKey, setResetKey] = useState(0);
 };
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"25px"}}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">I</span>
           Look, unscramble, and write.
@@ -241,7 +241,7 @@ const [resetKey, setResetKey] = useState(0);
         <div className="space-y-4">
           {exerciseSentences.map((sentence, index) => (
             <div key={sentence.id} className="flex items-start gap-4 p-4">
-              <span className="font-bold text-blue-600 text-xl">
+              <span className="font-bold text-blue-900 text-xl">
                 {index + 1}.
               </span>
 

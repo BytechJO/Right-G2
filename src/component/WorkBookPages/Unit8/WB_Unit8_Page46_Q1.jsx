@@ -509,7 +509,7 @@ const ReadAndColor = () => {
   };
   return (
     <div className="main-container-component relative">
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"15px"}}>
         <div>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">D</span> Read and color.

@@ -229,17 +229,17 @@ const handleRemoveWord = (key, wordIndex) => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"35px"}}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">G</span> What is different? Look and write.
         </h1>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-2">
+          <div className="flex flex-col gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-2" style={{justifyItems:"center"}}>
           <div className="relative ">
-            <img src={imgA} alt="Scene A" className="max-w-full max-h-64 object-contain" />
+            <img src={imgA} alt="Scene A" className="max-w-full max-h-45 object-contain" />
           </div>
           <div className="relative">
-            <img src={imgB} alt="Scene B" className="max-w-full max-h-64 object-contain" />
+            <img src={imgB} alt="Scene B" className="max-w-full max-h-45 object-contain" />
           </div>
         </div>
 
@@ -297,7 +297,7 @@ const handleRemoveWord = (key, wordIndex) => {
             </div>
           ))}
         </div>
-
+</div>
         <div className="mt-16 flex justify-center">
           <Button
             handleShowAnswer={handleShowAnswer}

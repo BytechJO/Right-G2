@@ -202,13 +202,13 @@ const checkAnswers = () => {
   return (
     <div key={resetKey} className="main-container-component">
       <div className="div-forall" style={{ gap: "20px" }}>
-        <h1 className="WB-header-title-page8  mb-10">
+        <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">C</span> Write the words in the correct
           column.
         </h1>
 
         {/* Word Bank */}
-        <div className="mb-5">
+        <div>
           <div
             onDragOver={(e) => e.preventDefault()}
             onDrop={handleDropOnBank}

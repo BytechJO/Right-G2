@@ -114,8 +114,8 @@ const WB_Unit10_Page59_Q2 = () => {
                 style={{height:"100px",width:"auto"}}
               />
             </div>
-            <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100 relative">
-              <div className="absolute -top-2 left-4 w-4 h-4 bg-gray-50 rotate-45 border-l border-t border-gray-100"></div>
+            <div className="p-4 rounded-2xl border border-gray-100 relative">
+              <div className="absolute -top-2 left-4 w-4 h-4 rotate-45 border-l border-t border-gray-100"></div>
               <p className="text-gray-700 text-lg">
                 They <CustomSelect id="q1" /> ice cream.
               </p>
@@ -133,8 +133,8 @@ const WB_Unit10_Page59_Q2 = () => {
               />
               <span className="font-bold text-blue-600">2</span>
             </div>
-            <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100 relative">
-              <div className="absolute -top-2 right-4 w-4 h-4 bg-gray-50 rotate-45 border-l border-t border-gray-100"></div>
+            <div className="p-4 rounded-2xl border border-gray-100 relative">
+              <div className="absolute -top-2 right-4 w-4 h-4 rotate-45 border-l border-t border-gray-100"></div>
               <p className="text-gray-700 text-lg">
                 They <CustomSelect id="q2" /> in the pool.
               </p>
@@ -151,8 +151,8 @@ const WB_Unit10_Page59_Q2 = () => {
                 style={{height:"100px",width:"auto"}}
               />
             </div>
-            <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100 relative">
-              <div className="absolute -top-2 left-4 w-4 h-4 bg-gray-50 rotate-45 border-l border-t border-gray-100"></div>
+            <div className="p-4 rounded-2xl border border-gray-100 relative">
+              <div className="absolute -top-2 left-4 w-4 h-4 rotate-45 border-l border-t border-gray-100"></div>
               <p className="text-gray-700 text-lg">
                 We <CustomSelect id="q3" /> at school.
               </p>
@@ -169,8 +169,8 @@ const WB_Unit10_Page59_Q2 = () => {
               />
               <span className="font-bold text-blue-600">4</span>
             </div>
-            <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100 relative">
-              <div className="absolute -top-2 right-4 w-4 h-4 bg-gray-50 rotate-45 border-l border-t border-gray-100"></div>
+            <div className="p-4 rounded-2xl border border-gray-100 relative">
+              <div className="absolute -top-2 right-4 w-4 h-4 rotate-45 border-l border-t border-gray-100"></div>
               <p className="text-gray-700 text-lg">
                 We <CustomSelect id="q4" /> at the park.
               </p>

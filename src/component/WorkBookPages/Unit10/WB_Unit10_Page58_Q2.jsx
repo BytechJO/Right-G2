@@ -123,7 +123,7 @@ const WB_Unit10_Page58_Q2 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"55px"}}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">C</span>Read, look, and write.
         </h1>

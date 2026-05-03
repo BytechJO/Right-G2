@@ -151,7 +151,7 @@ const WB_Unit3_Page16_Q1 = () => {
   return (
     <DndContext onDragEnd={handleDragEnd} collisionDetection={closestCenter}>
       <div className="main-container-component">
-        <div className="div-forall">
+        <div className="div-forall"  style={{gap:"25px"}}>
           <h1 className="WB-header-title-page8">
             {" "}
             <span className="WB-ex-A">C</span>Look, read, and label the
@@ -177,7 +177,7 @@ const WB_Unit3_Page16_Q1 = () => {
 
           <div className="grid grid-cols-2 gap-x-12 gap-y-6 text-lg">
             {questionNumbers.map((qId) => (
-              <div key={qId} className="flex items-center gap-3 relative">
+              <div key={qId} className="flex justify-center items-end gap-3 relative">
                 <span className="font-bold text-blue-600">{qId}</span>
                 <DropZone id={qId} borderColor={getBorderColor(qId)}>
                   <div className="w-full text-center text-xl font-semibold pb-1">

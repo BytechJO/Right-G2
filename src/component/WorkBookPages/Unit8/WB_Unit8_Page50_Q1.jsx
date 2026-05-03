@@ -102,7 +102,7 @@ const WB_Unit8_Page50_Q1 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"25px"}}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">A</span> Listen and write the missing
           letters.
@@ -120,7 +120,7 @@ const WB_Unit8_Page50_Q1 = () => {
             const key2 = `q${num}_2`;
 
             return (
-              <div key={num} className="flex items-center gap-3 p-4">
+              <div key={num} className="flex items-center gap-3">
                 <div className="flex gap-4 justify-center items-center">
                   <span className="self-start font-bold text-blue-900 text-xl">
                     {num}
@@ -129,7 +129,7 @@ const WB_Unit8_Page50_Q1 = () => {
                     src={IMGS[idx]}
                     alt="phonics"
                     className="object-contain"
-                    style={{height:"120px",width:"120px"}}
+                    style={{height:"110px",width:"120px"}}
                   />
                 </div>
 

@@ -75,7 +75,7 @@ function DropSlot({ id, prefix, content, isCorrect, isSubmitted }) {
         )}
         <span className="text-gray-700 mr-2">{prefix}</span>
         {content ? (
-          <span className="text-blue-900 font-bold text-lg">
+          <span className="text-blue-900 font-semibold text-lg">
             {ACTIVITIES_B.find((a) => a.id === content).text}.
           </span>
         ) : (
@@ -149,7 +149,7 @@ const WB_Unit10_Page58_Q1 = () => {
       }}
     >
       <div className="main-container-component">
-        <div className="div-forall">
+        <div className="div-forall"  style={{gap:"45px"}}>
           <h1 className="WB-header-title-page8">
             <span className="WB-ex-A">B</span> Look, ask, and answer. Then
             write.

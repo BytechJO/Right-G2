@@ -218,7 +218,7 @@ export default function WB_Unit10_Page62_Q1() {
       onDragCancel={handleDragCancel}
     >
       <div className="main-container-component">
-        <div className="div-forall" style={{ marginBottom:"30px"}}>
+        <div className="div-forall" style={{ marginBottom:"30px" ,gap:"15px"}}>
           <h1 className="WB-header-title-page8" style={{ alignItems: "flex-start" }}>
             <span className="WB-ex-A">A</span>
             <span style={{ whiteSpace: "wrap" }}>
@@ -227,7 +227,7 @@ export default function WB_Unit10_Page62_Q1() {
             </span>
           </h1>
 
-          <div className="grid grid-cols-4 gap-2 p-4 border-blue-100 rounded-xl mb-6">
+          <div className="grid grid-cols-4 gap-2 border-blue-100 rounded-xl mb-6">
             {wordBank.map((word) => {
               const isUsed = usedWords.includes(word);
 

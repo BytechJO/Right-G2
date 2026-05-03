@@ -149,7 +149,7 @@ const WB_Unit1_Page8_Q3 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"35px"}}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">C</span> Listen. Write and read the
           sentences.
@@ -161,7 +161,7 @@ const WB_Unit1_Page8_Q3 = () => {
           stopAtSecond={7.25}
         />
 
-        <div className="family-completion-activity p-6">
+        <div className="family-completion-activity p-2">
           <div className="flex items-start gap-8">
             <div className="sentences flex-1">
               {/* Sentence 1 */}

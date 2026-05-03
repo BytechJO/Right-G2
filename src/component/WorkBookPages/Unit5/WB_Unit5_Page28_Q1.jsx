@@ -163,8 +163,8 @@ const WB_Unit5_Page28_Q1 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ marginBottom: "50px" }}>
-        <h1 className="WB-header-title-page8 mb-10">
+      <div className="div-forall" style={{ marginBottom: "50px" ,gap:"35px"}}>
+        <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">C</span> Look, read, and write.
         </h1>
 
@@ -177,7 +177,7 @@ const WB_Unit5_Page28_Q1 = () => {
               <div key={q.id} className="space-y-4 flex items-center">
                 <div className="flex items-start gap-4">
                   <span className="text-xl text-blue-900 font-semibold">{index + 1}</span>
-                  <img src={q.img} className="max-h-32" />
+                  <img src={q.img} style={{height:"100px"}} />
                 </div>
                   <div className="flex w-full justify-around">
                   <div>

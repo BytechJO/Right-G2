@@ -93,7 +93,7 @@ const WB_Unit7_Page44_Q1 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"25px"}}>
         <h2 className="WB-header-title-page8">
           <span className="WB-ex-A">A</span>
           Listen and write <span className="text-blue-900">✓</span>.
@@ -105,14 +105,14 @@ const WB_Unit7_Page44_Q1 = () => {
           stopAtSecond={stopAtSecond}
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-2">
           {exerciseAData.map((item) => (
-            <div key={item.id} className="flex items-center gap-10 p-6">
+            <div key={item.id} className="flex items-center gap-10 p-3">
               <div className="w-[120px] h-[100px] flex items-center justify-center">
                 <img
                   src={item.image}
                   className="object-contain"
-                  style={{ height: "150px" }}
+                  style={{ height: "120px" }}
                 />
               </div>
               <div className="flex flex-col gap-3">

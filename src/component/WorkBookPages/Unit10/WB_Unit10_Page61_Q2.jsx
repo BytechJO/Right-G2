@@ -34,11 +34,11 @@ function DraggableWord({ word, disabled }) {
       {...listeners}
       {...attributes}
       style={style}
-      className={`p-2 border-2 border-blue-900 rounded-lg font-bold text-center transition-all touch-none
+      className={`p-2 border border-blue-900 rounded-lg font-bold text-center transition-all touch-none
         ${
           disabled
             ? "bg-gray-200 text-gray-400 cursor-not-allowed opacity-60"
-            : "cursor-pointer text-indigo-700 hover:bg-indigo-200 hover:scale-105"
+            : "cursor-pointer hover:scale-105"
         }
       `}
     >
@@ -277,7 +277,7 @@ const [activeWord, setActiveWord] = useState(null);
       <div className="main-container-component">
         <div
           className="div-forall flex flex-row"
-          style={{ marginBottom: "10px" }}
+          style={{ marginBottom: "10px" ,gap:"20px"}}
         >
           {/* Header */}
 
@@ -302,71 +302,54 @@ const [activeWord, setActiveWord] = useState(null);
             </div>
 
             {/* Drawing + Questions */}
-            <div className="grid grid-cols-2 gap-8 mb-8">
-              {images.map((image) => (
-                <div
-                  key={image.id}
-                  className="bg-white rounded-xl shadow-lg p-6 border-2 border-gray-200"
-                >
-                  {/* Canvas */}
-                  <div className="mb-4 flex justify-center">
-                    <canvas
-                      ref={(el) => (canvasRefs.current[image.id] = el)}
-                      onMouseDown={(e) => handleMouseDown(e, image.id)}
-                      onMouseMove={(e) => handleMouseMove(e, image.id)}
-                      onMouseUp={handleMouseUp}
-                      onMouseLeave={handleMouseUp}
-                      height={200}
-                      width={300}
-                      className="border-2 border-gray-300 rounded-lg cursor-crosshair bg-gray-50 flex justify-center items-center"
-                    />
-                  </div>
+        <div className="grid grid-cols-3 gap-8 mb-8">
+  {images.map((image) => (
+    <div key={image.id} className="w-full">
+      {/* Canvas */}
+      <div className="mb-4 flex justify-center">
+        <canvas
+          ref={(el) => (canvasRefs.current[image.id] = el)}
+          onMouseDown={(e) => handleMouseDown(e, image.id)}
+          onMouseMove={(e) => handleMouseMove(e, image.id)}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseUp}
+          height={150}
+          width={200}
+          className="border-2 border-gray-300 rounded-lg cursor-crosshair"
+        />
+      </div>
 
-                  {/* Input */}
-                  <div className="bg-gray-50 rounded-lg p-4 border-2 border-gray-300">
-                    <p className="text-base font-bold text-gray-800 mb-3">
-                      {image.question}
-                    </p>
+      {/* Input */}
+      <div>
+        <p className="text-base font-bold text-gray-800 mb-3">
+          {image.question}
+        </p>
 
-                    <div className="flex gap-2">
-                      <DropInput
-                        id={image.id}
-                        value={answers[image.id] || ""}
-                        submitted={submitted}
-                        activeWord={activeWord}
-                        onChange={(e) => {
-                          const newValue = e.target.value;
+        <div className="flex gap-2">
+          <DropInput
+            id={image.id}
+            value={answers[image.id] || ""}
+            submitted={submitted}
+            activeWord={activeWord}
+            isWrong={
+              submitted &&
+              !showAnswers &&
+              answers[image.id]?.trim() &&
+              answers[image.id].toLowerCase().trim() !==
+                image.correctAnswer.toLowerCase()
+            }
+          />
+        </div>
+      </div>
+    </div>
+  ))}
 
-                          setAnswers((prev) => {
-                            const updated = { ...prev };
-
-                            if (!newValue) {
-                              delete updated[image.id]; // 👈 هذا المهم
-                            } else {
-                              updated[image.id] = newValue;
-                            }
-
-                            return updated;
-                          });
-                        }}
-                        feedback={feedback[image.id]}
-                        isWrong={
-                          submitted &&
-                          !showAnswers &&
-                          answers[image.id]?.trim() &&
-                          answers[image.id].toLowerCase().trim() !==
-                            image.correctAnswer.toLowerCase()
-                        }
-                      />
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="flex gap-2">
-              <img src={img5} style={{ height: "160px" }} />
-              <img src={img6} style={{ height: "160px" }} />
-            </div>
+  {/* ⭐ الصورة الخامسة */}
+  <div className="col-span-2 flex justify-center">
+    <img src={img5} className="object-contain"style={{height:"200px"}} />
+  </div>
+</div>
+           
           </div>
           <Button
             handleShowAnswer={handleShowAnswer}

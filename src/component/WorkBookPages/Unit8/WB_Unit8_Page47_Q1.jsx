@@ -184,7 +184,7 @@ const WB_Unit8_Page47_Q1 = () => {
       }}
     >
       <div className="main-container-component">
-        <div className="div-forall">
+        <div className="div-forall"  style={{gap:"45px"}}>
           <h1 className="WB-header-title-page8">
             <span className="WB-ex-A">F</span> Look into Sue's closet. Read and
             write.

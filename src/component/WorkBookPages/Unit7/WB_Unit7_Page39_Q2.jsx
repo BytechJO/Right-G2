@@ -158,7 +158,7 @@ const WB_Unit7_Page39_Q2 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall mb-10">
+      <div className="div-forall mb-10" style={{gap:"25px"}}>
         {" "}
         <h1 className="WB-header-title-page8">
           {" "}
@@ -177,7 +177,8 @@ const WB_Unit7_Page39_Q2 = () => {
 
                   <img
                     src={images[idx]}
-                    className="max-w-85 max-h-40 object-cover"
+                    className="object-cover"
+                    style={{height:"130px"}}
                   />
                 </div>
 

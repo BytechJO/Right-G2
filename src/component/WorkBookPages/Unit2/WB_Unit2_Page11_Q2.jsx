@@ -228,10 +228,10 @@ const WB_Unit2_Page11_Q2 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"20px"}}>
         <h1 className="WB-header-title-page8">
-          <span className="WB-ex-A">L</span>
-          Look, read, and complete. Use the words from the box.
+          <span className="WB-ex-A">F</span>
+    Look, read, and complete. Use the words from the box.
         </h1>
 
         <div
@@ -259,12 +259,12 @@ const WB_Unit2_Page11_Q2 = () => {
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
                           style={provided.draggableProps.style}
-                          className={`m-1  px-4 py-2 border-2 rounded-lg font-medium shadow-sm transition-colors ${
+                          className={`m-1 px-4 py-2 border-2 rounded-lg font-medium shadow-sm transition-colors ${
                             word.isUsed
                               ? "bg-gray-200 text-gray-400 cursor-not-allowed"
                               : snapshot.isDragging
-                                ? "bg-blue-50 text-blue-700 border-blue-300 cursor-grab"
-                                : "bg-white text-blue-700 border-blue-300 cursor-grab hover:bg-blue-50"
+                                ? "bg-blue-50 text-blue-900 border-blue-900 cursor-grab"
+                                : "bg-white text-blue-900 border-blue-900 cursor-grab hover:bg-blue-50"
                           }`}
                         >
                           {word.text}

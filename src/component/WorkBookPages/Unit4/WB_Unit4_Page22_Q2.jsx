@@ -159,7 +159,7 @@ const WB_Unit4_Page22_Q2 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ marginBottom: "50px" }}>
+      <div className="div-forall" style={{ marginBottom: "10px",gap:"30px" }}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">D</span>Look and write the question and
           answer.

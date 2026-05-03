@@ -123,7 +123,7 @@ const WB_Unit9_Page51_Q1 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{marginBottom: "10px" }}>
+      <div className="div-forall" style={{marginBottom: "10px" ,gap:"20px"}}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">A</span>
           Look, read, and write <span className="text-blue-900">✓</span> or{" "}

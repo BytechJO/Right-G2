@@ -83,7 +83,7 @@ export default function WB_Unit5_Page31_Q1() {
   };
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"25px"}}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">I</span>Look, read and circle.
         </h1>
@@ -105,7 +105,7 @@ export default function WB_Unit5_Page31_Q1() {
                   src={q.src}
                   alt="exercise"
                   className="object-contain "
-                  style={{ height: "120px", width: "250px" }}
+                  style={{ height: "100px", width: "250px" }}
                 />
 </div>
                 <div className="relative flex flex-wrap items-center gap-2 flex-1">

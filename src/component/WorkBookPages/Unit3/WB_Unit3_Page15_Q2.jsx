@@ -112,7 +112,7 @@ const WB_Unit3_Page15_Q2 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"35px"}}>
         <h1 className="WB-header-title-page8">
           {" "}
           <span className="WB-ex-A">B</span>Read and write{" "}
@@ -169,7 +169,7 @@ const WB_Unit3_Page15_Q2 = () => {
         </div>
 
         {/* قسم الكتابة */}
-        <div className="mt-8 space-y-4">
+        <div className="space-y-4">
           {questions.map((q, index) => (
             <div key={`write-${q.id}`} className="flex items-center gap-3">
               <span className="font-bold text-gray-600">{index + 1}</span>

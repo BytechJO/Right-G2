@@ -181,14 +181,14 @@ const WB_Unit6_Page36_Q1 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"25px"}}>
         <h1 className="WB-header-title-page8">
           <div className="WB-ex-A">G</div>Read, look, and match.
         </h1>
 
         <div
           ref={containerRef}
-          className="flex justify-between items-center gap-20 relative mb-20"
+          className="flex justify-between items-center gap-20 relative mb-10"
         >
           <div className="space-y-18">
             {exerciseData.left.map((item) => (

@@ -256,12 +256,12 @@ const WB_Unit5_Page31_Q2 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall mb-10">
+      <div className="div-forall mb-10"  style={{gap:"15px"}}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">J</span>Unscramble and write.
         </h1>
 
-        <div className="space-y-2">
+        <div>
           {exerciseSentences.map((sentence, index) => (
             <div
               key={sentence.id}

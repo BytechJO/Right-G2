@@ -240,13 +240,13 @@ const isWrongPlacement = (item, containerId) => {
           padding: "30px",
         }}
       >
-        <div className="div-forall">
+        <div className="div-forall"  style={{gap:"50px"}}>
           <h1 className="WB-header-title-page8">
             <span className="WB-ex-A">B</span> What are they? Write the words in the correct places.
           </h1>
 
           {/* ⭐ Available Images */}
-          <div className="grid grid-cols-7 gap-2 mb-8">
+          <div className="grid grid-cols-7 gap-2 mb-2">
             <SortableContext
               key={usedItems.length} // ⭐ هذا الحل
               items={containers.available.map((i) => i.id)}

@@ -179,7 +179,7 @@ const handleRightClick = (rightId) => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall mb-10">
+      <div className="div-forall mb-5"  style={{gap:"25px"}}>
         <h1 className="WB-header-title-page8">
           <div className="WB-ex-A">I</div>Look, read, and match.
         </h1>

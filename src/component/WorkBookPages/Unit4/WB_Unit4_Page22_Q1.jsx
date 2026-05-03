@@ -279,7 +279,7 @@ const returnWordToBank = (qId, wordIndex) => {
 };
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"30px"}}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">C</span> Look, unscramble, and write. Match.
         </h1>
@@ -290,7 +290,7 @@ const returnWordToBank = (qId, wordIndex) => {
             className="flex justify-between w-full relative"
           >
             {/* LEFT */}
-            <div className="flex flex-col items-start justify-center space-y-8 w-90">
+            <div className="flex flex-col items-start justify-center space-y-8 w-80">
               {data.answers.map((a) => (
                 <div key={a.id} className="flex items-center gap-4 relative">
                   <span>{a.id}</span>

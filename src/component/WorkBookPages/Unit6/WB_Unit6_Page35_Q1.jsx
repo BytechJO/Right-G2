@@ -75,14 +75,14 @@ function PictureDropZone({
   const isWrong = isSubmitted && content && !isCorrect;
 
   return (
-    <div className="relative flex flex-col items-center space-y-3 p-4 ">
-      <div className="relative w-full h-40">
+    <div className="relative flex flex-col items-center space-y-3 p-4 w-[90%]">
+      <div className="relative h-40 w-full">
         <div className="w-full h-40 flex items-center justify-center">
           <img
             src={imgSrc}
             style={{
               width: "auto",
-              height: "110%",
+              height: "100%",
               objectFit: "cover",
             }}
           />
@@ -98,7 +98,7 @@ function PictureDropZone({
 
       <div
         ref={setNodeRef}
-        className={`w-full min-h-[60px] border-2 border-dashed rounded-xl flex items-center justify-center p-2 text-center transition-all ${isWrong && "border-red-500"}`}
+        className={`w-[90%] min-h-[60px] border-2 border-dashed rounded-xl flex items-center justify-center p-2 text-center transition-all ${isWrong && "border-red-500"}`}
       >
         {content ? (
           <span className="text-blue-900 font-bold text-sm leading-tight">
@@ -178,7 +178,7 @@ const WB_Unit6_Page35_Q1 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"25px"}}>
         <h1 className="WB-header-title-page8">
           <div className="WB-ex-A">E</div>Look, read, and write.
         </h1>

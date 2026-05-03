@@ -94,7 +94,7 @@ export default function SpotTheDifference() {
   };
   return (
     <div className="main-container-component mb-10">
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"35px"}}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">H</span>Look and find. Say.
         </h1>

@@ -98,12 +98,12 @@ export default function WB_Unit7_Page39_Q1() {
   };
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"35px"}}>
         <h1 className="WB-header-title-page8">
           {" "}
           <span className="WB-ex-A">A</span>Look and read. Write the number.
         </h1>
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col">
         {/* Images */}
         <div className="grid grid-cols-4 gap-4 mb-8">
           {[1, 2, 3, 4].map((num) => (

@@ -113,16 +113,16 @@ const WB_Unit9_Page52_Q1 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"5px"}}>
         <h1 className="WB-header-title-page8">
-          <span className="WB-ex-A">A</span>Read and write{" "}
+          <span className="WB-ex-A">C</span>Read and write{" "}
           <span className="text-blue-900">✓</span> for{" "}
           <span className="text-blue-900">true</span> or{" "}
           <span className="text-blue-900">false</span>
         </h1>
 
-        <div className="space-y-2">
-          <p class="text-[18px] leading-7 text-gray-800 mt-6 ml-10">
+        <div className="space-y-0">
+          <p class="text-[17px] leading-7 text-gray-800 mt-6 ml-10">
             My mom is listening to the radio in her bedroom. Dad is on the
             computer sending an e-mail. My brother is playing football with his
             friends. My little sister is looking for her doll. I’m ironing

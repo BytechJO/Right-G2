@@ -149,14 +149,14 @@ const WB_Unit7_Page44_Q2 = () => {
   return (
     <div className="main-container-component">
       {" "}
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"25px"}}>
         {" "}
         <h2 className="WB-header-title-page8">
           {" "}
           <span className="WB-ex-A">B</span>
           Look, read, and write the words under the correct column.{" "}
         </h2>
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-2">
         {/* WORD BANK */}
         <div
           onDragOver={(e) => e.preventDefault()}
@@ -173,7 +173,7 @@ const WB_Unit7_Page44_Q2 = () => {
                 onDragStart={() => {
                   if (!used) onDragStart(word);
                 }}
-                className={`text-xl font-bold transition border-2 border-blue-900 px-5 py-2 rounded-lg
+                className={`text-lg font-bold transition border-2 border-blue-900 px-5 py-2 rounded-lg
               ${
                 used
                   ? "text-gray-400 cursor-not-allowed opacity-60"
@@ -192,10 +192,10 @@ const WB_Unit7_Page44_Q2 = () => {
             <div key={col.id} className="flex flex-col items-center">
               <img
                 src={col.image}
-                className="max-w-32 max-h-24 object-contain mb-3"
+                className="max-w-32 max-h-24 object-contain"
               />
 
-              <span className="font-bold text-2xl mb-6 text-gray-700">
+              <span className="font-bold text-2xl text-gray-700">
                 {col.title}
               </span>
 

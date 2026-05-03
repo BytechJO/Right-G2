@@ -116,7 +116,7 @@ const WB_Unit9_Page56_Q2 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"25px"}}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">B</span>Does it have a{" "}
           <span className="text-blue-900">long a</span> or{" "}

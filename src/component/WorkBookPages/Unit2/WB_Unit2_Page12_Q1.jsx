@@ -41,15 +41,16 @@ const QuestionItem = ({
 }) => {
   return (
     <div className="flex items-center gap-4 p-2 rounded-xl">
-      <span className="font-semibold text-blue-600">{index + 1}.</span>
+      <div className="flex items-start gap-4 p-2 rounded-xl">
+      <span className="font-semibold text-blue-900 text-xl">{index + 1}.</span>
 
       <img
         src={question.img}
         className="object-contain"
-        style={{ height: "140px", width: "140px" }}
+        style={{ height: "100px", width: "140px" }}
         alt=""
       />
-
+</div>
       <p className="relative text-xl text-gray-800 w-full">
         <select
           value={answers[question.key]}
@@ -129,7 +130,7 @@ const WB_Unit2_Page12_Q1 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"25px"}}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">G</span> Look and write.
         </h1>

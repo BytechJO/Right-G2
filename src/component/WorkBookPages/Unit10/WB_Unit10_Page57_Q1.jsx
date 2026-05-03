@@ -93,7 +93,7 @@ function DropSlot({ id, content, isCorrect, isSubmitted }) {
       )}
 
       {content ? (
-        <span className="text-blue-900 font-bold text-lg text-center">
+        <span className="text-blue-900 text-[17px] text-center">
           {ACTIVITIES.find((a) => a.id === content).text}
         </span>
       ) : (
@@ -194,7 +194,7 @@ onDragEnd={(e) => {
 }}
     >
       <div className="main-container-component">
-        <div className="div-forall">
+        <div className="div-forall"  style={{gap:"25px"}}>
           <h1 className="WB-header-title-page8">
             <span className="WB-ex-A">A</span>Look and write.
           </h1>
@@ -204,12 +204,13 @@ onDragEnd={(e) => {
             <div className="flex-[2] grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
               {QUESTIONS.map((q) => (
                 <div key={q.id} className="space-y-3">
-                  <p className="text-gray-700 font-bold text-lg">{q.text}</p>
-                  <div className="bg-gray-50 p-2 rounded-xl border border-gray-100 flex justify-center">
+                  <p className="text-gray-700 text-[16px]">{q.text}</p>
+                  <div className="p-2 rounded-xl flex justify-center">
                     <img
                       src={q.img}
                       alt="activity"
-                      className="max-h-32 object-contain rounded-lg"
+                      className="object-contain rounded-lg"
+                      style={{height:"85px"}}
                     />
                   </div>
                   <DropSlot

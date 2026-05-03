@@ -32,7 +32,6 @@ const WB_Unit10_Page60_Q1 = () => {
     q5: "working",
   };
 
-  // عدلي الأرقام هون إذا المطابقة الحقيقية مختلفة
   const CORRECT_F_NUM = {
     q1_num: "3",
     q2_num: "1",
@@ -85,12 +84,22 @@ const WB_Unit10_Page60_Q1 = () => {
     },
   ];
 
+  // ⭐ positions لكل صورة (عدليهم حسب مكان المربع الأبيض)
+  const positions = {
+    q1: { top: "15%", left: "88%" },
+    q2: { top: "15%", left: "88%" },
+    q3: { top: "15%", left: "88%" },
+    q4: { top: "15%", left: "88%" },
+    q5: { top: "15%", left: "89%" },
+  };
+
   const checkAnswers = () => {
     if (showResults) return;
+
     const unanswered = Object.keys(ALL_CORRECT).filter((id) => !answers[id]);
 
     if (unanswered.length > 0) {
-      ValidationAlert.info();
+      ValidationAlert.info("Please complete all answers!");
       return;
     }
 
@@ -127,110 +136,125 @@ const WB_Unit10_Page60_Q1 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall" style={{ gap: "35px" }}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">F</span>Complete. Look and match.
         </h1>
-      <div className="flex flex-col gap-5">
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-          {QUESTIONS.map((q) => (
-            <div key={q.id} className="relative group">
-              <img
-                src={q.img}
-                alt="activity"
-                className="rounded-xl group-hover:border-blue-200 transition-all"
-                style={{ height: "120px", width: "auto" }}
-              />
 
-              {/* ❌ للأرقام فوق الصور */}
-              {showResults &&
-                answers[`${q.id}_num`] &&
-                answers[`${q.id}_num`] !== CORRECT_F_NUM[`${q.id}_num`] && (
-                  <div className="absolute -top-2 -right-2 z-20 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold border-2 border-white shadow">
-                    ✕
+        <div className="flex flex-col gap-5">
+          {/* ⭐ الصور */}
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            {QUESTIONS.map((q) => {
+              const pos = positions[q.id];
+
+              return (
+                <div key={q.id} className="relative">
+                  <div className="relative w-fit">
+                    <img
+                      src={q.img}
+                      alt="activity"
+                      className="object-contain"
+                      style={{height:"120px"}}
+                    />
+
+                    {/* ⭐ select داخل الصورة */}
+                    <div
+                      className="absolute"
+                      style={{
+                        top: pos.top,
+                        left: pos.left,
+                        transform: "translate(-50%, -50%)",
+                      }}
+                    >
+                      <select
+                        value={answers[`${q.id}_num`]}
+                        onChange={(e) =>
+                          setAnswers({
+                            ...answers,
+                            [`${q.id}_num`]: e.target.value,
+                          })
+                        }
+                        disabled={showResults}
+                        className={`text-center w-7 rounded-md font-bold
+                          focus:outline-none focus:ring-0
+                          ${
+                            showResults
+                              ? answers[`${q.id}_num`] ===
+                                CORRECT_F_NUM[`${q.id}_num`]
+                                ? "border-gray-300"
+                                : "border-red-500"
+                              : "border-blue-900"
+                          }`}
+                      >
+                        <option value=""></option>
+                        {QUESTIONS.map((opt) => (
+                          <option key={opt.id} value={opt.num}>
+                            {opt.num}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
-                )}
-
-              <select
-                value={answers[`${q.id}_num`]}
-                onChange={(e) =>
-                  setAnswers({
-                    ...answers,
-                    [`${q.id}_num`]: e.target.value,
-                  })
-                }
-                disabled={showResults}
-                className={`cursor-pointer absolute top-0 right-0 bg-white text-black w-10 h-10 rounded-md font-bold text-lg shadow-md border-1 ${
-                  showResults
-                    ? answers[`${q.id}_num`] === CORRECT_F_NUM[`${q.id}_num`]
-                      ? "border-gray-300"
-                      : "border-red-500"
-                    : "border-blue-900"
-                }`}
-              >
-                <option value=""></option>
-                {QUESTIONS.map((opt) => (
-                  <option key={opt.id} value={opt.num}>
-                    {opt.num}
-                  </option>
-                ))}
-              </select>
-            </div>
-          ))}
-        </div>
-
-        <div className="space-y-4 max-w-full">
-          {QUESTIONS.map((q) => (
-            <div
-              key={q.id}
-              className="flex items-center text-lg p-2 rounded-lg hover:bg-gray-50 transition-all"
-            >
-              <span className="font-bold text-blue-800 w-8 text-2xl">
-                {q.num}
-              </span>
-
-              <div className="flex-1 flex items-center flex-wrap">
-                <span className="text-gray-700 text-2xl">{q.prefix}</span>
-
-                <div className="relative inline-block mx-2">
-                  {/* ❌ للكلمات داخل الجمل */}
-                  {showResults &&
-                    answers[q.id] &&
-                    answers[q.id] !== CORRECT_F[q.id] && (
-                      <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold border-2 border-white shadow z-10">
-                        ✕
-                      </div>
-                    )}
-
-                  <select
-                    value={answers[q.id]}
-                    onChange={(e) =>
-                      setAnswers({ ...answers, [q.id]: e.target.value })
-                    }
-                    disabled={showResults}
-                    className={`cursor-pointer p-1 border-b-2 bg-transparent focus:outline-none transition-all font-bold ${
-                      showResults
-                        ? answers[q.id] === CORRECT_F[q.id]
-                          ? "border-gray-300"
-                          : "border-red-500"
-                        : "border-gray-300"
-                    }`}
-                  >
-                    <option value="">...</option>
-                    {OPTIONS.map((opt) => (
-                      <option key={opt} value={opt}>
-                        {opt}
-                      </option>
-                    ))}
-                  </select>
                 </div>
+              );
+            })}
+          </div>
 
-                <span className="text-gray-700 text-2xl">{q.suffix}</span>
+          {/* الجمل */}
+          <div className="space-y-4 max-w-full">
+            {QUESTIONS.map((q) => (
+              <div
+                key={q.id}
+                className="flex items-center text-lg p-2 rounded-lg hover:bg-gray-50"
+              >
+                <span className="font-bold text-blue-800 w-8 text-2xl">
+                  {q.num}
+                </span>
+
+                <div className="flex-1 flex items-center flex-wrap">
+                  <span className="text-gray-700 text-2xl">{q.prefix}</span>
+
+                  <div className="relative inline-block mx-2">
+                    {showResults &&
+                      answers[q.id] &&
+                      answers[q.id] !== CORRECT_F[q.id] && (
+                        <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold border-2 border-white shadow z-10">
+                          ✕
+                        </div>
+                      )}
+
+                    <select
+                      value={answers[q.id]}
+                      onChange={(e) =>
+                        setAnswers({ ...answers, [q.id]: e.target.value })
+                      }
+                      disabled={showResults}
+                      className={`p-1 border-b-2 bg-transparent font-bold
+                        focus:outline-none focus:ring-0
+                        ${
+                          showResults
+                            ? answers[q.id] === CORRECT_F[q.id]
+                              ? "border-gray-300"
+                              : "border-red-500"
+                            : "border-gray-300"
+                        }`}
+                    >
+                      <option value="">...</option>
+                      {OPTIONS.map((opt) => (
+                        <option key={opt} value={opt}>
+                          {opt}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <span className="text-gray-700 text-2xl">{q.suffix}</span>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-</div>
+
         <div className="mt-10 flex justify-center">
           <Button
             handleShowAnswer={() => {

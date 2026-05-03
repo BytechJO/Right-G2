@@ -67,7 +67,7 @@ function DraggableAnswer({ item, isUsed }) {
       {...attributes}
       {...listeners}
       // التعديل: أضفنا شرط pointer-events-none فقط إذا كان العنصر مستخدم فعلياً
-      className={`p-2 bg-white border-2 border-gray-200 rounded-lg shadow-sm cursor-grab text-blue-700 font-medium text-lg text-center touch-none ${
+      className={`p-2 bg-white border-2 border-gray-200 rounded-lg shadow-sm cursor-grab text-blue-700 text-[17px] text-center touch-none ${
         isUsed ? "bg-gray-50 text-gray-300 pointer-events-none" : "hover:border-blue-400"
       }`}
     >
@@ -212,7 +212,7 @@ const WB_Unit10_Page59_Q1 = () => {
       }}
     >
       <div className="main-container-component">
-        <div className="div-forall">
+        <div className="div-forall"  style={{gap:"45px"}}>
           <h1 className="WB-header-title-page8">
             <span className="WB-ex-A">D</span> Look. Write the questions and
             then the answers.
@@ -223,9 +223,9 @@ const WB_Unit10_Page59_Q1 = () => {
               {QUESTIONS.map((q, idx) => (
                 <div
                   key={q.id}
-                  className="flex items-center gap-4 bg-gray-50 p-3 rounded-xl border border-gray-100"
+                  className="flex items-start gap-4 p-3 "
                 >
-                  <span className="font-bold text-gray-400 w-4">{idx + 1}</span>
+                  <span className="font-bold text-xl text-blue-900 w-4">{idx + 1}</span>
                   <img
                     src={q.img}
                     alt="activity"

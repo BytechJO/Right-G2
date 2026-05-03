@@ -143,7 +143,7 @@ const WB_Unit6_Page36_Q2 = () => {
       onDragEnd={handleDragEnd}
     >
       <div className="main-container-component" ref={captureRef}>
-        <div className="div-forall mb-10">
+        <div className="div-forall mb-10"  style={{gap:"15px"}}>
           <h1 className="WB-header-title-page8">
             <span className="WB-ex-A">H</span> Write questions. Use the phrases
             in the boxes.

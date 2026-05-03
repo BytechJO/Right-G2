@@ -128,13 +128,13 @@ export default function WB_Unit5_Page30_Q2() {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ marginBottom: "50px" }}>
+      <div className="div-forall" style={{gap:"30px" }}>
         <h1 className="WB-header-title-page8">
           {" "}
           <span className="WB-ex-A">H</span>Look, read, and circle
         </h1>
 
-        <div className="flex flex-col gap-10">
+        <div className="flex flex-col gap-6">
           <p className="text-gray-700 leading-relaxed text-[18px]">
             Megan likes fruit, vegetables, and milk. She doesn’t like bread or
             fish. Her mom likes meat and vegetables. She doesn’t like candy,

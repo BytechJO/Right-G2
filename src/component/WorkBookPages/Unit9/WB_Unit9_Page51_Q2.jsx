@@ -84,7 +84,7 @@ const SentenceBuilder = ({
 
   return (
     <div className="space-y-3">
-      <div className="flex flex-wrap gap-10 border-2 border-gray-500 rounded-[20px] min-h-[50px] items-center">
+      <div className="flex flex-wrap gap-2 border-2 border-gray-500 rounded-[20px] min-h-[50px] items-center">
         <img src={src} className="object-contain" style={{ height: "150px" }} />
 
         <div className="flex flex-col justify-center gap-4 w-80 p-3">
@@ -272,14 +272,14 @@ const WB_Unit9_Page51_Q2 = () => {
   };
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{ marginBottom: "10px" }}>
+      <div className="div-forall" style={{ marginBottom: "10px",gap:"20px" }}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">B</span>Look and write sentences.
         </h1>
 
         <div className="space-y-4">
           {exerciseSentences.map((sentence, index) => (
-            <div key={sentence.id} className="flex items-start gap-4 p-4">
+            <div key={sentence.id} className="flex items-start gap-4">
               <span className="font-bold text-blue-900 text-xl pt-2">
                 {index + 1}.
               </span>

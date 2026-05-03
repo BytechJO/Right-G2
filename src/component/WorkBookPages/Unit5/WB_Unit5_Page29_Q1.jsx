@@ -171,7 +171,7 @@ const [selectedRight, setSelectedRight] = useState(null);
   };
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"45px"}}>
         <h1 className="WB-header-title-page8">
           <div className="WB-ex-A">E</div>Read, look, and match.
         </h1>
@@ -180,7 +180,7 @@ const [selectedRight, setSelectedRight] = useState(null);
           ref={containerRef}
           className="flex justify-between items-center gap-20 relative"
         >
-          <div className="space-y-20">
+          <div className="space-y-14">
             {exerciseData.left.map((item) => (
               <div
                 key={item.id}
@@ -252,7 +252,7 @@ const [selectedRight, setSelectedRight] = useState(null);
         : "hover:scale-105"
     }
   `}
-  style={{ height: "100px", width: "auto" }}
+  style={{ height: "80px", width: "auto" }}
 />
               </div>
             ))}

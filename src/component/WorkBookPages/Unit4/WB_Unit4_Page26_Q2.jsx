@@ -134,7 +134,7 @@ const handleShowAnswer = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall mbb-5"  style={{gap:"25px"}}>
         <h1 className="WB-header-title-page8">
           {" "}
           <span className="WB-ex-A">B</span> Unscramble the words. Complete the
@@ -142,13 +142,14 @@ const handleShowAnswer = () => {
         </h1>
         <img
           src={placeholderImg}
-          className="mx-auto max-w-400 max-h-80 object-cover rounded-lg mb-6"
+          className="object-cover rounded-lg"
+          style={{height:"90%",width:"93%"}}
         />
 
         {/* الصورة والفراغات */}
         <div className="space-y-4 mb-13">
           {/* عرض الحروف المبعثرة لكل كلمة */}
-          <div className="space-y-3 mb-8 p-4 rounded-lg grid grid-cols-3">
+          <div className="space-y-3 p-4 rounded-lg grid grid-cols-3">
             {scrambledWords.map((word) => (
               <div key={word.id} className="space-y-2">
                 {/* عرض الحروف المبعثرة */}

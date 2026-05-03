@@ -75,7 +75,7 @@ const WB_Unit4_Page23_Q2 = () => {
   return (
     <div ref={captureRef}>
       <div className="main-container-component">
-        <div className="div-forall">
+        <div className="div-forall"  style={{gap:"35px"}}>
           <h1 className="WB-header-title-page8">
             {" "}
 

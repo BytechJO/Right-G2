@@ -201,48 +201,55 @@ const WB_Unit8_Page45_Q1 = () => {
       }}
     >
       <div className="main-container-component">
-        <div className="div-forall">
+        <div className="div-forall" style={{ gap: "15px" }}>
           <h1 className="WB-header-title-page8">
             <span className="WB-ex-A">A</span>
             Look and write.
           </h1>
-<div className="flex flex-col gap-5">
-          <div className="flex flex-wrap justify-center gap-3 p-4 rounded-xl">
-            {CLOTHES.map((c) => (
-              <DraggableItem
-                key={c.id}
-                item={c}
-                isUsed={Object.values(answers).includes(c.id)}
-              />
-            ))}
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {[1, 2, 3, 4, 5, 6].map((num) => (
-              <div key={num} className="flex items-center gap-4">
-                <span className="font-bold text-blue-900 text-xl">{num}</span>
-
-                <img
-                  src={
-                    [imgTie, imgSocks, imgCap, imgDress, imgCloset, imgJacket][
-                      num - 1
-                    ]
-                  }
-                  alt="cloth"
-                  className="object-contain"
-                  style={{ height: "120px", width: "120px" }}
+          <div className="flex flex-col">
+            <div className="flex flex-wrap justify-center gap-3 p-4 rounded-xl">
+              {CLOTHES.map((c) => (
+                <DraggableItem
+                  key={c.id}
+                  item={c}
+                  isUsed={Object.values(answers).includes(c.id)}
                 />
+              ))}
+            </div>
 
-                <DropSlot
-                  id={`q${num}`}
-                  content={answers[`q${num}`]}
-                  isCorrect={answers[`q${num}`] === CORRECT_ANSWERS[`q${num}`]}
-                  isSubmitted={showResults}
-                />
-              </div>
-            ))}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {[1, 2, 3, 4, 5, 6].map((num) => (
+                <div key={num} className="flex items-center gap-4">
+                  <span className="font-bold text-blue-900 text-xl">{num}</span>
+
+                  <img
+                    src={
+                      [
+                        imgTie,
+                        imgSocks,
+                        imgCap,
+                        imgDress,
+                        imgCloset,
+                        imgJacket,
+                      ][num - 1]
+                    }
+                    alt="cloth"
+                    className="object-contain"
+                    style={{ height: "120px", width: "120px" }}
+                  />
+
+                  <DropSlot
+                    id={`q${num}`}
+                    content={answers[`q${num}`]}
+                    isCorrect={
+                      answers[`q${num}`] === CORRECT_ANSWERS[`q${num}`]
+                    }
+                    isSubmitted={showResults}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
-</div>
           <div className="flex justify-center">
             <Button
               handleShowAnswer={() => {

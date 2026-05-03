@@ -240,14 +240,14 @@ const WB_Unit2_Page10_Q2 = () => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="main-container-component">
-        <div className="div-forall">
+        <div className="div-forall mb-10"  style={{gap:"30px"}}>
           <h1 className="WB-header-title-page8">
             <span className="WB-ex-A">D</span> Unscramble, look, write, and
             answer.
           </h1>
        
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 ">
           {exerciseData.map((item) => {
             const builtQuestion = buildQuestionFromWords(
               userAnswers[item.id].arrangedWords,
@@ -257,13 +257,13 @@ const WB_Unit2_Page10_Q2 = () => {
               item.correctQuestion.toLowerCase();
 
             return (
-              <div key={item.id} className="flex flex-col gap-4 relative">
+              <div key={item.id} className="flex flex-col gap-4 relative w-[80%]">
                 <div className="flex items-start gap-3">
                   <span className="text-blue-700 font-bold text-xl mt-[20px]">
                     {item.id}
                   </span>
 
-                  <div className="flex flex-col gap-3">
+                  <div className="flex flex-col gap-3 w-full">
                     
                     <Droppable
                       droppableId={`bank-${item.id}`}
@@ -274,7 +274,7 @@ const WB_Unit2_Page10_Q2 = () => {
                         <div
                           ref={provided.innerRef}
                           {...provided.droppableProps}
-                          className="min-h-[56px] w-full rounded-lg p-3 flex flex-wrap gap-2"
+                          className="min-h-[56px] w-full rounded-lg p-3 flex flex-wrap gap-2 justify-between"
                         >
                           {userAnswers[item.id].wordBank.map((word, index) => (
                             <Draggable
@@ -288,7 +288,7 @@ const WB_Unit2_Page10_Q2 = () => {
                                   ref={provided.innerRef}
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
-                                  className={`px-3 py-1 border-1 border-blue-900 rounded-md text-lg
+                                  className={`px-3 py-1 border-1 border-blue-900 rounded-md text-[18px]
                                     ${
                                       word.isUsed
                                         ? "bg-gray-200 text-gray-400 cursor-not-allowed"
@@ -361,7 +361,7 @@ const WB_Unit2_Page10_Q2 = () => {
                                         return current;
                                       });
                                     }}
-                                    className="rounded-md text-lg cursor-pointer hover:text-red-500 transition"
+                                    className="rounded-md text-[18px]cursor-pointer hover:text-red-500 transition"
                                     style={provided.draggableProps.style}
                                   >
                                     {word.text}
@@ -389,7 +389,7 @@ const WB_Unit2_Page10_Q2 = () => {
                   </div>
                 </div>
 
-                <div className="flex justify-between items-center mt-2">
+                <div className="flex items-center mt-2 justify-between">
                   <div className="flex flex-col gap-2">
                     {item.options.map((option) => {
                       const isSelected =
@@ -425,11 +425,12 @@ const WB_Unit2_Page10_Q2 = () => {
                     })}
                   </div>
 
-                  <div className="w-32 h-32 flex items-center justify-center">
+                  <div className="flex items-center justify-center">
                     <img
                       src={item.image}
                       alt="exercise"
-                      className="max-w-full max-h-full object-contain"
+                      className="object-contain"
+                       style={{height:"90px",width:"100px"}}
                     />
                   </div>
                 </div>
@@ -438,7 +439,7 @@ const WB_Unit2_Page10_Q2 = () => {
           })}
         </div>
  </div>
-        <div className="mt-12 flex justify-center">
+        <div className="flex justify-center">
           <Button
             handleShowAnswer={handleShowAnswer}
             handleStartAgain={handleTryAgain}

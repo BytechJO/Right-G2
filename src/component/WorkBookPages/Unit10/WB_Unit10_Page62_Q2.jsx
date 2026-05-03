@@ -131,7 +131,7 @@ export default function WB_Unit10_Page62_Q2() {
 
   return (
     <div key={resetKey} className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall" style={{gap:"90px"}}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">B</span>Look and write the missing letters.
         </h1>

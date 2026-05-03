@@ -93,9 +93,9 @@ const WB_Unit7_Page40_Q1 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"25px"}}>
         <h1 className="WB-header-title-page8">
-          <span className="WB-ex-A">G</span>Look, read and write.
+          <span className="WB-ex-A">C</span>Look, read and write.
         </h1>
 
         <div className="max-w-4xl mx-auto" dir="ltr">
@@ -224,7 +224,7 @@ const WB_Unit7_Page40_Q1 = () => {
             <img
               src={img4}
               className="object-contain"
-              style={{ height: "550px", width: "auto" }}
+              style={{ height: "500px", width: "auto" }}
             />
           </div>
           <div className="mt-10">

@@ -6,10 +6,10 @@ position: relative;
 
 .unscramble-row-wb-unit1-p8-q1 {
   display: grid;
-  gap: 50px;
+  gap: 70px;
   justify-content: space-around;
   width: 100%;
-  margin-top: 30px;
+  /* margin-top: 30px; */
   grid-template-columns: repeat(3, 1fr);
 }
 .img-box-wb-unit1-p8-q1 img {
@@ -30,7 +30,7 @@ position: relative;
 }
 
 .WB-unit1-p8-q1-pattern {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 600;
 }
 
@@ -42,15 +42,15 @@ position: relative;
 }
 
 .WB-unit1-p8-q1-choice-btn {
-  padding: 6px 14px;
+  /* padding: 6px 14px; */
   border: 2px solid #2c5287;
   background: white;
   border-radius: 8px;
   cursor: pointer;
   font-weight: bold;
-  font-size: 22px;
-  height: 45px;
-  width:45px
+  font-size: 20px;
+  height: 40px;
+  width:40px
 }
 
 .WB-unit1-p8-q1-choice-btn.selected {

@@ -96,7 +96,7 @@ const WB_Unit4_Page24_Q1 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"35px"}}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">G</span>Look, read, and write{" "}
           <span style={{ color: "navy" }}>✓</span>.
@@ -126,8 +126,8 @@ const WB_Unit4_Page24_Q1 = () => {
                       src={img}
                       alt="pair"
                       style={{
-                        width: i === 1 ? "140px" : "100px",
-                        height: i === 1 ? "140px" : "100px",
+                        width: i === 1 ? "120px" : "100px",
+                        height: i === 1 ? "120px" : "80px",
                         objectFit: "contain",
                       }}
                     />

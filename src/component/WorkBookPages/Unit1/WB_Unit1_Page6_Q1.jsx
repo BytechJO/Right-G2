@@ -143,7 +143,7 @@ const WB_Unit1_Page6_Q1 = () => {
         }}
       >
         <div
-          className="div-forall"
+          className="div-forall" style={{gap:"25px"}}
        
         >
           <h1 className="WB-header-title-page8">
@@ -189,7 +189,7 @@ const WB_Unit1_Page6_Q1 = () => {
                             background: isUsed ? "#ccc" : "white",
                             opacity: isUsed ? 0.6 : 1,
                             cursor: isUsed ? "not-allowed" : "grab",
-                            fontSize: "18px",
+                            fontSize: "17px",
                             ...provided.draggableProps.style,
                           }}
                         >

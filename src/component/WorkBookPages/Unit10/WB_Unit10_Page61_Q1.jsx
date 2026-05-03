@@ -197,14 +197,14 @@ export default function ExerciseH() {
       }}
     >
       <div className="main-container-component">
-        <div className="div-forall">
+        <div className="div-forall"  style={{gap:"35px"}}>
           <h1 className="WB-header-title-page8">
             <span className="WB-ex-A">H</span>Look and write sentences.
           </h1>
 
-          <div className="max-w-full max-h-48 flex items-center justify-center mb-6 text-gray-400 text-sm">
+        <div className="flex flex-col gap-5">
             <img src={img} alt="exercise" style={{ height: "240px" }} />
-          </div>
+        
          <div className="flex flex-col gap-5">
           {/* Global Word Bank */}
           <div className="flex flex-wrap justify-center gap-2 rounded-lg p-3">
@@ -242,7 +242,7 @@ export default function ExerciseH() {
               </div>
             ))}
           </div>
-          </div>
+          </div></div>
           <DragOverlay>
             {activeWord && (
               <div className="px-4 py-2 bg-white border-2 border-blue-500 rounded-lg shadow-xl font-semibold">
@@ -250,7 +250,7 @@ export default function ExerciseH() {
               </div>
             )}
           </DragOverlay>
-          <div className="mt-18">
+          <div >
             <Button
               handleShowAnswer={handleShowAnswer}
               handleStartAgain={handleStartAgain}

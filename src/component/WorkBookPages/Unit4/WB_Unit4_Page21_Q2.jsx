@@ -85,12 +85,12 @@ const WB_Unit4_Page21_Q2 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"90px"}}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">B</span>Look, read, and circle.
         </h1>
 
-        <div className="grid grid-cols-2 gap-12">
+        <div className="grid grid-cols-2 gap-22">
           {data.map((item) => (
             <div key={item.id} className="flex flex-col items-center gap-6">
               <div className="flex items-center gap-3 text-xl text-gray-800 flex-wrap w-full">
@@ -136,7 +136,7 @@ const WB_Unit4_Page21_Q2 = () => {
           ))}
         </div>
 
-        <div className="mt-16">
+        <div>
           <Button
             handleShowAnswer={handleShowAnswer}
             handleStartAgain={handleStartAgain}

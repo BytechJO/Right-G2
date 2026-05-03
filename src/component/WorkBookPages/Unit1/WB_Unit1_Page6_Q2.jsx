@@ -143,6 +143,7 @@ const WB_Unit1_Page6_Q2 = () => {
     >
       <div
         className="div-forall"
+        style={{gap:"35px"}}
        
       >
         <h1 className="WB-header-title-page8">
@@ -150,10 +151,10 @@ const WB_Unit1_Page6_Q2 = () => {
           <span className="WB-ex-A">I</span>Look, read, and circle.
         </h1>
 
-        <div className="grid grid-cols-2 gap-x-50 gap-y-5" style={{justifyItems:"start"}}>
+        <div className="grid grid-cols-2 gap-x-20 gap-y-5" style={{justifyItems:"start"}}>
           {data.map((item) => (
             <div key={item.id} className="flex flex-col gap-6 w-full">
-              <div className="flex items-start gap-4 max-w-full">
+              <div className="flex items-start gap-4 w-full">
                 <span className="font-bold text-blue-900 text-2xl">
                   {item.id}
                 </span>
@@ -227,7 +228,7 @@ const WB_Unit1_Page6_Q2 = () => {
           ))}
         </div>
 
-        <div className="mt-16 flex justify-center">
+        <div className="flex justify-center">
           <Button
             handleShowAnswer={handleShowAnswer}
             handleStartAgain={handleStartAgain}

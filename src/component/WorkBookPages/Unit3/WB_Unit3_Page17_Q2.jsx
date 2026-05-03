@@ -127,7 +127,7 @@ const WB_Unit3_Page17_Q2 = () => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="main-container-component">
-        <div className="div-forall" style={{ marginBottom: "60px" }}>
+        <div className="div-forall" style={{ marginBottom: "60px",gap:"30px" }}>
           <div className="page8-content">
             <header className="WB-header-title-page8">
               <span className="WB-ex-A">F</span>
@@ -161,7 +161,7 @@ const WB_Unit3_Page17_Q2 = () => {
                         display: "flex",
                         gap: "12px",
                         flexWrap: "wrap",
-                        marginTop: "10px",
+                        // marginTop: "10px",
                       }}
                     >
                       {scrambledWords.map((word, wordIndex) => (
@@ -235,7 +235,7 @@ const WB_Unit3_Page17_Q2 = () => {
                     </div>
                   </div>
 
-                  <div style={{ position: "relative", marginTop: "10px" }}>
+                  <div style={{ position: "relative"}}>
                     <div
                       // className="border-b-2 border-gray-500"
                       style={{

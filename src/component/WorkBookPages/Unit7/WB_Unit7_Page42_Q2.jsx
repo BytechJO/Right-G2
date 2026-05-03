@@ -305,7 +305,7 @@ const WB_Unit7_Page42_Q2 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"25px"}}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">H</span>
           Read and look. Unscramble the word. Rewrite the sentence.
@@ -324,7 +324,7 @@ const WB_Unit7_Page42_Q2 = () => {
                   className="border-blue-900 border-2 p-4 rounded-lg flex gap-6 items-start w-full"
                 >
                   <div className="flex flex-col w-full">
-                    <p className="text-lg mb-5 leading-10">
+                    <p className="text-lg leading-10">
                       <span className="font-bold">{idx + 1}.</span>{" "}
                       {sentence.questionParts.map((part, partIndex) => (
                         <React.Fragment key={partIndex}>

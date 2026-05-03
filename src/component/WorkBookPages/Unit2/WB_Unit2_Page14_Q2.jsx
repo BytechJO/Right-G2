@@ -53,11 +53,11 @@ function DraggableWord({ word }) {
       style={style}
       {...listeners}
       {...attributes}
-      className={`text-lg font-medium px-4 py-2 rounded-lg shadow-sm border-2 border-blue-900
+      className={`text-lg font-medium px-4 py-1 rounded-lg shadow-sm border-2 border-blue-900
         ${
           word.used
             ? "text-gray-400 cursor-not-allowed opacity-50"
-            : "bg-gray-100 text-gray-700 cursor-grab active:cursor-grabbing"
+            : "text-gray-700 cursor-grab active:cursor-grabbing"
         }
       `}
     >
@@ -73,7 +73,11 @@ function DropZone({ id, children, className }) {
     <div
       ref={setNodeRef}
       className={className}
-      style={{ backgroundColor: isOver ? "white" : undefined,fontSize:"22px" ,fontWeight:"600" }}
+      style={{
+        backgroundColor: isOver ? "white" : undefined,
+        fontSize: "22px",
+        fontWeight: "600",
+      }}
     >
       {children}
     </div>
@@ -189,62 +193,66 @@ const DragAndDropWrite = () => {
   return (
     <DndContext onDragEnd={handleDragEnd} collisionDetection={closestCenter}>
       <div className="main-container-component">
-        <div className="div-forall gap-4">
+        <div className="div-forall" style={{ gap: "25px" }}>
           <h1 className="WB-header-title-page8">
             <span className="WB-ex-A">B</span> Look, read, and write.
           </h1>
 
+          <div className="flex flex-col gap-5">
+            {/* WORD BANK */}
+            <DropZone
+              id="word-bank"
+              className="flex flex-wrap justify-center items-center gap-4 p-4 rounded-lg"
+            >
+              {wordBank.map((word) => (
+                <DraggableWord key={word.text} word={word} />
+              ))}
+            </DropZone>
 
-<div className="flex flex-col gap-5">
-          {/* WORD BANK */}
-          <DropZone
-            id="word-bank"
-            className="flex flex-wrap justify-center items-center gap-4 p-4 rounded-lg"
-          >
-            {wordBank.map((word) => (
-              <DraggableWord key={word.text} word={word} />
-            ))}
-          </DropZone>
+            {/* QUESTIONS */}
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
+              {writeQuestions.map((q, index) => {
+                const isWrong =
+                  showResults &&
+                  placedWords[q.id] &&
+                  placedWords[q.id] !== q.correctAnswer;
 
-          {/* QUESTIONS */}
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
-            {writeQuestions.map((q, index) => {
-              const isWrong =
-                showResults &&
-                placedWords[q.id] &&
-                placedWords[q.id] !== q.correctAnswer;
-
-              return (
-                <div
-                  key={q.id}
-                  className="text-center flex flex-col items-center relative"
-                >
-                  <span className="text-blue-600 font-bold">{index + 1}</span>
-
-                  <img
-                    src={q.img}
-                    className="my-2"
-                    style={{ height: "120px" }}
-                  />
-
-                  <DropZone
-                    id={q.id}
-                    className={`h-8 w-full border-b-2 ${getDropZoneClass(q.id)}`}
+                return (
+                  <div
+                    key={q.id}
+                    className="text-center flex flex-col items-center relative"
                   >
-                    {placedWords[q.id]}
-                  </DropZone>
+                    <div className="flex gap-5">
+                      <span className="text-blue-900 text-xl font-bold">
+                        {index + 1}
+                      </span>
 
-                  {/* ❌ ICON */}
-                  {isWrong && (
-                    <div className="absolute top-36 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center shadow-lg border-2 border-white">
-                      <span className="text-white text-base font-bold">✕</span>
+                      <img
+                        src={q.img}
+                        className="my-2"
+                        style={{ height: "100px" }}
+                      />
                     </div>
-                  )}
-                </div>
-              );
-            })}
+                    <DropZone
+                      id={q.id}
+                      className={`h-8 w-full border-b-2 ${getDropZoneClass(q.id)}`}
+                    >
+                      {placedWords[q.id]}
+                    </DropZone>
+
+                    {/* ❌ ICON */}
+                    {isWrong && (
+                      <div className="absolute top-36 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center shadow-lg border-2 border-white">
+                        <span className="text-white text-base font-bold">
+                          ✕
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
           </div>
-</div>
           <div className="mt-10 flex justify-center">
             <Button
               handleStartAgain={handleStartAgain}

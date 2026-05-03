@@ -208,7 +208,7 @@ const WB_Unit9_Page54_Q2 = () => {
       onDragEnd={handleDragEnd}
     >
       <div className="main-container-component">
-        <div className="div-forall">
+        <div className="div-forall"  style={{gap:"25px"}}>
           <h1 className="WB-header-title-page8">
             <span className="WB-ex-A">H</span>Which one is different? Look and write.
           </h1>
@@ -236,7 +236,7 @@ const WB_Unit9_Page54_Q2 = () => {
             {exerciseHData.map((item) => (
               <div key={item.id} className="flex gap-6 items-center">
                 {/* الصورة + الحروف */}
-                <div className="border-2 border-gray-800 rounded-2xl p-4 bg-white shadow-sm">
+                <div className="rounded-2xl p-4">
                   <img
                     src={item.image}
                     className="object-contain"

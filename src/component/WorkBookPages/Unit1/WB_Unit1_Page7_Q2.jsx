@@ -150,14 +150,14 @@ const WB_Unit1_Page7_Q2 = () => {
       >
         <div
           className="div-forall"
-          
+           style={{gap:"0px"}}
         >
           <h1 className="WB-header-title-page8">
             <span className="WB-ex-A">L</span> Look, read, and complete. Use the
             words from the box.
           </h1>
 
-          <div className="family-completion-activity p-6 flex flex-col gap-5" dir="ltr">
+          <div className="family-completion-activity p-4 flex flex-col gap-3" dir="ltr">
             <Droppable droppableId="words" direction="horizontal">
               {(provided) => (
                 <div
@@ -219,7 +219,7 @@ const WB_Unit1_Page7_Q2 = () => {
                   src={img1}
                   alt="sentence1"
                   className="object-contain"
-                  style={{height:"110px",width:"auto"}}
+                  style={{height:"90px",width:"auto"}}
                 />
               </div>
 
@@ -235,7 +235,7 @@ const WB_Unit1_Page7_Q2 = () => {
                   src={img2}
                   alt="sentence2"
                    className="object-contain"
-                  style={{height:"110px",width:"auto"}}
+                  style={{height:"90px",width:"auto"}}
                 />
               </div>
 
@@ -251,7 +251,7 @@ const WB_Unit1_Page7_Q2 = () => {
                   src={img3}
                   alt="sentence3"
                    className="object-contain"
-                  style={{height:"110px",width:"auto"}}
+                  style={{height:"90px",width:"auto"}}
                 />
               </div>
 
@@ -267,7 +267,7 @@ const WB_Unit1_Page7_Q2 = () => {
                   src={img4}
                   alt="sentence4"
                    className="object-contain"
-                  style={{height:"110px",width:"auto"}}
+                  style={{height:"90px",width:"auto"}}
                 />
               </div>
             </div>

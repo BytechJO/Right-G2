@@ -64,7 +64,7 @@ function DraggableK({ item, isUsed }) {
       onClick={(e) => e.preventDefault()}
       // 👆 يمنع الكليك من أنه يتعامل كـ drag
 
-      className={`p-2 bg-white border border-gray-200 rounded-lg shadow-sm cursor-grab text-blue-700 touch-none text-[16px] font-medium ${
+      className={`p-2 bg-white border border-gray-200 rounded-lg shadow-sm cursor-grab text-blue-700 touch-none text-[15px] font-medium ${
         // 👇✨ تعديل الشرط
         isUsed && !isDragging
           ? "bg-gray-50 text-gray-300 pointer-events-none"
@@ -168,7 +168,7 @@ const WB_Unit8_Page49_Q2 = () => {
       <div className="main-container-component">
         <div
           className="div-forall"
-          style={{ marginBottom: "50px" }}
+          style={{ marginBottom: "50px" ,gap:"25px"}}
         >
           <h1 className="WB-header-title-page8">
             <span className="WB-ex-A">K</span> Read, look, and answer.
@@ -190,7 +190,7 @@ const WB_Unit8_Page49_Q2 = () => {
               <div className="space-y-4">
                 {[1, 2, 3, 4].map((n) => (
                   <div key={n} className="space-y-1">
-                    <p className="text-[18px] font-bold text-gray-600">
+                    <p className="text-[15px] text-gray-600">
                       {n}. How many{" "}
                       {["crayons", "beds", "dolls", "pictures"][n - 1]} does she
                       have?
@@ -221,7 +221,7 @@ const WB_Unit8_Page49_Q2 = () => {
               <div className="space-y-4">
                 {[1, 2, 3, 4].map((n) => (
                   <div key={n} className="space-y-1">
-                    <p className="text-[18px] font-bold text-gray-600">
+                    <p className="text-[15px] text-gray-600">
                       {n}. How many{" "}
                       {["computers", "pictures", "robots", "lamps"][n - 1]} does
                       he have?

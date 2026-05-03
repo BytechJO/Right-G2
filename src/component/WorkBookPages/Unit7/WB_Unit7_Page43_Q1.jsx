@@ -102,13 +102,13 @@ const WB_Unit7_Page43_Q1 = () => {
   return (
     <div className="main-container-component">
       {" "}
-      <div className="div-forall">
+      <div className="div-forall"  style={{gap:"25px"}}>
         {" "}
         <h1 className="WB-header-title-page8">
           {" "}
           <span className="WB-ex-A">I</span>Look, read the clue, and write.{" "}
         </h1>
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-2">
         {/* WORD BANK */}
         <div className="flex flex-wrap justify-center gap-6 w-full mb-2 p-4 rounded-xl">
           {wordsToDrag.map((word) => {
@@ -121,7 +121,7 @@ const WB_Unit7_Page43_Q1 = () => {
                 onDragStart={() => {
                   if (!isUsed) onDragStart(word);
                 }}
-                className={`px-4 py-2 border-2 font-bold rounded-full transition-all text-lg
+                className={`px-4 py-2 border-2 rounded-full transition-all text-lg
               ${
                 isUsed
                   ? "bg-gray-200 text-gray-400 border-gray-300 cursor-not-allowed opacity-60"
