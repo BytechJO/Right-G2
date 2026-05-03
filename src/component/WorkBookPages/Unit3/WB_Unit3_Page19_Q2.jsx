@@ -159,7 +159,7 @@ const handleShowAnswer = () => {
     <div className="main-container-component mb-15">
       <div className="div-forall"  style={{gap:"25px"}}>
         <h1 className="WB-header-title-page8">
-          <span className="WB-ex-A">J</span> Drag the correct answer.
+          <span className="WB-ex-A">J</span>Read, look, and write the answers.
         </h1>
 
         <DragDropContext onDragEnd={onDragEnd}>
