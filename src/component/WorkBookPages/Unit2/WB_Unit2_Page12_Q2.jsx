@@ -1,12 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
-import img from "../../../assets/imgs/test6.png";
 import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 12/Ex H 1.svg";
 import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 12/Ex H 2.svg";
 import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 12/Ex H 3.svg";
 import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 12/Ex H 4.svg";
-
+import img from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 12/Asset 43.svg";
 const correctAnswers = {
   input1_1: "Are these",
   input1_2: "Yes, they are.",
@@ -274,14 +273,14 @@ export default function WritingExercise() {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall"  style={{gap:"40px"}}>
-         <h1 className="WB-header-title-page8">
+      <div className="div-forall" style={{ gap: "5px" }}>
+        <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">H</span> Look, trace, and write.
         </h1>
         <div className="font-sans w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             {/* LEFT SIDE */}
-            <div className="space-y-8">
+            <div className="space-y-4">
               {questions.map((q) => (
                 <div key={q.id} className="flex items-start space-x-3 text-lg">
                   <span className="font-bold text-blue-900">{q.number}</span>
@@ -372,13 +371,14 @@ export default function WritingExercise() {
             </div>
 
             {/* RIGHT MATCHING */}
-            <MatchingSection
-              leftDotsPositions={leftDotsPositions}
-              setLeftDotsPositions={setLeftDotsPositions}
-              rightDotsPositions={rightDotsPositions}
-              setRightDotsPositions={setRightDotsPositions}
-              connections={connections}
-            />
+            <div className="flex justify-center items-center">
+              <img
+                src={img}
+                alt="exercise"
+                className="w-full max-w-[400px] object-contain"
+                style={{height:"100%"}}
+              />
+            </div>
           </div>
 
           <div className="mt-10">
