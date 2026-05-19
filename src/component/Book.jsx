@@ -10,7 +10,7 @@ import workbookCover from "../assets/imgs/pages/workbook-cover.png";
 import stbookCover from "../assets/imgs/pages/classbook-cover.png";
 import teacherBookCover from "../assets/imgs/pages/Right InternationalTB/Page_001.png";
 import fcBookCover from "../assets/imgs/pages/flach-card/Flashcards Grade 2_Page_01.png";
-import posterBookCover from "../assets/imgs/pages/posters/Right G2 Poster 48x33_Page_01.png"
+import posterBookCover from "../assets/imgs/pages/posters/Right G2 Poster 48x33_Page_01.png";
 // === VIEWERS ===
 import FlashCardViewer from "./FlashCardPages/FlashCardPages";
 
@@ -18,8 +18,7 @@ import FlashCardViewer from "./FlashCardPages/FlashCardPages";
 import Popup from "./Popup/Popup";
 import LessonNavigator from "./StudentPages/LessonNavigator";
 // import teacherPdf from "../../public/Right International TB G2-Apple’s iMac (3).pdf";
-const teacherPdf =
-  "../../public/Right International TB G2-Apple’s iMac (3).pdf";
+import teacherPdf from "../../public/Right International TB G2-Apple’s iMac (3).pdf";
 // === ASSETS ===
 import logo from "../assets/Page 01/PMAAlogo.svg";
 import menu from "../assets/Page 01/menu.svg";
@@ -41,13 +40,11 @@ import {
   workbookPages,
   teacherPages,
   flashPages,
-
 } from "./BookData";
 
 import WorkBookNavigator from "./WorkBookPages/WorkBookNavigator";
 import { postersVocabPages } from "./BookData/postersVocabPages";
 import TeacherBook from "./TeacherBookPages/TeacherBook";
-
 
 export default function Book() {
   // ===========================================================
@@ -670,8 +667,6 @@ export default function Book() {
             mode="workbook"
           />
         )}
-
-
 
         {/* ========== STUDENT + TEACHER ONLY ========== */}
         {(popupContent?.tab === "student" || popupContent?.tab === "teacher") &&
