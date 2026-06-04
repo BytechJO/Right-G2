@@ -40,20 +40,21 @@
   transform: scale(1.1);
   transition: 0.2s ease-in-out;
 }
+@media screen and (max-width: 1367px) and (max-height: 1024px) {
+.poster-wrapper {
 
-@media (max-width: 1180px) {
-  .vocab_container_poster_vocab {
-    font-size: 16px;
-  }
+  min-height: 50vh; /* 👈 يمنع الاختفاء */
+ 
 }
+}
+
+
 @media (max-width: 1024px) {
   .poster-grammar-img {
     height: 48vh;
     width: auto;
   }
-  .vocab_container_poster_vocab {
-    font-size: 20px;
-  }
+
 }
 /* @media (max-height: 800px) {
 .vocab_container_poster_vocab {
@@ -66,40 +67,5 @@
     height: 90vh;
     width: auto;
   }
-  .vocab_container_poster_vocab {
-    font-size: 13px;
-  }
-}
 
-@media (max-width: 820px) {
-  .vocab_container_poster_vocab {
-    font-size: 17px;
-  }
-}
-
-@media (max-width: 770px) {
-  .vocab_container_poster_vocab {
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 540px) {
-  .vocab_container_poster_vocab {
-    font-size: 10px;
-  }
-}
-
-@media (max-width: 480px) {
-  .poster-grammar-img {
-    height: 37vh;
-    width: auto;
-  }
-  .audio-btn-poster {
-    width: 33px;
-    height: 33px;
-  }
-
-  .vocab_container_poster_vocab {
-    font-size: 7px;
-  }
 }
