@@ -16,7 +16,7 @@
   /* height: 80vh; */
   aspect-ratio: 1484 / 1023;
   /* background-size: contain; */
-  min-height: 75vh; /* 👈 يمنع الاختفاء */
+  /* min-height: 75vh; 👈 يمنع الاختفاء */
   background-repeat: no-repeat;
   background-size: 100% 100%;
   background-position: top left;
@@ -40,13 +40,13 @@
   transform: scale(1.1);
   transition: 0.2s ease-in-out;
 }
-@media screen and (max-width: 1367px) and (max-height: 1024px) {
+/* @media screen and (max-width: 1367px) and (max-height: 1024px) {
 .poster-wrapper {
 
-  min-height: 50vh; /* 👈 يمنع الاختفاء */
+  min-height: 50vh; 👈 يمنع الاختفاء
  
 }
-}
+} */
 
 
 @media (max-width: 1024px) {
