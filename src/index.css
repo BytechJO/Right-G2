@@ -230,7 +230,7 @@ img {
 }
 
 .ex-A {
-  background: #ffca94;
+  background: #efbaa7;
   font-family: "Gill Sans MT", "Gill Sans", Calibri, "Trebuchet MS", sans-serif;
   color: white;
   font-weight: 700;
@@ -250,7 +250,7 @@ img {
 .header-title-page8 {
   font-size: 25px;
   font-family: "Gill Sans MT", "Gill Sans", Calibri, "Trebuchet MS", sans-serif;
-  color: #f39b42;
+  color: #d2232a;
   font-weight: 700;
   display: flex;
   align-items: flex-start;
@@ -261,7 +261,7 @@ img {
 .WB-header-title-page8 {
   font-size: 25px;
   font-family: "Gill Sans MT", "Gill Sans", Calibri, "Trebuchet MS", sans-serif;
-  color: #f89631;
+  color: #f04e3e;
   font-weight: 700;
   display: flex;
   align-items: center;
@@ -269,7 +269,7 @@ img {
   white-space: nowrap;
 }
 .WB-ex-A {
-  background: #ffca94;
+  background: #f6967d;
   font-family: "Gill Sans MT", "Gill Sans", Calibri, "Trebuchet MS", sans-serif;
   color: white;
   font-weight: 700;

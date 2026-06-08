@@ -250,5 +250,5 @@ export const studentPages = (openPopup, goToUnit) => [
   <Song_Page2 openPopup={openPopup}/>,
   <Song_Page3 openPopup={openPopup}/>,
 
-  <Page1 />,
+  // <Page1 />,
 ];
