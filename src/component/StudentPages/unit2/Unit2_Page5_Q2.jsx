@@ -138,18 +138,14 @@ const Unit2_Page5_Q2 = () => {
       }}
     >
       <div
-        className="div-forall"
+        className="div-forall mb-10"
         style={{
-          display: "flex",
-          flexDirection: "column",
           gap: "30px",
-          width: "60%",
-          justifyContent: "flex-start",
+      
         }}
       >
         <h4 className="header-title-page8">
-          <span className="ex-A">B</span> Look, read, and write{" "}
-          <span style={{ color: "#2e3192" }}>✓</span>.{" "}
+          <span className="ex-A">B</span> Look, read, and tap or click to match the picture.
         </h4>
         <div className="CB-unit2-p5-q2-grid">
           {questions.map((q) => (

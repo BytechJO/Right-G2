@@ -137,7 +137,7 @@ const Unit9_Page6_Q1 = () => {
         <div className="div-forall" style={{gap:"10px"}}>
           {/* ❌ الهيدر كما هو */}
           <h5 className="header-title-page8">
-            <span className="ex-A mr-4">D</span>Look and write .
+            <span className="ex-A mr-4">D</span>Look and tap or click the correct answer.
           </h5>
           <div>
           <Droppable droppableId="bank" direction="horizontal">

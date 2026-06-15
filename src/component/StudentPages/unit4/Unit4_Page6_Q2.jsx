@@ -126,14 +126,14 @@ const Unit4_Page6_Q2 = () => {
         <div
           className="div-forall"
           style={{
-         gap:"20px",
+            gap: "20px",
             marginBottom: "40px",
           }}
         >
           <h5 className="header-title-page8">
             {" "}
-            <span className="ex-A">E</span>Label the pictures with the words
-            from the box.
+            <span className="ex-A">E</span>Drag and drop the labels to the
+            correct pictures.
           </h5>
 
           {/* 🔤 Word Bank */}

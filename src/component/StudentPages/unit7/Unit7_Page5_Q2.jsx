@@ -221,8 +221,10 @@ const Unit7_Page5_Q2 = () => {
       <div className="main-container-component relative" ref={containerRef}>
         <div className="div-forall">
           <h5 className="header-title-page8">
-            <span style={{ color: "#2e3192" }}>2</span>
-            Match and write.
+            <span className="mr-2" style={{ color: "#2e3192" }}>
+              2
+            </span>
+            Drag and drop the letters to make the words.
           </h5>
 
           <div className="w-full max-w-[1100px] mx-auto flex flex-col items-center gap-25">

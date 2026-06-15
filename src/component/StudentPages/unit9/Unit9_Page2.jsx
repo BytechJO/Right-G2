@@ -38,7 +38,7 @@ const Unit9_Page2 = ({ openPopup }) => {
   ];
 
   const readChooseData = {
-    title: "Read and circle.",
+    title: "Read and tap or click to complete the sentences.",
     questions: [
       {
         text: "Grandpa is listening to the radio because",

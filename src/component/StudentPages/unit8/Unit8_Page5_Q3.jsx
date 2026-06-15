@@ -92,8 +92,8 @@ const Unit8_Page5_Q3 = () => {
     <div className="main-container-component">
       <div className="div-forall" style={{gap:"40px"}}>
         <h5 className="header-title-page8 mb-8">
-          <span className="ex-A">B </span>
-          Count and write.
+          <span className="ex-A">B</span>
+           Count and tap or click the correct number.
         </h5>
 
         {/* WORD BANK */}

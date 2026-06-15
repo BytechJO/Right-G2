@@ -195,233 +195,234 @@ const Unit9_Page5_Q1 = () => {
   return (
     <DragDropContext key={resetKey} onDragEnd={onDragEnd}>
       <div className="main-container-component">
-        <div className="div-forall" style={{gap:"30px"}}>
+        <div className="div-forall" style={{ gap: "30px" }}>
           <h5 className="header-title-page8">
-            <span className="ex-A" style={{ marginRight: "20px" }}>
+            <span className="ex-A" style={{ marginRight: "10px" }}>
               A
             </span>
             <span style={{ marginRight: "20px", color: "#2e3192" }}>1</span>
-            Which picture has a<span style={{ color: "#2e3192" }}>short a</span>
-            ? Listen, circle, and write.
+            Listen and tap or click the picture with the
+            <span style={{ color: "#2e3192" }}>short a</span>
+            sound.
           </h5>
           <QuestionAudioPlayer
             src={sound1}
             captions={captions}
             stopAtSecond={stopAtSecond}
           />
-           
-           <div className="flex flex-col gap-5">
-          {/* WORD BANK */}
-          <Droppable droppableId="word-bank" direction="horizontal">
-            {(provided) => (
-              <div
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-                className="rounded-lg p-3"
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  gap: "60px",
-                  flexWrap: "wrap",
-                  minHeight: "52px",
-                }}
-              >
-                {availableWords.map((word, index) => {
-                  const isUsed = Object.values(droppedWords).includes(word);
-                  return (
-                    <Draggable
-                      key={word}
-                      draggableId={`bank-${word}`}
-                      index={index}
-                      isDragDisabled={locked || isUsed}
-                    >
-                      {(provided) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          style={{
-                            padding: "8px 18px",
-                            borderRadius: "12px",
-                            fontWeight: "bold",
-                            fontSize: "20px",
-                            userSelect: "none",
-                            border:"2px solid #000589ff",
-                            background: isUsed ? "#e5e7eb" : "white",
-                            color: isUsed ? "#9ca3af" : "",
-                            cursor: isUsed || locked ? "not-allowed" : "grab",
 
-                            ...provided.draggableProps.style,
-                          }}
-                        >
-                          {word}
-                        </div>
-                      )}
-                    </Draggable>
-                  );
-                })}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-
-          {/* QUESTIONS */}
-          <div className="flex flex-col items-center gap-6">
-            <div className="flex justify-center mb-20 gap-5">
-              {questions.map((q) => {
-                const slotId = `slot-${q.id}`;
-                const droppedWord = droppedWords[slotId];
-
-                return (
-                  <div key={q.id} className="flex flex-col items-center">
-                    <div className="flex gap-2 items-center">
-                      {q.images.map((img, index) => (
-                        <div
-                          key={index}
-                          onClick={() => handleSelect(q.id, index)}
-                          style={{
-                            position: "relative",
-                            width: "10vw",
-                            height: "10vw",
-                            cursor: locked ? "default" : "pointer",
-                          }}
-                        >
-                          <img
-                            src={img}
-                            alt=""
+          <div className="flex flex-col gap-5">
+            {/* WORD BANK */}
+            <Droppable droppableId="word-bank" direction="horizontal">
+              {(provided) => (
+                <div
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                  className="rounded-lg p-3"
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gap: "60px",
+                    flexWrap: "wrap",
+                    minHeight: "52px",
+                  }}
+                >
+                  {availableWords.map((word, index) => {
+                    const isUsed = Object.values(droppedWords).includes(word);
+                    return (
+                      <Draggable
+                        key={word}
+                        draggableId={`bank-${word}`}
+                        index={index}
+                        isDragDisabled={locked || isUsed}
+                      >
+                        {(provided) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
                             style={{
-                              width: "100%",
-                              height: "100%",
-                              objectFit: "contain",
-                            }}
-                          />
+                              padding: "8px 18px",
+                              borderRadius: "12px",
+                              fontWeight: "bold",
+                              fontSize: "20px",
+                              userSelect: "none",
+                              border: "2px solid #000589ff",
+                              background: isUsed ? "#e5e7eb" : "white",
+                              color: isUsed ? "#9ca3af" : "",
+                              cursor: isUsed || locked ? "not-allowed" : "grab",
 
-                          {selected[q.id] === index && (
-                            <div
+                              ...provided.draggableProps.style,
+                            }}
+                          >
+                            {word}
+                          </div>
+                        )}
+                      </Draggable>
+                    );
+                  })}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+
+            {/* QUESTIONS */}
+            <div className="flex flex-col items-center gap-6">
+              <div className="flex justify-center mb-20 gap-5">
+                {questions.map((q) => {
+                  const slotId = `slot-${q.id}`;
+                  const droppedWord = droppedWords[slotId];
+
+                  return (
+                    <div key={q.id} className="flex flex-col items-center">
+                      <div className="flex gap-2 items-center">
+                        {q.images.map((img, index) => (
+                          <div
+                            key={index}
+                            onClick={() => handleSelect(q.id, index)}
+                            style={{
+                              position: "relative",
+                              width: "10vw",
+                              height: "10vw",
+                              cursor: locked ? "default" : "pointer",
+                            }}
+                          >
+                            <img
+                              src={img}
+                              alt=""
                               style={{
-                                position: "absolute",
-                                top: 0,
-                                left: 0,
                                 width: "100%",
                                 height: "100%",
-                                border: showResult
-                                  ? index === q.correctImage
-                                    ? "4px solid red"
-                                    : "4px solid red"
-                                  : "4px solid red",
-                                borderRadius: "50%",
-                                pointerEvents: "none",
+                                objectFit: "contain",
                               }}
                             />
-                          )}
 
-                          {isWrongImage(q, index) && (
-                            <div
-                              style={{
-                                position: "absolute",
-                                top: "6px",
-                                right: "9px",
-                                width: "30px",
-                                height: "30px",
-                                background: "red",
-                                color: "white",
-                                borderRadius: "50%",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                fontSize: "18px",
-                                fontWeight: "bold",
-                                border: "2px solid white",
-                                zIndex: 5,
-                                lineHeight: 1,
-                              }}
-                            >
-                              ✕
-                            </div>
-                          )}
-                        </div>
-                      ))}
+                            {selected[q.id] === index && (
+                              <div
+                                style={{
+                                  position: "absolute",
+                                  top: 0,
+                                  left: 0,
+                                  width: "100%",
+                                  height: "100%",
+                                  border: showResult
+                                    ? index === q.correctImage
+                                      ? "4px solid red"
+                                      : "4px solid red"
+                                    : "4px solid red",
+                                  borderRadius: "50%",
+                                  pointerEvents: "none",
+                                }}
+                              />
+                            )}
+
+                            {isWrongImage(q, index) && (
+                              <div
+                                style={{
+                                  position: "absolute",
+                                  top: "6px",
+                                  right: "9px",
+                                  width: "30px",
+                                  height: "30px",
+                                  background: "red",
+                                  color: "white",
+                                  borderRadius: "50%",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  fontSize: "18px",
+                                  fontWeight: "bold",
+                                  border: "2px solid white",
+                                  zIndex: 5,
+                                  lineHeight: 1,
+                                }}
+                              >
+                                ✕
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+
+                      <Droppable droppableId={slotId}>
+                        {(provided) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.droppableProps}
+                            style={{
+                              marginTop: "12px",
+                              minHeight: "38px",
+                              width: "200px",
+                              borderBottom: "2px solid #222",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              position: "relative", // 🔥 مهم
+                            }}
+                          >
+                            {droppedWord && (
+                              <Draggable
+                                draggableId={`slot-${q.id}-${droppedWord}`}
+                                index={0}
+                                isDragDisabled={locked}
+                              >
+                                {(provided) => (
+                                  <span
+                                    ref={provided.innerRef}
+                                    {...provided.draggableProps}
+                                    {...provided.dragHandleProps}
+                                    onClick={() => removeWordFromSlot(slotId)}
+                                    style={{
+                                      fontSize: "20px",
+                                      fontWeight: "bold",
+                                      color: showResult
+                                        ? droppedWord === q.correctWord
+                                          ? "blue"
+                                          : "blue"
+                                        : "blue",
+                                      cursor: locked ? "default" : "pointer",
+                                      userSelect: "none",
+                                      ...provided.draggableProps.style,
+                                    }}
+                                  >
+                                    {droppedWord}
+                                  </span>
+                                )}
+                              </Draggable>
+                            )}
+                            {provided.placeholder}
+                            {/* ❌ WRONG WORD */}
+                            {isWrongWord(q) && (
+                              <div
+                                style={{
+                                  position: "absolute",
+                                  top: "-8px",
+                                  right: "-8px",
+                                  width: "22px",
+                                  height: "22px",
+                                  background: "red",
+                                  color: "white",
+                                  borderRadius: "50%",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  fontSize: "12px",
+                                  fontWeight: "bold",
+                                  border: "2px solid white",
+                                }}
+                              >
+                                ✕
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </Droppable>
                     </div>
-
-                    <Droppable droppableId={slotId}>
-                      {(provided) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.droppableProps}
-                          style={{
-                            marginTop: "12px",
-                            minHeight: "38px",
-                            width: "200px",
-                            borderBottom: "2px solid #222",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            position: "relative", // 🔥 مهم
-                          }}
-                        >
-                          {droppedWord && (
-                            <Draggable
-                              draggableId={`slot-${q.id}-${droppedWord}`}
-                              index={0}
-                              isDragDisabled={locked}
-                            >
-                              {(provided) => (
-                                <span
-                                  ref={provided.innerRef}
-                                  {...provided.draggableProps}
-                                  {...provided.dragHandleProps}
-                                  onClick={() => removeWordFromSlot(slotId)}
-                                  style={{
-                                    fontSize: "20px",
-                                    fontWeight: "bold",
-                                    color: showResult
-                                      ? droppedWord === q.correctWord
-                                        ? "blue"
-                                        : "blue"
-                                      : "blue",
-                                    cursor: locked ? "default" : "pointer",
-                                    userSelect: "none",
-                                    ...provided.draggableProps.style,
-                                  }}
-                                >
-                                  {droppedWord}
-                                </span>
-                              )}
-                            </Draggable>
-                          )}
-                          {provided.placeholder}
-                          {/* ❌ WRONG WORD */}
-                          {isWrongWord(q) && (
-                            <div
-                              style={{
-                                position: "absolute",
-                                top: "-8px",
-                                right: "-8px",
-                                width: "22px",
-                                height: "22px",
-                                background: "red",
-                                color: "white",
-                                borderRadius: "50%",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                fontSize: "12px",
-                                fontWeight: "bold",
-                                border: "2px solid white",
-                              }}
-                            >
-                              ✕
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </Droppable>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
-          </div>
           </div>
         </div>
 

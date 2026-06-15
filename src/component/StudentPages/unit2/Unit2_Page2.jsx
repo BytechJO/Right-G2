@@ -35,7 +35,7 @@ const Unit2_Page2 = ({ openPopup }) => {
   ];
 
   const readChooseData = {
-    title: "Read and choose.",
+    title: "Read and tap or click true or false.",
     questions: [
       {
         text: "The sun is in the sky.",

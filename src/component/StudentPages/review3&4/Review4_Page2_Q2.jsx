@@ -135,9 +135,7 @@ const Review4_Page2_Q2 = () => {
       <div
         className="div-forall"
         style={{
-          width: "60%",
-          display: "flex",
-          flexDirection: "column",
+        
           gap: "20px",
         }}
       >

@@ -110,8 +110,12 @@ const Unit6_Page5_Q2 = () => {
       <div className="div-forall">
         <div>
           <h5 className="header-title-page8">
-            <span style={{ color: "#2e3192" }}> 2 </span> Read and circle the{" "}
-            <span style={{ color: "#2e3192" }}>long i</span>words.
+            <span className="mr-2" style={{ color: "#2e3192" }}>
+              {" "}
+              2{" "}
+            </span>{" "}
+            Read and tap or click the words with the
+            <span style={{ color: "#2e3192" }}>long i</span> sound.
           </h5>
         </div>
         <div className="relative w-full max-w-[1000px]">

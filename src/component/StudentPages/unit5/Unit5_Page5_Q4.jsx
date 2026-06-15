@@ -250,7 +250,7 @@ const Unit5_Page5_Q4 = () => {
           <span className="ex-A" style={{ marginRight: "10px" }}>
             C
           </span>
-        What do bees use to make honey?
+     What do bees use to make honey? Tap or click the hidden words to make a sentence. 
         </h5>
 
         {/* Words List */}

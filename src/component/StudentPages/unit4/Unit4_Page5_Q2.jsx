@@ -157,7 +157,7 @@ const Unit4_Page5_Q2 = () => {
         
       >
         <h3 className="header-title-page8">
-          <span style={{ color: "#2e3192" }}>2</span>Listen and circle.
+          <span className="mr-2" style={{ color: "#2e3192" }}>2</span> Listen and tap or click the correct letters.
         </h3>
         <QuestionAudioPlayer
           src={sound1}

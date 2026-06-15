@@ -153,7 +153,7 @@ const Unit9_Page5_Q3 = () => {
     <div ref={containerRef} className="main-container-component relative">
       <div className="div-forall gap-10">
         <h5 className="header-title-page8">
-          <span className="ex-A mr-5">B</span> Look, read, and match.
+          <span className="ex-A mr-2">B</span>Look, read, and tap or click to match the picture. 
         </h5>
         {/* SENTENCES (TOP) */}
         <div className="grid grid-cols-4 gap-6 w-full justify-items-center">

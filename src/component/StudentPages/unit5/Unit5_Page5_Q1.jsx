@@ -128,12 +128,12 @@ const Unit5_Page5_Q1 = () => {
       }}
     >
       <div className="div-forall">
-        <div>
+        <div className="w-full">
           <h5 className="header-title-page8">
             <span className="ex-A">A</span>{" "}
-            <span style={{ color: "#2e3192" }}>1</span> Which picture has{" "}
-            <span style={{ color: "#2e3192" }}>long e</span>? Listen and circle.
-          </h5>
+            <span className="mr-2" style={{ color: "#2e3192" }}>1</span> Listen and tap or click the picture with the  
+            <span style={{ color: "#2e3192" }}>long e</span> sound.
+            </h5>
         </div>
 
         <QuestionAudioPlayer

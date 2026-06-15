@@ -111,7 +111,7 @@ const Unit7_Page6_Q1 = () => {
       <div className="main-container-component">
         <div className="div-forall" style={{gap:"30px"}}>
           <h5 className="header-title-page8" style={{ marginBottom: "20px" }}>
-            <span className="ex-A">D </span>Read and write.
+            <span className="ex-A">D</span>Read and tap or click the correct day. 
           </h5>
 
           <div className="flex flex-col gap-8">

@@ -123,9 +123,10 @@ const Unit8_Page6_Q1 = () => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="main-container-component">
-        <div className="div-forall" style={{gap:"10px"}}>
+        <div className="div-forall" style={{ gap: "10px" }}>
           <h5 className="header-title-page8">
-            <span className="ex-A mr-2.5">D</span> Look and write.
+            <span className="ex-A mr-2.5">D</span>Look and tap or click the
+            correct words to complete the questions.
           </h5>
 
           {/* IMAGES */}
@@ -197,8 +198,8 @@ const Unit8_Page6_Q1 = () => {
                     <p>{q.text}</p>
                   </div>
 
-                 <Droppable droppableId={`answer-${q.id}`}>
-  {(provided, snapshot) => (
+                  <Droppable droppableId={`answer-${q.id}`}>
+                    {(provided, snapshot) => (
                       <div className="relative h-10 mt-2">
                         {/* ❌ */}
                         {isWrong(q.id) && (
@@ -207,25 +208,25 @@ const Unit8_Page6_Q1 = () => {
                           </span>
                         )}
 
-                     <div
-  ref={provided.innerRef}
-  {...provided.droppableProps}
-  className={`h-8 transition-all duration-200
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.droppableProps}
+                          className={`h-8 transition-all duration-200
     ${
       snapshot.isDraggingOver
         ? "bg-blue-100 border-2 border-dashed border-blue-500 rounded-md"
         : isWrong(q.id)
-        ? "border-b-2 border-red-500"
-        : "border-b-2 border-black"
+          ? "border-b-2 border-red-500"
+          : "border-b-2 border-black"
     }
   `}
->
-  <span className="text-red-600 font-semibold">
-    {answers[q.id]}
-  </span>
+                        >
+                          <span className="text-red-600 font-semibold">
+                            {answers[q.id]}
+                          </span>
 
-  {provided.placeholder}
-</div>
+                          {provided.placeholder}
+                        </div>
                       </div>
                     )}
                   </Droppable>

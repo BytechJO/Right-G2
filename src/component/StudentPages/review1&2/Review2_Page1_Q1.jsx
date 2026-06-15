@@ -91,10 +91,10 @@ const Review2_Page1_Q1 = () => {
 
   return (
     <div style={{ display: "flex", justifyContent: "center", padding: "30px" }}>
-      <div className="div-forall" style={{ width: "60%",gap:"20px" }}>
+      <div className="div-forall" style={{ gap:"20px" }}>
         {/* الهيدر كما هو */}
         <h5 className="header-title-page8">
-          <span style={{ marginRight: "20px" }}>A</span>Read and circle <span style={{ color: "#2e3192" }}>true</span> or <span style={{ color: "#2e3192" }}>false</span>.
+          <span style={{ marginRight: "20px" }}>A</span> Read and tap or click <span style={{ color: "#2e3192" }}>true</span> or <span style={{ color: "#2e3192" }}>false</span>.
         </h5>
 
         <div className="CB-review1-p1-q1-container">

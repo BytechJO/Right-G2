@@ -124,7 +124,7 @@ const Unit6_Page5_Q3 = () => {
     >
       <div className="div-forall w-full max-w-[900px] flex flex-col gap-[30px]">
         <h5 className="header-title-page8">
-          <span className="ex-A">B</span> Look, read, and match.
+          <span className="ex-A">B</span> Look, read, and tap or click to match the picture.
         </h5>
 
         {/* Images */}

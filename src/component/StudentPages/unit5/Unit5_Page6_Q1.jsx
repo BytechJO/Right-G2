@@ -235,7 +235,7 @@ const Unit5_Page6_Q1 = () => {
         >
          
             <h4 className="header-title-page8">
-              <span className="ex-A">D</span> Unscramble and write. Then, match.
+              <span className="ex-A">D</span>Drag and drop the words to unscramble the sentence. Then, tap or click to match. 
             </h4>
  <div className="page8-q1-container">
             <div className="container12" ref={containerRef}>

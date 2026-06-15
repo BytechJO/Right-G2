@@ -70,10 +70,10 @@ const Review2_Page1_Q3 = () => {
 
   return (
     <div style={{ display: "flex", justifyContent: "center", padding: "30px" }}>
-      <div className="div-forall" style={{ width: "60%" }}>
+      <div className="div-forall">
         {/* الهيدر كما هو */}
         <h5 className="header-title-page8">
-          <span style={{ marginRight: "20px" }}>C</span>Look, read, and circle.
+          <span style={{ marginRight: "20px" }}>C</span> Look, read, and tap or click.
         </h5>
 
         <div className="CB-review2-p1-q3-container">

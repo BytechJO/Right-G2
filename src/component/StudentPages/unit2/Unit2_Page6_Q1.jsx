@@ -154,10 +154,10 @@ const Unit2_Page6_Q1 = () => {
 
   return (
     <div style={{ display: "flex", justifyContent: "center", padding: "30px" }}>
-      <div className="div-forall" style={{ width: "60%" }}>
+      <div className="div-forall" style={{ }}>
         <div className="CB-unit2-p6-q1-container2">
           <h5 className="header-title-page8">
-            <span className="ex-A">D</span> Read and match.
+            <span className="ex-A">D</span> Read and connect the dots.
           </h5>
 
           <div className="CB-unit2-p6-q1-match-wrapper2" ref={containerRef}>

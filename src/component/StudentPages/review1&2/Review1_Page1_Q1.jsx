@@ -77,8 +77,7 @@ const Review1_Page1_Q1 = () => {
       <div className="div-forall" style={{ marginBottom:"50px" ,gap:"20px"}}>
         {/* الهيدر كما هو */}
         <h5 className="header-title-page8">
-          <span style={{ marginRight: "20px"}}>A</span>Look,
-          read, and circle.
+          <span style={{ marginRight: "20px"}}>A</span>Tap or click the correct word.
         </h5>
 
         <div className="CB-review1-p1-q1-container">

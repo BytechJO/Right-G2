@@ -241,7 +241,8 @@ const Unit1_Page5_Q4 = () => {
           <span className="ex-A" style={{ marginRight: "10px" }}>
             C
           </span>
-          When do we go to bed?
+          When do we go to bed? Tap or click the hidden words to make a
+          sentence.
         </h5>
 
         {/* Words List */}
@@ -328,8 +329,6 @@ const Unit1_Page5_Q4 = () => {
             </div>
 
             <div className="flex justify-center items-center">
-            
-
               <input
                 className="answer-input-CB-unit3-p5-q4"
                 value={displayedSentence.join(" ")}

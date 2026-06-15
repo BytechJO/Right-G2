@@ -256,7 +256,7 @@ const Unit3_Page5_Q4 = () => {
           <span className="ex-A" style={{ marginRight: "10px" }}>
             C
           </span>
-          When do we wear jackets?
+         When do we wear jackets? Tap or click the hidden words to make a sentence. 
         </h5>
 
         {/* Words List */}

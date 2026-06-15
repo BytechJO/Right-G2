@@ -38,7 +38,7 @@ const Unit7_Page2 = ({ openPopup }) => {
   ];
 
   const readChooseData = {
-    title: "Read and complete the sentences.",
+    title: "Read and tap or click the correct answer.",
     questions: [
       {
         text: "What does Helen hope to be?",

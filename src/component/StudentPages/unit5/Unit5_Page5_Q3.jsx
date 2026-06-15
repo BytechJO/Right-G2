@@ -245,9 +245,9 @@ setLocked(true);
   return (
     <div className="wordsearch-wrapper">
       <div className="page8-wrapper">
-        <div className="div-forall" style={{ width: "60%" ,   marginBottom:"30px"}}>
+        <div className="div-forall" style={{   marginBottom:"30px"}}>
           <h3 className="header-title-page8">
-            <span className="ex-A">B</span>Find and circle.
+            <span className="ex-A">B</span>Find and tap or click the food words in the grid. 
           </h3>
          <div className="container-CB-unit5-p5-q3">
   <div className={`grid-CB-unit5-p5-q3 ${wrongTry ? "shake" : ""}`}>

@@ -136,7 +136,7 @@ const Page8_Q1 = () => {
             <span className="ex-A">A</span>{" "}
             <span style={{ color: "#2e3192" }}>1</span>Does it begin with an{" "}
             <span style={{ color: "#2e3192" }}>l</span> or{" "}
-            <span style={{ color: "#2e3192" }}>r</span>? Circle and write.
+            <span style={{ color: "#2e3192" }}>r</span>? Listen and tap or click the letter and drag the word.
           </h5>
 
           {/* 🔤 Word Bank */}

@@ -244,7 +244,7 @@ const Unit2_Page5_Q3 = () => {
           <span className="ex-A" style={{ marginRight: "10px" }}>
             C
           </span>
-         What do photographers use?
+       Where do birds fly? Tap or click the hidden words to make a sentence.
         </h5>
 
         {/* Words List

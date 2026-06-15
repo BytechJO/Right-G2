@@ -73,7 +73,7 @@ const Page5 = ({ openPopup }) => {
   ];
 
   const readChooseData = {
-    title: "Read and choose.",
+    title: "Read and tap or click.",
     questions: [
       {
         text: "Who’s Jack?",

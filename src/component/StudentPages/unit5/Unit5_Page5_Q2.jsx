@@ -14,12 +14,10 @@ import img2b from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 44/E
 import img2c from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 44/Ex A2-7.svg";
 import img2d from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 44/Ex A2-8.svg";
 
-
 const Unit5_Page5_Q2 = () => {
   const groups = [
-    { images: [img1a, img1b, img1c,img1d], different: 2 },
-    { images: [img2a, img2b, img2c,img2d], different: 0 },
-   
+    { images: [img1a, img1b, img1c, img1d], different: 2 },
+    { images: [img2a, img2b, img2c, img2d], different: 0 },
   ];
   const [showResult2, setShowResult2] = useState(false);
   const [selected, setSelected] = useState(Array(groups.length).fill(null));
@@ -52,7 +50,7 @@ const Unit5_Page5_Q2 = () => {
     groups.forEach((group, index) => {
       if (selected[index] === null)
         return ValidationAlert.info(
-          "Please choose a circle (f or v) for all items!"
+          "Please choose a circle (f or v) for all items!",
         );
 
       if (selected[index] === group.different) {
@@ -100,47 +98,45 @@ const Unit5_Page5_Q2 = () => {
         padding: "30px",
       }}
     >
-      <div
-        className="div-forall"
-      
-      >
+      <div className="div-forall">
         <h3 className="header-title-page8">
-          <span style={{ color: "#2e3192" ,marginRight:"20px"}}>2</span>  Which picture has a different   <span style={{ color: "#2e3192" }}>long vowel sound</span>? Write <span style={{ color: "#2e3192" }}>✗</span>.
+          <span style={{ color: "#2e3192", marginRight: "20px" }}>2</span>{" "}
+          Listen and tap or click the picture with a different
+          <span style={{ color: "#2e3192" }}>long vowel sound</span>?sound.
         </h3>
-      
+
         <div className="exercise-row-CB-unit5-p5-2">
-  {groups.map((group, gIndex) => (
-    <div className="ds-group-box-CB-unit5-p5-2" key={gIndex}>
-      <span style={{ color: "darkblue", fontWeight: "700" }}>
-        {gIndex + 1}
-      </span>
+          {groups.map((group, gIndex) => (
+            <div className="ds-group-box-CB-unit5-p5-2" key={gIndex}>
+              <span style={{ color: "darkblue", fontWeight: "700" }}>
+                {gIndex + 1}
+              </span>
 
-      {group.images.map((img, iIndex) => {
-        const isSelected = selected[gIndex] === iIndex;
-        const isCorrect = group.different === iIndex;
+              {group.images.map((img, iIndex) => {
+                const isSelected = selected[gIndex] === iIndex;
+                const isCorrect = group.different === iIndex;
 
-        return (
-          <div
-            className="ds-image-wrapper-CB-unit5-p5-2"
-            key={iIndex}
-            onClick={() => !locked && handleSelect(gIndex, iIndex)}
-          >
-            <img src={img} className="ds-image-CB-unit5-p5-2" />
+                return (
+                  <div
+                    className="ds-image-wrapper-CB-unit5-p5-2"
+                    key={iIndex}
+                    onClick={() => !locked && handleSelect(gIndex, iIndex)}
+                  >
+                    <img src={img} className="ds-image-CB-unit5-p5-2" />
 
-            {/* Display X only when selected */}
-            {isSelected && <div className="ds-x-CB-unit5-p5-2">✕</div>}
+                    {/* Display X only when selected */}
+                    {isSelected && <div className="ds-x-CB-unit5-p5-2">✕</div>}
 
-            {/* ❌ دائرة حمراء فيها X بيضاء للخطأ فقط عند النتيجة */}
-            {showResult2 && !locked && isSelected && !isCorrect && (
-              <span className="wrong-x-circle-CB-unit5-p5-2">✕</span>
-            )}
-          </div>
-        );
-      })}
-    </div>
-  ))}
-</div>
-
+                    {/* ❌ دائرة حمراء فيها X بيضاء للخطأ فقط عند النتيجة */}
+                    {showResult2 && !locked && isSelected && !isCorrect && (
+                      <span className="wrong-x-circle-CB-unit5-p5-2">✕</span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          ))}
+        </div>
       </div>
       <div className="action-buttons-container">
         <button onClick={reset} className="try-again-button">

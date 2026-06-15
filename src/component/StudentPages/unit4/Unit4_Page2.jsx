@@ -37,7 +37,7 @@ const Unit4_Page2 = ({ openPopup }) => {
   ];
 
   const readChooseData = {
-    title: "Read and choose.",
+    title: "Read and tap or click the correct answer.",
     questions: [
       {
         text: "Helen’s uncle takes pictures of",

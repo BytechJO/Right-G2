@@ -124,7 +124,7 @@ const Unit7_Page5_Q3 = () => {
       <div className="main-container-component">
         <div className="div-forall" style={{gap:"20px"}}>
           <h5 className="header-title-page8">
-            <span className="ex-A mr-2.5">B</span>Look and write.
+            <span className="ex-A mr-2.5">B</span>Look and tap or click to complete the sentence. 
           </h5>
           <div className="flex flex-col gap-3">
           {questions.map((q, i) => {

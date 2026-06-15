@@ -83,44 +83,42 @@ const Unit2_Page6_Q2 = () => {
     setWrongInputs([]);
   };
 
- const checkAnswers = () => {
-  if (locked) return;
+  const checkAnswers = () => {
+    if (locked) return;
 
-  // ✅ تحقق إذا في input فاضي
-  const hasEmpty = answers.some((row) =>
-    row.some((val) => val === "")
-  );
+    // ✅ تحقق إذا في input فاضي
+    const hasEmpty = answers.some((row) => row.some((val) => val === ""));
 
-  if (hasEmpty) {
-    ValidationAlert.info("Please complete all answers first.");
-    return;
-  }
+    if (hasEmpty) {
+      ValidationAlert.info("Please complete all answers first.");
+      return;
+    }
 
-  // 👇 كودك الحالي يكمل طبيعي
-  let wrong = [];
-  let score = 0;
-  let total = 0;
+    // 👇 كودك الحالي يكمل طبيعي
+    let wrong = [];
+    let score = 0;
+    let total = 0;
 
-  questions.forEach((q, qIndex) => {
-    q.parts.forEach((p, pIndex) => {
-      if (p.type === "input") {
-        total++;
-        const word =
-          wordBank.find((w) => w.id === answers[qIndex][pIndex])?.text || "";
-        if (word === p.answer) score++;
-        else wrong.push(`${qIndex}-${pIndex}`);
-      }
+    questions.forEach((q, qIndex) => {
+      q.parts.forEach((p, pIndex) => {
+        if (p.type === "input") {
+          total++;
+          const word =
+            wordBank.find((w) => w.id === answers[qIndex][pIndex])?.text || "";
+          if (word === p.answer) score++;
+          else wrong.push(`${qIndex}-${pIndex}`);
+        }
+      });
     });
-  });
 
-  setWrongInputs(wrong);
-  setLocked(true);
+    setWrongInputs(wrong);
+    setLocked(true);
 
-  const msg = `Score: ${score} / ${total}`;
-  if (score === total) ValidationAlert.success(msg);
-  else if (score === 0) ValidationAlert.error(msg);
-  else ValidationAlert.warning(msg);
-};
+    const msg = `Score: ${score} / ${total}`;
+    if (score === total) ValidationAlert.success(msg);
+    else if (score === 0) ValidationAlert.error(msg);
+    else ValidationAlert.warning(msg);
+  };
 
   const showAnswers = () => {
     setAnswers(
@@ -151,100 +149,102 @@ const Unit2_Page6_Q2 = () => {
       <div
         style={{ display: "flex", justifyContent: "center", padding: "30px" }}
       >
-        <div className="div-forall" style={{gap:"20px"}}>
+        <div className="div-forall" style={{ gap: "20px" }}>
           {/* ❌ الهيدر كما هو */}
           <h5 className="header-title-page8">
-            <span className="ex-A">E</span>Look and write.
+            <span className="ex-A">E</span>Drag and drop the words to make the
+            sentence.
           </h5>
-<div className="flex flex-col gap-2">
-          {/* WORD BANK */}
-          <Droppable droppableId="word-bank" direction="horizontal">
-            {(provided) => (
-              <div
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-                className="CB-unit2-p6-q2-word-bank"
-              >
-                {wordBank.map((w, i) => {
-                  const isUsed = answers.some((row) => row.includes(w.id));
-                  return (
-                    <Draggable
-                      key={w.id}
-                      draggableId={w.id}
-                      index={i}
-                      isDragDisabled={locked || isUsed}
-                    >
-                      {(provided) => (
-                        <span
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          className="CB-unit2-p6-q2-word"
-                          style={{
-                            background: isUsed ? "#ccc" : "white",
-                            opacity: isUsed ? 0.6 : 1,
-                            cursor: isUsed ? "not-allowed" : "grab",
-                            ...provided.draggableProps.style,
-                          }}
-                        >
-                          {w.text}
-                        </span>
-                      )}
-                    </Draggable>
-                  );
-                })}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-
-          {/* QUESTIONS */}
-          <div className="CB-unit2-p6-q2-content">
-            {questions.map((q, qIndex) => (
-              <div key={qIndex} className="CB-unit2-p6-q2-row">
-                <div className="CB-unit2-p6-q2-left">
-                  <span className="CB-unit2-p6-q2-index">{qIndex + 1}</span>
-                  <img src={q.img} alt="" className="CB-unit2-p6-q2-img" />
-                </div>
-
-                <div className="CB-unit2-p6-q2-sentence">
-                  {q.parts.map((part, pIndex) =>
-                    part.type === "text" ? (
-                      <span key={pIndex} className="CB-unit2-p6-q2-text">
-                        {part.value}
-                      </span>
-                    ) : (
-                      <Droppable
-                        key={pIndex}
-                        droppableId={`drop-${qIndex}-${pIndex}`}
-                        isDropDisabled={locked}
+          <div className="flex flex-col gap-2">
+            {/* WORD BANK */}
+            <Droppable droppableId="word-bank" direction="horizontal">
+              {(provided) => (
+                <div
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                  className="CB-unit2-p6-q2-word-bank"
+                >
+                  {wordBank.map((w, i) => {
+                    const isUsed = answers.some((row) => row.includes(w.id));
+                    return (
+                      <Draggable
+                        key={w.id}
+                        draggableId={w.id}
+                        index={i}
+                        isDragDisabled={locked || isUsed}
                       >
-                        {(provided, snapshot) => (
+                        {(provided) => (
                           <span
                             ref={provided.innerRef}
-                            {...provided.droppableProps}
-                            className={`CB-unit2-p6-q2-input ${
-                              snapshot.isDraggingOver ? "drag-over-cell" : ""
-                            }`}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            className="CB-unit2-p6-q2-word"
+                            style={{
+                              background: isUsed ? "#ccc" : "white",
+                              opacity: isUsed ? 0.6 : 1,
+                              touchAction: "none",
+                              cursor: isUsed ? "not-allowed" : "grab",
+                              ...provided.draggableProps.style,
+                            }}
                           >
-                            {wordBank.find(
-                              (w) => w.id === answers[qIndex][pIndex],
-                            )?.text || ""}
-                            {provided.placeholder}
-                            {wrongInputs.includes(`${qIndex}-${pIndex}`) && (
-                              <span className="CB-unit2-p6-q2-input-error">
-                                ✕
-                              </span>
-                            )}
+                            {w.text}
                           </span>
                         )}
-                      </Droppable>
-                    ),
-                  )}
+                      </Draggable>
+                    );
+                  })}
+                  {provided.placeholder}
                 </div>
-              </div>
-            ))}
-          </div>
+              )}
+            </Droppable>
+
+            {/* QUESTIONS */}
+            <div className="CB-unit2-p6-q2-content">
+              {questions.map((q, qIndex) => (
+                <div key={qIndex} className="CB-unit2-p6-q2-row">
+                  <div className="CB-unit2-p6-q2-left">
+                    <span className="CB-unit2-p6-q2-index">{qIndex + 1}</span>
+                    <img src={q.img} alt="" className="CB-unit2-p6-q2-img" />
+                  </div>
+
+                  <div className="CB-unit2-p6-q2-sentence">
+                    {q.parts.map((part, pIndex) =>
+                      part.type === "text" ? (
+                        <span key={pIndex} className="CB-unit2-p6-q2-text">
+                          {part.value}
+                        </span>
+                      ) : (
+                        <Droppable
+                          key={pIndex}
+                          droppableId={`drop-${qIndex}-${pIndex}`}
+                          isDropDisabled={locked}
+                        >
+                          {(provided, snapshot) => (
+                            <span
+                              ref={provided.innerRef}
+                              {...provided.droppableProps}
+                              className={`CB-unit2-p6-q2-input ${
+                                snapshot.isDraggingOver ? "drag-over-cell" : ""
+                              }`}
+                            >
+                              {wordBank.find(
+                                (w) => w.id === answers[qIndex][pIndex],
+                              )?.text || ""}
+                              {provided.placeholder}
+                              {wrongInputs.includes(`${qIndex}-${pIndex}`) && (
+                                <span className="CB-unit2-p6-q2-input-error">
+                                  ✕
+                                </span>
+                              )}
+                            </span>
+                          )}
+                        </Droppable>
+                      ),
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 

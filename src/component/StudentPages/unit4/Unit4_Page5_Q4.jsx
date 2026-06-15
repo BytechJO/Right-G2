@@ -236,7 +236,7 @@ const Unit4_Page5_Q4 = () => {
           <span className="ex-A" style={{ marginRight: "10px" }}>
             C
           </span>
-         What do photographers use?
+       What do photographers use? Tap or click the hidden words to make a sentence. 
         </h5>
 
         {/* Words List */}

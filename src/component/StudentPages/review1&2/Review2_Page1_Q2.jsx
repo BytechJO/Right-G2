@@ -103,7 +103,7 @@ const Review2_Page1_Q2 = () => {
         >
           <h5 className="header-title-page8">
             {" "}
-            <span style={{ marginRight: "20px" }}>B</span>Look and write.
+            <span style={{ marginRight: "20px" }}>B</span>Drag and drop the words.
           </h5>
 
           {/* 🔤 Word Bank */}

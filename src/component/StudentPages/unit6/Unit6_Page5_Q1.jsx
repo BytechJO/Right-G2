@@ -119,8 +119,11 @@ const Unit6_Page5_Q1 = () => {
         <div>
           <h5 className="header-title-page8">
             <span className="ex-A">A</span>{" "}
-            <span style={{ color: "#2e3192" }}>1</span> Listen, read, and write
-            <span style={{ color: "#2e3192" }}>✓</span>.
+            <span className="mr-2" style={{ color: "#2e3192" }}>
+              1
+            </span>{" "}
+            Listen, read, and tap or click
+            <span style={{ color: "#2e3192" }}>✓</span> the correct word.
           </h5>
         </div>
 
@@ -128,11 +131,16 @@ const Unit6_Page5_Q1 = () => {
         <div className="CB-unit6-p5-q1-container" style={{ marginTop: "20px" }}>
           {questions.map((q, i) => (
             <div key={q.id} className="CB-unit6-p5-q1-row">
-              <span className="text-xl font-bold text-blue-900" style={{ width: "20px" }}>{q.id}</span>
+              <span
+                className="text-xl font-bold text-blue-900"
+                style={{ width: "20px" }}
+              >
+                {q.id}
+              </span>
 
               {/* Option A */}
               <div className="CB-unit6-p5-q1-options">
-                <span >{q.optionA}</span>
+                <span>{q.optionA}</span>
 
                 <div className="CB-unit6-p5-q1-input-wrapper">
                   <input
@@ -144,7 +152,8 @@ const Unit6_Page5_Q1 = () => {
                     value={""}
                   />
                   {answers[q.id] === "A" && (
-                    <img className="absolute top-0 left-4"
+                    <img
+                      className="absolute top-0 left-4"
                       src={trueIcon}
                       style={{ height: "25px", width: "auto" }}
                     />
@@ -169,7 +178,8 @@ const Unit6_Page5_Q1 = () => {
                     value={""}
                   />
                   {answers[q.id] === "B" && (
-                    <img className="absolute top-0 left-4"
+                    <img
+                      className="absolute top-0 left-4"
                       src={trueIcon}
                       style={{ height: "25px", width: "auto" }}
                     />

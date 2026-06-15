@@ -143,8 +143,8 @@ const Unit3_Page6_Q2 = () => {
     >
       <div className="div-forall" style={{gap:"30px"}}>
         <h5 className="header-title-page8">
-          <span className="ex-A">E</span>Read and write{" "}
-          <span style={{ color: "#2e3192" }}>✓</span>.
+          <span className="ex-A">E</span>Read and tap or click
+          <span style={{ color: "#2e3192" }}>✓</span>the correct box.
         </h5>
 
         <div

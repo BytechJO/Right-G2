@@ -241,7 +241,8 @@ const Unit1_Page5_Q4 = () => {
           <span className="ex-A" style={{ marginRight: "10px" }}>
             C
           </span>
-          What do lambs like to eat?
+          What do lambs like to eat? Tap or click the hidden words to make a
+          sentence.
         </h5>
 
         {/* Words List */}

@@ -148,9 +148,9 @@ const Review1_Page2_Q1 = () => {
 
   return (
     <div style={{ display: "flex", justifyContent: "center", padding: "30px" }}>
-      <div className="div-forall" style={{ width: "60%" }}>
+      <div className="div-forall" style={{ }}>
         <h5 className="header-title-page8">
-          <span style={{ marginRight: "20px" }}>C</span> Look and match.
+          <span style={{ marginRight: "20px" }}>C</span>Connect the pictures to match.
         </h5>
 
         <div ref={ref} className="match-wrapper2-CB-review1-p2-q1">

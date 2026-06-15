@@ -91,9 +91,9 @@ const Unit3_Page5_Q1 = () => {
       >
         <h5 className="header-title-page8">
           <span className="ex-A">A</span>{" "}
-          <span style={{ color: "#2e3192" }}>1</span>
+          <span className="mr-2" style={{ color: "#2e3192" }}>1</span>
           Does it begin with <span style={{ color: "#2e3192" }}>j</span> or{" "}
-          <span style={{ color: "#2e3192" }}>y</span>? Listen and write.
+          <span style={{ color: "#2e3192" }}>y</span>?  Listen and tap or click the letter.
         </h5>
 
         <QuestionAudioPlayer

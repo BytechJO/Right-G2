@@ -115,16 +115,12 @@ const Review1_Page2_Q2 = () => {
       <div
         className="div-forall"
         style={{
-          display: "flex",
-          flexDirection: "column",
           // gap: "20px",
-          width: "60%",
-          justifyContent: "flex-start",
+          
         }}
       >
         <h5 className="header-title-page8">
-          <span style={{ marginRight: "20px" }}>D</span> Do they both begin with
-          the same sound? Listen and write
+          <span style={{ marginRight: "20px" }}>D</span> Change the question: Do they both begin with the same sound? Listen and tap or click
           <span style={{ color: "#2e3192" }}>✓</span> or
           <span style={{ color: "#2e3192" }}>✗</span>.
         </h5>

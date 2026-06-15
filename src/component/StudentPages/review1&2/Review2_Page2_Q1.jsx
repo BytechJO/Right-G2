@@ -90,7 +90,7 @@ const Review2_Page2_Q1 = () => {
         <h5 className="header-title-page8">
           <span style={{ marginRight: "20px" }}>E</span>
           Does it begin with <span style={{ color: "#2e3192" }}>c</span> or{" "}
-          <span style={{ color: "#2e3192" }}>q</span>? Listen and write.
+          <span style={{ color: "#2e3192" }}>q</span>? Listen and tap or click.
         </h5>
 
         <QuestionAudioPlayer

@@ -173,11 +173,10 @@ const Review1_Page1_Q2 = () => {
       <div
         style={{ display: "flex", justifyContent: "center", padding: "30px" }}
       >
-        <div className="div-forall" style={{ width: "60%",gap:"20px" }}>
+        <div className="div-forall" style={{gap:"20px" }}>
           {/* ❌ الهيدر كما هو */}
           <h5 className="header-title-page8">
-            <span style={{ marginRight: "20px" }}>B</span>Look, read, and
-            unscramble the word. Then, rewrite the sentence.
+            <span style={{ marginRight: "20px" }}>B</span>Drag and drop the letters to unscramble the word.
           </h5>
           
           <div>

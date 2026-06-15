@@ -149,8 +149,8 @@ const Page9_Q1 = () => {
         }}
       >
         <h5 className="header-title-page8">
-          <span className="ex-A">D</span> Look, read, and write{" "}
-          <span style={{ color: "#2e3192" }}>✓</span>.
+          <span className="ex-A">D</span> Tap or click
+          <span style={{ color: "#2e3192" }}>✓</span>the correct box.
         </h5>
 
         <div className="CB-unit1-p9-q1-grid">

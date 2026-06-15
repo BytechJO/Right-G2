@@ -107,7 +107,7 @@ const Unit7_Page6_Q2 = () => {
     <div className="main-container-component">
       <div className="div-forall">
         <h5 className="header-title-page8">
-          <span className="ex-A">E</span> Read, write, and check <span className="text-blue-900">✓</span>.
+          <span className="ex-A">E</span>Read, tap or click the numbers, and check  <span className="text-blue-900">✓</span>the correct box.
         </h5>
 
         <div className="grid grid-cols-2 gap-y-10 gap-x-[60px] mt-5">

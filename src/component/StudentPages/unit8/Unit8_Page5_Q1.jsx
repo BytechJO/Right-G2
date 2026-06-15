@@ -88,13 +88,12 @@ const Unit8_Page5_Q1 = () => {
     <div className="main-container-component">
       <div className="div-forall">
         <h5 className="header-title-page8">
-          <span className="ex-A" style={{ marginRight: "20px" }}>
+          <span className="ex-A" style={{ marginRight: "10px" }}>
             A
           </span>
-          <span style={{ color: "#2e3192" }}>1</span>
-          Does it have a <span style={{ color: "#2e3192" }}>long u</span>?
-          Listen and write<span style={{ color: "#2e3192" }}> ✓ </span>or
-          <span style={{ color: "#2e3192" }}> ✗</span>
+          <span style={{ color: "#2e3192" , marginRight: "10px"}}>1</span>
+          Listen and tap or click the{" "}
+          <span style={{ color: "#2e3192" }}>long u</span>? words.
         </h5>
         <QuestionAudioPlayer
           src={sound1}
@@ -133,11 +132,13 @@ const Unit8_Page5_Q1 = () => {
                 >
                   <img src={trueIcon} style={{ height: "25px" }} />
 
-                  {isWrong(i) && selected[i] === "yes" && item.correct !== "yes" && (
-                    <span className="absolute -top-2 right-10 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold border-2 border-white shadow-md">
-                      ✕
-                    </span>
-                  )}
+                  {isWrong(i) &&
+                    selected[i] === "yes" &&
+                    item.correct !== "yes" && (
+                      <span className="absolute -top-2 right-10 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold border-2 border-white shadow-md">
+                        ✕
+                      </span>
+                    )}
                 </button>
 
                 <button
@@ -150,11 +151,13 @@ const Unit8_Page5_Q1 = () => {
                 >
                   <img src={falseIcon} style={{ height: "25px" }} />
 
-                  {isWrong(i) && selected[i] === "no" && item.correct !== "no" && (
-                    <span className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold border-2 border-white shadow-md">
-                      ✕
-                    </span>
-                  )}
+                  {isWrong(i) &&
+                    selected[i] === "no" &&
+                    item.correct !== "no" && (
+                      <span className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold border-2 border-white shadow-md">
+                        ✕
+                      </span>
+                    )}
                 </button>
               </div>
             </div>

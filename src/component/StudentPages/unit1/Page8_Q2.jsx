@@ -60,25 +60,24 @@ const Page8_Q2 = () => {
       end: 19.739,
       text: "1:run, rabbit, lemon.",
     },
-   
+
     {
       start: 19.739,
       end: 26.26,
       text: "2:leg,railroad track, red",
     },
-   
+
     {
       start: 26.26,
       end: 32.34,
       text: "3:laugh, rain, lock.",
     },
-   
+
     {
       start: 32.34,
       end: 37.84,
       text: "4: lion, lamp,ring",
     },
-   
   ];
 
   const handleSelect = (groupIndex, imageIndex) => {
@@ -143,7 +142,7 @@ const Page8_Q2 = () => {
     setSelected(Array(groups.length).fill(null));
     setShowResult(false);
     setShowResult2(false);
-     setLocked(false);
+    setLocked(false);
   };
 
   return (
@@ -167,9 +166,8 @@ const Page8_Q2 = () => {
         }}
       >
         <h3 className="header-title-page8">
-          <span style={{ color: "#2e3192" }}>2</span> Listen and write{" "}
-          <span style={{ color: "#2e3192" }}>✗</span> on the picture with a
-          different sound.
+          <span style={{ color: "#2e3192" }}>2</span> Listen and tap or click
+          the picture with a different sound.
         </h3>
         <QuestionAudioPlayer
           src={sound1}

@@ -233,7 +233,7 @@ const Unit7_Page5_Q4 = () => {
           <span className="ex-A" style={{ marginRight: "10px" }}>
             C
           </span>
-        What do pilots do?
+          What do pilots do? Tap or click the hidden words to make a sentence.
         </h5>
 
         {/* Words List */}

@@ -147,10 +147,10 @@ const Unit4_Page5_Q1 = () => {
 
   return (
     <div style={{ display: "flex", justifyContent: "center", padding: "30px" }}>
-      <div className="div-forall" style={{ width: "60%" }}>
+      <div className="div-forall">
         <h5 className="header-title-page8">
           <span className="ex-A">A</span>{" "}
-          <span style={{ color: "#2e3192" }}>1</span>Match and write.{" "}
+          <span className="mr-2" style={{ color: "#2e3192" }}>1</span>Match and write.{" "}
         </h5>
 
         <div ref={ref} className="match-wrapper2-CB-review1-p2-q1">

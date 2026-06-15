@@ -97,8 +97,8 @@ const total = questions.length;
     <div className="main-container-component mb-10">
       <div className="div-forall" style={{gap:"50px"}}>
         <h5 className="header-title-page8">
-          <span className="ex-A me-4">E</span>Look, read, and write
-          <span style={{ color: "#2e3192" }}>✓</span>.
+          <span className="ex-A mr-2">E</span>Look, read, and tap or click 
+          <span style={{ color: "#2e3192" }}>✓</span> the correct box.
         </h5>
         <div className="flex flex-col gap-5">
         {questions.map((q) => (

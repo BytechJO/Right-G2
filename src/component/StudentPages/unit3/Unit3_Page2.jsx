@@ -26,9 +26,7 @@ import { AudioContext } from "../../../AudioContext";
 import "./Unit3_Page2.css";
 import ReadChoose from "../../ReadChoose";
 const Unit3_Page2 = ({ openPopup }) => {
-  const [activeAreaIndex, setActiveAreaIndex] = useState(null);
-  const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
-  const [isPlaying, setIsPlaying] = useState(false);
+ 
   const { audioRef, activeId, setActiveId } = useContext(AudioContext);
   // أصوات الصور
   const imageSounds = [
@@ -40,7 +38,7 @@ const Unit3_Page2 = ({ openPopup }) => {
   ];
 
   const readChooseData = {
-    title: "Read and complete the sentences.",
+    title: "Read and tap or click to complete the sentences.",
     questions: [
       {
         text: "The boy is watching his mom",

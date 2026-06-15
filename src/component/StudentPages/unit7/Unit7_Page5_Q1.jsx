@@ -12,12 +12,11 @@ import sound1 from "../../../assets/audio/ClassBook/U 7/pg62-11-adult-lady_zAZvU
 
 import QuestionAudioPlayer from "../../QuestionAudioPlayer";
 
-
 const Unit7_Page5_Q1 = () => {
   const items = [
     {
       img: img1,
-      
+
       options: ["o_e", "ow", "oa"],
       correct: "ow",
       start: "wind",
@@ -25,7 +24,7 @@ const Unit7_Page5_Q1 = () => {
     },
     {
       img: img2,
-  
+
       options: ["o_e", "ow", "oa"],
       correct: "oa",
       start: "c",
@@ -33,7 +32,7 @@ const Unit7_Page5_Q1 = () => {
     },
     {
       img: img3,
-    
+
       options: ["o_e", "ow", "oa"],
       correct: "o_e",
       start: "n",
@@ -41,7 +40,7 @@ const Unit7_Page5_Q1 = () => {
     },
     {
       img: img4,
-      
+
       options: ["o_e", "ow", "oa"],
       correct: "ow",
       start: "sn",
@@ -49,7 +48,7 @@ const Unit7_Page5_Q1 = () => {
     },
     {
       img: img5,
-     
+
       options: ["o_e", "ow", "oa"],
       correct: "oa",
       start: "b",
@@ -57,20 +56,24 @@ const Unit7_Page5_Q1 = () => {
     },
     {
       img: img6,
-     
+
       options: ["o_e", "ow", "oa"],
       correct: "o_e",
       start: "h",
       end: "me",
     },
   ];
-const captions = [
-  { start: 0.5, end: 8.34, text: "Page 62, Right Activities. Exercise A, number 1. Listen, circle, and write." },
-  { start: 9.639, end: 10.859, text: "1, window." },
-  { start: 12.139, end: 13.279, text: "2, coat." },
-  { start: 14.559, end: 15.799, text: "3, note." },
-  { start: 17.219, end: 18.379, text: "5, boat" }
-];
+  const captions = [
+    {
+      start: 0.5,
+      end: 8.34,
+      text: "Page 62, Right Activities. Exercise A, number 1. Listen, circle, and write.",
+    },
+    { start: 9.639, end: 10.859, text: "1, window." },
+    { start: 12.139, end: 13.279, text: "2, coat." },
+    { start: 14.559, end: 15.799, text: "3, note." },
+    { start: 17.219, end: 18.379, text: "5, boat" },
+  ];
   const [selected, setSelected] = useState(Array(items.length).fill(""));
   const [answers, setAnswers] = useState(Array(items.length).fill(""));
   const [locked, setLocked] = useState(false);
@@ -148,77 +151,80 @@ const captions = [
   };
   return (
     <div className="main-container-component mb-20">
-      <div className="div-forall" style={{gap:"40px"}}>
+      <div className="div-forall" style={{ gap: "40px" }}>
         <h5 className="header-title-page8">
           <span className="ex-A mr-4">A</span>
-          <span style={{ color: "#2e3192" }}>1</span>
-          Listen, circle, and write.
+          <span className="mr-2" style={{ color: "#2e3192" }}>
+            1
+          </span>
+          Listen and tap or click the correct vowel sound.
         </h5>
         <div className="flex flex-col gap-8">
-        <QuestionAudioPlayer
-          src={sound1}
-          captions={captions}
-          stopAtSecond={8.43}
-        />
-        <div className="flex w-full">
-          <div className="grid grid-cols-3 gap-y-25 w-full gap-x-[60px] justify-center">
-            {items.map((item, i) => (
-              <div
-                key={i}
-                className="flex flex-col scale-[1.2] origin-top-left"
-              >
-                <div className="flex items-center gap-2.5">
-                  <span className="text-[20px] font-bold text-[#2a4e7c]">
-                    {i + 1}
-                  </span>
-
-                  <img
-                    src={item.img}
-                    alt=""
-                    style={{
-                      width: "80px",
-                      height: "auto",
-                    }}
-                  />
-
-                  {/* OPTIONS */}
-                  <div className="flex flex-col gap-1.5 text-[18px]">
-                    {item.options.map((opt, idx) => (
-                      <span
-                        key={idx}
-                        onClick={() => chooseOption(i, opt)}
-                        className={`cursor-pointer px-2 py-0.5 ${
-                          selected[i] === opt
-                            ? "border-2 border-red-500 rounded-full"
-                            : "hover:bg-gray-100 rounded-full"
-                        }`}
-                      >
-                        {opt}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="relative w-40">
-                  {/* ❌ */}
-                  {isWrong(i) && (
-                    <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold border-2 border-white shadow-md">
-                      ✕
+          <QuestionAudioPlayer
+            src={sound1}
+            captions={captions}
+            stopAtSecond={8.43}
+          />
+          <div className="flex w-full">
+            <div className="grid grid-cols-3 gap-y-25 w-full gap-x-[60px] justify-center">
+              {items.map((item, i) => (
+                <div
+                  key={i}
+                  className="flex flex-col scale-[1.2] origin-top-left"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <span className="text-[20px] font-bold text-[#2a4e7c]">
+                      {i + 1}
                     </span>
-                  )}
 
-                  <div
-                    className={`border-b-2 text-[18px] h-10 ${
-                      isWrong(i) ? "border-red-500" : "border-[#444]"
-                    }`}
-                  >
-                    {answers[i]}
+                    <img
+                      src={item.img}
+                      alt=""
+                      style={{
+                        width: "80px",
+                        height: "auto",
+                      }}
+                    />
+
+                    {/* OPTIONS */}
+                    <div className="flex flex-col gap-1.5 text-[18px]">
+                      {item.options.map((opt, idx) => (
+                        <span
+                          key={idx}
+                          onClick={() => chooseOption(i, opt)}
+                          className={`cursor-pointer px-2 py-0.5 ${
+                            selected[i] === opt
+                              ? "border-2 border-red-500 rounded-full"
+                              : "hover:bg-gray-100 rounded-full"
+                          }`}
+                        >
+                          {opt}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="relative w-40">
+                    {/* ❌ */}
+                    {isWrong(i) && (
+                      <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold border-2 border-white shadow-md">
+                        ✕
+                      </span>
+                    )}
+
+                    <div
+                      className={`border-b-2 text-[18px] h-10 ${
+                        isWrong(i) ? "border-red-500" : "border-[#444]"
+                      }`}
+                    >
+                      {answers[i]}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div></div>
+        </div>
       </div>
 
       <div className="action-buttons-container">

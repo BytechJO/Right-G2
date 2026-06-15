@@ -112,7 +112,7 @@ const Review2_Page1_Q4 = () => {
         
         >
             <h3 className="header-title-page8">
-              <span style={{ marginRight: "20px" }}>D</span> Look and write.
+              <span style={{ marginRight: "20px" }}>D</span>Look, drag, and drop the words
             </h3>
           <div className="flex flex-col gap-10">
 

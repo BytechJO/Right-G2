@@ -197,9 +197,9 @@ const Unit4_Page6_Q1 = () => {
           padding: "30px",
         }}
       >
-        <div className="div-forall" style={{ width: "60%",gap:"20px" }}>
+        <div className="div-forall" style={{ gap:"20px" }}>
           <h5 className="header-title-page8">
-            <span className="ex-A">D</span>Complete the conversations.
+            <span className="ex-A">D</span>Tap or click to complete the conversations. 
           </h5>
 
           <div className="flex flex-col gap-10">

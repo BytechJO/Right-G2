@@ -130,8 +130,7 @@ const Unit8_Page5_Q2 = () => {
           {" "}
           {/* ❌ الهيدر كما هو */}
           <h5 className="header-title-page8">
-            <span style={{ color: "#2e3192", marginRight: "20px" }}>2</span>Look
-            and complete the poem. Then say.
+            <span style={{ color: "#2e3192", marginRight: "10px" }}>2</span>Look and tap or click to complete the poem. 
           </h5>
           <div className="flex flex-col gap-5">
           {/* word bank */}

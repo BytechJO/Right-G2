@@ -377,17 +377,15 @@ correctGroups.forEach((group) => {
       }}
     >
       <div
-        className="div-forall"
+        className="div-forall mb-10"
         style={{
-          width: "60%",
-          display: "flex",
-          flexDirection: "column",
+          
           gap: "20px",
         }}
       >
         <div className="flex flex-col">
         <h4 className="header-title-page8 mb-2">
-          <span className="ex-A">A</span> Listen, write, and match.
+          <span className="ex-A">A</span> Listen, match, and drag the letters to make the words.
         </h4>
           <span className="text-gray-400 text-xs">Double-tap the image to start matching the image with the words below.</span>
           </div>

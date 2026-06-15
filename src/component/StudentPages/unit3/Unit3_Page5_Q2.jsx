@@ -161,17 +161,13 @@ export default function Unit3_Page5_Q2() {
       <div
         className="div-forall"
         style={{
-          display: "flex",
-          flexDirection: "column",
           gap: "30px",
-          width: "60%",
-          justifyContent: "flex-start",
+    
         }}
       >
         <div className="circle-wrapper-Unit5_Page5_Q2">
           <h5 className="header-title-page8">
-            <span style={{ color: "#2e3192" }}>2</span> Which pictures begin
-            with the same sound? Circle.
+            <span className="mr-2" style={{ color: "#2e3192" }}>2</span> Listen and tap or click the pictures that begin with the same sound. 
           </h5>
           <div className="CB-unit3-p5-q2-content-container">
             {data.map((q) => (

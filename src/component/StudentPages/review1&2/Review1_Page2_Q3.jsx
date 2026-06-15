@@ -155,8 +155,7 @@ const Review1_Page2_Q3 = () => {
         
         >
           <h5 className="header-title-page8">
-            <span style={{ marginRight: "20px" }}>F</span> Circle and
-            write.{" "}
+            <span style={{ marginRight: "20px" }}>F</span>  Tap or click the letters, drag and drop to make the word.
           </h5>
            
            <div className="flex flex-col gap-10">

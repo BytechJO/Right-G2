@@ -107,7 +107,7 @@ const Review2_Page2_Q2 = () => {
           <h5 className="header-title-page8">
             <span style={{ marginRight: "20px" }}>F</span> Does it end with{" "}
             <span style={{ color: "#2e3192" }}>-ck</span> or{" "}
-            <span style={{ color: "#2e3192" }}>-x</span>? Listen and circle.
+            <span style={{ color: "#2e3192" }}>-x</span>? Listen and tap or click.
           </h5>
         </div>
  

@@ -125,8 +125,8 @@ const Unit3_Page6_Q1 = () => {
       }}
     >
       <div className="div-forall"style={{gap:"20px"}}>
-        <h3 className="header-title-page8">
-          <span className="ex-A">D</span>Look, read, and circle.
+        <h3 className="header-title-page8  pb-2.5">
+          <span className="ex-A">D</span>Look, read, and tap or click the correct answer. 
         </h3>
 
         <div className="content-container-CB-unit3-p6-q1">

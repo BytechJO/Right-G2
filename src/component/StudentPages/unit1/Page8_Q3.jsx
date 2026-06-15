@@ -102,7 +102,7 @@ const Page8_Q3 = () => {
         <div>
           <h5 className="header-title-page8">
             {" "}
-            <span className="ex-A">B</span> Look and circle.
+            <span className="ex-A">B</span> Tap or click the correct word.
           </h5>
         </div>
         <div className="container-CB-unit1-p8-q3">

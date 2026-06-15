@@ -126,7 +126,8 @@ const Page9_Q2 = () => {
         <div className="div-forall mb-10" style={{ width: "60%" }}>
           <div className="component-wrapper">
             <h3 className="header-title-page8">
-              <span className="ex-A"> D</span> Look and write.
+              <span className="ex-A">E</span>Drag and drop to guess who is
+              missing from the picture.
             </h3>
 
             <div className="CB-unit1-p9-q2-top-container">
@@ -160,7 +161,7 @@ const Page9_Q2 = () => {
                                 {...provided.dragHandleProps}
                                 style={{
                                   // background: isUsed ? "#ccc" : "",
-                                  textDecoration:  isUsed ? "line-through" : "",
+                                  textDecoration: isUsed ? "line-through" : "",
                                   opacity: isUsed ? 0.6 : 1,
                                   cursor: isUsed ? "not-allowed" : "grab",
                                   ...provided.draggableProps.style,

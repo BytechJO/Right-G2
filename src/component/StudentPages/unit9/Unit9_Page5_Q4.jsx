@@ -268,7 +268,7 @@ const Unit9_Page5_Q4 = () => {
           <span className="ex-A" style={{ marginRight: "10px" }}>
             C
           </span>
-         What electronic item do we use to send e-mails?
+        What electronic item do we use to send emails? Tap or click the hidden words to make a sentence. 
         </h5>
 
         {/* Words List */}
