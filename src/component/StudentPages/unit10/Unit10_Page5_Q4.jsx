@@ -8,31 +8,75 @@ import Button from "../../WorkBookPages/Button";
 const Unit10_Page5_Q4 = () => {
   const grid = [
     [
-       "r","x","s","t","h","e","y","a","l","a","y","n","b","m","a","l","y","h","w","o",
-    "t","h","e","i","r",
+      "r",
+      "x",
+      "s",
+      "t",
+      "h",
+      "e",
+      "y",
+      "a",
+      "l",
+      "a",
+      "y",
+      "n",
+      "b",
+      "m",
+      "a",
+      "l",
+      "y",
+      "h",
+      "w",
+      "o",
+      "t",
+      "h",
+      "e",
+      "i",
+      "r",
     ],
 
     [
-      "g","r","e","g","g","s","g","s","h","k","j","i","n","t",
-    "p","t","x","a","y","c","j","n","e","s","t"
+      "g",
+      "r",
+      "e",
+      "g",
+      "g",
+      "s",
+      "g",
+      "s",
+      "h",
+      "k",
+      "j",
+      "i",
+      "n",
+      "t",
+      "p",
+      "t",
+      "x",
+      "a",
+      "y",
+      "c",
+      "j",
+      "n",
+      "e",
+      "s",
+      "t",
     ],
-    ["w","q","p","o",],
+    ["w", "q", "p", "o"],
   ];
 
-
   const correctPositions = {
-    they: [3,4,5,6],
-    lay: [8,9,10],
-    their: [20,21,22,23,24],
-    eggs: [100+2,100+3,100+4,100+5],
-    in: [100+11,100+12],
-    a: [100+17],
-    nest: [100+21,100+22,100+23,100+24],
+    they: [3, 4, 5, 6],
+    lay: [8, 9, 10],
+    their: [20, 21, 22, 23, 24],
+    eggs: [100 + 2, 100 + 3, 100 + 4, 100 + 5],
+    in: [100 + 11, 100 + 12],
+    a: [100 + 17],
+    nest: [100 + 21, 100 + 22, 100 + 23, 100 + 24],
   };
   const letters = grid;
   const wordsToFind = ["they", "lay", "their", "eggs", "in", "a", "nest"];
   const fullSentence = ["they", "lay", "their", "eggs", "in", "a", "nest"];
-
 
   const correctAnswers = [
     { word: "they", order: 0 },
@@ -40,7 +84,7 @@ const Unit10_Page5_Q4 = () => {
     { word: "their", order: 2 },
     { word: "eggs", order: 3 },
     { word: "in", order: 4 },
-    { word: "a", order: 5},
+    { word: "a", order: 5 },
     { word: "nest", order: 6 },
   ];
   const [locked, setLocked] = useState(false);
@@ -195,7 +239,8 @@ const Unit10_Page5_Q4 = () => {
           <span className="ex-A" style={{ marginRight: "10px" }}>
             C
           </span>
-          Where do birds lay their eggs?
+          Where do birds lay their eggs? Tap or click the hidden words to make a
+          sentence.
         </h5>
 
         {/* Words List */}
@@ -320,6 +365,5 @@ const Unit10_Page5_Q4 = () => {
     </div>
   );
 };
-
 
 export default Unit10_Page5_Q4;

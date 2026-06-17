@@ -103,94 +103,91 @@ const Unit10_Page5_Q1 = () => {
 
   return (
     <div className="main-container-component">
-      <div className="div-forall" style={{gap:"40px"}}>
+      <div className="div-forall" style={{ gap: "40px" }}>
         <h5 className="header-title-page8">
           <span style={{ marginRight: "15px" }} className="ex-A">
             A
           </span>
           <span style={{ color: "#2e3192" }}>1</span>
-          Do they both have the same{" "}
-          <span style={{ color: "#2e3192" }}>vowel sound</span>? Listen and
-          write
-          <span style={{ color: "#2e3192" }}>✓</span> or
-          <span style={{ color: "#2e3192" }}>✗</span>.
+          Listen and tap or click <span style={{ color: "#2e3192" }}>✓</span> if
+          they have the same vowel sound.
         </h5>
         <div className="flex flex-col gap-5">
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "30px",
-            width: "100%",
-          }}
-        >
-          <QuestionAudioPlayer
-            src={sound1}
-            captions={captions}
-            stopAtSecond={stopAtSecond}
-          />
-        </div>
-        <div className="CB-review1-p2-q1-container">
-          {questions.map((q, index) => (
-            <div key={q.id} className="CB-unit10-p5-q1-question-box">
-             
-
-              <div className="CB-review1-p2-q1-flex">
-                <div className="flex gap-5">
-                  <span style={{ fontSize:"20px",fontWeight: "700" }}>
-                  {q.id}
-                </span>
-                  <img
-                    src={q.image}
-                    alt=""
-                    style={{ height: "150px", width: "auto" }}
-                  />
-                </div>
-
-                <div className="CB-review1-p2-q1-options-box">
-                  {/* خيار الصح */}
-                  <div className="CB-review1-p2-q1-option-wrapper">
-                    <div
-                      className={`CB-review1-p2-q1-option-btn ${
-                        answers[q.id] === "✓" ? "is-selected" : ""
-                      }`}
-                      onClick={() => selectAnswer(q.id, "✓")}
-                    >
-                     <img
-                        src={trueIcon}
-                        style={{ height: "25px", width: "auto" }}
-                      />
-                    </div>
-
-                    {showResult[index] === "wrong" && answers[q.id] === "✓" && (
-                      <div className="CB-review1-p2-q1-wrong-icon">✕</div>
-                    )}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "30px",
+              width: "100%",
+            }}
+          >
+            <QuestionAudioPlayer
+              src={sound1}
+              captions={captions}
+              stopAtSecond={stopAtSecond}
+            />
+          </div>
+          <div className="CB-review1-p2-q1-container">
+            {questions.map((q, index) => (
+              <div key={q.id} className="CB-unit10-p5-q1-question-box">
+                <div className="CB-review1-p2-q1-flex">
+                  <div className="flex gap-5">
+                    <span style={{ fontSize: "20px", fontWeight: "700" }}>
+                      {q.id}
+                    </span>
+                    <img
+                      src={q.image}
+                      alt=""
+                      style={{ height: "150px", width: "auto" }}
+                    />
                   </div>
 
-                  {/* خيار الخطأ */}
-                  <div className="CB-review1-p2-q1-option-wrapper">
-                    <div
-                      className={`CB-review1-p2-q1-option-btn ${
-                        answers[q.id] === "✗" ? "is-selected" : ""
-                      }`}
-                      onClick={() => selectAnswer(q.id, "✗")}
-                    >
-                       <img
-                        src={falseIcon}
-                        style={{ height: "25px", width: "auto" }}
-                      />
+                  <div className="CB-review1-p2-q1-options-box">
+                    {/* خيار الصح */}
+                    <div className="CB-review1-p2-q1-option-wrapper">
+                      <div
+                        className={`CB-review1-p2-q1-option-btn ${
+                          answers[q.id] === "✓" ? "is-selected" : ""
+                        }`}
+                        onClick={() => selectAnswer(q.id, "✓")}
+                      >
+                        <img
+                          src={trueIcon}
+                          style={{ height: "25px", width: "auto" }}
+                        />
+                      </div>
+
+                      {showResult[index] === "wrong" &&
+                        answers[q.id] === "✓" && (
+                          <div className="CB-review1-p2-q1-wrong-icon">✕</div>
+                        )}
                     </div>
 
-                    {showResult[index] === "wrong" && answers[q.id] === "✗" && (
-                      <div className="CB-review1-p2-q1-wrong-icon">✕</div>
-                    )}
+                    {/* خيار الخطأ */}
+                    <div className="CB-review1-p2-q1-option-wrapper">
+                      <div
+                        className={`CB-review1-p2-q1-option-btn ${
+                          answers[q.id] === "✗" ? "is-selected" : ""
+                        }`}
+                        onClick={() => selectAnswer(q.id, "✗")}
+                      >
+                        <img
+                          src={falseIcon}
+                          style={{ height: "25px", width: "auto" }}
+                        />
+                      </div>
+
+                      {showResult[index] === "wrong" &&
+                        answers[q.id] === "✗" && (
+                          <div className="CB-review1-p2-q1-wrong-icon">✕</div>
+                        )}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-</div>
         <div className="action-buttons-container">
           <button onClick={resetAnswers} className="try-again-button">
             Start Again ↻

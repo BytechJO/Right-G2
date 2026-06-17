@@ -128,7 +128,7 @@ const Unit10_Page6_Q2 = () => {
       <div className="main-container-component">
         <div className="div-forall" style={{gap:"20px"}}>
           <h5 className="header-title-page8">
-            <span className="ex-A mr-5">E</span>Read and label.
+            <span className="ex-A mr-5">E</span> Read and drag the labels to the correct boxes. 
           </h5>
              <div>
           {/* ================= BANK ================= */}

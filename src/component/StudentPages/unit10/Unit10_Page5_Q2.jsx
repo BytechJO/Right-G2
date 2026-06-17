@@ -130,10 +130,10 @@ const Unit10_Page5_Q3 = () => {
   };
   return (
     <div className="main-container-component">
-      <div className="div-forall"style={{gap:"30px"}}>
+      <div className="div-forall" style={{ gap: "30px" }}>
         <h5 className="header-title-page8 mb-8">
           <span style={{ color: "#2e3192", marginRight: "20px" }}>2</span>
-          Read and circle the words with the same vowel sound.
+          Read and tap or click the words with the same vowel sound.
         </h5>
 
         {questions.map((q) => (

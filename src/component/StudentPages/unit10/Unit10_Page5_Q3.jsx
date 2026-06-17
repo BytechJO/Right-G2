@@ -163,16 +163,17 @@ She’s watering the flowers.`,
       <div className="div-forall gap-2">
         {" "}
         <h5 className="header-title-page8 ">
-          <span className="ex-A mr-5">B</span> Look, read, and match.
+          <span className="ex-A mr-5">B</span> Look, read, and tap or click to
+          match the picture.
         </h5>
         <div className="flex flex-col">
-        {images.map((item, i) => (
-          <div key={i} className="flex justify-between items-center my-3">
-            {/* WORD SIDE */}
-            <div className="w-[45%] flex justify-start">
-              <div className="relative inline-block">
-                <p
-                  className={`px-5 py-1.5 rounded-[20px] font-semibold text-[20px] w-[290px] cursor-pointer min-w-20 whitespace-pre-line
+          {images.map((item, i) => (
+            <div key={i} className="flex justify-between items-center my-3">
+              {/* WORD SIDE */}
+              <div className="w-[45%] flex justify-start">
+                <div className="relative inline-block">
+                  <p
+                    className={`px-5 py-1.5 rounded-[20px] font-semibold text-[20px] w-[290px] cursor-pointer min-w-20 whitespace-pre-line
                     bg-red-100
           ${
             startDot?.index === i && startDot?.type === "text"
@@ -181,13 +182,13 @@ She’s watering the flowers.`,
           }
     transition-all duration-200
           `}
-                  onClick={() => handleDotClick(i, "text")}
-                >
-                  {words[i]}
-                </p>
-                {isWrongMatch(i) && (
-                  <div
-                    className="
+                    onClick={() => handleDotClick(i, "text")}
+                  >
+                    {words[i]}
+                  </p>
+                  {isWrongMatch(i) && (
+                    <div
+                      className="
       absolute -top-2 -right-2
       w-7 h-7
       bg-red-500 text-white
@@ -197,66 +198,67 @@ She’s watering the flowers.`,
       border-2 border-white
       z-10
     "
-                  >
-                    ✕
-                  </div>
-                )}
+                    >
+                      ✕
+                    </div>
+                  )}
+                  <div
+                    ref={(el) => (textDotRefs.current[i] = el)}
+                    onClick={() => handleDotClick(i, "text")}
+                    className={`absolute -right-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-[#d82b2b] rounded-full cursor-pointer  ${
+                      startDot?.index === i && startDot?.type === "text"
+                        ? "bg-red-600 scale-150"
+                        : ""
+                    }
+    transition-all duration-200`}
+                  />
+                </div>
+              </div>
+
+              {/* IMAGE SIDE */}
+              <div className="w-[35%] flex items-center justify-end gap-2">
                 <div
-                  ref={(el) => (textDotRefs.current[i] = el)}
-                  onClick={() => handleDotClick(i, "text")}
-                  className={`absolute -right-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-[#d82b2b] rounded-full cursor-pointer  ${
-                    startDot?.index === i && startDot?.type === "text"
+                  ref={(el) => (imageDotRefs.current[i] = el)}
+                  onClick={() => handleDotClick(i, "image")}
+                  className={`w-3 h-3 bg-[#d82b2b] rounded-full cursor-pointer ${
+                    startDot?.index === i && startDot?.type === "image"
                       ? "bg-red-600 scale-150"
                       : ""
                   }
+    transition-all duration-200 `}
+                />
+
+                <img
+                  src={item.image}
+                  onClick={() => handleDotClick(i, "image")}
+                  className={` ${
+                    startDot?.index === i && startDot?.type === "image"
+                      ? "border-2 border-red-600 scale-105 rounded-lg"
+                      : ""
+                  }
     transition-all duration-200`}
+                  style={{
+                    height: "120px",
+                    width: "auto",
+                    // objectFit: "cover",
+                    cursor: "pointer",
+                    borderRadius: "16px",
+                    // border: "2px solid #e74c3c",
+                    transition: "all 0.3s ease",
+                    transform:
+                      startDot?.index === i && startDot?.type === "image"
+                        ? "scale(1.05)"
+                        : "scale(1)",
+                    boxShadow:
+                      startDot?.index === i && startDot?.type === "image"
+                        ? "0 4px 10px rgba(0,0,0,0.2)"
+                        : "none",
+                  }}
                 />
               </div>
             </div>
-
-            {/* IMAGE SIDE */}
-            <div className="w-[35%] flex items-center justify-end gap-2">
-              <div
-                ref={(el) => (imageDotRefs.current[i] = el)}
-                onClick={() => handleDotClick(i, "image")}
-                className={`w-3 h-3 bg-[#d82b2b] rounded-full cursor-pointer ${
-                  startDot?.index === i && startDot?.type === "image"
-                    ? "bg-red-600 scale-150"
-                    : ""
-                }
-    transition-all duration-200 `}
-              />
-
-              <img
-                src={item.image}
-                onClick={() => handleDotClick(i, "image")}
-                className={` ${
-                  startDot?.index === i && startDot?.type === "image"
-                    ? "border-2 border-red-600 scale-105 rounded-lg"
-                    : ""
-                }
-    transition-all duration-200`}
-                style={{
-                  height: "120px",
-                  width: "auto",
-                  // objectFit: "cover",
-                  cursor: "pointer",
-                  borderRadius: "16px",
-                  // border: "2px solid #e74c3c",
-                  transition: "all 0.3s ease",
-                  transform:
-                    startDot?.index === i && startDot?.type === "image"
-                      ? "scale(1.05)"
-                      : "scale(1)",
-                  boxShadow:
-                    startDot?.index === i && startDot?.type === "image"
-                      ? "0 4px 10px rgba(0,0,0,0.2)"
-                      : "none",
-                }}
-              />
-            </div>
-          </div>
-        ))}</div>
+          ))}
+        </div>
       </div>
 
       <svg className="absolute top-0 left-0 w-full h-full pointer-events-none">
