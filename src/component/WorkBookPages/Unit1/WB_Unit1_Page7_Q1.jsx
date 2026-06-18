@@ -279,7 +279,7 @@ export default function WB_Unit1_Page7_Q1() {
   return (
     <div className="wordsearch-wrapper">
       <div className="page8-wrapper">
-        <div className="div-forall" style={{ width: "60%" }}>
+        <div className="div-forall" style={{ }}>
           <h3 className="WB-header-title-page8">
             <span className="WB-ex-A">H</span>Find the words.
           </h3>

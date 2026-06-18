@@ -51,6 +51,7 @@ function DraggableImage({ item, isDisabled }) {
     opacity: isDisabled ? 0.4 : isDragging ? 1 : 1,
     height: "100px",
     width: "100px",
+    touchAction:"none",
     cursor: isDisabled ? "not-allowed" : "grab",
   };
 

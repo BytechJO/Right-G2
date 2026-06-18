@@ -94,6 +94,8 @@ const DraggableLetter = ({ id, letter, disabled }) => {
 
   const style = {
     transform: CSS.Translate.toString(transform),
+    touchAction:"none"
+
   };
 
   return (

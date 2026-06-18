@@ -154,7 +154,7 @@ const WB_Unit10_Page60_Q1 = () => {
                       src={q.img}
                       alt="activity"
                       className="object-contain"
-                      style={{height:"120px"}}
+                      style={{height:"100px"}}
                     />
 
                     {/* ⭐ select داخل الصورة */}

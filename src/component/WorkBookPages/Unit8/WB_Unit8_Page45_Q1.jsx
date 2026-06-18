@@ -58,6 +58,7 @@ function DraggableItem({ item, isUsed }) {
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
+    touchAction:"none",
     opacity: isDragging || isUsed ? 0.5 : 1,
         padding: "5px 23px"
   };

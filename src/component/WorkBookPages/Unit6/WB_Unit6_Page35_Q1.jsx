@@ -83,7 +83,7 @@ function PictureDropZone({
             style={{
               width: "auto",
               height: "100%",
-              objectFit: "cover",
+              objectFit: "contain",
             }}
           />
         </div>
@@ -180,7 +180,7 @@ const WB_Unit6_Page35_Q1 = () => {
     <div className="main-container-component">
       <div className="div-forall"  style={{gap:"25px"}}>
         <h1 className="WB-header-title-page8">
-          <div className="WB-ex-A">E</div>Look, read, and write.
+          <span className="WB-ex-A">E</span>Look, read, and write.
         </h1>
 
         <DndContext

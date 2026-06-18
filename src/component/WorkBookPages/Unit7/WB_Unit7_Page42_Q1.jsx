@@ -220,7 +220,7 @@ const WB_Unit7_Page42_Q1 = () => {
 
           {/* الصورة + الانبوت */}
           <div className="flex-1 flex justify-center items-center">
-            <div className="relative w-[70%] flex justify-center items-center">
+            <div className="relative w-[70%] md:w-[87%] flex justify-center items-center">
               <img
                 src={img}
                 alt="exercise"

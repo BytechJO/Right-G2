@@ -43,6 +43,7 @@ function DraggablePhrase({ phrase, isUsed }) {
     transform: CSS.Transform.toString(transform),
     transition,
     opacity: isDragging || isUsed ? 0.5 : 1,
+    touchAction:"none"
   };
 
   return (

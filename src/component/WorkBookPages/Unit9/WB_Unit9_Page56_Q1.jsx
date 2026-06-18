@@ -275,6 +275,13 @@ export default function ExerciseA() {
           />
         </div>
       </div>
+      <DragOverlay>
+              {activeWord ? (
+                <div className="px-6 py-2 bg-white border-2 border-blue-500 rounded-xl shadow-2xl text-blue-700 font-bold scale-105">
+                  {wordBank.find((w) => w === activeWord)}
+                </div>
+              ) : null}
+            </DragOverlay>
     </DndContext>
   );
 }

@@ -4,7 +4,12 @@ import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page22
 import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page22/Ex D 2.svg";
 import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page22/Ex D 3.svg";
 import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page22/Ex D 4.svg";
-
+import {
+  DndContext,
+  DragOverlay,
+  useDraggable,
+  useDroppable,
+} from "@dnd-kit/core";
 import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
@@ -42,11 +47,58 @@ const exerciseData = [
     answerWords: ["farmer.", "He's", "a"],
   },
 ];
+const DraggableWord = ({ id, word, disabled, zoneType }) => {
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id,
+    data: {
+      wordId: id,
+      zoneType,
+    },
+    disabled,
+  });
 
+  const style = {
+    transform: transform
+      ? `translate3d(${transform.x}px,${transform.y}px,0)`
+      : undefined,
+    touchAction: "none",
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      {...listeners}
+      {...attributes}
+      style={style}
+      className={`WB-word-bank ${
+        disabled ? "bg-gray-200 text-gray-400" : "bg-white cursor-grab"
+      }`}
+    >
+      {word}
+    </div>
+  );
+};
+
+const DropZone = ({ id, children, className = "" }) => {
+  const { setNodeRef, isOver } = useDroppable({
+    id,
+  });
+
+  return (
+    <div
+      ref={setNodeRef}
+      className={`${className}
+      ${isOver ? "bg-blue-50" : ""}
+    `}
+    >
+      {children}
+    </div>
+  );
+};
 const WB_Unit4_Page22_Q2 = () => {
   const [droppedWords, setDroppedWords] = useState({});
   const [showResults, setShowResults] = useState(false);
-
+  const [activeWord, setActiveWord] = useState(null);
   const addWord = (zoneId, wordId, type) => {
     if (showResults) return;
 
@@ -76,7 +128,22 @@ const WB_Unit4_Page22_Q2 = () => {
       [zoneId]: prev[zoneId].filter((w) => w !== word),
     }));
   };
+  const handleDragStart = (event) => {
+    setActiveWord(event.active.id);
+  };
 
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+
+    setActiveWord(null);
+
+    if (!over || showResults) return;
+
+    const wordId = active.id;
+    const type = wordId.includes("-q-") ? "q" : "a";
+
+    addWord(over.id, wordId, type);
+  };
   const extractText = (wordId) => wordId.split("|")[1];
 
   const cleanSentence = (arr) => arr.map(extractText).join(" ");
@@ -158,148 +225,147 @@ const WB_Unit4_Page22_Q2 = () => {
   };
 
   return (
-    <div className="main-container-component">
-      <div className="div-forall" style={{ marginBottom: "10px",gap:"30px" }}>
-        <h1 className="WB-header-title-page8">
-          <span className="WB-ex-A">D</span>Look and write the question and
-          answer.
-        </h1>
+    <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+      <div className="main-container-component">
+        <div
+          className="div-forall"
+          style={{ marginBottom: "10px", gap: "30px" }}
+        >
+          <h1 className="WB-header-title-page8">
+            <span className="WB-ex-A">D</span>Look and write the question and
+            answer.
+          </h1>
 
-        <div>
-          {exerciseData.map((q, index) => {
-            const usedQ = droppedWords[`${q.id}-question`] || [];
-            const usedA = droppedWords[`${q.id}-answer`] || [];
+          <div>
+            {exerciseData.map((q, index) => {
+              const usedQ = droppedWords[`${q.id}-question`] || [];
+              const usedA = droppedWords[`${q.id}-answer`] || [];
 
-            return (
-              <div key={q.id} className="space-y-4 flex mb-10">
-                <div className="flex items-start gap-4">
-                  <span className="text-[22px] text-blue-900 font-semibold">
-                    {index + 1}
-                  </span>
-                  <img src={q.img} className="max-h-32" style={{width:"150px"}} />
-                </div>
-
-                <div className="flex justify-around w-full items-center">
-                <div className="w-[40%]">
-
-                  {/* Question Word Bank */}
-                  <div className="flex flex-wrap gap-2 p-2 rounded">
-                    {q.questionWords.map((word, i) => {
-                      const id = `${q.id}-q-${i}|${word}`;
-                      const isUsed = usedQ.some((w) =>
-                        w.startsWith(`${q.id}-q-${i}|`),
-                      );
-                      return (
-                        <div
-                          key={id}
-                          onClick={() => addWord(`${q.id}-question`, id, "q")}
-                          className={`WB-word-bank 
-          ${
-            isUsed
-              ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-              : "bg-white hover:bg-blue-50"
-          }
-        `}
-                        >
-                          {word}
-                        </div>
-                      );
-                    })}
+              return (
+                <div key={q.id} className="space-y-4 flex mb-10">
+                  <div className="flex items-start gap-4">
+                    <span className="text-[22px] text-blue-900 font-semibold">
+                      {index + 1}
+                    </span>
+                    <img
+                      src={q.img}
+                      className="max-h-32"
+                      style={{ width: "150px" }}
+                    />
                   </div>
 
-                  {/* Question Drop */}
-                  <div className="relative">
-                    <div
-                      className={`flex flex-wrap gap-2 p-2 border-b-2 min-h-[40px] ${getZoneClass(
-                        `${q.id}-question`,
-                        q.correctQuestion,
-                      )}`}
-                    >
-                      {usedQ.map((word) => (
-                        <button
-                          key={word}
-                          onClick={() => removeWord(`${q.id}-question`, word)}
-                          className="hover:text-red-500"
-                        >
-                          {extractText(word)}
-                        </button>
-                      ))}
-                    </div>
-
-                    {isWrong(`${q.id}-question`, q.correctQuestion) && (
-                      <div className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
-                        ✕
+                  <div className="flex justify-around w-full items-center">
+                    <div className="w-[40%]">
+                      {/* Question Word Bank */}
+                      <div className="flex flex-wrap gap-2 p-2 rounded">
+                        {q.questionWords.map((word, i) => {
+                          const id = `${q.id}-q-${i}|${word}`;
+                          const isUsed = usedQ.some((w) =>
+                            w.startsWith(`${q.id}-q-${i}|`),
+                          );
+                          return (
+                            <DraggableWord
+                              id={id}
+                              word={word}
+                              disabled={isUsed || showResults}
+                              zoneType="question"
+                            />
+                          );
+                        })}
                       </div>
-                    )}
+
+                      {/* Question Drop */}
+                      <div className="relative">
+                        <DropZone
+                          id={`${q.id}-question`}
+                          className={`flex flex-wrap gap-2 p-2 border-b-2 min-h-[40px]`}
+                        >
+                          {usedQ.map((word) => (
+                            <button
+                              key={word}
+                              onClick={() =>
+                                removeWord(`${q.id}-question`, word)
+                              }
+                              className="hover:text-red-500"
+                            >
+                              {extractText(word)}
+                            </button>
+                          ))}
+                        </DropZone>
+
+                        {isWrong(`${q.id}-question`, q.correctQuestion) && (
+                          <div className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                            ✕
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="w-[40%]">
+                      {/* Answer Word Bank */}
+                      <div className="flex flex-wrap gap-2 p-2 rounded">
+                        {q.answerWords.map((word, i) => {
+                          const id = `${q.id}-a-${i}|${word}`;
+                          const isUsed = usedA.some((w) =>
+                            w.startsWith(`${q.id}-a-${i}|`),
+                          );
+                          return (
+                            <DraggableWord
+                              id={id}
+                              word={word}
+                              disabled={isUsed || showResults}
+                              zoneType="answer"
+                            />
+                          );
+                        })}
+                      </div>
+
+                      {/* Answer Drop */}
+                      <div className="relative">
+                        <DropZone
+                          id={`${q.id}-answer`}
+                          className={`flex flex-wrap gap-2 p-2 border-b-2 min-h-[40px]`}
+                        >
+                          {usedA.map((word) => (
+                            <button
+                              key={word}
+                              onClick={() => removeWord(`${q.id}-answer`, word)}
+                              className="hover:text-red-500 transition"
+                            >
+                              {extractText(word)}
+                            </button>
+                          ))}
+                        </DropZone>
+
+                        {/* ❌ error */}
+                        {isWrong(`${q.id}-answer`, q.correctAnswer) && (
+                          <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold shadow border-2 border-white">
+                            ✕
+                          </div>
+                        )}
+                      </div>
+                    </div>{" "}
                   </div>
                 </div>
-                <div className="w-[40%]">
-                  {/* Answer Word Bank */}
-                  <div className="flex flex-wrap gap-2 p-2 rounded">
-                    {q.answerWords.map((word, i) => {
-                      const id = `${q.id}-a-${i}|${word}`;
-                      const isUsed = usedA.some((w) =>
-                        w.startsWith(`${q.id}-a-${i}|`),
-                      );
-                      return (
-                        <div
-                          key={id}
-                          onClick={() => addWord(`${q.id}-answer`, id, "a")}
-                          className={`WB-word-bank 
-                        
-          ${
-            isUsed
-              ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-              : "bg-white hover:bg-blue-50"
-          }
-        `}
-                        >
-                          {word}
-                        </div>
-                      );
-                    })}
-                  </div>
+              );
+            })}
+          </div>
 
-                  {/* Answer Drop */}
-                  <div className="relative">
-                    <div
-                      className={`flex flex-wrap gap-2 p-2 border-b-2 min-h-[40px] ${getZoneClass(
-                        `${q.id}-answer`,
-                        q.correctAnswer,
-                      )}`}
-                    >
-                      {usedA.map((word) => (
-                        <button
-                          key={word}
-                          onClick={() => removeWord(`${q.id}-answer`, word)}
-                          className="hover:text-red-500 transition"
-                        >
-                          {extractText(word)}
-                        </button>
-                      ))}
-                    </div>
-
-                    {/* ❌ error */}
-                    {isWrong(`${q.id}-answer`, q.correctAnswer) && (
-                      <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold shadow border-2 border-white">
-                        ✕
-                      </div>
-                    )}
-                  </div>
-                </div>{" "}
-              </div>
-              </div>
-            );
-          })}
+          <Button
+            handleShowAnswer={handleShowAnswer}
+            handleStartAgain={handleStartAgain}
+            checkAnswers={checkAnswers}
+          />
         </div>
-
-        <Button
-          handleShowAnswer={handleShowAnswer}
-          handleStartAgain={handleStartAgain}
-          checkAnswers={checkAnswers}
-        />
       </div>
-    </div>
+
+      <DragOverlay>
+        {activeWord ? (
+          <div className="WB-word-bank bg-white shadow-xl px-4 py-2">
+            {extractText(activeWord)}
+          </div>
+        ) : null}
+      </DragOverlay>
+    </DndContext>
   );
 };
 

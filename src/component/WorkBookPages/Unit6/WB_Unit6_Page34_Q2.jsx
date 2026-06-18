@@ -70,7 +70,7 @@ const WB_Unit6_Page34_Q2 = () => {
     <div className="main-container-component">
       <div className="div-forall"  style={{gap:"25px"}}>
         <h1 className="WB-header-title-page8">
-          <div className="WB-ex-A">D</div>Look, read, and circle.
+          <span className="WB-ex-A">D</span>Look, read, and circle.
         </h1>
 
         <div>

@@ -148,7 +148,7 @@ const Unit10_Page6_Q1 = () => {
                 <div
                   ref={provided.innerRef}
                   {...provided.droppableProps}
-                  className="flex gap-5 w-full justify-between flex-wrap rounded-lg"
+                  className="flex gap-5 w-full justify-between rounded-lg"
                 >
                   {sentences.map((s, index) => {
                     const isUsed = Object.values(answers).includes(s);

@@ -50,6 +50,7 @@ function DraggableNumber({ num, isUsed }) {
     transform: CSS.Transform.toString(transform),
     transition,
     opacity: isDragging || isUsed ? 0.5 : 1,
+    touchAction:"none"
   };
 
   return (
@@ -293,7 +294,7 @@ const WB_Unit6_Page34_Q1 = () => {
 
           <DragOverlay>
             {activeId ? (
-              <div className="max-w-10 max-h-10 flex items-center justify-center bg-orange-600 text-white rounded-full font-bold text-xl shadow-2xl scale-110">
+              <div className="w-10 h-10 flex items-center justify-center bg-orange-600 text-white rounded-full font-bold text-xl shadow-2xl scale-110">
                 {NUMBERS.find((n) => n.id === activeId).val}
               </div>
             ) : null}

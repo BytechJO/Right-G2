@@ -15,7 +15,7 @@ import Button from "../Button";
 import imgBlueInk from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 50/Ex B 1.svg";
 import imgTubeItem from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 50/Ex B 2.svg";
 
-const WORDS = [  "chute", "Sue", "mute", "glue", "cube","cute","true"];
+const WORDS = ["chute", "Sue", "mute", "glue", "cube", "cute", "true"];
 
 // الكلمات الصحيحة لكل عمود
 const BLUE_WORDS = ["glue", "true", "Sue"];
@@ -61,7 +61,6 @@ function DraggableWord({ word, isUsed }) {
   return (
     <div
       ref={setNodeRef}
-      // style={style}
       {...(!isUsed ? listeners : {})}
       {...(!isUsed ? attributes : {})}
       className={`WB-word-bank  ${
@@ -71,7 +70,7 @@ function DraggableWord({ word, isUsed }) {
             ? "cursor-grabbing shadow-lg"
             : "cursor-grab hover:bg-blue-100"
       }`}
-        style={{padding:"9px 15px"}}
+      style={{ padding: "9px 15px", touchAction: "none" }}
     >
       {word}
     </div>
@@ -99,7 +98,10 @@ function DropSlot({ id, value, showResults, onClear }) {
     >
       {value ? (
         <div className="flex items-center gap-2">
-          <span className="font-bold text-lg text-blue-900 hover:text-red-500 curser-pointer" onClick={() => onClear(id)}>
+          <span
+            className="font-bold text-lg text-blue-900 hover:text-red-500 curser-pointer"
+            onClick={() => onClear(id)}
+          >
             {value}
           </span>
         </div>
@@ -214,73 +216,77 @@ const WB_Unit8_Page50_Q2 = () => {
       <div className="main-container-component">
         <div
           className="div-forall"
-          style={{  marginBottom: "50px" ,gap:"25px"}}
+          style={{ marginBottom: "50px", gap: "25px" }}
         >
           <h1 className="WB-header-title-page8">
             <span className="WB-ex-A">B</span> Read and write the words in the
             correct column.
           </h1>
-<div className="flex flex-col gap-2">
-          <div className="p-4">
-            <div className="flex flex-wrap justify-center gap-7">
-              {WORDS.map((word) => (
-                <DraggableWord
-                  key={word}
-                  word={word}
-                  isUsed={Object.values(answers).includes(word)}
-                />
-              ))}
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
-            <div className="space-y-6">
-              <div className="flex flex-col items-center gap-4 mb-8">
-                <img
-                  src={imgBlueInk}
-                  alt="blue"
-                  className="max-w-45 max-h-24 object-contain"
-                />
-                <span className="text-2xl font-black text-blue-900">blue</span>
-              </div>
-
-              <div className="space-y-4 px-10">
-                {["b1", "b2", "b3"].map((id) => (
-                  <DropSlot
-                    key={id}
-                    id={id}
-                    value={answers[id]}
-                    showResults={showResults}
-                    onClear={handleClearSlot}
+          <div className="flex flex-col gap-2">
+            <div className="p-4">
+              <div className="flex flex-wrap justify-center gap-7">
+                {WORDS.map((word) => (
+                  <DraggableWord
+                    key={word}
+                    word={word}
+                    isUsed={Object.values(answers).includes(word)}
                   />
                 ))}
               </div>
             </div>
 
-            <div className="space-y-6">
-              <div className="flex flex-col items-center gap-4 mb-8">
-                <img
-                  src={imgTubeItem}
-                  alt="tube"
-                  className="max-w-45 max-h-24 object-contain"
-                />
-                <span className="text-2xl font-black text-blue-900">tube</span>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+              <div className="space-y-6">
+                <div className="flex flex-col items-center gap-4 mb-8">
+                  <img
+                    src={imgBlueInk}
+                    alt="blue"
+                    className="max-w-45 max-h-24 object-contain"
+                  />
+                  <span className="text-2xl font-black text-blue-900">
+                    blue
+                  </span>
+                </div>
+
+                <div className="space-y-4 px-10">
+                  {["b1", "b2", "b3"].map((id) => (
+                    <DropSlot
+                      key={id}
+                      id={id}
+                      value={answers[id]}
+                      showResults={showResults}
+                      onClear={handleClearSlot}
+                    />
+                  ))}
+                </div>
               </div>
 
-              <div className="space-y-4 px-10">
-                {["t1", "t2", "t3", "t4"].map((id) => (
-                  <DropSlot
-                    key={id}
-                    id={id}
-                    value={answers[id]}
-                    showResults={showResults}
-                    onClear={handleClearSlot}
+              <div className="space-y-6">
+                <div className="flex flex-col items-center gap-4 mb-8">
+                  <img
+                    src={imgTubeItem}
+                    alt="tube"
+                    className="max-w-45 max-h-24 object-contain"
                   />
-                ))}
+                  <span className="text-2xl font-black text-blue-900">
+                    tube
+                  </span>
+                </div>
+
+                <div className="space-y-4 px-10">
+                  {["t1", "t2", "t3", "t4"].map((id) => (
+                    <DropSlot
+                      key={id}
+                      id={id}
+                      value={answers[id]}
+                      showResults={showResults}
+                      onClear={handleClearSlot}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
           </div>
-</div>
           <div className="flex justify-center">
             <Button
               handleShowAnswer={handleShowAnswer}

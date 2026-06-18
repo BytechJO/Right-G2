@@ -141,7 +141,7 @@ const getWordUsageCount = (word) => {
          style={{gap:"20px"}}
         >
           <h1 className="WB-header-title-page8">
-            <div className="WB-ex-A">G</div>Look, read, and complete.
+            <span className="WB-ex-A">G</span>Look, read, and complete.
           </h1>
           
           <div >

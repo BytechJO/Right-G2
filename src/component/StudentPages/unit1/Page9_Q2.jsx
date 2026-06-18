@@ -123,7 +123,9 @@ const Page9_Q2 = () => {
           padding: "30px",
         }}
       >
-        <div className="div-forall mb-10" style={{ width: "60%" }}>
+        <div className="div-forall mb-10" style={{ 
+          
+         }}>
           <div className="component-wrapper">
             <h3 className="header-title-page8">
               <span className="ex-A">E</span>Drag and drop to guess who is

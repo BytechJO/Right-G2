@@ -47,7 +47,8 @@ function DraggableWord({ word, isUsed }) {
     transform: CSS.Transform.toString(transform),
     transition,
     opacity: isDragging || isUsed ? 0.5 : 1,
-      padding: "5px 23px"
+      padding: "5px 23px",
+      touchAction:"none"
   };
 
   return (
@@ -173,7 +174,7 @@ const WB_Unit6_Page33_Q1 = () => {
       <div className="main-container-component">
         <div className="div-forall"  style={{gap:"15px"}}>
           <h1 className="WB-header-title-page8">
-            <div className="WB-ex-A">A</div>
+            <span className="WB-ex-A">A</span>
             Describe Stella's day. Read and write.
           </h1>
 

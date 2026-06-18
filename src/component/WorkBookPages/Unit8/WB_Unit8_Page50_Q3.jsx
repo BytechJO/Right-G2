@@ -43,7 +43,8 @@ function DraggableWord({ item, isUsed }) {
     transform: CSS.Transform.toString(transform),
     transition,
     opacity: isDragging || isUsed ? 0.5 : 1,
-        padding: "5px 23px"
+        padding: "5px 23px",
+        touchAction:"none"
   };
   return (
     <div

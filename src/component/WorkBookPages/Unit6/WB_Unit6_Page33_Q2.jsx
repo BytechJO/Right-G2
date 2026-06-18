@@ -56,6 +56,7 @@ function DraggableSentence({ answer, isUsed }) {
     transform: CSS.Transform.toString(transform),
     transition,
     opacity: isDragging || isUsed ? 0.5 : 1,
+    touchAction:"none"
   };
 
   return (
@@ -170,7 +171,7 @@ const WB_Unit6_Page33_Q2 = () => {
     <div className="main-container-component">
       <div className="div-forall mb-10"  style={{gap:"25px"}}>
         <h1 className="WB-header-title-page8">
-          <div className="WB-ex-A">B</div>Read and write.
+          <span className="WB-ex-A">B</span>Read and write.
         </h1>
 
         <DndContext

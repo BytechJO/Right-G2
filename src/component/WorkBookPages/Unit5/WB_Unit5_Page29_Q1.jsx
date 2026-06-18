@@ -173,7 +173,7 @@ const [selectedRight, setSelectedRight] = useState(null);
     <div className="main-container-component">
       <div className="div-forall"  style={{gap:"45px"}}>
         <h1 className="WB-header-title-page8">
-          <div className="WB-ex-A">E</div>Read, look, and match.
+          <span className="WB-ex-A">E</span>Read, look, and match.
         </h1>
 
         <div

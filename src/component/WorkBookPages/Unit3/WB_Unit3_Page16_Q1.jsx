@@ -46,7 +46,7 @@ const DraggableWord = ({ word, isUsed, showResults }) => {
   return (
     <div
       ref={setNodeRef}
-      style={style}
+      style={{...style,touchAction:"none"}}
       {...listeners}
       {...attributes}
       className={`WB-word-bank

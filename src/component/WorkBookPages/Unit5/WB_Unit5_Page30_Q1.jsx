@@ -2,6 +2,12 @@ import React, { useState } from "react";
 import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import falseIcon from "../../../assets/imgs/false.svg";
+import {
+  DndContext,
+  DragOverlay,
+  useDraggable,
+  useDroppable,
+} from "@dnd-kit/core";
 // صور الجمل (استبدل المسارات بالمسارات الفعلية)
 import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 30/Ex G 1.svg";
 import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 30/Ex G 2.svg";
@@ -57,13 +63,66 @@ const sentencesData = [
     wordBank: ["likes", "doesn't", "loves"],
   },
 ];
+const DraggableWord = ({ id, word, used, disabled }) => {
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id,
+    data: {
+      word,
+    },
+    disabled: used || disabled,
+  });
 
+  const style = {
+    transform: transform
+      ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
+      : undefined,
+    touchAction: "none",
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      {...listeners}
+      {...attributes}
+      style={style}
+      className={`WB-word-bank
+      ${
+        used
+          ? "bg-gray-200 opacity-40 cursor-not-allowed border border-gray-400"
+          : "border-2 border-blue-900 hover:bg-blue-50 cursor-grab"
+      }
+    `}
+    >
+      {word}
+    </div>
+  );
+};
+
+const DropZone = ({ id, children, className }) => {
+  const { setNodeRef, isOver } = useDroppable({
+    id,
+  });
+
+  return (
+    <div
+      ref={setNodeRef}
+      className={`${className}
+      ${isOver ? "bg-blue-50" : ""}
+    `}
+    >
+      {children}
+    </div>
+  );
+};
+const extractWord = (wordId) => {
+  return wordId.split("-").slice(2).join("-");
+};
 const CorrectSentenceExercise = () => {
   const [markedWords, setMarkedWords] = useState({}); // {sentenceId: wordIndex}
   const [userAnswers, setUserAnswers] = useState({}); // {sentenceId: selectedWord}
   const [showResults, setShowResults] = useState(false);
   const [draggedWord, setDraggedWord] = useState(null);
-
+  const [activeItem, setActiveItem] = useState(null);
   // معالج النقر على كلمة لوضع علامة X
   const handleWordClick = (sentenceId, wordIndex) => {
     if (showResults) return;
@@ -83,25 +142,23 @@ const CorrectSentenceExercise = () => {
       }));
     }
   };
-
-  // معالج بدء السحب
-  const handleDragStart = (word) => {
-    setDraggedWord(word);
+  const handleDndStart = (event) => {
+    setActiveItem(event.active.data.current.word);
   };
 
-  // معالج السماح بالإفلات
-  const handleDragOver = (e) => {
-    e.preventDefault();
-  };
+  const handleDndEnd = (event) => {
+    const { active, over } = event;
 
-  // معالج الإفلات
-  const handleDrop = (sentenceId) => {
-    if (showResults || !draggedWord) return;
+    setActiveItem(null);
+
+    if (!over || showResults) return;
+
+    const wordId = active.id;
+
     setUserAnswers((prev) => ({
       ...prev,
-      [sentenceId]: draggedWord,
+      [over.id]: wordId,
     }));
-    setDraggedWord(null);
   };
 
   // معالج إزالة الكلمة من الفراغ
@@ -180,184 +237,184 @@ const CorrectSentenceExercise = () => {
     setShowResults(false);
     setDraggedWord(null);
   };
-  const isWordUsed = (word) => {
-    return Object.values(userAnswers).includes(word);
-  };
+const isWordUsed = (wordId) => {
+  return Object.values(userAnswers).includes(wordId);
+};
   return (
-    <div className="main-container-component">
-      <div className="div-forall" style={{ marginBottom: "30px" ,gap:"30px"}}>
-        <h1 className="WB-header-title-page8">
-          <span className="WB-ex-A">G</span> Look, read, and write{" "}
-          <span className="text-blue-900">✕</span> over the mistake. Rewrite the
-          sentence.
-        </h1>
+    <DndContext onDragStart={handleDndStart} onDragEnd={handleDndEnd}>
+      <div className="main-container-component">
+        <div
+          className="div-forall"
+          style={{ marginBottom: "30px", gap: "30px" }}
+        >
+          <h1 className="WB-header-title-page8">
+            <span className="WB-ex-A">G</span> Look, read, and write{" "}
+            <span className="text-blue-900">✕</span> over the mistake. Rewrite
+            the sentence.
+          </h1>
 
-        {/* الجمل التفاعلية */}
-        <div className="space-y-8">
-          {sentencesData.map((sentence) => {
-            const correctWords = getSentenceParts(sentence.correctSentence);
-            const incorrectWords = getSentenceParts(sentence.incorrectSentence);
+          {/* الجمل التفاعلية */}
+          <div className="space-y-8">
+            {sentencesData.map((sentence) => {
+              const correctWords = getSentenceParts(sentence.correctSentence);
+              const incorrectWords = getSentenceParts(
+                sentence.incorrectSentence,
+              );
 
-            return (
-              <div
-                key={sentence.id}
-                className="border-2 border-blue-900 rounded-[23px] flex justify-between gap-5"
-              >
-                {/* رقم الجملة والجملة الخاطئة مع إمكانية النقر على الكلمات */}
-                <div className="flex items-start gap-2 w-full p-[20px]">
-                  <span className="text-xl font-semibold text-blue-900 mt-1">
-                    {sentence.id}
-                  </span>
-                  <div className="flex-1 space-y-3">
-                    {/* الجملة الخاطئة - الكلمات قابلة للنقر */}
-                    <div className="flex flex-wrap items-center gap-2 text-[18px]">
-                      {incorrectWords.map((word, wordIndex) => (
-                        <button
-                          key={wordIndex}
-                          onClick={() =>
-                            handleWordClick(sentence.id, wordIndex)
-                          }
-                          disabled={showResults}
-                          className={`relative px-2 py-1 rounded transition-all ${
-                            markedWords[sentence.id] === wordIndex
-                              ? "text-red-600 font-bold"
-                              : "text-gray-800 hover:bg-gray-100"
-                          } ${showResults ? "cursor-default" : "cursor-pointer"}`}
-                        >
-                          {word}
-                          {markedWords[sentence.id] === wordIndex && (
-                            <span className="absolute -top-2 -right-2 text-2xl text-red-600 font-bold">
-                              <img src={falseIcon} style={{ height: "25px" }} />
-                            </span>
-                          )}
-                        </button>
-                      ))}
-                    </div>
-
-                    {/* Word Bank لهذه الجملة */}
-                    <div className="rounded-lg">
-                      <div className="flex flex-wrap gap-2">
-                        {sentence.wordBank.map((word) => {
-                          const used = isWordUsed(word);
-
-                          return (
-                            <div
-                              key={word}
-                              draggable={!used && !showResults}
-                              onDragStart={() => handleDragStart(word)}
-                              className={`WB-word-bank 
-        ${
-          used
-            ? "bg-gray-200 opacity-40 cursor-not-allowed border border-gray-400"
-            : "border-2 border-blue-900 hover:bg-blue-50 cursor-move"
-        }
-        ${draggedWord === word ? "opacity-40" : ""}
-      `}
-                            >
-                              {word}
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-
-                    {/* منطقة الإجابة - السحب والإفلات */}
-                    <div
-                      onDragOver={handleDragOver}
-                      onDrop={() => handleDrop(sentence.id)}
-                      className={`relative p-2 rounded-lg transition-all ${
-                        userAnswers[sentence.id]
-                          ? showResults
-                            ? isAnswerCorrect(sentence.id)
-                              ? "border-gray-400"
-                              : "border-gray-400"
-                            : "border-blue-500"
-                          : "border-blue-500"
-                      }`}
-                    >
-                      {showResults &&
-                        userAnswers[sentence.id] &&
-                        !isAnswerCorrect(sentence.id) && (
-                          <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-red-500 text-white flex items-center justify-center text-sm font-bold shadow border-2 border-white">
-                            ✕
-                          </div>
-                        )}
-                      <div className="flex flex-wrap items-center gap-2 text-lg">
-                        {/* عرض الجملة مع الفراغ */}
-                        {correctWords.map((word, wordIndex) => {
-                          if (wordIndex === sentence.incorrectWordIndex) {
-                            // هذا هو مكان الفراغ - منطقة السحب والإفلات
-                            return (
-                              <div
-                                key={wordIndex}
-                                className={`px-3 py-2 border-b-2 transition-all ${
-                                  userAnswers[sentence.id]
-                                    ? showResults
-                                      ? isAnswerCorrect(sentence.id)
-                                        ? "border-blue-500"
-                                        : "border-red-500"
-                                      : "border-blue-900 bg-blue-50"
-                                    : "border-blue-900"
-                                }`}
-                              >
-                                {userAnswers[sentence.id] ? (
-                                  <button
-                                    onClick={() =>
-                                      handleRemoveWord(sentence.id)
-                                    }
-                                    disabled={showResults}
-                                    className={`font-bold transition-all ${
-                                      showResults
-                                        ? isAnswerCorrect(sentence.id)
-                                          ? "text-blue-700 cursor-default"
-                                          : "text-blue-700 cursor-default"
-                                        : "text-blue-700 hover:text-blue-900 cursor-pointer"
-                                    }`}
-                                  >
-                                    {userAnswers[sentence.id]}
-                                  </button>
-                                ) : (
-                                  <span className="text-gray-500 italic text-sm">
-                                    [Drop here]
-                                  </span>
-                                )}
-                              </div>
-                            );
-                          } else {
-                            // الكلمات الأخرى
-                            return (
-                              <span key={wordIndex} className="text-gray-800">
-                                {word}
+              return (
+                <div
+                  key={sentence.id}
+                  className="border-2 border-blue-900 rounded-[23px] flex justify-between gap-5"
+                >
+                  {/* رقم الجملة والجملة الخاطئة مع إمكانية النقر على الكلمات */}
+                  <div className="flex items-start gap-2 w-full p-[20px]">
+                    <span className="text-xl font-semibold text-blue-900 mt-1">
+                      {sentence.id}
+                    </span>
+                    <div className="flex-1 space-y-3">
+                      {/* الجملة الخاطئة - الكلمات قابلة للنقر */}
+                      <div className="flex flex-wrap items-center gap-2 text-[18px]">
+                        {incorrectWords.map((word, wordIndex) => (
+                          <button
+                            key={wordIndex}
+                            onClick={() =>
+                              handleWordClick(sentence.id, wordIndex)
+                            }
+                            disabled={showResults}
+                            className={`relative px-2 py-1 rounded transition-all ${
+                              markedWords[sentence.id] === wordIndex
+                                ? "text-red-600 font-bold"
+                                : "text-gray-800 hover:bg-gray-100"
+                            } ${showResults ? "cursor-default" : "cursor-pointer"}`}
+                          >
+                            {word}
+                            {markedWords[sentence.id] === wordIndex && (
+                              <span className="absolute -top-2 -right-2 text-2xl text-red-600 font-bold">
+                                <img
+                                  src={falseIcon}
+                                  style={{ height: "25px" }}
+                                />
                               </span>
-                            );
-                          }
-                        })}
+                            )}
+                          </button>
+                        ))}
                       </div>
+
+                      {/* Word Bank لهذه الجملة */}
+                      <div className="rounded-lg">
+                        <div className="flex flex-wrap gap-2">
+                          {sentence.wordBank.map((word,index) => {
+                            const used = isWordUsed(word);
+                            const wordId = `${sentence.id}-${index}-${word}`;
+                            return (
+                              <DraggableWord
+                                key={wordId}
+                                id={wordId}
+                                word={word}
+                                used={used}
+                                disabled={showResults}
+                              />
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      {/* منطقة الإجابة - السحب والإفلات */}
+                      <DropZone
+                        id={sentence.id}
+                        className={`relative p-2 rounded-lg transition-all`}
+                      >
+                        {showResults &&
+                          userAnswers[sentence.id] &&
+                          !isAnswerCorrect(sentence.id) && (
+                            <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-red-500 text-white flex items-center justify-center text-sm font-bold shadow border-2 border-white">
+                              ✕
+                            </div>
+                          )}
+                        <div className="flex flex-wrap items-center gap-2 text-lg">
+                          {/* عرض الجملة مع الفراغ */}
+                          {correctWords.map((word, wordIndex) => {
+                            if (wordIndex === sentence.incorrectWordIndex) {
+                              // هذا هو مكان الفراغ - منطقة السحب والإفلات
+                              return (
+                                <div
+                                  key={wordIndex}
+                                  className={`px-3 py-2 border-b-2 transition-all ${
+                                    userAnswers[sentence.id]
+                                      ? showResults
+                                        ? isAnswerCorrect(sentence.id)
+                                          ? "border-blue-500"
+                                          : "border-red-500"
+                                        : "border-blue-900 bg-blue-50"
+                                      : "border-blue-900"
+                                  }`}
+                                >
+                                  {userAnswers[sentence.id] ? (
+                                    <button
+                                      onClick={() =>
+                                        handleRemoveWord(sentence.id)
+                                      }
+                                      disabled={showResults}
+                                      className={`font-bold transition-all ${
+                                        showResults
+                                          ? isAnswerCorrect(sentence.id)
+                                            ? "text-blue-700 cursor-default"
+                                            : "text-blue-700 cursor-default"
+                                          : "text-blue-700 hover:text-blue-900 cursor-pointer"
+                                      }`}
+                                    >
+                                     {extractWord(userAnswers[sentence.id])}
+                                    </button>
+                                  ) : (
+                                    <span className="text-gray-500 italic text-sm">
+                                      [Drop here]
+                                    </span>
+                                  )}
+                                </div>
+                              );
+                            } else {
+                              // الكلمات الأخرى
+                              return (
+                                <span key={wordIndex} className="text-gray-800">
+                                  {word}
+                                </span>
+                              );
+                            }
+                          })}
+                        </div>
+                      </DropZone>
                     </div>
                   </div>
+
+                  {/* الصورة */}
+
+                  <img
+                    src={sentence.image}
+                    alt={`Sentence ${sentence.id}`}
+                    className="rounded-lg object-contain"
+                    style={{ height: "200px", width: "auto" }}
+                  />
                 </div>
+              );
+            })}
+          </div>
 
-                {/* الصورة */}
-
-                <img
-                  src={sentence.image}
-                  alt={`Sentence ${sentence.id}`}
-                  className="rounded-lg object-contain"
-                  style={{ height: "200px", width: "auto" }}
-                />
-              </div>
-            );
-          })}
+          {/* أزرار التحكم */}
+          <Button
+            handleShowAnswer={handleShowAnswer}
+            handleStartAgain={handleStartAgain}
+            checkAnswers={checkAnswers}
+          />
         </div>
-
-        {/* أزرار التحكم */}
-        <Button
-          handleShowAnswer={handleShowAnswer}
-          handleStartAgain={handleStartAgain}
-          checkAnswers={checkAnswers}
-        />
       </div>
-    </div>
+      <DragOverlay>
+        {activeItem ? (
+          <div className="WB-word-bank px-4 py-2 bg-white shadow-lg">
+            {activeItem}
+          </div>
+        ) : null}
+      </DragOverlay>
+    </DndContext>
   );
 };
 

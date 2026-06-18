@@ -93,7 +93,7 @@ const WB_Unit1_Page5_Q1 = () => {
       
       >
         <h1 className="WB-header-title-page8">
-          <div className="WB-ex-A">F</div>Look, read, and circle.
+          <span className="WB-ex-A">F</span>Look, read, and circle.
         </h1>
      
 

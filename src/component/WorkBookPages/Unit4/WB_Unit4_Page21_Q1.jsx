@@ -177,7 +177,7 @@ const WB_Unit4_Page21_Q1 = () => {
     <div className="main-container-component">
       <div className="div-forall"  style={{gap:"40px"}}>
         <h1 className="WB-header-title-page8">
-          <span className="WB-ex-A">E</span>Look, read, and match.
+          <span className="WB-ex-A">A</span>Look, read, and match.
         </h1>
 
         <div

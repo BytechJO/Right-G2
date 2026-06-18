@@ -6,7 +6,12 @@ import ValidationAlert from "../../Popup/ValidationAlert";
 import img from "../../../assets/imgs/test6.png";
 import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 32/Ex C 1.svg";
 import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 32/Ex C 2.svg";
-
+import {
+  DndContext,
+  DragOverlay,
+  useDraggable,
+  useDroppable,
+} from "@dnd-kit/core";
 const wordBank = [
   "bee",
   "leaf",
@@ -23,15 +28,61 @@ const correctAnswers = {
   beak: ["leaf", "meat", "beach", "read"],
 };
 
+const DraggableWord = ({ word, source, disabled, className }) => {
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id: `${word}-${source}`,
+    data: {
+      word,
+      source,
+    },
+    disabled,
+  });
+
+  const style = {
+    transform: transform
+      ? `translate3d(${transform.x}px,${transform.y}px,0)`
+      : undefined,
+    touchAction: "none",
+  };
+
+  return (
+    <button
+      ref={setNodeRef}
+      {...listeners}
+      {...attributes}
+      style={style}
+      className={className}
+    >
+      {word}
+    </button>
+  );
+};
+
+const DropZone = ({ id, children, className }) => {
+  const { setNodeRef, isOver } = useDroppable({
+    id,
+  });
+
+  return (
+    <div
+      ref={setNodeRef}
+      className={`${className}
+      ${isOver ? "bg-blue-50" : ""}
+    `}
+    >
+      {children}
+    </div>
+  );
+};
+
 export default function WB_Unit5_Page32_Q3() {
   const [columns, setColumns] = useState({ feet: [], beak: [] });
   // const [remaining, setRemaining] = useState([...wordBank]);
   const [showResult, setShowResult] = useState(false);
   const [score, setScore] = useState(null);
   const [resetKey, setResetKey] = useState(0);
-  const [draggedWord, setDraggedWord] = useState(null);
-  const [dragSource, setDragSource] = useState(null);
 
+  const [activeItem, setActiveItem] = useState(null);
   const addWordToColumn = (col, word) => {
     if (showResult) return;
     if (!word) return;
@@ -70,82 +121,83 @@ export default function WB_Unit5_Page32_Q3() {
     }));
   };
 
-  const handleDragStart = (word, source) => {
-    if (showResult) return;
-    setDraggedWord(word);
-    setDragSource(source);
+  const handleDndStart = (event) => {
+    setActiveItem(event.active.data.current);
   };
 
-  const handleDragEnd = () => {
-    setDraggedWord(null);
-    setDragSource(null);
-  };
+  const handleDndEnd = (event) => {
+    const { active, over } = event;
 
-  const handleDropOnColumn = (targetCol) => {
-    if (showResult || !draggedWord || !dragSource) return;
+    setActiveItem(null);
 
-    if (dragSource === "bank") {
-      addWordToColumn(targetCol, draggedWord);
-    } else if (dragSource === "feet" || dragSource === "beak") {
-      moveWordBetweenColumns(dragSource, targetCol, draggedWord);
-    }
+    if (!over || showResult) return;
 
-    handleDragEnd();
-  };
+    const { word, source } = active.data.current;
 
-  const handleDropOnBank = () => {
-    if (showResult || !draggedWord || !dragSource) return;
+    const target = over.id;
 
-    if (dragSource === "feet" || dragSource === "beak") {
-      returnWordToBank(dragSource, draggedWord);
-    }
-
-    handleDragEnd();
-  };
-
-const checkAnswers = () => {
-  if (showResult) return;
-
-  const totalPlaced = columns.feet.length + columns.beak.length;
-
-  if (totalPlaced < wordBank.length) {
-    ValidationAlert.info(
-      "Please place all words before checking your answers.",
-    );
-    return;
-  }
-
-  let correct = 0;
-  let total = wordBank.length;
-
-  ["feet", "beak"].forEach((col) => {
-    columns[col].forEach((word) => {
-      if (correctAnswers[col].includes(word)) {
-        correct++;
+    // للبنك
+    if (target === "bank") {
+      if (source === "feet" || source === "beak") {
+        returnWordToBank(source, word);
       }
+      return;
+    }
+
+    // من البنك للعمود
+    if (source === "bank") {
+      addWordToColumn(target, word);
+      return;
+    }
+
+    // بين الأعمدة
+    if (source === "feet" || source === "beak") {
+      moveWordBetweenColumns(source, target, word);
+    }
+  };
+  const checkAnswers = () => {
+    if (showResult) return;
+
+    const totalPlaced = columns.feet.length + columns.beak.length;
+
+    if (totalPlaced < wordBank.length) {
+      ValidationAlert.info(
+        "Please place all words before checking your answers.",
+      );
+      return;
+    }
+
+    let correct = 0;
+    let total = wordBank.length;
+
+    ["feet", "beak"].forEach((col) => {
+      columns[col].forEach((word) => {
+        if (correctAnswers[col].includes(word)) {
+          correct++;
+        }
+      });
     });
-  });
 
-  setScore(correct);
-  setShowResult(true);
+    setScore(correct);
+    setShowResult(true);
 
-  if (correct === total) {
-    return ValidationAlert.success(`Score: ${correct}/${total}`);
-  } else if (correct === 0) {
-    return ValidationAlert.error(`Score: ${correct}/${total}`);
-  } else {
-    return ValidationAlert.warning(`Score: ${correct}/${total}`);
-  }
-};
+    if (correct === total) {
+      return ValidationAlert.success(`Score: ${correct}/${total}`);
+    } else if (correct === 0) {
+      return ValidationAlert.error(`Score: ${correct}/${total}`);
+    } else {
+      return ValidationAlert.warning(`Score: ${correct}/${total}`);
+    }
+  };
 
-  const handleShowAnswer = () => { 
+  const handleShowAnswer = () => {
     setShowResult(true);
     setColumns({
       feet: [...correctAnswers.feet],
       beak: [...correctAnswers.beak],
     });
     setRemaining([]);
-   
+
     setScore(2);
   };
 
@@ -153,8 +205,7 @@ const checkAnswers = () => {
     setColumns({ feet: [], beak: [] });
     setShowResult(false);
     setScore(null);
-    setDraggedWord(null);
-    setDragSource(null);
+   setActiveItem(null);
     setResetKey((k) => k + 1);
   };
   const isWordWrong = (col, word) => {
@@ -200,114 +251,108 @@ const checkAnswers = () => {
   };
 
   return (
-    <div key={resetKey} className="main-container-component">
-      <div className="div-forall" style={{ gap: "40px" }}>
-        <h1 className="WB-header-title-page8">
-          <span className="WB-ex-A">C</span> Write the words in the correct
-          column.
-        </h1>
+    <DndContext onDragStart={handleDndStart} onDragEnd={handleDndEnd}>
+      <div key={resetKey} className="main-container-component">
+        <div className="div-forall" style={{ gap: "40px" }}>
+          <h1 className="WB-header-title-page8">
+            <span className="WB-ex-A">C</span> Write the words in the correct
+            column.
+          </h1>
 
-        {/* Word Bank */}
-        <div>
-          <div
-            onDragOver={(e) => e.preventDefault()}
-            onDrop={handleDropOnBank}
-            className="flex flex-wrap gap-3 p-4 rounded-xl min-h-[80px] justify-between"
-          >
-            {wordBank.map((word) => {
-              const used = isWordUsed(word);
+          {/* Word Bank */}
+          <div>
+            <DropZone
+              id="bank"
+              className="flex flex-wrap gap-3 p-4 rounded-xl min-h-[80px] justify-between"
+            >
+              {wordBank.map((word) => {
+                const used = isWordUsed(word);
 
-              return (
-                <button
-                  key={word}
-                  draggable={!showResult && !used}
-                  onDragStart={() => {
-                    if (!used) handleDragStart(word, "bank");
-                  }}
-                  onDragEnd={handleDragEnd}
-                  className={`WB-word-bank 
-        ${
-          used
-            ? "bg-gray-100 text-gray-400 cursor-not-allowed opacity-60"
-            : "bg-white border-gray-300 cursor-move hover:border-blue-400 hover:bg-blue-50"
-        }
-      `}
-      // style={{justifyContent:"space-between"}}
-                >
-                  {word}
-                </button>
-              );
-            })}
+                return (
+                  <DraggableWord
+                    word={word}
+                    source="bank"
+                    disabled={showResult || used}
+                    className={`WB-word-bank
+  ${
+    used
+      ? "bg-gray-100 text-gray-400 opacity-60"
+      : "bg-white border-gray-300 hover:bg-blue-50"
+  }`}
+                  />
+                );
+              })}
+            </DropZone>
           </div>
-        </div>
 
-        {/* Columns */}
-        <div className="grid grid-cols-2 gap-6 mb-6">
-          {[
-            { key: "feet", img: img1 },
-            { key: "beak", img: img2 },
-          ].map((col, id) => (
-            <div key={id}>
-              <div className="flex items-center gap-2 mb-3">
-                <img src={col.img} alt={col.key} style={{ height: "120px" }} />
+          {/* Columns */}
+          <div className="grid grid-cols-2 gap-6 mb-6">
+            {[
+              { key: "feet", img: img1 },
+              { key: "beak", img: img2 },
+            ].map((col, id) => (
+              <div key={id}>
+                <div className="flex items-center gap-2 mb-3">
+                  <img
+                    src={col.img}
+                    alt={col.key}
+                    style={{ height: "120px" }}
+                  />
 
-                <span className="font-bold text-gray-700 text-xl">
-                  {col.key}
-                </span>
-                <span className="text-xs text-gray-400">
-                  ({col.key === "feet" ? "ee" : "ea"})
-                </span>
-              </div>
-
-              <div
-                className={getColClass(col.key)}
-                onDragOver={(e) => e.preventDefault()}
-                onDrop={() => handleDropOnColumn(col.key)}
-              >
-                <div className="flex flex-wrap gap-2">
-                  {columns[col.key].map((word) => (
-                    <div key={word} className="relative">
-                      <button
-                        draggable={!showResult}
-                        onDragStart={() => handleDragStart(word, col.key)}
-                        onDragEnd={handleDragEnd}
-                        onClick={() => {
-                          if (!showResult) {
-                            returnWordToBank(col.key, word);
-                          }
-                        }}
-                        className={getWordClass(col.key, word)}
-                      >
-                        {word}
-                      </button>
-
-                      {/* ✕ فوق الكلمة الغلط */}
-                      {isWordWrong(col.key, word) && (
-                        <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-red-500 flex items-center justify-center shadow border-2 border-white">
-                          <span className="text-white text-sm font-bold">
-                            ✕
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                  ))}
+                  <span className="font-bold text-gray-700 text-xl">
+                    {col.key}
+                  </span>
+                  <span className="text-xs text-gray-400">
+                    ({col.key === "feet" ? "ee" : "ea"})
+                  </span>
                 </div>
 
-                {columns[col.key].length === 0 && (
-                  <div className="text-gray-400 text-sm mt-2">
-                    Drag words here
+                <DropZone id={col.key} className={getColClass(col.key)}>
+                  <div className="flex flex-wrap gap-2">
+                    {columns[col.key].map((word) => (
+                      <div key={word} className="relative">
+                        <DraggableWord
+                          word={word}
+                          source={col.key}
+                          disabled={showResult}
+                          className={getWordClass(col.key, word)}
+                        />
+
+                        {/* ✕ فوق الكلمة الغلط */}
+                        {isWordWrong(col.key, word) && (
+                          <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-red-500 flex items-center justify-center shadow border-2 border-white">
+                            <span className="text-white text-sm font-bold">
+                              ✕
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    ))}
                   </div>
-                )}
+
+                  {columns[col.key].length === 0 && (
+                    <div className="text-gray-400 text-sm mt-2">
+                      Drag words here
+                    </div>
+                  )}
+                </DropZone>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+          <Button
+            handleShowAnswer={handleShowAnswer}
+            handleStartAgain={handleStartAgain}
+            checkAnswers={checkAnswers}
+          />
         </div>
-        <Button
-          handleShowAnswer={handleShowAnswer}
-          handleStartAgain={handleStartAgain}
-          checkAnswers={checkAnswers}
-        />
       </div>
-    </div>
+      <DragOverlay>
+        {activeItem ? (
+          <div className="WB-word-bank px-4 py-2 bg-white shadow-lg">
+            {activeItem.word}
+          </div>
+        ) : null}
+      </DragOverlay>
+    </DndContext>
   );
 }

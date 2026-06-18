@@ -7,6 +7,7 @@ import {
   TouchSensor,
   useSensor,
   useSensors,
+  DragOverlay,
 } from "@dnd-kit/core";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U10 Folder/Page 61/SVG/Asset 2.svg";
@@ -33,7 +34,7 @@ function DraggableWord({ word, disabled }) {
       ref={setNodeRef}
       {...listeners}
       {...attributes}
-      style={{style ,padding:"9px 22px"}}
+      style={{ style, padding: "9px 22px" }}
       className={`WB-word-bank touch-none
         ${
           disabled
@@ -133,7 +134,7 @@ const DrawAndAnswerQuestion = () => {
   const [submitted, setSubmitted] = useState(false);
   const [feedback, setFeedback] = useState({});
   const [showAnswers, setShowAnswers] = useState(false);
-const [activeWord, setActiveWord] = useState(null);
+  const [activeWord, setActiveWord] = useState(null);
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(TouchSensor, {
@@ -277,7 +278,7 @@ const [activeWord, setActiveWord] = useState(null);
       <div className="main-container-component">
         <div
           className="div-forall flex flex-row"
-          style={{ marginBottom: "10px" ,gap:"20px"}}
+          style={{ marginBottom: "10px", gap: "20px" }}
         >
           {/* Header */}
 
@@ -302,54 +303,57 @@ const [activeWord, setActiveWord] = useState(null);
             </div>
 
             {/* Drawing + Questions */}
-        <div className="grid grid-cols-3 gap-8 mb-8">
-  {images.map((image) => (
-    <div key={image.id} className="w-full">
-      {/* Canvas */}
-      <div className="mb-4 flex justify-center">
-        <canvas
-          ref={(el) => (canvasRefs.current[image.id] = el)}
-          onMouseDown={(e) => handleMouseDown(e, image.id)}
-          onMouseMove={(e) => handleMouseMove(e, image.id)}
-          onMouseUp={handleMouseUp}
-          onMouseLeave={handleMouseUp}
-          height={150}
-          width={200}
-          className="border-2 border-gray-300 rounded-lg cursor-crosshair"
-        />
-      </div>
+            <div className="grid grid-cols-3 gap-8 mb-8">
+              {images.map((image) => (
+                <div key={image.id} className="w-full">
+                  {/* Canvas */}
+                  <div className="mb-4 flex justify-center">
+                    <canvas
+                      ref={(el) => (canvasRefs.current[image.id] = el)}
+                      onMouseDown={(e) => handleMouseDown(e, image.id)}
+                      onMouseMove={(e) => handleMouseMove(e, image.id)}
+                      onMouseUp={handleMouseUp}
+                      onMouseLeave={handleMouseUp}
+                      height={150}
+                      width={200}
+                      className="border-2 border-gray-300 rounded-lg cursor-crosshair"
+                    />
+                  </div>
 
-      {/* Input */}
-      <div>
-        <p className="text-base font-bold text-gray-800 mb-3">
-          {image.question}
-        </p>
+                  {/* Input */}
+                  <div>
+                    <p className="text-base font-bold text-gray-800 mb-3">
+                      {image.question}
+                    </p>
 
-        <div className="flex gap-2">
-          <DropInput
-            id={image.id}
-            value={answers[image.id] || ""}
-            submitted={submitted}
-            activeWord={activeWord}
-            isWrong={
-              submitted &&
-              !showAnswers &&
-              answers[image.id]?.trim() &&
-              answers[image.id].toLowerCase().trim() !==
-                image.correctAnswer.toLowerCase()
-            }
-          />
-        </div>
-      </div>
-    </div>
-  ))}
+                    <div className="flex gap-2">
+                      <DropInput
+                        id={image.id}
+                        value={answers[image.id] || ""}
+                        submitted={submitted}
+                        activeWord={activeWord}
+                        isWrong={
+                          submitted &&
+                          !showAnswers &&
+                          answers[image.id]?.trim() &&
+                          answers[image.id].toLowerCase().trim() !==
+                            image.correctAnswer.toLowerCase()
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
 
-  {/* ⭐ الصورة الخامسة */}
-  <div className="col-span-2 flex justify-center">
-    <img src={img5} className="object-contain"style={{height:"200px"}} />
-  </div>
-</div>
-           
+              {/* ⭐ الصورة الخامسة */}
+              <div className="col-span-2 flex justify-center">
+                <img
+                  src={img5}
+                  className="object-contain"
+                  style={{ height: "200px" }}
+                />
+              </div>
+            </div>
           </div>
           <Button
             handleShowAnswer={handleShowAnswer}
@@ -358,6 +362,14 @@ const [activeWord, setActiveWord] = useState(null);
           />
         </div>
       </div>
+
+      <DragOverlay>
+        {activeWord ? (
+          <div className="px-6 py-2 bg-white border-2 border-blue-500 rounded-xl shadow-2xl text-blue-700 font-bold scale-105">
+            {activeWord}
+          </div>
+        ) : null}
+      </DragOverlay>
     </DndContext>
   );
 };

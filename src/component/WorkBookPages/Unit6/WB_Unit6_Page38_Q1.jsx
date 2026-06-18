@@ -2,6 +2,72 @@ import React, { useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../Button";
 import img from "../../../assets/imgs/WorkBook/Right Int WB G2 U6 Folder/Page 38/Ex A 1.svg";
+import {
+  DndContext,
+  useDraggable,
+  useDroppable,
+  DragOverlay,
+} from "@dnd-kit/core";
+
+const DraggableWord = ({ word, used }) => {
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id: `bank-${word}`,
+    data: {
+      word,
+      source: "bank",
+    },
+    disabled: used,
+  });
+
+  const style = {
+    transform: transform
+      ? `translate3d(${transform.x}px, ${transform.y}px,0)`
+      : undefined,
+    touchAction: "none",
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      {...listeners}
+      {...attributes}
+      style={style}
+      className={`WB-word-bank
+      ${
+        used
+          ? "bg-gray-200 text-gray-400 cursor-not-allowed opacity-60"
+          : "border-2 border-blue-900 cursor-grab hover:bg-blue-100"
+      }`}
+    >
+      {word}
+    </div>
+  );
+};
+
+
+const DropZone = ({ id, children, isWrong }) => {
+  const { setNodeRef, isOver } = useDroppable({
+    id,
+  });
+
+  return (
+    <div
+      ref={setNodeRef}
+      className={`relative flex items-center gap-3 p-1 border-b-2
+      ${
+        isWrong
+          ? "border-red-500"
+          : children
+          ? "border-blue-300"
+          : "border-dashed border-gray-300"
+      }
+      ${isOver ? "bg-blue-50" : ""}
+    `}
+    >
+      {children}
+    </div>
+  );
+};
 
 const WB_Unit6_Page38_Q1 = () => {
   const [answers, setAnswers] = useState({
@@ -14,7 +80,7 @@ const WB_Unit6_Page38_Q1 = () => {
   });
 
   const [showValidation, setShowValidation] = useState(false);
-
+const [activeItem, setActiveItem] = useState(null);
   const correctAnswers = {
     1: "kite",
     2: "night",
@@ -33,27 +99,27 @@ const WB_Unit6_Page38_Q1 = () => {
     { id: 6, word: "tight" },
   ];
 
-  const handleDragStart = (e, word) => {
-    e.dataTransfer.setData("text/plain", word);
-  };
+const handleDragStart = (event) => {
+  setActiveItem(event.active.data.current);
+};
 
-  const handleDragOver = (e) => {
-    e.preventDefault();
-  };
+const handleDragEnd = (event) => {
+  const { active, over } = event;
 
-  const handleDrop = (e, questionNumber) => {
-    e.preventDefault();
-    const droppedWord = e.dataTransfer.getData("text/plain");
+  setActiveItem(null);
 
-    // 🔒 منع استخدام نفس الكلمة أكثر من مرة
-    if (Object.values(answers).includes(droppedWord)) return;
+  if (!over || showValidation) return;
 
-    setAnswers({
-      ...answers,
-      [questionNumber]: droppedWord,
-    });
-  };
+  const word = active.data.current.word;
+  const questionNumber = Number(over.id);
 
+  if (Object.values(answers).includes(word)) return;
+
+  setAnswers((prev) => ({
+    ...prev,
+    [questionNumber]: word,
+  }));
+};
   const checkAnswers = () => {
     if (showValidation) return;
     const allFilled = Object.values(answers).every((ans) => ans !== "");
@@ -104,7 +170,11 @@ const WB_Unit6_Page38_Q1 = () => {
     return answers[num] !== correctAnswers[num];
   };
 
-  return (
+ return (
+  <DndContext
+    onDragStart={handleDragStart}
+    onDragEnd={handleDragEnd}
+  >
     <div className="main-container-component">
       <div className="div-forall"  style={{gap:"25px"}}>
         {" "}
@@ -122,22 +192,11 @@ const WB_Unit6_Page38_Q1 = () => {
               const isUsed = Object.values(answers).includes(item.word);
 
               return (
-                <div
-                  key={item.id}
-                  draggable={!isUsed}
-                  onDragStart={(e) => {
-                    if (!isUsed) handleDragStart(e, item.word);
-                  }}
-                  className={`WB-word-bank 
-                ${
-                  isUsed
-                    ? "bg-gray-200 text-gray-400 cursor-not-allowed opacity-60"
-                    : "border-2 border-blue-900 cursor-move hover:bg-blue-100"
-                }`}
-                  style={{padding:"9px 22px"}}
-                >
-                  {item.word}
-                </div>
+              <DraggableWord
+  key={item.id}
+  word={item.word}
+  used={isUsed}
+/>
               );
             })}
           </div>
@@ -156,16 +215,11 @@ const WB_Unit6_Page38_Q1 = () => {
           <div className="md:w-1/2">
             <div className="space-y-2">
               {[1, 2, 3, 4, 5, 6].map((num) => (
-                <div
-                  key={num}
-                  onDragOver={handleDragOver}
-                  onDrop={(e) => handleDrop(e, num)}
-                  className={`relative flex items-center gap-3 p-1 border-b-2 transition-colors active:bg-blue-50 ${
-                    answers[num]
-                      ? "border-blue-300"
-                      : "border-dashed border-gray-300 bg-white"
-                  }  ${isWrongAnswer(num) && "border-red-500"}`}
-                >
+                <DropZone
+  key={num}
+  id={`${num}`}
+  isWrong={isWrongAnswer(num)}
+>
                   <span className="text-xl text-blue-900 font-semibold w-8">{num}.</span>
 
                   <div className="flex-1 min-h-[45px] flex items-center">
@@ -187,7 +241,7 @@ const WB_Unit6_Page38_Q1 = () => {
                       </span>
                     </div>
                   )}
-                </div>
+                </DropZone>
               ))}
             </div>
           </div>
@@ -199,6 +253,15 @@ const WB_Unit6_Page38_Q1 = () => {
         />
       </div>
     </div>
+    <DragOverlay>
+  {activeItem ? (
+    <div className="WB-word-bank px-4 py-2 shadow-lg bg-white">
+      {activeItem.word}
+    </div>
+  ) : null}
+</DragOverlay>
+
+    </DndContext>
   );
 };
 
