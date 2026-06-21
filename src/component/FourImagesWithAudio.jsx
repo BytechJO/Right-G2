@@ -24,6 +24,8 @@ const FourImagesWithAudio = ({
   const settingsRef = useRef(null);
   const [forceRender, setForceRender] = useState(0);
   // زر الكابشن
+  const [playbackRate, setPlaybackRate] = useState(1);
+  const speeds = [0.5, 0.75, 1, 1.25, 1.5, 2];
 
   const [isPlaying, setIsPlaying] = useState(true);
   const [current, setCurrent] = useState(0);
@@ -41,33 +43,33 @@ const FourImagesWithAudio = ({
     setActiveIndex2(index);
   };
   const playImageSound = (index) => {
-  const sound = audioArr[index];
-  const mainAudio = audioRef.current;
+    const sound = audioArr[index];
+    const mainAudio = audioRef.current;
 
-  if (!sound || !mainAudio) return;
+    if (!sound || !mainAudio) return;
 
-  // 🔥 وقف الصوت الرئيسي
-  mainAudio.pause();
-  setIsPlaying(false);
+    // 🔥 وقف الصوت الرئيسي
+    mainAudio.pause();
+    setIsPlaying(false);
 
-  // ✅ 🔥 وقف كل أصوات الصور الثانية
-  audioArr.forEach((audio, i) => {
-    if (audio && i !== index) {
-      audio.pause();
-      audio.currentTime = 0;
-    }
-  });
+    // ✅ 🔥 وقف كل أصوات الصور الثانية
+    audioArr.forEach((audio, i) => {
+      if (audio && i !== index) {
+        audio.pause();
+        audio.currentTime = 0;
+      }
+    });
 
-  // 🔥 شغل صوت الصورة الحالية
-  sound.currentTime = 0;
-  sound.play();
+    // 🔥 شغل صوت الصورة الحالية
+    sound.currentTime = 0;
+    sound.play();
 
-  setClickedIndex(index);
+    setClickedIndex(index);
 
-  sound.onended = () => {
-    setClickedIndex(null);
+    sound.onended = () => {
+      setClickedIndex(null);
+    };
   };
-};
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -138,10 +140,18 @@ const FourImagesWithAudio = ({
           justifyContent: "flex-start",
           width: "60%",
           alignItems: "flex-start",
-          marginTop:"25px"
+          marginTop: "25px",
         }}
       >
-        <h5 className="header-title-page8" style={{ fontSize: "25px" }}>
+        <h5
+          className="header-title-page8"
+          style={{
+            fontSize: "25px",
+            display: "flex",
+            gap: "5px",
+            alignItems: "center",
+          }}
+        >
           {images[0] && (
             <img src={images[0]} className="main-image" alt="main" />
           )}
@@ -259,6 +269,25 @@ const FourImagesWithAudio = ({
                         audioRef.current.volume = e.target.value;
                       }}
                     />
+
+                    <label style={{ marginRight: "10px", marginTop: "10px" }}>
+                      Speed :
+                    </label>
+                    <select
+                      value={playbackRate}
+                      onChange={(e) => {
+                        const rate = Number(e.target.value);
+                        setPlaybackRate(rate);
+                        audioRef.current.playbackRate = rate;
+                      }}
+                    >
+                      <option value="0.5">0.5x</option>
+                      <option value="0.75">0.75x</option>
+                      <option value="1">1x</option>
+                      <option value="1.25">1.25x</option>
+                      <option value="1.5">1.5x</option>
+                      <option value="2">2x</option>
+                    </select>
                   </div>
                 )}
               </div>

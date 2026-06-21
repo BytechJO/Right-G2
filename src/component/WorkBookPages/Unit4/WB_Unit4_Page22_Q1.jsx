@@ -75,36 +75,76 @@ const WB_Unit4_Page22_Q1 = () => {
 
   const [items, setItems] = useState(buildInitialWords());
 
-const onDragEnd = (result) => {
-  const { source, destination } = result;
-  if (!destination) return;
+  const onDragEnd = (result) => {
+    const { source, destination } = result;
+    if (!destination) return;
 
-  setItems((prev) => {
-    const newState = { ...prev };
+    setItems((prev) => {
+      const newState = { ...prev };
 
-    const sourceList = Array.from(newState[source.droppableId]);
-    const destList = Array.from(newState[destination.droppableId]);
+      const sourceList = Array.from(newState[source.droppableId]);
+      const destList = Array.from(newState[destination.droppableId]);
 
-    const movedItem = sourceList[source.index];
+      const movedItem = sourceList[source.index];
 
-    // نفس المكان
-    if (source.droppableId === destination.droppableId) {
-      return prev;
-    }
+      // نفس المكان
+      if (source.droppableId === destination.droppableId) {
+        return prev;
+      }
 
-    // ❗ لا تحذف من البنك
-    // بس تأكد ما تنضاف مرتين
-    const alreadyExists = destList.some((w) => w.id === movedItem.id);
+      // ❗ لا تحذف من البنك
+      // بس تأكد ما تنضاف مرتين
+      const alreadyExists = destList.some((w) => w.id === movedItem.id);
 
-    if (!alreadyExists) {
-      destList.push(movedItem);
-    }
+      if (!alreadyExists) {
+        destList.push(movedItem);
+      }
 
-    newState[destination.droppableId] = destList;
+      newState[destination.droppableId] = destList;
 
-    return newState;
-  });
-};
+      return newState;
+    });
+  };
+
+  // ===== منطق الكبسة (Click-to-place) للورد بانك ↔ الجملة =====
+
+  // كبسة على كلمة بالـ word bank: تنضاف بآخر الجملة (answer-qId)
+  // وتلقائياً تصير "Disabled/Used" بالبانك لإنها بقت موجودة بـ answer-qId
+  const handleBankWordClick = (qId, word) => {
+    if (showResults) return;
+
+    const isUsed = (items[`answer-${qId}`] || []).some(
+      (w) => w.id === word.id,
+    );
+    if (isUsed) return; // محطوطة مسبقاً، ما تعمل شيء
+
+    setItems((prev) => {
+      const newState = { ...prev };
+      const answerKey = `answer-${qId}`;
+      const answerList = Array.from(newState[answerKey]);
+      answerList.push(word);
+      newState[answerKey] = answerList;
+      return newState;
+    });
+  };
+
+  // كبسة على كلمة جوا الجملة: ترجعها للبانك (تصير متاحة تلقائياً
+  // لإنها بتنشال من answer-qId)
+  const returnWordToBank = (qId, wordIndex) => {
+    setItems((prev) => {
+      const newState = { ...prev };
+
+      const answerKey = `answer-${qId}`;
+      const answerList = Array.from(newState[answerKey]);
+
+      // احذف من الجملة فقط
+      answerList.splice(wordIndex, 1);
+
+      newState[answerKey] = answerList;
+
+      return newState;
+    });
+  };
 
   const handleLeftClick = (id) => setSelectedLeft(id);
 
@@ -230,29 +270,29 @@ const onDragEnd = (result) => {
     }
   };
 
- const handleShowAnswer = () => {
-  const filled = {};
+  const handleShowAnswer = () => {
+    const filled = {};
 
-  data.questions.forEach((q) => {
-    const words = q.text.split(" ");
+    data.questions.forEach((q) => {
+      const words = q.text.split(" ");
 
-    // ✅ رجّع البنك زي ما كان
-    filled[`bank-${q.id}`] = words.map((word, i) => ({
-      id: `${q.id}-${i}`,
-      text: word,
-    }));
+      // ✅ رجّع البنك زي ما كان
+      filled[`bank-${q.id}`] = words.map((word, i) => ({
+        id: `${q.id}-${i}`,
+        text: word,
+      }));
 
-    // ✅ حط الجواب الصح
-    filled[`answer-${q.id}`] = q.correct.split(" ").map((w, idx) => ({
-      id: `ans-${q.id}-${idx}`,
-      text: w,
-    }));
-  });
+      // ✅ حط الجواب الصح
+      filled[`answer-${q.id}`] = q.correct.split(" ").map((w, idx) => ({
+        id: `ans-${q.id}-${idx}`,
+        text: w,
+      }));
+    });
 
-  setItems(filled);
-  setMatches(correctMatches);
-  setShowResults(true);
-};
+    setItems(filled);
+    setMatches(correctMatches);
+    setShowResults(true);
+  };
 
   const handleStartAgain = () => {
     setItems(buildInitialWords());
@@ -262,24 +302,10 @@ const onDragEnd = (result) => {
   const usedWordsPerQuestion = (qId) => {
     return items[`answer-${qId}`] || [];
   };
-const returnWordToBank = (qId, wordIndex) => {
-  setItems((prev) => {
-    const newState = { ...prev };
 
-    const answerKey = `answer-${qId}`;
-    const answerList = Array.from(newState[answerKey]);
-
-    // احذف من الجملة فقط
-    answerList.splice(wordIndex, 1);
-
-    newState[answerKey] = answerList;
-
-    return newState;
-  });
-};
   return (
     <div className="main-container-component">
-      <div className="div-forall"  style={{gap:"30px"}}>
+      <div className="div-forall" style={{ gap: "30px" }}>
         <h1 className="WB-header-title-page8">
           <span className="WB-ex-A">C</span> Look, unscramble, and write. Match.
         </h1>
@@ -374,7 +400,7 @@ const returnWordToBank = (qId, wordIndex) => {
                               return (
                                 <Draggable
                                   key={word.id}
-                                 draggableId={`bank-${q.id}-${word.id}`}
+                                  draggableId={`bank-${q.id}-${word.id}`}
                                   index={i}
                                   isDragDisabled={isUsed || showResults} // 🔒
                                 >
@@ -383,13 +409,17 @@ const returnWordToBank = (qId, wordIndex) => {
                                       ref={provided.innerRef}
                                       {...provided.draggableProps}
                                       {...provided.dragHandleProps}
+                                      // ✅ كبسة على كلمة الورد بانك = تحطها بآخر الجملة
+                                      onClick={() =>
+                                        handleBankWordClick(q.id, word)
+                                      }
                                       className={`WB-word-bank 
             ${
               isUsed || showResults
                 ? "text-gray-400 border border-blue-900 cursor-not-allowed opacity-60"
-                : "bg-gray-200 text-black cursor-grab border border-blue-900"
+                : "bg-gray-200 text-black cursor-pointer border border-blue-900"
             }`}
-            style={{padding:"1px 14px"}}
+                                      style={{ padding: "1px 14px" }}
                                     >
                                       {word.text}
                                     </span>
@@ -426,6 +456,7 @@ const returnWordToBank = (qId, wordIndex) => {
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
+                                    // ✅ كبسة على كلمة جوا الجملة = ترجعها للبانك
                                     onClick={() => {
                                       if (!showResults)
                                         returnWordToBank(q.id, i);
