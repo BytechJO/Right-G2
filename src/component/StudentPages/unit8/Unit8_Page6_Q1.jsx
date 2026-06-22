@@ -125,8 +125,7 @@ const Unit8_Page6_Q1 = () => {
       <div className="main-container-component">
         <div className="div-forall" style={{ gap: "10px" }}>
           <h5 className="header-title-page8">
-            <span className="ex-A mr-2.5">D</span>Look and tap or click the
-            correct words to complete the questions.
+            <span className="ex-A mr-2.5">D</span>Look and write.
           </h5>
 
           {/* IMAGES */}

@@ -9,135 +9,158 @@ import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
 import "./Review1_Page1_Q2.css";
 
-const Review1_Page1_Q2 = () => {
-  const questions = [
-    {
-      img: img1,
-      parts: [
-        { type: "text", value: "I’m Stella’s lecun." },
-        { type: "input", answer: "I'm Stella's uncle" },
-        { type: "text", value: "." },
-      ],
-    },
-    {
-      img: img2,
-      parts: [
-        { type: "text", value: "She’s Stella’s restis." },
-        { type: "input", answer: "She's Stella's sister" },
-        { type: "text", value: "." },
-      ],
-    },
-    {
-      img: img3,
-      parts: [
-        { type: "text", value: "He’s Stella’s hatref." },
-        { type: "input", answer: "He's stella's father" },
-        { type: "text", value: "." },
-      ],
-    },
-    {
-      img: img4,
-      parts: [
-        { type: "text", value: "I’m Stella’s sinuoc." },
-        { type: "input", answer: "I'm Stella's cousin" },
-        { type: "text", value: "." },
-      ],
-    },
-    {
-      img: img5,
-      parts: [
-        { type: "text", value: "She’s Stella’s taun." },
-        { type: "input", answer: "She's Stella's aunt" },
-        { type: "text", value: "." },
-      ],
-    },
-  ];
+// ── بيانات الأسئلة ──────────────────────────────────────────────
+// scrambled = نفس حروف correctWord بس مبعثرة (anagram)
+const questions = [
+  {
+    img: img1,
+    prefix: "I’m Stella’s",
+    suffix: ".",
+    correctWord: "uncle",
+    scrambled: "lecun",
+  },
+  {
+    img: img2,
+    prefix: "She’s Stella’s",
+    suffix: ".",
+    correctWord: "sister",
+    scrambled: "restis",
+  },
+  {
+    img: img3,
+    prefix: "He’s Stella’s",
+    suffix: ".",
+    correctWord: "father",
+    scrambled: "hatref",
+  },
+  {
+    img: img4,
+    prefix: "I’m Stella’s",
+    suffix: ".",
+    correctWord: "cousin",
+    scrambled: "sinuoc",
+  },
+  {
+    img: img5,
+    prefix: "She’s Stella’s",
+    suffix: ".",
+    correctWord: "aunt",
+    scrambled: "taun",
+  },
+];
 
-  const [answers, setAnswers] = useState(
-    questions.map((q) => q.parts.map((p) => (p.type === "input" ? "" : null))),
-  );
-  const [wrongInputs, setWrongInputs] = useState([]);
+// ── هوية كل حرف بالليتر بانك: ثابتة وما بتتغير ──────────────────
+const lettersByQuestion = questions.map((q, qi) =>
+  q.scrambled.split("").map((_, li) => `q${qi}-l${li}`),
+);
+
+// ── helpers لتحويل id الحرف لـ qi/li والرجوع للحرف نفسه ──────────
+const parseLetterId = (id) => {
+  const m = id.match(/^q(\d+)-l(\d+)$/);
+  return { qi: Number(m[1]), li: Number(m[2]) };
+};
+
+const getChar = (id) => {
+  if (!id) return "";
+  const { qi, li } = parseLetterId(id);
+  return questions[qi].scrambled[li];
+};
+
+const initialSlots = () =>
+  questions.map((q) => Array(q.correctWord.length).fill(null));
+
+// ── ترتيب الحروف الصحيحة بترتيب الكلمة الهدف (لزر Show Answer) ──
+const buildCorrectSlots = (qi) => {
+  const q = questions[qi];
+  const remaining = q.scrambled
+    .split("")
+    .map((ch, li) => ({ id: `q${qi}-l${li}`, ch }));
+
+  return q.correctWord.split("").map((targetChar) => {
+    const idx = remaining.findIndex(
+      (r) => r.ch.toLowerCase() === targetChar.toLowerCase(),
+    );
+    if (idx === -1) return null;
+    const found = remaining[idx];
+    remaining.splice(idx, 1);
+    return found.id;
+  });
+};
+
+const Review1_Page1_Q2 = () => {
+  const [slots, setSlots] = useState(initialSlots);
+  const [wrongSlots, setWrongSlots] = useState([]);
   const [locked, setLocked] = useState(false);
 
-  const wordBank = [
-    { id: "w1", text: "I'm Stella's uncle" },
-    { id: "w2", text: "She's Stella's sister" },
-    { id: "w3", text: "He's stella's father" },
-    { id: "w4", text: "I'm Stella's cousin" },
-    { id: "w5", text: "She's Stella's aunt" },
-  ];
-
+  // ── سحب حرف من البانك لخانة ──
   const onDragEnd = (result) => {
-    if (!result.destination || locked) return;
-
+    if (locked) return;
     const { draggableId, destination } = result;
+    if (!destination) return;
 
-    setAnswers((prev) => {
+    // الإفلات برجوع للبانك مش مسموح بالسحب — الرجوع بيكون بالكبس على الخانة بس
+    if (!destination.droppableId.startsWith("slot-")) return;
+
+    const { qi } = parseLetterId(draggableId);
+    const destSlotIndex = Number(destination.droppableId.split("-")[2]);
+
+    setSlots((prev) => {
       const copy = prev.map((row) => [...row]);
-
-      // remove word from previous place
-      copy.forEach((row, qi) =>
-        row.forEach((val, pi) => {
-          if (val === draggableId) copy[qi][pi] = "";
-        }),
-      );
-
-      if (destination.droppableId.startsWith("drop-")) {
-        const [qIndex, pIndex] = destination.droppableId
-          .replace("drop-", "")
-          .split("-")
-          .map(Number);
-        copy[qIndex][pIndex] = draggableId;
-      }
-
+      copy[qi][destSlotIndex] = draggableId;
       return copy;
     });
 
-    setWrongInputs([]);
+    setWrongSlots([]);
   };
 
+  // ── كبسة على الخانة: ترجع الحرف لمكانه بالليتر بانك ──
+  const handleSlotClick = (qi, li) => {
+    if (locked) return;
+    if (!slots[qi][li]) return;
+
+    setSlots((prev) => {
+      const copy = prev.map((row) => [...row]);
+      copy[qi][li] = null;
+      return copy;
+    });
+
+    setWrongSlots([]);
+  };
+
+  // ── تشييك الإجابات ──
   const checkAnswers = () => {
     if (locked) return;
 
-    // 🔴 1) فحص إذا في input فاضي
-    for (let qIndex = 0; qIndex < questions.length; qIndex++) {
-      for (let pIndex = 0; pIndex < questions[qIndex].parts.length; pIndex++) {
-        const part = questions[qIndex].parts[pIndex];
-
-        if (part.type === "input") {
-          const value = answers[qIndex][pIndex];
-
-          if (!value || value.trim() === "") {
-            ValidationAlert.info(
-              "Oops!",
-              "Please complete all sentences before checking.",
-            );
-            return; // ⛔ وقف التشييك
-          }
-        }
+    for (let qi = 0; qi < questions.length; qi++) {
+      if (slots[qi].some((v) => v === null)) {
+        ValidationAlert.info(
+          "Oops!",
+          "Please complete all the words before checking.",
+        );
+        return;
       }
     }
 
-    // 🟢 2) التشييك الطبيعي
     let wrong = [];
     let score = 0;
-    let total = 0;
 
-    questions.forEach((q, qIndex) => {
-      q.parts.forEach((p, pIndex) => {
-        if (p.type === "input") {
-          total++;
-          const word =
-            wordBank.find((w) => w.id === answers[qIndex][pIndex])?.text || "";
-          if (word === p.answer) score++;
-          else wrong.push(`${qIndex}-${pIndex}`);
-        }
-      });
+    questions.forEach((q, qi) => {
+      const assembled = slots[qi].map((id) => getChar(id)).join("");
+      if (assembled.toLowerCase() === q.correctWord.toLowerCase()) {
+        score++;
+      } else {
+        slots[qi].forEach((id, li) => {
+          if (getChar(id).toLowerCase() !== q.correctWord[li].toLowerCase()) {
+            wrong.push(`${qi}-${li}`);
+          }
+        });
+      }
     });
 
-    setWrongInputs(wrong);
+    setWrongSlots(wrong);
     setLocked(true);
 
+    const total = questions.length;
     const msg = `Score: ${score} / ${total}`;
     if (score === total) ValidationAlert.success(msg);
     else if (score === 0) ValidationAlert.error(msg);
@@ -145,26 +168,14 @@ const Review1_Page1_Q2 = () => {
   };
 
   const showAnswers = () => {
-    setAnswers(
-      questions.map((q) =>
-        q.parts.map((p) =>
-          p.type === "input"
-            ? wordBank.find((w) => w.text === p.answer)?.id || ""
-            : null,
-        ),
-      ),
-    );
-    setWrongInputs([]);
+    setSlots(questions.map((_, qi) => buildCorrectSlots(qi)));
+    setWrongSlots([]);
     setLocked(true);
   };
 
   const reset = () => {
-    setAnswers(
-      questions.map((q) =>
-        q.parts.map((p) => (p.type === "input" ? "" : null)),
-      ),
-    );
-    setWrongInputs([]);
+    setSlots(initialSlots());
+    setWrongSlots([]);
     setLocked(false);
   };
 
@@ -173,105 +184,203 @@ const Review1_Page1_Q2 = () => {
       <div
         style={{ display: "flex", justifyContent: "center", padding: "30px" }}
       >
-        <div className="div-forall" style={{gap:"20px" }}>
-          {/* ❌ الهيدر كما هو */}
+        <div className="div-forall" style={{ gap: "20px" }}>
           <h5 className="header-title-page8">
-            <span style={{ marginRight: "20px" }}>B</span>Drag and drop the letters to unscramble the word.
+            <span style={{ marginRight: "20px" }}>B</span>Drag and drop the
+            letters to unscramble the word.
           </h5>
-          
-          <div>
-          {/* WORD BANK */}
-          <Droppable droppableId="word-bank" direction="horizontal">
-            {(provided) => (
-              <div
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-                className="CB-unit2-p6-q2-word-bank flex-wrap"
-              >
-                {wordBank.map((w, i) => {
-                  const isUsed = answers.some((row) => row.includes(w.id));
-                  return (
-                    <Draggable
-                      key={w.id}
-                      draggableId={w.id}
-                      index={i}
-                      isDragDisabled={locked || isUsed}
+
+          <div className="CB-review1-p1-q2-content" style={{ gap: "26px" }}>
+            {questions.map((q, qi) => {
+              const usedIds = slots[qi];
+
+              return (
+                <div
+                  key={qi}
+                  className="CB-unit2-p6-q2-row"
+                  style={{ alignItems: "flex-start", gap: "16px" }}
+                >
+                  <div className="CB-unit2-p6-q2-left">
+                    <span className="CB-unit2-p6-q2-index">{qi + 1}</span>
+                    <img src={q.img} alt="" className="CB-unit2-p6-q2-img" />
+                  </div>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "10px",
+                      minWidth: 0,
+                    }}
+                  >
+                    {/* الجملة مع الخانات الفاضية */}
+                    <div
+                      className="CB-unit2-p6-q2-sentence"
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        flexWrap: "wrap",
+                        gap: "6px",
+                      }}
+                    >
+                      <span className="CB-unit2-p6-q2-text">{q.prefix}</span>
+
+                      <div style={{ display: "flex", gap: "4px" }}>
+                        {Array.from({ length: q.correctWord.length }).map(
+                          (_, li) => {
+                            const letterId = usedIds[li];
+                            const isWrong = wrongSlots.includes(`${qi}-${li}`);
+                            const isFilled = Boolean(letterId);
+
+                            return (
+                              <Droppable
+                                key={li}
+                                droppableId={`slot-${qi}-${li}`}
+                                type={`q${qi}`}
+                                isDropDisabled={locked}
+                              >
+                                {(provided, snapshot) => (
+                                  <span
+                                    ref={provided.innerRef}
+                                    {...provided.droppableProps}
+                                    onClick={() => handleSlotClick(qi, li)}
+                                    style={{
+                                      position: "relative",
+                                      display: "inline-flex",
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                      width: "34px",
+                                      height: "38px",
+                                      borderBottom: isWrong
+                                        ? "2px solid #ef4444"
+                                        : snapshot.isDraggingOver
+                                          ? "2px dashed #f39b42"
+                                          : "2px solid #888",
+                                      background: isWrong
+                                        ? "#fee2e2"
+                                        : "#fafafa",
+                                      fontSize: "18px",
+                                      fontWeight: 600,
+                                      textTransform: "lowercase",
+                                      cursor:
+                                        isFilled && !locked
+                                          ? "pointer"
+                                          : "default",
+                                      userSelect: "none",
+                                    }}
+                                  >
+                                    {getChar(letterId)}
+                                    {provided.placeholder}
+
+                                    {isWrong && (
+                                      <span
+                                        style={{
+                                          position: "absolute",
+                                          top: -8,
+                                          right: -8,
+                                          width: "16px",
+                                          height: "16px",
+                                          borderRadius: "50%",
+                                          background: "#ef4444",
+                                          color: "#fff",
+                                          fontSize: "10px",
+                                          display: "flex",
+                                          alignItems: "center",
+                                          justifyContent: "center",
+                                          border: "1px solid white",
+                                        }}
+                                      >
+                                        ✕
+                                      </span>
+                                    )}
+                                  </span>
+                                )}
+                              </Droppable>
+                            );
+                          },
+                        )}
+                      </div>
+
+                      <span className="CB-unit2-p6-q2-text">{q.suffix}</span>
+                    </div>
+
+                    {/* بنك الحروف الخاص بهاد السؤال — ثابت دايمًا، بس بيصير الحرف Disabled لما يُستخدم */}
+                    <Droppable
+                      droppableId={`bank-${qi}`}
+                      type={`q${qi}`}
+                      direction="horizontal"
+                      isDropDisabled={true}
                     >
                       {(provided) => (
-                        <span
+                        <div
                           ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          className="CB-unit2-p6-q2-word"
+                          {...provided.droppableProps}
                           style={{
-                            background: isUsed ? "#ccc" : "white",
-                            opacity: isUsed ? 0.6 : 1,
-                            cursor: isUsed ? "not-allowed" : "grab",
-                            ...provided.draggableProps.style,
+                            display: "flex",
+                            gap: "6px",
+                            flexWrap: "wrap",
+                            minHeight: "38px",
                           }}
                         >
-                          {w.text}
-                        </span>
+                          {lettersByQuestion[qi].map((id, idx) => {
+                            const used = usedIds.includes(id);
+
+                            return (
+                              <Draggable
+                                key={id}
+                                draggableId={id}
+                                index={idx}
+                                isDragDisabled={locked || used}
+                              >
+                                {(dragProvided, dragSnapshot) => (
+                                  <span
+                                    ref={dragProvided.innerRef}
+                                    {...dragProvided.draggableProps}
+                                    {...dragProvided.dragHandleProps}
+                                    style={{
+                                      display: "inline-flex",
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                      width: "34px",
+                                      height: "38px",
+                                      border: used
+                                        ? "1.5px dashed #ccc"
+                                        : "1.5px solid #ccc",
+                                      borderRadius: "6px",
+                                      background: used ? "#ececec" : "white",
+                                      opacity:
+                                        used && !dragSnapshot.isDragging
+                                          ? 0.4
+                                          : 1,
+                                      fontSize: "18px",
+                                      fontWeight: 600,
+                                      textTransform: "lowercase",
+                                      cursor: used
+                                        ? "not-allowed"
+                                        : locked
+                                          ? "default"
+                                          : "grab",
+                                      userSelect: "none",
+                                      ...dragProvided.draggableProps.style,
+                                    }}
+                                  >
+                                    {getChar(id)}
+                                  </span>
+                                )}
+                              </Draggable>
+                            );
+                          })}
+                          {provided.placeholder}
+                        </div>
                       )}
-                    </Draggable>
-                  );
-                })}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-
-          {/* QUESTIONS */}
-          <div className="CB-review1-p1-q2-content">
-            {questions.map((q, qIndex) => (
-              <div key={qIndex} className="CB-unit2-p6-q2-row">
-                <div className="CB-unit2-p6-q2-left">
-                  <span className="CB-unit2-p6-q2-index">{qIndex + 1}</span>
-                  <img src={q.img} alt="" className="CB-unit2-p6-q2-img" />
+                    </Droppable>
+                  </div>
                 </div>
-
-                <div className="CB-unit2-p6-q2-sentence">
-                  {q.parts.map((part, pIndex) =>
-                    part.type === "text" ? (
-                      <span key={pIndex} className="CB-unit2-p6-q2-text">
-                        {part.value}
-                      </span>
-                    ) : (
-                      <Droppable
-                        key={pIndex}
-                        droppableId={`drop-${qIndex}-${pIndex}`}
-                        isDropDisabled={locked}
-                      >
-                        {(provided, snapshot) => (
-                          <span
-                            ref={provided.innerRef}
-                            {...provided.droppableProps}
-                            className={`CB-unit2-p6-q2-input ${
-                              snapshot.isDraggingOver ? "drag-over-cell" : ""
-                            }`}
-                          >
-                            {wordBank.find(
-                              (w) => w.id === answers[qIndex][pIndex],
-                            )?.text || ""}
-                            {provided.placeholder}
-                            {wrongInputs.includes(`${qIndex}-${pIndex}`) && (
-                              <span className="CB-unit2-p6-q2-input-error">
-                                ✕
-                              </span>
-                            )}
-                          </span>
-                        )}
-                      </Droppable>
-                    ),
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
+              );
+            })}
           </div>
         </div>
 
-        {/* ❌ الأزرار كما هي */}
         <div className="action-buttons-container">
           <button onClick={reset} className="try-again-button">
             Start Again ↻

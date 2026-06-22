@@ -140,7 +140,7 @@ const Unit10_Page6_Q1 = () => {
         <div className="div-forall" style={{ gap: "30px" }}>
           {/* ❌ الهيدر كما هو */}
           <h5 className="header-title-page8">
-            <span className="ex-A mr-5">D</span> Look and tap or click the correct answer. 
+            <span className="ex-A mr-5">D</span> Look and write.
           </h5>
           <div className="flex flex-col gap-10">
             <Droppable droppableId="bank" direction="horizontal">

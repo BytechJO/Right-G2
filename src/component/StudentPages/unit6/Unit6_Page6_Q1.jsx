@@ -99,7 +99,7 @@ const Unit6_Page6_Q1 = () => {
     <div className="main-container-component">
       <div className="div-forall">
         <h1 className="header-title-page8">
-          <span className="ex-A">D</span> Read and drag the clock hands to the correct time.
+          <span className="ex-A">D</span>Read and then draw the time.
         </h1>
 
         <div

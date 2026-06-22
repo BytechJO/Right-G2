@@ -115,7 +115,7 @@ const Unit6_Page5_Q2 = () => {
               2{" "}
             </span>{" "}
             Read and tap or click the words with the
-            <span style={{ color: "#2e3192" }}>long i</span> sound.
+            <span style={{ color: "#2e3192" }}> long i </span> sound.
           </h5>
         </div>
         <div className="relative w-full max-w-[1000px]">

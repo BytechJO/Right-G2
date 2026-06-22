@@ -152,7 +152,7 @@ const Unit5_Page6_Q2 = () => {
         <div className="div-forall">
           <h5 className="header-title-page8">
             {" "}
-            <span className="ex-A">E</span>Look and tap or click the correct food name.
+            <span className="ex-A">E</span>Look and write.
           </h5>
           <div className="CB-unit5-p6-q2-container" ref={containerRef}>
             {questions.map((q) => (

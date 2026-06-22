@@ -98,7 +98,7 @@ const Unit6_Page6_Q2 = () => {
       <div className="div-forall" >
         <h5 className="header-title-page8">
           <span className="ex-A mr-2">E</span>Read, tap or click the numbers, and check 
-          <span style={{ color: "#2e3192" }}>✓</span> the correct box. 
+          <span style={{ color: "#2e3192" }}> ✓</span> the correct box. 
         </h5>
 
         <div className="grid grid-cols-2 gap-y-5 gap-x-[60px]">

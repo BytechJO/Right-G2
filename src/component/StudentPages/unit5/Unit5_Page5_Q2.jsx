@@ -102,7 +102,7 @@ const Unit5_Page5_Q2 = () => {
         <h3 className="header-title-page8">
           <span style={{ color: "#2e3192", marginRight: "20px" }}>2</span>{" "}
           Listen and tap or click the picture with a different
-          <span style={{ color: "#2e3192" }}>long vowel sound</span>?sound.
+          <span style={{ color: "#2e3192" }}> long vowel sound</span>?sound.
         </h3>
 
         <div className="exercise-row-CB-unit5-p5-2">

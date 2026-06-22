@@ -202,7 +202,7 @@ const Unit9_Page5_Q1 = () => {
             </span>
             <span style={{ marginRight: "20px", color: "#2e3192" }}>1</span>
             Listen and tap or click the picture with the
-            <span style={{ color: "#2e3192" }}>short a</span>
+            <span style={{ color: "#2e3192" }}> short a </span>
             sound.
           </h5>
           <QuestionAudioPlayer

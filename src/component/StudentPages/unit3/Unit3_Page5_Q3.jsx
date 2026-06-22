@@ -149,7 +149,7 @@ const Unit3_Page5_Q3 = () => {
         <div className="div-forall" style={{ gap:"30px" }}>
           {/* ❌ الهيدر كما هو */}
           <h5 className="header-title-page8">
-            <span className="ex-A">B</span> Look and tap or click the correct words to complete the sentence. 
+            <span className="ex-A">B</span> Look and write.
           </h5>
 
    <div className="flex flex-col gap-5">

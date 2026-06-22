@@ -179,7 +179,7 @@ const Review2_Page2_Q3 = () => {
           }}
         >
           <h5 className="header-title-page8">
-            <span style={{ marginRight: "20px" }}>G</span>Listen, drag, and drop the letters.
+            <span style={{ marginRight: "20px" }}>G</span>Listen, circle, and write.
           </h5>
 
           <QuestionAudioPlayer

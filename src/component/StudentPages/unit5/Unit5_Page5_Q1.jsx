@@ -132,7 +132,7 @@ const Unit5_Page5_Q1 = () => {
           <h5 className="header-title-page8">
             <span className="ex-A">A</span>{" "}
             <span className="mr-2" style={{ color: "#2e3192" }}>1</span> Listen and tap or click the picture with the  
-            <span style={{ color: "#2e3192" }}>long e</span> sound.
+            <span style={{ color: "#2e3192" }}> long e </span> sound.
             </h5>
         </div>
 

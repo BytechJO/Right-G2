@@ -123,7 +123,7 @@ const Unit6_Page5_Q1 = () => {
               1
             </span>{" "}
             Listen, read, and tap or click
-            <span style={{ color: "#2e3192" }}>✓</span> the correct word.
+            <span style={{ color: "#2e3192" }}> ✓</span> the correct word.
           </h5>
         </div>
 
