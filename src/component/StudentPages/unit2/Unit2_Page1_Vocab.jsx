@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
+// import React, { useState, useRef, useEffect } from "react";
 import backgroundImage from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page.png";
-import page2_2 from "../../../assets/imgs/Voca.svg";
+// import page2_2 from "../../../assets/imgs/Voca.svg";
 import vocabulary from "../../../assets/audio/ClassBook/U 2/Pg10_Vocabulary_Adult Lady.mp3";
 import "./Unit2_Page1.css";
 import num1 from "../../../assets/imgs/Num1.svg";
@@ -30,34 +30,20 @@ const Unit2_Page1_Vocab = () => {
   // ✔ Captions Array
   // ================================
 
-  const captions = [
-    { start: 0.58, end: 3.44, text: "Page 10, Unit 2, Vocabulary." },
-    { start: 5.26, end: 6.66, text: "1. Duck." },
-    { start: 7.7, end: 9.34, text: "2. Swim." },
-    { start: 10.4, end: 12.38, text: "3. Bird." },
-    { start: 13.32, end: 15.24, text: "4. Sun." },
-    { start: 16.42, end: 18.28, text: "5. Cloud." },
-    { start: 19.66, end: 21.34, text: "6. Pink." },
-    { start: 22.78, end: 24.48, text: "7. Blue." },
-    { start: 25.78, end: 27.54, text: "8. Flower." },
-    { start: 28.76, end: 30.5, text: "9. Fly." },
-    { start: 31.66, end: 33.44, text: "10. Pond." },
-  ];
 
-  const wordAudios = [
-    sound1,
-    sound2,
-    sound3,
-    sound4,
-    sound5,
-    sound6,
-    sound7,
-    sound8,
-    sound9,
-    sound10,
-  ];
-
-  const wordRefs = useRef(wordAudios.map(() => React.createRef()));
+  
+  // const wordAudios = [
+  //   sound1,
+  //   sound2,
+  //   sound3,
+  //   sound4,
+  //   sound5,
+  //   sound6,
+  //   sound7,
+  //   sound8,
+  //   sound9,
+  //   sound10,
+  // ];
 
   return (
     <ModernVocabularyComponent
@@ -122,6 +108,8 @@ const Unit2_Page1_Vocab = () => {
         { start: 28.76, end: 30.5, text: "9. Fly." },
         { start: 31.66, end: 33.44, text: "10. Pond." },
       ]}
+        pageId="sb-unit2-page1-vocab"
+       height={70}
     />
   );
 };

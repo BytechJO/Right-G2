@@ -1,4 +1,3 @@
-import React, { useState, useEffect, useRef } from "react";
 import page_2 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 11.png";
 import img1_letter from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 10-11/10-02.svg";
 import img2_letter from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 10-11/Untitled-10_Artboard 1 copy 3.svg";
@@ -21,11 +20,12 @@ import { useContext } from "react";
 import { AudioContext } from "../../../AudioContext";
 import "./Unit2_Page2.css";
 import ReadChoose from "../../ReadChoose";
+import q1Audio from "../../../assets/audio/ClassBook/U 2/Page 11/There are ducks in the pond..mp3";
+import q1o1Audio from "../../../assets/audio/ClassBook/U 2/Page 11/The sun is in the sky..mp3";
+import q1o2Audio from "../../../assets/audio/ClassBook/U 2/Page 11/false.mp3";
+import q1o3Audio from "../../../assets/audio/ClassBook/U 2/Page 11/true.mp3";
 const Unit2_Page2 = ({ openPopup }) => {
-  const [activeAreaIndex, setActiveAreaIndex] = useState(null);
-  const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
-  const [isPlaying, setIsPlaying] = useState(false);
- const { audioRef, activeId, setActiveId } = useContext(AudioContext);
+  const { audioRef, activeId, setActiveId } = useContext(AudioContext);
   // أصوات الصور
   const imageSounds = [
     null, // الصورة الأولى الكبيرة (إن ما بدك صوت إلها)
@@ -36,16 +36,25 @@ const Unit2_Page2 = ({ openPopup }) => {
 
   const readChooseData = {
     title: "Read and tap or click true or false.",
+
     questions: [
       {
         text: "The sun is in the sky.",
-        options: ["true", "false"],
-        correct: "true",
+        audio: q1o1Audio, // صوت السؤال
+        options: [
+          { text: "false", audio: q1o2Audio },
+          { text: "true", audio: q1o3Audio },
+        ],
+        correct: "true", // نص الخيار الصحيح، زي ما هو
       },
       {
         text: "There are ducks in the pond.",
-        options: ["true", "false"],
-        correct: "true",
+        audio: q1Audio, // صوت السؤال
+        options: [
+          { text: "false", audio: q1o2Audio },
+          { text: "true", audio: q1o3Audio },
+        ],
+        correct: "true", // نص الخيار الصحيح، زي ما هو
       },
     ],
   };
@@ -70,23 +79,23 @@ const Unit2_Page2 = ({ openPopup }) => {
 
     // // الصوت الثالث – الإضافية
     { x1: 20.55, y1: 15.75, x2: 26.57, y2: 18.64, sound: 1, isPrimary: false },
-  //   // // الصوت الرابع – الأساسية
+    //   // // الصوت الرابع – الأساسية
     { x1: 7, y1: 63.6, sound: 2, isPrimary: true },
 
-  //   // // الصوت الرابع – الإضافية
+    //   // // الصوت الرابع – الإضافية
     { x1: 1.55, y1: 60.37, x2: 13.19, y2: 77.28, sound: 2, isPrimary: false },
 
-  //   // // الصوت الخامس – الأساسية
+    //   // // الصوت الخامس – الأساسية
     { x1: 41, y1: 41.6, sound: 3, isPrimary: true },
 
-  //   // // الصوت الخامس – الإضافية
-    { x1: 35.87, y1: 38.14, x2: 41.50, y2: 44.99, sound: 3, isPrimary: false },
-  //   // // الصوت السادس  – الأساسية
+    //   // // الصوت الخامس – الإضافية
+    { x1: 35.87, y1: 38.14, x2: 41.5, y2: 44.99, sound: 3, isPrimary: false },
+    //   // // الصوت السادس  – الأساسية
     { x1: 9.7, y1: 10, sound: 4, isPrimary: true },
 
-  //   // // الصوت الخامس – الإضافية
-    { x1: 12.41, y1: 7.22, x2: 13.96, y2: 21.38, sound:4, isPrimary: false },
-   ];
+    //   // // الصوت الخامس – الإضافية
+    { x1: 12.41, y1: 7.22, x2: 13.96, y2: 21.38, sound: 4, isPrimary: false },
+  ];
   const sounds = {
     1: sound3,
     2: sound6,
@@ -94,28 +103,34 @@ const Unit2_Page2 = ({ openPopup }) => {
     4: sound9,
   };
 
+  const soundLabels = {
+    1: "bird",
+    2: "pink",
+    3: "blue",
+    4: "fly",
+  };
   const handleImageClick = (e) => {
     const rect = e.target.getBoundingClientRect();
     const xPercent = ((e.clientX - rect.left) / rect.width) * 100;
     const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
     console.log("X%:", xPercent.toFixed(2), "Y%:", yPercent.toFixed(2));
   };
- const playSound = (path, id) => {
-  if (!audioRef.current) return;
+  const playSound = (path, id) => {
+    if (!audioRef.current) return;
 
-  // 🔥 وقف أي صوت شغال بأي صفحة
-  audioRef.current.pause();
-  audioRef.current.currentTime = 0;
+    // 🔥 وقف أي صوت شغال بأي صفحة
+    audioRef.current.pause();
+    audioRef.current.currentTime = 0;
 
-  audioRef.current.src = path;
-  audioRef.current.play();
+    audioRef.current.src = path;
+    audioRef.current.play();
 
-  setActiveId(id); // 🔥 مهم للهايلايت
+    setActiveId(id); // 🔥 مهم للهايلايت
 
-  audioRef.current.onended = () => {
-    setActiveId(null);
+    audioRef.current.onended = () => {
+      setActiveId(null);
+    };
   };
-};
   return (
     <div
       className="page1-img-wrapper"
@@ -125,7 +140,7 @@ const Unit2_Page2 = ({ openPopup }) => {
       <audio ref={audioRef} style={{ display: "none" }} />
 
       {areas.map((area, index) => {
-        const isActive = activeId === `p11-${area.sound}`;
+        const isActive = activeId === `p5-${area.sound}`;
 
         // ============================
         // 1️⃣ المنطقة الأساسية → دائرة تظهر فقط عندما تكون Active
@@ -134,14 +149,26 @@ const Unit2_Page2 = ({ openPopup }) => {
           return (
             <div
               key={index}
-              className={`circle-area ${isActive ? "active" : ""}`}
+              className={`circle-area page5-audio-hotspot ${
+                isActive ? "active" : ""
+              }`}
+              role="button"
+              tabIndex={0}
+              aria-label={`Play pronunciation: ${soundLabels[area.sound]}`}
+              aria-pressed={isActive}
               style={{
                 left: `${area.x1}%`,
                 top: `${area.y1}%`,
               }}
               onClick={() => {
-  playSound(sounds[area.sound], `p11-${area.sound}`);
-}}
+                playSound(sounds[area.sound], `p11-${area.sound}`);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  playSound(sounds[area.sound], `p11-${area.sound}`);
+                }
+              }}
             ></div>
           );
         }
@@ -154,6 +181,7 @@ const Unit2_Page2 = ({ openPopup }) => {
           <div
             key={index}
             className="clickable-area"
+            aria-hidden="true"
             style={{
               position: "absolute",
               left: `${area.x1}%`,
@@ -161,9 +189,9 @@ const Unit2_Page2 = ({ openPopup }) => {
               width: `${area.x2 - area.x1}%`,
               height: `${area.y2 - area.y1}%`,
             }}
-               onClick={() => {
-  playSound(sounds[area.sound], `p11-${area.sound}`);
-}}
+            onClick={() => {
+              playSound(sounds[area.sound], `p11-${area.sound}`);
+            }}
           ></div>
         );
       })}
@@ -176,12 +204,32 @@ const Unit2_Page2 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open at the park audio"
           onClick={() =>
             openPopup(
               "audio",
-              <AudioWithCaption src={soundListen} captions={captionsExample} />,
+              <AudioWithCaption
+                src={soundListen}
+                captions={captionsExample}
+                pageId="sb-unit2-page2-atThePark"
+              />,
             )
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup(
+                "audio",
+                <AudioWithCaption
+                  src={soundListen}
+                  captions={captionsExample}
+                  pageId="sb-unit2-page2-atThePark"
+                />,
+              );
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -202,9 +250,18 @@ const Unit2_Page2 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open listen read and repeat activity"
           onClick={() =>
             openPopup("html", <ReadChoose data={readChooseData} />)
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("html", <ReadChoose data={readChooseData} />);
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -225,20 +282,54 @@ const Unit2_Page2 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open listen and read activity"
           onClick={() =>
             openPopup(
               "html",
               <FourImagesWithAudio
                 images={[Rabbit, img1_letter, img2_letter, img3_letter]}
                 audioSrc={letterSound}
-                checkpoints={[0, 5.30, 8.76, 10.32]}
+                checkpoints={[0, 5.3, 8.76, 10.32]}
                 popupOpen={true}
                 titleQ={"Listen and read along."}
                 audioArr={imageSounds}
                 captions={captions2}
+                pageId="sb-unit2-page2-listen-read"
+                imageAlts={[
+                  "Squirrel holding a circle with the letters -ck -x",
+                  "A clock. The word clock, with the letter ck in red",
+                  "A fox. The word fox, with the letter x in red",
+                ]}
+                subHeader="Press Play, follow the -ck/-x: clock, fox, then tap each card to hear it again."
               />,
             )
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup(
+                "html",
+                <FourImagesWithAudio
+                  images={[Rabbit, img1_letter, img2_letter, img3_letter]}
+                  audioSrc={letterSound}
+                  checkpoints={[0, 5.3, 8.76, 10.32]}
+                  popupOpen={true}
+                  titleQ={"Listen and read along."}
+                  audioArr={imageSounds}
+                  captions={captions2}
+                  pageId="sb-unit2-page2-listen-read"
+                  imageAlts={[
+                    "Squirrel holding a circle with the letters -ck -x",
+                    "A clock. The word clock, with the letter ck in red",
+                    "A fox. The word fox, with the letter x in red",
+                  ]}
+                  subHeader="Press Play, follow the -ck/-x: clock, fox, then tap each card to hear it again."
+                />,
+              );
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image

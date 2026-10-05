@@ -14,7 +14,7 @@
 .CB-unit2-p5-q2-grid {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  /* gap: 16px; */
 }
 
 .CB-unit2-p14-q2-true {

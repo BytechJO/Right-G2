@@ -23,7 +23,16 @@ const Unit2_Page6 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+           tabIndex={0}
+          role="button"
+          aria-label="Open exercise 9"
           onClick={() => openPopup("exercise", { startIndex: 9 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 9 });
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -47,7 +56,16 @@ const Unit2_Page6 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+           tabIndex={0}
+          role="button"
+          aria-label="Open exercise 10"
           onClick={() => openPopup("exercise", { startIndex: 10 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 10 });
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image

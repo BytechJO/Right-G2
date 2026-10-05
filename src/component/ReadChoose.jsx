@@ -7,16 +7,25 @@ import ValidationAlert from "./Popup/ValidationAlert";
 const ReadChoose = ({ data }) => {
   const [answers, setAnswers] = useState(Array(data.questions.length).fill(""));
 
-  const [checked, setChecked] = useState(false);
+  // 🔒 الأسئلة الصح بعد Check بتنقفل
+  const [lockedQuestions, setLockedQuestions] = useState(
+    Array(data.questions.length).fill(false),
+  );
   const [wrongQuestions, setWrongQuestions] = useState([]);
-  const [score, setScore] = useState(0);
 
+  // 🔒 بعد Show Answer كل شي مقفول
+  const [showAnswer, setShowAnswer] = useState(false);
+
+  const allLocked = showAnswer || lockedQuestions.every(Boolean);
   const handleSelect = (qIndex, option) => {
-    if (checked) return;
+    if (showAnswer || lockedQuestions[qIndex]) return;
 
     const updated = [...answers];
     updated[qIndex] = option;
     setAnswers(updated);
+
+    // نشيل علامة الغلط عن هاد السؤال لأنو الطالب عدّل
+    setWrongQuestions((prev) => prev.filter((i) => i !== qIndex));
   };
 
   // 🔊 تشغيل الصوت القادم مع الداتا (q.audio)
@@ -84,9 +93,9 @@ const ReadChoose = ({ data }) => {
   };
 
   const checkAnswers = () => {
-    if (checked) return;
+    if (allLocked) return;
 
-    // ✅ تحقق إذا في أسئلة مش مجاوبة
+    // الأسئلة الصح المقفولة مليانة أصلاً، فهاد بيفحص بس الفاضية
     const hasEmpty = answers.some((ans) => ans === "");
 
     if (hasEmpty) {
@@ -94,20 +103,21 @@ const ReadChoose = ({ data }) => {
       return;
     }
 
-    let wrong = [];
+    const newLocked = [...lockedQuestions];
+    const wrong = [];
     let correctCount = 0;
 
     data.questions.forEach((q, index) => {
-      if (answers[index] === q.correct) {
+      if (lockedQuestions[index] || answers[index] === q.correct) {
+        newLocked[index] = true; // الصح بينقفل
         correctCount++;
       } else {
-        wrong.push(index);
+        wrong.push(index); // الغلط بيضل مفتوح مع ✕
       }
     });
 
+    setLockedQuestions(newLocked);
     setWrongQuestions(wrong);
-    setChecked(true);
-    setScore(correctCount);
 
     const total = data.questions.length;
     const color =
@@ -129,19 +139,21 @@ const ReadChoose = ({ data }) => {
   };
 
   const showCorrectAnswers = () => {
-    const correctAnswers = data.questions.map((q) => q.correct);
-
-    setAnswers(correctAnswers);
+    stopAudio();
+    setActiveId(null);
+    setAnswers(data.questions.map((q) => q.correct));
+    setLockedQuestions(Array(data.questions.length).fill(true));
     setWrongQuestions([]);
-    setChecked(true);
+    setShowAnswer(true);
   };
 
   const reset = () => {
     stopAudio();
     setActiveId(null);
     setAnswers(Array(data.questions.length).fill(""));
+    setLockedQuestions(Array(data.questions.length).fill(false));
     setWrongQuestions([]);
-    setChecked(false);
+    setShowAnswer(false);
   };
 
   return (
@@ -163,11 +175,7 @@ const ReadChoose = ({ data }) => {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: "30px" }}>
-          <img
-            src={read}
-            alt=""
-            style={{ height: "130px", width: "130px" }}
-          />{" "}
+          <img src={read} alt="" style={{ height: "130px", width: "130px" }} />{" "}
           <h3 className="RCU-unit-read-choose-title">{data.title}</h3>
         </div>
         <div className="border-2 border-red-600 rounded-xl p-10 flex flex-col gap-10 mb-10">
@@ -200,20 +208,24 @@ const ReadChoose = ({ data }) => {
                 {q.options.map((opt, oIndex) => {
                   const option = getOptionText(opt);
                   const isSelected = answers[qIndex] === option;
-                  const isWrong = checked && isSelected && option !== q.correct;
+                  const isLocked = lockedQuestions[qIndex];
+                  const isWrong = wrongQuestions.includes(qIndex) && isSelected;
+                  const isCorrectLocked = isLocked && isSelected;
 
                   return (
                     <div
                       key={oIndex}
                       role="radio"
                       aria-checked={isSelected}
-                      aria-disabled={checked}
+                      aria-disabled={isLocked}
                       tabIndex={0}
                       className={`RCU-unit-read-choose-option
         ${isSelected ? "RCU-selected" : ""}
         ${activeId === `q${qIndex}-o${oIndex}` ? "RCU-active" : ""}
         ${isWrong ? "RCU-wrong" : ""}
+        ${isCorrectLocked ? "RCU-correct" : ""}
       `}
+                      style={{ cursor: isLocked ? "default" : "pointer" }}
                       onClick={() => activateOption(qIndex, oIndex, opt)}
                       onKeyDown={(e) =>
                         handleOptionKeyDown(e, qIndex, oIndex, opt)
