@@ -1,4 +1,3 @@
-import React, { useState, useRef, useEffect } from "react";
 import page4 from "../../../assets/imgs/Right 2 Unit 1 Stellas Family/Page 4.png";
 import allUnitSound from "../../../assets/audio/ClassBook/U 1/cd1pg4u1-intro-adult-lady_3vTraK6v.mp3";
 import Rabbit from "../../../assets/Page 01/Rabbit.svg";
@@ -158,10 +157,20 @@ const Page4 = ({ openPopup }) => {
     6: sound6,
     7: sound7,
   };
+  const soundLabels = {
+    1: "father",
+    2: "knock",
+    3: "brother",
+    4: "mother",
+    5: "sister",
+    6: "play",
+    7: "cousin",
+  };
   const captions = [
     { start: 0, end: 3.0, text: "Page 4. Listen and read along." },
     { start: 3.02, end: 6.1, text: "Ll lamb leg lemon" },
   ];
+
   const handleImageClick = (e) => {
     const rect = e.target.getBoundingClientRect();
     const xPercent = ((e.clientX - rect.left) / rect.width) * 100;
@@ -193,6 +202,12 @@ const Page4 = ({ openPopup }) => {
       >
         <audio ref={audioRef} style={{ display: "none" }} />
 
+        {/* <img
+          src={page4}
+          onClick={handleImageClick}
+          style={{ display: "block" }}
+        /> */}
+
         {areas.map((area, index) => {
           const isActive = activeId === `p4-${area.sound}`;
 
@@ -203,13 +218,25 @@ const Page4 = ({ openPopup }) => {
             return (
               <div
                 key={index}
-                className={`circle-area ${isActive ? "active" : ""}`}
+                className={`circle-area page4-audio-hotspot ${
+                  isActive ? "active" : ""
+                }`}
+                role="button"
+                tabIndex={0}
+                aria-label={`Play pronunciation: ${soundLabels[area.sound]}`}
+                aria-pressed={isActive}
                 style={{
                   left: `${area.x1}%`,
                   top: `${area.y1}%`,
                 }}
                 onClick={() => {
                   playSound(sounds[area.sound], `p4-${area.sound}`);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    playSound(sounds[area.sound], `p4-${area.sound}`);
+                  }
                 }}
               ></div>
             );
@@ -223,6 +250,7 @@ const Page4 = ({ openPopup }) => {
             <div
               key={index}
               className="clickable-area"
+              aria-hidden="true"
               style={{
                 position: "absolute",
                 left: `${area.x1}%`,
@@ -245,6 +273,9 @@ const Page4 = ({ openPopup }) => {
             width="22"
             height="22"
             viewBox="0 0 90 90"
+            tabIndex={0}
+            role="button"
+            aria-label="Open page audio"
             onClick={() =>
               openPopup(
                 "audio",
@@ -258,10 +289,33 @@ const Page4 = ({ openPopup }) => {
                   <AudioWithCaption
                     src={allUnitSound}
                     captions={captionsExample}
+                    pageId="unit1-page4-main-audio"
                   />
                 </div>,
               )
             }
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+
+                openPopup(
+                  "audio",
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignContent: "center",
+                    }}
+                  >
+                    <AudioWithCaption
+                      src={allUnitSound}
+                      captions={captionsExample}
+                      pageId="unit1-page4-main-audio"
+                    />
+                  </div>,
+                );
+              }
+            }}
             style={{ overflow: "visible" }}
           >
             <image
@@ -284,7 +338,17 @@ const Page4 = ({ openPopup }) => {
             width="22"
             height="22"
             viewBox="0 0 90 90"
+            tabIndex={0}
+            role="button"
+            aria-label="Open interactive activity"
             onClick={() => openPopup("html", <Page4_Interactive1 />)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+
+                openPopup("html", <Page4_Interactive1 />);
+              }
+            }}
             style={{ overflow: "visible" }}
           >
             <image
@@ -307,7 +371,17 @@ const Page4 = ({ openPopup }) => {
             width="22"
             height="22"
             viewBox="0 0 90 90"
+            tabIndex={0}
+            role="button"
+            aria-label="Open vocabulary activity"
             onClick={() => openPopup("html", <Page4_vocabulary />)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+
+                openPopup("html", <Page4_vocabulary />);
+              }
+            }}
             style={{ overflow: "visible" }}
           >
             <image
@@ -329,6 +403,9 @@ const Page4 = ({ openPopup }) => {
             width="22"
             height="22"
             viewBox="0 0 90 90"
+            tabIndex={0}
+            role="button"
+            aria-label="Open listen and read activity"
             onClick={() =>
               openPopup(
                 "html",
@@ -340,9 +417,43 @@ const Page4 = ({ openPopup }) => {
                   titleQ={"Listen and read along."}
                   audioArr={imageSounds}
                   captions={captions}
+                  imageAlts={[
+                    "Squirrel holding a circle with the letters Ll",
+                    "A lamb. The word lamb, with the letter l in red",
+                    "A leg. The word leg, with the letter l in red",
+                    "A lemon cut in half. The word lemon, with the letter l in red",
+                  ]}
+                  pageId="sb-unit1-page4-listen-read"
+                  subHeader="Press Play, follow the l: lamb, leg, lemon, then tap each card to hear it again."
                 />,
               )
             }
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+
+                openPopup(
+                  "html",
+                  <FourImagesWithAudio
+                    images={[Rabbit, img1, img2, img3, img4]}
+                    audioSrc={longAudio}
+                    checkpoints={[0, 3, 3.8, 4.8, 5.7]}
+                    popupOpen={true}
+                    titleQ={"Listen and read along."}
+                    audioArr={imageSounds}
+                    captions={captions}
+                    imageAlts={[
+                      "Squirrel holding a circle with the letters Ll",
+                      "A lamb. The word lamb, with the letter l in red",
+                      "A leg. The word leg, with the letter l in red",
+                      "A lemon cut in half. The word lemon, with the letter l in red",
+                    ]}
+                    pageId="unit1-page4-listen-read"
+                    subHeader="Press Play, then tap each card to hear it again."
+                  />,
+                );
+              }
+            }}
             style={{ overflow: "visible" }}
           >
             <image

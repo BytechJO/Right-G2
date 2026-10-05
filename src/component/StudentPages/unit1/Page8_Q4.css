@@ -277,3 +277,169 @@
     margin: 0px;
   }
 }
+
+
+/* ضيف هاد الستايل في ملف الـ CSS الخاص بهاد الكومبونينت (أو ملف عام) */
+
+.CB-unit1-p8-q4-hint {
+  text-align: center;
+  font-size: 14px;
+  color: #555;
+  margin: 8px 0;
+}
+
+/* ================= خلايا الحروف (أهداف كبيرة) ================= */
+.CB-unit1-p8-q4-cell {
+  font-weight: 600;
+  transition:
+    transform 0.12s ease,
+    background 0.12s ease;
+}
+
+/* بوردر أزرق: hover بالماوس + تركيز بالكيبورد */
+.CB-unit1-p8-q4-cell:hover,
+.CB-unit1-p8-q4-cell:focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 1px;
+  z-index: 2;
+}
+
+.CB-unit1-p8-q4-cell:focus-visible {
+  transform: scale(1.08);
+}
+
+/* رقم ترتيب الحرف المختار (فوق يسار الخلية) */
+.CB-unit1-p8-q4-order {
+  position: absolute;
+  top: -2px;
+  left: 2px;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  color: #1f2937;
+  pointer-events: none;
+}
+
+/* ================= الحروف المختارة + أدوات Undo ================= */
+.CB-unit1-p8-q4-selection {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 0 0 20px;
+}
+
+.CB-unit1-p8-q4-selection-label {
+  font-weight: 700;
+  color: #2c5287;
+}
+
+.CB-unit1-p8-q4-chips {
+  display: flex;
+  gap: 6px;
+  min-height: 44px;
+  min-width: 160px;
+  align-items: center;
+  padding: 4px 10px;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+}
+
+.CB-unit1-p8-q4-placeholder {
+  color: #777;
+  font-size: 14px;
+}
+
+.CB-unit1-p8-q4-chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 2px solid #2c5287;
+  border-radius: 8px;
+  background: #ffd54f;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.CB-unit1-p8-q4-chip small {
+  position: absolute;
+  top: -8px;
+  right: -6px;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #2c5287;
+  color: #fff;
+  font-size: 10px;
+  line-height: 16px;
+  text-align: center;
+}
+
+.CB-unit1-p8-q4-tool {
+  min-height: 44px;
+  padding: 0 16px;
+  border: 2px solid #2c5287;
+  border-radius: 10px;
+  background: #fff;
+  color: #2c5287;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.CB-unit1-p8-q4-tool:hover:not(:disabled),
+.CB-unit1-p8-q4-tool:focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 2px;
+}
+
+.CB-unit1-p8-q4-tool:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ================= سطر الإجابة ================= */
+.CB-unit1-p8-q4-answer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 12px;
+  margin: 0 10px;
+}
+
+.CB-unit1-p8-q4-slot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 80px;
+  height: 44px;
+  padding: 0 6px;
+  border-bottom: 3px solid #2c5287;
+  font-size: 22px;
+}
+
+.CB-unit1-p8-q4-slot.filled {
+  color: #2e7d32;
+  font-weight: 700;
+}
+
+/* ================= Feedback + Score ================= */
+.CB-unit1-p8-q4-status {
+  min-height: 24px;
+  margin: 14px 0 0;
+  text-align: center;
+  font-size: 16px;
+  color: #1f2937;
+}
+
+.CB-unit1-p8-q4-score {
+  margin: 6px 0 0;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+  color: #2c5287;
+}

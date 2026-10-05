@@ -43,7 +43,7 @@
     display: flex;
     gap: 25px;
     flex-wrap: wrap;
-    margin-left: 30px;
+    /* margin-left: 30px; */
     /* grid-template-columns: 1fr; */
 }
 
@@ -113,4 +113,88 @@
   background: #f44336;
   border-color: #f44336;
   color: white;
+}
+
+
+/* ضيف هاد الستايل في ReadChoose.css (بدل ستايل الخيارات القديم) */
+
+
+.RCU-unit-read-choose-option {
+  position: relative;
+  min-width: 125px;
+  height: 50px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: #fff;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 20px;
+  color: #000;
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+}
+
+.RCU-unit-read-choose-circle {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #2c4f8a;
+  border-radius: 50%;
+  font-size: 16px;
+  font-weight: 700;
+  color: #2c4f8a;
+}
+
+.RCU-unit-read-choose-q-text {
+  position: relative;
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  outline: none;
+}
+
+/* أيقونة الصوت: مخفية دايماً، بتظهر بس لما يشتغل الصوت (كليك / Enter / Space) */
+.RCU-unit-read-choose-speaker {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  color: #000;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.RCU-active .RCU-unit-read-choose-speaker {
+  opacity: 1;
+  background: #fff;
+  border-radius: 50%;
+}
+
+/* البوردر الأزرق: hover بالماوس، تركيز بالكيبورد (Tab)، أو لما يشتغل الصوت */
+.RCU-unit-read-choose-option:hover,
+.RCU-unit-read-choose-option:focus-visible,
+.RCU-unit-read-choose-option.RCU-active,
+.RCU-unit-read-choose-q-text:hover,
+.RCU-unit-read-choose-q-text:focus-visible,
+.RCU-unit-read-choose-q-text.RCU-active {
+  outline: 3px solid #2563eb;
+  outline-offset: 3px;
+}
+
+.RCU-selected {
+  background: #e8f0fe;
+  border-color: #2563eb;
+}
+
+.RCU-wrong {
+  background: #fde8e8;
+  border-color: #d32f2f;
 }
