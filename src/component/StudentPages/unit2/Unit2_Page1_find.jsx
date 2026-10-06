@@ -3,6 +3,11 @@ import backgroundImage from "../../../assets/imgs/Right 2 Unit 2  A Day at the P
 import SquirrelGif from "../../../assets/Squirrel_1164_1433px.gif";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import MySVG from "../../../assets/imgs/Interactive Svg un 2.svg";
+import { FaVolumeUp } from "react-icons/fa";
+
+// 🔊 مدير الصوت المشترك (صوت واحد بس بنفس الوقت)
+import { playGlobalAudio, stopGlobalAudio } from "../../audioManager";
+import kiteSound from "../../../assets/audio/ClassBook/U 2/Page 10/a kite.mp3";
 
 const TARGET_NAME = "kite";
 
@@ -55,6 +60,9 @@ const Unit2_Page1_find = () => {
   const [announcement, setAnnouncement] = useState("");
 
   const audioCtxRef = useRef(null);
+  const audioOwner = useRef({}).current;
+  const imgRef = useRef(null);
+  const [playingTarget, setPlayingTarget] = useState(false);
 
   /* =====================================================
      PRELOAD — لازم كل الصور تحمّل قبل ما يبدأ النشاط
@@ -77,7 +85,9 @@ const Unit2_Page1_find = () => {
       .then(() => {
         if (cancelled) return;
         setLoadStatus("ready");
-        setAnnouncement(`Scene loaded. Find the ${TARGET_NAME} in the picture.`);
+        setAnnouncement(
+          `Scene loaded. Find the ${TARGET_NAME} in the picture.`,
+        );
       })
       .catch(() => {
         if (cancelled) return;
@@ -131,6 +141,22 @@ const Unit2_Page1_find = () => {
     });
   };
 
+  const stopTargetAudio = () => {
+    stopGlobalAudio(audioOwner);
+    setPlayingTarget(false);
+  };
+
+  const playTargetAudio = () => {
+    playGlobalAudio(kiteSound, {
+      owner: audioOwner,
+      onFinish: () => setPlayingTarget(false),
+    });
+    setPlayingTarget(true);
+  };
+
+  // وقف الصوت إذا سكرت الصفحة
+  useEffect(() => () => stopGlobalAudio(audioOwner), [audioOwner]);
+
   /* =====================================================
      SELECTION
   ===================================================== */
@@ -142,11 +168,15 @@ const Unit2_Page1_find = () => {
     playTone(TONES.select);
   };
 
-  // كليك بمكان ثاني بالصورة (إجابة غلط)
-  const handleImageClick = (e) => {
-    if (showAnswer) return;
+  /*
+    ماوس / لمس: نحسب مكان الضغط بالنسبة للصورة
+    (سواء الضغط جاء على الصورة أو على زر الـ target الشفاف)
+    ونعرض نقطة حمرا بدون ما نكشف إذا كان داخل الـ target أو لا.
+  */
+  const selectPointerPoint = (e) => {
+    if (showAnswer || !imgRef.current) return;
 
-    const rect = e.currentTarget.getBoundingClientRect();
+    const rect = imgRef.current.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
 
@@ -154,6 +184,7 @@ const Unit2_Page1_find = () => {
       {
         x,
         y,
+        keyboard: false,
         inside:
           x >= targetArea.left &&
           x <= targetArea.left + targetArea.width &&
@@ -164,14 +195,29 @@ const Unit2_Page1_find = () => {
     );
   };
 
-  // الهدف الكبير: كليك / لمس / Enter / Space (الزر بيعمل click بكل الحالات)
-  const handleTargetSelection = () => {
+  const handleImageClick = (e) => selectPointerPoint(e);
+
+  const handleTargetSelection = (e) => {
+    // 🔊 بعد Check الصح أو Show Answer: كليك على الهدف بيشغّل الصوت
+    if (isCorrect) {
+      playTargetAudio();
+      return;
+    }
+
     if (showAnswer) return;
 
-    selectPoint(
-      { x: 0, y: 0, inside: true },
-      `${TARGET_NAME} selected. Use Check Answer to check your answer.`,
-    );
+    // detail === 0 → الكليك جاي من الكيبورد / قارئ الشاشة:
+    // نفس السلوك السابق (تحديد الـ target بالبوردر)
+    if (e.detail === 0) {
+      selectPoint(
+        { x: 0, y: 0, inside: true, keyboard: true },
+        `${TARGET_NAME} selected. Use Check Answer to check your answer.`,
+      );
+      return;
+    }
+
+    // ماوس / لمس: نقطة حمرا فقط
+    selectPointerPoint(e);
   };
 
   /* =====================================================
@@ -179,6 +225,10 @@ const Unit2_Page1_find = () => {
   ===================================================== */
 
   const handleCheck = () => {
+    stopTargetAudio();
+    if (isCorrect) {
+      return;
+    }
     if (showAnswer) {
       const msg = "The answer is already shown. Press Start Again to try.";
       setAnnouncement(msg);
@@ -210,6 +260,7 @@ const Unit2_Page1_find = () => {
   };
 
   const handleStartAgain = () => {
+    stopTargetAudio();
     setClickedPoint(null);
     setCheckResult(null);
     setShowAnswer(false);
@@ -217,6 +268,7 @@ const Unit2_Page1_find = () => {
   };
 
   const handleShowAnswer = () => {
+    stopTargetAudio();
     setShowAnswer(true);
     setClickedPoint(null);
     setCheckResult(null);
@@ -227,18 +279,29 @@ const Unit2_Page1_find = () => {
      DERIVED STATE
   ===================================================== */
 
-  
-const targetSelected = clickedPoint?.inside === true;
-const missedPoint = clickedPoint && !clickedPoint.inside ? clickedPoint : null;
-const isCorrect = checkResult === "success" || showAnswer;
-const showTargetHighlight = isCorrect;
-const showBorder = targetSelected || showAnswer;
+  const isCorrect = checkResult === "success" || showAnswer;
+
+  // اختيار الكيبورد فقط هو اللي بيعرض البوردر على الـ target
+  const targetSelected = clickedPoint?.keyboard === true;
+
+  // اختيار الماوس/اللمس: نقطة حمرا بأي مكان، وبتختفي بعد الإجابة الصحيحة
+  const missedPoint =
+    clickedPoint && !clickedPoint.keyboard && !isCorrect ? clickedPoint : null;
+
+  const showTargetHighlight = isCorrect;
+  const showBorder = targetSelected || showAnswer;
+
   /* =====================================================
      RENDER
   ===================================================== */
 
   const liveRegion = (
-    <div className="sr-only" role="status" aria-live="polite" aria-atomic="true">
+    <div
+      className="sr-only"
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+    >
       {announcement}
     </div>
   );
@@ -330,6 +393,7 @@ const showBorder = targetSelected || showAnswer;
 
         <div style={{ position: "relative", display: "inline-block" }}>
           <img
+            ref={imgRef}
             src={backgroundImage}
             alt="A park scene with children and families playing." // ⚠️ عدّليه حسب الصورة الفعلية
             onClick={handleImageClick}
@@ -352,53 +416,80 @@ const showBorder = targetSelected || showAnswer;
             }`}
             aria-describedby="page4-instructions"
             aria-pressed={targetSelected}
-            disabled={showAnswer}
             onClick={handleTargetSelection}
             style={{
-  position: "absolute",
-  left: `${targetArea.left}%`,
-  top: `${targetArea.top}%`,
-  width: `${targetArea.width}%`,
-  height: `${targetArea.height}%`,
-  minWidth: "48px",
-  minHeight: "48px",
-  zIndex: 2,
-  padding: 0,
-  // الحجم ثابت: البوردر دايماً موجود بس شفاف إذا ما في سليكت
-  border: showBorder
-    ? `4px dashed ${isCorrect ? "#16a34a" : "#2c5287"}`
-    : "4px dashed transparent",
-  borderRadius: "12px",
-  background: isCorrect
-    ? "rgba(34, 197, 94, 0.25)"
-    : targetSelected
-      ? "rgba(44, 82, 135, 0.15)"
-      : "transparent",
-  cursor: showAnswer ? "default" : "pointer",
-  touchAction: "manipulation",
-}}
->
-  <span
-    aria-hidden="true"
-    style={{
-      position: "absolute",
-      left: "50%",
-      bottom: "-14px",
-      transform: "translateX(-50%)",
-      whiteSpace: "nowrap",
-      padding: "2px 10px",
-      borderRadius: "999px",
-      fontSize: "14px",
-      fontWeight: "bold",
-      color: "#fff",
-      background: isCorrect ? "#16a34a" : "#2c5287",
-    }}
-  >
-    {isCorrect ? `✓ ${TARGET_NAME}` : ""}
-  </span>
-</button>
+              position: "absolute",
+              left: `${targetArea.left}%`,
+              top: `${targetArea.top}%`,
+              width: `${targetArea.width}%`,
+              height: `${targetArea.height}%`,
+              minWidth: "48px",
+              minHeight: "48px",
+              zIndex: 2,
+              padding: 0,
+              // الحجم ثابت: البوردر دايماً موجود بس شفاف إذا ما في سليكت
+              border: showBorder
+                ? `4px dashed ${isCorrect ? "#16a34a" : "#2c5287"}`
+                : "4px dashed transparent",
+              borderRadius: "12px",
+              background: isCorrect
+                ? "rgba(34, 197, 94, 0.25)"
+                : targetSelected
+                  ? "rgba(44, 82, 135, 0.15)"
+                  : "transparent",
+              // قبل الإجابة الصحيحة نخلي المؤشر crosshair حتى ما ينكشف مكان الـ target
+              cursor: showAnswer
+                ? "default"
+                : isCorrect
+                  ? "pointer"
+                  : "crosshair",
+              touchAction: "manipulation",
+            }}
+          >
+            <span
+              aria-hidden="true"
+              style={{
+                position: "absolute",
+                left: "50%",
+                bottom: "-14px",
+                transform: "translateX(-50%)",
+                whiteSpace: "nowrap",
+                padding: "2px 10px",
+                borderRadius: "999px",
+                fontSize: "14px",
+                fontWeight: "bold",
+                color: "#fff",
+                background: isCorrect ? "#16a34a" : "#2c5287",
+              }}
+            >
+              {isCorrect ? `✓ ${TARGET_NAME}` : ""}
+            </span>
 
-          {/* نقطة حمرا للضغط الغلط */}
+            {/* 🔊 السبيكر فوق يمين الهدف أثناء تشغيل الصوت */}
+            {playingTarget && (
+              <span
+                aria-hidden="true"
+                style={{
+                  position: "absolute",
+                  top: "-10px",
+                  right: "-10px",
+                  width: "24px",
+                  height: "24px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  background: "#fff",
+                  borderRadius: "50%",
+                  fontSize: "13px",
+                  boxShadow: "0 1px 4px rgba(0,0,0,0.25)",
+                }}
+              >
+                <FaVolumeUp />
+              </span>
+            )}
+          </button>
+
+          {/* 🔴 نقطة حمرا لأي ضغطة ماوس/لمس (قبل Check) */}
           {missedPoint && (
             <div
               aria-hidden="true"
@@ -430,7 +521,6 @@ const showBorder = targetSelected || showAnswer;
                 width: `${targetArea.width}%`,
                 height: `${targetArea.height}%`,
                 pointerEvents: "none",
-                zIndex: 3,
               }}
             />
           )}

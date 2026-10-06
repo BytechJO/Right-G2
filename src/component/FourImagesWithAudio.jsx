@@ -15,30 +15,30 @@ const FourImagesWithAudio = ({
   images,
   audioSrc,
   checkpoints,
-  popupOpen,
   titleQ,
   audioArr,
   captions,
   pageId,
   subHeader,
+  imageAlts = [],
 }) => {
   const audioRef = useRef(null);
   const audioFinishedRef = useRef(false);
   const resumedFromStorageRef = useRef(false);
   const [clickedIndex, setClickedIndex] = useState(null);
-  const [paused, setPaused] = useState(false);
+  const [setPaused] = useState(false);
   const [activeIndex, setActiveIndex] = useState(null);
-  const [showContinue, setShowContinue] = useState(false);
+  const [ setShowContinue] = useState(false);
   const AUDIO_TIME_KEY = pageId ? `audio-position-${pageId}` : null;
   const stopAtSecond = checkpoints[1] - 0.2;
   // إعدادات الصوت
   const [showSettings, setShowSettings] = useState(false);
   const [volume, setVolume] = useState(1);
   const settingsRef = useRef(null);
-  const [forceRender, setForceRender] = useState(0);
+  const [ setForceRender] = useState(0);
   // زر الكابشن
   const [playbackRate, setPlaybackRate] = useState(1);
-  const speeds = [0.5, 0.75, 1, 1.25, 1.5, 2];
+  // const speeds = [0.5, 0.75, 1, 1.25, 1.5, 2];
 
   const [isPlaying, setIsPlaying] = useState(true);
   const [current, setCurrent] = useState(0);
@@ -502,37 +502,9 @@ const FourImagesWithAudio = ({
           {images.length <= 3 ? (
             <>
               {images.slice(1).map((src, i) => {
-                const globalIndex = i + 1; // index 2,3,4
-                return (
-                  <div
-                    key={i}
-                    className={`small-box1 ${
-                      activeIndex === globalIndex ||
-                      clickedIndex === globalIndex
-                        ? "active"
-                        : ""
-                    }`}
-                    role="button"
-                    tabIndex={0}
-                    aria-label={`Image ${i + 1}. Press Enter or Space to play its audio.`}
-                    aria-pressed={clickedIndex === globalIndex}
-                    onClick={() => playImageSound(globalIndex)}
-                    onKeyDown={(e) => handleImageKeyDown(e, globalIndex)}
-                  >
-                    <img
-                      src={src}
-                      className="small-img1"
-                      alt=""
-                      aria-hidden="true"
-                    />
-                  </div>
-                );
-              })}
-            </>
-          ) : (
-            <>
-              {images.slice(1).map((src, i) => {
-                const globalIndex = i + 1; // index 2,3,4
+                const globalIndex = i + 1;
+                const label = imageAlts[i] || `Image ${i + 1}`;
+
                 return (
                   <div
                     key={i}
@@ -544,7 +516,7 @@ const FourImagesWithAudio = ({
                     }`}
                     role="button"
                     tabIndex={0}
-                    aria-label={`Image ${i + 1}. Press Enter or Space to play its audio.`}
+                    aria-label={`${label}. Press Enter or Space to play its audio.`}
                     aria-pressed={clickedIndex === globalIndex}
                     onClick={() => playImageSound(globalIndex)}
                     onKeyDown={(e) => handleImageKeyDown(e, globalIndex)}
@@ -552,7 +524,39 @@ const FourImagesWithAudio = ({
                     <img
                       src={src}
                       className="small-img2"
-                      alt=""
+                      alt={`${label}`}
+                      aria-hidden="true"
+                    />
+                  </div>
+                );
+              })}
+            </>
+          ) : (
+            <>
+              {images.slice(1).map((src, i) => {
+                const globalIndex = i + 1;
+                const label = imageAlts[i] || `Image ${i + 1}`;
+
+                return (
+                  <div
+                    key={i}
+                    className={`small-box2 ${
+                      activeIndex === globalIndex ||
+                      clickedIndex === globalIndex
+                        ? "active"
+                        : ""
+                    }`}
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`${label}. Press Enter or Space to play its audio.`}
+                    aria-pressed={clickedIndex === globalIndex}
+                    onClick={() => playImageSound(globalIndex)}
+                    onKeyDown={(e) => handleImageKeyDown(e, globalIndex)}
+                  >
+                    <img
+                      src={src}
+                      className="small-img2"
+                      alt={`${label}`}
                       aria-hidden="true"
                     />
                   </div>

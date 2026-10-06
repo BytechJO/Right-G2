@@ -39,12 +39,12 @@ const soundByWord = Object.fromEntries(MATCHES.map((m) => [m.word, m.audio]));
 
 // ⚠️ الـ alt مؤقت: وصفي الغرض اللي بالصورة بدون ذكر اللون (لأنو اللون هو الجواب)
 const images = [
-  { image: "img1", src: img1, alt: "Picture 1" },
-  { image: "img2", src: img2, alt: "Picture 2" },
-  { image: "img3", src: img3, alt: "Picture 3" },
-  { image: "img4", src: img4, alt: "Picture 4" },
-  { image: "img5", src: img5, alt: "Picture 5" },
-  { image: "img6", src: img6, alt: "Picture 6" },
+   { image: "img1", src: img1, alt: "A green leaf" },
+  { image: "img2", src: img2, alt: "A blue car" },
+  { image: "img3", src: img3, alt: "A red apple" },
+  { image: "img4", src: img4, alt: "A yellow banana" },
+  { image: "img5", src: img5, alt: "Pink cotton candy" },
+  { image: "img6", src: img6, alt: "A brown rabbit" },
 ];
 
 /* ================= HELPERS (خارج الكومبوننت) ================= */

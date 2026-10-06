@@ -20,7 +20,16 @@ const Review2_Page2 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
-          onClick={() => openPopup("exercise", { startIndex: 20 })}
+             tabIndex={0}
+          role="button"
+          aria-label="Open exercise 5"
+          onClick={() => openPopup("exercise", { startIndex: 21 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 21 });
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -41,7 +50,16 @@ const Review2_Page2 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
-          onClick={() => openPopup("exercise", { startIndex: 21 })}
+            tabIndex={0}
+          role="button"
+          aria-label="Open exercise 6"
+          onClick={() => openPopup("exercise", { startIndex: 22 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 22});
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -62,7 +80,16 @@ const Review2_Page2 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
-          onClick={() => openPopup("exercise", { startIndex: 22 })}
+            tabIndex={0}
+          role="button"
+          aria-label="Open exercise 7"
+          onClick={() => openPopup("exercise", { startIndex: 23 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 23 });
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image

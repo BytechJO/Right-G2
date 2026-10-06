@@ -15,3 +15,48 @@
  gap: 20px;
     margin-top: 20px;
 }
+
+
+
+
+/* Wrapper around each word */
+.CB-review1-p1-q1-option-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+/* Word */
+.CB-review1-p1-q1-option {
+  position: relative;
+  cursor: pointer;
+  outline: none;
+}
+
+/* Keyboard focus */
+.CB-review1-p1-q1-option:focus-visible {
+  outline: 3px solid #2c5287;;
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+
+/* Speaker */
+.word-speaker {
+  position: absolute;
+  right: -15px;
+  top: -10px;
+background-color: #fff;
+border-radius: 50%;
+  font-size: 16px;
+  padding: 5px;
+  line-height: 1;
+
+  pointer-events: none;
+}
+
+/* Optional visual indication while audio is active */
+.CB-review1-p1-q1-option.is-audio-active {
+  outline: 2px solid #4c9ffe;
+  outline-offset: 3px;
+  border-radius: 5px;
+}
+

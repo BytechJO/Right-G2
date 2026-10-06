@@ -395,7 +395,8 @@ const Page9_Q1 = () => {
                 {isSelected && (
                   <img
                     src={trueIcon}
-                    alt=""
+                    
+                   alt={q.id === 1 ? "Stella and her brother" : "Stella and her sister"}
                     aria-hidden="true"
                     className="CB-unit1-p9-q1-true"
                   />

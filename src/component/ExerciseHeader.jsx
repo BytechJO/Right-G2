@@ -7,12 +7,16 @@ const ExerciseHeader = ({
   title,
   subTitle,
   showSquirrel = true,
+  isReview = false,
 }) => {
   const [gifSrc, setGifSrc] = useState(SquirrelGif);
 
   useEffect(() => {
     setGifSrc(`${SquirrelGif}?restart=${Date.now()}`);
   }, [sectionLetter, questionNumber, title, subTitle]);
+
+  // الكلاس بيتضاف فقط لما isReview = true
+  const reviewClass = isReview ? " is-review" : "";
 
   return (
     <div
@@ -47,16 +51,18 @@ const ExerciseHeader = ({
           `,
           columnGap: "8px",
           rowGap: "8px",
-          alignItems: "center",
+          alignItems: "start",
         }}
       >
-        {sectionLetter && <span className="ex-A">{sectionLetter}</span>}
-
-        {questionNumber && (
-          <span className="number-of-q">{questionNumber}</span>
+        {sectionLetter && (
+          <span className={`ex-A${reviewClass}`}>{sectionLetter}</span>
         )}
 
-        <header className="header-title-page8" style={{ margin: 0 }}>
+        {questionNumber && (
+          <span className={`number-of-q${reviewClass}`}>{questionNumber}</span>
+        )}
+
+        <header className={`header-title-page8${reviewClass}`} style={{ margin: 0 }}>
           {title}
         </header>
 

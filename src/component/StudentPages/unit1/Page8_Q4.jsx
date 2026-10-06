@@ -219,7 +219,7 @@ export default function Unit1_Page5_Q4() {
     رسالة ظاهرة للمستخدم تحت الشبكة
     (Great! / Try again / Removed)
   */
-  const [feedback, setFeedback] = useState("");
+  const [ setFeedback] = useState("");
 
   const [activeCell, setActiveCell] = useState([0, 0]);
 
@@ -1073,7 +1073,7 @@ export default function Unit1_Page5_Q4() {
             <div className="flex justify-center items-center">
               <img
                 src={img1}
-                alt="start"
+                alt="A cartoon lamb"
                 style={{
                   width: "clamp(40px, 10vw, 100px)",
                   height: "auto",
@@ -1093,9 +1093,14 @@ export default function Unit1_Page5_Q4() {
                 onKeyDown={handleSentenceKeyDown}
                 style={{
                   fontFamily: "monospace",
-                  border: playingSentence ||isSentenceComplete ? "2px solid green" : "",
-                  backgroundColor: playingSentence ||isSentenceComplete ? "#e6f4ea" : "",
-                  borderRadius: playingSentence ||isSentenceComplete ? "5px" : "",
+                  border:
+                    playingSentence || isSentenceComplete
+                      ? "2px solid green"
+                      : "",
+                  backgroundColor:
+                    playingSentence || isSentenceComplete ? "#e6f4ea" : "",
+                  borderRadius:
+                    playingSentence || isSentenceComplete ? "5px" : "",
                   cursor: isSentenceComplete ? "pointer" : undefined,
                 }}
               />
@@ -1106,7 +1111,7 @@ export default function Unit1_Page5_Q4() {
               )}
               <img
                 src={img2}
-                alt="end"
+                alt="A patch of green grass"
                 style={{
                   width: "clamp(40px, 10vw, 100px)",
                   height: "auto",
@@ -1115,7 +1120,6 @@ export default function Unit1_Page5_Q4() {
             </div>
           </div>
         </div>
-
 
         {/* ==============================
             BUTTONS

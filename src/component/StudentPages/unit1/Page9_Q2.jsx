@@ -603,7 +603,7 @@ const Page9_Q2 = () => {
 
             <div className="CB-unit1-p9-q2-top-container">
               <div className="family-image-wrapper">
-                <img src={img} className="CB-unit1-p9-q2-shape-img" alt="" />
+                <img src={img} className="CB-unit1-p9-q2-shape-img" alt="A family picture with one family member missing" />
               </div>
 
               <div className="CB-unit1-p9-q2-rightSide">

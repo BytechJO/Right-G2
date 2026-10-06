@@ -27,7 +27,7 @@ const PLAY_ON_FOCUS = true;
 const questions = [
   {
     img: img1,
-    alt: "Picture 1",
+      alt: "A hand holding a colorful butterfly",
     parts: [
       { type: "text", value: "This is a", audio: thisIsASound },
       { type: "input", answer: "butterfly" },
@@ -36,7 +36,7 @@ const questions = [
   },
   {
     img: img2,
-    alt: "Picture 2",
+       alt: "A hand pointing at two white clouds",
     parts: [
       { type: "input", answer: "Those are clouds" },
       { type: "text", value: "." },
@@ -44,7 +44,7 @@ const questions = [
   },
   {
     img: img3,
-    alt: "Picture 3",
+     alt: "A hand pointing at two ducks swimming",
     parts: [
       { type: "input", answer: "Those are ducks" },
       { type: "text", value: "." },
@@ -52,7 +52,7 @@ const questions = [
   },
   {
     img: img4,
-    alt: "Picture 4",
+    alt: "A hand holding a bunch of red and yellow flowers",
     parts: [
       { type: "input", answer: "These are flowers" },
       { type: "text", value: "." },

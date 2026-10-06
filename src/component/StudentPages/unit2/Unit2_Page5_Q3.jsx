@@ -801,8 +801,8 @@ const Unit2_Page5_Q3 = () => {
             <div className="flex justify-center items-center">
               <img
                 src={img1}
-                alt=""
-                aria-hidden="true"
+                 alt="A blue bird flying"
+                // aria-hidden="true"
                 style={{ width: "clamp(40px, 10vw, 100px)", height: "auto" }}
               />
 
@@ -840,8 +840,8 @@ const Unit2_Page5_Q3 = () => {
 
               <img
                 src={img2}
-                alt=""
-                aria-hidden="true"
+                 alt="A cloud and the sun in the sky"
+                // aria-hidden="true"
                 style={{ width: "clamp(40px, 10vw, 100px)", height: "auto" }}
               />
             </div>

@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+// import React, { useState } from "react";
 import page_6 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 15.png";
 // import song from "../../../assets/img_unit2/sounds-unit2/Pg15.Sing_Adult Lady.mp3";
 import "./Unit2_Page6.css";
-import audioBtn from "../../../assets/Page 01/Audio btn.svg";
+// import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 
 const Unit2_Page6 = ({ openPopup }) => {

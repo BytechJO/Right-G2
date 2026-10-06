@@ -115,15 +115,7 @@ const Unit4_Page1_find = () => {
           {/* ✅ تلوين المنطقة الصحيحة إذا الجواب صح */}
           {(checkResult === "success" || showAnswer) && (
             <img
-              src={MySVG}
-              alt="answer highlight"
-              style={{
-                position: "absolute",
-                top: `52%`,
-                left: `24.5%`,
-                height: `14%`,
-                pointerEvents: "none",
-              }}
+        
             />
           )}
         </div>
