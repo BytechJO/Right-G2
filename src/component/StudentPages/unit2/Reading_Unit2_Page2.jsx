@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, {  useState } from "react";
 import page25 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 21.png";
 import "./Reading_Unit2_Page1.css";
 import { useContext } from "react";
@@ -12,10 +12,10 @@ const Reading_Unit2_Page2 = () => {
   const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const clickableAreas = [
-    { id: "p2-1",x1: 9.0, y1: 39.0, x2: 45.8, y2: 43.9, sound: sound1 },
-    { id: "p2-2",x1: 49.0, y1: 39.2, x2: 85.4, y2: 44.53, sound: sound2 },
-    { id: "p2-3",x1: 9.0, y1: 84.5, x2: 45.0, y2: 91.2, sound: sound3 },
-    { id: "p2-4",x1: 49.0, y1: 84.5, x2: 86.5, y2: 91.0, sound: sound4 },
+    { id: "p2-1", x1: 9.0, y1: 39.0, x2: 45.8, y2: 43.9, sound: sound1 },
+    { id: "p2-2", x1: 49.0, y1: 39.2, x2: 85.4, y2: 44.53, sound: sound2 },
+    { id: "p2-3", x1: 9.0, y1: 84.5, x2: 45.0, y2: 91.2, sound: sound3 },
+    { id: "p2-4", x1: 49.0, y1: 84.5, x2: 86.5, y2: 91.0, sound: sound4 },
   ];
   const handleImageClick = (e) => {
     const rect = e.target.getBoundingClientRect();
@@ -52,30 +52,52 @@ const Reading_Unit2_Page2 = () => {
         onClick={handleImageClick}
       /> */}
 
-      {clickableAreas.map((area, index) => (
-        <div
-          key={index}
-          className={`clickable-area ${
-            activeId === area.id ? "highlight" : ""
-          }`}
-          style={{
-            position: "absolute",
-            left: `${area.x1}%`,
-            top: `${area.y1}%`,
-            width: `${area.x2 - area.x1}%`,
-            height: `${area.y2 - area.y1}%`,
-          }}
-          onClick={() => {
-            playSound(area.sound, area.id);
-          }}
-          onMouseEnter={() => {
-            if (!isPlaying) setHoveredAreaIndex(index);
-          }}
-          onMouseLeave={() => {
-            if (!isPlaying ) setHoveredAreaIndex(null);
-          }}
-        ></div>
-      ))}
+      {clickableAreas.map((area, index) => {
+        const areaId = `p21-${index}`;
+
+        return (
+          <div
+            key={index}
+            role="button"
+            tabIndex={0}
+            aria-label={`Play sentence audio ${index + 1}`}
+            aria-pressed={activeId === areaId}
+            className={`clickable-area ${
+              activeId === areaId || hoveredAreaIndex === index
+                ? "highlight"
+                : ""
+            }`}
+            style={{
+              position: "absolute",
+              left: `${area.x1}%`,
+              top: `${area.y1}%`,
+              width: `${area.x2 - area.x1}%`,
+              height: `${area.y2 - area.y1}%`,
+            }}
+            onClick={() => {
+              playSound(area.sound, areaId);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                playSound(area.sound, areaId);
+              }
+            }}
+            onFocus={() => {
+              setHoveredAreaIndex(index);
+            }}
+            onBlur={() => {
+              setHoveredAreaIndex(null);
+            }}
+            onMouseEnter={() => {
+              if (!isPlaying) setHoveredAreaIndex(index);
+            }}
+            onMouseLeave={() => {
+              if (!isPlaying) setHoveredAreaIndex(null);
+            }}
+          />
+        );
+      })}
       <audio ref={audioRef} style={{ display: "none" }} />
     </div>
   );

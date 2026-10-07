@@ -1,83 +1,201 @@
-/* الكونتينر العام */
-.wh-container-CB-review2-p2-q2 {
-  display: flex;
- flex-wrap: wrap;
-  gap: 25px;
-  margin-top: 10px;
-      /* justify-content: center; */
+/* ===== القائمة: 4 كروت ===== */
+.CB-r2p2q2-list {
+  display: grid;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 35px;
+  width: 100%;
+  margin: 16px auto 0;
+  grid-template-columns: repeat(2,1fr);
 }
 
-/* كل عنصر */
-.ck-x-item-CB-review2-p2-q2 {
+.CB-r2p2q2-item {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
+  width: 100%;
+  padding: 28px 10px 14px;
+  background: #fff;
+  border: 2px solid #e2e8f0;
+  border-radius: 16px;
+  transition: border-color 0.2s, background 0.2s;
 }
 
-/* الصورة داخل مربع */
-.ck-x-image-CB-review2-p2-q2 {
-    width: 160px;
-    height: 120px;
-    object-fit: contain;
-    border: 2px solid #e53935;
-    border-radius: 10px;
-    padding: 10px;
-    background: white;
+.CB-r2p2q2-item.is-active {
+  border-color: #2c5287;
+  background: #f5f8fd;
 }
 
-/* خيارات ck / x */
-.ck-x-options-CB-review2-p2-q2 {
- display: flex;
-    gap: 6px;
-    background: #f8e4db;
-    /* padding: 6px 12px; */
-    border-radius: 12px;
-    height: 50px;
-    width: 89%;
-    justify-content: space-around;
-    align-items: center;
-    margin-left: 14%;
-}
-
-/* شكل الزر */
-.ck-x-option-CB-review2-p2-q2 {
-  min-width: 55px;
-  padding: 6px 12px;
-  border-radius: 20px;
-  background: #f8e4db;
-  text-align: center;
-  cursor: pointer;
-  position: relative;
-  font-size: 20px;
-  transition: 0.2s;
-}
-
-/* تأثير الدائرة عند الاختيار */
-.ck-x-option-CB-review2-p2-q2.selected {
-  border: 2px solid #e53935;
-  /* background: white; */
-  font-weight: bold;
-}
-
-/* إذا الإجابة غلط */
-.ck-x-option-CB-review2-p2-q2.wrong-answer {
-  border: 2px solid red;
-}
-
-/* علامة الخطأ */
-.wrong-x-CB-review2-p2-q2 {
+.CB-r2p2q2-num {
   position: absolute;
-  top: -8px;
-  right: -8px;
-  background: red;
-  color: white;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  font-size: 14px;
+  top: 6px;
+  left: 12px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #2c5287;
+}
+
+/* ===== الصورة (زر) ===== */
+.CB-r2p2q2-pic {
+  position: relative;
+  width: 100%;
+  height: 145px;
+  padding: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid white;
+  background: #fff;
+  border: 2px solid #cbd5e1;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.CB-r2p2q2-pic:hover {
+  border-color: #2c5287;
+}
+
+.CB-r2p2q2-pic.is-playing {
+  /* border-color: #dc2626; */
+}
+
+.CB-r2p2q2-pic img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* ===== أيقونة السبيكر ===== */
+.CB-r2p2q2-speaker {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #fff;
+  /* color: #fff; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.2s, transform 0.2s;
+  pointer-events: none;
+}
+
+.CB-r2p2q2-pic:hover .CB-r2p2q2-speaker,
+.CB-r2p2q2-pic:focus-visible .CB-r2p2q2-speaker,
+.CB-r2p2q2-speaker.playing {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.CB-r2p2q2-speaker.playing {
+  /* background: #dc2626; */
+  animation: r2p2q2-pulse 0.9s ease-in-out infinite;
+}
+
+@keyframes r2p2q2-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+}
+
+/* ===== الخيارات -ck / -x ===== */
+.CB-r2p2q2-options {
+  display: flex;
+  gap: 14px;
+}
+
+.CB-r2p2q2-option-wrap {
+  position: relative;
+}
+
+.CB-r2p2q2-option {
+  min-width: 62px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 12px;
+  font-size: 24px;
+  font-weight: 700;
+  color: #1f2937;
+  background: #fff;
+  border: 3px solid #2c5287;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, transform 0.15s;
+}
+
+.CB-r2p2q2-option:hover {
+  background: #eef4fc;
+  transform: scale(1.05);
+}
+
+.CB-r2p2q2-option[aria-disabled="true"] {
+  cursor: default;
+}
+
+.CB-r2p2q2-option[aria-disabled="true"]:hover {
+  transform: none;
+  background: #fff;
+}
+
+.CB-r2p2q2-option.is-selected {
+  background: #bed7fe;
+}
+
+.CB-r2p2q2-option.is-correct {
+  border-color: #16a34a;
+  background: #dcfce7;
+}
+
+.CB-r2p2q2-option.is-wrong {
+  border-color: #dc2626;
+  background: #fee2e2;
+}
+
+/* ===== أيقونة النتيجة: فوق يمين ===== */
+.CB-r2p2q2-badge.wrong {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+}
+
+/* .CB-r2p2q2-badge.correct {
+  background: #16a34a;
+} */
+
+.CB-r2p2q2-badge.wrong {
+  background: #dc2626;
+}
+
+/* ===== فوكس واضح بالكيبورد ===== */
+.CB-r2p2q2-pic:focus-visible,
+.CB-r2p2q2-option:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 3px;
 }

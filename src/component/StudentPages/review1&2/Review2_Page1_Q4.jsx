@@ -548,20 +548,10 @@ const Review2_Page1_Q4 = () => {
         >
           <ExerciseHeader
             sectionLetter="D"
-            title="Look, drag, and drop the words."
-            subTitle="Tap a sentence to listen, then drag it or press Enter on a box to place it."
+            title="Look and write."
+            subTitle="Use the picture and word clues, then type the missing word or sentence carefully."
             isReview="true"
           />
-
-          <p id="r2p1q4-help" className="sr-only">
-            Look at the picture. Press Tab to move through the sentences in the
-            word bank. When a sentence is focused, its sound plays. Press Enter
-            or Space to select a sentence, and the focus moves to the boxes.
-            Press Tab to move between the boxes and Enter to place the sentence,
-            then the focus returns to the word bank. Press Escape to cancel.
-            Press a box that has a sentence to take it back. After checking,
-            correct answers are locked and wrong answers can be changed.
-          </p>
 
           {/* 🔤 Word Bank */}
           <div
@@ -664,7 +654,7 @@ const Review2_Page1_Q4 = () => {
               className="check-button2"
               aria-disabled={disabled}
               style={
-                disabled ? { opacity: 0.5, cursor: "not-allowed" } : undefined
+                disabled ? { cursor: "pointer" } : undefined
               }
             >
               Check Answer ✓

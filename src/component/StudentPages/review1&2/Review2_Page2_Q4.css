@@ -1,46 +1,59 @@
 /* ===== بنك الكلمات ===== */
-.CB-r2p2q3-bank {
+.CB-r2p2q4-bank {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 40px;
+  gap: 50px;
   padding: 10px;
-  margin: 12px 0 36px;
+  margin: 8px 0 40px;
 }
 
-.CB-r2p2q3-chip {
+.CB-r2p2q4-chip {
   position: relative;
-  min-width: 72px;
-  height: 50px;
+  width: 100px;
+  height: 52px;
   padding: 0 18px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
+  font-size: 20px;
   color: #000;
   background: #fff;
-  border: 2px solid #2c5287;
+  border: 2px solid #2c5287 !important;
   border-radius: 10px;
   cursor: grab;
-  touch-action: none;
-  user-select: none;
+  touch-action: manipulation;
   transition: background 0.2s, opacity 0.2s, box-shadow 0.2s;
 }
+.CB-r2p2q4-chip {
+  touch-action: none;      /* ضروري للسحب */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  cursor: grab;
+}
 
-.CB-r2p2q3-chip:hover {
+.CB-r2p2q4-chip.is-dragging {
+  opacity: 0.4;
+}
+
+.CB-r2p2q4-chip.is-used {
+  cursor: not-allowed;
+}
+.CB-r2p2q4-chip:hover {
   background: #eef4fc;
 }
 
-.CB-r2p2q3-chip.is-selected {
+.CB-r2p2q4-chip.is-selected {
   background: #dbe7f7;
   box-shadow: 0 0 0 3px #2c5287;
 }
 
-.CB-r2p2q3-chip.is-playing {
+.CB-r2p2q4-chip.is-playing {
   border-color: #dc2626;
 }
 
-.CB-r2p2q3-chip.is-used {
+.CB-r2p2q4-chip.is-used {
   background: #e5e7eb;
   color: #6b7280;
   border-color: #9ca3af;
@@ -48,18 +61,18 @@
   cursor: not-allowed;
 }
 
-.CB-r2p2q3-chip.is-dragging {
+.CB-r2p2q4-chip.is-dragging {
   opacity: 0.35;
 }
 
-.CB-r2p2q3-chip-overlay {
+.CB-r2p2q4-chip-overlay {
   background: #fff;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
   cursor: grabbing;
 }
 
 /* ===== أيقونة السبيكر ===== */
-.CB-r2p2q3-speaker {
+.CB-r2p2q4-speaker {
   position: absolute;
   top: -10px;
   right: -10px;
@@ -78,19 +91,19 @@
   pointer-events: none;
 }
 
-.CB-r2p2q3-chip:hover .CB-r2p2q3-speaker,
-.CB-r2p2q3-chip:focus-visible .CB-r2p2q3-speaker,
-.CB-r2p2q3-speaker.playing {
+.CB-r2p2q4-chip:hover .CB-r2p2q4-speaker,
+.CB-r2p2q4-chip:focus-visible .CB-r2p2q4-speaker,
+.CB-r2p2q4-speaker.playing {
   opacity: 1;
   transform: scale(1);
 }
 
-.CB-r2p2q3-speaker.playing {
+.CB-r2p2q4-speaker.playing {
   /* background: #dc2626; */
-  animation: r2p2q3-pulse 0.9s ease-in-out infinite;
+  animation: r2p2q4-pulse 0.9s ease-in-out infinite;
 }
 
-@keyframes r2p2q3-pulse {
+@keyframes r2p2q4-pulse {
   0%,
   100% {
     transform: scale(1);
@@ -100,114 +113,107 @@
   }
 }
 
-/* ===== شبكة الأسئلة: 4 أعمدة بدون كروت ===== */
-.CB-r2p2q3-grid {
+/* ===== الأسئلة: 4 أعمدة بدون كروت ===== */
+.CB-r2p2q4-grid {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 40px 24px;
+  gap: 30px 12px;
   width: 100%;
 }
 
-.CB-r2p2q3-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 18px;
-  width: 210px;
+.CB-r2p2q4-card {
+display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 13px;
+    width: 176px;
 }
 
-.CB-r2p2q3-top {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
+/* الرقم موجود لقارئ الشاشة بس */
+.CB-r2p2q4-num {
+  display: none;
 }
 
-.CB-r2p2q3-num {
-  font-size: 22px;
-  font-weight: 600;
-  color: #1d4f7b;
-}
-
-.CB-r2p2q3-img {
+.CB-r2p2q4-img {
   display: block;
   height: 110px;
-  width: auto;
   max-width: 100%;
   object-fit: contain;
 }
 
-/* ===== الخيارات (دواير) ===== */
-.CB-r2p2q3-options {
+/* ===== الحروف: نص عادي كبير ===== */
+.CB-r2p2q4-letters {
   display: flex;
   justify-content: center;
-  gap: 18px;
+  gap: 6px;
 }
 
-.CB-r2p2q3-option-wrap {
+.CB-r2p2q4-letter-wrap {
   position: relative;
 }
 
-.CB-r2p2q3-option {
-  min-width: 54px;
-  height: 54px;
+.CB-r2p2q4-letter {
+  min-width: 40px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 10px;
-  font-size: 24px;
-  font-weight: 600;
-  color: #1f2937;
-  background: #fff;
-  border: 2px solid #2c5287;
-  border-radius: 999px;
+  padding: 0 6px;
+  font-size: 20px;
+  line-height: 1;
+  color: #000;
+  background: transparent;
+  border: none;
+  border: 2px solid transparent;
+  border-radius: 6px;
   cursor: pointer;
-  transition: border-color 0.2s, background 0.2s, transform 0.15s;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
 }
 
-.CB-r2p2q3-option:hover {
+.CB-r2p2q4-letter:hover {
   background: #eef4fc;
-  transform: scale(1.06);
 }
 
-.CB-r2p2q3-option[aria-disabled="true"] {
+.CB-r2p2q4-letter[aria-disabled="true"] {
   cursor: default;
 }
 
-.CB-r2p2q3-option[aria-disabled="true"]:hover {
-  transform: none;
-  background: #fff;
+.CB-r2p2q4-letter[aria-disabled="true"]:hover {
+  background: transparent;
 }
 
-.CB-r2p2q3-option.is-selected {
-  background: #bed7fe;
-  border-width: 2px;
+/* المختار: لون أزرق + خط تحته (مش اللون لحاله) */
+.CB-r2p2q4-letter.is-selected {
+  color: #2c5287;
+  font-weight: 700;
+  border-color: #2c5287;
 }
 
-.CB-r2p2q3-option.is-correct {
+.CB-r2p2q4-letter.is-correct {
+  /* color: #16a34a; */
   border-color: #16a34a;
-  background: #dcfce7;
 }
 
-.CB-r2p2q3-option.is-wrong {
+.CB-r2p2q4-letter.is-wrong {
+  /* color: #dc2626; */
   border-color: #dc2626;
-  background: #fee2e2;
 }
 
-/* ===== فراغ الكلمة: خط بس ===== */
-.CB-r2p2q3-slot-wrap {
+/* ===== خانة الكلمة: خط بس ===== */
+.CB-r2p2q4-slot-wrap {
   position: relative;
   width: 170px;
 }
 
-.CB-r2p2q3-slot {
+.CB-r2p2q4-slot {
   width: 100%;
   height: 52px;
   padding: 0 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 28px;
+  font-size: 20px;
   line-height: 1;
   color: #000;
   background: transparent;
@@ -218,72 +224,74 @@
   transition: border-color 0.2s, background 0.2s;
 }
 
-.CB-r2p2q3-slot.is-target {
+.CB-r2p2q4-slot.is-target {
   border-bottom: 2px solid #2c5287;
   background: #eef4fc;
 }
 
-.CB-r2p2q3-slot.is-over {
+.CB-r2p2q4-slot.is-over {
   border-bottom: 2px solid #2c5287;
   background: #dbe7f7;
 }
 
-.CB-r2p2q3-slot.is-correct {
+.CB-r2p2q4-slot.is-correct {
   /* color: #16a34a; */
   border-bottom: 2px solid #16a34a;
 }
 
-.CB-r2p2q3-slot.is-wrong {
+.CB-r2p2q4-slot.is-wrong {
   /* color: #dc2626; */
   border-bottom: 2px solid #dc2626;
 }
 
-.CB-r2p2q3-slot[aria-disabled="true"] {
+.CB-r2p2q4-slot[aria-disabled="true"] {
   cursor: default;
 }
 
 /* ===== أيقونة النتيجة: فوق يمين ===== */
-.CB-r2p2q3-badge.wrong {
+.CB-r2p2q4-badge.wrong {
   position: absolute;
   top: -10px;
   right: -10px;
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fff;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
   line-height: 1;
+  background: #dc2626;
+
   border: 2px solid #fff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   pointer-events: none;
 }
 
-.CB-r2p2q3-badge.correct {
-  /* background: #16a34a; */
-}
+/* .CB-r2p2q4-badge.correct {
+  background: #16a34a;
+} */
 
-.CB-r2p2q3-badge.wrong {
+/* .CB-r2p2q4-badge {
   background: #dc2626;
-}
+} */
 
 /* ===== فوكس واضح بالكيبورد ===== */
-.CB-r2p2q3-chip:focus-visible,
-.CB-r2p2q3-option:focus-visible,
-.CB-r2p2q3-slot:focus-visible {
+.CB-r2p2q4-chip:focus-visible,
+.CB-r2p2q4-letter:focus-visible,
+.CB-r2p2q4-slot:focus-visible {
   outline: 3px solid #2563eb;
   outline-offset: 3px;
 }
 
 /* ===== شاشات صغيرة ===== */
 @media (max-width: 700px) {
-  .CB-r2p2q3-bank {
+  .CB-r2p2q4-bank {
     gap: 20px;
   }
-  .CB-r2p2q3-card {
+  .CB-r2p2q4-card {
     width: 100%;
     max-width: 280px;
   }

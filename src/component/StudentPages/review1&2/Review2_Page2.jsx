@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import page_2 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 19.png";
 import "./Review2_Page2.css";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
@@ -88,6 +87,36 @@ const Review2_Page2 = ({ openPopup }) => {
             if (e.key === "Enter" || e.key === " ") {
               e.preventDefault();
               openPopup("exercise", { startIndex: 23 });
+            }
+          }}
+          style={{ overflow: "visible" }}
+        >
+          <image
+            className="svg-img"
+            href={arrowBtn}
+            x="0"
+            y="0"
+            width="90"
+            height="90"
+          />
+        </svg>
+      </div>
+      <div
+        className="click-icon-review2-page2-4 hover:scale-110 transition"
+        style={{ overflow: "visible" }}
+      >
+        <svg
+          width="22"
+          height="22"
+          viewBox="0 0 90 90"
+            tabIndex={0}
+          role="button"
+          aria-label="Open exercise 7"
+          onClick={() => openPopup("exercise", { startIndex: 24 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 24 });
             }
           }}
           style={{ overflow: "visible" }}
