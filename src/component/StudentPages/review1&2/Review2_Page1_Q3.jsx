@@ -10,6 +10,7 @@ import thisAudio from "../../../assets/audio/ClassBook/U 2/Page 18 - C/this.mp3"
 import thatAudio from "../../../assets/audio/ClassBook/U 2/Page 18 - C/that.mp3";
 import { FaVolumeUp } from "react-icons/fa";
 import "./Review2_Page1_Q3.css";
+import ExerciseHeader from "../../ExerciseHeader";
 
 const Review2_Page1_Q3 = () => {
   const [answers, setAnswers] = useState(Array(4).fill(null));

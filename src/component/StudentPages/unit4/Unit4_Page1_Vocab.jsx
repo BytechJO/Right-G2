@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
+// import React, { useState, useRef, useEffect } from "react";
 import backgroundImage from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page.png";
-import page2_2 from "../../../assets/imgs/Voca.svg";
+// import page2_2 from "../../../assets/imgs/Voca.svg";
 import vocabulary from "../../../assets/audio/ClassBook/U 4/Pg28_Vocab_Adult Lady.mp3";
 import "./Unit4_Page1.css";
 import ModernVocabularyComponent from "../../ModernVocabularyComponent";
@@ -122,6 +122,8 @@ const captions = [
   { id: 12, top: "75.5%", left: "46%" }, // 100-24.5 , 100-54
 ]}
       captions={captions}
+      pageId="sb-unit4-page1-vocab"
+       height={70}
     />
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+// import React, { useState } from "react";
 import page_1 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 16.png";
 import "./Review1_Page1.css";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
@@ -22,7 +22,7 @@ const Review1_Page1 = ({ openPopup }) => {
           viewBox="0 0 90 90"
              tabIndex={0}
           role="button"
-          aria-label="Open exercise 1"
+          aria-label="Open exercise 11"
           onClick={() => openPopup("exercise", { startIndex: 11 })}
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === " ") {
@@ -52,7 +52,7 @@ const Review1_Page1 = ({ openPopup }) => {
           viewBox="0 0 90 90"
              tabIndex={0}
           role="button"
-          aria-label="Open exercise 2"
+          aria-label="Open exercise 12"
           onClick={() => openPopup("exercise", { startIndex: 12 })}
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === " ") {

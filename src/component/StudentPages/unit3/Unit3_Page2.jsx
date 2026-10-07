@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+// import React, { useState, useEffect, useRef } from "react";
 import page_2 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 23.png";
 import img1_letter from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 22-23/Untitled-1-05.svg";
 import img2_letter from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 22-23/Untitled-22-06.svg";
@@ -21,12 +21,17 @@ import sound2 from "../../../assets/audio/ClassBook/U 3/unit3-sound2.mp3";
 import sound5 from "../../../assets/audio/ClassBook/U 3/unit3-sound5.mp3";
 import sound6 from "../../../assets/audio/ClassBook/U 3/unit3-sound6.mp3";
 import sound8 from "../../../assets/audio/ClassBook/U 3/unit3-sound8.mp3";
+
+import q1Audio from "../../../assets/audio/ClassBook/U 3/Page 23/can take a nice photo.mp3";
+import q1o1Audio from "../../../assets/audio/ClassBook/U 3/Page 23/make a sandwich.mp3";
+import q1o2Audio from "../../../assets/audio/ClassBook/U 3/Page 23/The boy is watching his mom.mp3";
+import q1o3Audio from "../../../assets/audio/ClassBook/U 3/Page 23/The man with a camera.mp3";
+
 import { useContext } from "react";
 import { AudioContext } from "../../../AudioContext";
 import "./Unit3_Page2.css";
 import ReadChoose from "../../ReadChoose";
 const Unit3_Page2 = ({ openPopup }) => {
- 
   const { audioRef, activeId, setActiveId } = useContext(AudioContext);
   // أصوات الصور
   const imageSounds = [
@@ -42,12 +47,20 @@ const Unit3_Page2 = ({ openPopup }) => {
     questions: [
       {
         text: "The boy is watching his mom",
-        options: ["make a sandwich", "can take a nice photo"],
+        audio: q1o2Audio, // صوت السؤال
+        options: [
+          { text: "make a sandwich", audio: q1o1Audio },
+          { text: "can take a nice photo", audio: q1Audio },
+        ],
         correct: "make a sandwich",
       },
       {
         text: "The man with a camera",
-        options: ["can take a nice photo", "make a sandwich"],
+        audio: q1o3Audio, // صوت السؤال
+        options: [
+          { text: "can take a nice photo", audio: q1Audio },
+          { text: "make a sandwich", audio: q1o1Audio },
+        ],
         correct: "can take a nice photo",
       },
     ],
@@ -104,7 +117,12 @@ const Unit3_Page2 = ({ openPopup }) => {
     3: sound6,
     4: sound8,
   };
-
+  const soundLabels = {
+    1: "kite",
+    2: "play the drum ",
+    3: "drum",
+    4: "ride a bike",
+  };
   const handleImageClick = (e) => {
     const rect = e.target.getBoundingClientRect();
     const xPercent = ((e.clientX - rect.left) / rect.width) * 100;
@@ -145,13 +163,25 @@ const Unit3_Page2 = ({ openPopup }) => {
           return (
             <div
               key={index}
-              className={`circle-area ${isActive ? "active" : ""}`}
+              className={`circle-area page5-audio-hotspot ${
+                isActive ? "active" : ""
+              }`}
+              role="button"
+              tabIndex={0}
+              aria-label={`Play pronunciation: ${soundLabels[area.sound]}`}
+              aria-pressed={isActive}
               style={{
                 left: `${area.x1}%`,
                 top: `${area.y1}%`,
               }}
               onClick={() => {
-                playSound(sounds[area.sound], `p23-${area.sound}`);
+                playSound(sounds[area.sound], `p11-${area.sound}`);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  playSound(sounds[area.sound], `p11-${area.sound}`);
+                }
               }}
             ></div>
           );
@@ -165,6 +195,7 @@ const Unit3_Page2 = ({ openPopup }) => {
           <div
             key={index}
             className="clickable-area"
+            aria-hidden="true"
             style={{
               position: "absolute",
               left: `${area.x1}%`,
@@ -173,7 +204,7 @@ const Unit3_Page2 = ({ openPopup }) => {
               height: `${area.y2 - area.y1}%`,
             }}
             onClick={() => {
-              playSound(sounds[area.sound], `p23-${area.sound}`);
+              playSound(sounds[area.sound], `p11-${area.sound}`);
             }}
           ></div>
         );
@@ -187,12 +218,32 @@ const Unit3_Page2 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open Pepole at the park audio"
           onClick={() =>
             openPopup(
               "audio",
-              <AudioWithCaption src={soundListen} captions={captionsExample} />,
+              <AudioWithCaption
+                src={soundListen}
+                captions={captionsExample}
+                pageId="sb-unit3-page2-PeopleAtThePark"
+              />,
             )
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup(
+                "audio",
+                <AudioWithCaption
+                  src={soundListen}
+                  captions={captionsExample}
+                  pageId="sb-unit3-page2-PeopleAtThePark"
+                />,
+              );
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -213,9 +264,18 @@ const Unit3_Page2 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open listen read and repeat activity"
           onClick={() =>
             openPopup("html", <ReadChoose data={readChooseData} />)
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("html", <ReadChoose data={readChooseData} />);
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -236,6 +296,9 @@ const Unit3_Page2 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open listen and read activity"
           onClick={() =>
             openPopup(
               "html",
@@ -253,9 +316,48 @@ const Unit3_Page2 = ({ openPopup }) => {
                 titleQ={"Listen and read along."}
                 audioArr={imageSounds}
                 captions={captions2}
+                pageId="sb-unit3-page2-listen-read"
+                imageAlts={[
+                  "Squirrel holding a circle with the letters Yy",
+                  "A yellow. The word yellow, with the letter y in red",
+                  "A yogurt. The word yogurt, with the letter y in red",
+                  "A yo-yo. The word yo-yo, with the letter y in red",
+                ]}
+                subHeader="Press Play, follow the y: yellow, yogurt, yo-yo, then tap each card to hear it again."
               />,
             )
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup(
+                "html",
+                <FourImagesWithAudio
+                  images={[
+                    Rabbit,
+                    img1_letter,
+                    img2_letter,
+                    img3_letter,
+                    img4_letter,
+                  ]}
+                  audioSrc={letterSound}
+                  checkpoints={[0, 4.4, 7.26, 8.86, 10]}
+                  popupOpen={true}
+                  titleQ={"Listen and read along."}
+                  audioArr={imageSounds}
+                  captions={captions2}
+                  pageId="sb-unit3-page2-listen-read"
+                  imageAlts={[
+                    "Squirrel holding a circle with the letters Yy",
+                    "A yellow. The word yellow, with the letter y in red",
+                    "A yogurt. The word yogurt, with the letter y in red",
+                    "A yo-yo. The word yo-yo, with the letter y in red",
+                  ]}
+                  subHeader="Press Play, follow the y: yellow, yogurt, yo-yo, then tap each card to hear it again."
+                />,
+              );
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image

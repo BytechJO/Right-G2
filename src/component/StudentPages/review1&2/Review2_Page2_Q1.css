@@ -3,7 +3,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: 20px;
+  /* gap: 20px; */
   width: 100%;
   margin: 16px auto 0;
 }
@@ -57,7 +57,7 @@
 }
 
 .CB-r2p2q1-pic.is-playing {
-  border-color: #dc2626;
+  /* border-color: #dc2626; */
 }
 
 .CB-r2p2q1-pic img {
@@ -75,8 +75,8 @@
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: #2c5287;
-  color: #fff;
+  background: #fff;
+  /* color: #fff; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -95,7 +95,7 @@
 }
 
 .CB-r2p2q1-speaker.playing {
-  background: #dc2626;
+  /* background: #dc2626; */
   animation: r2p2q1-pulse 0.9s ease-in-out infinite;
 }
 

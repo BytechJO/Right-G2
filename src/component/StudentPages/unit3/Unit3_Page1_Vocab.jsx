@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
+// import React, { useState, useRef, useEffect } from "react";
 import backgroundImage from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page.png";
-import page2_2 from "../../../assets/imgs/Voca.svg";
+// import page2_2 from "../../../assets/imgs/Voca.svg";
 import vocabulary from "../../../assets/audio/ClassBook/U 3/Pg22_Vocab_Adult Lady.mp3";
 import "./Unit3_Page1.css";
 import ModernVocabularyComponent from "../../ModernVocabularyComponent";
@@ -47,19 +47,19 @@ const Unit3_Page1_Vocab = () => {
     { start: 34.3, end: 36.38, text: "11: bench." },
   ];
 
-  const wordAudios = [
-    sound1,
-    sound2,
-    sound3,
-    sound4,
-    sound5,
-    sound6,
-    sound7,
-    sound8,
-    sound9,
-    sound10,
-    sound11,
-  ];
+  // const wordAudios = [
+  //   sound1,
+  //   sound2,
+  //   sound3,
+  //   sound4,
+  //   sound5,
+  //   sound6,
+  //   sound7,
+  //   sound8,
+  //   sound9,
+  //   sound10,
+  //   sound11,
+  // ];
 
   const nums = [
     num1,
@@ -130,6 +130,8 @@ const Unit3_Page1_Vocab = () => {
         { id: 11, top: "69.5%", left: "31%" }, // 100-30.5 , 100-69
       ]}
       captions={captions}
+       pageId="sb-unit3-page1-vocab"
+       height={70}
     />
   );
 };

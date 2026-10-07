@@ -21,7 +21,7 @@ const Review1_Page2 = ({ openPopup }) => {
           viewBox="0 0 90 90"
           tabIndex={0}
           role="button"
-          aria-label="Open exercise 3"
+          aria-label="Open exercise 13"
           onClick={() => openPopup("exercise", { startIndex: 13 })}
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === " ") {
@@ -52,7 +52,7 @@ const Review1_Page2 = ({ openPopup }) => {
           viewBox="0 0 90 90"
           tabIndex={0}
           role="button"
-          aria-label="Open exercise 4"
+          aria-label="Open exercise 14"
           onClick={() => openPopup("exercise", { startIndex: 14 })}
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === " ") {
@@ -82,7 +82,7 @@ const Review1_Page2 = ({ openPopup }) => {
           viewBox="0 0 90 90"
           tabIndex={0}
           role="button"
-          aria-label="Open exercise 5"
+          aria-label="Open exercise 15"
           onClick={() => openPopup("exercise", { startIndex: 15 })}
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === " ") {
@@ -112,7 +112,7 @@ const Review1_Page2 = ({ openPopup }) => {
           viewBox="0 0 90 90"
           tabIndex={0}
           role="button"
-          aria-label="Open exercise 6"
+          aria-label="Open exercise 16"
           onClick={() => openPopup("exercise", { startIndex: 16 })}
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === " ") {

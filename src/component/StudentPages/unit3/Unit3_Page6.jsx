@@ -1,13 +1,11 @@
-import React, { useState } from "react";
+// import React, { useState } from "react";
 import page_6 from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page 27.png";
 // import song from "../../../assets/img_unit3/sounds-unit3/Pg15.Sing_Adult Lady.mp3";
 import "./Unit3_Page6.css";
-import audioBtn from "../../../assets/Page 01/Audio btn.svg";
+// import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 
 const Unit3_Page6 = ({ openPopup }) => {
-
-
   return (
     <div
       className="page1-img-wrapper"
@@ -23,7 +21,16 @@ const Unit3_Page6 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open exercise 29"
           onClick={() => openPopup("exercise", { startIndex: 29 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 29 });
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -43,8 +50,17 @@ const Unit3_Page6 = ({ openPopup }) => {
         <svg
           width="22"
           height="22"
-          viewBox="0 0 90 90"
+             viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open exercise 30"
           onClick={() => openPopup("exercise", { startIndex: 30 })}
+            onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 30 });
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image

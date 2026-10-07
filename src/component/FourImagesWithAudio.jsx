@@ -1,22 +1,24 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./FourImagesWithAudio.css";
 import { IoMdSettings } from "react-icons/io";
-import {
-  FaPlay,
-  FaPause,
-  FaVolumeUp,
-  FaVolumeMute,
-  FaRedo,
-} from "react-icons/fa";
+import { FaPlay, FaPause, FaRedo } from "react-icons/fa";
+import { TbMessageCircle } from "react-icons/tb";
 import SquirrelGif from "../assets/Squirrel_1164_1433px.gif";
 
-import { TbMessageCircle } from "react-icons/tb";
+// أقل مكان محفوظ بيعتبر "تقدّم" (أقل من هيك بنبدأ من الأول)
+const MIN_RESUME_SECONDS = 1;
+
+const formatTime = (s) =>
+  Number.isFinite(s) && s >= 0
+    ? new Date(s * 1000).toISOString().substring(14, 19)
+    : "00:00";
+
 const FourImagesWithAudio = ({
   images,
   audioSrc,
   checkpoints,
   titleQ,
-  audioArr,
+  audioArr = [],
   captions,
   pageId,
   subHeader,
@@ -25,22 +27,21 @@ const FourImagesWithAudio = ({
   const audioRef = useRef(null);
   const audioFinishedRef = useRef(false);
   const resumedFromStorageRef = useRef(false);
+  const settingsRef = useRef(null);
+
   const [clickedIndex, setClickedIndex] = useState(null);
-  const [setPaused] = useState(false);
   const [activeIndex, setActiveIndex] = useState(null);
-  const [ setShowContinue] = useState(false);
+
   const AUDIO_TIME_KEY = pageId ? `audio-position-${pageId}` : null;
   const stopAtSecond = checkpoints[1] - 0.2;
+
   // إعدادات الصوت
   const [showSettings, setShowSettings] = useState(false);
   const [volume, setVolume] = useState(1);
-  const settingsRef = useRef(null);
-  const [ setForceRender] = useState(0);
-  // زر الكابشن
   const [playbackRate, setPlaybackRate] = useState(1);
-  // const speeds = [0.5, 0.75, 1, 1.25, 1.5, 2];
 
-  const [isPlaying, setIsPlaying] = useState(true);
+  // ▶️ false لحد ما الصوت يشتغل فعلاً، وبعدها بتتحدّث من أحداث الـ audio
+  const [isPlaying, setIsPlaying] = useState(false);
   const [current, setCurrent] = useState(0);
   const [duration, setDuration] = useState(0);
   const [activeIndex2, setActiveIndex2] = useState(null);
@@ -55,33 +56,33 @@ const FourImagesWithAudio = ({
     );
     setActiveIndex2(index);
   };
+
+  const stopImageSounds = (exceptIndex = -1) => {
+    audioArr.forEach((sound, i) => {
+      if (sound && i !== exceptIndex) {
+        sound.pause();
+        sound.currentTime = 0;
+      }
+    });
+  };
+
   const playImageSound = (index) => {
     const sound = audioArr[index];
     const mainAudio = audioRef.current;
 
     if (!sound || !mainAudio) return;
 
-    // 🔥 وقف الصوت الرئيسي
+    // وقف الصوت الرئيسي (حدث pause بيحدّث الأيقونة لحاله)
     mainAudio.pause();
-    setIsPlaying(false);
 
-    // ✅ 🔥 وقف كل أصوات الصور الثانية
-    audioArr.forEach((audio, i) => {
-      if (audio && i !== index) {
-        audio.pause();
-        audio.currentTime = 0;
-      }
-    });
+    // وقف أصوات الصور الثانية
+    stopImageSounds(index);
 
-    // 🔥 شغل صوت الصورة الحالية
     sound.currentTime = 0;
-    sound.play();
+    sound.onended = () => setClickedIndex(null);
+    sound.play().catch(() => setClickedIndex(null));
 
     setClickedIndex(index);
-
-    sound.onended = () => {
-      setClickedIndex(null);
-    };
   };
 
   const handleImageKeyDown = (e, index) => {
@@ -90,25 +91,63 @@ const FourImagesWithAudio = ({
     e.preventDefault();
     playImageSound(index);
   };
+
+  /* =====================================================
+     MAIN AUDIO: تشغيل تلقائي + حفظ/مسح المكان
+  ===================================================== */
+
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
     audioFinishedRef.current = false;
+
     const savedTime = AUDIO_TIME_KEY
       ? Number(localStorage.getItem(AUDIO_TIME_KEY) || 0)
       : 0;
-    // وقف أي تشغيل قديم
-    audio.pause();
-    audio.src = audioSrc;
 
-    const handleLoadedMetadata = () => {
+    // 🎵 الأيقونة بتتبع حالة الصوت الفعلية
+    const handlePlay = () => {
+      audioFinishedRef.current = false;
+      setIsPlaying(true);
+
+      // الصوت الرئيسي اشتغل: نوقف أصوات الصور عشان ما يتداخلوا
+      stopImageSounds();
+      setClickedIndex(null);
+    };
+
+    const handlePause = () => setIsPlaying(false);
+
+    const handleEnded = () => {
       // ================================
-      // الحالة 2:
-      // في وقت محفوظ → ارجع لنفس المكان
-      // لكن لا تشغل الصوت تلقائي
+      // الصوت خلص كامل:
+      // امسح المكان المحفوظ، وأي فتحة جاية بتبدأ من الأول وبتشتغل لحالها
       // ================================
-      if (savedTime > 0 && savedTime < audio.duration) {
+      audioFinishedRef.current = true;
+
+      if (AUDIO_TIME_KEY) {
+        localStorage.removeItem(AUDIO_TIME_KEY);
+      }
+
+      audio.currentTime = 0;
+
+      setCurrent(0);
+      setActiveIndex(null);
+      setActiveIndex2(null);
+      setIsPlaying(false);
+    };
+
+    const begin = () => {
+      setDuration(audio.duration);
+
+      // ================================
+      // في مكان محفوظ (خرج بنص الصوت):
+      // رجّعه لنفس المكان بدون تشغيل تلقائي
+      // ================================
+      if (
+        savedTime >= MIN_RESUME_SECONDS &&
+        savedTime < audio.duration - 0.5
+      ) {
         resumedFromStorageRef.current = true;
 
         audio.currentTime = savedTime;
@@ -116,34 +155,39 @@ const FourImagesWithAudio = ({
         setCurrent(savedTime);
         updateCaption(savedTime);
 
-        setPaused(true);
-        setIsPlaying(false);
-
         return;
       }
 
       // ================================
-      // الحالة 1:
-      // أول مرة / ما في حفظ
-      // شغله تلقائي من البداية
+      // أول مرة / ما في حفظ / الصوت كان خلص:
+      // شغّله من الأول
       // ================================
       resumedFromStorageRef.current = false;
 
       audio.currentTime = 0;
 
       setCurrent(0);
-      setPaused(false);
-      setIsPlaying(true);
 
       audio.play().catch((err) => {
+        // المتصفح منع التشغيل التلقائي: الأيقونة بتضل Play
         console.log("Autoplay blocked:", err);
         setIsPlaying(false);
-        setPaused(true);
       });
     };
 
+    audio.addEventListener("play", handlePlay);
+    audio.addEventListener("pause", handlePause);
+    audio.addEventListener("ended", handleEnded);
+
+    // إذا الـ metadata حمّلت قبل ما نركّب الـ listener (كاش) نبدأ مباشرة
+    if (audio.readyState >= 1) {
+      begin();
+    } else {
+      audio.addEventListener("loadedmetadata", begin, { once: true });
+    }
+
+    // الوقفة التلقائية الموجودة عندك
     const interval = setInterval(() => {
-      // الوقفة التلقائية الموجودة عندك
       if (
         !resumedFromStorageRef.current &&
         !audio.paused &&
@@ -156,40 +200,19 @@ const FourImagesWithAudio = ({
         if (AUDIO_TIME_KEY) {
           localStorage.setItem(AUDIO_TIME_KEY, String(audio.currentTime));
         }
-        setPaused(true);
-        setIsPlaying(false);
-        setShowContinue(true);
 
         clearInterval(interval);
       }
     }, 100);
 
-    const handleEnded = () => {
-      // ================================
-      // الحالة 3:
-      // الصوت خلص كامل
-      // امسح الحفظ حتى المرة القادمة
-      // يبدأ من الصفر تلقائي
-      // ================================
-      audioFinishedRef.current = true;
-
-      if (AUDIO_TIME_KEY) {
-        localStorage.removeItem(AUDIO_TIME_KEY);
-      }
-      audio.currentTime = 0;
-
-      setCurrent(0);
-      setActiveIndex(null);
-      setActiveIndex2(null);
-      setPaused(true);
-      setIsPlaying(false);
-      setShowContinue(true);
-    };
-
-    audio.addEventListener("loadedmetadata", handleLoadedMetadata);
-    audio.addEventListener("ended", handleEnded);
-
     return () => {
+      clearInterval(interval);
+
+      audio.removeEventListener("play", handlePlay);
+      audio.removeEventListener("pause", handlePause);
+      audio.removeEventListener("ended", handleEnded);
+      audio.removeEventListener("loadedmetadata", begin);
+
       // ================================
       // إذا تسكر الـ popup قبل انتهاء الصوت
       // احفظ المكان الحالي
@@ -197,72 +220,62 @@ const FourImagesWithAudio = ({
       if (
         AUDIO_TIME_KEY &&
         !audioFinishedRef.current &&
-        audio.currentTime > 0 &&
+        audio.currentTime >= MIN_RESUME_SECONDS &&
         audio.duration &&
         audio.currentTime < audio.duration
       ) {
         localStorage.setItem(AUDIO_TIME_KEY, String(audio.currentTime));
       }
+
       audio.pause();
-
-      clearInterval(interval);
-
-      audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
-
-      audio.removeEventListener("ended", handleEnded);
+      stopImageSounds();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [audioSrc, AUDIO_TIME_KEY]);
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setForceRender((prev) => prev + 1);
-    }, 1000); // كل ثانية
 
-    return () => clearInterval(timer);
-  }, []);
+  /* =====================================================
+     CONTROLS
+  ===================================================== */
+
   const handleRestart = () => {
     const audio = audioRef.current;
 
     if (!audio) return;
 
-    audioArr.forEach((sound) => {
-      if (sound) {
-        sound.pause();
-        sound.currentTime = 0;
-      }
-    });
+    stopImageSounds();
 
     audio.pause();
     audio.currentTime = 0;
+
     resumedFromStorageRef.current = false;
     audioFinishedRef.current = false;
+
     if (AUDIO_TIME_KEY) {
       localStorage.removeItem(AUDIO_TIME_KEY);
     }
+
     setCurrent(0);
     setActiveIndex(null);
     setActiveIndex2(null);
     setClickedIndex(null);
-    setPaused(false);
-    setShowContinue(false);
 
-    audio.play();
-    setIsPlaying(true);
+    audio.play().catch(() => setIsPlaying(false));
   };
+
   const togglePlay = () => {
     const audio = audioRef.current;
 
     if (!audio) return;
 
     if (audio.paused) {
-      audio.play();
-      setPaused(false);
-      setIsPlaying(true);
+      audio.play().catch(() => setIsPlaying(false));
     } else {
       audio.pause();
-      setPaused(true);
-      setIsPlaying(false);
     }
   };
+
+  const progress = duration ? (current / duration) * 100 : 0;
+
   return (
     <div className="four-wrapper">
       <div
@@ -318,6 +331,7 @@ const FourImagesWithAudio = ({
           </div>
         </div>
       </div>
+
       <div
         className="audio-popup-read-container"
         style={{
@@ -334,16 +348,19 @@ const FourImagesWithAudio = ({
             <audio
               ref={audioRef}
               src={audioSrc}
+              preload="auto"
               onTimeUpdate={(e) => {
                 const time = e.target.currentTime;
 
                 setCurrent(time);
 
-                // نحفظ آخر نقطة وصلها الصوت
-                if (!audioFinishedRef.current) {
-                  if (AUDIO_TIME_KEY) {
-                    localStorage.setItem(AUDIO_TIME_KEY, String(time));
-                  }
+                // نحفظ آخر نقطة وصلها الصوت (بعد أول ثانية بس)
+                if (
+                  AUDIO_TIME_KEY &&
+                  !audioFinishedRef.current &&
+                  time >= MIN_RESUME_SECONDS
+                ) {
+                  localStorage.setItem(AUDIO_TIME_KEY, String(time));
                 }
 
                 const idx = checkpoints.findIndex(
@@ -356,35 +373,32 @@ const FourImagesWithAudio = ({
               }}
               onLoadedMetadata={(e) => setDuration(e.target.duration)}
             ></audio>
-            {/* Play / Pause */}
+
             {/* الوقت - السلايدر - الوقت */}
             <div className="top-row">
-              <span className="audio-time">
-                {new Date(current * 1000).toISOString().substring(14, 19)}
-              </span>
+              <span className="audio-time">{formatTime(current)}</span>
 
               <input
                 type="range"
                 className="audio-slider"
                 aria-label="Audio progress"
                 min="0"
-                max={duration}
+                max={duration || 0}
                 value={current}
                 onChange={(e) => {
-                  audioRef.current.currentTime = e.target.value;
-                  updateCaption(Number(e.target.value));
+                  const value = Number(e.target.value);
+                  audioRef.current.currentTime = value;
+                  setCurrent(value);
+                  updateCaption(value);
                 }}
                 style={{
-                  background: `linear-gradient(to right, #430f68 ${
-                    (current / duration) * 100
-                  }%, #d9d9d9ff ${(current / duration) * 100}%)`,
+                  background: `linear-gradient(to right, #430f68 ${progress}%, #d9d9d9ff ${progress}%)`,
                 }}
               />
 
-              <span className="audio-time">
-                {new Date(duration * 1000).toISOString().substring(14, 19)}
-              </span>
+              <span className="audio-time">{formatTime(duration)}</span>
             </div>
+
             <div className="bottom-row">
               {/* فقاعة */}
               <div className="caption-control" style={{ position: "relative" }}>
@@ -401,6 +415,7 @@ const FourImagesWithAudio = ({
                 >
                   <TbMessageCircle size={36} aria-hidden="true" />
                 </button>
+
                 <div
                   id={`caption-panel-${pageId}`}
                   className={`caption-inPopup ${showCaption ? "show" : ""}`}
@@ -420,10 +435,10 @@ const FourImagesWithAudio = ({
                 </div>
               </div>
 
-              {/* Play */}
+              {/* Play / Restart */}
               <div className="main-audio-controls">
-                {/* Play / Pause */}
                 <button
+                  type="button"
                   className="main-audio-btn"
                   onClick={togglePlay}
                   aria-label={isPlaying ? "Pause audio" : "Play audio"}
@@ -432,8 +447,8 @@ const FourImagesWithAudio = ({
                   {isPlaying ? <FaPause size={20} /> : <FaPlay size={20} />}
                 </button>
 
-                {/* Restart */}
                 <button
+                  type="button"
                   className="main-audio-btn"
                   onClick={handleRestart}
                   aria-label="Restart audio"
@@ -442,15 +457,18 @@ const FourImagesWithAudio = ({
                   <FaRedo size={22} />
                 </button>
               </div>
+
               {/* Settings */}
               <div className="settings-wrapper" ref={settingsRef}>
                 <button
+                  type="button"
                   className={`round-btn ${showSettings ? "active" : ""}`}
                   onClick={() => setShowSettings(!showSettings)}
                   title={
                     showSettings ? "Close audio settings" : "Audio settings"
                   }
                   aria-label="Audio settings"
+                  aria-expanded={showSettings}
                 >
                   <IoMdSettings size={36} />
                 </button>
@@ -465,8 +483,9 @@ const FourImagesWithAudio = ({
                       step="0.05"
                       value={volume}
                       onChange={(e) => {
-                        setVolume(e.target.value);
-                        audioRef.current.volume = e.target.value;
+                        const value = Number(e.target.value);
+                        setVolume(value);
+                        audioRef.current.volume = value;
                       }}
                     />
 
@@ -491,79 +510,42 @@ const FourImagesWithAudio = ({
                   </div>
                 )}
               </div>
-            </div>{" "}
+            </div>
           </div>
         </div>
       </div>
 
       <div className="images-layout">
-        {/* الصور الصغيرة الثلاث */}
+        {/* الصور الصغيرة */}
         <div className="small-images">
-          {images.length <= 3 ? (
-            <>
-              {images.slice(1).map((src, i) => {
-                const globalIndex = i + 1;
-                const label = imageAlts[i] || `Image ${i + 1}`;
+          {images.slice(1).map((src, i) => {
+            const globalIndex = i + 1;
+            const label = imageAlts[i] || `Image ${i + 1}`;
 
-                return (
-                  <div
-                    key={i}
-                    className={`small-box2 ${
-                      activeIndex === globalIndex ||
-                      clickedIndex === globalIndex
-                        ? "active"
-                        : ""
-                    }`}
-                    role="button"
-                    tabIndex={0}
-                    aria-label={`${label}. Press Enter or Space to play its audio.`}
-                    aria-pressed={clickedIndex === globalIndex}
-                    onClick={() => playImageSound(globalIndex)}
-                    onKeyDown={(e) => handleImageKeyDown(e, globalIndex)}
-                  >
-                    <img
-                      src={src}
-                      className="small-img2"
-                      alt={`${label}`}
-                      aria-hidden="true"
-                    />
-                  </div>
-                );
-              })}
-            </>
-          ) : (
-            <>
-              {images.slice(1).map((src, i) => {
-                const globalIndex = i + 1;
-                const label = imageAlts[i] || `Image ${i + 1}`;
-
-                return (
-                  <div
-                    key={i}
-                    className={`small-box2 ${
-                      activeIndex === globalIndex ||
-                      clickedIndex === globalIndex
-                        ? "active"
-                        : ""
-                    }`}
-                    role="button"
-                    tabIndex={0}
-                    aria-label={`${label}. Press Enter or Space to play its audio.`}
-                    aria-pressed={clickedIndex === globalIndex}
-                    onClick={() => playImageSound(globalIndex)}
-                    onKeyDown={(e) => handleImageKeyDown(e, globalIndex)}
-                  >
-                    <img
-                      src={src}
-                      className="small-img2"
-                      alt={`${label}`}
-                      aria-hidden="true"
-                    />
-                  </div>
-                );
-              })}
-            </>
-          )}
+            return (
+              <div
+                key={i}
+                className={`small-box2 ${
+                  activeIndex === globalIndex || clickedIndex === globalIndex
+                    ? "active"
+                    : ""
+                }`}
+                role="button"
+                tabIndex={0}
+                aria-label={`${label}. Press Enter or Space to play its audio.`}
+                aria-pressed={clickedIndex === globalIndex}
+                onClick={() => playImageSound(globalIndex)}
+                onKeyDown={(e) => handleImageKeyDown(e, globalIndex)}
+              >
+                <img
+                  src={src}
+                  className="small-img2"
+                  alt={label}
+                  aria-hidden="true"
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

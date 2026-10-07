@@ -1,4 +1,3 @@
-import { useState, useRef } from "react";
 import page_1 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 28.png";
 import "./Unit4_Page1.css";
 import Unit4_Page1_find from "./Unit4_Page1_find";
@@ -15,18 +14,11 @@ import sound4 from "../../../assets/audio/ClassBook/U 4/unit4-sound4.mp3";
 import sound5 from "../../../assets/audio/ClassBook/U 4/unit4-sound5.mp3";
 import sound6 from "../../../assets/audio/ClassBook/U 4/unit4-sound6.mp3";
 import sound7 from "../../../assets/audio/ClassBook/U 4/unit4-sound7.mp3";
-import sound8 from "../../../assets/audio/ClassBook/U 4/unit4-sound8.mp3";
-import sound9 from "../../../assets/audio/ClassBook/U 4/unit4-sound9.mp3";
 import sound10 from "../../../assets/audio/ClassBook/U 4/unit4-sound10.mp3";
-import sound11 from "../../../assets/audio/ClassBook/U 4/unit4-sound11.mp3";
 import sound12 from "../../../assets/audio/ClassBook/U 4/unit4-sound12.mp3";
-import { TbMessageCircle } from "react-icons/tb";
 import { useContext } from "react";
 import { AudioContext } from "../../../AudioContext";
 const Unit4_Page1 = ({ openPopup }) => {
-  const [activeAreaIndex, setActiveAreaIndex] = useState(null);
-  const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
-  const [isPlaying, setIsPlaying] = useState(false);
   const { audioRef, activeId, setActiveId } = useContext(AudioContext);
   const captionsExample = [
     {
@@ -131,6 +123,17 @@ const Unit4_Page1 = ({ openPopup }) => {
     9: sound12,
   };
 
+  const soundLabels = {
+    1: "nurse",
+    2: "pilot",
+    3: "grow food",
+    4: "taxi driver",
+    5: "vet",
+    6: "clerk",
+    7: "photographer",
+    8: "farmer",
+    9: "chef",
+  };
   const handleImageClick = (e) => {
     const rect = e.target.getBoundingClientRect();
     const xPercent = ((e.clientX - rect.left) / rect.width) * 100;
@@ -160,56 +163,7 @@ const Unit4_Page1 = ({ openPopup }) => {
       style={{ backgroundImage: `url(${page_1})` }}
     >
       <audio ref={audioRef} style={{ display: "none" }} />
-      {/* <img
-        src={page_1}
-        onClick={handleImageClick}
-        style={{ display: "block" }}
-      /> */}
-      {areas.map((area, index) => {
-        const isActive = activeId === `p28-${area.sound}`;
-
-        // ============================
-        // 1️⃣ المنطقة الأساسية → دائرة تظهر فقط عندما تكون Active
-        // ============================
-        if (area.isPrimary) {
-          return (
-            <div
-              key={index}
-              className={`circle-area ${isActive ? "active" : ""}`}
-              style={{
-                left: `${area.x1}%`,
-                top: `${area.y1}%`,
-              }}
-              onClick={() => {
-                  playSound(sounds[area.sound], `p28-${area.sound}`);
-                }}
-            ></div>
-          );
-        }
-
-        // ============================
-        // 2️⃣ المناطق الفرعية → مربعات داكنة مخفية ولازم
-        //    عند الضغط عليها → تفعّل الدائرة الأساسية
-        // ============================
-        return (
-          <div
-            key={index}
-            className="clickable-area"
-            style={{
-              position: "absolute",
-              left: `${area.x1}%`,
-              top: `${area.y1}%`,
-              width: `${area.x2 - area.x1}%`,
-              height: `${area.y2 - area.y1}%`,
-            }}
-            onClick={() => {
-                playSound(sounds[area.sound], `p28-${area.sound}`);
-              }}
-          ></div>
-        );
-      })}
-
-      <div
+   <div
         className="headset-icon-CD-unit4-page1-1 hover:scale-110 transition"
         style={{ overflow: "visible" }}
       >
@@ -217,6 +171,9 @@ const Unit4_Page1 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open page audio"
           onClick={() =>
             openPopup(
               "audio",
@@ -227,10 +184,36 @@ const Unit4_Page1 = ({ openPopup }) => {
                   alignContent: "center",
                 }}
               >
-                <AudioWithCaption src={allunit4} captions={captionsExample} />
+                <AudioWithCaption
+                  src={allunit4}
+                  captions={captionsExample}
+                  pageId="unit4-page1-main-audio"
+                />
               </div>,
             )
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+
+              openPopup(
+                "audio",
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignContent: "center",
+                  }}
+                >
+                  <AudioWithCaption
+                    src={allunit4}
+                    captions={captionsExample}
+                    pageId="unit4-page1-main-audio"
+                  />
+                </div>,
+              );
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -252,6 +235,9 @@ const Unit4_Page1 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+           tabIndex={0}
+          role="button"
+          aria-label="Open interactive activity"
           onClick={() =>
             openPopup(
               "html",
@@ -260,6 +246,13 @@ const Unit4_Page1 = ({ openPopup }) => {
               </>,
             )
           }
+           onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+
+              openPopup("html", <Unit4_Page1_find />);
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -280,6 +273,9 @@ const Unit4_Page1 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+            tabIndex={0}
+          role="button"
+          aria-label="Open vocabulary activity"
           onClick={() =>
             openPopup(
               "html",
@@ -288,6 +284,13 @@ const Unit4_Page1 = ({ openPopup }) => {
               </>,
             )
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+
+              openPopup("html", <Unit4_Page1_Vocab />);
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -308,6 +311,9 @@ const Unit4_Page1 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+           tabIndex={0}
+          role="button"
+          aria-label="Open listen and read activity"
           onClick={() =>
             openPopup(
               "html",
@@ -316,6 +322,17 @@ const Unit4_Page1 = ({ openPopup }) => {
               </>,
             )
           }
+           onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup(
+                "html",
+                <>
+                  <Unit4_Page1_Read />
+                </>,
+              );
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -328,6 +345,62 @@ const Unit4_Page1 = ({ openPopup }) => {
           />
         </svg>
       </div>
+       {areas.map((area, index) => {
+        const isActive = activeId === `p28-${area.sound}`;
+
+        // ============================
+        // 1️⃣ المنطقة الأساسية → دائرة تظهر فقط عندما تكون Active
+        // ============================
+        if (area.isPrimary) {
+          return (
+            <div
+              key={index}
+              className={`circle-area page4-audio-hotspot ${
+                isActive ? "active" : ""
+              }`}
+              role="button"
+              tabIndex={0}
+              aria-label={`Play pronunciation: ${soundLabels[area.sound]}`}
+              aria-pressed={isActive}
+              style={{
+                left: `${area.x1}%`,
+                top: `${area.y1}%`,
+              }}
+              onClick={() => {
+                playSound(sounds[area.sound], `p4-${area.sound}`);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  playSound(sounds[area.sound], `p4-${area.sound}`);
+                }
+              }}
+            ></div>
+          );
+        }
+
+        // ============================
+        // 2️⃣ المناطق الفرعية → مربعات داكنة مخفية ولازم
+        //    عند الضغط عليها → تفعّل الدائرة الأساسية
+        // ============================
+        return (
+          <div
+            key={index}
+            className="clickable-area"
+            aria-hidden="true"
+            style={{
+              position: "absolute",
+              left: `${area.x1}%`,
+              top: `${area.y1}%`,
+              width: `${area.x2 - area.x1}%`,
+              height: `${area.y2 - area.y1}%`,
+            }}
+            onClick={() => {
+              playSound(sounds[area.sound], `p4-${area.sound}`);
+            }}
+          ></div>
+        );
+      })}
     </div>
   );
 };

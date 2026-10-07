@@ -140,7 +140,7 @@ const Unit2_Page2 = ({ openPopup }) => {
       <audio ref={audioRef} style={{ display: "none" }} />
 
       {areas.map((area, index) => {
-        const isActive = activeId === `p5-${area.sound}`;
+        const isActive = activeId === `p11-${area.sound}`;
 
         // ============================
         // 1️⃣ المنطقة الأساسية → دائرة تظهر فقط عندما تكون Active

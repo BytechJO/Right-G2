@@ -312,7 +312,7 @@ const Unit2_Page1 = ({ openPopup }) => {
         </svg>
       </div>
       {areas.map((area, index) => {
-        const isActive = activeId === `p4-${area.sound}`;
+        const isActive = activeId === `p10-${area.sound}`;
 
         // ============================
         // 1️⃣ المنطقة الأساسية → دائرة تظهر فقط عندما تكون Active
