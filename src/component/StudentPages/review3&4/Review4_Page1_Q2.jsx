@@ -1,336 +1,500 @@
 import React, { useState, useRef, useEffect } from "react";
+import ValidationAlert from "../../Popup/ValidationAlert";
+
+// 🔊 مدير الصوت المشترك (صوت واحد بس بنفس الوقت)
+import { playGlobalAudio, stopGlobalAudio } from "../../audioManager";
+
 import img1 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 34/Asset 29.svg";
 import img2 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 36/Ex B 3.svg";
 import img3 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 34/Asset 28.svg";
-import ValidationAlert from "../../Popup/ValidationAlert";
+
+// ⚠️ اسم ملف police officer كان مقطوع بالسكرين شوت، تأكد من الامتداد
+import nurseSound from "../../../assets/audio/ClassBook/U 4/Page 36 - B/Item_001_nurse.mp3";
+import mechanicSound from "../../../assets/audio/ClassBook/U 4/Page 36 - B/Item_002_mechanic.mp3";
+import teacherSound from "../../../assets/audio/ClassBook/U 4/Page 36 - B/Item_003_teacher.mp3";
+import fishermanSound from "../../../assets/audio/ClassBook/U 4/Page 36 - B/Item_004_fisherman.mp3";
+import clerkSound from "../../../assets/audio/ClassBook/U 4/Page 36 - B/Item_005_clerk.mp3";
+import policeOfficerSound from "../../../assets/audio/ClassBook/U 4/Page 36 - B/Item_006_police_officer.mp3";
+import heIsSound from "../../../assets/audio/ClassBook/U 4/Page 36 - B/Item_007_He_is.mp3";
+
 import "./Review4_Page1_Q2.css";
-import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+import ExerciseHeader from "../../ExerciseHeader";
+
+// 🔊 false = الصوت بالكليك / Enter / Space بس، true = كمان لما الطالب يوقف بالتاب
+const PLAY_ON_FOCUS = false;
+
+/* ================= DATA ================= */
+
+// صوت كل كلمة
+const WORD_AUDIO = {
+  nurse: nurseSound,
+  mechanic: mechanicSound,
+  teacher: teacherSound,
+  fisherman: fishermanSound,
+  clerk: clerkSound,
+  "police officer": policeOfficerSound,
+};
+
+// ⚠️ الـ alt أوصاف عامة بدون اسم المهنة (لأنو اسمها هو الجواب).
+// الأوصاف تخمين، راجعها مع الصور الفعلية وعدّلها.
+// ⚠️ "She is" ما إلها ملف صوت. إذا عندك ملف استورده وحطه بـ firstAudio للسؤال 3.
+const ITEMS = [
+  {
+    img: img3,
+    alt: "A man in work clothes standing next to a car",
+    options: ["nurse", "mechanic"],
+    correct: "mechanic",
+    first: "He is",
+    firstAudio: heIsSound,
+  },
+  {
+    img: img1,
+    alt: "A man holding a fishing rod by the water",
+    options: ["teacher", "fisherman"],
+    correct: "fisherman",
+    first: "He is",
+    firstAudio: heIsSound,
+  },
+  {
+    img: img2,
+    alt: "A woman standing behind a counter in a shop",
+    options: ["clerk", "police officer"],
+    correct: "clerk",
+    first: "She is",
+    firstAudio: null,
+  },
+];
+
+const total = ITEMS.length;
+
+const emptySelected = () => ITEMS.map(() => "");
+const noLocks = () => ITEMS.map(() => false);
+
+// ستايل الكلمة الي صوتها شغّال
+const highlightStyle = {
+  outline: "2px solid #2c5287",
+  outlineOffset: "2px",
+  borderRadius: "10px",
+};
+
+const focusRingClass =
+  "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2c5287] focus-visible:ring-offset-2";
+
+// eslint-disable-next-line react-refresh/only-export-components
+const SpeakerIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    width="16"
+    height="16"
+    aria-hidden="true"
+    style={{
+      position: "absolute",
+      top: "-6px",
+      right: "-6px",
+      background: "white",
+      borderRadius: "50%",
+    }}
+  >
+    <path
+      fill="currentColor"
+      d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"
+    />
+  </svg>
+);
 
 const Review4_Page1_Q2 = () => {
-  const items = [
-    {
-      img: img3,
-      correct: "mechanic",
-      correctInput: "mechanic",
-      option: ["nurse", "mechanic"],
-      first: "He is",
-    },
-    {
-      img: img1,
-      correct: "fisherman",
-      correctInput: "fisherman",
-      option: ["teacher", "fisherman"],
-      first: "He is",
-    },
-    {
-      img: img2,
-      correct: "clerk",
-      correctInput: "clerk",
-      option: ["clerk", "police officer"],
-      first: "She is",
-    },
-  ];
+  // ⭕ الدايرة المختارة لكل سؤال ("" = ما في اختيار). الكلمة بتنكتب بالجملة منها مباشرة
+  const [selected, setSelected] = useState(emptySelected);
 
-  const [selected, setSelected] = useState(["", "", ""]);
-  const [answers, setAnswers] = useState(["", "", ""]);
-  const [locked, setLocked] = useState(false);
-  const [wrongInputs, setWrongInputs] = useState([]);
-  const [showResult, setShowResult] = useState(false);
+  // 🔒 الصح بعد Check بينقفل
+  const [locked, setLocked] = useState(noLocks);
 
-  const onDragEnd = (result) => {
-    const { destination, draggableId } = result;
-    if (!destination || locked) return;
+  // ✕ الغلط (بيضل بمكانه والطالب بيعدّله)
+  const [wrong, setWrong] = useState([]);
 
-    const value = draggableId.replace("word-", "").replace("filled-", "");
-    const index = Number(destination.droppableId.split("-")[1]);
+  // 🔒 بعد Show Answer كل شي مقفول
+  const [showAnswered, setShowAnswered] = useState(false);
 
-    setAnswers((prev) => {
-      const updated = [...prev];
+  // 📢 رسالة لقارئ الشاشة
+  const [message, setMessage] = useState("");
 
-      // منع التكرار
-      const oldIndex = updated.findIndex((a) => a === value);
-      if (oldIndex !== -1) updated[oldIndex] = "";
+  const allLocked = showAnswered || locked.every(Boolean);
 
-      updated[index] = value;
-      return updated;
+  /* =====================================================
+     AUDIO
+  ===================================================== */
+
+  const audioOwner = useRef({}).current;
+  const [activeId, setActiveId] = useState(null);
+
+  const stopAudio = () => stopGlobalAudio(audioOwner);
+
+  const playAudio = (src, id) => {
+    if (!src) {
+      stopGlobalAudio();
+      setActiveId(null);
+      return;
+    }
+
+    playGlobalAudio(src, {
+      owner: audioOwner,
+      onFinish: () => setActiveId((prev) => (prev === id ? null : prev)),
     });
 
-    setShowResult(false);
+    setActiveId(id);
   };
 
-  const handleSelect = (value, index) => {
-    if (locked) return; // 🔒 لا تعديل بعد show answer
-    const newSel = [...selected];
-    newSel[index] = value;
-    setSelected(newSel);
-    setShowResult(false);
+  useEffect(() => () => stopGlobalAudio(audioOwner), [audioOwner]);
+
+  /* =====================================================
+     ⭕ CIRCLES (اختيار وإلغاء: كليك / لمس / Enter / Space)
+     الكلمة المختارة بتنكتب مباشرة بالجملة
+  ===================================================== */
+
+  const toggleCircle = (i, op) => {
+    // 🔊 صوت الكلمة دايماً بالكليك
+    playAudio(WORD_AUDIO[op], `circle-${i}-${op}`);
+
+    if (allLocked || locked[i]) {
+      if (locked[i]) {
+        setMessage(
+          `Picture ${i + 1}: ${ITEMS[i].correct} is correct and locked.`,
+        );
+      }
+      return;
+    }
+
+    const isSame = selected[i] === op;
+
+    setSelected((prev) =>
+      prev.map((s, k) => (k === i ? (isSame ? "" : op) : s)),
+    );
+
+    // نشيل ✕ عن هاد السؤال (الطالب عدّله)
+    setWrong((prev) => prev.filter((k) => k !== i));
+
+    setMessage(
+      isSame
+        ? `Picture ${i + 1}: ${op} deselected. The sentence is empty.`
+        : `Picture ${i + 1}: ${op} selected. The sentence is: ${ITEMS[i].first} ${op}.`,
+    );
   };
 
-  const resetAll = () => {
-    setSelected(["", "", ""]);
-    setAnswers(["", "", ""]);
-    setWrongInputs([]);
-    setShowResult(false);
-    setLocked(false); // 🔒 قفل كل شيء
+  /* =====================================================
+     نص عليه صوت ("He is")
+  ===================================================== */
+
+  const handleTextKeyDown = (e, src, id) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      playAudio(src, id);
+    }
   };
-  const showAnswers = () => {
-    // حط الدوائر الصح
-    const correctCircles = items.map((item) => item.correct);
 
-    // حط الكتابة الصحيحة
-    const correctTexts = items.map((item) => item.correctInput);
-
-    setSelected(correctCircles);
-    setAnswers(correctTexts);
-    setWrongInputs([]);
-    setShowResult(false);
-
-    setLocked(true); // 🔒 قفل كل شيء
+  const handleTextFocus = (e, src, id) => {
+    if (!PLAY_ON_FOCUS) return;
+    if (!e.currentTarget.matches(":focus-visible")) return;
+    playAudio(src, id);
   };
+
+  /* =====================================================
+     CHECK
+     - الصح بينقفل
+     - الغلط بيضل بمكانه مع ✕ والطالب بيعدّله
+  ===================================================== */
 
   const checkAnswers = () => {
-    if (locked) return;
-    // 1) التشييك إذا في دائرة مش مختارة
-    if (selected.some((s) => s === "")) {
-      ValidationAlert.info("Please choose a circle (f or v) for all items!");
+    if (allLocked) return;
+
+    if (selected.some((s, i) => !locked[i] && s === "")) {
+      const msg =
+        "Please choose a circle for all the pictures before checking.";
+      ValidationAlert.info("Oops!", msg);
+      setMessage(msg);
       return;
     }
 
-    // 2) التشييك إذا في input فاضي
-    if (answers.some((a) => a.trim() === "")) {
-      ValidationAlert.info("Please fill in all the writing boxes!");
-      return;
-    }
+    stopAudio();
+    setActiveId(null);
 
-    let wrong = [];
+    const newLocked = [...locked];
+    const newWrong = [];
     let score = 0;
-    setLocked(true);
-    items.forEach((item, i) => {
-      const circleCorrect = selected[i] === item.correct;
-      const inputCorrect =
-        answers[i].trim().toLowerCase() === item.correctInput.toLowerCase();
 
-      // نقطة للدائرة + نقطة للكتابة
-      if (circleCorrect) score++;
-      if (inputCorrect) score++;
-
-      if (!circleCorrect || !inputCorrect) {
-        wrong.push(i);
+    ITEMS.forEach((item, i) => {
+      if (locked[i] || selected[i] === item.correct) {
+        newLocked[i] = true;
+        score++;
+      } else {
+        newWrong.push(i);
       }
     });
 
-    setWrongInputs(wrong);
-    setShowResult(true);
+    setLocked(newLocked);
+    setWrong(newWrong);
 
-    const total = items.length * 2; // 8 نقاط
+    // 🔊 فيدباك مسموع لقارئ الشاشة (لكل سؤال + السكور)
+    const details = ITEMS.map(
+      (item, i) =>
+        `Picture ${i + 1}: ${item.first} ${selected[i]}, ${
+          newWrong.includes(i) ? "incorrect" : "correct"
+        }.`,
+    ).join(" ");
+
+    setMessage(
+      score === total
+        ? `Score ${score} out of ${total}. ${details} All answers are correct.`
+        : `Score ${score} out of ${total}. ${details} Correct answers are locked. Change the answers marked with a cross, then press Check Answer again.`,
+    );
+
     const color = score === total ? "green" : score === 0 ? "red" : "orange";
 
-    const scoreMessage = `
-    <div style="font-size: 20px; margin-top: 10px; text-align:center;">
-      <span style="color:${color}; font-weight:bold;">
-        Score: ${score} / ${total}
-      </span>
-    </div>
-  `;
+    const msg = `
+      <div style="font-size:20px;text-align:center;">
+        <span style="color:${color};font-weight:bold;">Score: ${score} / ${total}</span>
+      </div>
+    `;
 
-    if (score === total) {
-      ValidationAlert.success(scoreMessage);
-    } else if (score === 0) {
-      ValidationAlert.error(scoreMessage);
-    } else {
-      ValidationAlert.warning(scoreMessage);
-    }
+    if (score === total) ValidationAlert.success(msg);
+    else if (score === 0) ValidationAlert.error(msg);
+    else ValidationAlert.warning(msg);
   };
 
-  return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "30px",
-          marginBottom: "50px",
-        }}
-      >
-        <div className="div-forall" style={{gap:"20px"}}> 
-          <h5 className="header-title-page8">
-            <span style={{ marginRight: "20px" }}>B</span> Look, read, circle,
-            and complete.
-          </h5>
-          <div className="flex flex-col gap-10">
-            <Droppable droppableId="bank" isDropDisabled>
-              {(provided) => (
-                <div
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                  style={{
-                    display: "flex",
-                    gap: "20px",
-                    padding: "10px",
-                    // border: "2px dashed #ccc",
-                    borderRadius: "10px",
-                    // margin: "10px 0",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  {[
-                    "nurse",
-                    "mechanic",
-                    "teacher",
-                    "fisherman",
-                    "clerk",
-                    "police officer",
-                  ].map((item, index) => {
-                    const isUsed = answers.some((row) =>
-                      row.includes(item.correctInput),
-                    );
-                    return (
-                      <Draggable
-                        key={item}
-                        draggableId={`word-${item}`}
-                        index={index}
-                        isDragDisabled={locked || isUsed}
-                      >
-                        {(provided) => (
-                          <span
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            className="CB-unit2-p6-q2-word"
-                            style={{
-                              background: isUsed ? "#ccc" : "white",
-                              opacity: isUsed ? 0.6 : 1,
-                              cursor: isUsed ? "not-allowed" : "grab",
-                              ...provided.draggableProps.style,
-                            }}
-                          >
-                            {item}
-                          </span>
-                        )}
-                      </Draggable>
-                    );
-                  })}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
+  /* =====================================================
+     SHOW ANSWER
+  ===================================================== */
 
-            <div className="question-grid-CB-review4-p1-q2">
-              {items.map((item, i) => (
+  const showAnswers = () => {
+    stopAudio();
+    setActiveId(null);
+
+    setSelected(ITEMS.map((item) => item.correct));
+    setLocked(ITEMS.map(() => true));
+    setWrong([]);
+    setShowAnswered(true);
+    setMessage("Correct answers are shown.");
+  };
+
+  /* =====================================================
+     START AGAIN (بيمسح كل الدوائر والنتايج والسكور)
+  ===================================================== */
+
+  const reset = () => {
+    stopAudio();
+    setActiveId(null);
+
+    setSelected(emptySelected());
+    setLocked(noLocks());
+    setWrong([]);
+    setShowAnswered(false);
+    setMessage(
+      "Exercise reset. All circles, answers, results and score are cleared.",
+    );
+  };
+
+  /* =====================================================
+     RENDER
+  ===================================================== */
+
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: "30px",
+        marginBottom: "50px",
+      }}
+    >
+      {/* 📢 رسائل لقارئ الشاشة */}
+      <div
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+        className="sr-only"
+      >
+        {message}
+      </div>
+
+      <div className="div-forall" style={{ gap: "20px" }}>
+        <ExerciseHeader
+          sectionLetter="B"
+          title="Look, read, circle, and complete."
+          subTitle="Read or listen carefully, then tap the option you would circle on the printed page."
+          isReview="true"
+        />
+
+        <div className="flex flex-col gap-10">
+          {/* QUESTIONS */}
+          <div className="question-grid-CB-review4-p1-q2">
+            {ITEMS.map((item, i) => {
+              const n = i + 1;
+
+              const isLocked = locked[i];
+              const isWrong = wrong.includes(i);
+
+              const firstId = `first-${i}`;
+              const firstPlaying = activeId === firstId;
+
+              return (
                 <div className="question-box-CB-review4-p1-q2" key={i}>
                   <span
+                    aria-hidden="true"
                     style={{
                       fontSize: "22px",
                       fontWeight: "600",
                       color: "#1d4f7b",
                     }}
                   >
-                    {i + 1}
+                    {n}
                   </span>
 
                   <div className="img-option-CB-review2-p2-q3">
                     <img
                       src={item.img}
+                      alt={`Picture ${n}: ${item.alt}`}
                       className="q-img-CB-review2-p2-q3"
                       style={{ height: "auto", width: "200px" }}
+                      draggable="false"
                     />
 
-                    {/*choices */}
-                    <div className="choices-CB-review2-p2-q3">
-                      {item.option.map((op, index) => (
-                        <div className="circle-wrapper" key={index}>
-                          <div
-                            className={`circle-choice-CB-review4-p1-q2 ${
-                              selected[i] === `${op}` ? "active" : ""
-                            }`}
-                            onClick={() => !locked && handleSelect(op, i)}
-                          >
-                            {op}
-                          </div>
+                    {/* ⭕ CHOICES */}
+                    <div
+                      className="choices-CB-review2-p2-q3"
+                      role="group"
+                      aria-label={`Picture ${n}: choose the correct word`}
+                    >
+                      {item.options.map((op) => {
+                        const isOn = selected[i] === op;
+                        const circleWrong = isWrong && isOn && !showAnswered;
+                        const circleCorrect = isLocked && isOn && !showAnswered;
+                        const opPlaying = activeId === `circle-${i}-${op}`;
 
-                          {showResult &&
-                            selected[i] === `${op}` &&
-                            selected[i] !== item.correct && (
-                              <div className="CB-review4-p1-q2-error-badge">
+                        return (
+                          <div className="circle-wrapper" key={op}>
+                            <button
+                              type="button"
+                              className={`circle-choice-CB-review4-p1-q2 CB-r4p1q2-circle ${
+                                isOn ? "active" : ""
+                              } ${circleCorrect ? "is-correct" : ""} ${
+                                circleWrong ? "is-wrong" : ""
+                              } ${focusRingClass}`}
+                              aria-pressed={isOn}
+                              aria-disabled={allLocked || isLocked}
+                              aria-label={`Picture ${n}: ${op}${
+                                isOn ? ", selected" : ", not selected"
+                              }${
+                                circleCorrect
+                                  ? ", correct and locked"
+                                  : circleWrong
+                                    ? ", incorrect, you can change it"
+                                    : showAnswered && isOn
+                                      ? ", correct answer"
+                                      : ""
+                              }`}
+                              style={{
+                                position: "relative",
+                                cursor:
+                                  allLocked || isLocked ? "default" : "pointer",
+                                touchAction: "manipulation",
+                                ...(opPlaying ? highlightStyle : {}),
+                              }}
+                              onClick={() => toggleCircle(i, op)}
+                              onFocus={(e) => {
+                                if (!PLAY_ON_FOCUS) return;
+                                if (!e.currentTarget.matches(":focus-visible"))
+                                  return;
+                                playAudio(WORD_AUDIO[op], `circle-${i}-${op}`);
+                              }}
+                            >
+                              <span aria-hidden="true">{op}</span>
+                              {opPlaying && <SpeakerIcon />}
+                            </button>
+
+                            {circleWrong && (
+                              <div
+                                className="CB-review4-p1-q2-error-badge"
+                                aria-hidden="true"
+                              >
                                 ✕
                               </div>
                             )}
-                        </div>
-                      ))}
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
 
-                  {/* writing input */}
+                  {/* ✍️ SENTENCE (للعرض فقط: الكلمة بتنكتب من الدايرة، والطالب ما بيكتب) */}
                   <div className="input-wrapper-CB-review4-p1-q2">
-                    {item.input}
-
-                    <Droppable droppableId={`slot-${i}`}>
-                      {(provided, snapshot) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.droppableProps}
-                          className={`write-input-CB-review2-p2-q3 ${
-                            snapshot.isDraggingOver ? "drag-over-cell" : ""
-                          }`}
+                    <div
+                      className="write-input-CB-review2-p2-q3"
+                      style={{ justifyContent: "flex-start" }}
+                    >
+                      {/* 🔊 "He is": كليك / Enter / Space بيشغّلوا صوته */}
+                      {item.firstAudio ? (
+                        <span
+                          className={focusRingClass}
+                          role="button"
+                          tabIndex={0}
+                          aria-label={`${item.first}. Press to listen.`}
+                          style={{
+                            position: "relative",
+                            marginRight: "10px",
+                            cursor: "pointer",
+                            ...(firstPlaying ? highlightStyle : {}),
+                          }}
+                          onClick={() => playAudio(item.firstAudio, firstId)}
+                          onKeyDown={(e) =>
+                            handleTextKeyDown(e, item.firstAudio, firstId)
+                          }
+                          onFocus={(e) =>
+                            handleTextFocus(e, item.firstAudio, firstId)
+                          }
                         >
-                          <span style={{ marginRight: "10px" }}>
-                            {item.first}
-                          </span>
-                          {answers[i] && (
-                            <Draggable
-                              draggableId={`filled-${answers[i]}`}
-                              index={0}
-                              isDragDisabled={true}
-                            >
-                              {(provided) => (
-                                <span
-                                  ref={provided.innerRef}
-                                  {...provided.draggableProps}
-                                  {...provided.dragHandleProps}
-                                >
-                                  {answers[i]}
-                                </span>
-                              )}
-                            </Draggable>
-                          )}
-                          {provided.placeholder}
-                        </div>
+                          <span aria-hidden="true">{item.first}</span>
+                          {firstPlaying && <SpeakerIcon />}
+                        </span>
+                      ) : (
+                        <span style={{ marginRight: "10px" }}>
+                          {item.first}
+                        </span>
                       )}
-                    </Droppable>
 
-                    {showResult &&
-                      answers[i].trim() !== "" &&
-                      answers[i].trim().toLowerCase() !==
-                        item.correctInput.toLowerCase() &&
-                      wrongInputs.includes(i) && (
-                        <div className="CB-review4-p1-q2-error-badge">✕</div>
-                      )}
+                      <span>{selected[i]}</span>
+                    </div>
                   </div>
                 </div>
-              ))}
-            </div>
+              );
+            })}
           </div>
         </div>
-        <div className="action-buttons-container">
-          <button onClick={resetAll} className="try-again-button">
-            Start Again ↻
-          </button>
-          {/* ⭐⭐⭐ NEW — زر Show Answer */}
-          <button
-            onClick={showAnswers}
-            className="show-answer-btn swal-continue"
-          >
-            Show Answer
-          </button>
-          <button onClick={checkAnswers} className="check-button2">
-            Check Answer ✓
-          </button>
-        </div>
       </div>
-    </DragDropContext>
+
+      {/* الأزرار */}
+      <div className="action-buttons-container">
+        <button type="button" onClick={reset} className="try-again-button">
+          Start Again ↻
+        </button>
+        <button
+          type="button"
+          onClick={showAnswers}
+          className="show-answer-btn swal-continue"
+        >
+          Show Answer
+        </button>
+        <button
+          type="button"
+          onClick={checkAnswers}
+          className="check-button2"
+          aria-disabled={allLocked}
+          style={allLocked ? { cursor: "not-allowed" } : undefined}
+        >
+          Check Answer ✓
+        </button>
+      </div>
+    </div>
   );
 };
 

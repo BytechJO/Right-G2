@@ -165,7 +165,7 @@
 }
 
 /* ===== أيقونة النتيجة: فوق يمين البوكس ===== */
-.CB-r1p2q2-badge {
+.CB-r1p2q2-badge.wrong {
   position: absolute;
   top: -9px;
   right: -9px;

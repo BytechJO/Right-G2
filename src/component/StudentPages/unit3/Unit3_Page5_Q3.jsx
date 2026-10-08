@@ -747,10 +747,10 @@ const Unit3_Page5_Q3 = () => {
                                   ref={provided.innerRef}
                                   {...provided.droppableProps}
                                   className={`CB-unit2-p6-q2-input ${
-                                    snapshot.isDraggingOver
-                                      ? "drag-over-cell"
+                                    locked && word
+                                      ? "CB-unit3-p5-q3-input-correct"
                                       : ""
-                                  }`}
+                                  } ${snapshot.isDraggingOver ? "drag-over-cell" : ""}`}
                                   onClick={(e) => handleBlankClick(key, e)}
                                   style={{
                                     position: "relative",

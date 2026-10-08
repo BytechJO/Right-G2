@@ -82,8 +82,7 @@ const Unit2_Page5_Q2 = () => {
   // 📢 رسالة لقارئ الشاشة (فيها السكور بعد Check)
   const [message, setMessage] = useState("");
 
-  const isQuestionLocked = (qId) =>
-    showAnswered || results[qId] === "correct";
+  const isQuestionLocked = (qId) => showAnswered || results[qId] === "correct";
 
   const allCorrect = questions.every((q) => results[q.id] === "correct");
 
@@ -300,12 +299,12 @@ const Unit2_Page5_Q2 = () => {
       </div>
 
       <div className="div-forall mb-10" style={{ gap: "0px" }}>
-      <ExerciseHeader
-            sectionLetter="B"
-            // questionNumber="1"
-            title="Look, read, and write ✓."
-            subTitle="Start with one picture or phrase, then match it to the partner that means the same thing."
-          />
+        <ExerciseHeader
+          sectionLetter="B"
+          // questionNumber="1"
+          title="Look, read, and write ✓."
+          subTitle="Start with one picture or phrase, then match it to the partner that means the same thing."
+        />
 
         <div className="CB-unit2-p5-q2-grid">
           {questions.map((q) => {
@@ -385,7 +384,11 @@ const Unit2_Page5_Q2 = () => {
                         }
                         onFocus={(e) => handleFocus(e, q.id, idx, item.audio)}
                       >
-                        <div className="CB-unit2-p5-q2-input-box">
+                        <div
+                          className={`CB-unit2-p5-q2-input-box ${
+                            isCorrect ? "CB-unit2-p5-q2-input-box-correct" : ""
+                          }`}
+                        >
                           {/* المربع للشكل فقط، الاختيار بيصير على الصف كامل */}
                           <input
                             type="text"

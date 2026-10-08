@@ -1,10 +1,8 @@
-import React, { useState } from "react";
 import page_1 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 34.png";
 import "./Review3_Page1.css";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 // import Unit4_Page6_Q2 from "./Unit4_Page6_Q2";
 const Review3_Page1 = ({ openPopup }) => {
-
   return (
     <div
       className="page1-img-wrapper"
@@ -20,7 +18,16 @@ const Review3_Page1 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open exercise 37"
           onClick={() => openPopup("exercise", { startIndex: 37 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 37 });
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -41,7 +48,16 @@ const Review3_Page1 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open exercise 38"
           onClick={() => openPopup("exercise", { startIndex: 38 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 38 });
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -62,7 +78,16 @@ const Review3_Page1 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
-          onClick={() =>openPopup("exercise", { startIndex: 39 })}
+              tabIndex={0}
+          role="button"
+          aria-label="Open exercise 39"
+          onClick={() => openPopup("exercise", { startIndex: 39 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 39 });
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -83,7 +108,16 @@ const Review3_Page1 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+              tabIndex={0}
+          role="button"
+          aria-label="Open exercise 40"
           onClick={() => openPopup("exercise", { startIndex: 40 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 40 });
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image

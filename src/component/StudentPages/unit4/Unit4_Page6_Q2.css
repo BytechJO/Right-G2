@@ -1,5 +1,171 @@
+/* ===== شبكة الصور (9 صور: 3 × 3) ===== */
 .row-content10-CB-unit4-p6-q2 {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 991px) {
+  .row-content10-CB-unit4-p6-q2 {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    width: auto;
+  }
+}
+
+.CB-u4p6q2-slot.is-correct {
+  border-bottom: 3px solid #2e9e4f;
+  border-bottom-color: #2e9e4f !important;
+}
+/* ===== الكلمة بالبنك ===== */
+/* 9 كلمات: gap أصغر عشان ما تطلع كلمات كثير بكل سطر */
+.CB-u4p6q2-bank {
+  display: flex;
+  gap: 24px 36px;
+  padding: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.CB-u4p6q2-chip {
+  position: relative;
+  appearance: none;
+  background: #fff;
+  border: 2px solid #2b4f8a;
+  border-radius: 10px;
+  padding: 10px 22px;
+  font: inherit;
+  font-size: 20px;
+  color: #000;
+  cursor: grab;
+  outline: none;
+  touch-action: none; /* ضروري للسحب باللمس */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  white-space: nowrap; /* "police officer" و "taxi driver" ما ينكسروا */
+  transition: background 0.15s, box-shadow 0.15s;
+}
+
+/* مختارة / فوكس بالتاب أو الكليك / عم يشتغل صوتها
+   (box-shadow بدل زيادة البوردر عشان ما يتحرك التصميم) */
+.CB-u4p6q2-chip:focus,
+.CB-u4p6q2-chip.is-playing,
+.CB-u4p6q2-chip.is-selected {
+  background: #dce6f5;
+  box-shadow: 0 0 0 3px #2b4f8a;
+}
+
+/* انحطت بخانة */
+.CB-u4p6q2-chip.is-used {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.CB-u4p6q2-chip.is-dragging {
+  opacity: 0.4;
+}
+
+/* الكلمة اللي بتنسحب مع المؤشر */
+.CB-u4p6q2-chip-overlay {
+  display: inline-block;
+  background: #dce6f5;
+  cursor: grabbing;
+  box-shadow: 0 0 0 3px #2b4f8a, 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+/* ===== السبيكر: مخفي، يظهر فوق اليمين ===== */
+.CB-u4p6q2-speaker {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #2e3192;
+  color: #fff;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.15s, transform 0.15s;
+  pointer-events: none;
+}
+
+.CB-u4p6q2-chip:focus .CB-u4p6q2-speaker,
+.CB-u4p6q2-chip.is-playing .CB-u4p6q2-speaker {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.CB-u4p6q2-speaker.playing {
+  animation: u4p6q2-pulse 0.8s ease-in-out infinite;
+}
+
+@keyframes u4p6q2-pulse {
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+/* ===== الخانة ===== */
+/* الخانة صارت <button>، فبنشيل ستايل الزر الافتراضي وبنخلي بس الخط التحتاني
+   (selector مركّب عشان يغلب .q-input-CB-review2-p1-q2 بغض النظر عن ترتيب التحميل) */
+.q-input-CB-review2-p1-q2.CB-u4p6q2-slot {
+  position: relative;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid #000;
+  border-radius: 0;
+  font: inherit;
+  font-size: 22px;
+  color: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* مكان الفوكس بالتاب: box-shadow + خلفية (بيضلوا ظاهرين حتى لو في reset عام لـ outline) */
+.q-input-CB-review2-p1-q2.CB-u4p6q2-slot:focus,
+.q-input-CB-review2-p1-q2.CB-u4p6q2-slot:focus-visible {
+  outline: 3px solid #2e3192 !important;
+  outline-offset: 3px;
+  background: #dce6f5;
+  border-bottom-color: #2e3192;
+  box-shadow: 0 0 0 3px rgba(46, 49, 146, 0.25);
+}
+
+/* فراغات متاحة وفي كلمة مختارة */
+.q-input-CB-review2-p1-q2.CB-u4p6q2-slot.is-target {
+  outline: 2px dashed #2e3192;
+  outline-offset: 3px;
+  background: #f2f6ff;
+}
+
+/* الفراغ اللي عليه الكلمة وقت السحب */
+.q-input-CB-review2-p1-q2.CB-u4p6q2-slot.drag-over-cell {
+  outline: 3px solid #2e3192;
+  outline-offset: 3px;
+  background: #dce6f5;
+  box-shadow: 0 0 0 3px rgba(46, 49, 146, 0.25);
+}
+
+.CB-u4p6q2-slot[aria-disabled="true"] {
+  cursor: default;
+}
+
+/* ===== لقارئ الشاشة فقط ===== */
+/* احذف هاد البلوك إذا .sr-only موجود عندك بملف مشترك (موجود بـ Review2_Page1_Q2.css) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }

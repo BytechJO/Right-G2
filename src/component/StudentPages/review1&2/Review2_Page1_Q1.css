@@ -19,6 +19,12 @@
     gap: 30px;
 }
 
+.CB-review2-p1-q1-option.is-correct {
+  border: 3px solid #2e9e4f;
+  border-color: #2e9e4f !important;
+  background-color: #f0fff4 !important;
+}
+
 .CB-review2-p1-q1-left {
     display: flex;
     align-items: center;

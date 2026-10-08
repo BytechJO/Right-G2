@@ -22,10 +22,13 @@ import { playGlobalAudio, stopGlobalAudio } from "../../audioManager";
 const PLAY_ON_FOCUS = true;
 
 const Page9_Q1 = () => {
+  // الـ alt وصف بصري بدون كلمتَي brother / sister (لأنهم موجودين بالجمل)،
+  // ومعه الجنس (boy / girl) لأنو الطالب بيحتاجه ليختار he أو she.
   const questions = [
     {
       id: 1,
       image: img1,
+      alt: "A boy with dark hair lying on his tummy on an orange rug in front of a blue sofa, using a laptop, with a yellow book beside him.",
       items1: [
         { text: "Who’s he?", correct: "✓", audio: sound5 },
         { text: "Who’s she?", correct: "x", audio: sound6 },
@@ -38,6 +41,7 @@ const Page9_Q1 = () => {
     {
       id: 2,
       image: img2,
+      alt: "A girl with her hair tied up sitting on a purple floor in front of a green sofa, holding a doll, with a colorful ball and a toy car beside her.",
       items1: [
         { text: "Who’s he?", correct: "x", audio: sound5 },
         { text: "Who’s she?", correct: "✓", audio: sound6 },
@@ -392,11 +396,11 @@ const Page9_Q1 = () => {
                   style={{ pointerEvents: "none" }}
                 />
 
+                {/* أيقونة ✓ ديكور: الحالة بتنقرأ من aria-label على الصف */}
                 {isSelected && (
                   <img
                     src={trueIcon}
-                    
-                   alt={q.id === 1 ? "Stella and her brother" : "Stella and her sister"}
+                    alt=""
                     aria-hidden="true"
                     className="CB-unit1-p9-q1-true"
                   />
@@ -460,7 +464,8 @@ const Page9_Q1 = () => {
         <div className="CB-unit1-p9-q1-grid">
           {questions.map((q) => (
             <div key={q.id} className="CB-unit1-p9-q1-box">
-              <img src={q.image} alt="" className="CB-unit1-p9-q1-img" />
+              {/* 🖼️ الصورة الرئيسية: هون الـ alt الحقيقي */}
+              <img src={q.image} alt={q.alt} className="CB-unit1-p9-q1-img" />
 
               <div className="flex flex-col gap-6">
                 {renderGroup(q, "part1", q.items1)}

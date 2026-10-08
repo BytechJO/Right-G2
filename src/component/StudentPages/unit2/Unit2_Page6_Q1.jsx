@@ -39,7 +39,7 @@ const soundByWord = Object.fromEntries(MATCHES.map((m) => [m.word, m.audio]));
 
 // ⚠️ الـ alt مؤقت: وصفي الغرض اللي بالصورة بدون ذكر اللون (لأنو اللون هو الجواب)
 const images = [
-   { image: "img1", src: img1, alt: "A green leaf" },
+  { image: "img1", src: img1, alt: "A green leaf" },
   { image: "img2", src: img2, alt: "A blue car" },
   { image: "img3", src: img3, alt: "A red apple" },
   { image: "img4", src: img4, alt: "A yellow banana" },
@@ -568,7 +568,7 @@ const Unit2_Page6_Q1 = () => {
                     <path
                       key={`${l.word}-${l.image}`}
                       d={curve(seg)}
-                      stroke="red"
+                      stroke={l.status === "correct" ? "#2e9e4f" : "red"}
                       strokeWidth="3"
                       fill="none"
                     />

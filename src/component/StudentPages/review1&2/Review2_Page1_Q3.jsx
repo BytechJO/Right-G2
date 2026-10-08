@@ -255,7 +255,7 @@ const handleWordKeyDown = (event, qIndex, optIndex, word) => {
                               ? "is-wrong"
                               : ""
                           }
-                          ${showResult && isCorrect ? "is-correct" : ""}
+                      ${showResult && isSelected && isCorrect ? "is-correct" : ""}
                           ${isActive ? "is-audio-active" : ""}
                         `}
                         tabIndex={ 0}

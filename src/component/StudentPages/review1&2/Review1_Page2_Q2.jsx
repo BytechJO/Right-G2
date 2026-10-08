@@ -439,7 +439,7 @@ const Review1_Page2_Q2 = () => {
                             className={`CB-r1p2q2-badge ${result}`}
                             aria-hidden="true"
                           >
-                            {result === "correct" ? "✓" : "✕"}
+                            {result === "correct" ? "" : "✕"}
                           </span>
                         )}
                       </div>

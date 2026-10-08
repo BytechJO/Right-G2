@@ -69,7 +69,6 @@ const ORDER = { left: 0, image: 1, right: 2 };
 const nodeKey = (n) => `${n.type}-${n.id}`;
 const sameNode = (a, b) => !!a && !!b && a.type === b.type && a.id === b.id;
 
-
 const letterName = (t) => t.replace(/^-/, "");
 const wordLabel = (t) =>
   t
@@ -146,7 +145,6 @@ const nextSource = (ls) =>
 const Unit2_Page5_Q1 = () => {
   const containerRef = useRef(null);
   const nodeRefs = useRef({});
- 
 
   const [lines, setLines] = useState([]);
   const [selection, setSelection] = useState(null); // المصدر المختار
@@ -155,7 +153,7 @@ const Unit2_Page5_Q1 = () => {
   const [finished, setFinished] = useState(false); // كل شي صح بعد Check
   const [answerShown, setAnswerShown] = useState(false);
   const [message, setMessage] = useState("");
- 
+
   const [, setTick] = useState(0);
 
   const locked = finished || answerShown;
@@ -423,85 +421,86 @@ const Unit2_Page5_Q1 = () => {
 
   /* ================= CHECK ================= */
 
- const checkAnswers = () => {
-  if (locked) return;
+  const checkAnswers = () => {
+    if (locked) return;
 
-  const connectionsDone =
-    leftParts.every((l) =>
-      lines.some((x) => x.kind === "left-image" && x.leftId === l.id),
-    ) &&
-    images.every((i) =>
-      lines.some((x) => x.kind === "image-right" && x.image === i.id),
+    const connectionsDone =
+      leftParts.every((l) =>
+        lines.some((x) => x.kind === "left-image" && x.leftId === l.id),
+      ) &&
+      images.every((i) =>
+        lines.some((x) => x.kind === "image-right" && x.image === i.id),
+      );
+
+    if (!connectionsDone) {
+      const msg = "Please connect all the pairs before checking.";
+      ValidationAlert.info("Pay attention!", msg);
+      setMessage(msg);
+      return;
+    }
+
+    // الصح القديم بيضل مقفول، والباقي بينقيّم
+    const checkedLines = lines.map((l) =>
+      l.status === "correct"
+        ? l
+        : { ...l, status: isLineCorrect(l) ? "correct" : "wrong" },
     );
 
-  if (!connectionsDone) {
-    const msg = "Please connect all the pairs before checking.";
-    ValidationAlert.info("Pay attention!", msg);
-    setMessage(msg);
-    return;
-  }
+    const score = correctGroups.filter((g) =>
+      groupDone(checkedLines, g),
+    ).length;
+    const total = correctGroups.length;
 
-  // الصح القديم بيضل مقفول، والباقي بينقيّم
-  const checkedLines = lines.map((l) =>
-    l.status === "correct"
-      ? l
-      : { ...l, status: isLineCorrect(l) ? "correct" : "wrong" },
-  );
+    setLines(checkedLines);
+    clearSelection();
 
-  const score = correctGroups.filter((g) => groupDone(checkedLines, g)).length;
-  const total = correctGroups.length;
+    if (score === total) setFinished(true);
 
-  setLines(checkedLines);
-  clearSelection();
+    const color = score === total ? "green" : score === 0 ? "red" : "orange";
 
-  if (score === total) setFinished(true);
+    setMessage(
+      score === total
+        ? `Score ${score} out of ${total}. All answers are correct.`
+        : `Score ${score} out of ${total}. Correct answers are locked. Fix the ones marked with a cross.`,
+    );
 
-  const color = score === total ? "green" : score === 0 ? "red" : "orange";
-
-  setMessage(
-    score === total
-      ? `Score ${score} out of ${total}. All answers are correct.`
-      : `Score ${score} out of ${total}. Correct answers are locked. Fix the ones marked with a cross.`,
-  );
-
-  ValidationAlert[
-    score === total ? "success" : score === 0 ? "error" : "warning"
-  ](
-    `<div style="font-size:20px;text-align:center;color:${color}">
+    ValidationAlert[
+      score === total ? "success" : score === 0 ? "error" : "warning"
+    ](
+      `<div style="font-size:20px;text-align:center;color:${color}">
       <b>Score: ${score} / ${total}</b>
     </div>`,
-  );
-};
-
-const showAnswer = () => {
-  const shown = [];
-
-  correctGroups.forEach((g) => {
-    const left = { type: "left", id: g.leftIds[0] };
-    const img = { type: "image", id: g.image };
-    const right = { type: "right", id: g.right };
-
-    shown.push(
-      { ...makeLine(left, img), status: "correct" },
-      { ...makeLine(img, right), status: "correct" },
     );
-  });
+  };
 
-  setLines(shown);
-  clearSelection();
-  setFinished(false);
-  setAnswerShown(true);
-  setMessage("Correct answers are shown.");
-};
+  const showAnswer = () => {
+    const shown = [];
 
-const reset = () => {
-  setLines([]);
-  clearSelection();
-  setFinished(false);
-  setAnswerShown(false);
-  setMessage("Exercise reset.");
-};
+    correctGroups.forEach((g) => {
+      const left = { type: "left", id: g.leftIds[0] };
+      const img = { type: "image", id: g.image };
+      const right = { type: "right", id: g.right };
 
+      shown.push(
+        { ...makeLine(left, img), status: "correct" },
+        { ...makeLine(img, right), status: "correct" },
+      );
+    });
+
+    setLines(shown);
+    clearSelection();
+    setFinished(false);
+    setAnswerShown(true);
+    setMessage("Correct answers are shown.");
+  };
+
+  const reset = () => {
+    setLines([]);
+    clearSelection();
+    setFinished(false);
+    setAnswerShown(false);
+    setMessage("Exercise reset.");
+  };
 
   /* ================= RENDER ================= */
 
@@ -739,7 +738,14 @@ const reset = () => {
               const { a, b } = lineEnds(l);
               const seg = segment(a, b);
               return (
-                seg && <line key={l.id} {...seg} stroke="red" strokeWidth="3" />
+                seg && (
+                  <line
+                    key={l.id}
+                    {...seg}
+                    stroke={l.status === "correct" ? "#2e9e4f" : "red"}
+                    strokeWidth="3"
+                  />
+                )
               );
             })}
 
@@ -753,8 +759,6 @@ const reset = () => {
             )}
           </svg>
         </div>
-
-        
       </div>
 
       {/* BUTTONS */}

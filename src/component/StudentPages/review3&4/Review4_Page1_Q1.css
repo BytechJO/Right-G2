@@ -132,3 +132,41 @@
     flex-direction: column-reverse;
   }
 }
+
+
+/* حقل الكتابة داخل كل خانة */
+.CB-r4p1q1-input {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  text-align: center;
+  font: inherit;
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: lowercase;
+  color: #000;
+  cursor: text;
+}
+.CB-r4p1q1-input:focus-visible {
+  outline: 3px solid #2e3192;
+  outline-offset: -3px;
+}
+.CB-r4p1q1-input[readonly] {
+  cursor: default;
+}
+.CB-r4p1q1-input.is-correct {
+  color: #2e7d32;
+}
+.CB-r4p1q1-input.is-wrong {
+  color: #c62828;
+}
+
+/* الشبكة تتمرّر أفقياً بدل ما تطلع برا الشاشة */
+.CB-review4-p1-q1-crossword-grid {
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 8px;
+}

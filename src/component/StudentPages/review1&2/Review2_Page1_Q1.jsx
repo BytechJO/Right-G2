@@ -360,11 +360,7 @@ const Review2_Page1_Q1 = () => {
                           className={`CB-review2-p1-q1-option ${
                             isSelected ? "is-selected" : ""
                           } ${playingId === optId ? "is-playing" : ""} ${
-                            state === "correct"
-                              ? "is-correct"
-                              : state === "wrong"
-                                ? "is-wrong"
-                                : ""
+                          state === "correct" && !answerShown ? "is-correct" : state === "wrong" ? "is-wrong" : ""
                           }`}
                           aria-pressed={isSelected}
                           aria-disabled={disabled || res === "correct"}

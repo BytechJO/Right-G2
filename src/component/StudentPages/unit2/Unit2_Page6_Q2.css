@@ -112,6 +112,11 @@
   border: 2px solid white;
 }
 
+
+.CB-unit2-p6-q2-input.CB-unit2-p6-q2-input-correct {
+  border-bottom: 3px solid #2e9e4f;
+  border-bottom-color: #2e9e4f !important;
+}
 /* ================= LOCKED ================= */
 
 .CB-unit2-p6-q2-word[aria-disabled="true"],

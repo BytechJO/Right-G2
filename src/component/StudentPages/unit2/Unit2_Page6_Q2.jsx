@@ -27,7 +27,7 @@ const PLAY_ON_FOCUS = true;
 const questions = [
   {
     img: img1,
-      alt: "A hand holding a colorful butterfly",
+    alt: "A hand holding a colorful butterfly",
     parts: [
       { type: "text", value: "This is a", audio: thisIsASound },
       { type: "input", answer: "butterfly" },
@@ -36,7 +36,7 @@ const questions = [
   },
   {
     img: img2,
-       alt: "A hand pointing at two white clouds",
+    alt: "A hand pointing at two white clouds",
     parts: [
       { type: "input", answer: "Those are clouds" },
       { type: "text", value: "." },
@@ -44,7 +44,7 @@ const questions = [
   },
   {
     img: img3,
-     alt: "A hand pointing at two ducks swimming",
+    alt: "A hand pointing at two ducks swimming",
     parts: [
       { type: "input", answer: "Those are ducks" },
       { type: "text", value: "." },
@@ -71,7 +71,9 @@ const wordById = Object.fromEntries(wordBank.map((w) => [w.id, w]));
 
 // مفاتيح الخانات: "صف-جزء" (مثال "0-1")
 const blankKeys = questions.flatMap((q, qi) =>
-  q.parts.map((p, pi) => (p.type === "input" ? `${qi}-${pi}` : null)).filter(Boolean),
+  q.parts
+    .map((p, pi) => (p.type === "input" ? `${qi}-${pi}` : null))
+    .filter(Boolean),
 );
 
 const answerOf = Object.fromEntries(
@@ -299,7 +301,9 @@ const Unit2_Page6_Q2 = () => {
 
     setSelectedWord(null);
 
-    setMessage(`${wordById[id].text} placed in blank ${blankKeys.indexOf(key) + 1}.`);
+    setMessage(
+      `${wordById[id].text} placed in blank ${blankKeys.indexOf(key) + 1}.`,
+    );
 
     // بالكيبورد: نروح للكلمة الجاية الغير مستخدمة
     if (viaKeyboard) {
@@ -416,7 +420,9 @@ const Unit2_Page6_Q2 = () => {
   const checkAnswers = () => {
     if (allLocked) return;
 
-    const hasEmpty = blankKeys.some((k) => !lockedBlanks[k] && answers[k] === "");
+    const hasEmpty = blankKeys.some(
+      (k) => !lockedBlanks[k] && answers[k] === "",
+    );
 
     if (hasEmpty) {
       ValidationAlert.info("Please complete all answers first.");
@@ -526,7 +532,7 @@ const Unit2_Page6_Q2 = () => {
         </div>
 
         <div className="div-forall" style={{ gap: "20px" }}>
-            <ExerciseHeader
+          <ExerciseHeader
             sectionLetter="E"
             // questionNumber="1"
             title="Look and write."
@@ -577,7 +583,9 @@ const Unit2_Page6_Q2 = () => {
                               touchAction: "none",
                               cursor:
                                 isUsed || allLocked ? "not-allowed" : "grab",
-                              ...(isSelected || isPlaying ? highlightStyle : {}),
+                              ...(isSelected || isPlaying
+                                ? highlightStyle
+                                : {}),
                               ...provided.draggableProps.style,
                             }}
                           >
@@ -683,8 +691,10 @@ const Unit2_Page6_Q2 = () => {
                               ref={provided.innerRef}
                               {...provided.droppableProps}
                               className={`CB-unit2-p6-q2-input ${
-                                snapshot.isDraggingOver ? "drag-over-cell" : ""
-                              }`}
+                                locked && word && !showAnswered
+                                  ? "CB-unit2-p6-q2-input-correct"
+                                  : ""
+                              } ${snapshot.isDraggingOver ? "drag-over-cell" : ""}`}
                               onClick={(e) => handleBlankClick(key, e)}
                               style={{
                                 position: "relative",

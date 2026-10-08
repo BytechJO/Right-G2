@@ -116,3 +116,9 @@
   align-items: center;
   pointer-events: none; /* عشان ما تأثر على السحب أو الكتابة */
 }
+
+
+.CB-unit2-p5-q2-input-box-correct .CB-unit2-p5-q2-input {
+ border-color: #2e9e4f !important;
+ background-color: #e8ffef;
+}

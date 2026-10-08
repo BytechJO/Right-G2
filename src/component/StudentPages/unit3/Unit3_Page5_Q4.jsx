@@ -17,7 +17,6 @@ import { playGlobalAudio, stopGlobalAudio } from "../../audioManager";
 // ⚠️ ما عرفت اسم ملف صوت الجملة (فولدر Page 26 - C): حطي الـ import هون وبدّلي null
 import sentenceAudio from "../../../assets/audio/ClassBook/U 3/Page 26 - C/we wear jackets in cold weather.mp3";
 
-
 // ========================================
 // GRID
 // ========================================
@@ -52,7 +51,7 @@ const sentence = {
 };
 
 // ========================================
-// HELPERS
+// HELPERS (خارج الكومبوننت)
 // ========================================
 
 const sameCoord = (a, b) => a[0] === b[0] && a[1] === b[1];
@@ -91,6 +90,20 @@ const getPath = (start, end) => {
 
 const lettersOf = (cells) => cells.map(([r, c]) => grid[r][c]);
 
+// الخلية اللي تحت نقطة معينة بالشاشة (ماوس / لمس / قلم)
+const getCellFromPoint = (clientX, clientY) => {
+  const element = document.elementFromPoint(clientX, clientY);
+
+  const cell = element?.closest?.("[data-wordsearch-cell='true']");
+
+  if (!cell) return null;
+
+  const r = Number(cell.dataset.row);
+  const c = Number(cell.dataset.col);
+
+  return Number.isNaN(r) || Number.isNaN(c) ? null : [r, c];
+};
+
 // ========================================
 // MAIN
 // ========================================
@@ -104,10 +117,8 @@ const Unit3_Page5_Q4 = () => {
   const [announcement, setAnnouncement] = useState("");
   const [activeCell, setActiveCell] = useState([0, 0]);
 
-  const pointerStartRef = useRef(null);
-  const pointerCurrentRef = useRef(null);
-  const pointerDraggingRef = useRef(false);
-  const pointerResumedRef = useRef(false);
+  // حالة الضغطة الحالية بالماوس / اللمس: { active, start, current }
+  const pointerRef = useRef({ active: false, start: null, current: null });
   const cellRefs = useRef({});
 
   const locked = showAnswer || checkCompleted;
@@ -157,10 +168,14 @@ const Unit3_Page5_Q4 = () => {
   };
 
   const resetPointer = () => {
-    pointerDraggingRef.current = false;
-    pointerStartRef.current = null;
-    pointerCurrentRef.current = null;
-    pointerResumedRef.current = false;
+    pointerRef.current = { active: false, start: null, current: null };
+  };
+
+  // نحدّث المعاينة بدون re-render إذا ما تغيّرت
+  const updatePreview = (path, fallback) => {
+    const next = path.length > 0 ? path : [fallback];
+
+    setPreviewCells((prev) => (sameCoords(prev, next) ? prev : next));
   };
 
   // ========================================
@@ -242,6 +257,7 @@ const Unit3_Page5_Q4 = () => {
 
   // ========================================
   // CLICK / ENTER / SPACE
+  // (للـ keyboard و screen readers)
   // ========================================
 
   const handleCellClick = (r, c, viaKeyboard = false) => {
@@ -364,122 +380,116 @@ const Unit3_Page5_Q4 = () => {
   };
 
   // ========================================
-  // POINTER DRAG (Mouse + Touch + Pen)
+  // POINTER: Mouse + Touch + Pen
+  //
+  // - سحب من حرف لحرف مختلف: بيكمل الكلمة مباشرة عند الإفلات
+  // - ضغطة وحدة: أول حرف، أو آخر حرف إذا في أول حرف مختار
+  // - القرار بيصير عند الإفلات، فأي حرف معلّق ما بيخطف السحب الجديد
   // ========================================
 
-  const getCellFromPoint = (clientX, clientY) => {
-    const element = document.elementFromPoint(clientX, clientY);
-    if (!element) return null;
-
-    const cell = element.closest?.("[data-wordsearch-cell='true']");
-    if (!cell) return null;
-
-    const r = Number(cell.dataset.row);
-    const c = Number(cell.dataset.col);
-
-    return Number.isNaN(r) || Number.isNaN(c) ? null : [r, c];
-  };
-
-  const handlePointerDown = (e, r, c) => {
+  const handleGridPointerDown = (e) => {
     if (locked) return;
 
-    // إذا في اختيار شغّال (ضغطة أولى بدون سحب) نكمل منه
-    const resumed = Boolean(startCell);
+    // الزر الأيسر بس بالماوس
+    if (e.pointerType === "mouse" && e.button !== 0) return;
 
-    if (!resumed && isFoundCell(r, c)) return;
+    // إصبع تاني أثناء سحب شغّال: نتجاهله
+    if (pointerRef.current.active) return;
 
-    e.preventDefault();
+    const cell = getCellFromPoint(e.clientX, e.clientY);
 
-    const start = resumed ? startCell : [r, c];
+    if (!cell) return;
 
-    pointerDraggingRef.current = true;
-    pointerResumedRef.current = resumed;
-    pointerStartRef.current = start;
-    pointerCurrentRef.current = [r, c];
-
-    setStartCell(start);
-    setActiveCell([r, c]);
-
-    const path = getPath(start, [r, c]);
-    setPreviewCells(path.length > 0 ? path : [start]);
-  };
-
-  const handlePointerMove = (e) => {
-    if (!pointerDraggingRef.current) return;
-
-    const start = pointerStartRef.current;
-    if (!start) return;
-
-    const target = getCellFromPoint(e.clientX, e.clientY);
-    if (!target) return;
-
-    pointerCurrentRef.current = target;
-
-    const path = getPath(start, target);
-    if (path.length > 0) setPreviewCells(path);
-  };
-
-  const handlePointerEnter = (r, c) => {
-    if (!pointerDraggingRef.current) return;
-
-    const start = pointerStartRef.current;
-    if (!start) return;
-
-    pointerCurrentRef.current = [r, c];
-
-    const path = getPath(start, [r, c]);
-    if (path.length > 0) setPreviewCells(path);
-  };
-
-  const handlePointerUp = (e) => {
-    if (!pointerDraggingRef.current) return;
+    // كلمة لاقيناها: ما بنبدأ منها اختيار جديد
+    if (isFoundCell(cell[0], cell[1])) return;
 
     e.preventDefault();
 
-    const start = pointerStartRef.current;
-    if (!start) return;
+    // الشبكة بتمسك المؤشر: الإفلات برا الشبكة بيوصل لنفس الـ handler
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId);
+    } catch {
+      /* ما في مشكلة إذا المتصفح ما دعمها */
+    }
 
-    const end =
-      getCellFromPoint(e.clientX, e.clientY) ||
-      pointerCurrentRef.current ||
-      start;
+    pointerRef.current = { active: true, start: cell, current: cell };
 
-    const resumed = pointerResumedRef.current;
+    setActiveCell(cell);
 
-    resetPointer();
+    // إذا في أول حرف معلّق منخلّي معاينته لحد ما يتحرك المؤشر
+    if (!startCell) {
+      setPreviewCells([cell]);
+    }
+  };
 
-    // ضغطة وحدة على نفس الحرف: أول مرة بداية، ثاني مرة إلغاء
-    if (sameCoord(start, end)) {
-      if (resumed) {
-        clearSelection();
-        setAnnouncement("Selection cancelled.");
-      } else {
-        setStartCell(start);
-        setPreviewCells([start]);
-        setAnnouncement(
-          `Selection started at letter ${grid[start[0]][start[1]]}. Select the last letter.`,
-        );
-      }
+  const handleGridPointerMove = (e) => {
+    if (locked) return;
+
+    const cell = getCellFromPoint(e.clientX, e.clientY);
+
+    if (!cell) return;
+
+    const pointer = pointerRef.current;
+
+    // أثناء السحب: معاينة المسار من نقطة الضغط
+    if (pointer.active) {
+      pointer.current = cell;
+
+      updatePreview(getPath(pointer.start, cell), pointer.start);
+
       return;
     }
 
-    completeSelection(end[0], end[1], start);
+    // ماوس بدون ضغط وفي أول حرف مختار: معاينة المسار لحد الحرف تحت المؤشر
+    if (startCell && e.pointerType === "mouse") {
+      updatePreview(getPath(startCell, cell), startCell);
+    }
   };
 
-  const cancelDrag = () => {
+  const handleGridPointerUp = (e) => {
+    const pointer = pointerRef.current;
+
+    if (!pointer.active) return;
+
+    e.preventDefault();
+
+    const start = pointer.start;
+
+    const end =
+      getCellFromPoint(e.clientX, e.clientY) || pointer.current || start;
+
+    resetPointer();
+
+    try {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    } catch {
+      /* ما في مشكلة */
+    }
+
+    // ===== سحب لحرف مختلف: بيكمل الكلمة مباشرة =====
+    if (!sameCoord(start, end)) {
+      completeSelection(end[0], end[1], start);
+
+      return;
+    }
+
+    // ===== ضغطة وحدة =====
+
+    // في أول حرف مختار من قبل: هاي آخر حرف (أو إلغاء إذا نفس الحرف)
+    if (startCell) {
+      completeSelection(start[0], start[1], startCell);
+
+      return;
+    }
+
+    // أول ضغطة: نبدأ الاختيار وننتظر آخر حرف
+    startSelection(start[0], start[1]);
+  };
+
+  const handleGridPointerCancel = () => {
     resetPointer();
     clearSelection();
   };
-
-  // رفع الماوس/الإصبع خارج الشبكة
-  const latestPointerUp = useRef(handlePointerUp);
-  latestPointerUp.current = handlePointerUp;
-
-  useEffect(() => {
-    const onWindowPointerUp = (e) => latestPointerUp.current(e);
-    window.addEventListener("pointerup", onWindowPointerUp);
-    return () => window.removeEventListener("pointerup", onWindowPointerUp);
-  }, []);
 
   // ========================================
   // CHECK
@@ -642,6 +652,11 @@ const Unit3_Page5_Q4 = () => {
                   touchAction: "none",
                   WebkitOverflowScrolling: "touch",
                 }}
+                onPointerDown={handleGridPointerDown}
+                onPointerMove={handleGridPointerMove}
+                onPointerUp={handleGridPointerUp}
+                onPointerCancel={handleGridPointerCancel}
+                onDragStart={(e) => e.preventDefault()}
               >
                 {grid.map((row, rIdx) => (
                   <div
@@ -707,20 +722,22 @@ const Unit3_Page5_Q4 = () => {
                           }}
                           onClick={(e) => {
                             // detail === 0 يعني click جاي من keyboard / screen reader
+                            // (الماوس واللمس بيتعاملوا معهم الـ pointer handlers فوق)
                             if (e.detail === 0)
                               handleCellClick(rIdx, cIdx, true);
                           }}
                           onKeyDown={(e) => handleCellKeyDown(e, rIdx, cIdx)}
-                          onPointerDown={(e) =>
-                            handlePointerDown(e, rIdx, cIdx)
-                          }
-                          onPointerMove={handlePointerMove}
-                          onPointerEnter={() => handlePointerEnter(rIdx, cIdx)}
-                          onPointerUp={handlePointerUp}
-                          onPointerCancel={cancelDrag}
-                          onDragStart={(e) => e.preventDefault()}
                         >
                           {cell}
+
+                          {/* منطقة لمس أكبر بدون ما تتغير الأبعاد المرئية */}
+                          <span
+                            aria-hidden="true"
+                            style={{
+                              position: "absolute",
+                              inset: "-4px -1px",
+                            }}
+                          />
                         </div>
                       );
                     })}

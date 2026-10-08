@@ -4,7 +4,6 @@ import "./Review1_Page1.css";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 // import Unit4_Page6_Q2 from "./Unit4_Page6_Q2";
 const Review1_Page1 = ({ openPopup }) => {
-
   return (
     <div
       className="page1-img-wrapper"
@@ -20,7 +19,7 @@ const Review1_Page1 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
-             tabIndex={0}
+          tabIndex={0}
           role="button"
           aria-label="Open exercise 11"
           onClick={() => openPopup("exercise", { startIndex: 11 })}
@@ -50,7 +49,7 @@ const Review1_Page1 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
-             tabIndex={0}
+          tabIndex={0}
           role="button"
           aria-label="Open exercise 12"
           onClick={() => openPopup("exercise", { startIndex: 12 })}
@@ -72,7 +71,6 @@ const Review1_Page1 = ({ openPopup }) => {
           />
         </svg>
       </div>
-    
     </div>
   );
 };

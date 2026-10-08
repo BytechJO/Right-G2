@@ -6,6 +6,7 @@ import img2 from "../../../assets/imgs/Right 2 Unit 1 Stellas Family/Page 8/Page
 import Button from "../../WorkBookPages/Button";
 import ExerciseHeader from "../../ExerciseHeader";
 import { FaVolumeUp } from "react-icons/fa";
+
 // ========================================
 // AUDIO
 // ========================================
@@ -18,62 +19,8 @@ import sentenceAudio from "../../../assets/audio/ClassBook/U 1/Page 8 - C/they l
 // ========================================
 
 const grid = [
-  [
-    "d",
-    "t",
-    "h",
-    "e",
-    "y",
-    "t",
-    "a",
-    "d",
-    "g",
-    "b",
-    "n",
-    "m",
-    "v",
-    "g",
-    "l",
-    "i",
-    "k",
-    "e",
-    "x",
-    "n",
-    "s",
-    "r",
-    "o",
-    "l",
-    "t",
-    "o",
-  ],
-  [
-    "h",
-    "f",
-    "e",
-    "a",
-    "t",
-    "b",
-    "x",
-    "a",
-    "z",
-    "b",
-    "k",
-    "g",
-    "r",
-    "a",
-    "s",
-    "s",
-    "h",
-    "a",
-    "f",
-    "g",
-    "h",
-    "r",
-    "t",
-    "f",
-    "b",
-    "i",
-  ],
+  ["d", "t", "h", "e", "y", "t", "a", "d", "g", "b", "n", "m", "v", "g", "l", "i", "k", "e", "x", "n", "s", "r", "o", "l", "t", "o"],
+  ["h", "f", "e", "a", "t", "b", "x", "a", "z", "b", "k", "g", "r", "a", "s", "s", "h", "a", "f", "g", "h", "r", "t", "f", "b", "i"],
   ["p", "m", "o", "l", "k", "i"],
 ];
 
@@ -92,7 +39,6 @@ const words = [
       [0, 4],
     ],
   },
-
   {
     text: "like",
     coords: [
@@ -102,7 +48,6 @@ const words = [
       [0, 17],
     ],
   },
-
   {
     text: "to",
     coords: [
@@ -110,7 +55,6 @@ const words = [
       [0, 25],
     ],
   },
-
   {
     text: "eat",
     coords: [
@@ -119,7 +63,6 @@ const words = [
       [1, 4],
     ],
   },
-
   {
     text: "grass",
     coords: [
@@ -144,7 +87,7 @@ const sentence = {
 };
 
 // ========================================
-// HELPERS
+// HELPERS (خارج الكومبوننت)
 // ========================================
 
 const sameCoord = (a, b) => a[0] === b[0] && a[1] === b[1];
@@ -193,11 +136,26 @@ const getPath = (start, end) => {
   return allExist ? path : [];
 };
 
+// الخلية اللي تحت نقطة معينة بالشاشة (ماوس / لمس / قلم)
+const getCellFromPoint = (clientX, clientY) => {
+  const element = document.elementFromPoint(clientX, clientY);
+
+  const cell = element?.closest?.("[data-wordsearch-cell='true']");
+
+  if (!cell) return null;
+
+  const r = Number(cell.dataset.row);
+  const c = Number(cell.dataset.col);
+
+  return Number.isNaN(r) || Number.isNaN(c) ? null : [r, c];
+};
+
 // ========================================
 // MAIN
 // ========================================
 
 export default function Unit1_Page5_Q4() {
+  // أول حرف مختار (بانتظار الحرف الأخير)
   const [startCell, setStartCell] = useState(null);
 
   const [previewCells, setPreviewCells] = useState([]);
@@ -215,18 +173,11 @@ export default function Unit1_Page5_Q4() {
 
   const [announcement, setAnnouncement] = useState("");
 
-  /*
-    رسالة ظاهرة للمستخدم تحت الشبكة
-    (Great! / Try again / Removed)
-  */
-  const [ setFeedback] = useState("");
-
   const [activeCell, setActiveCell] = useState([0, 0]);
 
-  const pointerStartRef = useRef(null);
-  const pointerCurrentRef = useRef(null);
-  const pointerDraggingRef = useRef(false);
-  const pointerResumedRef = useRef(false);
+  // حالة الضغطة الحالية بالماوس / اللمس: { active, start, current }
+  const pointerRef = useRef({ active: false, start: null, current: null });
+
   const audioRef = useRef(null);
 
   const [playingSentence, setPlayingSentence] = useState(false);
@@ -271,6 +222,17 @@ export default function Unit1_Page5_Q4() {
     };
   };
 
+  // وقف الصوت إذا سكرت الصفحة
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+
+        audioRef.current.currentTime = 0;
+      }
+    };
+  }, []);
+
   // ========================================
   // CELL STATE
   // ========================================
@@ -293,10 +255,14 @@ export default function Unit1_Page5_Q4() {
   };
 
   const resetPointer = () => {
-    pointerDraggingRef.current = false;
-    pointerStartRef.current = null;
-    pointerCurrentRef.current = null;
-    pointerResumedRef.current = false;
+    pointerRef.current = { active: false, start: null, current: null };
+  };
+
+  // نحدّث المعاينة بدون re-render إذا ما تغيّرت
+  const updatePreview = (path, fallback) => {
+    const next = path.length > 0 ? path : [fallback];
+
+    setPreviewCells((prev) => (sameCoords(prev, next) ? prev : next));
   };
 
   // ========================================
@@ -316,8 +282,6 @@ export default function Unit1_Page5_Q4() {
     setStartCell([r, c]);
 
     setPreviewCells([[r, c]]);
-
-    setFeedback("");
 
     setAnnouncement(
       `Selection started at letter ${grid[r][c]}. Move to the last letter and press Enter.`,
@@ -353,8 +317,6 @@ export default function Unit1_Page5_Q4() {
 
     if (path.length === 0) {
       setAnnouncement("That selection is not in a straight line.");
-
-      setFeedback("Not quite. Try again!");
 
       clearSelection();
 
@@ -392,17 +354,14 @@ export default function Unit1_Page5_Q4() {
           : `${matchedWord.text} found.`,
       );
 
-      setFeedback(`Great! You found "${matchedWord.text}".`);
-
       if (sentenceCompleted) {
         playSentenceAudio();
       }
     } else {
       setAnnouncement("That is not one of the target words.");
-
-      setFeedback("Not quite. Try again!");
     }
 
+    // ✅ دايماً بنفضّي الاختيار بعد كل محاولة
     clearSelection();
   };
 
@@ -454,8 +413,6 @@ export default function Unit1_Page5_Q4() {
     stopAudio();
 
     setFoundWords((prev) => prev.slice(0, -1));
-
-    setFeedback(`Removed "${lastWord}".`);
 
     setAnnouncement(`${lastWord} removed.`);
   };
@@ -569,189 +526,117 @@ export default function Unit1_Page5_Q4() {
   };
 
   // ========================================
-  // POINTER DRAG
-  // Mouse + iPad + Apple Pencil
+  // POINTER: Mouse + Touch + Pen
+  //
+  // - سحب من حرف لحرف مختلف: بيكمل الكلمة مباشرة عند الإفلات
+  // - ضغطة وحدة: أول حرف، أو آخر حرف إذا في أول حرف مختار
+  // - القرار بيصير عند الإفلات، فأي حرف معلّق ما بيخطف السحب الجديد
   // ========================================
 
-  const getCellFromPoint = (clientX, clientY) => {
-    const element = document.elementFromPoint(clientX, clientY);
+  const handleGridPointerDown = (e) => {
+    if (checkCompleted || showAnswer) return;
 
-    if (!element) return null;
+    // الزر الأيسر بس بالماوس
+    if (e.pointerType === "mouse" && e.button !== 0) return;
 
-    const cell = element.closest?.("[data-wordsearch-cell='true']");
+    // إصبع تاني أثناء سحب شغّال: نتجاهله
+    if (pointerRef.current.active) return;
 
-    if (!cell) return null;
+    const cell = getCellFromPoint(e.clientX, e.clientY);
 
-    const r = Number(cell.dataset.row);
-    const c = Number(cell.dataset.col);
+    if (!cell) return;
 
-    if (Number.isNaN(r) || Number.isNaN(c)) {
-      return null;
-    }
-
-    return [r, c];
-  };
-
-  const handlePointerDown = (e, r, c) => {
-    if (checkCompleted || showAnswer) {
-      return;
-    }
-
-    /*
-      إذا في اختيار شغّال (ضغطة أولى بدون سحب)
-      نكمل منه لهاي الخلية.
-    */
-
-    const resumed = Boolean(startCell);
-
-    if (!resumed && isFoundCell(r, c)) {
-      return;
-    }
+    // كلمة لاقيناها: ما بنبدأ منها اختيار جديد
+    if (isFoundCell(cell[0], cell[1])) return;
 
     e.preventDefault();
 
-    const start = resumed ? startCell : [r, c];
-
-    pointerDraggingRef.current = true;
-
-    pointerResumedRef.current = resumed;
-
-    pointerStartRef.current = start;
-
-    pointerCurrentRef.current = [r, c];
-
-    setStartCell(start);
-
-    if (!resumed) {
-      setFeedback("");
+    // الشبكة بتمسك المؤشر: الإفلات برا الشبكة بيوصل لنفس الـ handler
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId);
+    } catch {
+      /* ما في مشكلة إذا المتصفح ما دعمها */
     }
 
-    const path = getPath(start, [r, c]);
+    pointerRef.current = { active: true, start: cell, current: cell };
 
-    setPreviewCells(path.length > 0 ? path : [start]);
-  };
+    setActiveCell(cell);
 
-  const handlePointerMove = (e) => {
-    if (!pointerDraggingRef.current) return;
-
-    const start = pointerStartRef.current;
-
-    if (!start) return;
-
-    const target = getCellFromPoint(e.clientX, e.clientY);
-
-    if (!target) return;
-
-    const [r, c] = target;
-
-    pointerCurrentRef.current = [r, c];
-
-    const path = getPath(start, [r, c]);
-
-    if (path.length > 0) {
-      setPreviewCells(path);
+    // إذا في أول حرف معلّق منخلّي معاينته لحد ما يتحرك المؤشر
+    if (!startCell) {
+      setPreviewCells([cell]);
     }
   };
 
-  const handlePointerEnter = (r, c) => {
-    if (!pointerDraggingRef.current) return;
+  const handleGridPointerMove = (e) => {
+    if (checkCompleted || showAnswer) return;
 
-    const start = pointerStartRef.current;
+    const cell = getCellFromPoint(e.clientX, e.clientY);
 
-    if (!start) return;
+    if (!cell) return;
 
-    pointerCurrentRef.current = [r, c];
+    const pointer = pointerRef.current;
 
-    const path = getPath(start, [r, c]);
+    // أثناء السحب: معاينة المسار من نقطة الضغط
+    if (pointer.active) {
+      pointer.current = cell;
 
-    if (path.length > 0) {
-      setPreviewCells(path);
+      updatePreview(getPath(pointer.start, cell), pointer.start);
+
+      return;
+    }
+
+    // ماوس بدون ضغط وفي أول حرف مختار: معاينة المسار لحد الحرف تحت المؤشر
+    if (startCell && e.pointerType === "mouse") {
+      updatePreview(getPath(startCell, cell), startCell);
     }
   };
 
-  const handlePointerUp = (e) => {
-    if (!pointerDraggingRef.current) return;
+  const handleGridPointerUp = (e) => {
+    const pointer = pointerRef.current;
+
+    if (!pointer.active) return;
 
     e.preventDefault();
 
-    const start = pointerStartRef.current;
-
-    if (!start) return;
+    const start = pointer.start;
 
     const end =
-      getCellFromPoint(e.clientX, e.clientY) ||
-      pointerCurrentRef.current ||
-      start;
-
-    const resumed = pointerResumedRef.current;
+      getCellFromPoint(e.clientX, e.clientY) || pointer.current || start;
 
     resetPointer();
 
-    /*
-      ضغطة وحدة على نفس الحرف:
-      - أول مرة: نبدأ الاختيار وننتظر آخر حرف
-      - ثاني مرة: إلغاء
-    */
+    try {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    } catch {
+      /* ما في مشكلة */
+    }
 
-    if (sameCoord(start, end)) {
-      if (resumed) {
-        clearSelection();
-
-        setAnnouncement("Selection cancelled.");
-      } else {
-        setStartCell(start);
-
-        setPreviewCells([start]);
-
-        setAnnouncement(
-          `Selection started at letter ${grid[start[0]][start[1]]}. Select the last letter.`,
-        );
-      }
+    // ===== سحب لحرف مختلف: بيكمل الكلمة مباشرة =====
+    if (!sameCoord(start, end)) {
+      completeSelection(end[0], end[1], start);
 
       return;
     }
 
-    completeSelection(end[0], end[1], start);
+    // ===== ضغطة وحدة =====
+
+    // في أول حرف مختار من قبل: هاي آخر حرف (أو إلغاء إذا نفس الحرف)
+    if (startCell) {
+      completeSelection(start[0], start[1], startCell);
+
+      return;
+    }
+
+    // أول ضغطة: نبدأ الاختيار وننتظر آخر حرف
+    startSelection(start[0], start[1]);
   };
 
-  const cancelDrag = () => {
+  const handleGridPointerCancel = () => {
     resetPointer();
 
     clearSelection();
   };
-
-  /*
-    إذا المستخدم رفع الماوس/الإصبع خارج الشبكة،
-    نكمل السحب من آخر خلية وصلها.
-  */
-
-  const latestPointerUp = useRef(handlePointerUp);
-
-  latestPointerUp.current = handlePointerUp;
-
-  useEffect(() => {
-    const onWindowPointerUp = (e) => latestPointerUp.current(e);
-
-    window.addEventListener("pointerup", onWindowPointerUp);
-
-    return () => {
-      window.removeEventListener("pointerup", onWindowPointerUp);
-    };
-  }, []);
-
-  // ========================================
-  // CLEANUP
-  // ========================================
-
-  useEffect(() => {
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-
-        audioRef.current.currentTime = 0;
-      }
-    };
-  }, []);
 
   // ========================================
   // CHECK
@@ -829,8 +714,6 @@ export default function Unit1_Page5_Q4() {
 
     resetPointer();
 
-    setFeedback("");
-
     setShowAnswer(true);
 
     setCheckCompleted(true);
@@ -850,8 +733,6 @@ export default function Unit1_Page5_Q4() {
     clearSelection();
 
     resetPointer();
-
-    setFeedback("");
 
     setShowAnswer(false);
 
@@ -929,7 +810,7 @@ export default function Unit1_Page5_Q4() {
         <ExerciseHeader
           sectionLetter="C"
           title="What do lambs like to eat?"
-          subTitle="Find the hidden words in order, then read the completed answer to “What do lambs like to eat?"
+          subTitle="Find the hidden words in order, then read the completed answer to “What do lambs like to eat?”"
         />
 
         <div
@@ -954,6 +835,11 @@ export default function Unit1_Page5_Q4() {
                 touchAction: "none",
                 WebkitOverflowScrolling: "touch",
               }}
+              onPointerDown={handleGridPointerDown}
+              onPointerMove={handleGridPointerMove}
+              onPointerUp={handleGridPointerUp}
+              onPointerCancel={handleGridPointerCancel}
+              onDragStart={(e) => e.preventDefault()}
             >
               {grid.map((row, rIdx) => (
                 <div
@@ -1020,17 +906,12 @@ export default function Unit1_Page5_Q4() {
                         }}
                         onClick={(e) => {
                           // detail === 0 يعني click جاي من keyboard / screen reader
+                          // (الماوس واللمس بيتعاملوا معهم الـ pointer handlers فوق)
                           if (e.detail === 0) {
                             handleCellClick(rIdx, cIdx);
                           }
                         }}
                         onKeyDown={(e) => handleCellKeyDown(e, rIdx, cIdx)}
-                        onPointerDown={(e) => handlePointerDown(e, rIdx, cIdx)}
-                        onPointerMove={handlePointerMove}
-                        onPointerEnter={() => handlePointerEnter(rIdx, cIdx)}
-                        onPointerUp={handlePointerUp}
-                        onPointerCancel={cancelDrag}
-                        onDragStart={(e) => e.preventDefault()}
                       >
                         {cell}
 
@@ -1048,23 +929,6 @@ export default function Unit1_Page5_Q4() {
                 </div>
               ))}
             </div>
-
-            {/* الترتيب الحالي للحروف المختارة / الفيدباك */}
-            {/* <div
-              aria-hidden="true"
-              className="text-center mb-2 font-semibold text-[#2c5287]"
-              style={{ minHeight: "24px" }}
-            >
-              {previewCells.length > 0
-                ? previewCells.map(([r, c]) => grid[r][c]).join(" → ")
-                : feedback}
-
-              {playingSentence && (
-                <span aria-hidden="true" style={{ marginLeft: "8px" }}>
-                  <FaVolumeUp />
-                </span>
-              )}
-            </div> */}
 
             {/* ==============================
                 ANSWER LINE

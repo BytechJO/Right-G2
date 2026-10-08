@@ -114,15 +114,15 @@ const pauseOtherAudio = () => {
 
 export default function Unit3_Page5_Q2() {
   const [answers, setAnswers] = useState({});
-  const [, setScore] = useState(null);
+  const [score, setScore] = useState(null);
   const [locked, setLocked] = useState({}); // 🔒 { qId: [قيم الصور الصح المقفولة] }
   const [wrongPicks, setWrongPicks] = useState({}); // ✕ { qId: [قيم الصور الغلط] }
-  const [ setRowResults] = useState({}); // { qId: "correct" | "wrong" }
+  const [rowResults, setRowResults] = useState({}); // { qId: "correct" | "wrong" }
   const [finished, setFinished] = useState(false); // كل شي صح بعد Check
   const [showAnswer, setShowAnswer] = useState(false);
   const [message, setMessage] = useState(""); // رسائل لقارئ الشاشة
   const [activeId, setActiveId] = useState(null); // آخر سؤال تعاملت معه
-  const [ setPlayingId] = useState(null); // أي سؤال صوته شغّال
+  const [playingId, setPlayingId] = useState(null); // أي سؤال صوته شغّال
 
   const audioRef = useRef(null);
   const timerRef = useRef(null);

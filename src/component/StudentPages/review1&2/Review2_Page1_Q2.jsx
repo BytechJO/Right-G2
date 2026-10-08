@@ -141,6 +141,7 @@ const Slot = ({
   showMark,
   ariaLabel,
   onActivate,
+  answerShown,
 }) => {
   const { setNodeRef, isOver } = useDroppable({
     id: `slot-${index}`,
@@ -155,7 +156,11 @@ const Slot = ({
       className={`q-input-CB-review2-p1-q2 CB-r2p1q2-slot ${
         word ? "has-word" : ""
       } ${
-        state === "correct" ? "is-correct" : state === "wrong" ? "is-wrong" : ""
+        state === "correct" && !answerShown
+          ? "is-correct"
+          : state === "wrong"
+            ? "is-wrong"
+            : ""
       } ${isTarget ? "is-target" : ""} ${isOver ? "drag-over-cell" : ""}`}
       aria-disabled={locked}
       aria-label={ariaLabel}
@@ -567,12 +572,11 @@ const Review2_Page1_Q2 = () => {
 
         <div className="div-forall" onKeyDown={onAreaKeyDown}>
           <ExerciseHeader
-          sectionLetter="B"
-          title="Look and write."
-          subTitle="Match each clue first, then drag the item to its correct target and check the snap position."
-          isReview="true"
-        />
-
+            sectionLetter="B"
+            title="Look and write."
+            subTitle="Match each clue first, then drag the item to its correct target and check the snap position."
+            isReview="true"
+          />
 
           {/* 🔤 Word Bank */}
           <div
@@ -625,7 +629,10 @@ const Review2_Page1_Q2 = () => {
                     state={res}
                     locked={slotLocked}
                     isTarget={Boolean(selectedWord) && !slotLocked}
-                    showMark={showBadges && Boolean(answers[i]) && res === "wrong"}
+                    answerShown={answerShown}
+                    showMark={
+                      showBadges && Boolean(answers[i]) && res === "wrong"
+                    }
                     ariaLabel={`Box for picture ${item.id}, ${
                       answers[i] ? `contains ${answers[i]}` : "empty"
                     }${
@@ -662,7 +669,11 @@ const Review2_Page1_Q2 = () => {
             Show Answer
           </button>
 
-          <button type="button" onClick={checkAnswers} className="check-button2">
+          <button
+            type="button"
+            onClick={checkAnswers}
+            className="check-button2"
+          >
             Check Answer ✓
           </button>
         </div>
