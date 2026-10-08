@@ -5,7 +5,7 @@
   grid-template-columns: 1fr 1fr;
   column-gap: 80px;
   row-gap: 30px;
-  margin-top: 20px;
+  /* margin-top: 20px; */
 }
 
 /* ================= QUESTION ================= */
@@ -35,8 +35,8 @@
 /* ================= IMAGE ================= */
 
 .CB-review1-p1-q1-image {
-  width: 150px;
-  height: 150px;
+  width: 130px;
+  height: 130px;
   object-fit: contain;
   /* border: 2px solid #e53935; */
   border-radius: 12px;
@@ -109,4 +109,20 @@
     grid-template-columns: 1fr;
     row-gap: 24px;
   }
+}
+/* فوكس واضح بالكيبورد */
+.CB-review1-p1-q1-option:focus {
+  outline: none;
+}
+
+.CB-review1-p1-q1-option:focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 4px;
+}
+
+/* البطاقة كاملة قابلة للضغط */
+.CB-review1-p1-q1-option {
+  position: relative;
+  user-select: none;
+  touch-action: manipulation;
 }

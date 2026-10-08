@@ -6,6 +6,7 @@
   display: flex;
   align-items: center;
   margin-bottom: 25px;
+  gap: 30px;
 }
 
 .q-number-CB-unit3-p5-q2 {
@@ -16,7 +17,8 @@
 
 .images-row-CB-unit3-p5-q2 {
   display: flex;
-  gap: 15px;
+    width: 85%;
+    justify-content: space-between;
 }
 
 .img-box-CB-unit3-p5-q2 {
@@ -32,7 +34,7 @@
 }
 
 .selected-CB-unit3-p5-q2 {
-  border: 3px solid #2c5287 !important;
+  border: 3px solid #2c5287;
   border-radius: 50%;
 }
 
@@ -80,3 +82,40 @@
     flex-direction: column;
   }
 }
+
+
+.img-box-CB-unit3-p5-q2 {
+  background: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+}
+.img-box-CB-unit3-p5-q2:focus-visible,
+.CB-unit3-p5-q2-speaker:focus-visible {
+  outline: 3px solid #2e3192;
+  outline-offset: 3px;
+}
+
+.CB-unit3-p5-q2-img-wrap { position: relative; }
+
+.correct-CB-unit3-p5-q2 { border-color: #2e7d32; }
+
+.correct-mark-CB-unit3-p5-q2 {
+  position: absolute; top: -8px; right: -8px;
+  width: 24px; height: 24px; border-radius: 50%;
+  background: #2e7d32; color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700;
+}
+/* لو .wrong-mark-CB-unit3-p5-q2 كان positioned على .img-box، لازم يصير على .CB-unit3-p5-q2-img-wrap */
+
+.CB-unit3-p5-q2-speaker {
+  background: none; border: 2px solid #2c5287; color: #2c5287;
+  border-radius: 50%; width: 36px; height: 36px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.CB-unit3-p5-q2-speaker.is-playing { background: #2c5287; color: #fff; }
+
+.CB-unit3-p5-q2-feedback { margin: 6px 0 0; font-weight: 600; }
+.CB-unit3-p5-q2-feedback.correct { color: #2e7d32; }
+.CB-unit3-p5-q2-feedback.wrong { color: #c62828; }

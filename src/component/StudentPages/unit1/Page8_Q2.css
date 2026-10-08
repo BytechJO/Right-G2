@@ -132,3 +132,53 @@
     height: 130px;
   }
 }
+
+
+
+ 
+/* نص مخفي بصرياً لكن يقرأه قارئ الشاشة */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+ 
+.CB-unit1-p8-q2-hint {
+  text-align: center;
+  font-size: 14px;
+  color: #555;
+  margin: 0;
+}
+ 
+/* البوردر الأزرق: hover بالماوس + تركيز بالكيبورد (Tab) */
+.image-wrapper-CB-unit1-p8-q2 {
+  border-radius: 8px;
+  transition: transform 0.15s ease;
+}
+ 
+.image-wrapper-CB-unit1-p8-q2:hover,
+.image-wrapper-CB-unit1-p8-q2:focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 3px;
+}
+ 
+.image-wrapper-CB-unit1-p8-q2:focus-visible {
+  transform: scale(1.05);
+}
+ 
+/* المجموعات المقفولة (الصح بعد Check / Show Answer) */
+.image-wrapper-CB-unit1-p8-q2.locked {
+  cursor: default;
+}
+ 
+.image-wrapper-CB-unit1-p8-q2.locked:hover {
+  outline: none;
+}
+ 

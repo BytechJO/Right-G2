@@ -12,10 +12,7 @@
   cursor: pointer;
 }
 
-.clickable-area {
-  position: absolute;
-  cursor: pointer;
-}
+
 .pauseBtn-icon-CD-page6 {
   position: absolute;
   padding: 5px;
@@ -23,3 +20,4 @@
   left: 40.2%;
   cursor: pointer;
 }
+

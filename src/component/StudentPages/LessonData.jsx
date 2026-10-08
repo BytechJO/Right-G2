@@ -16,6 +16,7 @@ import Review1_Page1_Q2 from "./review1&2/Review1_Page1_Q2";
 import Review1_Page2_Q1 from "./review1&2/Review1_Page2_Q1";
 import Review1_Page2_Q2 from "./review1&2/Review1_Page2_Q2";
 import Review1_Page2_Q3 from "./review1&2/Review1_Page2_Q3";
+import Review1_Page2_Q4 from "./review1&2/Review1_Page2_Q4";
 
 import Review2_Page1_Q1 from "./review1&2/Review2_Page1_Q1";
 import Review2_Page1_Q2 from "./review1&2/Review2_Page1_Q2";
@@ -134,6 +135,7 @@ import Review10_Page1_Q3 from "./review9&10/Review10_Page1_Q3";
 import Review10_Page2_Q1 from "./review9&10/Review10_Page2_Q1";
 import Review10_Page2_Q2 from "./review9&10/Review10_Page2_Q2";
 import Review10_Page2_Q3 from "./review9&10/Review10_Page2_Q3";
+import Review2_Page2_Q4 from "./review1&2/Review2_Page2_Q4";
 
 export const lessons = [
   // UNIT 1
@@ -155,13 +157,15 @@ export const lessons = [
   { component: Review1_Page2_Q1, unit: 1, isReview: true },
   { component: Review1_Page2_Q2, unit: 1, isReview: true },
   { component: Review1_Page2_Q3, unit: 1, isReview: true },
+  { component: Review1_Page2_Q4, unit: 1, isReview: true },
   { component: Review2_Page1_Q1, unit: 2, isReview: true },
   { component: Review2_Page1_Q2, unit: 2, isReview: true },
   { component: Review2_Page1_Q3, unit: 2, isReview: true },
   { component: Review2_Page1_Q4, unit: 2, isReview: true },
   { component: Review2_Page2_Q1, unit: 2, isReview: true },
   { component: Review2_Page2_Q2, unit: 2, isReview: true },
-  { component: Review2_Page2_Q3, unit: 2, isReview: true , lastOfUnit: true ,}, //22
+  { component: Review2_Page2_Q3, unit: 2, isReview: true, }, //22
+  { component: Review2_Page2_Q4, unit: 2, isReview: true , lastOfUnit: true ,}, //22
 
   { component: Unit3_Page5_Q1, unit: 3 }, //23
   { component: Unit3_Page5_Q2, unit: 3 }, //24

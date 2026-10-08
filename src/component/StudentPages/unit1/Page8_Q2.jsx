@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import "./Page8_Q2.css";
 import sound1 from "../../../assets/audio/ClassBook/U 1/page8-q1.mp3";
 import { FaPlay, FaPause } from "react-icons/fa";
@@ -23,18 +23,50 @@ import img4a from "../../../assets/imgs/Right 2 Unit 1 Stellas Family/Page 8/Pag
 import img4b from "../../../assets/imgs/Right 2 Unit 1 Stellas Family/Page 8/Page8-Ex A 2-4-2.svg";
 import img4c from "../../../assets/imgs/Right 2 Unit 1 Stellas Family/Page 8/Page8-Ex A 2-4-3.svg";
 import QuestionAudioPlayer from "../../QuestionAudioPlayer";
+import ExerciseHeader from "../../ExerciseHeader";
 
 const Page8_Q2 = () => {
+  // ✏️ alts: وصف كل صورة (من الـ captions). عدّلها حسب الصور الفعلية
   const groups = [
-    { images: [img1a, img1b, img1c], different: 2 },
-    { images: [img2a, img2b, img2c], different: 1 },
-    { images: [img3a, img3b, img3c], different: 1 },
-    { images: [img4a, img4b, img4c], different: 2 },
+    {
+      images: [img1a, img1b, img1c],
+      alts: ["Someone running", "A rabbit", "A lemon"],
+      different: 2,
+    },
+    {
+      images: [img2a, img2b, img2c],
+      alts: ["A leg", "A railroad track", "Something red"],
+      different: 0,
+    },
+    {
+      images: [img3a, img3b, img3c],
+      alts: ["Someone laughing", "Rain", "A lock"],
+      different: 1,
+    },
+    {
+      images: [img4a, img4b, img4c],
+      alts: ["A lion", "A lamp", "A ring"],
+      different: 2,
+    },
   ];
-  const [showResult2, setShowResult2] = useState(false);
-  const [selected, setSelected] = useState(Array(groups.length).fill(null));
-  const [showResult, setShowResult] = useState(false);
-  const [locked, setLocked] = useState(false);
+
+  const total = groups.length;
+  const falses = () => Array(total).fill(false);
+
+  const [selected, setSelected] = useState(Array(total).fill(null));
+
+  // 🔒 المجموعات الصح بعد Check بتنقفل
+  const [lockedGroups, setLockedGroups] = useState(falses());
+  // ✕ المجموعات الغلط (بتضل قابلة للتعديل)
+  const [wrongGroups, setWrongGroups] = useState(falses());
+  // 🔒 بعد Show Answer كل شي مقفول
+  const [showAnswer, setShowAnswer] = useState(false);
+
+  // 📢 رسالة لقارئ الشاشة
+  const [message, setMessage] = useState("");
+
+  // 🔊 لإيقاف صوت QuestionAudioPlayer عند Start Again / Show Answer
+  const [forceStopAudio, setForceStopAudio] = useState(0);
 
   // ================================
   // ✔ Captions Array
@@ -80,69 +112,107 @@ const Page8_Q2 = () => {
     },
   ];
 
+  // ================================
+  // اختيار صورة (كليك / Enter / Space)
+  // ================================
   const handleSelect = (groupIndex, imageIndex) => {
-    if (locked || showResult2) return; // 🔒 منع التعديل بعد Show Answer
+    if (showAnswer || lockedGroups[groupIndex]) return;
+
     const updated = [...selected];
     updated[groupIndex] = imageIndex;
     setSelected(updated);
-    setShowResult2(false);
+
+    // نشيل ✕ فقط عن المجموعة الي تغيّرت
+    setWrongGroups((prev) => prev.map((w, i) => (i === groupIndex ? false : w)));
+
+    setMessage(
+      `Group ${groupIndex + 1}: picture ${imageIndex + 1} marked as different.`,
+    );
   };
+
+  const handleKeyDown = (e, groupIndex, imageIndex) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault(); // يمنع سكرول الصفحة عند Space
+      handleSelect(groupIndex, imageIndex);
+    }
+  };
+
+  // ================================
+  // Show Answer
+  // ================================
   const showAnswers = () => {
-    const correctSelections = groups.map((g) => g.different);
-
-    setSelected(correctSelections);
-    setShowResult2(true);
-    setLocked(true); // 🔒 قفل التعديل
+    setSelected(groups.map((g) => g.different));
+    setLockedGroups(Array(total).fill(true));
+    setWrongGroups(falses());
+    setShowAnswer(true);
+    setForceStopAudio((prev) => prev + 1);
+    setMessage("Correct answers are shown.");
   };
 
+  // ================================
+  // Check Answer
+  // ================================
   const checkAnswers = () => {
-    if (locked || showResult2) return; // 🔒 منع التعديل بعد Show Answer
+    if (showAnswer) return;
+
     if (selected.some((val) => val === null)) {
-      ValidationAlert.info("Please choose a circle (f or v) for all items!");
+      ValidationAlert.info("Please choose one picture in every group!");
       return;
     }
-    let correctCount = 0;
-    let wrongCount = 0;
-    groups.forEach((group, index) => {
-      if (selected[index] === null)
-        return ValidationAlert.info(
-          "Please choose a circle (f or v) for all items!",
-        );
 
+    let score = 0;
+    const newLocked = [...lockedGroups];
+    const newWrong = falses();
+    const wrongItems = [];
+
+    groups.forEach((group, index) => {
       if (selected[index] === group.different) {
-        correctCount++;
+        score++;
+        newLocked[index] = true; // 🔒 الصح بينقفل
       } else {
-        wrongCount++;
+        newWrong[index] = true; // ✕ وبيضل قابل للتعديل
+        wrongItems.push(index + 1);
       }
     });
 
-    const total = groups.length; // 8 نقاط
-    const color =
-      correctCount === total ? "green" : correctCount === 0 ? "red" : "orange";
+    setLockedGroups(newLocked);
+    setWrongGroups(newWrong);
+
+    const color = score === total ? "green" : score === 0 ? "red" : "orange";
 
     const scoreMessage = `
     <div style="font-size: 20px; margin-top: 10px; text-align:center;">
       <span style="color:${color}; font-weight:bold;">
-        Score: ${correctCount} / ${total}
+        Score: ${score} / ${total}
       </span>
     </div>
   `;
-    // تحديد الرسالة حسب نوع الإجابات
-    if (correctCount === groups.length) {
+
+    setMessage(
+      score === total
+        ? `Score ${score} out of ${total}. All answers are correct.`
+        : `Score ${score} out of ${total}. Correct answers are locked. Groups to fix: ${wrongItems.join(", ")}.`,
+    );
+
+    if (score === total) {
       ValidationAlert.success(scoreMessage);
-    } else if (correctCount === 0) {
+    } else if (score === 0) {
       ValidationAlert.error(scoreMessage);
     } else {
       ValidationAlert.warning(scoreMessage);
     }
-    setShowResult2(true);
   };
 
+  // ================================
+  // Start Again
+  // ================================
   const reset = () => {
-    setSelected(Array(groups.length).fill(null));
-    setShowResult(false);
-    setShowResult2(false);
-    setLocked(false);
+    setSelected(Array(total).fill(null));
+    setLockedGroups(falses());
+    setWrongGroups(falses());
+    setShowAnswer(false);
+    setForceStopAudio((prev) => prev + 1);
+    setMessage("Exercise reset. All answers are cleared.");
   };
 
   return (
@@ -155,64 +225,123 @@ const Page8_Q2 = () => {
         padding: "30px",
       }}
     >
+      {/* 📢 رسائل لقارئ الشاشة */}
+      <div
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+        className="sr-only"
+      >
+        {message}
+      </div>
+
       <div
         className="div-forall"
         style={{
           display: "flex",
           flexDirection: "column",
           gap: "30px",
-          // width: "60%",
           justifyContent: "flex-start",
         }}
       >
-        <h3 className="header-title-page8">
-          <span style={{ color: "#2e3192" }}>2</span> Listen and tap or click
-          the picture with a different sound.
-        </h3>
+        <ExerciseHeader
+          // sectionLetter="A"
+          questionNumber="2"
+          title="Listen and write ✗ on the picture with a different sound."
+          subTitle="Listen to every option once, then tap the picture whose sound is different."
+        />
         <QuestionAudioPlayer
           src={sound1}
           captions={captions}
+          pageId="unit1-page8-q2"
           stopAtSecond={12.43}
+          forceStop={forceStopAudio}
         />
+
         <div className="exercise-row-CB-unit1-p8-q2">
-          {groups.map((group, gIndex) => (
-            <div className="group-box-CB-unit1-p8-q2 " key={gIndex}>
-              <span style={{ color: "darkblue", fontWeight: "700" }}>
-                {gIndex + 1}
-              </span>
-              {group.images.map((img, iIndex) => {
-                const isSelected = selected[gIndex] === iIndex;
-                const isCorrect = group.different === iIndex;
+          {groups.map((group, gIndex) => {
+            const groupLocked = showAnswer || lockedGroups[gIndex];
 
-                return (
-                  <div
-                    className="image-wrapper-CB-unit1-p8-q2 "
-                    key={iIndex}
-                    onClick={() => !locked && handleSelect(gIndex, iIndex)}
-                  >
-                    <img src={img} className="image-CB-unit1-p8-q2 " />
+            return (
+              <div
+                className="group-box-CB-unit1-p8-q2 "
+                key={gIndex}
+                role="group"
+                aria-label={`Group ${gIndex + 1}. Choose the picture with a different sound.`}
+              >
+                <span
+                  aria-hidden="true"
+                  style={{ color: "darkblue", fontWeight: "700" }}
+                >
+                  {gIndex + 1}
+                </span>
+                {group.images.map((img, iIndex) => {
+                  const isSelected = selected[gIndex] === iIndex;
+                  const alt = group.alts?.[iIndex] || `Picture ${iIndex + 1}`;
 
-                    {/* Display X only when result is shown */}
-                    {isSelected && <div className="ds-x">✕</div>}
-                    {/* ❌ دائرة حمراء فيها X بيضاء للخطأ فقط عند النتيجة */}
-                    {showResult2 && !locked && isSelected && !isCorrect && (
-                      <span className="wrong-x-CB-unit1-p8-q2">✕</span>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          ))}
+                  return (
+                    <div
+                      className={`image-wrapper-CB-unit1-p8-q2 ${
+                        groupLocked ? "locked" : ""
+                      }`}
+                      key={iIndex}
+                      role="button"
+                      tabIndex={groupLocked ? -1 : 0}
+                      aria-pressed={isSelected}
+                      aria-disabled={groupLocked}
+                      aria-label={`Group ${gIndex + 1}, picture ${
+                        iIndex + 1
+                      }: ${alt}.${isSelected ? " Marked as different." : ""}${
+                        groupLocked && isSelected
+                          ? " Correct. Locked."
+                          : !groupLocked && wrongGroups[gIndex] && isSelected
+                            ? " Incorrect. Try again."
+                            : ""
+                      }`}
+                      onClick={() => handleSelect(gIndex, iIndex)}
+                      onKeyDown={(e) => handleKeyDown(e, gIndex, iIndex)}
+                    >
+                      <img src={img} alt={alt} className="image-CB-unit1-p8-q2 " />
+
+                      {/* ✕ على الصورة المختارة */}
+                      {isSelected && (
+                        <div className="ds-x" aria-hidden="true">
+                          ✕
+                        </div>
+                      )}
+                      {/* ❌ دائرة حمراء للخطأ بعد Check (بتنشال لما يعدّل) */}
+                      {wrongGroups[gIndex] && isSelected && (
+                        <span
+                          className="wrong-x-CB-unit1-p8-q2"
+                          aria-hidden="true"
+                        >
+                          ✕
+                        </span>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
         </div>
       </div>
       <div className="action-buttons-container">
-        <button onClick={reset} className="try-again-button">
+        <button type="button" onClick={reset} className="try-again-button">
           Start Again ↻
         </button>
-        <button onClick={showAnswers} className="show-answer-btn">
+        <button
+          type="button"
+          onClick={showAnswers}
+          className="show-answer-btn"
+        >
           Show Answer
         </button>
-        <button onClick={checkAnswers} className="check-button2">
+        <button
+          type="button"
+          onClick={checkAnswers}
+          className="check-button2"
+        >
           Check Answer ✓
         </button>
       </div>

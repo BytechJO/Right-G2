@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState} from "react";
 import page_4 from "../../../assets/imgs//Right 2 Unit 3 On a Picnic/Page 25.png";
 import "./Unit3_Page4.css";
 import grammarSound from "../../../assets/audio/ClassBook/U 3/cd18pg25-grammar2.mp3";
@@ -17,28 +17,34 @@ import AudioWithCaption from "../../AudioWithCaption";
 const Unit3_Page4 = ({ openPopup }) => {
   const { audioRef, activeId, setActiveId } = useContext(AudioContext);
   const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying] = useState(false);
   const captionsExample = [
-  { start: 0.64, end: 6.58, text: "Page 25, exercise 2. Right Grammar. Can he swim?" },
-  { start: 7.64, end: 11.1, text: "No, he can't. Can she swim?" },
-  { start: 12.3, end: 14.04, text: "No, she can't." },
-  { start: 15.08, end: 16.1, text: "Can it swim?" },
-  { start: 17.28, end: 18.92, text: "No, it can't." },
-  { start: 20.0, end: 21.06, text: "Can it swim?" },
-  { start: 22.4, end: 23.98, text: "No, it can't." },
-  { start: 25.06, end: 26.12, text: "Can he sleep?" },
-  { start: 27.24, end: 28.8, text: "No, he can't." },
-  { start: 29.88, end: 32.96, text: "You can't play the guitar. Stop, please." },
-];
+    {
+      start: 0.64,
+      end: 6.58,
+      text: "Page 25, exercise 2. Right Grammar. Can he swim?",
+    },
+    { start: 7.64, end: 11.1, text: "No, he can't. Can she swim?" },
+    { start: 12.3, end: 14.04, text: "No, she can't." },
+    { start: 15.08, end: 16.1, text: "Can it swim?" },
+    { start: 17.28, end: 18.92, text: "No, it can't." },
+    { start: 20.0, end: 21.06, text: "Can it swim?" },
+    { start: 22.4, end: 23.98, text: "No, it can't." },
+    { start: 25.06, end: 26.12, text: "Can he sleep?" },
+    { start: 27.24, end: 28.8, text: "No, he can't." },
+    {
+      start: 29.88,
+      end: 32.96,
+      text: "You can't play the guitar. Stop, please.",
+    },
+  ];
 
   const clickableAreas = [
-    { id: "pg6-1",x1: 6.98, y1: 9.35, x2: 32.58, y2: 20.30, sound: sound1 },
-    { id: "pg6-2",x1: 66.90, y1: 9.35, x2: 92.69, y2: 20.30, sound: sound2 },
-    { id: "pg6-3",x1: 6.01, y1: 27.32, x2: 22.30, y2: 33.26, sound: sound3 },
-    { id: "pg6-4",x1: 52.36, y1: 27.47, x2: 69.61, y2: 32.5, sound: sound4 },
-    { id: "pg6-5",x1: 42.66, y1: 90.07, x2: 65.8, y2: 95.56, sound: sound5 },
-
-
+    { id: "pg6-1", x1: 6.98, y1: 9.35, x2: 32.58, y2: 20.3, sound: sound1 },
+    { id: "pg6-2", x1: 66.9, y1: 9.35, x2: 92.69, y2: 20.3, sound: sound2 },
+    { id: "pg6-3", x1: 6.01, y1: 27.32, x2: 22.3, y2: 33.26, sound: sound3 },
+    { id: "pg6-4", x1: 52.36, y1: 27.47, x2: 69.61, y2: 32.5, sound: sound4 },
+    { id: "pg6-5", x1: 42.66, y1: 90.07, x2: 65.8, y2: 95.56, sound: sound5 },
   ];
 
   const handleImageClick = (e) => {
@@ -65,34 +71,11 @@ const Unit3_Page4 = ({ openPopup }) => {
   };
 
   return (
-    <div className="page1-img-wrapper"
-          onClick={handleImageClick}
-          style={{ backgroundImage: `url(${page_4})` }}>
-   
-      {clickableAreas.map((area, index) => (
-        <div
-          key={index}
-          className={`clickable-area ${
-            activeId === area.id ? "highlight" : ""
-          }`}
-          style={{
-            position: "absolute",
-            left: `${area.x1}%`,
-            top: `${area.y1}%`,
-            width: `${area.x2 - area.x1}%`,
-            height: `${area.y2 - area.y1}%`,
-          }}
-          onClick={() => {
-            playSound(area.sound, area.id);
-          }}
-          onMouseEnter={() => {
-            if (!isPlaying) setHoveredAreaIndex(index);
-          }}
-          onMouseLeave={() => {
-            if (!isPlaying ) setHoveredAreaIndex(null);
-          }}
-        ></div>
-      ))}
+    <div
+      className="page1-img-wrapper"
+      onClick={handleImageClick}
+      style={{ backgroundImage: `url(${page_4})` }}
+    >
       <div
         className="headset-icon-CD-unit3-page4-1 hover:scale-110 transition"
         style={{ overflow: "visible" }}
@@ -101,9 +84,13 @@ const Unit3_Page4 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open grammar audio"
           onClick={() =>
             openPopup(
-             "audio", <div
+              "audio",
+              <div
                 style={{
                   display: "flex",
                   justifyContent: "center",
@@ -113,13 +100,42 @@ const Unit3_Page4 = ({ openPopup }) => {
                 <AudioWithCaption
                   src={grammarSound}
                   captions={captionsExample}
+                  pageId="sb-unit3-page4-grammar"
                 />
-              </div>
+              </div>,
             )
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup(
+                "audio",
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignContent: "center",
+                  }}
+                >
+                  <AudioWithCaption
+                    src={grammarSound}
+                    captions={captionsExample}
+                    pageId="sb-unit3-page4-grammar"
+                  />
+                </div>,
+              );
+            }
+          }}
           style={{ overflow: "visible" }}
         >
-          <image className="svg-img" href={audioBtn} x="0" y="0" width="90" height="90" />
+          <image
+            className="svg-img"
+            href={audioBtn}
+            x="0"
+            y="0"
+            width="90"
+            height="90"
+          />
         </svg>
       </div>
       <div
@@ -130,9 +146,13 @@ const Unit3_Page4 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open grammar video"
           onClick={() =>
             openPopup(
-             "video", <div
+              "video",
+              <div
                 style={{
                   display: "flex",
                   justifyContent: "center",
@@ -140,7 +160,6 @@ const Unit3_Page4 = ({ openPopup }) => {
                   alignItems: "center",
                   height: "100%",
                   width: "100%",
-                
                 }}
               >
                 <video
@@ -155,14 +174,100 @@ const Unit3_Page4 = ({ openPopup }) => {
                 >
                   <source src={video} type="video/mp4" />
                 </video>
-              </div>
+              </div>,
             )
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup(
+                "video",
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignContent: "center",
+                    alignItems: "center",
+                    height: "100%",
+                    width: "100%",
+                  }}
+                >
+                  <video
+                    autoPlay
+                    controls
+                    style={{
+                      width: "auto",
+                      height: "80%",
+                      objectFit: "fill",
+                      borderRadius: "20px",
+                    }}
+                  >
+                    <source src={video} type="video/mp4" />
+                  </video>
+                </div>,
+              );
+            }
+          }}
           style={{ overflow: "visible" }}
         >
-          <image className="svg-img" href={pauseBtn} x="0" y="0" width="90" height="90" />
+          <image
+            className="svg-img"
+            href={pauseBtn}
+            x="0"
+            y="0"
+            width="90"
+            height="90"
+          />
         </svg>
       </div>
+
+      {/* رسم المستطيلات التفاعلية */}
+      {clickableAreas.map((area, index) => {
+        const areaId = `p25-${index}`;
+
+        return (
+          <div
+            key={index}
+            tabIndex={0}
+            role="button"
+            aria-label={`Play sentence audio ${index + 1}`}
+            aria-pressed={activeId === areaId}
+            className={`clickable-area ${
+              activeId === areaId || hoveredAreaIndex === index
+                ? "highlight"
+                : ""
+            }`}
+            style={{
+              position: "absolute",
+              left: `${area.x1}%`,
+              top: `${area.y1}%`,
+              width: `${area.x2 - area.x1}%`,
+              height: `${area.y2 - area.y1}%`,
+            }}
+            onClick={() => {
+              playSound(area.sound, areaId);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                playSound(area.sound, areaId);
+              }
+            }}
+            onFocus={() => {
+              setHoveredAreaIndex(index);
+            }}
+            onBlur={() => {
+              setHoveredAreaIndex(null);
+            }}
+            onMouseEnter={() => {
+              if (!isPlaying) setHoveredAreaIndex(index);
+            }}
+            onMouseLeave={() => {
+              if (!isPlaying) setHoveredAreaIndex(null);
+            }}
+          />
+        );
+      })}
       <audio ref={audioRef} style={{ display: "none" }} />
     </div>
   );

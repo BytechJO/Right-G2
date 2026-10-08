@@ -18,3 +18,32 @@
     vertical-align: middle;
     line-height: normal;
 }
+
+.q-input-CB-review3-p2-q1.q-input-CB-review3-p2-q1-correct {
+  border-bottom: 3px solid #2e9e4f;
+}
+.CB-r3p2q1-field-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+      width: 100%;
+}
+
+/* زر إعادة صوت الجواب الصح */
+.CB-r3p2q1-play {
+  background: none;
+  border: 2px solid #2c5287;
+  color: #2c5287;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.CB-r3p2q1-play.is-playing {
+  background: #2c5287;
+  color: #fff;
+}

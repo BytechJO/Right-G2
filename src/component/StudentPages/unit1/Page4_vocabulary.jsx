@@ -69,6 +69,9 @@ const Page4_vocabulary = () => {
         { start: 22.8, end: 25.6, text: "8 aunt" },
         { start: 26.7, end: 28.12, text: "9 uncle" },
       ]}
+       pageId="sb-unit1-page4-vocab"
+       height={70}
+
     />
   );
 };

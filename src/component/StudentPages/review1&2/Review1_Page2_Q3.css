@@ -1,113 +1,116 @@
-.question-grid-CB-review1-p2-q3 {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 25px;
-  width: 100%;
-  justify-items: center;
-  margin-top: 20px;
-}
-
-.write-input-CB-review1-p2-q3 {
-  height: 40px;
-  width: 100%;
-  /* border: none; */
-  border-bottom: 2px solid #888;
-  outline: none;
-  font-size: 20px;
-  margin-top: 10px;
-  text-align: center;
+/* ===== القائمة: 5 كروت جنب بعض (وبتنزل سطر على الشاشات الصغيرة) ===== */
+.CB-r1p2q3-list {
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
   justify-content: center;
-}
-
-.input-wrapper-CB-review1-p2-q3 {
-  position: relative;
-  display: inline-block;
+  gap: 14px;
   width: 100%;
+  margin: 16px auto 0;
 }
 
-.question-box-CB-review1-p2-q3 {
-  /* border: 2px solid #8cc2f5; */
-  border-radius: 12px;
-  padding: 15px;
-  width: 100%;
-  background: white;
+/* ===== الكرت ===== */
+.CB-r1p2q3-card {
   position: relative;
-}
-
-.circle-choice-CB-review1-p2-q3.active.correct-color {
-  border-color: red !important;
-}
-
-.q-img-CB-review1-p2-q3 {
-  width: 150px;
-  height: 150px;
-  object-fit: contain;
-  display: block;
-  margin: 0 auto;
-}
-
-.circle-wrapper,
-.input-wrapper {
-  position: relative;
-  display: inline-block;
-}
-
-.choices-CB-review1-p2-q3 {
   display: flex;
-  justify-content: space-evenly;
-  margin-top: 10px;
-}
-
-.circle-choice-CB-review1-p2-q3 {
-  width: 32px;
-  height: 32px;
+  flex-direction: column;
+  gap: 30px;
+  width: 120px;
+  padding: 26px 10px 10px;
+  background: #fbe9e1;
   border: 2px solid transparent;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 25px;
-  cursor: pointer;
-  transition: 0.2s;
-  background: white;
-  user-select: none;
+  border-radius: 14px;
+  transition: border-color 0.2s, background 0.2s;
 }
 
-.circle-choice-CB-review1-p2-q3.active {
-  border-color: #8cc2f5;
-  font-weight: bold;
+.CB-r1p2q3-card.is-active {
+  border-color: #2c5287;
+  background: #f7ddd2;
 }
 
-.wrong-mark-CB-review1-p2-q3 {
+.CB-r1p2q3-num {
   position: absolute;
-  top: -10px;
-  right: -10px;
-  background: red;
-  color: white;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  font-size: 16px;
-  font-weight: bold;
+  top: 4px;
+  left: 10px;
+  font-size: 18px;
+  font-weight: 700;
+  color: darkblue;
+}
+
+/* ===== الكلمة (زر) ===== */
+.CB-r1p2q3-word {
+  position: relative;
   display: flex;
   align-items: center;
-  border: 2px solid white;
   justify-content: center;
-  z-index: 10;
+  height: 44px;
+  padding: 0 8px;
+  background: transparent;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
 }
 
-@media screen and (max-width: 1024px) and (max-height: 600px) {
-  .question-grid-CB-review1-p2-q3 {
-    grid-template-columns: repeat(4, 1fr) !important;
-    gap: 2px;
+.CB-r1p2q3-word:hover {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: #2c5287;
+}
+
+.CB-r1p2q3-word.is-playing {
+  background: #fff;
+  border-color: #2c5287;
+}
+
+.CB-r1p2q3-text {
+  font-size: 22px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* ===== أيقونة السبيكر ===== */
+.CB-r1p2q3-speaker {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #fff;
+  /* color: #fff; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.2s, transform 0.2s;
+  pointer-events: none;
+}
+
+.CB-r1p2q3-word:hover .CB-r1p2q3-speaker,
+.CB-r1p2q3-word:focus-visible .CB-r1p2q3-speaker,
+.CB-r1p2q3-speaker.playing {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.CB-r1p2q3-speaker.playing {
+  /* background: #dc2626; */
+  animation: r1p2q3-pulse 0.9s ease-in-out infinite;
+}
+
+@keyframes r1p2q3-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
   }
 }
 
-@media (max-width: 1024px) {
-  .question-grid-CB-review1-p2-q3 {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-  }
+/* ===== فوكس واضح بالكيبورد ===== */
+.CB-r1p2q3-word:focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 2px;
 }

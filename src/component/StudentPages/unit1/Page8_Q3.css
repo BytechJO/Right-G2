@@ -72,3 +72,69 @@
   pointer-events: none;
   border: 2px solid white;
 }
+
+
+
+/* ضيف هاد الستايل في Page8_Q3.css */
+
+/* نص مخفي بصرياً لكن يقرأه قارئ الشاشة */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.CB-unit1-p8-q3-hint {
+  font-size: 14px;
+  color: #555;
+  margin: 8px 0 0;
+}
+
+.option-word-CB-unit1-p8-q3 {
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+/* 🔊 أيقونة الصوت: بتظهر فقط لما يشتغل الصوت (تركيز بالتاب / كليك / Enter / Space) */
+.CB-unit1-p8-q3-speaker {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  color: #000;
+  pointer-events: none;
+}
+
+/* البوردر الأزرق:
+   - hover بالماوس (بدون أيقونة)
+   - تركيز بالكيبورد (Tab)
+   - لما يشتغل الصوت */
+.option-word-CB-unit1-p8-q3:hover,
+.option-word-CB-unit1-p8-q3:focus-visible,
+.option-word-CB-unit1-p8-q3.sound-active {
+  outline: 3px solid #2563eb;
+  outline-offset: 3px;
+}
+
+.option-word-CB-unit1-p8-q3:focus-visible {
+  transform: scale(1.05);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
+}
+
+/* لو الأيقونة تعارضت مع علامة ✕ (الخطأ) حرّكها هون */
+.option-word-CB-unit1-p8-q3.wrong .CB-unit1-p8-q3-speaker {
+  right: 18px;
+}
+
+/* السؤال المقفول (الصح بعد Check / Show Answer) */
+.option-word-CB-unit1-p8-q3.locked {
+  cursor: default;
+}

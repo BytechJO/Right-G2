@@ -1,4 +1,3 @@
-import React, { useState, useRef, useEffect } from "react";
 import steall from "../../../assets/audio/ClassBook/U 1/reading stella.mp3";
 import page_5 from "../../../assets/imgs/Right 2 Unit 1 Stellas Family/Page 5.png";
 import Rabbit from "../../../assets/Page 01/Rabbit.svg";
@@ -20,9 +19,13 @@ import sound3_letter from "../../../assets/audio/ClassBook/U 1/Pg5_Instruction2_
 import sound4_letter from "../../../assets/audio/ClassBook/U 1/Pg5_2.1_Adult Lady.mp3";
 import sound8 from "../../../assets/audio/ClassBook/U 1/sound8.mp3";
 import sound9 from "../../../assets/audio/ClassBook/U 1/sound9.mp3";
+
+import q1Audio from "../../../assets/audio/ClassBook/U 1/Page 5/Who’s Jack.mp3";
+import q1o1Audio from "../../../assets/audio/ClassBook/U 1/Page 5/Stella's uncle.mp3";
+import q1o2Audio from "../../../assets/audio/ClassBook/U 1/Page 5/Stella's cousin.mp3";
 import "./Page5.css";
 const Page5 = ({ openPopup }) => {
-   const { audioRef, activeId, setActiveId } = useContext(AudioContext);
+  const { audioRef, activeId, setActiveId } = useContext(AudioContext);
 
   const captionsExample = [
     {
@@ -77,12 +80,15 @@ const Page5 = ({ openPopup }) => {
     questions: [
       {
         text: "Who’s Jack?",
-        options: ["Stella’s uncle", "Stella’s cousin"],
-        correct: "Stella’s cousin",
+        audio: q1Audio, // صوت السؤال
+        options: [
+          { text: "Stella’s uncle", audio: q1o1Audio },
+          { text: "Stella’s cousin", audio: q1o2Audio },
+        ],
+        correct: "Stella’s cousin", // نص الخيار الصحيح، زي ما هو
       },
     ],
   };
-
   const captions2 = [
     { start: 0, end: 3.67, text: " Page 5. Listen and read along.  " },
     { start: 4.88, end: 9.78, text: "R. rabbit red run" },
@@ -98,20 +104,40 @@ const Page5 = ({ openPopup }) => {
 
   const areas = [
     // الصوت الأول – المنطقة الأساسية
-    { id: "pn1-8",x1: 10.9, y1: 49, sound: 1, isPrimary: true },
+    { id: "pn1-8", x1: 10.9, y1: 49, sound: 1, isPrimary: true },
 
     // الصوت الأول – منطقة إضافية
-    { id: "pn1-8",x1: 1.94, y1: 39.2, x2: 9.7, y2: 60.8, sound: 1, isPrimary: false },
+    {
+      id: "pn1-8",
+      x1: 1.94,
+      y1: 39.2,
+      x2: 9.7,
+      y2: 60.8,
+      sound: 1,
+      isPrimary: false,
+    },
 
     // الصوت الثاني – الأساسية
-    { id: "pn1-9",x1: 30.7, y1: 59.9, sound: 2, isPrimary: true },
+    { id: "pn1-9", x1: 30.7, y1: 59.9, sound: 2, isPrimary: true },
 
     // الصوت الثاني – الإضافية
-    { id: "pn1-9",x1: 22.5, y1: 38.44, x2: 30.8, y2: 68.9, sound: 2, isPrimary: false },
+    {
+      id: "pn1-9",
+      x1: 22.5,
+      y1: 38.44,
+      x2: 30.8,
+      y2: 68.9,
+      sound: 2,
+      isPrimary: false,
+    },
   ];
   const sounds = {
     1: sound8,
     2: sound9,
+  };
+  const soundLabels = {
+    1: "aunt",
+    2: "uncle",
   };
   const handleImageClick = (e) => {
     const rect = e.target.getBoundingClientRect();
@@ -119,22 +145,22 @@ const Page5 = ({ openPopup }) => {
     const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
     console.log("X%:", xPercent.toFixed(2), "Y%:", yPercent.toFixed(2));
   };
-const playSound = (path, id) => {
-  if (!audioRef.current) return;
+  const playSound = (path, id) => {
+    if (!audioRef.current) return;
 
-  // 🔥 وقف أي صوت شغال بأي صفحة
-  audioRef.current.pause();
-  audioRef.current.currentTime = 0;
+    // 🔥 وقف أي صوت شغال بأي صفحة
+    audioRef.current.pause();
+    audioRef.current.currentTime = 0;
 
-  audioRef.current.src = path;
-  audioRef.current.play();
+    audioRef.current.src = path;
+    audioRef.current.play();
 
-  setActiveId(id); // 🔥 مهم للهايلايت
+    setActiveId(id); // 🔥 مهم للهايلايت
 
-  audioRef.current.onended = () => {
-    setActiveId(null);
+    audioRef.current.onended = () => {
+      setActiveId(null);
+    };
   };
-};
   return (
     <div
       className="page1-img-wrapper"
@@ -144,7 +170,7 @@ const playSound = (path, id) => {
       <audio ref={audioRef} style={{ display: "none" }} />
 
       {areas.map((area, index) => {
-         const isActive = activeId === `p5-${area.sound}`;
+        const isActive = activeId === `p5-${area.sound}`;
 
         // ============================
         // 1️⃣ المنطقة الأساسية → دائرة تظهر فقط عندما تكون Active
@@ -153,14 +179,26 @@ const playSound = (path, id) => {
           return (
             <div
               key={index}
-              className={`circle-area ${isActive ? "active" : ""}`}
+              className={`circle-area page5-audio-hotspot ${
+                isActive ? "active" : ""
+              }`}
+              role="button"
+              tabIndex={0}
+              aria-label={`Play pronunciation: ${soundLabels[area.sound]}`}
+              aria-pressed={isActive}
               style={{
                 left: `${area.x1}%`,
                 top: `${area.y1}%`,
               }}
-               onClick={() => {
-  playSound(sounds[area.sound], `p5-${area.sound}`);
-}}
+              onClick={() => {
+                playSound(sounds[area.sound], `p5-${area.sound}`);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  playSound(sounds[area.sound], `p5-${area.sound}`);
+                }
+              }}
             ></div>
           );
         }
@@ -173,6 +211,7 @@ const playSound = (path, id) => {
           <div
             key={index}
             className="clickable-area"
+            aria-hidden="true"
             style={{
               position: "absolute",
               left: `${area.x1}%`,
@@ -180,13 +219,14 @@ const playSound = (path, id) => {
               width: `${area.x2 - area.x1}%`,
               height: `${area.y2 - area.y1}%`,
             }}
-           onClick={() => {
-  playSound(sounds[area.sound], `p5-${area.sound}`);
-}}
+            onClick={() => {
+              playSound(sounds[area.sound], `p5-${area.sound}`);
+            }}
           ></div>
         );
       })}
 
+      
       <div
         id="CD-1-page5"
         className="headset-icon-CD-page5 hover:scale-110 transition"
@@ -196,12 +236,24 @@ const playSound = (path, id) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open Meet my family audio"
           onClick={() =>
             openPopup(
               "audio",
-              <AudioWithCaption src={steall} captions={captionsExample} />,
+              <AudioWithCaption src={steall} captions={captionsExample}pageId="sb-unit1-page5-meetMyFamily" />,
             )
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup(
+                "audio",
+                <AudioWithCaption src={steall} captions={captionsExample}  pageId="sb-unit1-page5-meetMyFamily" />, 
+              );
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -225,9 +277,18 @@ const playSound = (path, id) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open listen read and repeat activity"
           onClick={() =>
             openPopup("html", <ReadChoose data={readChooseData} />)
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("html", <ReadChoose data={readChooseData} />);
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -248,6 +309,9 @@ const playSound = (path, id) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open listen and read activity"
           onClick={() =>
             openPopup(
               "html",
@@ -262,12 +326,51 @@ const playSound = (path, id) => {
                 audioSrc={allSound_letter}
                 checkpoints={[0, 4.5, 6.4, 8.18, 9.78]}
                 popupOpen={true}
+                pageId="sb-unit1-page5-listen-read"
                 titleQ={"Listen and read along."}
+                imageAlts={[
+                  "Squirrel holding a circle with the letters Rr",
+                  "A rabbit. The word rabbit, with the letter r in red",
+                  "A red. The word red, with the letter r in red",
+                  "A runner. The word run, with the letter r in red",
+                ]}
+                subHeader="Press Play, follow the r: rabbit, red, run, then tap each card to hear it again."
                 audioArr={imageSounds}
                 captions={captions2}
               />,
             )
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup(
+                "html",
+                <FourImagesWithAudio
+                  images={[
+                    Rabbit,
+                    img1_letter,
+                    img2_letter,
+                    img3_letter,
+                    img4_letter,
+                  ]}
+                  audioSrc={allSound_letter}
+                  checkpoints={[0, 4.5, 6.4, 8.18, 9.78]}
+                  popupOpen={true}
+                  titleQ={"Listen and read along."}
+                  subHeader="Press Play, follow the r: rabbit, red, run, then tap each card to hear it again."
+                   imageAlts={[
+                  "Squirrel holding a circle with the letters Rr",
+                  "A rabbit. The word rabbit, with the letter r in red",
+                  "A red. The word red, with the letter r in red",
+                  "A runner. The word run, with the letter r in red",
+                ]}
+                  pageId="sb-unit1-page5-listen-read"
+                  audioArr={imageSounds}
+                  captions={captions2}
+                />,
+              );
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image

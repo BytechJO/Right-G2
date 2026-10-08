@@ -1,4 +1,3 @@
-import React, { useState, useEffect, useRef } from "react";
 import page_2 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 29.png";
 import img1_letter from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 28-29/Untitled-22-01.svg";
 import img2_letter from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 28-29/Untitled-22-06.svg";
@@ -22,10 +21,17 @@ import { useContext } from "react";
 import { AudioContext } from "../../../AudioContext";
 import "./Unit4_Page2.css";
 import ReadChoose from "../../ReadChoose";
+
+import q1Audio from "../../../assets/audio/ClassBook/U 4/Page 29/Helen’s uncle is a.mp3";
+import q1o1Audio from "../../../assets/audio/ClassBook/U 4/Page 29/Helen’s uncle takes pictures of.mp3";
+import q1o2Audio from "../../../assets/audio/ClassBook/U 4/Page 29/animals.mp3";
+import q1o3Audio from "../../../assets/audio/ClassBook/U 4/Page 29/nurse.mp3";
+import q1o4Audio from "../../../assets/audio/ClassBook/U 4/Page 29/people.mp3";
+import q1o5Audio from "../../../assets/audio/ClassBook/U 4/Page 29/photographer.mp3";
+import q1o6Audio from "../../../assets/audio/ClassBook/U 4/Page 29/vet.mp3";
+import q1o7Audio from "../../../assets/audio/ClassBook/U 4/Page 29/zoos.mp3";
+
 const Unit4_Page2 = ({ openPopup }) => {
-  const [activeAreaIndex, setActiveAreaIndex] = useState(null);
-  const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
-  const [isPlaying, setIsPlaying] = useState(false);
   const { audioRef, activeId, setActiveId } = useContext(AudioContext);
   // أصوات الصور
   const imageSounds = [
@@ -38,15 +44,26 @@ const Unit4_Page2 = ({ openPopup }) => {
 
   const readChooseData = {
     title: "Read and tap or click the correct answer.",
+
     questions: [
       {
         text: "Helen’s uncle takes pictures of",
-        options: ["zoos", "people", "animals"],
+        audio: q1o1Audio, // صوت السؤال
+        options: [
+          { text: "zoos", audio: q1o7Audio },
+          { text: "people", audio: q1o4Audio },
+          { text: "animals", audio: q1o2Audio },
+        ],
         correct: "animals",
       },
       {
         text: "Helen’s uncle is a",
-        options: ["vet", "photographer", "nurse"],
+        audio: q1Audio, // صوت السؤال
+        options: [
+          { text: "vet", audio: q1o6Audio },
+          { text: "photographer", audio: q1o5Audio },
+          { text: "nurse", audio: q1o3Audio },
+        ],
         correct: "photographer",
       },
     ],
@@ -72,26 +89,30 @@ const Unit4_Page2 = ({ openPopup }) => {
     { x1: 26.8, y1: 65.6, sound: 1, isPrimary: true },
 
     // // // الصوت الأول – منطقة إضافية
-    { x1: 24.82, y1: 67.53, x2: 41.11, y2:75.15, sound: 1, isPrimary: false },
+    { x1: 24.82, y1: 67.53, x2: 41.11, y2: 75.15, sound: 1, isPrimary: false },
 
     // // // // الصوت الثاني – الأساسية
-    { x1:25.6, y1: 43.1, sound: 2, isPrimary: true },
+    { x1: 25.6, y1: 43.1, sound: 2, isPrimary: true },
 
     // // // // الصوت الثاني – الإضافية
-    { x1: 16.09, y1: 42.40, x2: 32.58, y2: 57.7, sound: 2, isPrimary: false },
+    { x1: 16.09, y1: 42.4, x2: 32.58, y2: 57.7, sound: 2, isPrimary: false },
 
     // // // // الصوت الثاني – الأساسية
     { x1: 14.7, y1: 69.7, sound: 3, isPrimary: true },
 
     // // // // الصوت الثاني – الإضافية
-    { x1: 19.00, y1: 67.99, x2: 21.91, y2: 76.21, sound: 3, isPrimary: false },
+    { x1: 19.0, y1: 67.99, x2: 21.91, y2: 76.21, sound: 3, isPrimary: false },
   ];
   const sounds = {
     1: sound8,
     2: sound9,
     3: sound11,
   };
-
+  const soundLabels = {
+    1: "fix cars",
+    2: "police officer",
+    3: "mechanic",
+  };
   const handleImageClick = (e) => {
     const rect = e.target.getBoundingClientRect();
     const xPercent = ((e.clientX - rect.left) / rect.width) * 100;
@@ -125,7 +146,6 @@ const Unit4_Page2 = ({ openPopup }) => {
       {areas.map((area, index) => {
         const isActive = activeId === `p29-${area.sound}`;
 
-
         // ============================
         // 1️⃣ المنطقة الأساسية → دائرة تظهر فقط عندما تكون Active
         // ============================
@@ -133,14 +153,26 @@ const Unit4_Page2 = ({ openPopup }) => {
           return (
             <div
               key={index}
-              className={`circle-area ${isActive ? "active" : ""}`}
+              className={`circle-area page5-audio-hotspot ${
+                isActive ? "active" : ""
+              }`}
+              role="button"
+              tabIndex={0}
+              aria-label={`Play pronunciation: ${soundLabels[area.sound]}`}
+              aria-pressed={isActive}
               style={{
                 left: `${area.x1}%`,
                 top: `${area.y1}%`,
               }}
               onClick={() => {
-                  playSound(sounds[area.sound], `p29-${area.sound}`);
-                }}
+                playSound(sounds[area.sound], `p11-${area.sound}`);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  playSound(sounds[area.sound], `p11-${area.sound}`);
+                }
+              }}
             ></div>
           );
         }
@@ -153,6 +185,7 @@ const Unit4_Page2 = ({ openPopup }) => {
           <div
             key={index}
             className="clickable-area"
+            aria-hidden="true"
             style={{
               position: "absolute",
               left: `${area.x1}%`,
@@ -161,8 +194,8 @@ const Unit4_Page2 = ({ openPopup }) => {
               height: `${area.y2 - area.y1}%`,
             }}
             onClick={() => {
-                playSound(sounds[area.sound], `p29-${area.sound}`);
-              }}
+              playSound(sounds[area.sound], `p11-${area.sound}`);
+            }}
           ></div>
         );
       })}
@@ -175,12 +208,32 @@ const Unit4_Page2 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open My Uncle’s Job audio"
           onClick={() =>
             openPopup(
               "audio",
-              <AudioWithCaption src={soundListen} captions={captionsExample} />,
+              <AudioWithCaption
+                src={soundListen}
+                captions={captionsExample}
+                pageId="sb-unit4-page2-MyUnclesJob"
+              />,
             )
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup(
+                "audio",
+                <AudioWithCaption
+                  src={soundListen}
+                  captions={captionsExample}
+                  pageId="sb-unit4-page2-MyUnclesJob"
+                />,
+              );
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -201,9 +254,18 @@ const Unit4_Page2 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open listen read and repeat activity"
           onClick={() =>
             openPopup("html", <ReadChoose data={readChooseData} />)
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("html", <ReadChoose data={readChooseData} />);
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -241,9 +303,48 @@ const Unit4_Page2 = ({ openPopup }) => {
                 titleQ={"Listen and read along."}
                 audioArr={imageSounds}
                 captions={captions2}
+                pageId="sb-unit4-page2-listen-read"
+                imageAlts={[
+                  "Squirrel holding a circle with the letters long a",
+                  "A play. The word play, with the letter long a in red",
+                  "A paint. The word paint, with the letter long a in red",
+                  "A lake. The word lake, with the letter long a in red",
+                ]}
+                subHeader="Press Play, follow the long a: play, paint, lake, then tap each card to hear it again"
               />,
             )
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup(
+                "html",
+                <FourImagesWithAudio
+                  images={[
+                    Rabbit,
+                    img1_letter,
+                    img2_letter,
+                    img3_letter,
+                    img4_letter,
+                  ]}
+                  audioSrc={letterSound}
+                  checkpoints={[0, 4.5, 6.68, 8.64, 9.64]}
+                  popupOpen={true}
+                  titleQ={"Listen and read along."}
+                  audioArr={imageSounds}
+                  captions={captions2}
+                  pageId="sb-unit4-page2-listen-read"
+                  imageAlts={[
+                    "Squirrel holding a circle with the letters long a",
+                    "A play. The word play, with the letter long a in red",
+                    "A paint. The word paint, with the letter long a in red",
+                    "A lake. The word lake, with the letter long a in red",
+                  ]}
+                  subHeader="Press Play, follow the long a: play, paint, lake, then tap each card to hear it again"
+                />,
+              );
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image

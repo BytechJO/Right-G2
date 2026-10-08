@@ -36,6 +36,14 @@ const Unit3_Page1_Read = () => {
         titleQ={"Listen and read along."}
         audioArr={imageSounds}
         captions={captions}
+        pageId="sb-unit3-page1-listen-read"
+        imageAlts={[
+          "Squirrel holding a circle with the letters Jj",
+          "A jacket. The word jacket, with the letter j in red",
+          "A  jam. The word  jam, with the letter j in red",
+          "A  jet. The word  jet, with the letter j in red",
+        ]}
+        subHeader="Press Play, follow the j: jacket, jam, jet, then tap each card to hear it again."
       />
     </>
   );

@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+// import React, { useState } from "react";
 import page_6 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 15.png";
 // import song from "../../../assets/img_unit2/sounds-unit2/Pg15.Sing_Adult Lady.mp3";
 import "./Unit2_Page6.css";
-import audioBtn from "../../../assets/Page 01/Audio btn.svg";
+// import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 
 const Unit2_Page6 = ({ openPopup }) => {
@@ -23,7 +23,16 @@ const Unit2_Page6 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+           tabIndex={0}
+          role="button"
+          aria-label="Open exercise 9"
           onClick={() => openPopup("exercise", { startIndex: 9 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 9 });
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -47,7 +56,16 @@ const Unit2_Page6 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+           tabIndex={0}
+          role="button"
+          aria-label="Open exercise 10"
           onClick={() => openPopup("exercise", { startIndex: 10 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 10 });
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image

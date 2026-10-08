@@ -122,7 +122,7 @@
   background: red;
   color: white;
   border-radius: 50%;
-  font-size: 18px;
+  font-size: 14px;
   font-weight: bold;
   display: flex;
   align-items: center;
@@ -130,4 +130,9 @@
   pointer-events: none;
   z-index: 999999;
   border: 2px solid white;
+}
+
+
+.CB-review3-p2-q2-drop-slot.CB-review3-p2-q2-correct {
+  border-bottom: 3px solid #2e9e4f;
 }
