@@ -7,8 +7,6 @@ import Button from "../../WorkBookPages/Button";
 
 // ========================================
 // AUDIO
-// ⚠️ عدّل المسارات/الامتداد حسب ملفاتك
-// (ملف "is missing from the ..." اسمو مقطوع بالصورة، تأكدي من الاسم الكامل)
 // ========================================
 
 import auntSound from "../../../assets/audio/ClassBook/U 1/Page 9 - E/aunt.mp3";
@@ -20,12 +18,10 @@ import uncleSound from "../../../assets/audio/ClassBook/U 1/Page 9 - E/uncle.mp3
 import missingSound from "../../../assets/audio/ClassBook/U 1/Page 9 - E/is missing from the picture..mp3";
 
 // 🔊 مدير الصوت المشترك (صوت واحد بس بنفس الوقت)
-// ⚠️ عدّل المسار حسب مكان الملف عندك
 import { playGlobalAudio, stopGlobalAudio } from "../../audioManager";
 import ExerciseHeader from "../../ExerciseHeader";
 
 // 🔊 true = الصوت يشتغل تلقائياً لما الطالب يوقف على الكلمة بالتاب
-// (غيّرها لـ false إذا بدك الصوت بس عند Enter / Space / كليك)
 const PLAY_ON_FOCUS = true;
 
 const inputData = [
@@ -102,7 +98,7 @@ const Page9_Q2 = () => {
     Array(inputData.length).fill(false),
   );
 
-  // ✕ الخانات الغلط (الكلمة رجعت للبنك)
+  // ✕ الخانات الغلط (الكلمة بتضل بمكانها والطالب بيرجّعها أو بيبدّلها)
   const [wrongInputs, setWrongInputs] = useState([]);
 
   const [missingAnswer, setMissingAnswer] = useState("");
@@ -132,11 +128,8 @@ const Page9_Q2 = () => {
 
   /* =====================================================
      AUDIO
-     - أي صوت جديد بيوقف الصوت القديم (حتى من كومبونينت ثانية)
-     - الأيقونة بتختفي لما الصوت ينتهي أو ينوقف
   ===================================================== */
 
-  // هوية هاي الكومبونينت عند مدير الصوت (للـ cleanup)
   const audioOwner = useRef({}).current;
 
   // العنصر الي اشتغل صوته → بيظهر عليه البوردر + أيقونة السبيكر
@@ -151,10 +144,6 @@ const Page9_Q2 = () => {
       return;
     }
 
-    /*
-      أول: بنشغّل الجديد (بيوقف القديم وبينظف أيقونته)،
-      بعدين بنفعّل أيقونة الجديد.
-    */
     playGlobalAudio(src, {
       owner: audioOwner,
       onFinish: () => setActiveId((prev) => (prev === id ? null : prev)),
@@ -179,9 +168,8 @@ const Page9_Q2 = () => {
         position: "absolute",
         top: "-6px",
         right: "-6px",
-        background:"white",
-        borderRadius:"50%",
-        // color: "#2c5287",
+        background: "white",
+        borderRadius: "50%",
       }}
     >
       <path
@@ -214,7 +202,6 @@ const Page9_Q2 = () => {
 
   /* =====================================================
      SELECT WORD (كليك / لمس / Enter / Space)
-     يشغّل الصوت دايماً، ويختار الكلمة إذا مسموح
   ===================================================== */
 
   const activateWord = (word, viaKeyboard = false) => {
@@ -292,7 +279,9 @@ const Page9_Q2 = () => {
     const updated = [...answers];
 
     // إذا الكلمة بخانة ثانية (غير مقفولة) نشيلها منها
-    const oldIndex = updated.findIndex((a, i) => a === word && !lockedBlanks[i]);
+    const oldIndex = updated.findIndex(
+      (a, i) => a === word && !lockedBlanks[i],
+    );
 
     if (oldIndex !== -1) updated[oldIndex] = "";
 
@@ -301,8 +290,8 @@ const Page9_Q2 = () => {
 
     setAnswers(updated);
 
-    // نشيل ✕ بس عن الخانة الي انحط فيها كلمة جديدة
-    setWrongInputs((prev) => prev.filter((i) => i !== index));
+    // نشيل ✕ بس عن الخانات الي تغيّرت
+    setWrongInputs((prev) => prev.filter((i) => i !== index && i !== oldIndex));
 
     setSelectedWord(null);
 
@@ -326,6 +315,9 @@ const Page9_Q2 = () => {
     updated[index] = "";
 
     setAnswers(updated);
+
+    // نشيل ✕ عن هاي الخانة لما الطالب يرجّع الكلمة
+    setWrongInputs((prev) => prev.filter((i) => i !== index));
 
     setMessage(`${word} returned to the word bank.`);
   };
@@ -433,8 +425,8 @@ const Page9_Q2 = () => {
 
   /* =====================================================
      CHECK
-     - الصح بينقفل
-     - الغلط بيرجع للبنك + ✕ على الخانة
+     - الصح بينقفل (وبيصير البوردر أخضر)
+     - الغلط بيضل بمكانه مع ✕ والطالب هو اللي بيرجّعه أو بيبدّله
      - السكور بينحسب من كل العناصر (المقفولة + الجديدة)
   ===================================================== */
 
@@ -446,7 +438,10 @@ const Page9_Q2 = () => {
     );
 
     if (hasEmpty) {
-      ValidationAlert.info("Please fill in all blanks before checking!");
+      ValidationAlert.info(
+        "Oops!",
+        "Please fill in all blanks before checking!",
+      );
 
       setMessage("Please fill in all blanks before checking.");
 
@@ -454,9 +449,7 @@ const Page9_Q2 = () => {
     }
 
     const newLocked = [...lockedBlanks];
-    const updated = [...answers];
     const wrong = [];
-    const returned = [];
 
     let correctCount = 0;
 
@@ -467,10 +460,6 @@ const Page9_Q2 = () => {
         correctCount++;
       } else {
         wrong.push(i);
-
-        returned.push(ans);
-
-        updated[i] = ""; // الكلمة الغلط ترجع للبنك
       }
     });
 
@@ -480,7 +469,6 @@ const Page9_Q2 = () => {
     if (missingOk) correctCount++;
 
     setLockedBlanks(newLocked);
-    setAnswers(updated);
     setWrongInputs(wrong);
     setMissingLocked(missingOk);
     setMissingWrong(!missingOk);
@@ -502,8 +490,12 @@ const Page9_Q2 = () => {
     if (correctCount === total) {
       text += " All answers are correct.";
     } else {
-      if (returned.length > 0) {
-        text += ` Correct answers are locked. Returned to the word bank: ${returned.join(", ")}.`;
+      text += " Correct answers are locked.";
+
+      if (wrong.length > 0) {
+        text += ` Incorrect blanks: ${wrong
+          .map((i) => i + 1)
+          .join(", ")}. You can change them.`;
       }
 
       if (!missingOk) {
@@ -520,7 +512,6 @@ const Page9_Q2 = () => {
 
   /* =====================================================
      START AGAIN
-     بيرجّع الكلمات، الخانات، العلامات، الفيدباك، والصوت
   ===================================================== */
 
   const reset = () => {
@@ -542,8 +533,6 @@ const Page9_Q2 = () => {
 
   /* =====================================================
      SHOW ANSWER
-     بيعبي كل العناصر بالجواب الصح وبيقفلهم
-     (بدون ما يحسب سكور للطالب)
   ===================================================== */
 
   const showCorrectAnswers = () => {
@@ -593,17 +582,19 @@ const Page9_Q2 = () => {
 
         <div className="div-forall mb-10" style={{}}>
           <div className="component-wrapper">
-             <ExerciseHeader
-          sectionLetter="E"
-          // questionNumber="1"
-          title="Write and guess. Who is missing from the picture?"
-          subTitle="Match each clue first, then drag the item to its correct target and check the snap position."
-        />
-
+            <ExerciseHeader
+              sectionLetter="E"
+              title="Write and guess. Who is missing from the picture?"
+              subTitle="Match each clue first, then drag the item to its correct target and check the snap position."
+            />
 
             <div className="CB-unit1-p9-q2-top-container">
               <div className="family-image-wrapper">
-                <img src={img} className="CB-unit1-p9-q2-shape-img" alt="A family picture with one family member missing" />
+                <img
+                  src={img}
+                  className="CB-unit1-p9-q2-shape-img"
+                  alt="A family picture with one family member missing"
+                />
               </div>
 
               <div className="CB-unit1-p9-q2-rightSide">
@@ -635,10 +626,6 @@ const Page9_Q2 = () => {
                                 ref={provided.innerRef}
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
-                                /*
-                                  الفوكس بالكيبورد على الزر الداخلي،
-                                  مش على الـ drag handle نفسو.
-                                */
                                 tabIndex={-1}
                                 role="presentation"
                                 aria-describedby={undefined}
@@ -661,12 +648,7 @@ const Page9_Q2 = () => {
                               >
                                 <span aria-hidden="true">{word}</span>
 
-                                {/*
-                                  زر شفاف للكيبورد وقارئ الشاشة.
-                                  Enter / Space عليه بيعملوا click → بيوصل للأب.
-                                  وجود button جوا الـ draggable بيمنع
-                                  مكتبة السحب من رفع العنصر بـ Space.
-                                */}
+                                {/* زر شفاف للكيبورد وقارئ الشاشة */}
                                 <button
                                   type="button"
                                   ref={(node) => {
@@ -698,7 +680,9 @@ const Page9_Q2 = () => {
                 {/* الفقاعة */}
                 <div className="missing-bubble">
                   <input
-                    className="blank-space"
+                    className={`blank-space ${
+                      missingLocked ? "blank-space-correct" : ""
+                    }`}
                     value={missingAnswer}
                     disabled={showAnswer || missingLocked}
                     aria-label="Name of the missing person"
@@ -713,16 +697,6 @@ const Page9_Q2 = () => {
                       ✕
                     </span>
                   )}
-
-                  {/* {missingLocked && (
-                    <span
-                      className="CB-unit1-p9-q2-wrong-icon1"
-                      style={{ color: "#2e7d32" }}
-                      aria-hidden="true"
-                    >
-                      ✓
-                    </span>
-                  )} */}
 
                   {/* 🔊 الجملة كاملة عليها صوت */}
                   <span
@@ -739,7 +713,10 @@ const Page9_Q2 = () => {
                     onKeyDown={handleMissingSentenceKeyDown}
                     onFocus={handleMissingSentenceFocus}
                   >
-                    <span aria-hidden="true"> is missing from the picture.</span>
+                    <span aria-hidden="true">
+                      {" "}
+                      is missing from the picture.
+                    </span>
 
                     {activeId === MISSING_AUDIO_ID && <SpeakerIcon />}
                   </span>
@@ -753,7 +730,8 @@ const Page9_Q2 = () => {
                 {inputData.map((item, index) => {
                   const locked = lockedBlanks[index];
                   const isWrong = wrongInputs.includes(index);
-                  const isValidTarget = Boolean(activeWord) && !allLocked && !locked;
+                  const isValidTarget =
+                    Boolean(activeWord) && !allLocked && !locked;
 
                   return (
                     <div key={index} className="CB-unit1-p9-q2-question-row">
@@ -786,7 +764,11 @@ const Page9_Q2 = () => {
                               readOnly
                               tabIndex={-1}
                               aria-hidden="true"
-                              className="CB-unit1-p9-q2-input"
+                              className={`CB-unit1-p9-q2-input ${
+                                locked && answers[index]
+                                  ? "CB-unit1-p9-q2-input-correct"
+                                  : ""
+                              }`}
                               style={{ pointerEvents: "none" }}
                             />
 
@@ -798,16 +780,6 @@ const Page9_Q2 = () => {
                                 ✕
                               </span>
                             )}
-{/* 
-                            {locked && (
-                              <span
-                                className="CB-unit1-p9-q2-wrong-icon"
-                                style={{ color: "#2e7d32" }}
-                                aria-hidden="true"
-                              >
-                                ✓
-                              </span>
-                            )} */}
 
                             {provided.placeholder}
 
@@ -825,7 +797,7 @@ const Page9_Q2 = () => {
                                 locked
                                   ? ", correct and locked"
                                   : isWrong
-                                    ? ", incorrect, word returned"
+                                    ? ", incorrect, you can change it"
                                     : ""
                               }${
                                 isValidTarget && selectedWord

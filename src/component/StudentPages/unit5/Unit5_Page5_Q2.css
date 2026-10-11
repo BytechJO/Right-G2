@@ -32,25 +32,25 @@
    ROW OF GROUPS
 ============================ */
 .exercise-row-CB-unit5-p5-2 {
-display: grid;
-    grid-template-columns: 1fr;
-    flex-direction: column;
-    gap: 20px;
-    justify-items: start;
-
+  display: grid;
+  grid-template-columns: 1fr;
+  flex-direction: column;
+  gap: 20px;
+  justify-items: start;
 }
 
 /* ============================
    GROUP BOX (3 IMAGES)
 ============================ */
 .ds-group-box-CB-unit5-p5-2 {
-    display: flex;
-    justify-content: space-around;
-    gap: 25px;
-    border: 2px solid #91c4ff;
-    border-radius: 12px;
-    padding: 15px;
-    width: 78%;
+  display: flex;
+  justify-content: space-around;
+  gap: 25px;
+  border: 2px solid #91c4ff;
+  border-radius: 12px;
+  padding: 15px;
+  width: 78%;
+  height: 160px;
 }
 
 /* ============================
@@ -149,5 +149,130 @@ display: grid;
   .ds-image-wrapper-CB-unit5-p5-2 {
     width: 130px;
     height: 130px;
+  }
+}
+
+
+/* ===== زر الصورة: منطقة الضغط كاملة ===== */
+.CB-u5p5q2-choice {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 88px;
+  min-height: 88px;
+  padding: 6px;
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 4px solid transparent;
+  border-radius: 16px;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.CB-u5p5q2-choice:hover {
+  background: #eef4fc;
+}
+
+.CB-u5p5q2-choice.is-selected {
+  background: #dbe7f7;
+}
+
+.CB-u5p5q2-choice[aria-disabled="true"] {
+  cursor: default;
+}
+
+.CB-u5p5q2-choice[aria-disabled="true"]:hover {
+  background: transparent;
+}
+
+.CB-u5p5q2-choice.is-selected[aria-disabled="true"]:hover {
+  background: #dbe7f7;
+}
+
+/* الصوت شغّال */
+.CB-u5p5q2-choice.is-playing {
+  border-color: #2c5287;
+}
+
+/* ✅ الصح: بوردر أخضر / ❌ الغلط: بوردر أحمر (بعد is-playing عشان يغلبوا عليه) */
+.CB-u5p5q2-choice.is-correct {
+  border-color: #16a34a;
+  background: #f0fdf4;
+}
+
+.CB-u5p5q2-choice.is-wrong {
+  border-color: #dc2626;
+  background: #fef2f2;
+}
+
+/* ===== فوكس واضح بالكيبورد ===== */
+.CB-u5p5q2-choice:focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 3px;
+}
+
+/* ===== علامة ✓ للصح: فوق يمين ===== */
+.CB-u5p5q2-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background: #16a34a;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+}
+
+/* ===== أيقونة السبيكر: فوق يسار ===== */
+.CB-u5p5q2-speaker {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #fff;
+  /* color: #fff; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.2s, transform 0.2s;
+  pointer-events: none;
+}
+
+.CB-u5p5q2-choice:hover .CB-u5p5q2-speaker,
+.CB-u5p5q2-choice:focus-visible .CB-u5p5q2-speaker,
+.CB-u5p5q2-speaker.playing {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.CB-u5p5q2-speaker.playing {
+  background: #dc2626;
+  animation: u5p5q2-pulse 0.9s ease-in-out infinite;
+}
+
+@keyframes u5p5q2-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
   }
 }

@@ -201,7 +201,7 @@
 .CB-unit1-p8-q1-input.has-word:hover,
 .CB-unit1-p8-q1-input:focus-visible,
 .CB-unit1-p8-q1-input.sound-active {
-  outline: 3px solid #2563eb;
+  outline: 2px solid #2563eb;
   outline-offset: 3px;
 }
 
@@ -229,14 +229,14 @@
 
 /* الخانات الصالحة للإفلات: بتظهر لما في كلمة مختارة أو أثناء السحب */
 .CB-unit1-p8-q1-input.valid-target {
-  outline: 3px dashed #2563eb;
+  outline: 2px dashed #2563eb;
   outline-offset: 3px;
   background: #f1f6ff;
 }
 
 /* الخانة الي عليها التركيز وفي كلمة مختارة: أقوى */
 .CB-unit1-p8-q1-input.valid-target:focus {
-  outline: 3px solid #2563eb;
+  outline: 2px solid #2563eb;
   background: #dbeafe;
   transform: scale(1.06);
   box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
@@ -254,4 +254,11 @@
 
 .CB-unit1-p8-q1-circle[aria-disabled="true"] {
   pointer-events: none;
+}
+
+
+.CB-unit1-p8-q1-circle.circle-correct-CB-unit1-p8-q1,
+.CB-unit1-p8-q1-input.slot-correct-CB-unit1-p8-q1 {
+  /* border-color: #2e9e4f; */
+  border-color: #2e9e4f !important;
 }

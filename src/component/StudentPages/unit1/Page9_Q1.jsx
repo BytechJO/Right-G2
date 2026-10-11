@@ -392,7 +392,9 @@ const Page9_Q1 = () => {
                   value=""
                   tabIndex={-1}
                   aria-hidden="true"
-                  className="CB-unit1-p9-q1-input"
+                  className={`CB-unit1-p9-q1-input ${
+                    isCorrect ? "CB-unit1-p9-q1-input-correct" : ""
+                  }`}
                   style={{ pointerEvents: "none" }}
                 />
 

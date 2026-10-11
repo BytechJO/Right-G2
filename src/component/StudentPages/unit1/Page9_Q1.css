@@ -19,6 +19,12 @@
  
 }
 
+.CB-unit1-p9-q1-input.CB-unit1-p9-q1-input-correct {
+  border-color: #2e9e4f;
+}
+.CB-unit1-p9-q1-input-box:has(.CB-unit1-p9-q1-input-correct) {
+  border-color: #2e9e4f;
+}
 .CB-unit1-p9-q1-true {
   position: absolute;
  top: 84%;

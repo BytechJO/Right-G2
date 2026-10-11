@@ -123,7 +123,9 @@ const Page8_Q2 = () => {
     setSelected(updated);
 
     // نشيل ✕ فقط عن المجموعة الي تغيّرت
-    setWrongGroups((prev) => prev.map((w, i) => (i === groupIndex ? false : w)));
+    setWrongGroups((prev) =>
+      prev.map((w, i) => (i === groupIndex ? false : w)),
+    );
 
     setMessage(
       `Group ${groupIndex + 1}: picture ${imageIndex + 1} marked as different.`,
@@ -281,9 +283,9 @@ const Page8_Q2 = () => {
 
                   return (
                     <div
-                      className={`image-wrapper-CB-unit1-p8-q2 ${
-                        groupLocked ? "locked" : ""
-                      }`}
+                     className={`image-wrapper-CB-unit1-p8-q2 ${
+  groupLocked ? "locked" : ""
+} ${groupLocked && isSelected ? "image-correct-CB-unit1-p8-q2" : ""}`}
                       key={iIndex}
                       role="button"
                       tabIndex={groupLocked ? -1 : 0}
@@ -301,7 +303,11 @@ const Page8_Q2 = () => {
                       onClick={() => handleSelect(gIndex, iIndex)}
                       onKeyDown={(e) => handleKeyDown(e, gIndex, iIndex)}
                     >
-                      <img src={img} alt={alt} className="image-CB-unit1-p8-q2 " />
+                      <img
+                        src={img}
+                        alt={alt}
+                        className="image-CB-unit1-p8-q2 "
+                      />
 
                       {/* ✕ على الصورة المختارة */}
                       {isSelected && (
@@ -330,18 +336,10 @@ const Page8_Q2 = () => {
         <button type="button" onClick={reset} className="try-again-button">
           Start Again ↻
         </button>
-        <button
-          type="button"
-          onClick={showAnswers}
-          className="show-answer-btn"
-        >
+        <button type="button" onClick={showAnswers} className="show-answer-btn">
           Show Answer
         </button>
-        <button
-          type="button"
-          onClick={checkAnswers}
-          className="check-button2"
-        >
+        <button type="button" onClick={checkAnswers} className="check-button2">
           Check Answer ✓
         </button>
       </div>

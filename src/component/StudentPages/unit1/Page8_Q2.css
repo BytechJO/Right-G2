@@ -182,3 +182,13 @@
   outline: none;
 }
  
+
+.image-wrapper-CB-unit1-p8-q2 {
+  border: 3px solid transparent; /* عشان الحجم ما يتغير لما يظهر الإطار */
+  border-radius: 12px;
+  box-sizing: border-box;
+}
+
+.image-wrapper-CB-unit1-p8-q2.image-correct-CB-unit1-p8-q2 {
+  border-color: #2e9e4f;
+}

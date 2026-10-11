@@ -275,6 +275,7 @@ const Unit4_Page2 = ({ openPopup }) => {
             y="0"
             width="90"
             height="90"
+            
           />
         </svg>
       </div>
@@ -286,6 +287,9 @@ const Unit4_Page2 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+            tabIndex={0}
+          role="button"
+          aria-label="Open listen and read activity"
           onClick={() =>
             openPopup(
               "html",

@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import img1 from "../../../assets/imgs/Right 2 Unit 1 Stellas Family/Page 8/Page8-Ex A 1-1.svg";
 import img2 from "../../../assets/imgs/Right 2 Unit 1 Stellas Family/Page 8/Page8-Ex A 1-2.svg";
 import img3 from "../../../assets/imgs/Right 2 Unit 1 Stellas Family/Page 8/Page8-Ex A 1-3.svg";
-// ✏️ عدّل المسارات حسب أماكن ملفات الصوت عندك
 
 import lambSound from "../../../assets/audio/ClassBook/U 1/Page 8 - A 1/lamb.mp3";
 import rabbitSound from "../../../assets/audio/ClassBook/U 1/Page 8 - A 1/rabbit.mp3";
@@ -56,13 +55,11 @@ const Page8_Q1 = () => {
      AUDIO — صوت كل كلمة (بالبنك وجوا الخانة)
   ===================================================== */
 
-  // الكلمة → ملف الصوت الخاص فيها
   const soundByWord = Object.fromEntries(
     items.map((it) => [it.correctInput, it.sound]),
   );
 
   const audioRef = useRef(null);
-  // العنصر الي اشتغل صوته (كلمة بالبنك أو خانة) → بيظهر عليه البوردر + أيقونة الصوت
   const [activeId, setActiveId] = useState(null);
 
   const stopAudio = () => {
@@ -80,7 +77,6 @@ const Page8_Q1 = () => {
 
     const audio = new Audio(src);
     audioRef.current = audio;
-    // لما يخلص الصوت بتختفي أيقونة الصوت
     audio.onended = () => setActiveId((prev) => (prev === id ? null : prev));
     audio.play().catch(() => setActiveId(null));
   };
@@ -114,7 +110,7 @@ const Page8_Q1 = () => {
   const [lockedCircle, setLockedCircle] = useState(falses());
   const [lockedWord, setLockedWord] = useState(falses());
 
-  // ✕ علامات الخطأ
+  // ✕ علامات الخطأ (الكلمة الغلط بتضل بمكانها)
   const [wrongCircle, setWrongCircle] = useState(falses());
   const [wrongWord, setWrongWord] = useState(falses());
 
@@ -148,12 +144,14 @@ const Page8_Q1 = () => {
 
     setAnswers(updated);
 
-    // نشيل X فقط عن الخانة التي تغيرت
-    setWrongWord((prev) => prev.map((w, i) => (i === slotIndex ? false : w)));
+    // نشيل ✕ عن الخانة الجديدة وعن الخانة القديمة (إذا الكلمة انتقلت منها)
+    setWrongWord((prev) =>
+      prev.map((w, i) => (i === slotIndex || i === oldIndex ? false : w)),
+    );
 
     setKeyboardPickedWord(null);
 
-    // 🔊 صوت الكلمة بعد ما تنحط بالخانة (سحب أو كيبورد)
+    // 🔊 صوت الكلمة بعد ما تنحط بالخانة
     playAudio(soundByWord[word], `slot-${slotIndex}`);
 
     const remaining = bankWords.filter((w) => !updated.includes(w));
@@ -252,6 +250,26 @@ const Page8_Q1 = () => {
   };
 
   /* =====================================================
+     RETURN WORD (الطالب هو اللي بيرجّع الكلمة للبنك)
+  ===================================================== */
+
+  const returnWord = (i) => {
+    if (showCorrect || lockedWord[i] || !answers[i]) return;
+
+    const word = answers[i];
+    const updated = [...answers];
+    updated[i] = "";
+    setAnswers(updated);
+
+    // نشيل ✕ عن هاي الخانة
+    setWrongWord((prev) => prev.map((w, idx) => (idx === i ? false : w)));
+
+    stopAudio();
+    setActiveId(null);
+    setKeyboardMessage(`${word} returned to the word bank.`);
+  };
+
+  /* =====================================================
      SLOT (كليك / Enter / Space / Tab / Escape)
   ===================================================== */
 
@@ -261,6 +279,12 @@ const Page8_Q1 = () => {
     // في كلمة مختارة → حطها بالخانة (وبيشتغل صوتها)
     if (!locked && keyboardPickedWord) {
       placeWord(i, keyboardPickedWord, fromKeyboard);
+      return;
+    }
+
+    // خانة غلط (بعد Check) بدون كلمة مختارة → كليك بيرجّع الكلمة للبنك
+    if (!locked && wrongWord[i] && answers[i] && !fromKeyboard) {
+      returnWord(i);
       return;
     }
 
@@ -275,19 +299,6 @@ const Page8_Q1 = () => {
         "Select a word first, then use Tab to choose a box and press Enter.",
       );
     }
-  };
-
-  // رجّع الكلمة للبنك (Delete / Backspace)
-  const returnWord = (i) => {
-    if (showCorrect || lockedWord[i] || !answers[i]) return;
-
-    const word = answers[i];
-    const updated = [...answers];
-    updated[i] = "";
-    setAnswers(updated);
-    stopAudio();
-    setActiveId(null);
-    setKeyboardMessage(`${word} returned to the word bank.`);
   };
 
   const handleSlotKeyDown = (e, i) => {
@@ -369,23 +380,27 @@ const Page8_Q1 = () => {
 
   /* =====================================================
      CHECK
+     - الصح بينقفل (وبيصير البوردر أخضر)
+     - الغلط بيضل بمكانه مع ✕ والطالب هو اللي بيرجّعه أو بيبدّله
   ===================================================== */
 
   const checkAnswers = () => {
     if (showCorrect) return;
 
     if (selected.some((s) => s === "")) {
-      ValidationAlert.info("Please choose a circle (l or r) for all items!");
+      ValidationAlert.info(
+        "Oops!",
+        "Please choose a circle (l or r) for all items!",
+      );
       return;
     }
 
     if (answers.some((a) => a === "")) {
-      ValidationAlert.info("Please fill in all the writing boxes!");
+      ValidationAlert.info("Oops!", "Please fill in all the writing boxes!");
       return;
     }
 
     let score = 0;
-    const newAnswers = [...answers];
     const newLockedCircle = [...lockedCircle];
     const newLockedWord = [...lockedWord];
     const newWrongCircle = falses();
@@ -408,14 +423,12 @@ const Page8_Q1 = () => {
         score++;
         newLockedWord[i] = true; // 🔒
       } else {
-        newAnswers[i] = ""; // ↩ الكلمة الغلط بترجع للبنك
-        newWrongWord[i] = true;
+        newWrongWord[i] = true; // ✕ والكلمة بتضل بمكانها
       }
 
       if (!circleOk || !wordOk) wrongItems.push(i + 1);
     });
 
-    setAnswers(newAnswers);
     setLockedCircle(newLockedCircle);
     setLockedWord(newLockedWord);
     setWrongCircle(newWrongCircle);
@@ -428,7 +441,7 @@ const Page8_Q1 = () => {
     setKeyboardMessage(
       score === total
         ? `Score ${score} out of ${total}. All answers are correct.`
-        : `Score ${score} out of ${total}. Correct answers are locked. Items to fix: ${wrongItems.join(", ")}.`,
+        : `Score ${score} out of ${total}. Correct answers are locked. Items to fix: ${wrongItems.join(", ")}. You can change the ones marked with a cross.`,
     );
 
     ValidationAlert[
@@ -477,7 +490,6 @@ const Page8_Q1 = () => {
     stopAudio();
     setActiveId(null);
     setKeyboardMessage("Exercise reset. All items are cleared.");
-    // 🔊 هاد الكومبونينت ما فيه صوت. إذا ExerciseHeader فيه صوت لازم يوقفه هناك.
   };
 
   const slotLabel = (i) => {
@@ -489,13 +501,19 @@ const Page8_Q1 = () => {
 
     if (keyboardPickedWord) {
       return answers[i]
-        ? `Box ${i + 1}. Current word ${answers[i]}. Press Enter to replace it with ${keyboardPickedWord}.`
+        ? `Box ${i + 1}. Current word ${answers[i]}${
+            wrongWord[i] ? ", incorrect" : ""
+          }. Press Enter to replace it with ${keyboardPickedWord}.`
         : `Box ${i + 1}. Press Enter to place ${keyboardPickedWord}.`;
     }
 
-    return answers[i]
-      ? `Box ${i + 1}. Current word ${answers[i]}. Press Enter to hear it, or Delete to return it to the word bank.`
-      : `Box ${i + 1} is empty. Select a word first.`;
+    if (answers[i]) {
+      return wrongWord[i]
+        ? `Box ${i + 1}. Current word ${answers[i]}, incorrect. Press Delete to return it to the word bank, or select another word to replace it.`
+        : `Box ${i + 1}. Current word ${answers[i]}. Press Enter to hear it, or Delete to return it to the word bank.`;
+    }
+
+    return `Box ${i + 1} is empty. Select a word first.`;
   };
 
   /* =====================================================
@@ -595,11 +613,7 @@ const Page8_Q1 = () => {
                           }}
                         >
                           {word}
-                          {activeId === `bank-${word}` && (
-                           
-                              <SpeakerIcon />
-                           
-                          )}
+                          {activeId === `bank-${word}` && <SpeakerIcon />}
                         </span>
                       )}
                     </Draggable>
@@ -653,7 +667,11 @@ const Page8_Q1 = () => {
                             }`}
                             className={`CB-unit1-p8-q1-circle ${
                               isActive ? "active" : ""
-                            } ${circleLocked ? "correct-color locked" : ""}`}
+                            } ${circleLocked ? "locked" : ""} ${
+                              circleLocked && isActive
+                                ? "circle-correct-CB-unit1-p8-q1"
+                                : ""
+                            }`}
                             onClick={() => handleSelect(letter, i)}
                             onKeyDown={(e) => handleCircleKeyDown(e, letter, i)}
                           >
@@ -692,7 +710,11 @@ const Page8_Q1 = () => {
                           onClick={() => activateSlot(i, false)}
                           onKeyDown={(e) => handleSlotKeyDown(e, i)}
                           className={`CB-unit1-p8-q1-input ${
-                            slotLocked ? "correct-color locked" : ""
+                            slotLocked ? "locked" : ""
+                          } ${
+                            slotLocked && answers[i]
+                              ? "slot-correct-CB-unit1-p8-q1"
+                              : ""
                           } ${answers[i] ? "has-word" : ""} ${
                             activeId === `slot-${i}` ? "sound-active" : ""
                           } ${validTarget ? "valid-target" : ""} ${
@@ -713,7 +735,8 @@ const Page8_Q1 = () => {
 
                     {activeId === `slot-${i}` && <SpeakerIcon />}
 
-                    {wrongWord[i] && answers[i] === "" && (
+                    {/* ✕ بتضل لحد ما الطالب يرجّع الكلمة أو يبدّلها */}
+                    {wrongWord[i] && !slotLocked && (
                       <div className="CB-unit1-p8-q1-wrong" aria-hidden="true">
                         ✕
                       </div>

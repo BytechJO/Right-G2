@@ -34,18 +34,19 @@ const Unit3_Page1_Vocab = () => {
   // ✔ Captions Array
   // ================================
   const captions = [
-    { start: 0.48, end: 3.46, text: "Page 22, unit 3, vocabulary." },
-    { start: 4.68, end: 6.18, text: "1: swim." },
-    { start: 7.3, end: 8.92, text: "2: kite." },
-    { start: 10.06, end: 14.96, text: "3: sandwich. 4: picnic table." },
-    { start: 15.98, end: 18.04, text: "5: play the drum." },
-    { start: 19.06, end: 20.82, text: "6: drum." },
-    { start: 21.94, end: 24.14, text: "7: take a photo." },
-    { start: 25.32, end: 27.24, text: "8: ride a bike." },
-    { start: 28.36, end: 30.22, text: "9: paint." },
-    { start: 31.36, end: 33.28, text: "10: park." },
-    { start: 34.3, end: 36.38, text: "11: bench." },
-  ];
+  { start: 0.48, end: 3.46, text: "Page 22, Unit 3 vocabulary." },
+  { start: 4.72, end: 6.16, text: "1 swim" },
+  { start: 7.32, end: 9.02, text: "2 kite" },
+  { start: 10.06, end: 12.04, text: "3 sandwich" },
+  { start: 13.0, end: 14.94, text: "4 picnic table" },
+  { start: 15.96, end: 18.02, text: "5 play the drum" },
+  { start: 19.04, end: 20.78, text: "6 drum" },
+  { start: 21.92, end: 24.26, text: "7 take a photo" },
+  { start: 25.36, end: 27.22, text: "8 ride a bike" },
+  { start: 28.34, end: 30.2, text: "9 paint" },
+  { start: 31.34, end: 33.24, text: "10 park" },
+  { start: 34.32, end: 36.36, text: "11 bench" },
+];
 
   // const wordAudios = [
   //   sound1,
