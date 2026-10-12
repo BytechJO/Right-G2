@@ -317,7 +317,7 @@ const Unit5_Page1 = ({ openPopup }) => {
       </div>
 
       {areas.map((area, index) => {
-        const isActive = activeId === `p28-${area.sound}`;
+        const isActive = activeId === `p40-${area.sound}`;
 
         // ============================
         // 1️⃣ المنطقة الأساسية → دائرة تظهر فقط عندما تكون Active
@@ -338,12 +338,12 @@ const Unit5_Page1 = ({ openPopup }) => {
                 top: `${area.y1}%`,
               }}
               onClick={() => {
-                playSound(sounds[area.sound], `p4-${area.sound}`);
+                playSound(sounds[area.sound], `p40-${area.sound}`);
               }}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
-                  playSound(sounds[area.sound], `p4-${area.sound}`);
+                  playSound(sounds[area.sound], `p40-${area.sound}`);
                 }
               }}
             ></div>
@@ -367,7 +367,7 @@ const Unit5_Page1 = ({ openPopup }) => {
               height: `${area.y2 - area.y1}%`,
             }}
             onClick={() => {
-              playSound(sounds[area.sound], `p4-${area.sound}`);
+              playSound(sounds[area.sound], `p40-${area.sound}`);
             }}
           ></div>
         );

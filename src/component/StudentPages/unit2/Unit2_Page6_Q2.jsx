@@ -691,7 +691,7 @@ const Unit2_Page6_Q2 = () => {
                               ref={provided.innerRef}
                               {...provided.droppableProps}
                               className={`CB-unit2-p6-q2-input ${
-                                locked && word && !showAnswered
+                                locked && word && showAnswered
                                   ? "CB-unit2-p6-q2-input-correct"
                                   : ""
                               } ${snapshot.isDraggingOver ? "drag-over-cell" : ""}`}

@@ -436,7 +436,9 @@ const Unit5_Page6_Q2 = () => {
 
       ValidationAlert.info("Oops!", msg);
       setAnnouncement(`${msg} Sentence ${firstEmpty.id} is empty.`);
-      chipRefs.current[`${firstEmpty.id}-${firstEmpty.scrambled[0]}`]?.focus?.();
+      chipRefs.current[
+        `${firstEmpty.id}-${firstEmpty.scrambled[0]}`
+      ]?.focus?.();
       return;
     }
 
@@ -514,7 +516,9 @@ const Unit5_Page6_Q2 = () => {
     setScore(null);
     setShowAnswer(false);
 
-    setAnnouncement("Activity reset. All answers, feedback and score are cleared.");
+    setAnnouncement(
+      "Activity reset. All answers, feedback and score are cleared.",
+    );
   };
 
   // ========================================
@@ -569,12 +573,11 @@ const Unit5_Page6_Q2 = () => {
               Boolean(q.audio) && (result === "correct" || showAnswer);
 
             const borderColor =
-              result === "correct"
+              result === "correct" || showAnswer
                 ? "#4caf50"
                 : result === "wrong"
                   ? "#e53935"
                   : undefined;
-
             return (
               <div className="CB-unit5-p6-q2-row mb-10" key={q.id}>
                 <div
@@ -665,7 +668,9 @@ const Unit5_Page6_Q2 = () => {
                               display: "flex",
                               justifyContent: "center",
                               fontSize: "18px",
-                              outline: isPlaying ? "3px solid #4caf50" : undefined,
+                              outline: isPlaying
+                                ? "3px solid #4caf50"
+                                : undefined,
                               touchAction: "none",
                               userSelect: "none",
                               WebkitTouchCallout: "none",
@@ -795,8 +800,6 @@ const Unit5_Page6_Q2 = () => {
             );
           })}
         </div>
-
-       
       </div>
 
       <div className="action-buttons-container">
@@ -816,7 +819,9 @@ const Unit5_Page6_Q2 = () => {
           type="button"
           onClick={checkAnswers}
           className="check-button2"
-          style={showAnswer || allCorrect ? { cursor: "not-allowed" } : undefined}
+          style={
+            showAnswer || allCorrect ? { cursor: "not-allowed" } : undefined
+          }
         >
           Check Answer ✓
         </button>

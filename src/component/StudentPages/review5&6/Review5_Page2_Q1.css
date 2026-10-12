@@ -20,18 +20,39 @@
     font-weight: bold;
     background: #fff;
     transition: all 0.15s ease;
+    position: relative;
 }
 .CB-review5-p2-q1-options-box {
-    display: flex;
+     display: flex;
     gap: 20px;
-    width: 50%;
-    margin-left: 20px;
+    width: 65%;
+    margin-top: 20px;
     justify-content: space-between;
 }
-
+.CB-review5-p2-q1-flex{
+        display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 .CB-review5-p2-q1-option-btn.is-selected {
     /* background: #777cfd; */
     color: white;
     border: 3px solid #777cfd;
 }
 
+.CB-review5-p2-q1-wrong-icon{
+      position: absolute;
+  width: 26px;
+  height: 26px;
+  background: red;
+  color: #fff;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 5;
+}

@@ -175,12 +175,12 @@ const Unit3_Page2 = ({ openPopup }) => {
                 top: `${area.y1}%`,
               }}
               onClick={() => {
-                playSound(sounds[area.sound], `p11-${area.sound}`);
+                playSound(sounds[area.sound], `p23-${area.sound}`);
               }}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
-                  playSound(sounds[area.sound], `p11-${area.sound}`);
+                  playSound(sounds[area.sound], `p23-${area.sound}`);
                 }
               }}
             ></div>
@@ -204,7 +204,7 @@ const Unit3_Page2 = ({ openPopup }) => {
               height: `${area.y2 - area.y1}%`,
             }}
             onClick={() => {
-              playSound(sounds[area.sound], `p11-${area.sound}`);
+              playSound(sounds[area.sound], `p23-${area.sound}`);
             }}
           ></div>
         );

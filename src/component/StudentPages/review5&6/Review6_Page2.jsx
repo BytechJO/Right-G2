@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import page_2 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 55.png";
 import "./Review6_Page2.css";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
@@ -20,7 +19,16 @@ const Review6_Page2 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+              tabIndex={0}
+          role="button"
+          aria-label="Open exercise 70"
           onClick={() => openPopup("exercise", { startIndex: 70 })}
+           onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 70 });
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -41,7 +49,16 @@ const Review6_Page2 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+              tabIndex={0}
+          role="button"
+          aria-label="Open exercise 71"
           onClick={() => openPopup("exercise", { startIndex: 71 })}
+           onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 71 });
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -62,7 +79,16 @@ const Review6_Page2 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+               tabIndex={0}
+          role="button"
+          aria-label="Open exercise 72"
           onClick={() => openPopup("exercise", { startIndex: 72 })}
+           onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 72 });
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image

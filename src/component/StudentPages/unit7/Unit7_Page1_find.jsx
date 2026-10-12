@@ -1,146 +1,48 @@
-import React, { useState } from "react";
+import React from "react";
+
 import find_img from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/P58.png"; //======= should change ==========
-import Rabbit from "../../../assets/Page 01/Rabbit.svg";
-import ValidationAlert from "../../Popup/ValidationAlert";
 import MySVG from "../../../assets/imgs/Interactive Svg un 7.svg";
+import FindQuestion from "../../FindQuestion";
+
+// ⚠️ ما في ملف صوت لهاد السؤال. إذا أضفتيه، فعّلي الاستيراد وعدّلي المسار
+// import targetAudio from "../../../assets/audio/ClassBook/U 7/Page 1/ticket.mp3";
+
+const targetAudio = "";
+
+// المنطقة الصحيحة (بالنسب المئوية)
+const targetArea = {
+  x1: 49.56,
+  y1: 43.25,
+  x2: 65.41,
+  y2: 90.08,
+};
 
 const Unit7_Page1_find = () => {
-  const [clickedPoint, setClickedPoint] = useState(null);
-  const [checkResult, setCheckResult] = useState(null);
-  const [showAnswer, setShowAnswer] = useState(false);
-  // ✅ منطقة المطعم (بالنسب المئوية)
-  const targetArea = {
-    x1: 54.56,
-    y1: 41.25,
-    x2: 62.41,
-    y2: 75.08,
-  };
-
-  const handleImageClick = (e) => {
-    const rect = e.target.getBoundingClientRect();
-    const xPercent = ((e.clientX - rect.left) / rect.width) * 100;
-    const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
-    console.log(xPercent, yPercent);
-
-    setClickedPoint({
-      x: xPercent,
-      y: yPercent,
-      inside:
-        xPercent >= targetArea.x1 &&
-        xPercent <= targetArea.x2 &&
-        yPercent >= targetArea.y1 &&
-        yPercent <= targetArea.y2,
-    });
-  };
-
-  const handleCheck = () => {
-    if (showAnswer) return;
-    if (!clickedPoint) {
-      ValidationAlert.info(
-        "Pay attention!",
-        "Please click on the image first.",
-      );
-      return;
-    }
-
-    if (clickedPoint.inside) {
-      setCheckResult("success");
-      ValidationAlert.success("Bravo!", "You clicked on the restaurant! 🏆");
-    } else {
-      setCheckResult("fail");
-      ValidationAlert.error("Oops!", "This is not the restaurant. Try again!");
-    }
-  };
-
-  const handleStartAgain = () => {
-    setClickedPoint(null);
-    setCheckResult(null);
-    setShowAnswer(false);
-  };
-
-  const handleShowAnswer = () => {
-    setShowAnswer(true);
-    setClickedPoint(null); // نمسح النقطة اللي كبسها الطالب
-    setCheckResult("success"); // اختيارية إذا بدك يظهر نجاح
-  };
-
   return (
-    <div>
-      <div
-        style={{
-          textAlign: "center",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <div
-          style={{ display: "flex", justifyContent: "center", width: "100%" }}
-        >
-          <img src={Rabbit} style={{ height: "50px", width: "auto" }} />{" "}
-          <h5 className="header-title-page8">
-            I need your help. Can you help me find the person holding a ticket
-            in the pictures?
-          </h5>
-        </div>
-        <div style={{ position: "relative", display: "inline-block" }}>
-          <img
-            src={find_img}
-            alt="interactive"
-            style={{
-              width: "auto",
-              height: "75vh",
-              cursor: "pointer",
-              display: "block",
-            }}
-            onClick={handleImageClick}
-          />
-
-          {/* ✅ الدائرة الحمراء في مكان الكبس */}
-          {clickedPoint && (
-            <div
-              style={{
-                position: "absolute",
-                top: `${clickedPoint.y}%`,
-                left: `${clickedPoint.x}%`,
-                width: "3%",
-                height: "3%",
-                backgroundColor: "red",
-                borderRadius: "50%",
-                transform: "translate(-50%, -50%)",
-                pointerEvents: "none",
-              }}
-            ></div>
-          )}
-
-          {/* ✅ تلوين المنطقة الصحيحة إذا الجواب صح */}
-          {(checkResult === "success" || showAnswer) && (
-            <img
-              src={MySVG}
-              alt="answer highlight"
-              style={{
-                position: "absolute",
-                top: `46%`,
-                left: `50.5%`,
-                height: `41%`,
-                pointerEvents: "none",
-              }}
-            />
-          )}
-        </div>
-      </div>
-      <div className="action-buttons-container ">
-        <button className="try-again-button" onClick={handleStartAgain}>
-          Start Again ↻
-        </button>
-        <button className="show-answer-btn" onClick={handleShowAnswer}>
-          Show Answer
-        </button>
-        <button className="check-button2" onClick={handleCheck}>
-          Check Answer ✓
-        </button>
-      </div>
-    </div>
+    <FindQuestion
+      title="I need your help. Can you help me find the person holding a ticket in the pictures?"
+      subtitle="Scan the whole picture first, then tap the the person holding a ticket."
+      image={find_img}
+      targetAudio={targetAudio}
+      // ⚠️ عدّليه ليطابق الصفحة، وخليه بدون ما يحدد مكان الشخص اللي ماسك التذكرة
+      imageAlt="A busy boarding scene with many people."
+      targetName="the person holding a ticket"
+      targetArea={targetArea}
+      answerHighlight={MySVG}
+      imageHeight="75vh"
+      highlightTop="45.5%"
+      highlightLeft="50.6%"
+      highlightHeight="41%"
+      targetAriaLabel="Select the person holding a ticket"
+      pointerSelectedMessage="A point in the scene was selected. Use Check Answer to check it."
+      keyboardSelectedMessage="The person holding a ticket selected. Use Check Answer to check your answer."
+      correctAnnouncement="Correct. You found the person holding a ticket."
+      correctAlertMessage="You found the person holding a ticket! 🏆"
+      wrongAnnouncement="That is not the person holding a ticket. Try again."
+      wrongAlertMessage="This is not the person holding a ticket. Try again!"
+      resetAnnouncement="Activity reset. Find the person holding a ticket."
+      showAnswerAnnouncement="The person holding a ticket is highlighted."
+    />
   );
 };
 

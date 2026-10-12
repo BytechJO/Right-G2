@@ -333,12 +333,12 @@ const Unit2_Page1 = ({ openPopup }) => {
                 top: `${area.y1}%`,
               }}
               onClick={() => {
-                playSound(sounds[area.sound], `p4-${area.sound}`);
+                playSound(sounds[area.sound], `p10-${area.sound}`);
               }}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
-                  playSound(sounds[area.sound], `p4-${area.sound}`);
+                  playSound(sounds[area.sound], `p10-${area.sound}`);
                 }
               }}
             ></div>
@@ -362,7 +362,7 @@ const Unit2_Page1 = ({ openPopup }) => {
               height: `${area.y2 - area.y1}%`,
             }}
             onClick={() => {
-              playSound(sounds[area.sound], `p4-${area.sound}`);
+              playSound(sounds[area.sound], `p10-${area.sound}`);
             }}
           ></div>
         );

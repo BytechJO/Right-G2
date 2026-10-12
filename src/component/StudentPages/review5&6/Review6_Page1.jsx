@@ -18,7 +18,16 @@ const Review6_Page1 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+              tabIndex={0}
+          role="button"
+          aria-label="Open exercise 67"
           onClick={() => openPopup("exercise", { startIndex: 67 })}
+           onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 67 });
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -39,7 +48,16 @@ const Review6_Page1 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+              tabIndex={0}
+          role="button"
+          aria-label="Open exercise 68"
           onClick={() => openPopup("exercise", { startIndex: 68 })}
+           onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 68 });
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -60,7 +78,16 @@ const Review6_Page1 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+               tabIndex={0}
+          role="button"
+          aria-label="Open exercise 69"
           onClick={() => openPopup("exercise", { startIndex: 69 })}
+           onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 69 });
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
