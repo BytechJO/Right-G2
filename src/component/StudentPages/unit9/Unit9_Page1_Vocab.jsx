@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
+// import React, { useState, useRef, useEffect } from "react";
 import backgroundImage from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page.png";
-import page2_2 from "../../../assets/imgs/Voca.svg";
+// import page2_2 from "../../../assets/imgs/Voca.svg";
 import vocabulary from "../../../assets/audio/ClassBook/U 9/CD52.Pg76_Instruction1_Adult Lady.mp3";
 import "./Unit9_Page1.css";
 import ModernVocabularyComponent from "../../ModernVocabularyComponent";
@@ -26,7 +26,6 @@ import sound9 from "../../../assets/audio/ClassBook/U 9/unit9-sound9.mp3";
 import sound10 from "../../../assets/audio/ClassBook/U 9/unit9-sound10.mp3";
 
 const Unit9_Page1_Vocab = () => {
-
   // ================================
   // ✔ Captions Array
   // ================================
@@ -62,45 +61,47 @@ const Unit9_Page1_Vocab = () => {
   const nums = [num1, num2, num3, num4, num5, num6, num7, num8, num9, num10];
 
   return (
-     <ModernVocabularyComponent
+    <ModernVocabularyComponent
       backgroundImage={backgroundImage}
       mainAudio={vocabulary}
       wordAudios={wordAudios}
       nums={nums}
       vocabulary={[
         "soccer",
-            "hen",
-            "chess",
-            "thinking",
-            "sending an e-mail",
-            "listening to the radio",
-            "glasses",
-            "looking",
-            "ironing clothes",
-            "cooking",
+        "hen",
+        "chess",
+        "thinking",
+        "sending an e-mail",
+        "listening to the radio",
+        "glasses",
+        "looking",
+        "ironing clothes",
+        "cooking",
       ]}
- markers={[
-  { id: 1, top: "25%", left: "28%" },
+      markers={[
+        { id: 1, top: "25%", left: "28%" },
 
-  { id: 2, top: "29%", left: "14%" }, // 100-71
+        { id: 2, top: "29%", left: "14%" }, // 100-71
 
-  { id: 3, top: "55%", left: "35.5%" },
+        { id: 3, top: "55%", left: "35.5%" },
 
-  { id: 4, top: "44%", left: "41%" },
+        { id: 4, top: "44%", left: "41%" },
 
-  { id: 5, top: "46%", left: "19%" },
+        { id: 5, top: "46%", left: "19%" },
 
-  { id: 6, top: "30%", left: "37%" }, // 100-70 , 100-63
+        { id: 6, top: "30%", left: "37%" }, // 100-70 , 100-63
 
-  { id: 7, top: "38.5%", left: "56%" }, // 100-61.5 , 100-44
+        { id: 7, top: "38.5%", left: "56%" }, // 100-61.5 , 100-44
 
-  { id: 8, top: "48%", left: "53%" },
+        { id: 8, top: "48%", left: "53%" },
 
-  { id: 9, top: "45%", left: "65%" },
+        { id: 9, top: "45%", left: "65%" },
 
-  { id: 10, top: "23%", left: "55%" }, // 100-77 , 100-45
-]}
+        { id: 10, top: "23%", left: "55%" }, // 100-77 , 100-45
+      ]}
       captions={captions}
+      pageId="sb-unit9-page1-vocab"
+      height={70}
     />
   );
 };

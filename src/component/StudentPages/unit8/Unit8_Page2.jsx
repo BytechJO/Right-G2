@@ -1,4 +1,3 @@
-import React, { useState, useEffect, useRef } from "react";
 import page_2 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 65.png";
 import img1_letter from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 64-65/1-05.svg";
 import img2_letter from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 64-65/1-06.svg";
@@ -6,7 +5,6 @@ import img3_letter from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/P
 import img4_letter from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 64-65/1-08.svg";
 import Rabbit from "../../../assets/Page 01/Rabbit.svg";
 import soundListen from "../../../assets/audio/ClassBook/U 8/pg65-reading-adult-lady_wE17e53C.mp3";
-
 import sound1_letter from "../../../assets/audio/ClassBook/U 8/Pg65_1.1_Adult Lady.mp3";
 import sound2_letter from "../../../assets/audio/ClassBook/U 8/Pg65_1.2_Adult Lady.mp3";
 import sound3_letter from "../../../assets/audio/ClassBook/U 8/Pg65_1.3_Adult Lady.mp3";
@@ -20,10 +18,6 @@ import FourImagesWithAudio from "../../FourImagesWithAudio";
 import "./Unit8_Page2.css";
 import ReadChoose from "../../ReadChoose";
 const Unit8_Page2 = ({ openPopup }) => {
-  const [activeAreaIndex, setActiveAreaIndex] = useState(null);
-  const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef(null);
   // أصوات الصور
   const imageSounds = [
     null, // الصورة الأولى الكبيرة (إن ما بدك صوت إلها)
@@ -97,12 +91,32 @@ const Unit8_Page2 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open What Do You Have in Your Closet? audio"
           onClick={() =>
             openPopup(
               "audio",
-              <AudioWithCaption src={soundListen} captions={captionsExample} />,
+              <AudioWithCaption
+                src={soundListen}
+                captions={captionsExample}
+                pageId="sb-unit8-page2-WhatDoYouHaveinYourCloset?"
+              />,
             )
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup(
+                "audio",
+                <AudioWithCaption
+                  src={soundListen}
+                  captions={captionsExample}
+                  pageId="sb-unit8-page2-WhatDoYouHaveinYourCloset?"
+                />,
+              );
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -123,9 +137,18 @@ const Unit8_Page2 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open listen read and repeat activity"
           onClick={() =>
             openPopup("html", <ReadChoose data={readChooseData} />)
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("html", <ReadChoose data={readChooseData} />);
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -146,6 +169,9 @@ const Unit8_Page2 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open listen and read activity"
           onClick={() =>
             openPopup(
               "html",
@@ -163,9 +189,48 @@ const Unit8_Page2 = ({ openPopup }) => {
                 titleQ={"Listen and read along."}
                 audioArr={imageSounds}
                 captions={captions2}
+                pageId="sb-unit8-page2-listen-read"
+                imageAlts={[
+                  "Squirrel holding a circle with the letters long u",
+                  "A tune. The word tune, with the letter long u in red",
+                  "A June. The word June, with the letter long u in red",
+                  "A tube. The word tube, with the letter long u in red",
+                ]}
+                subHeader="Press Play, follow the long u: tune, June, tube, then tap each card to hear it again."
               />,
             )
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup(
+                "html",
+                <FourImagesWithAudio
+                  images={[
+                    Rabbit,
+                    img1_letter,
+                    img2_letter,
+                    img3_letter,
+                    img4_letter,
+                  ]}
+                  audioSrc={letterSound}
+                  checkpoints={[0, 4.66, 6.98, 8.32, 9.82]}
+                  popupOpen={true}
+                  titleQ={"Listen and read along."}
+                  audioArr={imageSounds}
+                  captions={captions2}
+                  pageId="sb-unit8-page2-listen-read"
+                  imageAlts={[
+                    "Squirrel holding a circle with the letters long u",
+                    "A tune. The word tune, with the letter long u in red",
+                    "A June. The word June, with the letter long u in red",
+                    "A tube. The word tube, with the letter long u in red",
+                  ]}
+                  subHeader="Press Play, follow the long u: tune, June, tube, then tap each card to hear it again."
+                />,
+              );
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image

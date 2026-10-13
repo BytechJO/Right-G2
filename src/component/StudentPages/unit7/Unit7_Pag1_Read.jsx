@@ -34,7 +34,7 @@ const Unit7_Page1_Read = () => {
         titleQ={"Listen and read along."}
         audioArr={imageSounds}
         captions={captions}
-                pageId="sb-unit7-page1-listen-read"
+        pageId="sb-unit7-page1-listen-read"
         imageAlts={[
           "Squirrel holding a circle with the letters long o",
           "A boat. The word boat, with the letter long o in red",

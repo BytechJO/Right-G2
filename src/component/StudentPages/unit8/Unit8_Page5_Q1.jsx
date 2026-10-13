@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
+import ExerciseHeader from "../../ExerciseHeader";
 import trueIcon from "../../../assets/imgs/true.svg";
 import falseIcon from "../../../assets/imgs/false.svg";
 import img1 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 68/Ex A 1.svg";
@@ -8,17 +9,55 @@ import img3 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 68/
 import img4 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 68/Ex A 4.svg";
 import QuestionAudioPlayer from "../../QuestionAudioPlayer";
 import sound1 from "../../../assets/audio/ClassBook/U 8/cd48pg68-instruction1-adult-lady_IL6QUJR1.mp3";
+const keyboardFocusClass = "focus-visible:outline-4! focus-visible:outline-[#2563eb]! focus-visible:outline-offset-4!";
 const Unit8_Page5_Q1 = () => {
   const items = [
-    { img: img1, correct: "yes" },
-    { img: img2, correct: "no" },
-    { img: img3, correct: "yes" },
-    { img: img4, correct: "no" },
+    { img: img1, correct: "yes", alt: "A grey animal with long ears, a mane, four hooves, and a tail." },
+    { img: img2, correct: "no", alt: "A yellow circle surrounded by orange rays." },
+    { img: img3, correct: "yes", alt: "A wax drawing stick with a pointed tip." },
+    { img: img4, correct: "no", alt: "A frozen cube with water dripping down its sides." },
   ];
 
   const [selected, setSelected] = useState(Array(items.length).fill(""));
   const [locked, setLocked] = useState(false);
-  const [showResult, setShowResult] = useState(false);
+  const [results, setResults] = useState(Array(items.length).fill(null));
+  const [message, setMessage] = useState("");
+  const [forceStopAudio, setForceStopAudio] = useState(false);
+  const exerciseRef = useRef(null);
+  const isLocked = (i) => locked || results[i] === "correct";
+  const stopInstructionAudio = (rewind = false) => {
+    const audio = exerciseRef.current?.querySelector("audio");
+    if (audio) {
+      audio.pause();
+      if (rewind) audio.currentTime = 0;
+    }
+    setForceStopAudio(true);
+  };
+  const choiceProps = (i, value) => ({
+    type: "button",
+    "aria-pressed": selected[i] === value,
+    "aria-disabled": isLocked(i),
+    "aria-label": `Question ${i + 1}: ${value === "yes" ? "Tick, has long u" : "Cross, does not have long u"}${
+      selected[i] === value && results[i] === "correct" ? ", correct and locked" :
+      selected[i] === value && results[i] === "wrong" ? ", incorrect, you can change it" : ""
+    }`,
+    style: selected[i] === value && results[i]
+      ? {
+          borderColor: results[i] === "correct" ? "#16a34a" : "#ef4444",
+       
+        } : undefined,
+    onKeyDown: (e) => {
+      if (e.key !== "Enter" && e.key !== " ") return;
+      e.preventDefault();
+      e.stopPropagation();
+      if (!e.repeat) e.currentTarget.click();
+    },
+    onKeyUp: (e) => {
+      if (e.key !== "Enter" && e.key !== " ") return;
+      e.preventDefault();
+      e.stopPropagation();
+    },
+  });
   const captions = [
     {
       start: 0.539,
@@ -30,11 +69,16 @@ const Unit8_Page5_Q1 = () => {
   ];
 
   const choose = (i, value) => {
-    if (locked) return;
+    if (isLocked(i)) {
+      setMessage(`Question ${i + 1} is locked. Press Start Again to try again.`);
+      return;
+    }
 
     const updated = [...selected];
     updated[i] = value;
     setSelected(updated);
+    setResults((previous) => previous.map((result, index) => index === i ? null : result));
+    setMessage(`Question ${i + 1}: ${value === "yes" ? "tick" : "cross"} selected.`);
   };
 
   const checkAnswers = () => {
@@ -42,14 +86,14 @@ const Unit8_Page5_Q1 = () => {
 
     if (selected.includes("")) {
       ValidationAlert.info("Please answer all questions.");
+      setMessage("Please answer all questions.");
       return;
     }
 
-    let score = 0;
-
-    items.forEach((item, i) => {
-      if (selected[i] === item.correct) score++;
-    });
+    const checked = items.map((item, i) =>
+      results[i] === "correct" || selected[i] === item.correct ? "correct" : "wrong",
+    );
+    const score = checked.filter((result) => result === "correct").length;
 
     const total = items.length;
 
@@ -67,44 +111,58 @@ const Unit8_Page5_Q1 = () => {
     else if (score === 0) ValidationAlert.error(msg);
     else ValidationAlert.warning(msg);
 
-    setLocked(true);
-    setShowResult(true);
+    setLocked(score === total);
+    setResults(checked);
+    setMessage(`Score ${score} out of ${total}. ${checked.map((result, i) =>
+      `Question ${i + 1}: ${result === "correct" ? "correct and locked" : "incorrect, you can change it"}.`,
+    ).join(" ")}`);
   };
 
   const showAnswers = () => {
     setSelected(items.map((i) => i.correct));
     setLocked(true);
+    setResults(Array(items.length).fill("correct"));
+    setMessage("Correct answers are shown and locked. Press Start Again to try again.");
   };
   const reset = () => {
+    stopInstructionAudio(true);
     setSelected(Array(items.length).fill(""));
     setLocked(false);
-    setShowResult(false);
+    setResults(Array(items.length).fill(null));
+    setMessage("Exercise reset. All answers and feedback are cleared.");
   };
   const isWrong = (i) => {
-    if (!showResult) return false;
-    return selected[i] !== items[i].correct;
+    return results[i] === "wrong";
   };
   return (
-    <div className="main-container-component">
+    <div ref={exerciseRef} className="main-container-component"
+      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") e.stopPropagation(); }}
+      onKeyUp={(e) => { if (e.key === "Enter" || e.key === " ") e.stopPropagation(); }}
+    >
+      <div className="sr-only" role="status" aria-live="polite" aria-atomic="true">{message}</div>
+      <p id="u8p5q1-help" className="sr-only">Use Tab and Shift+Tab to move between controls. Press Enter or Space to choose tick or cross. After checking, correct answers are locked and incorrect answers can be changed.</p>
       <div className="div-forall">
-        <h5 className="header-title-page8">
-          <span className="ex-A" style={{ marginRight: "10px" }}>
-            A
-          </span>
-          <span style={{ color: "#2e3192" , marginRight: "10px"}}>1</span>
-          Listen and tap or click the{" "}
-          <span style={{ color: "#2e3192" }}>long u</span>? words.
-        </h5>
+        <ExerciseHeader
+          sectionLetter="A"
+          questionNumber="1"
+          title={"Does it have a long u? Listen and write ✓ or ✗."}
+          subTitle={"Read the clue completely, then tap the option that best matches it."}
+        />
         <QuestionAudioPlayer
           src={sound1}
           captions={captions}
           stopAtSecond={10.73}
+          forceStop={forceStopAudio}
+          pageId={"unit8-page5-q1"}
+          onInteract={() => setForceStopAudio(false)}
         />
         {/* GRID */}
-        <div className="grid grid-cols-4 gap-3">
+        <div className="grid grid-cols-4 gap-3" role="group" aria-label="Questions" aria-describedby="u8p5q1-help">
           {items.map((item, i) => (
             <div
               key={i}
+              role="group"
+              aria-label={`Question ${i + 1}`}
               className="flex flex-col items-center justify-center gap-3 relative mt-4"
             >
               {/* number in corner */}
@@ -116,6 +174,7 @@ const Unit8_Page5_Q1 = () => {
               <div className="flex flex-col items-center">
                 <img
                   src={item.img}
+                  alt={item.alt}
                   className="w-[150px]! h-[150px]! object-contain"
                 />
               </div>
@@ -123,38 +182,40 @@ const Unit8_Page5_Q1 = () => {
               {/* answers on right */}
               <div className="flex gap-2 justify-center h-[150px] relative">
                 <button
+                  {...choiceProps(i, "yes")}
                   onClick={() => choose(i, "yes")}
-                  className={`w-10 h-10 border flex items-center justify-center rounded text-lg ${
+                  className={`w-10 h-10 border flex items-center justify-center rounded text-lg ${keyboardFocusClass} ${
                     selected[i] === "yes"
-                      ? "border-2 border-blue-800 text-white"
+                      ? "border-2 border-blue-800 bg-blue-100 text-black"
                       : ""
                   }`}
                 >
-                  <img src={trueIcon} style={{ height: "25px" }} />
+                  <img src={trueIcon} alt="" aria-hidden="true" style={{ height: "25px" }} />
 
                   {isWrong(i) &&
                     selected[i] === "yes" &&
                     item.correct !== "yes" && (
-                      <span className="absolute -top-2 right-10 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold border-2 border-white shadow-md">
+                      <span aria-hidden="true" className="absolute -top-2 right-10 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold border-2 border-white shadow-md">
                         ✕
                       </span>
                     )}
                 </button>
 
                 <button
+                  {...choiceProps(i, "no")}
                   onClick={() => choose(i, "no")}
-                  className={`w-10 h-10 flex items-center justify-center border rounded text-lg ${
+                  className={`w-10 h-10 flex items-center justify-center border rounded text-lg ${keyboardFocusClass} ${
                     selected[i] === "no"
-                      ? "border-2 border-blue-800 text-white"
+                      ? "border-2 border-blue-800 bg-blue-100 text-black"
                       : ""
                   }`}
                 >
-                  <img src={falseIcon} style={{ height: "25px" }} />
+                  <img src={falseIcon} alt="" aria-hidden="true" style={{ height: "25px" }} />
 
                   {isWrong(i) &&
                     selected[i] === "no" &&
                     item.correct !== "no" && (
-                      <span className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold border-2 border-white shadow-md">
+                      <span aria-hidden="true" className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold border-2 border-white shadow-md">
                         ✕
                       </span>
                     )}
@@ -166,15 +227,15 @@ const Unit8_Page5_Q1 = () => {
 
         {/* buttons */}
         <div className="action-buttons-container">
-          <button onClick={reset} className="try-again-button">
+          <button type="button" onClick={reset} className={`try-again-button`}>
             Start Again ↻
           </button>
 
-          <button onClick={showAnswers} className="show-answer-btn">
+          <button type="button" onClick={showAnswers} className={`show-answer-btn`}>
             Show Answer
           </button>
 
-          <button onClick={checkAnswers} className="check-button2">
+          <button type="button" onClick={checkAnswers} className={`check-button2`} aria-disabled={locked}>
             Check Answer ✓
           </button>
         </div>
