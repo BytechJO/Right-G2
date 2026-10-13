@@ -35,6 +35,14 @@ const captions = [
         titleQ={"Listen and read along."}
         audioArr={imageSounds}
         captions={captions}
+              pageId="sb-unit6-page1-listen-read"
+        imageAlts={[
+          "Squirrel holding a circle with the letters long i",
+          "A bike. The word bike, with the letter long i in red",
+          "A five. The word   five, with the letter long i in red",
+          "A kite. The word  kite, with the letter long i in red",
+        ]}
+        subHeader="Press Play, follow the long i: bike, five, kite, then tap each card to hear it again."
       />
     </>
   );

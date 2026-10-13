@@ -1,6 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
 import backgroundImage from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page.png";
-import page2_2 from "../../../assets/imgs/Voca.svg";
+// import page2_2 from "../../../assets/imgs/Voca.svg";
 import vocabulary from "../../../assets/audio/ClassBook/U 5/Pg40_Vocab_Adult Lady.mp3";
 import "./Unit5_Page1.css";
 import ModernVocabularyComponent from "../../ModernVocabularyComponent";
@@ -31,20 +30,19 @@ const Unit5_Page1_Vocab = () => {
   // ================================
   // ✔ Captions Array
   // ================================
-  const captions = [
-    { start: 0.459, end: 2.96, text: "Page 40, Unit 5 vocabulary." },
-    {
-      start: 4.239,
-      end: 10.659,
-      text: "1, kitchen. 2, carry. 3, fruit.",
-    },
-    { start: 11.719, end: 13.399, text: "4, meat." },
-    { start: 14.42, end: 16.18, text: "5, fish." },
-    { start: 17.299, end: 19.219, text: "6, rice." },
-    { start: 20.299, end: 22.079, text: "7, chicken." },
-    { start: 23.139, end: 25.0, text: "8, happy." },
-    { start: 26.059, end: 30.719, text: "9, look. 10, tablecloth." },
-  ];
+const captions = [
+  { start: 0.48, end: 2.96, text: "Page 40, Unit 5 vocabulary." },
+  { start: 4.28, end: 5.58, text: "1 kitchen" },
+  { start: 6.48, end: 8.06, text: "2 carry" },
+  { start: 8.98, end: 10.64, text: "3 fruit" },
+  { start: 11.7, end: 13.34, text: "4 meat" },
+  { start: 14.38, end: 16.16, text: "5 fish" },
+  { start: 17.28, end: 19.18, text: "6 rice" },
+  { start: 20.3, end: 22.08, text: "7 chicken" },
+  { start: 23.16, end: 25.08, text: "8 happy" },
+  { start: 26.04, end: 27.56, text: "9 look" },
+  { start: 28.5, end: 30.68, text: "10 tablecloth" },
+];
 
   const wordAudios = [
     sound1,
@@ -60,7 +58,7 @@ const Unit5_Page1_Vocab = () => {
   ];
 
   const nums = [num1, num2, num3, num4, num5, num6, num7, num8, num9, num10];
-  const wordRefs = useRef(wordAudios.map(() => React.createRef()));
+  // const wordRefs = useRef(wordAudios.map(() => React.createRef()));
 
   return (
     <ModernVocabularyComponent
@@ -83,7 +81,7 @@ const Unit5_Page1_Vocab = () => {
       markers={[
         { id: 1, top: "30%", left: "53%" },
 
-        { id: 2, top: "40%", left: "55%" }, // 100-60
+        { id: 2, top: "37%", left: "55%" }, // 100-60
 
         { id: 3, top: "48%", left: "26.5%" },
 
@@ -91,9 +89,9 @@ const Unit5_Page1_Vocab = () => {
 
         { id: 5, top: "49%", left: "46%" },
 
-        { id: 6, top: "55%", left: "42%" }, // 100-45 , 100-58
+        { id: 6, top: "52%", left: "40%" }, // 100-45 , 100-58
 
-        { id: 7, top: "47%", left: "48%" }, // 100-53 , 100-52
+        { id: 7, top: "43%", left: "46%" }, // 100-53 , 100-52
 
         { id: 8, top: "31%", left: "41%" }, // 100-69 , 100-59
 
@@ -102,6 +100,8 @@ const Unit5_Page1_Vocab = () => {
         { id: 10, top: "63%", left: "39%" }, // 100-37 , 100-61
       ]}
       captions={captions}
+        pageId="sb-unit5-page1-vocab"
+       height={70}
     />
   );
 };

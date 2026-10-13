@@ -1,6 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
 import backgroundImage from "../../../assets/imgs/Right 2 Unit 6 Helens Day/G4_U6_Pg_46_47.png";
-import page2_2 from "../../../assets/imgs/Voca.svg";
 import vocabulary from "../../../assets/audio/ClassBook/U 6/Pg46_Vocab_Adult Lady.mp3";
 import "./Unit6_Page1.css";
 import ModernVocabularyComponent from "../../ModernVocabularyComponent";
@@ -31,17 +29,19 @@ const Unit6_Page1_Vocab = () => {
   // ================================
   // ✔ Captions Array
   // ================================
-  const captions = [
-  
-  { start: 0.579, end: 3.539, text: "Page 46, unit 6, vocabulary." },
-  { start: 4.839, end: 9.579, text: "1: get up. 2: make the bed." },
-  { start: 10.599, end: 16.079, text: "3: brush teeth. 4: eat breakfast." },
-  { start: 18.159, end: 20.219, text: "5: go to school." },
-  { start: 21.479, end: 23.76, text: "6: have a class." },
-  { start: 24.819, end: 26.839, text: "7: go home." },
-  { start: 27.979, end: 29.899, text: "8: eat lunch." },
-  { start: 30.939, end: 36.04, text: "9: do homework. 10: go to sleep" }
-  ];
+const captions = [
+  { start: 0.6, end: 3.52, text: "Page 46, Unit 6 Vocabulary." },
+  { start: 4.88, end: 6.42, text: "1 get up" },
+  { start: 7.48, end: 9.56, text: "2 make the bed" },
+  { start: 10.6, end: 12.7, text: "3 brush teeth" },
+  { start: 13.7, end: 16.059, text: "4 eat breakfast" },
+  { start: 18.12, end: 20.2, text: "5 go to school" },
+  { start: 21.44, end: 23.74, text: "6 have a class" },
+  { start: 24.82, end: 26.84, text: "7 go home" },
+  { start: 27.98, end: 29.86, text: "8 eat lunch" },
+  { start: 30.88, end: 33.08, text: "9 do homework" },
+  { start: 34.04, end: 36.04, text: "10 go to sleep" },
+];
 
   const wordAudios = [
     sound1,
@@ -112,6 +112,8 @@ const Unit6_Page1_Vocab = () => {
   { id: 10, top: "36.5%", left: "63%" }, // 100-63.5 , 100-37
 ]}
       captions={captions}
+         pageId="sb-unit6-page1-vocab"
+       height={70}
     />
   );
 };

@@ -34,6 +34,14 @@ const Unit7_Page1_Read = () => {
         titleQ={"Listen and read along."}
         audioArr={imageSounds}
         captions={captions}
+                pageId="sb-unit7-page1-listen-read"
+        imageAlts={[
+          "Squirrel holding a circle with the letters long o",
+          "A boat. The word boat, with the letter long o in red",
+          "A snow. The word snow, with the letter long o in red",
+          "A home. The word home, with the letter long o in red",
+        ]}
+        subHeader="Press Play, follow the long o: boat, snow, home, then tap each card to hear it again."
       />
     </>
   );

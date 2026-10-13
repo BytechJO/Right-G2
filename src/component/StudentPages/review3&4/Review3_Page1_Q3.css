@@ -1,0 +1,67 @@
+.CB-r3p1q3-img {
+  width: auto;
+  height: 140px;
+  object-fit: contain;
+  border-radius: 10px;
+  padding: 6px;
+}
+
+.CB-r3p1q3-field-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.CB-r3p1q3-feedback {
+  font-weight: 600;
+}
+.CB-r3p1q3-feedback.correct {
+  color: #2e7d32;
+}
+/* .CB-r3p1q3-feedback.wrong {
+  color: #c62828;
+} */
+
+/* زر إعادة صوت الجواب الصح */
+.CB-r3p1q3-play {
+  background: none;
+  border: 2px solid #2c5287;
+  color: #2c5287;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.CB-r3p1q3-play.is-playing {
+  background: #2c5287;
+  color: #fff;
+}
+
+
+.CB-r3p1q3-feedback.wrong{
+  position: absolute;
+  top: 0px;
+  right: 50px;
+  width: 22px;
+  height: 22px;
+  background: red;
+  color: white;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 999999;
+  border: 2px solid white;
+}
+
+.CB-unit2-p6-q2-input.CB-unit2-p6-q2-input-correct {
+  border-bottom: 3px solid #2e9e4f;
+}

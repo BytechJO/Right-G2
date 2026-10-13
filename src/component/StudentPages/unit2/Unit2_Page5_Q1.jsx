@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { FaVolumeUp } from "react-icons/fa";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Unit2_Page5_Q1.css";
 import QuestionAudioPlayer from "../../QuestionAudioPlayer";
@@ -10,6 +11,7 @@ import img3 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 14
 import img4 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 14/Asset 13.svg";
 import img5 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 14/Asset 14.svg";
 import img6 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 14/Asset 15.svg";
+import ExerciseHeader from "../../ExerciseHeader";
 
 /* ================= DATA ================= */
 
@@ -23,14 +25,16 @@ const leftParts = [
 ];
 
 const images = [
-  { id: "img1", src: img1 },
-  { id: "img2", src: img2 },
-  { id: "img3", src: img3 },
-  { id: "img4", src: img4 },
-  { id: "img5", src: img5 },
-  { id: "img6", src: img6 },
+  { id: "img1", src: img1, alt: "A lock" },
+  { id: "img2", src: img2, alt: "A cow" },
+  { id: "img3", src: img3, alt: "A sock" },
+  { id: "img4", src: img4, alt: "A box" },
+  { id: "img5", src: img5, alt: "A queen" },
+  { id: "img6", src: img6, alt: "A fox" },
 ];
 
+// answer = الحروف الناقصة بحقل الكتابة
+// audio (اختياري) = إذا حطيتي ملف صوت لكلمة، بيظهر زر Listen جنب الحقل
 const rightParts = [
   { id: "r1", text: "fo_" },
   { id: "r2", text: "so_ _" },
@@ -40,240 +44,425 @@ const rightParts = [
   { id: "r6", text: "lo_ _" },
 ];
 
-// 🔥 استبدل correctMatches بهذا:
+// right صار بالـ id (r1..r6) بدل النص
 const correctGroups = [
-  {
-    image: "img4",
-    right: "bo_",
-    leftIds: [1, 5],
-  },
-  {
-    image: "img6",
-    right: "fo_",
-    leftIds: [5, 1],
-  },
-  {
-    image: "img1",
-    right: "lo_ _",
-    leftIds: [2, 4],
-  },
-  {
-    image: "img3",
-    right: "so_ _",
-    leftIds: [4, 2],
-  },
-  {
-    image: "img5",
-    right: "_ueen",
-    leftIds: [3],
-  },
-  {
-    image: "img2",
-    right: "_ow",
-    leftIds: [6],
-  },
+  { image: "img4", right: "r3", leftIds: [1, 5] }, // box
+  { image: "img6", right: "r1", leftIds: [5, 1] }, // fox
+  { image: "img1", right: "r6", leftIds: [2, 4] }, // lock
+  { image: "img3", right: "r2", leftIds: [4, 2] }, // sock
+  { image: "img5", right: "r4", leftIds: [3] }, // queen
+  { image: "img2", right: "r5", leftIds: [6] }, // cow
 ];
-/* ================= COMPONENT ================= */
 
+const captions = [
+  { start: 1.1, end: 4.12, text: "Page 14, Right Activities." },
+  { start: 5.2, end: 10.24, text: "Exercise A, listen, write, and match." },
+  { start: 11.44, end: 13.1, text: "1, box." },
+  { start: 14.16, end: 18.96, text: "2, lock. 3, queen." },
+  { start: 20.08, end: 24.62, text: "4, sock. 5, fox." },
+  { start: 25.74, end: 27.46, text: "6, cow." },
+];
+
+/* ================= HELPERS (خارج الكومبوننت) ================= */
+
+const ORDER = { left: 0, image: 1, right: 2 };
+const nodeKey = (n) => `${n.type}-${n.id}`;
+const sameNode = (a, b) => !!a && !!b && a.type === b.type && a.id === b.id;
+
+const letterName = (t) => t.replace(/^-/, "");
+const wordLabel = (t) =>
+  t
+    .replace(/(_ ?)+/g, " blank ")
+    .trim()
+    .replace(/\s+/g, " ");
+
+const groupByImage = Object.fromEntries(correctGroups.map((g) => [g.image, g]));
+const groupByRight = Object.fromEntries(correctGroups.map((g) => [g.right, g]));
+
+// نوع الخط: left-image | image-right | left-right
+const makeLine = (a, b) => ({
+  id: `${nodeKey(a)}>${nodeKey(b)}`,
+  kind:
+    a.type === "left"
+      ? b.type === "image"
+        ? "left-image"
+        : "left-right"
+      : "image-right",
+  leftId: a.type === "left" ? a.id : null,
+  image: a.type === "image" ? a.id : b.type === "image" ? b.id : null,
+  right: b.type === "right" ? b.id : null,
+  status: null, // null | "correct" | "wrong"
+});
+
+// الخط الجديد بيستبدل الخطوط المتعارضة (One-to-One)
+const conflicts = (l, n) =>
+  (n.leftId !== null && l.leftId === n.leftId) ||
+  (n.right !== null && l.right === n.right) ||
+  (n.kind === "left-image" && l.kind === "left-image" && l.image === n.image) ||
+  (n.kind === "image-right" && l.kind === "image-right" && l.image === n.image);
+
+const isLineCorrect = (l) => {
+  if (l.kind === "left-image")
+    return groupByImage[l.image].leftIds.includes(l.leftId);
+  if (l.kind === "image-right") return groupByImage[l.image].right === l.right;
+  return groupByRight[l.right].leftIds.includes(l.leftId);
+};
+
+const startsAt = (l, node) => {
+  if (node.type === "left") return l.leftId === node.id;
+  if (node.type === "image")
+    return l.kind === "image-right" && l.image === node.id;
+  return l.right === node.id;
+};
+
+const groupDone = (ls, g) => {
+  const ok = (fn) => ls.some((l) => l.status === "correct" && fn(l));
+  return (
+    ok((l) => l.kind === "left-right" && l.right === g.right) ||
+    (ok((l) => l.kind === "left-image" && l.image === g.image) &&
+      ok(
+        (l) =>
+          l.kind === "image-right" &&
+          l.image === g.image &&
+          l.right === g.right,
+      ))
+  );
+};
+
+// الحرف الغير موصول أولاً، وإذا خلصوا بنروح لأول صورة بدون كلمة
+const nextSource = (ls) =>
+  leftParts
+    .map((l) => ({ type: "left", id: l.id }))
+    .find(
+      (n) => !ls.some((x) => x.kind === "left-image" && x.leftId === n.id),
+    ) ||
+  images
+    .map((i) => ({ type: "image", id: i.id }))
+    .find((n) => !ls.some((x) => x.kind === "image-right" && x.image === n.id));
+
+/* ================= COMPONENT ================= */
 
 const Unit2_Page5_Q1 = () => {
   const containerRef = useRef(null);
+  const nodeRefs = useRef({});
+
   const [lines, setLines] = useState([]);
-  const [firstPoint, setFirstPoint] = useState(null);
-  const [wrongLeft, setWrongLeft] = useState([]);
-  const [written, setWritten] = useState({});
-  const [locked, setLocked] = useState(false);
-  const [checked, setChecked] = useState(false);
+  const [selection, setSelection] = useState(null); // المصدر المختار
+  const [previewTarget, setPreviewTarget] = useState(null); // الهدف الحالي بالكيبورد
 
-const [activeItem, setActiveItem] = useState(null);
-  /* ================= HELPERS ================= */
+  const [finished, setFinished] = useState(false); // كل شي صح بعد Check
+  const [answerShown, setAnswerShown] = useState(false);
+  const [message, setMessage] = useState("");
 
-  const getCenter = (el) => {
-    const rect = containerRef.current.getBoundingClientRect();
-    const r = el.getBoundingClientRect();
+  const [, setTick] = useState(0);
+
+  const locked = finished || answerShown;
+
+  // إعادة حساب مواقع الخطوط لما يتغير حجم الشاشة
+  useEffect(() => {
+    const onResize = () => setTick((n) => n + 1);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  // useEffect(() => () => stopGlobalAudio(audioOwner), [audioOwner]);
+
+  /* ================= GEOMETRY ================= */
+
+  const getDot = (node, selector) => {
+    const dot = nodeRefs.current[nodeKey(node)]?.querySelector(selector);
+    const box = containerRef.current;
+    if (!dot || !box) return null;
+    const c = box.getBoundingClientRect();
+    const r = dot.getBoundingClientRect();
     return {
-      x: r.left - rect.left + r.width / 2,
-      y: r.top - rect.top + r.height / 2,
+      x: r.left - c.left + r.width / 2,
+      y: r.top - c.top + r.height / 2,
     };
   };
-  const getDotCenterFromParent = (parent, dotSelector) => {
-    const dot = parent.querySelector(dotSelector);
-    if (!dot) return null;
-    return getCenter(dot);
+
+  // دايماً من النقطة الأولى (start-dot) للمصدر إلى النقطة الثانية (end-dot) للهدف
+  const segment = (a, b) => {
+    const p1 = getDot(a, ".start-dot");
+    const p2 = getDot(b, ".end-dot");
+    return p1 && p2 ? { x1: p1.x, y1: p1.y, x2: p2.x, y2: p2.y } : null;
   };
 
-  /* ================= CLICK HANDLERS ================= */
-const handleStart = (e) => {
-  if (locked) return;
-
-  const data = e.currentTarget.dataset;
-
-  let type = null;
-  if (data.leftId) type = "left";
-  else if (data.image) type = "image";
-
-  let pos = null;
-
-  if (type === "left") {
-    pos = getDotCenterFromParent(e.currentTarget, ".start-dot");
-    setActiveItem({ type: "left", id: Number(data.leftId) });
-  } 
-  else if (type === "image") {
-    pos = getDotCenterFromParent(e.currentTarget, ".start-dot");
-    setActiveItem({ type: "image", id: data.image });
-  } 
-  else {
-    return;
-  }
-
-  if (!pos) return;
-
-  setFirstPoint({
-    type,
-    leftId: data.leftId ? Number(data.leftId) : null,
-    image: data.image || null,
-    x: pos.x,
-    y: pos.y,
-  });
-};
-const handleEnd = (e) => {
-  if (!firstPoint || locked) return;
-
-  const data = e.currentTarget.dataset;
-
-  let endType = null;
-  if (data.leftId) endType = "left";
-  else if (data.image) endType = "image";
-  else if (data.right) endType = "right";
-
-  // 🔴 السماح بالمسارات: left -> image, left -> right, image -> right
-  const isValidPath = 
-    (firstPoint.type === "left" && (endType === "image" || endType === "right")) ||
-    (firstPoint.type === "image" && endType === "right");
-
-  if (!isValidPath) {
-    setFirstPoint(null);
-    return;
-  }
-
-  let pos = null;
-  if (endType === "image" || endType === "right") {
-    pos = getDotCenterFromParent(e.currentTarget, ".end-dot");
-  }
-
-  if (!pos) return;
-
-  // =========================
-  // 🔴 منطق الاستبدال المرن مع القيود الجديدة
-  // =========================
-  setLines((prev) => {
-    let filtered = [...prev];
-
-    // 1. إذا كانت البداية كلمة علوية، نحذف أي توصيل قديم لها
-    if (firstPoint.leftId) {
-      filtered = filtered.filter((l) => l.leftId !== firstPoint.leftId);
-    }
-
-    // 2. إذا كانت النهاية كلمة سفلية، نحذف أي توصيل قديم لها
-    if (data.right) {
-      filtered = filtered.filter((l) => l.right !== data.right);
-    }
-
-    // 3. إذا كانت النهاية صورة (توصيل من فوق)، نحذف أي توصيل قديم داخل لهالصورة من فوق
-    if (endType === "image") {
-      filtered = filtered.filter((l) => !(l.image === data.image && l.leftId !== null));
-    }
-
-    // 4. إذا كانت البداية صورة (توصيل لتحت)، نحذف أي توصيل قديم طالع من هالصورة لتحت
-    if (firstPoint.image && endType === "right") {
-      filtered = filtered.filter((l) => !(l.image === firstPoint.image && l.right !== null));
-    }
-
-    const newLine = {
-      x1: firstPoint.x,
-      y1: firstPoint.y,
-      x2: pos.x,
-      y2: pos.y,
-      leftId: firstPoint.leftId,
-      image: firstPoint.image || (endType === "image" ? data.image : null),
-      right: data.right || null,
-    };
-setActiveItem(null);
-    return [...filtered, newLine];
+  const lineEnds = (l) => ({
+    a:
+      l.kind === "image-right"
+        ? { type: "image", id: l.image }
+        : { type: "left", id: l.leftId },
+    b:
+      l.kind === "left-image"
+        ? { type: "image", id: l.image }
+        : { type: "right", id: l.right },
   });
 
-  // 🔁 استمرار الرسم من الصورة إذا كان التوصيل لـ image
-  if (firstPoint.type === "left" && endType === "image") {
-    const startFromImagePos = getDotCenterFromParent(
-      e.currentTarget,
-      ".start-dot"
-    );
+  /* ================= LOCKS / TARGETS ================= */
 
-    setFirstPoint({
-      type: "image",
-      image: data.image,
-      x: startFromImagePos?.x ?? pos.x,
-      y: startFromImagePos?.y ?? pos.y,
+  // role: "out" = العنصر كمصدر، "in" = العنصر كهدف
+  const isNodeLocked = (node, role) =>
+    lines.some((l) => {
+      if (l.status !== "correct") return false;
+      if (node.type === "left") return l.leftId === node.id;
+      if (node.type === "right") return l.right === node.id;
+      return role === "in"
+        ? l.kind === "left-image" && l.image === node.id
+        : l.kind === "image-right" && l.image === node.id;
     });
-  } else {
-    setFirstPoint(null);
-  }
-};
 
-  /* ================= CHECK ================= */
-  const checkAnswers = () => {
-    if (checked || locked) return;
+  // المرحلة 1 خلصت إذا كل حرف موصول بصورة
+  const topDone = leftParts.every((l) =>
+    lines.some((x) => x.kind === "left-image" && x.leftId === l.id),
+  );
 
-    if (lines.length === 0) {
-      ValidationAlert.info(
-        "Pay attention!",
-        "Please connect all the pairs before checking.",
-      );
+  const hasWrongLine = (node) =>
+    lines.some((l) => l.status === "wrong" && startsAt(l, node));
+
+  const availableTargets = (source) => {
+    const imgs = images
+      .map((i) => ({ type: "image", id: i.id }))
+      .filter((n) => !isNodeLocked(n, "in"));
+    const rights = rightParts
+      .map((r) => ({ type: "right", id: r.id }))
+      .filter((n) => !isNodeLocked(n, "in"));
+
+    if (source.type === "left") return imgs;
+    if (source.type === "image") return rights;
+    return [];
+  };
+
+  const nodeLabel = (n) =>
+    n.type === "left"
+      ? `Letter ${letterName(leftParts.find((l) => l.id === n.id).text)}`
+      : n.type === "image"
+        ? images.find((i) => i.id === n.id).alt
+        : `Word ${wordLabel(rightParts.find((r) => r.id === n.id).text)}`;
+
+  const focusNode = (n) => {
+    requestAnimationFrame(() => nodeRefs.current[nodeKey(n)]?.focus());
+  };
+
+  /* ================= SELECTION / CONNECT ================= */
+
+  const clearSelection = (focusBack = false) => {
+    if (focusBack && selection) focusNode(selection);
+    setSelection(null);
+    setPreviewTarget(null);
+  };
+
+  const beginFrom = (node, viaKeyboard) => {
+    const role = node.type === "right" ? "in" : "out";
+
+    if (isNodeLocked(node, role)) {
+      setMessage("This one is correct and locked.");
       return;
     }
-let score = 0;
-let wrong = [];
 
-correctGroups.forEach((group) => {
-  // 🔍 نجيب كل التوصيلات اللي راحت لهالصورة
-  const usedLeftConnections = lines.filter(
-    (l) => l.image === group.image && l.leftId !== null
-  );
+    // التوصيل الغلط القديم لهاد المصدر بينشال (ومعه الـ✕ تبعه فقط)
+    setLines((prev) =>
+      prev.filter((l) => !(l.status === "wrong" && startsAt(l, node))),
+    );
 
-  const imgToRight = lines.find(
-    (l) => l.image === group.image && l.right === group.right
-  );
+    setSelection(node);
+    setPreviewTarget(null);
 
-  // 🔍 نجيب التوصيلات المباشرة من left لـ right
-  const directConnections = lines.filter(
-    (l) => l.leftId !== null && l.right === group.right && group.leftIds.includes(l.leftId)
-  );
+    if (viaKeyboard) {
+      const first = availableTargets(node)[0];
 
-  let isCorrect = false;
+      if (first) {
+        setPreviewTarget(first);
+        focusNode(first);
+      }
 
-  // حالة التوصيل عبر الصورة
-  usedLeftConnections.forEach((conn) => {
-    if (group.leftIds.includes(conn.leftId) && imgToRight) {
-      isCorrect = true;
+      setMessage(
+        `${nodeLabel(node)} selected. Press Tab to choose where to connect it, Enter to connect, Escape to cancel.`,
+      );
     } else {
-      wrong.push(conn.leftId);
+      setMessage(`${nodeLabel(node)} selected. Choose where to connect it.`);
     }
-  });
+  };
 
-  // حالة التوصيل المباشر
-  if (directConnections.length > 0) {
-    isCorrect = true;
-  }
+  const connect = (from, to, viaKeyboard) => {
+    // نفس النوع: نفس العنصر = إلغاء، غيره = نبدّل المصدر
+    if (from.type === to.type) {
+      if (sameNode(from, to)) {
+        clearSelection(viaKeyboard);
+        setMessage("Selection cancelled.");
+      } else {
+        beginFrom(to, viaKeyboard);
+      }
+      return;
+    }
 
-  if (isCorrect) {
-    score++;
-  }
-}); setWrongLeft(wrong);
-    setChecked(true);
-    setLocked(true);
+    // مسموح بس: حرف ← صورة، أو صورة ← كلمة
+    if (ORDER[to.type] !== ORDER[from.type] + 1) {
+      setMessage("Connect a letter to a picture, or a picture to a word.");
+      return;
+    }
 
+    if (isNodeLocked(from, "out") || isNodeLocked(to, "in")) {
+      setMessage("That one is already correct and locked.");
+      return;
+    }
+
+    const newLine = makeLine(from, to);
+
+    // الخط الجديد بيستبدل القديم (خط واحد لكل صورة من كل جهة)
+    const nextLines = [
+      ...lines.filter((l) => l.status === "correct" || !conflicts(l, newLine)),
+      newLine,
+    ];
+
+    setLines(nextLines);
+    setSelection(null);
+    setPreviewTarget(null);
+
+    // الاختيار بيرجع للصف المصدر: الحرف أو الصورة التالية
+    const next = nextSource(nextLines);
+
+    if (viaKeyboard) focusNode(next || from);
+
+    const movedToImages = from.type === "left" && next && next.type === "image";
+
+    setMessage(
+      `${nodeLabel(from)} connected to ${nodeLabel(to)}.` +
+        (movedToImages
+          ? " All letters are connected. Now connect each picture to a word."
+          : ""),
+    );
+  };
+  const activate = (node, viaKeyboard) => {
+    if (locked) return;
+
+    if (!selection) {
+      if (node.type === "right") {
+        setMessage("Start from a letter or a picture, then choose a word.");
+        return;
+      }
+
+      if (node.type === "image" && !topDone && !hasWrongLine(node)) {
+        setMessage("First connect all the letters to the pictures.");
+        return;
+      }
+
+      if (node.type === "left" && topDone && !hasWrongLine(node)) {
+        setMessage("The letters are done. Now connect each picture to a word.");
+        return;
+      }
+
+      beginFrom(node, viaKeyboard);
+      return;
+    }
+
+    connect(selection, node, viaKeyboard);
+  };
+
+  // Enter / Space على أي عنصر (الماوس واللمس بيروحوا على onClick)
+  const onNodeKeyDown = (e, node) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      activate(node, true);
+    }
+  };
+
+  // Escape + لف Tab بين الأهداف المتاحة فقط
+  const onAreaKeyDown = (e) => {
+    if (!selection) return;
+
+    if (e.key === "Escape") {
+      e.preventDefault();
+      clearSelection(true);
+      setMessage("Connection cancelled.");
+      return;
+    }
+
+    if (e.key !== "Tab") return;
+
+    const targets = availableTargets(selection);
+    if (targets.length === 0) return;
+
+    e.preventDefault();
+
+    const idx = targets.findIndex(
+      (t) => nodeRefs.current[nodeKey(t)] === document.activeElement,
+    );
+
+    const next = e.shiftKey
+      ? targets[(idx <= 0 ? targets.length : idx) - 1]
+      : targets[(idx + 1) % targets.length];
+
+    setPreviewTarget(next);
+    focusNode(next);
+  };
+
+  /* ================= WRITE FIELDS ================= */
+
+  // const handleWrite = (id, value) => {
+  //   setWritten((prev) => ({ ...prev, [id]: value }));
+
+  //   // ينشال الـ✕ عن هاد الحقل فقط
+  //   setFieldStatus((prev) =>
+  //     prev[id] === "wrong" ? { ...prev, [id]: null } : prev,
+  //   );
+  // };
+
+  // const playWordAudio = (r) => {
+  //   if (!r.audio) return;
+
+  //   playGlobalAudio(r.audio, {
+  //     owner: audioOwner,
+  //     onFinish: () => setActiveAudio((p) => (p === r.id ? null : p)),
+  //   });
+
+  //   setActiveAudio(r.id);
+  // };
+
+  /* ================= CHECK ================= */
+
+  const checkAnswers = () => {
+    if (locked) return;
+
+    const connectionsDone =
+      leftParts.every((l) =>
+        lines.some((x) => x.kind === "left-image" && x.leftId === l.id),
+      ) &&
+      images.every((i) =>
+        lines.some((x) => x.kind === "image-right" && x.image === i.id),
+      );
+
+    if (!connectionsDone) {
+      const msg = "Please connect all the pairs before checking.";
+      ValidationAlert.info("Pay attention!", msg);
+      setMessage(msg);
+      return;
+    }
+
+    // الصح القديم بيضل مقفول، والباقي بينقيّم
+    const checkedLines = lines.map((l) =>
+      l.status === "correct"
+        ? l
+        : { ...l, status: isLineCorrect(l) ? "correct" : "wrong" },
+    );
+
+    const score = correctGroups.filter((g) =>
+      groupDone(checkedLines, g),
+    ).length;
     const total = correctGroups.length;
+
+    setLines(checkedLines);
+    clearSelection();
+
+    if (score === total) setFinished(true);
+
     const color = score === total ? "green" : score === 0 ? "red" : "orange";
+
+    setMessage(
+      score === total
+        ? `Score ${score} out of ${total}. All answers are correct.`
+        : `Score ${score} out of ${total}. Correct answers are locked. Fix the ones marked with a cross.`,
+    );
 
     ValidationAlert[
       score === total ? "success" : score === 0 ? "error" : "warning"
@@ -284,88 +473,39 @@ correctGroups.forEach((group) => {
     );
   };
 
-  /* ================= SHOW ANSWER ================= */
-
   const showAnswer = () => {
-    requestAnimationFrame(() => {
-      const finalLines = [];
+    const shown = [];
 
-      correctGroups.forEach((group) => {
-        // 🔥 ناخذ أول خيار فقط
-        const leftId = group.leftIds[0];
+    correctGroups.forEach((g) => {
+      const left = { type: "left", id: g.leftIds[0] };
+      const img = { type: "image", id: g.image };
+      const right = { type: "right", id: g.right };
 
-        const leftEl = document.querySelector(`[data-left-id="${leftId}"]`);
-        const imgEl = document.querySelector(`[data-image="${group.image}"]`);
-        const rightEl = document.querySelector(`[data-right="${group.right}"]`);
-
-        if (!leftEl || !imgEl || !rightEl) return;
-
-        const leftDot = leftEl.querySelector(".start-dot");
-        const imgEndDot = imgEl.querySelector(".end-dot");
-        const imgStartDot = imgEl.querySelector(".start-dot");
-        const rightDot = rightEl.querySelector(".end-dot");
-
-        // left → image
-        if (leftDot && imgEndDot) {
-          const p1 = getCenter(leftDot);
-          const p2 = getCenter(imgEndDot);
-          finalLines.push({
-            x1: p1.x,
-            y1: p1.y,
-            x2: p2.x,
-            y2: p2.y,
-            leftId: leftId,
-            image: group.image,
-            right: null
-          });
-        }
-
-        // image → right
-        if (imgStartDot && rightDot) {
-          const p1 = getCenter(imgStartDot);
-          const p2 = getCenter(rightDot);
-          finalLines.push({
-            x1: p1.x,
-            y1: p1.y,
-            x2: p2.x,
-            y2: p2.y,
-            leftId: null,
-            image: group.image,
-            right: group.right
-          });
-        }
-      });
-
-      setLines(finalLines);
-      setLocked(true);
-      setChecked(true);
+      shown.push(
+        { ...makeLine(left, img), status: "correct" },
+        { ...makeLine(img, right), status: "correct" },
+      );
     });
-  };
 
-  /* ================= RESET ================= */
+    setLines(shown);
+    clearSelection();
+    setFinished(false);
+    setAnswerShown(true);
+    setMessage("Correct answers are shown.");
+  };
 
   const reset = () => {
     setLines([]);
-    setWritten({});
-    setWrongLeft([]);
-    setLocked(false);
-    setChecked(false);
-    setFirstPoint(null);
+    clearSelection();
+    setFinished(false);
+    setAnswerShown(false);
+    setMessage("Exercise reset.");
   };
 
   /* ================= RENDER ================= */
 
-  // ================================
-  // ✔ Captions Array
-  // ================================
-  const captions = [
-    { start: 1.1, end: 4.12, text: "Page 14, Right Activities." },
-    { start: 5.2, end: 10.24, text: "Exercise A, listen, write, and match." },
-    { start: 11.44, end: 13.1, text: "1, box." },
-    { start: 14.16, end: 18.96, text: "2, lock. 3, queen." },
-    { start: 20.08, end: 24.62, text: "4, sock. 5, fox." },
-    { start: 25.74, end: 27.46, text: "6, cow." },
-  ];
+  const previewSegment =
+    selection && previewTarget ? segment(selection, previewTarget) : null;
 
   return (
     <div
@@ -377,126 +517,259 @@ correctGroups.forEach((group) => {
       }}
     >
       <div
-        className="div-forall mb-10"
-        style={{
-          
-          gap: "20px",
-        }}
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+        className="sr-only"
       >
+        {message}
+      </div>
+
+      <div className="div-forall mb-10" style={{ gap: "20px" }}>
         <div className="flex flex-col">
-        <h4 className="header-title-page8 mb-2">
-          <span className="ex-A">A</span>Listen, write, and match.
-        </h4>
-          <span className="text-gray-400 text-xs">Double-tap the image to start matching the image with the words below.</span>
-          </div>
+          <ExerciseHeader
+            sectionLetter="A"
+            // questionNumber="1"
+            title="Listen, write, and match."
+            subTitle="Start with one picture or phrase, then match it to the partner that means the same thing."
+          />
+        </div>
+
         <QuestionAudioPlayer
           src={sound}
           captions={captions}
+          pageId="unit2-page5-q1"
           stopAtSecond={10.24}
         />
 
-        <div className="matching-area" ref={containerRef}>
+        <p id="u2p5q1-help" className="sr-only">
+          To connect with the keyboard, press Enter or Space on a letter or a
+          picture, press Tab to choose where to connect it, then press Enter.
+          Press Escape to cancel.
+        </p>
+
+        <div
+          className="matching-area"
+          ref={containerRef}
+          role="group"
+          aria-label="Matching area"
+          aria-describedby="u2p5q1-help"
+          onKeyDown={onAreaKeyDown}
+        >
           {/* LEFT */}
           <div className="left-col-wb-unit6-p2-q2">
-            {leftParts.map((l, i) => (
-              <div
-                key={i}
-                className="item-wb-unit6-p2-q2 clickable"
-                data-left-id={l.id}
-                onClick={handleStart}
-              >
-                <span className="num-wb-unit6-p2-q2">{i + 1}</span>
-               <span
-  className={`word-text-wb-unit6-p2-q2 ${
-    activeItem?.type === "left" && activeItem?.id === l.id
-      ? "active-left"
-      : ""
-  }`}
->
-  {l.text}
-</span>
-               <div
-  className={`dot-wb-unit6-p2-q2 start-dot ${
-    activeItem?.type === "left" && activeItem?.id === l.id
-      ? "active-dot"
-      : ""
-  }`}
-/>
-                {wrongLeft.includes(l.id) && checked && (
-                  <span className="wrong-mark-sb-unit2-p5-q1">✕</span>
-                )}
-              </div>
-            ))}
+            {leftParts.map((l, i) => {
+              const node = { type: "left", id: l.id };
+              const isLocked = locked || isNodeLocked(node, "out");
+              const canStart = !isLocked && (!topDone || hasWrongLine(node));
+              const isActive = sameNode(selection, node);
+              const hasWrong = lines.some(
+                (x) => x.leftId === l.id && x.status === "wrong",
+              );
+              const connected = lines.some((x) => x.leftId === l.id);
+
+              return (
+                <div
+                  key={l.id}
+                  ref={(el) => {
+                    nodeRefs.current[nodeKey(node)] = el;
+                  }}
+                  className="item-wb-unit6-p2-q2 clickable"
+                  role="button"
+                  tabIndex={canStart ? 0 : -1}
+                  aria-disabled={isLocked}
+                  aria-pressed={isActive}
+                  aria-label={`${i + 1}. Letter ${letterName(l.text)}${
+                    isLocked
+                      ? ", correct and locked"
+                      : hasWrong
+                        ? ", incorrect"
+                        : connected
+                          ? ", connected"
+                          : ""
+                  }`}
+                  onClick={() => activate(node, false)}
+                  onKeyDown={(e) => onNodeKeyDown(e, node)}
+                >
+                  <span className="num-wb-unit6-p2-q2">{i + 1}</span>
+
+                  <span
+                    className={`word-text-wb-unit6-p2-q2 ${
+                      isActive ? "active-left" : ""
+                    }`}
+                  >
+                    {l.text}
+                  </span>
+
+                  <div
+                    className={`dot-wb-unit6-p2-q2 start-dot ${
+                      isActive ? "active-dot" : ""
+                    }`}
+                    tabIndex={-1}
+                    aria-hidden="true"
+                  />
+
+                  {hasWrong && (
+                    <span
+                      className="wrong-mark-sb-unit2-p5-q1"
+                      aria-hidden="true"
+                    >
+                      ✕
+                    </span>
+                  )}
+                </div>
+              );
+            })}
           </div>
 
           {/* IMAGES */}
           <div className="mid-col-wb-unit6-p2-q2">
-            {images.map((img) => (
-              <div
-                key={img.id}
-                className="item-wb-unit6-p2-q2 clickable"
-                data-image={img.id}
-                onClick={(e) => (firstPoint ? handleEnd(e) : handleStart(e))}
-              >
-                <div className="dot-wb-unit6-p2-q2 end-dot" />
-                <img
-                  src={img.src}
-                  alt=""
-                  className={`matched-img2 ${
-                    locked || checked ? "disabled-hover" : ""
-                  }${
-    activeItem?.type === "image" && activeItem?.id === img.id
-      ? "active-image"
-      : ""
-  }`}
-                />
+            {images.map((img, i) => {
+              const node = { type: "image", id: img.id };
+              const inLocked = isNodeLocked(node, "in");
+              const outLocked = isNodeLocked(node, "out");
+              const canStart =
+                !locked && !outLocked && (topDone || hasWrongLine(node));
+              const isActive = sameNode(selection, node);
+              const hasWrong = lines.some(
+                (x) =>
+                  x.kind === "image-right" &&
+                  x.image === img.id &&
+                  x.status === "wrong",
+              );
 
-                <div className="dot-wb-unit6-p2-q2 start-dot" />
-              </div>
-            ))}
-          </div>
-
-          {/* RIGHT */}
-          <div className="right-col-wb-unit6-p2-q2">
-            {rightParts.map((r) => (
-              <div
-                key={r.id}
-                className="item-wb-unit6-p2-q2 clickable"
-                data-right={r.text}
-                onClick={handleEnd}
-              >
-                <div className="dot-wb-unit6-p2-q2 end-dot" />
-                <span
-                  className={`word-text-wb-unit6-p2-q2 ${
-                    locked || checked ? "disabled-word" : ""
+              return (
+                <div
+                  key={img.id}
+                  ref={(el) => {
+                    nodeRefs.current[nodeKey(node)] = el;
+                  }}
+                  className="item-wb-unit6-p2-q2 clickable"
+                  role="button"
+                  tabIndex={canStart ? 0 : -1}
+                  aria-disabled={locked || (inLocked && outLocked)}
+                  aria-pressed={isActive}
+                  aria-label={`Picture ${i + 1}: ${img.alt}${
+                    inLocked && outLocked
+                      ? ", correct and locked"
+                      : hasWrong
+                        ? ", incorrect"
+                        : ""
                   }`}
+                  onClick={() => activate(node, false)}
+                  onKeyDown={(e) => onNodeKeyDown(e, node)}
                 >
-                  {" "}
-                  {r.text}
-                </span>
-              </div>
-            ))}
+                  <div
+                    className="dot-wb-unit6-p2-q2 end-dot"
+                    tabIndex={-1}
+                    aria-hidden="true"
+                  />
+
+                  <img
+                    src={img.src}
+                    alt={img.alt}
+                    className={`matched-img2 ${locked ? "disabled-hover" : ""} ${
+                      isActive ? "active-image" : ""
+                    }`}
+                  />
+
+                  <div
+                    className="dot-wb-unit6-p2-q2 start-dot"
+                    tabIndex={-1}
+                    aria-hidden="true"
+                  />
+
+                  {hasWrong && (
+                    <span
+                      className="wrong-mark-sb-unit2-p5-q1"
+                      aria-hidden="true"
+                    >
+                      ✕
+                    </span>
+                  )}
+                </div>
+              );
+            })}
           </div>
 
-          {/* LINES */}
-          <svg className="lines-layer">
-            {lines.map((l, i) => (
-              <line key={i} {...l} stroke="red" strokeWidth="3" />
-            ))}
+          {/* RIGHT (أهداف بالكيبورد: بتنفتح بالـ Tab لما يكون في مصدر مختار) */}
+          <div className="right-col-wb-unit6-p2-q2">
+            {rightParts.map((r, i) => {
+              const node = { type: "right", id: r.id };
+              const rLocked = locked || isNodeLocked(node, "in");
+
+              return (
+                <div
+                  key={r.id}
+                  ref={(el) => {
+                    nodeRefs.current[nodeKey(node)] = el;
+                  }}
+                  className="item-wb-unit6-p2-q2 clickable"
+                  role="button"
+                  tabIndex={!rLocked && selection ? 0 : -1}
+                  aria-disabled={rLocked}
+                  aria-label={`Word ${i + 1}: ${wordLabel(r.text)}${
+                    rLocked ? ", correct and locked" : ""
+                  }`}
+                  onClick={() => activate(node, false)}
+                  onKeyDown={(e) => onNodeKeyDown(e, node)}
+                >
+                  <div
+                    className="dot-wb-unit6-p2-q2 end-dot"
+                    tabIndex={-1}
+                    aria-hidden="true"
+                  />
+                  <span
+                    className={`word-text-wb-unit6-p2-q2 ${
+                      locked ? "disabled-word" : ""
+                    }`}
+                  >
+                    {" "}
+                    {r.text}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* LINES: نهائي = solid ، Preview = dashed */}
+          <svg className="lines-layer" aria-hidden="true">
+            {lines.map((l) => {
+              const { a, b } = lineEnds(l);
+              const seg = segment(a, b);
+              return (
+                seg && (
+                  <line
+                    key={l.id}
+                    {...seg}
+                    stroke={l.status === "correct" ? "#2e9e4f" : "red"}
+                    strokeWidth="3"
+                  />
+                )
+              );
+            })}
+
+            {previewSegment && (
+              <line
+                {...previewSegment}
+                stroke="red"
+                strokeWidth="3"
+                strokeDasharray="6 4"
+              />
+            )}
           </svg>
         </div>
-
-        {/* WRITE SECTION */}
       </div>
+
       {/* BUTTONS */}
       <div className="action-buttons-container">
-        <button onClick={reset} className="try-again-button">
+        <button type="button" onClick={reset} className="try-again-button">
           Start Again ↻
         </button>
-        <button onClick={showAnswer} className="show-answer-btn">
+        <button type="button" onClick={showAnswer} className="show-answer-btn">
           Show Answer
         </button>
-        <button onClick={checkAnswers} className="check-button2">
+        <button type="button" onClick={checkAnswers} className="check-button2">
           Check Answer ✓
         </button>
       </div>

@@ -67,7 +67,7 @@
 .CB-review3-p1-q2-start-dot {
   position: absolute !important;
     top: 80px;
-    left: 40%;
+    left: 50%;
     transform: translateX(-50%);
 }
 
@@ -119,8 +119,8 @@
     transform 0.2s ease,
     background-color 0.2s ease,
     box-shadow 0.2s ease;
-  padding: 4px 6px;
-  border-radius: 6px;
+  /* padding: 4px 6px; */
+  border-radius: 21px;
   cursor: pointer;
 }
 
@@ -159,4 +159,66 @@
   pointer-events: none;
   z-index: 999999;
   border: 2px solid white;
+}
+
+
+/* ===== أضف هاد الجزء في آخر Review3_Page1_Q2.css (ما تمسح القديم) ===== */
+
+/* السحب باللمس: بدون هاد الصفحة بتعمل scroll بدل ما ترسم الخط */
+.CB-review3-p1-q2-word-box,
+.CB-review3-p1-q2-img-box {
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* ====== SPEAKER ====== */
+.CB-review3-p1-q2-speaker {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  transform: scale(0.8);
+  transition:
+    opacity 0.2s,
+    transform 0.2s;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* بتظهر لما أقف عليها بالتاب أو لما الصوت يشتغل */
+.CB-review3-p1-q2-word-box:focus-visible .CB-review3-p1-q2-speaker,
+.CB-review3-p1-q2-speaker.playing {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.CB-review3-p1-q2-speaker.playing {
+  animation: r3p1q2-pulse 0.9s ease-in-out infinite;
+}
+
+@keyframes r3p1q2-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+}
+
+/* ====== SCORE (بيختفي مع Start Again) ====== */
+.CB-review3-p1-q2-score {
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
 }

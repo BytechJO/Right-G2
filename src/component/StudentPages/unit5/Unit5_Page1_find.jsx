@@ -1,145 +1,47 @@
-import React, { useState } from "react";
-import find_img from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page.png"; //======= should change ==========
-import Rabbit from "../../../assets/Page 01/Rabbit.svg";
-import ValidationAlert from "../../Popup/ValidationAlert";
+import React from "react";
+
+import find_img from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page.png";
 import MySVG from "../../../assets/imgs/Interactive Svg un 5.svg";
+import FindQuestion from "../../FindQuestion";
+
+// ⚠️ لازم تضيفي ملف صوت "jello" وتعدّلي المسار حسب مكانه الفعلي
+// import targetAudio from "../../../assets/audio/ClassBook/U 5/Page 1/jello.mp3";
+
+const targetAudio =""
+const targetArea = {
+  x1: 48.21,
+  y1: 46.5,
+  x2: 54.56,
+  y2: 52.99,
+};
+
 
 const Unit5_Page1_find = () => {
-  const [clickedPoint, setClickedPoint] = useState(null);
-  const [checkResult, setCheckResult] = useState(null);
-  const [showAnswer, setShowAnswer] = useState(false);
-  // ✅ منطقة المطعم (بالنسب المئوية)
-  const targetArea = {
-    x1: 50.21,
-    y1: 48.5,
-    x2: 54.56,
-    y2: 52.99,
-  };
-
-  const handleImageClick = (e) => {
-    const rect = e.target.getBoundingClientRect();
-    const xPercent = ((e.clientX - rect.left) / rect.width) * 100;
-    const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
-    console.log(xPercent, yPercent);
-
-    setClickedPoint({
-      x: xPercent,
-      y: yPercent,
-      inside:
-        xPercent >= targetArea.x1 &&
-        xPercent <= targetArea.x2 &&
-        yPercent >= targetArea.y1 &&
-        yPercent <= targetArea.y2,
-    });
-  };
-
-  const handleCheck = () => {
-    if (showAnswer) return;
-    if (!clickedPoint) {
-      ValidationAlert.info(
-        "Pay attention!",
-        "Please click on the image first.",
-      );
-      return;
-    }
-
-    if (clickedPoint.inside) {
-      setCheckResult("success");
-      ValidationAlert.success("Bravo!", "You clicked on the restaurant! 🏆");
-    } else {
-      setCheckResult("fail");
-      ValidationAlert.error("Oops!", "This is not the restaurant. Try again!");
-    }
-  };
-
-  const handleStartAgain = () => {
-    setClickedPoint(null);
-    setCheckResult(null);
-    setShowAnswer(false);
-  };
-
-  const handleShowAnswer = () => {
-    setShowAnswer(true);
-    setClickedPoint(null); // نمسح النقطة اللي كبسها الطالب
-    setCheckResult("success"); // اختيارية إذا بدك يظهر نجاح
-  };
-
   return (
-    <div>
-      <div
-        style={{
-          textAlign: "center",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <div
-          style={{ display: "flex", justifyContent: "center", width: "100%" }}
-        >
-          <img src={Rabbit} style={{ height: "50px", width: "auto" }} />{" "}
-          <h5 className="header-title-page8">
-            I need your help. Can you help me find the jello in the picture?
-          </h5>
-        </div>
-        <div style={{ position: "relative", display: "inline-block" }}>
-          <img
-            src={find_img}
-            alt="interactive"
-            style={{
-              width: "auto",
-              height: "75vh",
-              cursor: "pointer",
-              display: "block",
-            }}
-            onClick={handleImageClick}
-          />
-
-          {/* ✅ الدائرة الحمراء في مكان الكبس */}
-          {clickedPoint && (
-            <div
-              style={{
-                position: "absolute",
-                top: `${clickedPoint.y}%`,
-                left: `${clickedPoint.x}%`,
-                width: "3%",
-                height: "3%",
-                backgroundColor: "red",
-                borderRadius: "50%",
-                transform: "translate(-50%, -50%)",
-                pointerEvents: "none",
-              }}
-            ></div>
-          )}
-
-          {/* ✅ تلوين المنطقة الصحيحة إذا الجواب صح */}
-          {(checkResult === "success" || showAnswer) && (
-            <img
-              src={MySVG}
-              alt="answer highlight"
-              style={{
-                position: "absolute",
-                top: `48%`,
-                left: `47.5%`,
-                height: `7%`,
-                pointerEvents: "none",
-              }}
-            />
-          )}
-        </div>
-      </div>
-      <div className="action-buttons-container ">
-        <button className="try-again-button" onClick={handleStartAgain}>
-          Start Again ↻
-        </button>
-        <button className="show-answer-btn" onClick={handleShowAnswer}>
-          Show Answer
-        </button>
-        <button className="check-button2" onClick={handleCheck}>
-          Check Answer ✓
-        </button>
-      </div>
-    </div>
+    <FindQuestion
+      title="I need your help. Can you help me find the jello in the picture?"
+      subtitle="Wait for the full scene to load, scan it carefully, then tap the the jello."
+      image={find_img}
+      targetAudio={targetAudio}
+      // ⚠️ عدّليه ليطابق المشهد، وخليه بدون ما يحدد مكان الجيلو
+      imageAlt="A busy scene with food, people and a restaurant."
+      targetName="jello"
+      targetArea={targetArea}
+      answerHighlight={MySVG}
+      imageHeight="75vh"
+      highlightTop="48%"
+      highlightLeft="47.5%"
+      highlightHeight="7%"
+      targetAriaLabel="Select the jello"
+      pointerSelectedMessage="A point in the scene was selected. Use Check Answer to check it."
+      keyboardSelectedMessage="Jello selected. Use Check Answer to check your answer."
+      correctAnnouncement="Correct. You found the jello."
+      correctAlertMessage="You found the jello! 🏆"
+      wrongAnnouncement="That is not the jello. Try again."
+      wrongAlertMessage="This is not the jello. Try again!"
+      resetAnnouncement="Activity reset. Find the jello."
+      showAnswerAnnouncement="The jello is highlighted."
+    />
   );
 };
 

@@ -1,302 +1,240 @@
-import React, { useState } from "react";
-import img1 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 17/Ex F 1.svg";
-import img2 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 17/Ex F 2.svg";
-import img3 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 17/Ex F 3.svg";
-import img4 from "../../../assets/imgs/Right 2 Unit 2  A Day at the Park/Page 17/Ex F 4.svg";
-import ValidationAlert from "../../Popup/ValidationAlert";
-import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+import React, { useState, useRef, useEffect } from "react";
 import "./Review1_Page2_Q3.css";
+import ExerciseHeader from "../../ExerciseHeader";
+
+import lap from "../../../assets/audio/ClassBook/U 2/Page 17 - E/lap.mp3";
+import rap from "../../../assets/audio/ClassBook/U 2/Page 17 - E/rap.mp3";
+import led from "../../../assets/audio/ClassBook/U 2/Page 17 - E/led.mp3";
+import red from "../../../assets/audio/ClassBook/U 2/Page 17 - E/red.mp3";
+import lip from "../../../assets/audio/ClassBook/U 2/Page 17 - E/lip.mp3";
+import rip from "../../../assets/audio/ClassBook/U 2/Page 17 - E/rip.mp3";
+import lot from "../../../assets/audio/ClassBook/U 2/Page 17 - E/lot.mp3";
+import rot from "../../../assets/audio/ClassBook/U 2/Page 17 - E/rot.mp3";
+import lug from "../../../assets/audio/ClassBook/U 2/Page 17 - E/lug.mp3";
+import rug from "../../../assets/audio/ClassBook/U 2/Page 17 - E/rug.mp3";
+
+/* ================= DATA ================= */
+
+const PAIRS = [
+  {
+    id: 1,
+    words: [
+      { text: "lap", audio: lap },
+      { text: "rap", audio: rap },
+    ],
+  },
+  {
+    id: 2,
+    words: [
+      { text: "led", audio: led },
+      { text: "red", audio: red },
+    ],
+  },
+  {
+    id: 3,
+    words: [
+      { text: "lip", audio: lip },
+      { text: "rip", audio: rip },
+    ],
+  },
+  {
+    id: 4,
+    words: [
+      { text: "lot", audio: lot },
+      { text: "rot", audio: rot },
+    ],
+  },
+  {
+    id: 5,
+    words: [
+      { text: "lug", audio: lug },
+      { text: "rug", audio: rug },
+    ],
+  },
+];
+
+/* ================= HELPERS (خارج الكومبوننت) ================= */
+
+const pauseOtherAudio = () => {
+  document.querySelectorAll("audio").forEach((el) => el.pause());
+};
 
 const Review1_Page2_Q3 = () => {
-  const items = [
-    {
-      img: img1,
-      correct: "r",
-      correctInput: "red",
-      option: ["r", "c", "l", "q"],
-    },
-    {
-      img: img2,
-      correct: "r",
-      correctInput: "rabbit",
-      option: ["l", "r", "c", "q"],
-    },
-    {
-      img: img3,
-      correct: "r",
-      correctInput: "run",
-      option: ["j", "l", "c", "r"],
-    },
-    {
-      img: img4,
-      correct: "l",
-      correctInput: "lamb",
-      option: ["r", "o", "l", "m"],
-    },
-  ];
+  const [playingKey, setPlayingKey] = useState(null); // مثل "1-lap"
+  const [activeId, setActiveId] = useState(null); // آخر كرت تعاملت معه
+  const [message, setMessage] = useState("");
 
-  const wordBank = items.map((i) => i.correctInput);
+  const audioRef = useRef(null);
+  const tokenRef = useRef(0); // بيلغي أي تشغيل معلّق
 
-  const [selected, setSelected] = useState(["", "", "", ""]);
-  const [answers, setAnswers] = useState(["", "", "", ""]);
-  const [wrongInputs, setWrongInputs] = useState([]);
-  const [showResult, setShowResult] = useState(false);
-  const [showCorrect, setShowCorrect] = useState(false);
-  const [checked, setChecked] = useState(false);
+  /* ================= AUDIO ================= */
 
-  /* ================= Drag Logic (منع التكرار) ================= */
-  const onDragEnd = (result) => {
-    const { destination, draggableId } = result;
-    if (!destination || showCorrect || checked) return;
-
-    if (destination.droppableId.startsWith("slot-")) {
-      const index = Number(destination.droppableId.split("-")[1]);
-      const word = draggableId.replace("bank-", "").replace(/^slot-.*?-/, "");
-
-      const updated = [...answers];
-
-      // 🔒 منع التكرار
-      const oldIndex = updated.findIndex((a) => a === word);
-      if (oldIndex !== -1) updated[oldIndex] = "";
-
-      updated[index] = word;
-      setAnswers(updated);
-      setShowResult(false);
+  const stopSound = () => {
+    tokenRef.current += 1;
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
     }
+    setPlayingKey(null);
   };
 
-  /* ================= Circle Logic (كما هو) ================= */
-  const handleSelect = (value, index) => {
-    if (showCorrect) return;
-    const newSel = [...selected];
-    newSel[index] = value;
-    setSelected(newSel);
-    setShowResult(false);
-  };
+  // تشغيل (أو إعادة تشغيل من الأول) بدون تداخل مع أي صوت ثاني
+  const playWord = (pairId, word) => {
+    stopSound();
+    pauseOtherAudio();
 
-  /* ================= Check Answers ================= */
-  const checkAnswers = () => {
-    if (showCorrect) return;
+    const token = tokenRef.current;
+    const audio = new Audio(word.audio);
+    audioRef.current = audio;
 
-    if (selected.some((s) => s === "")) {
-      ValidationAlert.info("Please choose a circle (f or v) for all items!");
-      return;
-    }
+    const key = `${pairId}-${word.text}`;
+    setPlayingKey(key);
+    setMessage(`Playing ${word.text}.`);
 
-    if (answers.some((a) => a === "")) {
-      ValidationAlert.info("Please fill in all the writing boxes!");
-      return;
-    }
-
-    let wrong = [];
-    let score = 0;
-
-    items.forEach((item, i) => {
-      const circleCorrect = selected[i] === item.correct;
-      const inputCorrect =
-        answers[i].toLowerCase() === item.correctInput.toLowerCase();
-
-      if (circleCorrect) score++;
-      if (inputCorrect) score++;
-
-      if (!circleCorrect || !inputCorrect) wrong.push(i);
+    audio.onended = () => {
+      if (token === tokenRef.current) setPlayingKey(null);
+    };
+    audio.onerror = () => {
+      if (token === tokenRef.current) setPlayingKey(null);
+    };
+    audio.play().catch(() => {
+      if (token === tokenRef.current) setPlayingKey(null);
     });
-
-    setWrongInputs(wrong);
-    setShowResult(true);
-    setChecked(true);
-
-    const total = items.length * 2;
-    const color = score === total ? "green" : score === 0 ? "red" : "orange";
-
-    ValidationAlert[
-      score === total ? "success" : score === 0 ? "error" : "warning"
-    ](`
-      <div style="font-size:20px;text-align:center;">
-        <span style="color:${color};font-weight:bold;">
-          Score: ${score} / ${total}
-        </span>
-      </div>
-    `);
   };
 
-  /* ================= Show Answers ================= */
-  const showAnswers = () => {
-    setSelected(items.map((i) => i.correct));
-    setAnswers(items.map((i) => i.correctInput));
-    setWrongInputs([]);
-    setShowResult(true);
-    setShowCorrect(true);
-    setChecked(true); // 🔒
+  // لو اشتغل أي صوت ثاني بالصفحة نوقف صوتنا، وعند الخروج من الصفحة نوقف كل شي
+  useEffect(() => {
+    const onOtherPlay = (e) => {
+      if (e.target !== audioRef.current) {
+        tokenRef.current += 1;
+        audioRef.current?.pause();
+        setPlayingKey(null);
+      }
+    };
+
+    document.addEventListener("play", onOtherPlay, true);
+
+    return () => {
+      document.removeEventListener("play", onOtherPlay, true);
+      tokenRef.current += 1;
+      audioRef.current?.pause();
+    };
+  }, []);
+
+  /* ================= INTERACTIONS ================= */
+
+  // فوكس بالتاب = شغّل الصوت (الماوس/اللمس بيروحوا على onClick)
+  const onWordFocus = (e, pairId, word) => {
+    setActiveId(pairId);
+    if (e.currentTarget.matches(":focus-visible")) playWord(pairId, word);
   };
 
-  const resetAll = () => {
-    setSelected(["", "", "", ""]);
-    setAnswers(["", "", "", ""]);
-    setWrongInputs([]);
-    setShowResult(false);
-    setShowCorrect(false);
-    setChecked(false); // 🔓
+  const onWordClick = (pairId, word) => {
+    setActiveId(pairId);
+    playWord(pairId, word);
   };
+
+  /* ================= RENDER ================= */
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: "30px",
+      }}
+    >
+      {/* 📢 رسائل لقارئ الشاشة */}
       <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "30px",
-        }}
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+        className="sr-only"
       >
+        {message}
+      </div>
+
+      <div className="div-forall" style={{ marginBottom: "35px",gap:"130px" }}>
+        <ExerciseHeader
+          sectionLetter="E"
+          title="Read and say the words."
+          subTitle="Tap a word to listen, then say it out loud."
+          isReview="true"
+        />
+
+        <p id="r1p2q3-help" className="sr-only">
+          There are five pairs of words. Press Tab to move between the words.
+          When a word is focused, its sound plays. Press Enter or Space to hear
+          it again.
+        </p>
+
         <div
-          className="div-forall"
-        
+          className="CB-r1p2q3-list"
+          role="group"
+          aria-label="Words to read and say"
+          aria-describedby="r1p2q3-help"
         >
-          <h5 className="header-title-page8">
-            <span style={{ marginRight: "20px" }}>F</span>  Tap or click the letters, drag and drop to make the word.
-          </h5>
-           
-           <div className="flex flex-col gap-10">
-          {/* 🔤 Word Bank */}
-          <Droppable droppableId="bank" direction="horizontal" isDropDisabled>
-            {(provided) => (
-              <div
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-                style={{
-                  display: "flex",
-                  gap: "60px",
-                  padding: "10px",
-                  // border: "2px dashed #ccc",
-                  borderRadius: "10px",
-                  // margin: "10px 0",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                {wordBank.map((word, index) => {
-                  const isUsed = answers.some((row) => row.includes(word));
-                  return (
-                    <Draggable
-                      key={word}
-                      draggableId={`bank-${word}`}
-                      index={index}
-                      isDragDisabled={showCorrect || checked || isUsed}
+          {PAIRS.map((pair) => (
+            <div
+              key={pair.id}
+              role="group"
+              aria-label={`Pair ${pair.id}: ${pair.words[0].text} and ${pair.words[1].text}`}
+              className={`CB-r1p2q3-card ${
+                activeId === pair.id ? "is-active" : ""
+              }`}
+            >
+              <span className="CB-r1p2q3-num" aria-hidden="true">
+                {pair.id}
+              </span>
+
+              {pair.words.map((word) => {
+                const isPlaying = playingKey === `${pair.id}-${word.text}`;
+
+                return (
+                  <button
+                    key={word.text}
+                    type="button"
+                    className={`CB-r1p2q3-word ${isPlaying ? "is-playing" : ""}`}
+                    aria-label={`Listen to ${word.text}`}
+                    onClick={() => onWordClick(pair.id, word)}
+                    onFocus={(e) => onWordFocus(e, pair.id, word)}
+                  >
+                    <span className="CB-r1p2q3-text" aria-hidden="true">
+                      {word.text}
+                    </span>
+
+                    <span
+                      className={`CB-r1p2q3-speaker ${
+                        isPlaying ? "playing" : ""
+                      }`}
+                      aria-hidden="true"
                     >
-                      {(provided) => (
-                        <span
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          className="CB-unit2-p6-q2-word"
-                          style={{
-                            background: isUsed ? "#ccc" : "white",
-                            opacity: isUsed ? 0.6 : 1,
-                            cursor: isUsed ? "not-allowed" : "grab",
-                            ...provided.draggableProps.style,
-                          }}
-                        >
-                          {word}
-                        </span>
-                      )}
-                    </Draggable>
-                  );
-                })}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-
-          <div className="question-grid-CB-review1-p2-q3">
-            {items.map((item, i) => (
-              <div className="question-box-CB-review1-p2-q3" key={i}>
-                <img src={item.img} className="q-img-CB-review1-p2-q3" />
-
-                {/* f / v circles */}
-                <div className="choices-CB-review1-p2-q3">
-                  {item.option.map((letter) => (
-                    <div className="circle-wrapper" key={letter}>
-                      <div
-                        className={`circle-choice-CB-review1-p2-q3 ${
-                          selected[i] === letter ? "active" : ""
-                        } ${showCorrect ? "correct-color" : ""}`}
-                        onClick={() => handleSelect(letter, i)}
+                      <svg
+                        viewBox="0 0 24 24"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
                       >
-                        {letter}
-                      </div>
-
-                      {showResult &&
-                        selected[i] === letter &&
-                        selected[i] !== item.correct && (
-                          <div className="wrong-mark-CB-review1-p2-q3 ">✕</div>
-                        )}
-                    </div>
-                  ))}
-                </div>
-
-                {/* 🧩 Drag slot بدل input */}
-                <div className="input-wrapper-CB-review1-p2-q3">
-                  <Droppable droppableId={`slot-${i}`}>
-                    {(provided, snapshot) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                        className={`write-input-CB-review1-p2-q3 ${
-                          showCorrect ? "correct-color" : ""
-                        } ${snapshot.isDraggingOver ? "drag-over-cell" : ""}`}
-                      >
-                        {answers[i] && (
-                          <Draggable
-                            draggableId={`slot-${i}-${answers[i]}`}
-                            index={0}
-                            isDragDisabled={true}
-                          >
-                            {(provided) => (
-                              <span
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                                {...provided.dragHandleProps}
-                                className="word-item"
-                              >
-                                {answers[i]}
-                              </span>
-                            )}
-                          </Draggable>
-                        )}
-                        {provided.placeholder}
-                      </div>
-                    )}
-                  </Droppable>
-
-                  {showResult &&
-                    answers[i] !== "" &&
-                    answers[i].toLowerCase() !==
-                      item.correctInput.toLowerCase() &&
-                    wrongInputs.includes(i) && (
-                      <div className="wrong-mark-CB-review1-p2-q3">✕</div>
-                    )}
-                </div>
-              </div>
-            ))}
-          </div>
-          </div>
-        </div>
-
-        <div className="action-buttons-container">
-          <button onClick={resetAll} className="try-again-button">
-            Start Again ↻
-          </button>
-          <button onClick={showAnswers} className="show-answer-btn">
-            Show Answer
-          </button>
-          <button onClick={checkAnswers} className="check-button2">
-            Check Answer ✓
-          </button>
+                        <path d="M3 9v6h4l5 5V4L7 9H3z" />
+                        <path
+                          d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                        />
+                      </svg>
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          ))}
         </div>
       </div>
-    </DragDropContext>
+    </div>
   );
 };
 

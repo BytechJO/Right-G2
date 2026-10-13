@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
+// import React, { useState, useRef, useEffect } from "react";
 import backgroundImage from "../../../assets/imgs/Right 2 Unit 3 On a Picnic/Page.png";
-import page2_2 from "../../../assets/imgs/Voca.svg";
+// import page2_2 from "../../../assets/imgs/Voca.svg";
 import vocabulary from "../../../assets/audio/ClassBook/U 3/Pg22_Vocab_Adult Lady.mp3";
 import "./Unit3_Page1.css";
 import ModernVocabularyComponent from "../../ModernVocabularyComponent";
@@ -34,32 +34,33 @@ const Unit3_Page1_Vocab = () => {
   // ✔ Captions Array
   // ================================
   const captions = [
-    { start: 0.48, end: 3.46, text: "Page 22, unit 3, vocabulary." },
-    { start: 4.68, end: 6.18, text: "1: swim." },
-    { start: 7.3, end: 8.92, text: "2: kite." },
-    { start: 10.06, end: 14.96, text: "3: sandwich. 4: picnic table." },
-    { start: 15.98, end: 18.04, text: "5: play the drum." },
-    { start: 19.06, end: 20.82, text: "6: drum." },
-    { start: 21.94, end: 24.14, text: "7: take a photo." },
-    { start: 25.32, end: 27.24, text: "8: ride a bike." },
-    { start: 28.36, end: 30.22, text: "9: paint." },
-    { start: 31.36, end: 33.28, text: "10: park." },
-    { start: 34.3, end: 36.38, text: "11: bench." },
-  ];
+  { start: 0.48, end: 3.46, text: "Page 22, Unit 3 vocabulary." },
+  { start: 4.72, end: 6.16, text: "1 swim" },
+  { start: 7.32, end: 9.02, text: "2 kite" },
+  { start: 10.06, end: 12.04, text: "3 sandwich" },
+  { start: 13.0, end: 14.94, text: "4 picnic table" },
+  { start: 15.96, end: 18.02, text: "5 play the drum" },
+  { start: 19.04, end: 20.78, text: "6 drum" },
+  { start: 21.92, end: 24.26, text: "7 take a photo" },
+  { start: 25.36, end: 27.22, text: "8 ride a bike" },
+  { start: 28.34, end: 30.2, text: "9 paint" },
+  { start: 31.34, end: 33.24, text: "10 park" },
+  { start: 34.32, end: 36.36, text: "11 bench" },
+];
 
-  const wordAudios = [
-    sound1,
-    sound2,
-    sound3,
-    sound4,
-    sound5,
-    sound6,
-    sound7,
-    sound8,
-    sound9,
-    sound10,
-    sound11,
-  ];
+  // const wordAudios = [
+  //   sound1,
+  //   sound2,
+  //   sound3,
+  //   sound4,
+  //   sound5,
+  //   sound6,
+  //   sound7,
+  //   sound8,
+  //   sound9,
+  //   sound10,
+  //   sound11,
+  // ];
 
   const nums = [
     num1,
@@ -130,6 +131,8 @@ const Unit3_Page1_Vocab = () => {
         { id: 11, top: "69.5%", left: "31%" }, // 100-30.5 , 100-69
       ]}
       captions={captions}
+       pageId="sb-unit3-page1-vocab"
+       height={70}
     />
   );
 };

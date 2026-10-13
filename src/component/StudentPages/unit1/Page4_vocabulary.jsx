@@ -29,10 +29,18 @@ const Page4_vocabulary = () => {
     <ModernVocabularyComponent
       backgroundImage={backgroundImage}
       mainAudio={soundFull}
-
-      wordAudios={[sound1, sound2, sound3, sound4, sound5, sound6, sound7, sound8, sound9]}
+      wordAudios={[
+        sound1,
+        sound2,
+        sound3,
+        sound4,
+        sound5,
+        sound6,
+        sound7,
+        sound8,
+        sound9,
+      ]}
       nums={[num1, num2, num3, num4, num5, num6, num7, num8, num9]}
-
       vocabulary={[
         "father",
         "knock",
@@ -44,7 +52,6 @@ const Page4_vocabulary = () => {
         "aunt",
         "uncle",
       ]}
-
       markers={[
         { id: 1, top: "28%", left: "13%" },
         { id: 2, top: "22%", left: "24%" },
@@ -56,19 +63,20 @@ const Page4_vocabulary = () => {
         { id: 8, top: "54%", left: "56%" },
         { id: 9, top: "59%", left: "66%" },
       ]}
-
       captions={[
-        { start: 0, end: 3.85, text: "Page 4, unit 1 vocabulary." },
-        { start: 4.02, end: 6.45, text: "1 father" },
-        { start: 6.52, end: 9.18, text: "2 knock" },
-        { start: 9.24, end: 12.05, text: "3 brother" },
-        { start: 12.12, end: 15.0, text: "4 mother" },
-        { start: 15.06, end: 16.9, text: "5 sister" },
-        { start: 17.0, end: 20.0, text: "6 play" },
-        { start: 20.78, end: 22.18, text: "7 cousin" },
-        { start: 22.8, end: 25.6, text: "8 aunt" },
-        { start: 26.7, end: 28.12, text: "9 uncle" },
+        { start: 0.54, end: 3.06, text: "Page 4, Unit 1 Vocabulary." },
+        { start: 4.059, end: 5.68, text: "1 father" },
+        { start: 6.52, end: 8.38, text: "2 knock" },
+        { start: 9.24, end: 11.08, text: "3 brother" },
+        { start: 12.1, end: 13.98, text: "4 mother" },
+        { start: 15.02, end: 17.1, text: "5 sister" },
+        { start: 17.94, end: 19.74, text: "6 play" },
+        { start: 20.78, end: 22.76, text: "7 cousin" },
+        { start: 23.8, end: 25.6, text: "8 aunt" },
+        { start: 26.72, end: 28.62, text: "9 uncle" },
       ]}
+      pageId="sb-unit1-page4-vocab"
+      height={70}
     />
   );
 };

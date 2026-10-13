@@ -1,30 +1,223 @@
-import React, { useState, useRef } from "react";
+/* eslint-disable react-refresh/only-export-components */
+import React, { useState, useRef, useEffect } from "react";
+import { FaVolumeUp } from "react-icons/fa";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Review6_Page2_Q3.css";
 
+import wordAudio1 from "../../../assets/audio/ClassBook/U 6/Page 55 - F/Item_001_bike.mp3";
+import wordAudio2 from "../../../assets/audio/ClassBook/U 6/Page 55 - F/Item_002_light.mp3";
+import wordAudio3 from "../../../assets/audio/ClassBook/U 6/Page 55 - F/Item_003_five.mp3";
+import wordAudio4 from "../../../assets/audio/ClassBook/U 6/Page 55 - F/Item_004_tight.mp3";
+import wordAudio5 from "../../../assets/audio/ClassBook/U 6/Page 55 - F/Item_005_kite.mp3";
+import wordAudio6 from "../../../assets/audio/ClassBook/U 6/Page 55 - F/Item_006_night.mp3";
+import ExerciseHeader from "../../ExerciseHeader";
+
+const words = ["bike", "light", "five", "tight", "kite", "night"];
+const wordAudios = [
+  wordAudio1,
+  wordAudio2,
+  wordAudio3,
+  wordAudio4,
+  wordAudio5,
+  wordAudio6,
+];
+
+const grid = [
+  ["i", "t", "i", "b", "e", "t"],
+  ["l", "f", "n", "k", "k", "i"],
+  ["i", "i", "i", "k", "i", "g"],
+  ["g", "b", "g", "v", "t", "h"],
+  ["h", "t", "h", "h", "e", "t"],
+  ["t", "e", "t", "t", "t", "h"],
+];
+
+const ROWS = grid.length;
+const COLS = grid[0].length;
+
+const ARROWS = {
+  ArrowUp: [-1, 0],
+  ArrowDown: [1, 0],
+  ArrowLeft: [0, -1],
+  ArrowRight: [0, 1],
+};
+
+const isActivateKey = (e) => e.key === "Enter" || e.key === " ";
+
+// خط مستقيم (أفقي/عمودي/قطري) بين خليتين، أو null إذا مش مستقيم
+const getLine = (start, end) => {
+  const dr = end.row - start.row;
+  const dc = end.col - start.col;
+
+  if (!(dr === 0 || dc === 0 || Math.abs(dr) === Math.abs(dc))) return null;
+
+  const stepRow = Math.sign(dr);
+  const stepCol = Math.sign(dc);
+  const length = Math.max(Math.abs(dr), Math.abs(dc));
+  const cells = [];
+
+  for (let i = 0; i <= length; i++) {
+    cells.push({
+      row: start.row + i * stepRow,
+      col: start.col + i * stepCol,
+    });
+  }
+
+  return cells;
+};
+
+const SpeakerBadge = () => (
+  <span
+    aria-hidden="true"
+    style={{
+      position: "absolute",
+      top: -10,
+      right: -10,
+      width: 22,
+      height: 22,
+      borderRadius: "50%",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      pointerEvents: "none",
+      zIndex: 3,
+      lineHeight: 1,
+      background: "#fff",
+      color: "#000",
+      boxShadow: "0 1px 3px rgba(0,0,0,.25)",
+    }}
+  >
+    <FaVolumeUp size={12} />
+  </span>
+);
+
 const Review6_Page2_Q3 = () => {
-  const words = ["bike", "light", "five", "tight", "kite", "night"];
-
-  const grid = [
-    ["i", "t", "i", "b", "e", "t"],
-    ["l", "f", "n", "k", "k", "i"],
-    ["i", "i", "i", "k", "i", "g"],
-    ["g", "b", "g", "v", "t", "h"],
-    ["h", "t", "h", "h", "e", "t"],
-    ["t", "e", "t", "t", "t", "h"],
-  ];
-
   const gridRef = useRef(null);
+  const cellRefs = useRef({});
+  const audioRef = useRef(null);
+  const pointerDownRef = useRef(false);
+
   const [isChecked, setIsChecked] = useState(false);
   const [showedAnswer, setShowedAnswer] = useState(false);
   const [selectedCells, setSelectedCells] = useState([]);
   const [startCell, setStartCell] = useState(null);
   const [isSelecting, setIsSelecting] = useState(false);
 
+  // أول حرف تم اختياره (بالكليك/الكيبورد) وبينتظر الحرف الأخير
+  const [anchor, setAnchor] = useState(null);
+  // آخر خلية عليها المؤشر/الفوكس (لمعاينة المسار)
+  const [activeCell, setActiveCell] = useState(null);
+  // الخلية اللي فيها نقطة التاب
+  const [focusedCell, setFocusedCell] = useState({ row: 0, col: 0 });
+
   const [foundWords, setFoundWords] = useState([]);
   const [foundSelections, setFoundSelections] = useState([]);
   const [locked, setLocked] = useState(false);
 
+  const [playingId, setPlayingId] = useState(null);
+  const [announcement, setAnnouncement] = useState("");
+
+  /* ---------------- audio ---------------- */
+  const stopAudio = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      audioRef.current = null;
+    }
+    setPlayingId(null);
+  };
+
+  const playWord = (i) => {
+    stopAudio();
+    const audio = new Audio(wordAudios[i]);
+    audioRef.current = audio;
+    setPlayingId(i);
+    audio.onended = () => setPlayingId(null);
+    audio.play().catch(() => setPlayingId(null));
+  };
+
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) audioRef.current.pause();
+    };
+  }, []);
+
+  /* ---------------- selection logic ---------------- */
+  const getWordFromCells = (cells) => {
+    let word = "";
+    cells.forEach((cell) => {
+      word += grid[cell.row][cell.col];
+    });
+    return word.toLowerCase();
+  };
+
+  // بيقيّم المسار (للأمام أو للخلف) وبيعلن النتيجة
+  const evaluateSelection = (cells) => {
+    if (!cells || cells.length < 2) return;
+
+    const word = getWordFromCells(cells);
+    const reversed = word.split("").reverse().join("");
+
+    if (words.includes(word) || words.includes(reversed)) {
+      const correctWord = words.includes(word) ? word : reversed;
+      const cellsToSave = words.includes(word) ? [...cells] : [...cells].reverse();
+
+      if (foundWords.includes(correctWord)) {
+        setAnnouncement(`${correctWord} was already found.`);
+        return;
+      }
+
+      setFoundWords((prev) => [...prev, correctWord]);
+      setFoundSelections((prev) => [
+        ...prev,
+        { word: correctWord, cells: cellsToSave },
+      ]);
+
+      setAnnouncement(
+        `Found ${correctWord}. ${foundWords.length + 1} of ${words.length} words found.`,
+      );
+    } else {
+      setAnnouncement(`${word} is not in the word list.`);
+    }
+  };
+
+  const clearSelectionState = () => {
+    setSelectedCells([]);
+    setStartCell(null);
+    setIsSelecting(false);
+  };
+
+  // اختيار أول وآخر حرف (كليك/تاتش/كيبورد)
+  const activateCell = (row, col) => {
+    if (locked || isChecked || showedAnswer) return;
+
+    if (!anchor) {
+      setAnchor({ row, col });
+      setAnnouncement(
+        `First letter ${grid[row][col]} chosen at row ${row + 1}, column ${col + 1}. Move to the last letter and press Enter or Space.`,
+      );
+      return;
+    }
+
+    if (anchor.row === row && anchor.col === col) {
+      setAnchor(null);
+      setAnnouncement("Choice cancelled.");
+      return;
+    }
+
+    const line = getLine(anchor, { row, col });
+
+    if (!line) {
+      setAnnouncement(
+        "The letters must be in a straight line: across, down, or diagonal.",
+      );
+      return;
+    }
+
+    evaluateSelection(line);
+    setAnchor(null);
+  };
+
+  /* ---------------- dragging (pointer: mouse + touch) ---------------- */
   const startSelection = (row, col) => {
     if (locked || isChecked || showedAnswer) return;
 
@@ -36,77 +229,84 @@ const Review6_Page2_Q3 = () => {
   const addCell = (row, col) => {
     if (!isSelecting || !startCell) return;
 
-    const dr = row - startCell.row;
-    const dc = col - startCell.col;
+    const cells = getLine(startCell, { row, col });
 
-    const stepRow = Math.sign(dr);
-    const stepCol = Math.sign(dc);
-
-    if (!(dr === 0 || dc === 0 || Math.abs(dr) === Math.abs(dc))) return;
-
-    const length = Math.max(Math.abs(dr), Math.abs(dc));
-    const cells = [];
-
-    for (let i = 0; i <= length; i++) {
-      cells.push({
-        row: startCell.row + i * stepRow,
-        col: startCell.col + i * stepCol,
-      });
-    }
+    if (!cells) return;
 
     setSelectedCells(cells);
   };
 
-  const getWordFromCells = (cells) => {
-    let word = "";
-    cells.forEach((cell) => {
-      word += grid[cell.row][cell.col];
-    });
-    return word.toLowerCase();
-  };
+  const endSelection = (fromLeave = false) => {
+    if (!isSelecting) return;
 
-  const endSelection = () => {
-    setIsSelecting(false);
-
-    if (selectedCells.length === 0) return;
-
-    const word = getWordFromCells(selectedCells);
-    const reversed = word.split("").reverse().join("");
-
-    if (words.includes(word) || words.includes(reversed)) {
-      const correctWord = words.includes(word) ? word : reversed;
-      const cellsToSave = words.includes(word)
-        ? [...selectedCells]
-        : [...selectedCells].reverse();
-
-      if (!foundWords.includes(correctWord)) {
-        setFoundWords((prev) => [...prev, correctWord]);
-        setFoundSelections((prev) => [
-          ...prev,
-          {
-            word: correctWord,
-            cells: cellsToSave,
-          },
-        ]);
-      }
+    // سحب (أكثر من خلية): بيتقيّم مباشرة
+    if (selectedCells.length > 1) {
+      evaluateSelection(selectedCells);
+      setAnchor(null);
+      clearSelectionState();
+      return;
     }
 
-    setSelectedCells([]);
-    setStartCell(null);
+    // خلية وحدة = كليك/تاتش: اختيار أول أو آخر حرف
+    const cell = selectedCells[0];
+    clearSelectionState();
+
+    if (!fromLeave && cell) activateCell(cell.row, cell.col);
   };
 
+  /* ---------------- keyboard ---------------- */
+  const onCellKeyDown = (e, row, col) => {
+    if (e.key === "Tab") return;
+
+    if (isActivateKey(e)) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (!e.repeat) activateCell(row, col);
+      return;
+    }
+
+    if (ARROWS[e.key]) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const [dr, dc] = ARROWS[e.key];
+      const nr = Math.min(ROWS - 1, Math.max(0, row + dr));
+      const nc = Math.min(COLS - 1, Math.max(0, col + dc));
+
+      cellRefs.current[`${nr}-${nc}`]?.focus();
+      return;
+    }
+
+    if (e.key === "Escape" && anchor) {
+      e.preventDefault();
+      e.stopPropagation();
+      setAnchor(null);
+      setAnnouncement("Choice cancelled.");
+    }
+  };
+
+  /* ---------------- show / reset / check ---------------- */
   const resetAll = () => {
+    stopAudio();
     setFoundWords([]);
     setFoundSelections([]);
     setSelectedCells([]);
     setStartCell(null);
     setIsSelecting(false);
+    setAnchor(null);
+    setActiveCell(null);
     setLocked(false);
     setIsChecked(false);
     setShowedAnswer(false);
+    setAnnouncement("Activity reset. All paths and found words are cleared.");
   };
+
   const showAnswers = () => {
     if (isChecked) return;
+
+    stopAudio();
+    clearSelectionState();
+    setAnchor(null);
 
     const answers = [
       {
@@ -172,6 +372,7 @@ const Review6_Page2_Q3 = () => {
     setFoundSelections(answers);
     setLocked(true);
     setShowedAnswer(true);
+    setAnnouncement("All words shown.");
   };
 
   const checkAnswers = () => {
@@ -180,6 +381,7 @@ const Review6_Page2_Q3 = () => {
     // ⭐ تحقق إذا ما لقى كل الكلمات
     if (foundWords.length !== words.length) {
       ValidationAlert.info("Oops!", "Please find all words first.");
+      setAnnouncement("Please find all words first.");
       return;
     }
 
@@ -197,11 +399,15 @@ const Review6_Page2_Q3 = () => {
 
     setIsChecked(true);
     setLocked(true);
+    setAnchor(null);
+    setAnnouncement(`Score ${score} out of ${total}.`);
 
     if (score === total) ValidationAlert.success(msg);
     else if (score === 0) ValidationAlert.error(msg);
     else ValidationAlert.warning(msg);
   };
+
+  /* ---------------- rendering ---------------- */
   const renderLine = (cells, key, opacity = 0.6) => {
     if (!cells || cells.length < 2) return null;
 
@@ -230,41 +436,131 @@ const Review6_Page2_Q3 = () => {
     );
   };
 
+  // المسار الحالي: السحب، أو المعاينة بين أول حرف والخلية الحالية
+  const previewCells = isSelecting
+    ? selectedCells
+    : anchor && activeCell
+      ? getLine(anchor, activeCell) || [anchor]
+      : anchor
+        ? [anchor]
+        : [];
+
+  const inPreview = (r, c) =>
+    previewCells.some((cell) => cell.row === r && cell.col === c);
+
   return (
     <div className="main-container-component">
+      {/* Screen Reader */}
+      <div
+        className="sr-only"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        {announcement}
+      </div>
+
       <div className="div-forall">
-        <h5 className="header-title-page8">
-          <span style={{ marginRight: "20px" }}>F</span> Find the words.
-        </h5>
+       <ExerciseHeader
+          sectionLetter="F"
+          title="Find the words."
+          subTitle="Scan one row at a time, then select each target word from its first letter to its last."
+          isReview={true}
+        />
+
+        <p id="r6p2q3-help" className="sr-only">
+          Use the arrow keys to move between the letters. Press Enter or Space
+          on the first letter of a word, move to its last letter, then press
+          Enter or Space again. Words can go across, down, or diagonally, forward
+          or backward. You can also drag over the letters. Press Escape to
+          cancel.
+        </p>
 
         <div className="flex items-start gap-16 mt-6">
           {/* GRID */}
           <div
             ref={gridRef}
+            role="grid"
+            aria-label="Word search grid"
+            aria-describedby="r6p2q3-help"
             className="bg-[#f9e5dd] border-2 border-red-500 rounded-xl p-5 select-none relative"
-            onMouseLeave={endSelection}
+            style={{ touchAction: "none" }}
+            onPointerLeave={() => endSelection(true)}
           >
             {grid.map((row, rowIndex) => (
-              <div key={rowIndex} className="flex">
-                {row.map((letter, colIndex) => (
-                  <span
-                    key={colIndex}
-                    className="w-[60px] h-[60px] flex items-center justify-center text-[20px] font-semibold select-none cursor-pointer relative z-10"
-                    onMouseDown={() => startSelection(rowIndex, colIndex)}
-                    onMouseEnter={() => addCell(rowIndex, colIndex)}
-                    onMouseUp={endSelection}
-                  >
-                    {letter}
-                  </span>
-                ))}
+              <div key={rowIndex} role="row" className="flex">
+                {row.map((letter, colIndex) => {
+                  const isAnchor =
+                    anchor?.row === rowIndex && anchor?.col === colIndex;
+                  const highlighted = inPreview(rowIndex, colIndex);
+
+                  return (
+                    <span
+                      key={colIndex}
+                      ref={(el) => {
+                        cellRefs.current[`${rowIndex}-${colIndex}`] = el;
+                      }}
+                      role="gridcell"
+                      tabIndex={
+                        focusedCell.row === rowIndex &&
+                        focusedCell.col === colIndex
+                          ? 0
+                          : -1
+                      }
+                      aria-selected={highlighted}
+                      aria-label={`Letter ${letter}, row ${rowIndex + 1}, column ${colIndex + 1}${
+                        isAnchor ? ", first letter chosen" : ""
+                      }`}
+                      data-row={rowIndex}
+                      data-col={colIndex}
+                      className={`w-[60px] h-[60px] flex items-center justify-center text-[24px] font-semibold select-none cursor-pointer relative z-10 rounded-lg outline-none focus-visible:ring-4 focus-visible:ring-blue-400 ${
+                        isAnchor
+                          ? "bg-blue-200 ring-2 ring-blue-500"
+                          : highlighted
+                            ? "bg-blue-100"
+                            : ""
+                      }`}
+                      onPointerDown={(e) => {
+                        // عشان التاتش يكمّل لباقي الخلايا أثناء السحب
+                        try {
+                          e.currentTarget.releasePointerCapture(e.pointerId);
+                        } catch {
+                          /* ignore */
+                        }
+                        startSelection(rowIndex, colIndex);
+                      }}
+                      onPointerEnter={() => {
+                        setActiveCell({ row: rowIndex, col: colIndex });
+                        addCell(rowIndex, colIndex);
+                      }}
+                      onPointerUp={() => endSelection(false)}
+                      onFocus={() => {
+                        setFocusedCell({ row: rowIndex, col: colIndex });
+                        setActiveCell({ row: rowIndex, col: colIndex });
+                      }}
+                      onKeyDown={(e) => onCellKeyDown(e, rowIndex, colIndex)}
+                      onKeyUp={(e) => {
+                        if (isActivateKey(e)) {
+                          e.preventDefault();
+                          e.stopPropagation();
+                        }
+                      }}
+                    >
+                      {letter}
+                    </span>
+                  );
+                })}
               </div>
             ))}
 
-            <svg className="absolute top-0 left-0 w-full h-full pointer-events-none">
+            <svg
+              aria-hidden="true"
+              className="absolute top-0 left-0 w-full h-full pointer-events-none"
+            >
               {foundSelections.map((item, index) =>
                 renderLine(item.cells, `found-${index}`, 0.6),
               )}
-              {renderLine(selectedCells, "current", 0.45)}
+              {renderLine(previewCells, "current", 0.45)}
             </svg>
           </div>
 
@@ -278,13 +574,49 @@ const Review6_Page2_Q3 = () => {
             {words.map((word, index) => (
               <div
                 key={index}
-                className={`text-center ${
+                className={`flex justify-center ${
                   foundWords.includes(word)
                     ? "text-green-600 line-through font-bold"
                     : ""
                 }`}
               >
-                {word}
+                <span
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`${word}.${
+                    foundWords.includes(word) ? " Found." : ""
+                  } Press Enter to hear the word.`}
+                  onPointerDown={() => {
+                    pointerDownRef.current = true;
+                  }}
+                  onClick={() => {
+                    pointerDownRef.current = false;
+                    playWord(index);
+                  }}
+                  onFocus={() => {
+                    if (!pointerDownRef.current) playWord(index);
+                  }}
+                  onBlur={() => {
+                    pointerDownRef.current = false;
+                  }}
+                  onKeyDown={(e) => {
+                    if (isActivateKey(e)) {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      if (!e.repeat) playWord(index);
+                    }
+                  }}
+                  onKeyUp={(e) => {
+                    if (isActivateKey(e)) {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }
+                  }}
+                  className="relative cursor-pointer px-2 rounded outline-none focus-visible:ring-4 focus-visible:ring-blue-300"
+                >
+                  {word}
+                  {playingId === index && <SpeakerBadge />}
+                </span>
               </div>
             ))}
           </div>

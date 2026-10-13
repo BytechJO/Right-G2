@@ -8,11 +8,11 @@
 /* ================= WORDS ================= */
 
 .u2-match-words {
-     display: flex;
-    justify-content: space-around;
-    margin-bottom: 150px;
-    gap: 20px;
-  }
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 150px;
+  gap: 20px;
+}
 
 .u2-word-item {
   display: flex;
@@ -27,38 +27,31 @@
   margin-bottom: 6px;
 }
 
+.CB-unit2-p6-q1-dot-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
 .u2-word {
   background: #fde9df;
   padding: 8px 18px;
   border-radius: 20px;
   font-size: 15px;
   font-weight: 600;
-  /* color: #333; */
   margin: 0;
-}
-
-.u2-word.is-disabled {
-  opacity: 0.6;
-  pointer-events: none;
-}
-
-/* red dot under word */
-.dot-start {
-  width: 8px;
-  height: 8px;
-  background: #e53935;
-  border-radius: 50%;
-  margin-top: 6px;
   cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease,
+    background 0.12s ease;
 }
 
-/* error X */
-.u2-error {
-  position: absolute;
-  right: -12px;
-  top: 6px;
-  color: red;
-  font-weight: bold;
+.u2-word:hover {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.CB-unit2-p6-q1-dot-container:active .u2-word {
+  transform: scale(0.95);
 }
 
 /* ================= IMAGES ================= */
@@ -73,80 +66,29 @@
   flex-direction: column;
   align-items: center;
   cursor: pointer;
+  border-radius: 12px;
+  transition: transform 0.12s ease;
 }
 
-.CB-unit2-p6-q1-dot-container {
-  cursor: pointer;
+.u2-image-wrapper:active {
+  transform: scale(0.95);
 }
-
 
 .u2-image-item {
   position: relative;
   padding: 10px;
-  /* border: 2px solid #e53935; */
   border-radius: 12px;
   background: #fff;
   display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .u2-image {
   width: 120px;
   height: 120px;
   object-fit: contain;
-}
-
-.u2-image.is-disabled {
-  opacity: 0.6;
-}
-
-/* red dot above image */
-.dot-end {
-  width: 8px;
-  height: 8px;
-  background: #e53935;
-  border-radius: 50%;
-  position: absolute;
-  top: -6px;
-  left: 50%;
-  transform: translateX(-50%);
-  cursor: pointer;
-}
-.CB-unit2-p6-q1-dot-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-/* ================= LINES ================= */
-
-.u2-lines {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 5;
-}
-/* ================= CLICK FEEDBACK ================= */
-
-/* الكلمات */
-.u2-word,
-.CB-unit2-p6-q1-dot-container {
-  cursor: pointer;
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
-}
-
-.u2-word:hover {
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-}
-
-.u2-word:active {
-  transform: scale(0.95);
-}
-
-/* الصور */
-.u2-image-wrapper,
-.u2-image {
   cursor: pointer;
   transition: transform 0.12s ease, box-shadow 0.12s ease;
 }
@@ -155,26 +97,30 @@
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.18);
 }
 
-.u2-image-wrapper:active {
-  transform: scale(0.95);
+/* ================= STATES ================= */
+
+/* صح ومقفول */
+.is-correct {
+  cursor: default;
 }
 
-/* الدوت (اختياري) */
-.dot1 {
-  transition: transform 0.12s ease;
+.is-correct .u2-word {
+  background: #c8e6c9;
+  box-shadow: none;
 }
 
-.dot1:active {
-  transform: scale(0.85);
+.is-correct .u2-image {
+  box-shadow: 0 0 0 3px #4caf50;
+  border-radius: 12px;
 }
 
-/* تعطيل التفاعل */
+/* بعد Show Answer / إكمال النشاط */
 .is-disabled {
+  cursor: default;
   pointer-events: none;
-  opacity: 0.6;
 }
 
-/* ⭐ تم إضافتها */
+/* ✕ على الكلمة الغلط */
 .CB-unit2-p6-q1-error-mark-img {
   position: absolute;
   top: -10px;
@@ -194,3 +140,60 @@
   border: 2px solid white;
 }
 
+/* ================= DOTS + LINES ================= */
+/* احذفي هالبلوك إذا كانت معرّفة أصلاً بملف global */
+
+.dot1 {
+  width: 8px;
+  height: 8px;
+  background: #e53935;
+  border-radius: 50%;
+  margin-top: 6px;
+  transition: transform 0.12s ease, background 0.12s ease;
+}
+
+.lines-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* ================= FOCUS ================= */
+
+.interactive:focus {
+  outline: none;
+}
+
+
+/* 🔊 أيقونة السبيكر فوق يمين الكلمة */
+.u2-speaker {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  /* color: #2c5287; */
+  border-radius: 50%;
+  font-size: 12px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+  z-index: 10;
+}
+/* الكلمة: الحلقة حوالين الكلمة بس */
+/* .CB-unit2-p6-q1-dot-container.interactive:focus-visible .u2-word {
+  outline: 3px solid #2563eb;
+  outline-offset: 4px;
+} */
+
+/* الصورة */
+/* .u2-image-wrapper.interactive:focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 4px;
+} */

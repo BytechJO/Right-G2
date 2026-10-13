@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import page_4 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 49.png";
 import "./Unit6_Page4.css";
-import grammarSound from "../../../assets/audio/ClassBook/U 6/CD35.Pg49_Grammar2_Adult Lady.mp3";
+import grammarSound from "../../../assets/audio/ClassBook/U 6/cd35pg49-grammar2-adult-lady_yOq5KJH4.mp3";
 import sound1 from "../../../assets/audio/ClassBook/U 6/pg49-21-adult-lady_QAwcb4YH.mp3";
 import sound3 from "../../../assets/audio/ClassBook/U 6/Pg49_3.1_Adult Lady.mp3";
 import sound4 from "../../../assets/audio/ClassBook/U 6/Pg49_4.1_Adult Lady.mp3";
@@ -49,10 +49,10 @@ const Unit6_Page4 = ({ openPopup }) => {
   ];
 
   const clickableAreas = [
-    { id: "pg12-1",x1: 7.15, y1: 9.96, x2: 92.67, y2: 19.71, sound: sound1 },
-    { id: "pg12-2",x1: 5.60, y1: 52.61, x2: 47.10, y2: 60.53, sound: sound3 },
-    { id: "pg12-3",x1: 57.57, y1: 52.30, x2: 94.61, y2: 60.53, sound: sound4 },
-    { id: "pg12-4",x1: 45.16, y1: 85.81, x2: 83.56, y2: 92.97, sound: sound5 },
+    { id: "pg12-1", x1: 7.15, y1: 9.96, x2: 92.67, y2: 19.71, sound: sound1 },
+    { id: "pg12-2", x1: 5.6, y1: 52.61, x2: 47.1, y2: 60.53, sound: sound3 },
+    { id: "pg12-3", x1: 57.57, y1: 52.3, x2: 94.61, y2: 60.53, sound: sound4 },
+    { id: "pg12-4", x1: 45.16, y1: 85.81, x2: 83.56, y2: 92.97, sound: sound5 },
   ];
 
   const handleImageClick = (e) => {
@@ -61,7 +61,7 @@ const Unit6_Page4 = ({ openPopup }) => {
     const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
     console.log("X%:", xPercent.toFixed(2), "Y%:", yPercent.toFixed(2));
   };
- const playSound = (soundPath, id) => {
+  const playSound = (soundPath, id) => {
     if (!audioRef.current) return;
 
     // 🔥 وقف أي صوت شغال بأي صفحة
@@ -84,35 +84,6 @@ const Unit6_Page4 = ({ openPopup }) => {
       onClick={handleImageClick}
       style={{ backgroundImage: `url(${page_4})` }}
     >
-      {/* <img
-        src={page_4}
-        style={{ display: "block" }}
-        onClick={handleImageClick}
-      /> */}
-      {clickableAreas.map((area, index) => (
-        <div
-          key={index}
-          className={`clickable-area ${
-            activeId === area.id ? "highlight" : ""
-          }`}
-          style={{
-            position: "absolute",
-            left: `${area.x1}%`,
-            top: `${area.y1}%`,
-            width: `${area.x2 - area.x1}%`,
-            height: `${area.y2 - area.y1}%`,
-          }}
-        onClick={() => {
-            playSound(area.sound, area.id);
-          }}
-          onMouseEnter={() => {
-            if (!isPlaying) setHoveredAreaIndex(index);
-          }}
-          onMouseLeave={() => {
-            if (!isPlaying ) setHoveredAreaIndex(null);
-          }}
-        ></div>
-      ))}
       <div
         className="headset-icon-CD-unit6-page4-1 hover:scale-110 transition"
         style={{ overflow: "visible" }}
@@ -121,6 +92,9 @@ const Unit6_Page4 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open grammar audio"
           onClick={() =>
             openPopup(
               "audio",
@@ -134,10 +108,32 @@ const Unit6_Page4 = ({ openPopup }) => {
                 <AudioWithCaption
                   src={grammarSound}
                   captions={captionsExample}
+                  pageId="sb-unit6-page4-grammar"
                 />
               </div>,
             )
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup(
+                "audio",
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignContent: "center",
+                  }}
+                >
+                  <AudioWithCaption
+                    src={grammarSound}
+                    captions={captionsExample}
+                    pageId="sb-unit6-page4-grammar"
+                  />
+                </div>,
+              );
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -158,6 +154,9 @@ const Unit6_Page4 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open grammar video"
           onClick={() =>
             openPopup(
               "video",
@@ -186,6 +185,37 @@ const Unit6_Page4 = ({ openPopup }) => {
               </div>,
             )
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup(
+                "video",
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignContent: "center",
+                    alignItems: "center",
+                    height: "100%",
+                    width: "100%",
+                  }}
+                >
+                  <video
+                    autoPlay
+                    controls
+                    style={{
+                      width: "auto",
+                      height: "80%",
+                      objectFit: "fill",
+                      borderRadius: "20px",
+                    }}
+                  >
+                    <source src={video} type="video/mp4" />
+                  </video>
+                </div>,
+              );
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -198,6 +228,54 @@ const Unit6_Page4 = ({ openPopup }) => {
           />
         </svg>
       </div>
+
+      {/* رسم المستطيلات التفاعلية */}
+      {clickableAreas.map((area, index) => {
+        const areaId = `p49-${index}`;
+
+        return (
+          <div
+            key={index}
+            tabIndex={0}
+            role="button"
+            aria-label={`Play sentence audio ${index + 1}`}
+            aria-pressed={activeId === areaId}
+            className={`clickable-area ${
+              activeId === areaId || hoveredAreaIndex === index
+                ? "highlight"
+                : ""
+            }`}
+            style={{
+              position: "absolute",
+              left: `${area.x1}%`,
+              top: `${area.y1}%`,
+              width: `${area.x2 - area.x1}%`,
+              height: `${area.y2 - area.y1}%`,
+            }}
+            onClick={() => {
+              playSound(area.sound, areaId);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                playSound(area.sound, areaId);
+              }
+            }}
+            onFocus={() => {
+              setHoveredAreaIndex(index);
+            }}
+            onBlur={() => {
+              setHoveredAreaIndex(null);
+            }}
+            onMouseEnter={() => {
+              if (!isPlaying) setHoveredAreaIndex(index);
+            }}
+            onMouseLeave={() => {
+              if (!isPlaying) setHoveredAreaIndex(null);
+            }}
+          />
+        );
+      })}
       <audio ref={audioRef} style={{ display: "none" }} />
     </div>
   );

@@ -156,3 +156,49 @@
 .CB-review1-p2-q1-word:active {
   transform: scale(0.95);
 }
+
+
+
+
+
+
+.CB-review1-p2-q1-img-box {
+  position: relative; /* إذا مش موجودة عندك أصلاً */
+}
+
+.CB-review1-p2-q1-speaker {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  /* color: #fff; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.2s, transform 0.2s;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* بتظهر لما أقف عليها بالتاب أو لما الصوت يشتغل */
+.CB-review1-p2-q1-img-box:focus-visible .CB-review1-p2-q1-speaker,
+.CB-review1-p2-q1-speaker.playing {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.CB-review1-p2-q1-speaker.playing {
+  /* background: #dc2626; */
+  animation: r1p2q1-pulse 0.9s ease-in-out infinite;
+}
+
+@keyframes r1p2q1-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}

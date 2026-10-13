@@ -4,16 +4,17 @@
 }
 
 .blank-options-CB-unit3-p6-q1 {
-    display: flex;
-    gap: 10px;
-    font-size: 18px;
-    font-weight: 500;
-    flex-direction: column;
-    position: relative;
-    /* padding-right: 20px; */
-    border-right: 2px solid;
-    height: 100px;
-    width: 28%;
+  display: flex;
+  /* gap: 10px; */
+  font-size: 18px;
+  /* font-weight: 500; */
+  flex-direction: column;
+  position: relative;
+  /* padding-right: 20px; */
+  border-right: 2px solid;
+  height: 120px;
+  width: 35%;
+  align-items: center;
 }
 
 .wrong-mark-CB-unit3-p6-q1 {
@@ -35,7 +36,7 @@
 
 .sentence-CB-unit3-p6-q1 {
   display: flex;
-  gap: 65px;
+  gap: 20px;
   width: 100%;
   align-items: center;
   font-size: 20px;
@@ -50,14 +51,23 @@
   flex-direction: column-reverse;
   width: 100%;
 }
-.option-word-CB-unit3-p6-q1.selected {
-  /* color: white; */
+.option-word-CB-unit3-p6-q1 {
   padding: 4px 10px;
   border-radius: 12px;
-  border: 2px solid #2c5287;
+  border: 2px solid transparent;
   transition: 0.2s ease;
 }
+.option-word-CB-unit3-p6-q1.selected {
+  border-color: #2c5287 !important;
+}
 
+.option-word-CB-unit3-p6-q1.is-wrong {
+  border-color: red !important;
+}
+
+.option-word-CB-unit3-p6-q1.is-correct {
+  border-color: green !important;
+}
 @media (max-width: 1024px) {
   .content-container-CB-unit3-p6-q1 {
     grid-template-columns: 1fr;
