@@ -79,7 +79,7 @@ const pauseOtherAudio = () => {
 const Review1_Page2_Q2 = () => {
   const [answers, setAnswers] = useState({}); // { [id]: "✓" | "✗" }
   const [results, setResults] = useState({}); // { [id]: "correct" | "wrong" }
-  const [setScore] = useState(null); // { correct, total } | null
+  const [, setScore] = useState(null); // { correct, total } | null
   const [answerShown, setAnswerShown] = useState(false); // بعد Show Answer = كل شي مقفول
   const [finished, setFinished] = useState(false); // كل شي صح بعد Check
   const [message, setMessage] = useState("");
@@ -219,7 +219,7 @@ const Review1_Page2_Q2 = () => {
     });
 
     setAnswers(corrects);
-    setResults({});
+    setResults(Object.fromEntries(QUESTIONS.map((q) => [q.id, "correct"])));
     setScore(null);
     setAnswerShown(true);
     setFinished(false);

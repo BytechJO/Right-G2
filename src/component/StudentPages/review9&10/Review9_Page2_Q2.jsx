@@ -1,11 +1,155 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
 import sound1 from "../../../assets/audio/ClassBook/U 10/cd63pg89-instruction2-adult-lady_Gemt2j2G.mp3";
 import QuestionAudioPlayer from "../../QuestionAudioPlayer";
 
+import ExerciseHeader from "../../ExerciseHeader";
+import { FaVolumeUp } from "react-icons/fa";
+import clip0 from "../../../assets/audio/ClassBook/U 10/Page 89 - F/Item_001_main.mp3";
+import clip1 from "../../../assets/audio/ClassBook/U 10/Page 89 - F/Item_002_mad.mp3";
+import clip2 from "../../../assets/audio/ClassBook/U 10/Page 89 - F/Item_003_made.mp3";
+import clip3 from "../../../assets/audio/ClassBook/U 10/Page 89 - F/Item_004_man.mp3";
+import clip4 from "../../../assets/audio/ClassBook/U 10/Page 89 - F/Item_005_mat.mp3";
+import clip5 from "../../../assets/audio/ClassBook/U 10/Page 89 - F/Item_006_mate.mp3";
+import clip6 from "../../../assets/audio/ClassBook/U 10/Page 89 - F/Item_007_cap.mp3";
+import clip7 from "../../../assets/audio/ClassBook/U 10/Page 89 - F/Item_008_cape.mp3";
+const clips = {
+  main: clip0,
+  mad: clip1,
+  made: clip2,
+  man: clip3,
+  mat: clip4,
+  mate: clip5,
+  cap: clip6,
+  cape: clip7,
+};
 const Review9_Page2_Q2 = () => {
-  const stopAtSecond = 3.5;
+  const [announcement, setAnnouncement] = useState("");
+  const [playingKey, setPlayingKey] = useState(null);
+  const [forceStopAudio, setForceStopAudio] = useState(false);
+  const audioRef = useRef(null),
+    scopeRef = useRef(null);
+  const normalizeAudioText = (text) =>
+    text.replaceAll("’", "'").replace(/[.?!]$/, "");
+  const stopAudio = (resetInstruction = false) => {
+    setForceStopAudio(true);
+    const a = audioRef.current;
+    audioRef.current = null;
+    setPlayingKey(null);
+    if (a) {
+      a.onended = null;
+      a.onerror = null;
+      a.pause();
+    }
+    scopeRef.current?.querySelectorAll("audio").forEach((a) => {
+      a.pause();
+      if (!resetInstruction) return;
+      try {
+        a.currentTime = 0;
+      } catch {
+        /* media unavailable */
+      }
+    });
+  };
+  const listen = (key, text) => {
+    const src = clips[normalizeAudioText(text)];
+    if (!src) return;
+    stopAudio();
+    const a = new Audio(src);
+    audioRef.current = a;
+    setPlayingKey(key);
+    const finish = () => {
+      if (audioRef.current !== a) return;
+      audioRef.current = null;
+      a.onended = null;
+      a.onerror = null;
+      setPlayingKey(null);
+    };
+    const fail = () => {
+      if (audioRef.current !== a) return;
+      a.pause();
+      finish();
+      setAnnouncement("Audio could not be played. Please try again.");
+    };
+    a.onended = finish;
+    a.onerror = fail;
+    try {
+      a.play().catch(fail);
+    } catch {
+      fail();
+    }
+  };
+  useEffect(() => {
+    const otherPlay = (e) => {
+      const a = audioRef.current;
+      if (!a || e.target === a) return;
+      audioRef.current = null;
+      a.onended = null;
+      a.onerror = null;
+      a.pause();
+      setPlayingKey(null);
+    };
+    document.addEventListener("play", otherPlay, true);
+    return () => {
+      document.removeEventListener("play", otherPlay, true);
+      const a = audioRef.current;
+      audioRef.current = null;
+      if (a) {
+        a.onended = null;
+        a.onerror = null;
+        a.pause();
+      }
+    };
+  }, []);
+  const badge = (key) =>
+    playingKey === key && (
+      <span
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: -10,
+          right: -10,
+          width: 22,
+          height: 22,
+          borderRadius: "50%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "white",
+          color: "black",
+          pointerEvents: "none",
+          zIndex: 3,
+          boxShadow: "0 1px 3px rgba(0,0,0,.25)",
+        }}
+      >
+        <FaVolumeUp size={12} />
+      </span>
+    );
+  const activation = (e, action) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      e.stopPropagation();
+      if (!e.repeat) action();
+    }
+  };
+  const activationUp = (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  };
+  const feedbackStyle = (selected, result) => ({
+    ...(selected && result
+      ? {
+          borderColor: result === "correct" ? "#16a34a" : "#ef4444",
+          boxShadow: result === "correct" ? "0 3px 0 #16a34a" : undefined,
+        }
+      : {}),
+    ...(selected ? { backgroundColor: "#dbeafe" } : {}),
+  });
+
+  const stopAtSecond = 7.5;
 
   const captions = [
     {
@@ -23,11 +167,15 @@ const Review9_Page2_Q2 = () => {
   ];
 
   const [answers, setAnswers] = useState(Array(questions.length).fill(""));
+  const [results, setResults] = useState([]);
   const [locked, setLocked] = useState(false);
-  const [showWrongMarks, setShowWrongMarks] = useState(false);
+  const [, setShowWrongMarks] = useState(false);
 
   const choose = (index, value) => {
-    if (locked) return;
+    if (locked || results[index] === "correct") return;
+    listen(`choice-${index}-${value}`, value);
+    setResults((prev) => prev.map((r, i) => (i === index ? null : r)));
+    setAnnouncement(`Question ${index + 1}: ${value} selected.`);
 
     const updated = [...answers];
     updated[index] = value;
@@ -35,12 +183,18 @@ const Review9_Page2_Q2 = () => {
   };
 
   const resetAll = () => {
+    stopAudio(true);
+    setResults([]);
+    setAnnouncement("Activity reset. All answers cleared.");
     setAnswers(Array(questions.length).fill(""));
     setLocked(false);
     setShowWrongMarks(false);
   };
 
   const showAnswers = () => {
+    stopAudio();
+    setResults(questions.map(() => "correct"));
+    setAnnouncement("All correct answers shown and locked.");
     setAnswers(questions.map((q) => q.answer));
     setLocked(true);
     setShowWrongMarks(false);
@@ -48,9 +202,11 @@ const Review9_Page2_Q2 = () => {
 
   const checkAnswers = () => {
     if (locked) return;
+    stopAudio();
 
     if (answers.includes("")) {
       ValidationAlert.info("Please complete all answers");
+      setAnnouncement("Please complete all answers");
       return;
     }
 
@@ -77,18 +233,55 @@ const Review9_Page2_Q2 = () => {
     else ValidationAlert.warning(message);
 
     setShowWrongMarks(true);
-    setLocked(true);
+    setResults(
+      questions.map((q, i) => (answers[i] === q.answer ? "correct" : "wrong")),
+    );
+    setLocked(score === total);
+    setAnnouncement(
+      `Score ${score} out of ${total}. Incorrect answers can be changed.`,
+    );
   };
 
+  const choiceProps = (index, value) => ({
+    role: "button",
+    tabIndex: 0,
+    "aria-pressed": answers[index] === value,
+    "aria-disabled": locked || results[index] === "correct",
+    "aria-label":
+      "Question " +
+      (index + 1) +
+      ": " +
+      value +
+      (locked || results[index] === "correct" ? ". Answer locked." : ""),
+    className:
+      "rounded-full focus-visible:outline-4! focus-visible:outline-[#2563eb]! focus-visible:outline-offset-4!",
+    onKeyDown: (e) => activation(e, () => choose(index, value)),
+    onKeyUp: activationUp,
+  });
   return (
-    <div className="main-container-component">
+    <div ref={scopeRef} className="main-container-component" onPlayCapture={() => setForceStopAudio(false)}>
+      <div
+        className="sr-only"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        {announcement}
+      </div>
       <div className="div-forall gap-2">
-        <h5 className="header-title-page8 mb-10">
-          <span style={{ marginRight: "20px" }}>F</span>
-          Listen, read, and circle
-        </h5>
+        <div className="header-title-page8 mb-10">
+          <ExerciseHeader
+            isReview={true}
+            sectionLetter="F"
+            title={<>Listen, read, and circle</>}
+            subTitle={"Read or listen carefully, then tap the option you would circle on the printed page."}
+          />
+        </div>
 
         <QuestionAudioPlayer
+          pageId="sb_review9_page2_q2"
+          forceStop={forceStopAudio}
+          onInteract={() => setForceStopAudio(false)}
           src={sound1}
           captions={captions}
           stopAtSecond={stopAtSecond}
@@ -109,7 +302,7 @@ const Review9_Page2_Q2 = () => {
             { id: 3, w1: "mat", w2: "mate" },
           ].map((item, index) => {
             const isWrong =
-              showWrongMarks &&
+              results[index] === "wrong" &&
               answers[index] !== "" &&
               answers[index] !== questions[index].answer;
 
@@ -129,6 +322,7 @@ const Review9_Page2_Q2 = () => {
 
                 {/* word 1 */}
                 <span
+                  {...choiceProps(index, item.w1)}
                   onClick={() => choose(index, item.w1)}
                   style={{
                     padding: "4px 12px",
@@ -139,9 +333,14 @@ const Review9_Page2_Q2 = () => {
                         : "2px solid transparent",
                     cursor: "pointer",
                     position: "relative",
+                    ...feedbackStyle(
+                      answers[index] === item.w1,
+                      results[index],
+                    ),
                   }}
                 >
                   {item.w1}
+                  {badge(`choice-${index}-${item.w1}`)}
 
                   {answers[index] === item.w1 && isWrong && (
                     <div
@@ -169,6 +368,7 @@ const Review9_Page2_Q2 = () => {
 
                 {/* word 2 */}
                 <span
+                  {...choiceProps(index, item.w2)}
                   onClick={() => choose(index, item.w2)}
                   style={{
                     padding: "4px 12px",
@@ -179,9 +379,14 @@ const Review9_Page2_Q2 = () => {
                         : "2px solid transparent",
                     cursor: "pointer",
                     position: "relative",
+                    ...feedbackStyle(
+                      answers[index] === item.w2,
+                      results[index],
+                    ),
                   }}
                 >
                   {item.w2}
+                  {badge(`choice-${index}-${item.w2}`)}
 
                   {answers[index] === item.w2 && isWrong && (
                     <div

@@ -1,4 +1,10 @@
-import React, { useState } from "react";
+import ExerciseHeader from "../../ExerciseHeader";
+import {playGlobalAudio,stopGlobalAudio} from "../../audioManager";
+import {FaVolumeUp} from "react-icons/fa";
+import sentenceClip0 from "../../../assets/audio/WorkBook/Unit 1/Page 8 - C/Item_001_Look_there's_a_abbit_on_the_oad.mp3";
+import sentenceClip1 from "../../../assets/audio/WorkBook/Unit 1/Page 8 - C/Item_002_Larry_has_long_egs.mp3";
+import sentenceClip2 from "../../../assets/audio/WorkBook/Unit 1/Page 8 - C/Item_003_There_is_a_amp_on_the_table.mp3";
+import React, { useState, useRef, useEffect } from "react";
 import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 8/Ex C 2.svg";
 import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 8/Ex C 1.svg";
 import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 8/Ex C 3.svg";
@@ -7,17 +13,85 @@ import sound from "../../../assets/audio/WorkBook/cd1pg8instruction-adult-lady_6
 import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import QuestionAudioPlayer from "../../QuestionAudioPlayer";
+const IMAGE_DESCRIPTIONS={[img1]:"A brown long-eared animal on a grey road.",[img2]:"A man wearing glasses, a brown top, and green trousers.",[img3]:"A silver table light on a wooden table."};
+
+
+const focusClass = "focus-visible:outline-4! focus-visible:outline-[#2563eb]! focus-visible:outline-offset-4!";
+// eslint-disable-next-line react-refresh/only-export-components -- Local audio indicator keeps changes scoped to this exercise.
+const SpeakerBadge = () => <span aria-hidden="true" style={{position:"absolute",top:0,right:0,width:22,height:22,borderRadius:"50%",background:"white",color:"black",display:"flex",alignItems:"center",justifyContent:"center",pointerEvents:"none",zIndex:3,boxShadow:"0 1px 3px rgba(0,0,0,.25)"}}><FaVolumeUp size={12}/></span>;
+const activate = (e) => { if(e.key!=="Enter" && e.key!==" ") return; e.preventDefault(); e.stopPropagation(); if(!e.repeat) e.currentTarget.click(); };
+const release = (e) => { if(e.key==="Enter" || e.key===" "){e.preventDefault();e.stopPropagation();} };
+function useExerciseAudio() {
+  const rootRef = useRef(null),
+    ownerRef = useRef(Symbol("workbook-exercise")),
+    tokenRef = useRef(0);
+  const [playingKey, setPlayingKey] = useState(null);
+  const stopAudio = () => {
+    tokenRef.current++;
+    stopGlobalAudio(ownerRef.current);
+    setPlayingKey(null);
+  };
+  const playSound = (key, src) => {
+    if (!src) return;
+    stopAudio();
+    rootRef.current?.querySelectorAll("audio").forEach(audio => audio.pause());
+    const token = tokenRef.current;
+    setPlayingKey(key);
+    try {
+      playGlobalAudio(src, {
+        owner: ownerRef.current,
+        onFinish: () => {
+          if (tokenRef.current === token) setPlayingKey(null);
+        }
+      });
+    } catch {
+      stopAudio();
+    }
+  };
+  useEffect(() => {
+    const tokenState = tokenRef,
+      owner = ownerRef.current;
+    const onPlay = e => {
+      if (e.target?.tagName !== "AUDIO") return;
+      tokenRef.current++;
+      stopGlobalAudio(ownerRef.current);
+      setPlayingKey(null);
+    };
+    document.addEventListener("play", onPlay, true);
+    return () => {
+      document.removeEventListener("play", onPlay, true);
+      tokenState.current++;
+      stopGlobalAudio(owner);
+    };
+  }, []);
+  return {
+    rootRef,
+    playingKey,
+    playSound,
+    stopAudio
+  };
+}
+// eslint-disable-next-line react-refresh/only-export-components -- Local audio control preserves this exercise layout.
+const AudioText=({children,audioKey,src,playSound,playingKey,className="",style={}})=><span role="button" tabIndex={0} aria-label={String(children)+". Hear it."} className={className+" "+focusClass} onClick={()=>playSound(audioKey,src)} onKeyDown={activate} onKeyUp={release} style={{borderRadius:"8px",...style,position:"relative",cursor:"pointer",...(playingKey===audioKey?{boxShadow:"0 0 0 3px #2563eb",backgroundColor:"#dbeafe"}:{})}}>{children}{playingKey===audioKey&&<SpeakerBadge/>}</span>;
+
 
 // ⭐ Select بدل DropBox
-const SelectBox = ({ id, value, isWrong, onChange, showAnswer }) => {
+// eslint-disable-next-line react-refresh/only-export-components -- This select belongs to this exercise only.
+const SelectBox = ({ id, value, isWrong, onChange, showAnswer, isCorrect }) => {
   return (
     <div style={{ display: "inline-block", position: "relative" }}>
       <select
         value={value || ""}
         onChange={(e) => onChange(id, e.target.value)}
         disabled={showAnswer}
-        className="WB-unit1-p8-q3-input"
+        aria-label={`${{sentence1a:"Question 1, first missing letter",sentence1b:"Question 1, second missing letter",sentence2:"Question 2, missing letter",sentence3:"Question 3, missing letter"}[id]}${isCorrect?", correct and locked":""}`}
+        data-letter-field={id}
+        onKeyDown={e=>{if(e.key==="Enter"||e.key===" "){e.stopPropagation();if(e.repeat)e.preventDefault();}}}
+        onKeyUp={e=>{if(e.key==="Enter"||e.key===" ")e.stopPropagation();}}
+        className="WB-unit1-p8-q3-input focus-visible:outline-4! focus-visible:outline-[#2563eb]! focus-visible:outline-offset-4!"
         style={{
+          borderRadius:"6px",
+          ...(isCorrect?{borderColor:"#16a34a",boxShadow:"inset 0 -2px #16a34a"}:isWrong?{borderColor:"#ef4444"}:{}),
           fontSize: "20px",
           fontWeight: "600",
           padding: "5px",
@@ -35,8 +109,13 @@ const SelectBox = ({ id, value, isWrong, onChange, showAnswer }) => {
 };
 
 const WB_Unit1_Page8_Q3 = () => {
-  const [showAlert, setShowAlert] = useState(false);
-  const [score, setScore] = useState({ correct: 0, total: 0 });
+  const itemAudio=useExerciseAudio();
+  const rootRef=itemAudio.rootRef;
+  const [correctFields,setCorrectFields]=useState([]);
+  const [message,setMessage]=useState("");
+  const [forceStopAudio,setForceStopAudio]=useState(false);
+  const stopAudio=(rewind=false)=>{itemAudio.stopAudio();rootRef.current?.querySelectorAll("audio").forEach(audio=>{audio.pause();if(rewind)audio.currentTime=0;});setForceStopAudio(true);};
+
   const [wrongAnswers, setWrongAnswers] = useState({});
   const [showAnswer, setShowAnswer] = useState(false);
 
@@ -79,8 +158,9 @@ const WB_Unit1_Page8_Q3 = () => {
 
   // ⭐ تغيير القيمة
   const handleChange = (field, value) => {
-    if (showAnswer) return;
-
+    if (showAnswer||correctFields.includes(field)) return;
+    stopAudio();
+    setMessage(`Letter ${value} selected.`);
     setAnswers((prev) => ({
       ...prev,
       [field]: value,
@@ -93,11 +173,16 @@ const WB_Unit1_Page8_Q3 = () => {
   };
 
   const handleShowAnswer = () => {
+    stopAudio();
+    setCorrectFields(Object.keys(correctAnswers));
+    setWrongAnswers({});
+    setMessage("Correct answers shown and locked.");
     setShowAnswer(true);
     setAnswers(correctAnswers);
   };
 
   const handleStartAgain = () => {
+    stopAudio(true);setCorrectFields([]);setMessage("Exercise reset.");
     setAnswers({
       sentence1a: "",
       sentence1b: "",
@@ -106,16 +191,17 @@ const WB_Unit1_Page8_Q3 = () => {
     });
     setWrongAnswers({});
     setShowAnswer(false);
-    setShowAlert(false);
+
   };
 
   const checkAnswers = () => {
     if (showAnswer) return;
-
+    stopAudio();
     const allFilled = Object.values(answers).every((a) => a !== "");
 
     if (!allFilled) {
       ValidationAlert.info("Please fill in all answers!");
+      setMessage("Please fill in all answers!");
       return;
     }
 
@@ -135,8 +221,8 @@ const WB_Unit1_Page8_Q3 = () => {
     if (!newWrongAnswers.sentence3) correct++;
 
     setWrongAnswers(newWrongAnswers);
-    setScore({ correct, total });
-    setShowAnswer(true);
+    setCorrectFields(Object.keys(newWrongAnswers).filter(key=>!newWrongAnswers[key]));
+    setMessage(`Score ${correct} out of ${total}. Correct answers are locked.`);
 
     if (correct === total) {
       ValidationAlert.success(`Score: ${correct}/${total}`);
@@ -148,17 +234,22 @@ const WB_Unit1_Page8_Q3 = () => {
   };
 
   return (
-    <div className="main-container-component">
+    <div ref={rootRef} className="main-container-component" onPlayCapture={()=>setForceStopAudio(false)}>
+      <div className="sr-only" role="status" aria-live="polite" aria-atomic="true">{message}</div>
       <div className="div-forall"  style={{gap:"35px"}}>
-        <h1 className="WB-header-title-page8">
-          <span className="WB-ex-A">C</span> Listen. Write and read the
+        <ExerciseHeader
+            isWorkbook
+            sectionLetter="C"
+            title={<> Listen. Write and read the
           sentences.
-        </h1>
+        </>}
+          />
         <div className="flex flex-col gap-2">
         <QuestionAudioPlayer
           src={sound}
           captions={captions}
           stopAtSecond={7.25}
+          pageId="wb_unit1_page8_q3" forceStop={forceStopAudio} onInteract={()=>setForceStopAudio(false)}
         />
 
         <div className="family-completion-activity p-2">
@@ -168,13 +259,13 @@ const WB_Unit1_Page8_Q3 = () => {
               <div className="flex w-full gap-10 items-center">
                 <p className="text-[22px]">
                   <span className="text-blue-900 font-semibold mr-3">1.</span>
-                  Look there's a
+                  <AudioText audioKey="sentence-1" src={sentenceClip0} playSound={(key,src)=>{stopAudio();itemAudio.playSound(key,src);}} playingKey={itemAudio.playingKey}>Look there's a</AudioText>
                   <SelectBox
                     id="sentence1a"
                     value={answers.sentence1a}
                     isWrong={wrongAnswers.sentence1a}
                     onChange={handleChange}
-                    showAnswer={showAnswer}
+                    showAnswer={showAnswer||correctFields.includes("sentence1a")} isCorrect={correctFields.includes("sentence1a")}
                   />
                   abbit on the
                   <SelectBox
@@ -182,13 +273,13 @@ const WB_Unit1_Page8_Q3 = () => {
                     value={answers.sentence1b}
                     isWrong={wrongAnswers.sentence1b}
                     onChange={handleChange}
-                    showAnswer={showAnswer}
+                    showAnswer={showAnswer||correctFields.includes("sentence1b")} isCorrect={correctFields.includes("sentence1b")}
                   />
                   oad.
                 </p>
                 <img
                   src={img1}
-                  alt=""
+                  alt={IMAGE_DESCRIPTIONS[img1]||""}
                   style={{ width: "120px", height: "120px" }}
                 />
               </div>
@@ -196,19 +287,19 @@ const WB_Unit1_Page8_Q3 = () => {
               <div className="flex w-full gap-10 items-center">
                 <p className="text-[22px]">
                   <span className="text-blue-900 font-semibold mr-3">2.</span>
-                  Larry has long
+                  <AudioText audioKey="sentence-2" src={sentenceClip1} playSound={(key,src)=>{stopAudio();itemAudio.playSound(key,src);}} playingKey={itemAudio.playingKey}>Larry has long</AudioText>
                   <SelectBox
                     id="sentence2"
                     value={answers.sentence2}
                     isWrong={wrongAnswers.sentence2}
                     onChange={handleChange}
-                    showAnswer={showAnswer}
+                    showAnswer={showAnswer||correctFields.includes("sentence2")} isCorrect={correctFields.includes("sentence2")}
                   />
                   egs.
                 </p>
                 <img
                   src={img2}
-                  alt=""
+                  alt={IMAGE_DESCRIPTIONS[img2]||""}
                   style={{ width: "120px", height: "120px" }}
                 />
               </div>
@@ -216,19 +307,19 @@ const WB_Unit1_Page8_Q3 = () => {
                 {/* Sentence 3 */}
                 <p className="text-[22px]">
                   <span className="text-blue-900 font-semibold mr-3">3.</span>
-                  There is a
+                  <AudioText audioKey="sentence-3" src={sentenceClip2} playSound={(key,src)=>{stopAudio();itemAudio.playSound(key,src);}} playingKey={itemAudio.playingKey}>There is a</AudioText>
                   <SelectBox
                     id="sentence3"
                     value={answers.sentence3}
                     isWrong={wrongAnswers.sentence3}
                     onChange={handleChange}
-                    showAnswer={showAnswer}
+                    showAnswer={showAnswer||correctFields.includes("sentence3")} isCorrect={correctFields.includes("sentence3")}
                   />
                   amp on the table.
                 </p>
                 <img
                   src={img3}
-                  alt=""
+                  alt={IMAGE_DESCRIPTIONS[img3]||""}
                   style={{ width: "120px", height: "120px" }}
                 />
               </div>

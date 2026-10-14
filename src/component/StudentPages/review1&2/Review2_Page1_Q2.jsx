@@ -141,7 +141,6 @@ const Slot = ({
   showMark,
   ariaLabel,
   onActivate,
-  answerShown,
 }) => {
   const { setNodeRef, isOver } = useDroppable({
     id: `slot-${index}`,
@@ -156,7 +155,7 @@ const Slot = ({
       className={`q-input-CB-review2-p1-q2 CB-r2p1q2-slot ${
         word ? "has-word" : ""
       } ${
-        state === "correct" && !answerShown
+        state === "correct"
           ? "is-correct"
           : state === "wrong"
             ? "is-wrong"
@@ -629,7 +628,6 @@ const Review2_Page1_Q2 = () => {
                     state={res}
                     locked={slotLocked}
                     isTarget={Boolean(selectedWord) && !slotLocked}
-                    answerShown={answerShown}
                     showMark={
                       showBadges && Boolean(answers[i]) && res === "wrong"
                     }

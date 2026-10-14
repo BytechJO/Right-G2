@@ -19,7 +19,16 @@ const Review9_Page2 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+           tabIndex={0}
+          role="button"
+          aria-label="Open exercise 110"
           onClick={() => openPopup("exercise", { startIndex: 110 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 110 });
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -41,7 +50,16 @@ const Review9_Page2 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+            tabIndex={0}
+          role="button"
+          aria-label="Open exercise 111"
           onClick={() => openPopup("exercise", { startIndex: 111 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 111 });
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -62,7 +80,16 @@ const Review9_Page2 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+            tabIndex={0}
+          role="button"
+          aria-label="Open exercise 112"
           onClick={() => openPopup("exercise", { startIndex: 112 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 112 });
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -83,7 +110,16 @@ const Review9_Page2 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+           tabIndex={0}
+          role="button"
+          aria-label="Open exercise 113"
           onClick={() => openPopup("exercise", { startIndex: 113 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 113 });
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image

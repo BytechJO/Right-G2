@@ -1,10 +1,80 @@
-import { useState } from "react";
+import ExerciseHeader from "../../ExerciseHeader";
+import {playGlobalAudio,stopGlobalAudio} from "../../audioManager";
+import { FaVolumeUp } from "react-icons/fa";
+import clip0 from "../../../assets/audio/WorkBook/Unit 1/Page 5 - F/Item_001_This_is_Stella's.mp3";
+import clip1 from "../../../assets/audio/WorkBook/Unit 1/Page 5 - F/Item_002_brother.mp3";
+import clip2 from "../../../assets/audio/WorkBook/Unit 1/Page 5 - F/Item_003_sister.mp3";
+import clip3 from "../../../assets/audio/WorkBook/Unit 1/Page 5 - F/Item_004_uncle.mp3";
+import clip4 from "../../../assets/audio/WorkBook/Unit 1/Page 5 - F/Item_005_aunt.mp3";
+import clip5 from "../../../assets/audio/WorkBook/Unit 1/Page 5 - F/Item_006_mother.mp3";
+import React, { useState, useEffect, useRef } from "react";
 import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 5/Ex F 1.svg";
 import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 5/Ex F 2.svg";
 import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 5/Ex F 3.svg";
 
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../Button";
+const IMAGE_DESCRIPTIONS={[img1]:"A child with dark hair tied up and a blue top.",[img2]:"A man in a cream shirt.",[img3]:"A woman wearing glasses and an orange top."};
+
+
+
+const focusClass = "focus-visible:outline-4! focus-visible:outline-[#2563eb]! focus-visible:outline-offset-4!";
+// eslint-disable-next-line react-refresh/only-export-components -- Local audio indicator keeps changes scoped to this exercise.
+const SpeakerBadge = () => <span aria-hidden="true" style={{position:"absolute",top:0,right:0,width:22,height:22,borderRadius:"50%",background:"white",color:"black",display:"flex",alignItems:"center",justifyContent:"center",pointerEvents:"none",zIndex:3,boxShadow:"0 1px 3px rgba(0,0,0,.25)"}}><FaVolumeUp size={12}/></span>;
+const activate = (e) => { if(e.key!=="Enter" && e.key!==" ") return; e.preventDefault(); e.stopPropagation(); if(!e.repeat) e.currentTarget.click(); };
+const release = (e) => { if(e.key==="Enter" || e.key===" "){e.preventDefault();e.stopPropagation();} };
+function useExerciseAudio() {
+  const rootRef = useRef(null),
+    ownerRef = useRef(Symbol("workbook-exercise")),
+    tokenRef = useRef(0);
+  const [playingKey, setPlayingKey] = useState(null);
+  const stopAudio = () => {
+    tokenRef.current++;
+    stopGlobalAudio(ownerRef.current);
+    setPlayingKey(null);
+  };
+  const playSound = (key, src) => {
+    if (!src) return;
+    stopAudio();
+    rootRef.current?.querySelectorAll("audio").forEach(audio => audio.pause());
+    const token = tokenRef.current;
+    setPlayingKey(key);
+    try {
+      playGlobalAudio(src, {
+        owner: ownerRef.current,
+        onFinish: () => {
+          if (tokenRef.current === token) setPlayingKey(null);
+        }
+      });
+    } catch {
+      stopAudio();
+    }
+  };
+  useEffect(() => {
+    const tokenState = tokenRef,
+      owner = ownerRef.current;
+    const onPlay = e => {
+      if (e.target?.tagName !== "AUDIO") return;
+      tokenRef.current++;
+      stopGlobalAudio(ownerRef.current);
+      setPlayingKey(null);
+    };
+    document.addEventListener("play", onPlay, true);
+    return () => {
+      document.removeEventListener("play", onPlay, true);
+      tokenState.current++;
+      stopGlobalAudio(owner);
+    };
+  }, []);
+  return {
+    rootRef,
+    playingKey,
+    playSound,
+    stopAudio
+  };
+}
+// eslint-disable-next-line react-refresh/only-export-components -- Local audio control preserves this exercise layout.
+const AudioText=({children,audioKey,src,playSound,playingKey,className="",style={}})=><span role="button" tabIndex={0} aria-label={String(children)+". Hear it."} className={className+" "+focusClass} onClick={()=>playSound(audioKey,src)} onKeyDown={activate} onKeyUp={release} style={{borderRadius:"8px",...style,position:"relative",cursor:"pointer",...(playingKey===audioKey?{boxShadow:"0 0 0 3px #2563eb",backgroundColor:"#dbeafe"}:{})}}>{children}{playingKey===audioKey&&<SpeakerBadge/>}</span>;
 
 const WB_Unit1_Page5_Q1 = () => {
   const [userSelections, setUserSelections] = useState({
@@ -12,10 +82,12 @@ const WB_Unit1_Page5_Q1 = () => {
     2: null,
     3: null,
   });
-  const [showResults, setShowResults] = useState(false);
-  const [score, setScore] = useState(0);
+  const [results, setResults] = useState({});
+  const [message,setMessage]=useState("");
+  const {rootRef,playingKey,playSound,stopAudio}=useExerciseAudio();
+
   const [showAnswers, setShowAnswers] = useState(false);
-  const [checked, setChecked] = useState(false);
+
   const data = [
     { id: 1, img: img1, options: ["brother.", "sister."], correct: "sister." },
     { id: 2, img: img2, options: ["uncle.", "aunt."], correct: "uncle." },
@@ -23,13 +95,16 @@ const WB_Unit1_Page5_Q1 = () => {
   ];
 
   const handleSelect = (id, option) => {
-    if (!showAnswers) {
+    if (!showAnswers && results[id] !== "correct") {
+      setResults(prev=>({...prev,[id]:null}));
+      setMessage(`Question ${id}: ${option} selected.`);
       setUserSelections({ ...userSelections, [id]: option });
     }
   };
 
   const checkAnswers = () => {
-     if (showAnswers ||checked) return;
+     if (showAnswers) return;
+    stopAudio();
     const totalQuestions = data.length;
     const selectedAnswers = Object.values(userSelections);
 
@@ -37,6 +112,7 @@ const WB_Unit1_Page5_Q1 = () => {
 
     if (hasEmptyAnswers) {
       ValidationAlert.info("Please complete all answers first.");
+      setMessage("Please complete all answers first.");
       return;
     }
 
@@ -51,8 +127,9 @@ const WB_Unit1_Page5_Q1 = () => {
       }
     });
 
-    setScore(currentScore);
-    setChecked(true);
+    setResults(Object.fromEntries(data.map(item=>[item.id,userSelections[item.id]===item.correct?"correct":"wrong"])));
+    setMessage(`Score ${currentScore} out of ${totalQuestions}. Correct answers are locked; wrong answers can be changed.`);
+
 
     if (currentScore === totalQuestions) {
       ValidationAlert.success(`Score: ${currentScore} / ${totalQuestions}`);
@@ -67,18 +144,22 @@ const WB_Unit1_Page5_Q1 = () => {
     const answers = {};
     data.forEach((item) => (answers[item.id] = item.correct));
     setUserSelections(answers);
+    stopAudio();
+    setResults(Object.fromEntries(data.map(item=>[item.id,"correct"])));
+    setMessage("Correct answers shown and locked.");
     setShowAnswers(true);
   };
 
   const handleStartAgain = () => {
     setUserSelections({ 1: null, 2: null, 3: null });
-    setShowResults(false);
+    stopAudio();
+    setResults({});
+    setMessage("Exercise reset. All answers and results cleared.");
     setShowAnswers(false);
-    setChecked(false);
   };
 
   return (
-    <div
+    <div ref={rootRef}
       style={{
         display: "flex",
         flexDirection: "column",
@@ -87,20 +168,24 @@ const WB_Unit1_Page5_Q1 = () => {
         padding: "30px",
       }}
     >
+      <div className="sr-only" role="status" aria-live="polite" aria-atomic="true">{message}</div>
       <div
         className="div-forall"
         style={{gap:"120px"}}
       
       >
-        <h1 className="WB-header-title-page8">
-          <span className="WB-ex-A">F</span>Look, read, and circle.
-        </h1>
+        <ExerciseHeader
+            isWorkbook
+            sectionLetter="F"
+            title={<>Look, read, and circle.
+        </>}
+          />
      
 
       <div className="grid grid-cols-3 gap-12">
         {data.map((item) => {
           const isWrong =
-            checked &&
+            results[item.id] === "wrong" &&
             userSelections[item.id] &&
             userSelections[item.id] !== item.correct;
           return (
@@ -114,25 +199,30 @@ const WB_Unit1_Page5_Q1 = () => {
                 </span>
                 <img
                   src={item.img}
-                  alt=""
+                  alt={IMAGE_DESCRIPTIONS[item.img]||""}
                   className="max-w-32 max-h-32 object-contain rounded-xl"
                 />
               </div>
 
               <div className="flex items-center gap-2 text-xl text-gray-800 flex-col justify-center">
-                <span>This is Stella's</span>
+                <AudioText audioKey={`text-${item.id}`} src={clip0} playSound={playSound} playingKey={playingKey}>This is Stella's</AudioText>
                 <div className="flex flex-col border-2 border-gray-400 rounded-2xl overflow-hidden w-[130px]">
                   {item.options.map((option) => (
                     <button
                       key={option}
-                      onClick={() => handleSelect(item.id, option)}
-                      className={`px-4 py-1 transition-all relative ${
+                      type="button" aria-pressed={userSelections[item.id]===option} aria-disabled={showAnswers||results[item.id]==="correct"}
+                      aria-label={`Question ${item.id}: ${option}${results[item.id]==="correct"?", correct and locked":""}`}
+                      onKeyDown={activate} onKeyUp={release}
+                      style={{borderRadius:"8px",position:"relative",...(userSelections[item.id]===option&&results[item.id]?{boxShadow:`inset 0 0 0 2px ${results[item.id]==="correct"?"#16a34a":"#ef4444"}`}:{})}}
+                      onClick={() => {playSound(`choice-${item.id}-${option}`,{ "brother.":clip1,"sister.":clip2,"uncle.":clip3,"aunt.":clip4,"mother.":clip5}[option]);handleSelect(item.id, option);}}
+                      className={`px-4 py-1 transition-all relative ${focusClass} ${
                         userSelections[item.id] === option
                           ? "bg-blue-500 text-white"
                           : "hover:bg-gray-100"
-                      } ${showAnswers && option === item.correct ? "bg-green-500 text-white" : ""}`}
+                      } ${results[item.id] === "correct" && option === item.correct ? "bg-green-500 text-white" : ""}`}
                     >
                       {option}
+                      {playingKey===`choice-${item.id}-${option}`&&<SpeakerBadge/>}
                     </button>
                   ))}
                   {isWrong && (

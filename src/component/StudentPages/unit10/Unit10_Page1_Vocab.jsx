@@ -1,6 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
 import backgroundImage from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page.png";
-import page2_2 from "../../../assets/imgs/Voca.svg";
 import vocabulary from "../../../assets/audio/ClassBook/U 10/Pg82_Vocabulary_Adult Lady.mp3";
 import "./Unit10_Page1.css";
 import ModernVocabularyComponent from "../../ModernVocabularyComponent";
@@ -104,6 +102,8 @@ const Unit10_Page1_Vocab = () => {
         { id: 10, top: "58.5%", left: "71%" }, // 100-41.5 , 100-29
       ]}
       captions={captions}
+         pageId="sb-unit10-page1-vocab"
+      height={70}
     />
   );
 };

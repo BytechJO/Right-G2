@@ -974,7 +974,7 @@ export default function Review4_Page1_Q1() {
                                     cellRefs.current[key] = node;
                                   }}
                                   className={`CB-r4p1q1-input ${
-                                    locked && !showAnswered
+                                    locked
                                       ? "is-correct"
                                       : showMark
                                         ? "is-wrong"

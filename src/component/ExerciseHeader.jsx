@@ -6,6 +6,7 @@ const ExerciseHeader = ({
   questionNumber,
   title,
   subTitle,
+  isWorkbook = false,
   showSquirrel = true,
   isReview = false,
 }) => {
@@ -25,6 +26,7 @@ const ExerciseHeader = ({
         display: "flex",
         alignItems: "flex-start",
         gap: "10px",
+        ...(isWorkbook ? { color: "#f04e3e" } : {}),
       }}
     >
       {showSquirrel && (
@@ -52,17 +54,24 @@ const ExerciseHeader = ({
           columnGap: "8px",
           rowGap: "8px",
           alignItems: "start",
+          ...(isWorkbook ? { color: "#f04e3e" } : {}),
         }}
       >
         {sectionLetter && (
-          <span className={`ex-A${reviewClass}`}>{sectionLetter}</span>
+          <span
+            className={`ex-A${reviewClass}`}
+            style={isWorkbook ? { backgroundColor: isReview ? "white" : "#f6967d", color: isReview ? "#f04e3e" : "white" } : undefined}
+          >{sectionLetter}</span>
         )}
 
         {questionNumber && (
-          <span className={`number-of-q${reviewClass}`}>{questionNumber}</span>
+          <span
+            className={`number-of-q${reviewClass}`}
+            style={isWorkbook ? { color: "#f04e3e" } : undefined}
+          >{questionNumber}</span>
         )}
 
-        <header className={`header-title-page8${reviewClass}`} style={{ margin: 0 }}>
+        <header className={`header-title-page8${reviewClass}`} style={{ margin: 0, ...(isWorkbook ? { color: "#f04e3e" } : {}) }}>
           {title}
         </header>
 
@@ -72,6 +81,7 @@ const ExerciseHeader = ({
             style={{
               gridColumn: "-2 / -1",
               margin: 0,
+              ...(isWorkbook ? { color: "#f04e3e" } : {}),
             }}
           >
             {subTitle}

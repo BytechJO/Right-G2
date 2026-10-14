@@ -589,8 +589,8 @@ const Review2_Page2_Q3 = () => {
     stopSound();
     setSelected(ITEMS.map((i) => i.correct));
     setAnswers(ITEMS.map((i) => i.word));
-    setOptionRes(nullArr());
-    setWordRes(nullArr());
+    setOptionRes(ITEMS.map(() => "correct"));
+    setWordRes(ITEMS.map(() => "correct"));
     setSelectedWord(null);
     setFinished(false);
     setAnswerShown(true);

@@ -1,4 +1,3 @@
-import React, { useState, useEffect, useRef } from "react";
 import page_2 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 83.png";
 import img1_letter from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 86/Untitled-22-05.svg";
 import img2_letter from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 86/Untitled-22-06.svg";
@@ -25,8 +24,8 @@ import { AudioContext } from "../../../AudioContext";
 import "./Unit10_Page2.css";
 import ReadChoose from "../../ReadChoose";
 const Unit10_Page2 = ({ openPopup }) => {
-    const { audioRef, activeId, setActiveId } = useContext(AudioContext);
-  
+  const { audioRef, activeId, setActiveId } = useContext(AudioContext);
+
   // أصوات الصور
   const imageSounds = [
     null, // الصورة الأولى الكبيرة (إن ما بدك صوت إلها)
@@ -59,14 +58,22 @@ const Unit10_Page2 = ({ openPopup }) => {
       },
     ],
   };
-const captionsExample = [
-  { start: 0.419, end: 3.539, text: "Page 83. This is what we do at home." },
-  { start: 4.619, end: 23.280, text: "Stella, John, Sarah, and Jack are in the yard in front of the house. Stella is watering the flowers. Sarah is swinging on the swing set. John is riding his bike. Jack is kicking his ball. What is Dad doing? He is watching from the window" }
-];
-const captions2 = [
-  { start: 0.560, end: 8.059, text: "Page 83. Listen and read along. Long E. Eat. Green." },
-  { start: 9.239, end: 9.739, text: "Seal" }
-];
+  const captionsExample = [
+    { start: 0.419, end: 3.539, text: "Page 83. This is what we do at home." },
+    {
+      start: 4.619,
+      end: 23.28,
+      text: "Stella, John, Sarah, and Jack are in the yard in front of the house. Stella is watering the flowers. Sarah is swinging on the swing set. John is riding his bike. Jack is kicking his ball. What is Dad doing? He is watching from the window",
+    },
+  ];
+  const captions2 = [
+    {
+      start: 0.56,
+      end: 8.059,
+      text: "Page 83. Listen and read along. Long E. Eat. Green.",
+    },
+    { start: 9.239, end: 9.739, text: "Seal" },
+  ];
 
   const areas = [
     // الصوت الأول – المنطقة الأساسية
@@ -99,6 +106,12 @@ const captions2 = [
     3: sound3,
     4: sound4,
   };
+  const soundLabels = {
+    7: "swinging",
+    8: "yard",
+    9: "kicking ",
+    10: "watering the flowers",
+  };
 
   const handleImageClick = (e) => {
     const rect = e.target.getBoundingClientRect();
@@ -106,7 +119,7 @@ const captions2 = [
     const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
     console.log("X%:", xPercent.toFixed(2), "Y%:", yPercent.toFixed(2));
   };
-const playSound = (path, id) => {
+  const playSound = (path, id) => {
     if (!audioRef.current) return;
 
     // 🔥 وقف أي صوت شغال بأي صفحة
@@ -131,7 +144,7 @@ const playSound = (path, id) => {
       <audio ref={audioRef} style={{ display: "none" }} />
 
       {areas.map((area, index) => {
-         const isActive = activeId === `p83-${area.sound}`;
+        const isActive = activeId === `p83-${area.sound}`;
 
         // ============================
         // 1️⃣ المنطقة الأساسية → دائرة تظهر فقط عندما تكون Active
@@ -140,14 +153,26 @@ const playSound = (path, id) => {
           return (
             <div
               key={index}
-              className={`circle-area ${isActive ? "active" : ""}`}
+              className={`circle-area page5-audio-hotspot ${
+                isActive ? "active" : ""
+              }`}
+              role="button"
+              tabIndex={0}
+              aria-label={`Play pronunciation: ${soundLabels[area.sound]}`}
+              aria-pressed={isActive}
               style={{
                 left: `${area.x1}%`,
                 top: `${area.y1}%`,
               }}
-               onClick={() => {
+              onClick={() => {
+                playSound(sounds[area.sound], `p83-${area.sound}`);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
                   playSound(sounds[area.sound], `p83-${area.sound}`);
-                }}
+                }
+              }}
             ></div>
           );
         }
@@ -160,6 +185,7 @@ const playSound = (path, id) => {
           <div
             key={index}
             className="clickable-area"
+            aria-hidden="true"
             style={{
               position: "absolute",
               left: `${area.x1}%`,
@@ -168,8 +194,8 @@ const playSound = (path, id) => {
               height: `${area.y2 - area.y1}%`,
             }}
             onClick={() => {
-                  playSound(sounds[area.sound], `p83-${area.sound}`);
-                }}
+              playSound(sounds[area.sound], `p83-${area.sound}`);
+            }}
           ></div>
         );
       })}
@@ -182,12 +208,32 @@ const playSound = (path, id) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open This Is What We Do at Home audio"
           onClick={() =>
             openPopup(
               "audio",
-              <AudioWithCaption src={soundListen} captions={captionsExample} />,
+              <AudioWithCaption
+                src={soundListen}
+                captions={captionsExample}
+                pageId="sb-unit10-page2-ThisIsWhatWeDoatHome"
+              />,
             )
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup(
+                "audio",
+                <AudioWithCaption
+                  src={soundListen}
+                  captions={captionsExample}
+                  pageId="sb-unit10-page2-ThisIsWhatWeDoatHome"
+                />,
+              );
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -208,9 +254,18 @@ const playSound = (path, id) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open listen read and repeat activity"
           onClick={() =>
             openPopup("html", <ReadChoose data={readChooseData} />)
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("html", <ReadChoose data={readChooseData} />);
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -231,6 +286,9 @@ const playSound = (path, id) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open listen and read activity"
           onClick={() =>
             openPopup(
               "html",
@@ -243,14 +301,53 @@ const playSound = (path, id) => {
                   img4_letter,
                 ]}
                 audioSrc={letterSound}
-                checkpoints={[0, 4.36, 6.34, 7.50,9.42]}
+                checkpoints={[0, 4.36, 6.34, 7.5, 9.42]}
                 popupOpen={true}
                 titleQ={"Listen and read along."}
                 audioArr={imageSounds}
                 captions={captions2}
+                pageId="sb-unit10-page2-listen-read"
+                imageAlts={[
+                  "Squirrel holding a circle with the letters long e",
+                  "A eat. The word eat, with the letter long e in red",
+                  "A green. The word green, with the letter long e in red",
+                  "A seal. The word seal, with the letter long e in red",
+                ]}
+                subHeader="Press Play, follow the long e: eat, green, seal, then tap each card to hear it again."
               />,
             )
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup(
+                "html",
+                <FourImagesWithAudio
+                  images={[
+                    Rabbit,
+                    img1_letter,
+                    img2_letter,
+                    img3_letter,
+                    img4_letter,
+                  ]}
+                  audioSrc={letterSound}
+                  checkpoints={[0, 4.36, 6.34, 7.5, 9.42]}
+                  popupOpen={true}
+                  titleQ={"Listen and read along."}
+                  audioArr={imageSounds}
+                  captions={captions2}
+                  pageId="sb-unit10-page2-listen-read"
+                  imageAlts={[
+                    "Squirrel holding a circle with the letters long e",
+                    "A eat. The word eat, with the letter long e in red",
+                    "A green. The word green, with the letter long e in red",
+                    "A seal. The word seal, with the letter long e in red",
+                  ]}
+                  subHeader="Press Play, follow the long e: eat, green, seal, then tap each card to hear it again."
+                />,
+              );
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image

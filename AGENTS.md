@@ -12,6 +12,14 @@
 
 # Mixed Matching and letter Drag and Drop navigation
 
+- In every mixed exercise containing Matching, while either endpoint is selected,
+  exclude the accompanying exercise's controls from Tab/Shift+Tab navigation until
+  the connection is completed or cancelled. Include only available endpoints on
+  the opposite matching side and keep exercise action buttons accessible. Restore
+  the accompanying exercise's normal navigation after completion or cancellation.
+- Order matching focus targets by their displayed order, never by the correct
+  answer mapping. This applies to source-selection focus and arrow navigation;
+  Tab/Shift+Tab must follow the same visual order without positive tab indices.
 - For mixed exercises arranged like `Review8_Page2_Q2`, while a matching source
   is selected, exclude letter blanks and letter-bank tiles from Tab/Shift+Tab
   navigation. Treat each word as one matching endpoint, rather than entering

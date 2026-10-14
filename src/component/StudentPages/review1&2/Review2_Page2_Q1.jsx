@@ -257,7 +257,7 @@ const Review2_Page2_Q1 = () => {
   const showAnswer = () => {
     stopItemSound();
     setAnswers(QUESTIONS.map((q) => q.correct));
-    setResults(nullArr());
+    setResults(QUESTIONS.map(() => "correct"));
     setFinished(false);
     setAnswerShown(true);
     setMessage("Correct answers are shown.");

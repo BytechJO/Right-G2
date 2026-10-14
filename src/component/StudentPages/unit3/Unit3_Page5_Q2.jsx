@@ -337,9 +337,9 @@ export default function Unit3_Page5_Q2() {
     });
 
     setAnswers(correctAnswersObj);
-    setLocked({});
+    setLocked(correctAnswersObj);
     setWrongPicks({});
-    setRowResults({});
+    setRowResults(Object.fromEntries(data.map((q) => [q.id, "correct"])));
     setFinished(false);
     setShowAnswer(true);
     setMessage("Correct answers are shown.");
@@ -452,7 +452,6 @@ export default function Unit3_Page5_Q2() {
                       const isSelected = chosen.includes(img.value);
                       const imgLocked = isLocked(q.id, img.value);
                       const isCorrectPick =
-                        !showAnswer &&
                         isSelected &&
                         (locked[q.id] || []).includes(img.value);
                       const isWrong =

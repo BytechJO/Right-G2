@@ -10,7 +10,7 @@ import workbookCover from "../assets/imgs/pages/workbook-cover.png";
 import stbookCover from "../assets/imgs/pages/classbook-cover.png";
 import teacherBookCover from "../assets/imgs/pages/Right InternationalTB/Page_001.png";
 import fcBookCover from "../assets/imgs/pages/flach-card/Flashcards Grade 2_Page_01.png";
-import posterBookCover from "../assets/imgs/pages/posters/Right G2 Poster 48x33_Page_01.png";
+// import posterBookCover from "../assets/imgs/pages/posters/Right G2 Poster 48x33_Page_01.png";
 // === VIEWERS ===
 import FlashCardViewer from "./FlashCardPages/FlashCardPages";
 
@@ -200,6 +200,10 @@ export default function Book() {
   //                 📌 PAGE NAVIGATION
   // ===========================================================
   function goToUnit(index) {
+    if (activeTab === "work") {
+      goToPage(index);
+      return;
+    }
     setPageIndex(index - 1);
     // ===========================
     // ❌ التحقق من إدخال غير صحيح

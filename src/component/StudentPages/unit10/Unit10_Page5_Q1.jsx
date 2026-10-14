@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import "./Unit10_Page5_Q1.css";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import img1 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 86/Asset 47.svg";
@@ -9,9 +8,21 @@ import sound1 from "../../../assets/audio/ClassBook/U 10/cd61pg86-instruction1-a
 import QuestionAudioPlayer from "../../QuestionAudioPlayer";
 import trueIcon from "../../../assets/imgs/true.svg";
 import falseIcon from "../../../assets/imgs/false.svg";
+import ExerciseHeader from "../../ExerciseHeader";
 const Unit10_Page5_Q1 = () => {
   const stopAtSecond = 11.019;
-  const [locked, setLocked] = useState(false); // ⭐ NEW — قفل التعديل بعد Show Answer
+  const [locked, setLocked] = useState(false);
+  const [announcement, setAnnouncement] = useState("");
+  const audioScope = useRef(null);
+  const stopAudio = () =>
+    audioScope.current?.querySelectorAll("audio").forEach((audio) => {
+      audio.pause();
+      try {
+        audio.currentTime = 0;
+      } catch {
+        /* media not ready */
+      }
+    }); // ⭐ NEW — قفل التعديل بعد Show Answer
 
   // ================================
   // ✔ Captions Array
@@ -43,27 +54,40 @@ const Unit10_Page5_Q1 = () => {
   const [showResult, setShowResult] = useState([]);
 
   const selectAnswer = (id, value) => {
-    if (locked) return; // 🔒 ممنوع التعديل بعد Show Answer
+    if (
+      locked ||
+      showResult[questions.findIndex((q) => q.id === id)] === "correct"
+    )
+      return;
     setAnswers({ ...answers, [id]: value });
-    setShowResult(false);
+    setShowResult((prev) =>
+      prev.map((result, index) => (questions[index].id === id ? null : result)),
+    );
+    setAnnouncement(
+      `Question ${id}: ${value === "✓" ? "same vowel sound" : "different vowel sounds"} selected.`,
+    );
   };
   const showAnswers = () => {
+    stopAudio();
     const corrects = {};
     questions.forEach((q) => {
       corrects[q.id] = q.correct; // ✓ أو ✗
     });
 
     setAnswers(corrects);
-    setShowResult([]); // إخفاء كل X
+    setShowResult(questions.map(() => "correct"));
+    setAnnouncement("All correct answers shown and locked.");
     setLocked(true); // 🔒 قفل التعديل
   };
 
   const checkAnswers = () => {
     if (locked) return;
+    stopAudio();
     // 1) فحص الخانات الفارغة
     const isEmpty = questions.some((q) => !answers[q.id]);
     if (isEmpty) {
       ValidationAlert.info("Please choose ✓ or ✗ for all questions!");
+      setAnnouncement("Please choose an answer for all questions.");
       return;
     }
 
@@ -73,7 +97,10 @@ const Unit10_Page5_Q1 = () => {
     );
 
     setShowResult(results);
-    setLocked(true); // 🔒 قفل التعديل
+    setLocked(results.every((result) => result === "correct"));
+    setAnnouncement(
+      `Score ${results.filter((result) => result === "correct").length} out of ${questions.length}. Wrong answers can be changed.`,
+    );
     // 3) حساب السكور
     const correctCount = results.filter((r) => r === "correct").length;
     const total = questions.length;
@@ -94,24 +121,89 @@ const Unit10_Page5_Q1 = () => {
     else if (correctCount === 0) ValidationAlert.error(resultHTML);
     else ValidationAlert.warning(resultHTML);
   };
-
+  //...
   const resetAnswers = () => {
+    stopAudio();
+    setAnnouncement("Activity reset. All answers cleared.");
     setAnswers({});
     setShowResult([]);
     setLocked(false); // ← مهم جداً
   };
 
+  const activate = (e, id, value) => {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    e.preventDefault();
+    e.stopPropagation();
+    if (!e.repeat) selectAnswer(id, value);
+  };
+  const keyUp = (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  };
+  const optionStyle = (q, index, value) => {
+    const selected = answers[q.id] === value;
+    const result = selected ? showResult[index] : null;
+    return {
+      width: 45,
+      height: 45,
+      boxSizing: "border-box",
+      border: result
+        ? `2px solid ${result === "correct" ? "#16a34a" : "#ef4444"}`
+        : selected
+          ? "3px solid #777cfd"
+          : "2px solid #ff6b57",
+      borderRadius: 6,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      position: "relative",
+      cursor: "pointer",
+      fontSize: 22,
+      fontWeight: "bold",
+      backgroundColor: selected ? "#dbeafe" : "#fff",
+      transition: "background-color 0.15s ease, border-color 0.15s ease",
+      boxShadow: result === "correct" ? "0 3px 0 #16a34a" : undefined,
+    };
+  };
+  const wrongBadgeStyle = {
+    position: "absolute",
+    top: -8,
+    right: -8,
+    width: 26,
+    height: 26,
+    borderRadius: "50%",
+    backgroundColor: "red",
+    color: "#fff",
+    border: "2px solid #fff",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: 16,
+    fontWeight: "bold",
+    pointerEvents: "none",
+    zIndex: 5,
+  };
   return (
-    <div className="main-container-component">
+    <div ref={audioScope} className="main-container-component">
+      <div
+        className="sr-only"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        {announcement}
+      </div>
       <div className="div-forall" style={{ gap: "40px" }}>
-        <h5 className="header-title-page8">
-          <span style={{ marginRight: "15px" }} className="ex-A">
-            A
-          </span>
-          <span style={{ color: "#2e3192" }}>1</span>
-          Listen and tap or click <span style={{ color: "#2e3192" }}>✓</span> if
-          they have the same vowel sound.
-        </h5>
+        <ExerciseHeader
+          sectionLetter="A"
+          questionNumber="1"
+          title={
+          "Do they both have the same vowel sound? Listen and write ✓ or ✗."
+          }
+          subTitle={"Listen to both sounds carefully, then choose Yes/No only after comparing them."}
+        />
         <div className="flex flex-col gap-5">
           <div
             style={{
@@ -122,12 +214,13 @@ const Unit10_Page5_Q1 = () => {
             }}
           >
             <QuestionAudioPlayer
+              pageId="sb_unit10_page5_q1"
               src={sound1}
               captions={captions}
               stopAtSecond={stopAtSecond}
             />
           </div>
-          <div className="CB-review1-p2-q1-container">
+          <div className="CB-review10-p5-q1-container">
             {questions.map((q, index) => (
               <div key={q.id} className="CB-unit10-p5-q1-question-box">
                 <div className="CB-review1-p2-q1-flex">
@@ -137,49 +230,105 @@ const Unit10_Page5_Q1 = () => {
                     </span>
                     <img
                       src={q.image}
-                      alt=""
+                      alt={
+                        [
+                          "A nest and a pen.",
+                          "A school desk and a tube of green paint.",
+                          "A girl eating and a seal.",
+                        ][index]
+                      }
                       style={{ height: "150px", width: "auto" }}
                     />
                   </div>
 
-                  <div className="CB-review1-p2-q1-options-box">
+                  <div
+                    className="CB-review1-p2-q1-options-box"
+                    style={{
+                      display: "flex",
+                      gap: 20,
+                      justifyContent: "center",
+                      marginTop: 20,
+                    }}
+                  >
                     {/* خيار الصح */}
-                    <div className="CB-review1-p2-q1-option-wrapper">
+                    <div
+                      className="CB-review1-p2-q1-option-wrapper"
+                      style={{ position: "relative" }}
+                    >
                       <div
-                        className={`CB-review1-p2-q1-option-btn ${
+                        className={`CB-review1-p2-q1-option-btn focus-visible:outline-4! focus-visible:outline-[#2563eb]! focus-visible:outline-offset-4! ${
                           answers[q.id] === "✓" ? "is-selected" : ""
                         }`}
+                        role="button"
+                        tabIndex={0}
+                        aria-label={`Question ${q.id}: same vowel sound${locked || showResult[index] === "correct" ? ". Answer locked." : ""}`}
+                        aria-pressed={answers[q.id] === "✓"}
+                        aria-disabled={
+                          locked || showResult[index] === "correct"
+                        }
+                        style={optionStyle(q, index, "✓")}
+                        onKeyDown={(e) => activate(e, q.id, "✓")}
+                        onKeyUp={keyUp}
                         onClick={() => selectAnswer(q.id, "✓")}
                       >
                         <img
                           src={trueIcon}
+                          alt=""
+                          aria-hidden="true"
                           style={{ height: "25px", width: "auto" }}
                         />
                       </div>
 
                       {showResult[index] === "wrong" &&
                         answers[q.id] === "✓" && (
-                          <div className="CB-review1-p2-q1-wrong-icon">✕</div>
+                          <div
+                            className="CB-review1-p2-q1-wrong-icon"
+                            aria-hidden="true"
+                            style={wrongBadgeStyle}
+                          >
+                            ✕
+                          </div>
                         )}
                     </div>
 
                     {/* خيار الخطأ */}
-                    <div className="CB-review1-p2-q1-option-wrapper">
+                    <div
+                      className="CB-review1-p2-q1-option-wrapper"
+                      style={{ position: "relative" }}
+                    >
                       <div
-                        className={`CB-review1-p2-q1-option-btn ${
+                        className={`CB-review1-p2-q1-option-btn focus-visible:outline-4! focus-visible:outline-[#2563eb]! focus-visible:outline-offset-4! ${
                           answers[q.id] === "✗" ? "is-selected" : ""
                         }`}
+                        role="button"
+                        tabIndex={0}
+                        aria-label={`Question ${q.id}: different vowel sounds${locked || showResult[index] === "correct" ? ". Answer locked." : ""}`}
+                        aria-pressed={answers[q.id] === "✗"}
+                        aria-disabled={
+                          locked || showResult[index] === "correct"
+                        }
+                        style={optionStyle(q, index, "✗")}
+                        onKeyDown={(e) => activate(e, q.id, "✗")}
+                        onKeyUp={keyUp}
                         onClick={() => selectAnswer(q.id, "✗")}
                       >
                         <img
                           src={falseIcon}
+                          alt=""
+                          aria-hidden="true"
                           style={{ height: "25px", width: "auto" }}
                         />
                       </div>
 
                       {showResult[index] === "wrong" &&
                         answers[q.id] === "✗" && (
-                          <div className="CB-review1-p2-q1-wrong-icon">✕</div>
+                          <div
+                            className="CB-review1-p2-q1-wrong-icon"
+                            aria-hidden="true"
+                            style={wrongBadgeStyle}
+                          >
+                            ✕
+                          </div>
                         )}
                     </div>
                   </div>

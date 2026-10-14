@@ -368,7 +368,7 @@ const Review4_Page1_Q2 = () => {
                       {item.options.map((op) => {
                         const isOn = selected[i] === op;
                         const circleWrong = isWrong && isOn && !showAnswered;
-                        const circleCorrect = isLocked && isOn && !showAnswered;
+                        const circleCorrect = isLocked && isOn;
                         const opPlaying = activeId === `circle-${i}-${op}`;
 
                         return (

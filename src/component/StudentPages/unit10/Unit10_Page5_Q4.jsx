@@ -1,228 +1,605 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Unit10_Page5_Q4.css";
 import img1 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 86/Ex C 1.svg";
 import img2 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 86/Ex C 2.svg";
 
 import Button from "../../WorkBookPages/Button";
+import ExerciseHeader from "../../ExerciseHeader";
+const grid = [
+  [
+    "r",
+    "x",
+    "s",
+    "t",
+    "h",
+    "e",
+    "y",
+    "a",
+    "l",
+    "a",
+    "y",
+    "n",
+    "b",
+    "m",
+    "a",
+    "l",
+    "y",
+    "h",
+    "w",
+    "o",
+    "t",
+    "h",
+    "e",
+    "i",
+    "r",
+  ],
+
+  [
+    "g",
+    "r",
+    "e",
+    "g",
+    "g",
+    "s",
+    "g",
+    "s",
+    "h",
+    "k",
+    "j",
+    "i",
+    "n",
+    "t",
+    "p",
+    "t",
+    "x",
+    "a",
+    "y",
+    "c",
+    "j",
+    "n",
+    "e",
+    "s",
+    "t",
+  ],
+  ["w", "q", "p", "o"],
+];
+const words = [
+  {
+    id: "they",
+    text: "they",
+    coords: [
+      [0, 3],
+      [0, 4],
+      [0, 5],
+      [0, 6],
+    ],
+  },
+  {
+    id: "lay",
+    text: "lay",
+    coords: [
+      [0, 8],
+      [0, 9],
+      [0, 10],
+    ],
+  },
+  {
+    id: "their",
+    text: "their",
+    coords: [
+      [0, 20],
+      [0, 21],
+      [0, 22],
+      [0, 23],
+      [0, 24],
+    ],
+  },
+  {
+    id: "eggs",
+    text: "eggs",
+    coords: [
+      [1, 2],
+      [1, 3],
+      [1, 4],
+      [1, 5],
+    ],
+  },
+  {
+    id: "in",
+    text: "in",
+    coords: [
+      [1, 11],
+      [1, 12],
+    ],
+  },
+  {
+    id: "a",
+    text: "a",
+    coords: [[1, 17]],
+  },
+  {
+    id: "nest",
+    text: "nest",
+    coords: [
+      [1, 21],
+      [1, 22],
+      [1, 23],
+      [1, 24],
+    ],
+  },
+];
+
+const sentence = {
+  words: ["they", "lay", "their", "eggs", "in", "a", "nest"],
+  text: "they lay their eggs in a nest",
+};
+const SLOT_LENGTH = 5;
+const sameCoord = (a, b) => a[0] === b[0] && a[1] === b[1];
+
+const sameCoords = (a, b) =>
+  a.length === b.length && a.every((coord, i) => sameCoord(coord, b[i]));
+
+const reverseCoords = (coords) => [...coords].reverse();
+
+const getPath = (start, end) => {
+  const [r1, c1] = start;
+  const [r2, c2] = end;
+
+  const rowDiff = r2 - r1;
+  const colDiff = c2 - c1;
+
+  const isStraight =
+    rowDiff === 0 || colDiff === 0 || Math.abs(rowDiff) === Math.abs(colDiff);
+
+  if (!isStraight) return [];
+
+  const rowStep = Math.sign(rowDiff);
+  const colStep = Math.sign(colDiff);
+  const length = Math.max(Math.abs(rowDiff), Math.abs(colDiff)) + 1;
+
+  const path = Array.from({ length }, (_, i) => [
+    r1 + rowStep * i,
+    c1 + colStep * i,
+  ]);
+  return path.every(([r, c]) => grid[r] && grid[r][c] !== undefined)
+    ? path
+    : [];
+};
+
+const lettersOf = (cells) => cells.map(([r, c]) => grid[r][c]);
+const getCellFromPoint = (clientX, clientY) => {
+  const element = document.elementFromPoint(clientX, clientY);
+
+  const cell = element?.closest?.("[data-wordsearch-cell='true']");
+
+  if (!cell || !cell.closest("[data-wordsearch-grid='u10p5q4']")) return null;
+
+  const r = Number(cell.dataset.row);
+  const c = Number(cell.dataset.col);
+
+  return Number.isNaN(r) || Number.isNaN(c) ? null : [r, c];
+};
 const Unit10_Page5_Q4 = () => {
-  const grid = [
-    [
-      "r",
-      "x",
-      "s",
-      "t",
-      "h",
-      "e",
-      "y",
-      "a",
-      "l",
-      "a",
-      "y",
-      "n",
-      "b",
-      "m",
-      "a",
-      "l",
-      "y",
-      "h",
-      "w",
-      "o",
-      "t",
-      "h",
-      "e",
-      "i",
-      "r",
-    ],
+  const [startCell, setStartCell] = useState(null);
+  const [previewCells, setPreviewCells] = useState([]);
+  const [foundWords, setFoundWords] = useState([]); // ids
+  const [showAnswer, setShowAnswer] = useState(false);
+  const [checkCompleted, setCheckCompleted] = useState(false);
+  const [announcement, setAnnouncement] = useState("");
+  const [activeCell, setActiveCell] = useState([0, 0]);
+  const focusFrame = useRef(null);
+  const pointerRef = useRef({
+    active: false,
+    start: null,
+    current: null,
+    pointerId: null,
+  });
+  const cellRefs = useRef({});
 
-    [
-      "g",
-      "r",
-      "e",
-      "g",
-      "g",
-      "s",
-      "g",
-      "s",
-      "h",
-      "k",
-      "j",
-      "i",
-      "n",
-      "t",
-      "p",
-      "t",
-      "x",
-      "a",
-      "y",
-      "c",
-      "j",
-      "n",
-      "e",
-      "s",
-      "t",
-    ],
-    ["w", "q", "p", "o"],
-  ];
-
-  const correctPositions = {
-    they: [3, 4, 5, 6],
-    lay: [8, 9, 10],
-    their: [20, 21, 22, 23, 24],
-    eggs: [100 + 2, 100 + 3, 100 + 4, 100 + 5],
-    in: [100 + 11, 100 + 12],
-    a: [100 + 17],
-    nest: [100 + 21, 100 + 22, 100 + 23, 100 + 24],
-  };
-  const letters = grid;
-  const wordsToFind = ["they", "lay", "their", "eggs", "in", "a", "nest"];
-  const fullSentence = ["they", "lay", "their", "eggs", "in", "a", "nest"];
-
-  const correctAnswers = [
-    { word: "they", order: 0 },
-    { word: "lay", order: 1 },
-    { word: "their", order: 2 },
-    { word: "eggs", order: 3 },
-    { word: "in", order: 4 },
-    { word: "a", order: 5 },
-    { word: "nest", order: 6 },
-  ];
-  const [locked, setLocked] = useState(false);
-  const [sentence, setSentence] = useState("");
-  const [selected, setSelected] = useState([]);
-  const [foundWords, setFoundWords] = useState([]);
-  const [coloredCells, setColoredCells] = useState([]);
-  const [isDragging, setIsDragging] = useState(false);
-
-  const handleMouseDown = (index) => {
-    if (locked) return;
-    setIsDragging(true);
-    setSelected([index]);
-  };
-  const handleMouseEnter = (index) => {
-    if (!isDragging || locked) return;
-
-    const lastIndex = selected[selected.length - 1];
-
-    if (index === lastIndex + 1 || index === lastIndex - 1) {
-      if (!selected.includes(index)) {
-        setSelected((prev) => [...prev, index]);
-      }
-    }
-  };
-
-  const displayedSentence = fullSentence.map((word, index) => {
-    const isFound = foundWords.some(
-      (foundWord) =>
-        correctAnswers.find((c) => c.word === foundWord)?.order === index,
+  const locked = showAnswer || checkCompleted;
+  useEffect(
+    () => () => {
+      if (focusFrame.current !== null) cancelAnimationFrame(focusFrame.current);
+    },
+    [],
+  );
+  const isFoundCell = (r, c) =>
+    words.some(
+      (word) =>
+        foundWords.includes(word.id) &&
+        word.coords.some(([wr, wc]) => wr === r && wc === c),
     );
 
-    const SLOT_LENGTH = 8;
+  const isPreviewCell = (r, c) =>
+    previewCells.some(([pr, pc]) => pr === r && pc === c);
 
-    if (isFound) {
-      return word.padEnd(SLOT_LENGTH, "");
-    }
-
-    return "_".repeat(SLOT_LENGTH);
-  });
-  const handleTouchMove = (e) => {
-    if (!isDragging || locked) return;
-    e.preventDefault(); // منع التمرير في الصفحة أثناء السحب
-
-    const touch = e.touches[0];
-    const element = document.elementFromPoint(touch.clientX, touch.clientY);
-    if (!element) return;
-
-    const index = element.getAttribute("data-index");
-    if (index !== null) {
-      handleMouseEnter(Number(index));
-    }
+  const clearSelection = () => {
+    setStartCell(null);
+    setPreviewCells([]);
   };
 
-  const handleMouseUp = () => {
+  const resetPointer = () => {
+    pointerRef.current = { active: false, start: null, current: null };
+  };
+  const updatePreview = (path, fallback) => {
+    const next = path.length > 0 ? path : [fallback];
+
+    setPreviewCells((prev) => (sameCoords(prev, next) ? prev : next));
+  };
+  const startSelection = (r, c) => {
+    if (locked || isFoundCell(r, c)) return;
+
+    setStartCell([r, c]);
+    setPreviewCells([[r, c]]);
+
+    setAnnouncement(
+      `Selection started at letter ${grid[r][c]}. Use the arrow keys to move to the last letter, then press Enter.`,
+    );
+  };
+  const completeSelection = (
+    endR,
+    endC,
+    start = startCell,
+    viaKeyboard = false,
+  ) => {
     if (locked) return;
-    setIsDragging(false);
 
-    const matchedWord = wordsToFind.find((word) => {
-      const positions = correctPositions[word];
-      if (!positions) return false;
-
-      // تحقق نفس الترتيب
-      const isSame =
-        positions.length === selected.length &&
-        positions.every((pos, i) => pos === selected[i]);
-
-      // تحقق بالعكس (reverse)
-      const isReverse =
-        positions.length === selected.length &&
-        positions
-          .slice()
-          .reverse()
-          .every((pos, i) => pos === selected[i]);
-
-      return isSame || isReverse;
-    });
-    if (matchedWord && !foundWords.includes(matchedWord)) {
-      setFoundWords((prev) => [...prev, matchedWord]);
-      setColoredCells((prev) => [...prev, ...selected]);
-      setSentence(
-        wordsToFind
-          .filter((word) => [...foundWords, matchedWord].includes(word))
-          .join(" "),
-      );
-    }
-
-    setSelected([]);
-  };
-
-  const reset = () => {
-    setSelected([]);
-    setFoundWords([]);
-    setColoredCells([]);
-    setSentence("");
-    setLocked(false);
-  };
-
-  const showAnswers = () => {
-    let allCells = [];
-    wordsToFind.forEach((word) => {
-      if (correctPositions[word]) {
-        allCells.push(...correctPositions[word]);
-      }
-    });
-    setFoundWords(wordsToFind);
-    setColoredCells(allCells);
-    setSelected([]);
-    setSentence(wordsToFind.join(" "));
-    setLocked(true);
-  };
-
-  const checkAnswers = () => {
-    if (locked) return;
-    const total = wordsToFind.length;
-    const score = foundWords.length;
-
-    if (score === 0) {
-      ValidationAlert.info();
+    if (!start) {
+      startSelection(endR, endC);
       return;
     }
 
-    if (score < total) {
-      ValidationAlert.warning(`
-        <div style="font-size:20px;text-align:center;">
-          <b style="color:orange;">Score: ${score} / ${total}</b>
-        </div>
-      `);
-    } else {
-      ValidationAlert.success(`
-        <div style="font-size:20px;text-align:center;">
-          <b style="color:green;">Score: ${score} / ${total}</b>
-        </div>
-      `);
+    if (
+      sameCoord(start, [endR, endC]) &&
+      !words.some(
+        (word) =>
+          word.coords.length === 1 &&
+          sameCoord(word.coords[0], start) &&
+          !foundWords.includes(word.id),
+      )
+    ) {
+      clearSelection();
+      setAnnouncement("Selection cancelled.");
+      return;
     }
-    setLocked(true);
+
+    const path = getPath(start, [endR, endC]);
+
+    if (path.length === 0) {
+      setAnnouncement("That is not a straight line. Move to another letter.");
+
+      if (!viaKeyboard) clearSelection();
+      return;
+    }
+
+    const matchedWord = words.find(
+      (word) =>
+        !foundWords.includes(word.id) &&
+        (sameCoords(path, word.coords) ||
+          sameCoords(path, reverseCoords(word.coords))),
+    );
+
+    if (matchedWord) {
+      setFoundWords((prev) => [...prev, matchedWord.id]);
+
+      const sentenceCompleted = foundWords.length + 1 === words.length;
+
+      setAnnouncement(
+        sentenceCompleted
+          ? `${matchedWord.text} found. The sentence is complete: ${sentence.text}.`
+          : `${matchedWord.text} found.`,
+      );
+    } else {
+      setAnnouncement(
+        `${lettersOf(path).join(" ")} is not one of the target words.`,
+      );
+    }
+
+    clearSelection();
+  };
+  const handleCellClick = (r, c, viaKeyboard = false) => {
+    if (locked) return;
+
+    if (!startCell) {
+      startSelection(r, c);
+    } else {
+      completeSelection(r, c, startCell, viaKeyboard);
+    }
+  };
+  const canUndo = !locked && (Boolean(startCell) || foundWords.length > 0);
+
+  const handleUndo = () => {
+    if (!canUndo) return;
+
+    if (startCell) {
+      resetPointer();
+      clearSelection();
+      setAnnouncement("Selection cancelled.");
+      return;
+    }
+
+    const lastId = foundWords[foundWords.length - 1];
+    const lastWord = words.find((w) => w.id === lastId)?.text;
+    setFoundWords((prev) => prev.slice(0, -1));
+
+    setAnnouncement(`${lastWord} removed.`);
+  };
+  const handleCellKeyDown = (e, r, c) => {
+    if (locked) {
+      if (
+        [
+          "ArrowRight",
+          "ArrowLeft",
+          "ArrowDown",
+          "ArrowUp",
+          "Enter",
+          " ",
+          "Backspace",
+          "Escape",
+        ].includes(e.key)
+      ) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      return;
+    }
+    if (
+      [
+        "ArrowRight",
+        "ArrowLeft",
+        "ArrowDown",
+        "ArrowUp",
+        "Enter",
+        " ",
+        "Backspace",
+        "Escape",
+      ].includes(e.key)
+    )
+      e.stopPropagation();
+    if (e.repeat && ["Enter", " ", "Backspace"].includes(e.key)) {
+      e.preventDefault();
+      return;
+    }
+
+    let nextR = r;
+    let nextC = c;
+
+    if (e.key === "ArrowRight") {
+      e.preventDefault();
+      nextC = c === grid[r].length - 1 ? 0 : c + 1;
+    }
+
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      nextC = c === 0 ? grid[r].length - 1 : c - 1;
+    }
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      nextR = r === grid.length - 1 ? 0 : r + 1;
+    }
+
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      nextR = r === 0 ? grid.length - 1 : r - 1;
+    }
+
+    nextC = Math.min(nextC, grid[nextR].length - 1);
+
+    if (nextR !== r || nextC !== c) {
+      setActiveCell([nextR, nextC]);
+
+      if (startCell) {
+        const path = getPath(startCell, [nextR, nextC]);
+
+        setPreviewCells(path.length > 0 ? path : [startCell]);
+
+        setAnnouncement(
+          path.length > 0
+            ? `${lettersOf(path).join(" ")}. Press Enter to finish the word.`
+            : `Letter ${grid[nextR][nextC]}. Not in a straight line from the first letter.`,
+        );
+      } else {
+        setAnnouncement(`Letter ${grid[nextR][nextC]}.`);
+      }
+
+      cancelAnimationFrame(focusFrame.current);
+      focusFrame.current = requestAnimationFrame(() => {
+        cellRefs.current[`${nextR}-${nextC}`]?.focus();
+      });
+
+      return;
+    }
+
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      e.stopPropagation();
+      handleCellClick(r, c, true);
+      return;
+    }
+
+    if (e.key === "Backspace") {
+      e.preventDefault();
+      handleUndo();
+      return;
+    }
+
+    if (e.key === "Escape" && startCell) {
+      e.preventDefault();
+      clearSelection();
+      setAnnouncement("Selection cancelled.");
+    }
+  };
+  const handleGridPointerDown = (e) => {
+    if (locked) return;
+
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+
+    if (pointerRef.current.active) return;
+
+    const cell = getCellFromPoint(e.clientX, e.clientY);
+
+    if (!cell) return;
+
+    if (isFoundCell(cell[0], cell[1])) return;
+
+    e.preventDefault();
+
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId);
+    } catch {
+      // Pointer capture may be unavailable; endpoint selection still works.
+    }
+
+    pointerRef.current = {
+      active: true,
+      start: cell,
+      current: cell,
+      pointerId: e.pointerId,
+    };
+
+    setActiveCell(cell);
+
+    if (!startCell) {
+      setPreviewCells([cell]);
+    }
   };
 
+  const handleGridPointerMove = (e) => {
+    if (locked) return;
+
+    const pointer = pointerRef.current;
+    if (pointer.active && pointer.pointerId !== e.pointerId) return;
+    const cell = getCellFromPoint(e.clientX, e.clientY);
+    if (!cell) return;
+
+    if (pointer.active) {
+      pointer.current = cell;
+
+      updatePreview(getPath(pointer.start, cell), pointer.start);
+
+      return;
+    }
+
+    if (startCell && e.pointerType === "mouse") {
+      updatePreview(getPath(startCell, cell), startCell);
+    }
+  };
+
+  const handleGridPointerUp = (e) => {
+    const pointer = pointerRef.current;
+
+    if (!pointer.active || pointer.pointerId !== e.pointerId) return;
+
+    e.preventDefault();
+
+    const start = pointer.start;
+
+    const end =
+      getCellFromPoint(e.clientX, e.clientY) || pointer.current || start;
+
+    resetPointer();
+
+    try {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    } catch {
+      // Pointer capture may be unavailable; endpoint selection still works.
+    }
+
+    if (!sameCoord(start, end)) {
+      completeSelection(end[0], end[1], start);
+
+      return;
+    }
+
+    if (startCell) {
+      completeSelection(start[0], start[1], startCell);
+
+      return;
+    }
+
+    startSelection(start[0], start[1]);
+  };
+
+  const handleGridPointerCancel = () => {
+    resetPointer();
+    clearSelection();
+  };
+  const checkAnswers = () => {
+    if (locked) return;
+
+    cancelAnimationFrame(focusFrame.current);
+    if (foundWords.length === 0) {
+      ValidationAlert.info(
+        "Oops!",
+        "Please find at least one word before checking.",
+      );
+      setAnnouncement("Please find at least one word before checking.");
+      return;
+    }
+
+    clearSelection();
+    resetPointer();
+
+    const total = words.length;
+    const correct = foundWords.length;
+
+    const color =
+      correct === total ? "green" : correct === 0 ? "red" : "orange";
+
+    const msg = `
+      <div style="font-size:20px;text-align:center;">
+        <span style="color:${color};font-weight:bold;">
+          Score: ${correct} / ${total}
+        </span>
+      </div>
+    `;
+
+    if (correct === total) {
+      setCheckCompleted(true);
+      setAnnouncement(
+        `Score ${correct} out of ${total}. All words are correct.`,
+      );
+      ValidationAlert.success(msg);
+      return;
+    }
+
+    setAnnouncement(
+      `Score ${correct} out of ${total}. Continue finding the missing words.`,
+    );
+    ValidationAlert.warning(msg);
+  };
+  const showAnswers = () => {
+    setFoundWords(words.map((word) => word.id));
+    clearSelection();
+    resetPointer();
+    cancelAnimationFrame(focusFrame.current);
+    setShowAnswer(true);
+    setCheckCompleted(true);
+    setAnnouncement("All answers shown.");
+  };
+  const reset = () => {
+    setFoundWords([]);
+    clearSelection();
+    resetPointer();
+    setShowAnswer(false);
+    setCheckCompleted(false);
+    setActiveCell([0, 0]);
+    setAnnouncement("Activity reset. All answers are cleared.");
+
+    cancelAnimationFrame(focusFrame.current);
+    focusFrame.current = requestAnimationFrame(() => {
+      cellRefs.current["0-0"]?.focus();
+    });
+  };
+
+  const isSentenceComplete = foundWords.length === words.length;
+  const displayedSentence = words.map((word) =>
+    foundWords.includes(word.id)
+      ? word.text.padEnd(SLOT_LENGTH, " ")
+      : "_".repeat(SLOT_LENGTH),
+  );
   return (
     <div
       style={{
@@ -234,88 +611,112 @@ const Unit10_Page5_Q4 = () => {
         boxSizing: "border-box",
       }}
     >
+      <div
+        className="sr-only"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        {announcement}
+      </div>
+      <p id="u10p5q4-help" className="sr-only">
+        Select the first and last letter of each hidden word by dragging or two
+        taps. For the single-letter word, activate its cell twice. Tab enters or
+        leaves the grid; arrows move between letters. Enter or Space starts and
+        completes selection, Escape cancels it, and Backspace undoes the most
+        recently found word. You can find words in either direction and any
+        order.
+      </p>
       <div className="div-forall">
-        <h5 className="header-title-page8 pb-2.5">
-          <span className="ex-A" style={{ marginRight: "10px" }}>
-            C
-          </span>
-          Where do birds lay their eggs? Tap or click the hidden words to make a
-          sentence.
-        </h5>
-
-        {/* Words List */}
-        {/* <div className="flex flex-wrap justify-center gap-3 mb-5 border-2 border-dashed border-gray-300 rounded-[14px] p-3">
-          {wordsToFind.map((word) => (
-            <span
-              key={word}
-              className={`px-3 py-1.5 rounded-[10px] border-2 border-[#2c5287] font-semibold transition duration-200 ${
-                foundWords.includes(word)
-                  ? "bg-[#2c5287] text-white border-[#2c5287]"
-                  : "bg-white text-black"
-              }`}
-              style={{ fontSize: "clamp(12px, 2vw, 15px)" }}
-            >
-              {word}
-            </span>
-          ))}
-        </div> */}
-
+        <ExerciseHeader
+          sectionLetter="C"
+          title="Where do birds lay their eggs?"
+          subTitle={
+            "Find the hidden words in order, then read the completed answer to “Where do birds lay their eggs?”"
+          }
+        />
         <div
           style={{ width: "100%", display: "flex", justifyContent: "center" }}
         >
-          {/* Grid Wrapper */}
           <div
             className="px-4 pt-4 pb-5"
             style={{ width: "fit-content", margin: "0 auto" }}
           >
             <div
-              className="bg-[#daf5ff] rounded-[15px] p-2 mb-10 sm:p-[15px]"
+              className="bg-[#daf5ff] rounded-[15px] mb-10 p-2 sm:p-[15px]"
+              role="grid"
+              data-wordsearch-grid="u10p5q4"
+              aria-label="Word search grid"
+              aria-describedby="u10p5q4-help"
               style={{
                 userSelect: "none",
                 width: "max-content",
-                touchAction: "none", // 🔥 الحل السحري لمنع تحريك الصفحة أثناء السحب على الآيباد
+                touchAction: "none",
                 WebkitOverflowScrolling: "touch",
               }}
+              onPointerDown={handleGridPointerDown}
+              onPointerMove={handleGridPointerMove}
+              onPointerUp={handleGridPointerUp}
+              onPointerCancel={(e) => {
+                if (pointerRef.current.pointerId === e.pointerId)
+                  handleGridPointerCancel();
+              }}
+              onLostPointerCapture={(e) => {
+                if (
+                  pointerRef.current.active &&
+                  pointerRef.current.pointerId === e.pointerId
+                )
+                  handleGridPointerCancel();
+              }}
+              onDragStart={(e) => e.preventDefault()}
             >
-              {letters.map((row, rowIndex) => (
+              {grid.map((row, r) => (
                 <div
-                  key={rowIndex}
+                  key={r}
+                  role="row"
                   style={{
                     display: "flex",
-                    gap: "clamp(1px, 0.3vw, 4px)", // مسافة تتغير حسب الشاشة
+                    gap: "clamp(1px, 0.3vw, 4px)",
                     width: "fit-content",
                   }}
                 >
-                  {row.map((letter, colIndex) => {
-                    const index = rowIndex * 100 + colIndex;
-                    const isSelected = selected.includes(index);
-                    const isFound = coloredCells.includes(index);
-
+                  {row.map((letter, c) => {
+                    const preview = isPreviewCell(r, c),
+                      found = isFoundCell(r, c),
+                      isStart = startCell && sameCoord(startCell, [r, c]);
                     return (
                       <span
-                        key={index}
-                        data-index={index}
-                        onMouseDown={() => handleMouseDown(index)}
-                        onMouseEnter={() => handleMouseEnter(index)}
-                        onMouseUp={handleMouseUp}
-                        onDragStart={(e) => e.preventDefault()}
-                        onTouchStart={(e) => {
-                          e.preventDefault(); // 🔥 منع تحريك الصفحة عند بدء اللمس
-                          handleMouseDown(index);
+                        key={c}
+                        ref={(el) => {
+                          cellRefs.current[`${r}-${c}`] = el;
                         }}
-                        onTouchMove={handleTouchMove}
-                        onTouchEnd={handleMouseUp}
-                        className={`
-                          flex items-center justify-center mb-2
-                          cursor-pointer
-                          transition
-                          ${isSelected ? "bg-[#ffd54f] rounded-sm" : ""}
-                          ${isFound ? "bg-[#4caf50] text-white rounded-sm" : ""}
-                        `}
+                        role="gridcell"
+                        data-wordsearch-cell="true"
+                        data-row={r}
+                        data-col={c}
+                        data-index={r * 100 + c}
+                        tabIndex={
+                          locked ? -1 : sameCoord(activeCell, [r, c]) ? 0 : -1
+                        }
+                        aria-label={`Row ${r + 1}, column ${c + 1}, letter ${letter}${found ? ", found word" : isStart ? ", first letter selected" : preview ? ", selected" : ""}`}
+                        aria-selected={preview || found}
+                        onFocus={() => setActiveCell([r, c])}
+                        className={`relative flex items-center justify-center mb-2 cursor-pointer transition rounded-sm focus-visible:outline-4! focus-visible:outline-[#2563eb]! focus-visible:outline-offset-2! focus-visible:z-10 ${found ? "bg-[#4caf50] text-white" : preview ? "bg-[#ffd54f]" : ""}`}
                         style={{
-                          width: "clamp(16px, 2.5vw, 25px)", // 🔥 عرض ديناميكي
-                          height: "clamp(22px, 3.5vw, 35px)", // 🔥 طول ديناميكي
-                          fontSize: "clamp(12px, 1.8vw, 18px)", // 🔥 حجم خط ديناميكي
+                          width: "clamp(16px, 2.5vw, 25px)",
+                          height: "clamp(22px, 3.5vw, 35px)",
+                          fontSize: "clamp(12px, 1.8vw, 18px)",
+                          outline: isStart ? "3px solid #2c5287" : undefined,
+                        }}
+                        onClick={(e) => {
+                          if (e.detail === 0) handleCellClick(r, c, true);
+                        }}
+                        onKeyDown={(e) => handleCellKeyDown(e, r, c)}
+                        onKeyUp={(e) => {
+                          if (["Enter", " ", "Backspace"].includes(e.key)) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                          }
                         }}
                       >
                         {letter}
@@ -325,37 +726,41 @@ const Unit10_Page5_Q4 = () => {
                 </div>
               ))}
             </div>
-
             <div className="flex justify-center items-center">
               <img
                 src={img1}
-                alt="start"
-                style={{
-                  width: "clamp(40px, 10vw, 100px)", // 🔥 حجم ديناميكي للصور
-                  height: "auto",
-                }}
+                alt="A blue bird."
+                style={{ width: "clamp(40px, 10vw, 100px)", height: "auto" }}
               />
-
               <input
                 className="answer-input-CB-unit3-p5-q4"
                 value={displayedSentence.join(" ")}
                 readOnly
-                style={{ fontFamily: "monospace" }} // 🔥 مهم جدا
+                tabIndex={-1}
+                aria-label={
+                  isSentenceComplete
+                    ? `Answer: ${sentence.text}.`
+                    : `Answer. ${foundWords.length} of ${words.length} words found.`
+                }
+                style={{
+                  fontFamily: "monospace",
+                  ...(isSentenceComplete
+                    ? {
+                        border: "2px solid green",
+                        backgroundColor: "#e6f4ea",
+                        borderRadius: "5px",
+                      }
+                    : {}),
+                }}
               />
-
               <img
                 src={img2}
-                alt="end"
-                style={{
-                  width: "clamp(40px, 10vw, 100px)", // 🔥 حجم ديناميكي للصور
-                  height: "auto",
-                }}
+                alt="A nest with three eggs."
+                style={{ width: "clamp(40px, 10vw, 100px)", height: "auto" }}
               />
             </div>
           </div>
         </div>
-
-        {/* BUTTONS */}
         <Button
           handleShowAnswer={showAnswers}
           handleStartAgain={reset}
@@ -365,5 +770,4 @@ const Unit10_Page5_Q4 = () => {
     </div>
   );
 };
-
 export default Unit10_Page5_Q4;

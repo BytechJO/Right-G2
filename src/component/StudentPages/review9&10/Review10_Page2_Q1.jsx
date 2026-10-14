@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useRef, useEffect } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import img1 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 91/Asset 59.svg";
@@ -9,7 +8,76 @@ import sound1 from "../../../assets/audio/ClassBook/U 10/cd64pg91-instruction1-a
 import QuestionAudioPlayer from "../../QuestionAudioPlayer";
 import trueIcon from "../../../assets/imgs/true.svg";
 import falseIcon from "../../../assets/imgs/false.svg";
+import ExerciseHeader from "../../ExerciseHeader";
+import { FaVolumeUp } from "react-icons/fa";
 const Review10_Page2_Q1 = () => {
+  const [announcement, setAnnouncement] = useState("");
+  const [, setPlayingKey] = useState(null);
+  const audioRef = useRef(null),
+    scopeRef = useRef(null);
+  const stopAudio = () => {
+    const a = audioRef.current;
+    audioRef.current = null;
+    setPlayingKey(null);
+    if (a) {
+      a.onended = null;
+      a.onerror = null;
+      a.pause();
+    }
+    scopeRef.current?.querySelectorAll("audio").forEach((a) => {
+      a.pause();
+      try {
+        a.currentTime = 0;
+      } catch {
+        /* media unavailable */
+      }
+    });
+  };
+  useEffect(() => {
+    const otherPlay = (e) => {
+      const a = audioRef.current;
+      if (!a || e.target === a) return;
+      audioRef.current = null;
+      a.onended = null;
+      a.onerror = null;
+      a.pause();
+      setPlayingKey(null);
+    };
+    document.addEventListener("play", otherPlay, true);
+    return () => {
+      document.removeEventListener("play", otherPlay, true);
+      const a = audioRef.current;
+      audioRef.current = null;
+      if (a) {
+        a.onended = null;
+        a.onerror = null;
+        a.pause();
+      }
+    };
+  }, []);
+  const activation = (e, action) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      e.stopPropagation();
+      if (!e.repeat) action();
+    }
+  };
+  const activationUp = (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  };
+  const feedbackStyle = (selected, result) => ({
+    ...(selected && result
+      ? {
+          borderColor: result === "correct" ? "#16a34a" : "#ef4444",
+          boxShadow: result === "correct" ? "0 3px 0 #16a34a" : undefined,
+        }
+      : {}),
+    ...(selected ? { backgroundColor: "#dbeafe" } : {}),
+  });
+
   const stopAtSecond = 9.479;
   const [locked, setLocked] = useState(false); // ⭐ NEW — قفل التعديل بعد Show Answer
 
@@ -49,27 +117,38 @@ const Review10_Page2_Q1 = () => {
   const [showResult, setShowResult] = useState([]);
 
   const selectAnswer = (id, value) => {
-    if (locked) return; // 🔒 ممنوع التعديل بعد Show Answer
+    if (
+      locked ||
+      showResult[questions.findIndex((q) => q.id === id)] === "correct"
+    )
+      return;
     setAnswers({ ...answers, [id]: value });
-    setShowResult(false);
+    setShowResult((prev) =>
+      prev.map((r, i) => (questions[i].id === id ? null : r)),
+    );
+    setAnnouncement(`Question ${id}: ${value} selected.`);
   };
   const showAnswers = () => {
+    stopAudio();
     const corrects = {};
     questions.forEach((q) => {
       corrects[q.id] = q.correct; // ✓ أو ✗
     });
 
     setAnswers(corrects);
-    setShowResult([]); // إخفاء كل X
+    setShowResult(questions.map(() => "correct"));
+    setAnnouncement("All correct answers shown and locked.");
     setLocked(true); // 🔒 قفل التعديل
   };
 
   const checkAnswers = () => {
+    stopAudio();
     if (locked) return;
     // 1) فحص الخانات الفارغة
     const isEmpty = questions.some((q) => !answers[q.id]);
     if (isEmpty) {
       ValidationAlert.info("Please choose ✓ or ✗ for all questions!");
+      setAnnouncement("Please choose ✓ or ✗ for all questions!");
       return;
     }
 
@@ -79,7 +158,10 @@ const Review10_Page2_Q1 = () => {
     );
 
     setShowResult(results);
-    setLocked(true); // 🔒 قفل التعديل
+    setLocked(results.every((r) => r === "correct"));
+    setAnnouncement(
+      `Score ${results.filter((r) => r === "correct").length} out of ${questions.length}.`,
+    );
     // 3) حساب السكور
     const correctCount = results.filter((r) => r === "correct").length;
     const total = questions.length;
@@ -100,8 +182,9 @@ const Review10_Page2_Q1 = () => {
     else if (correctCount === 0) ValidationAlert.error(resultHTML);
     else ValidationAlert.warning(resultHTML);
   };
-
+//....
   const resetAnswers = () => {
+    stopAudio();
     setAnswers({});
     setShowResult([]);
     setLocked(false); // ← مهم جداً
@@ -116,17 +199,32 @@ const Review10_Page2_Q1 = () => {
         alignItems: "center",
         padding: "30px",
       }}
+      ref={scopeRef}
     >
-      <div className="div-forall" >
-        <h5 className="header-title-page8">
-          <span style={{ marginRight: "15px" }}>D</span>
-          Do they both have the same{" "}
-          <span style={{ color: "#2e3192" }}>vowel sound</span>? Listen and
-          write<span style={{ color: "#2e3192" }}> ✓ </span>or
-          <span style={{ color: "#2e3192" }}> ✗</span>.
-        </h5>
+      <div
+        className="sr-only"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        {announcement}
+      </div>
+      <div className="div-forall">
+        <div className="header-title-page8">
+          <ExerciseHeader
+            isReview={true}
+            sectionLetter="D"
+            title={
+              "Do they both have the same vowel sound? Listen and write ✓ or ✗."
+            }
+            subTitle={
+              "Listen to both sounds carefully, then choose Yes/No only after comparing them."
+            }
+          />
+        </div>
 
         <QuestionAudioPlayer
+          pageId="sb_review10_page2_q1"
           src={sound1}
           captions={captions}
           stopAtSecond={stopAtSecond}
@@ -172,7 +270,14 @@ const Review10_Page2_Q1 = () => {
                 {/* 🖼 الصورة */}
                 <img
                   src={q.image}
-                  alt=""
+                  alt={
+                    [
+                      "A green leaf.",
+                      "A bean and a jeep.",
+                      "An aeroplane and a tent.",
+                      "A boy reading and a tube of green paint.",
+                    ][index]
+                  }
                   style={{
                     width: "auto",
                     height: "auto",
@@ -184,7 +289,15 @@ const Review10_Page2_Q1 = () => {
                 <div style={{ display: "flex", gap: "10px" }}>
                   {/* ✓ */}
                   <button
-                    className="flex justify-center items-center"
+                    className="flex justify-center items-center focus-visible:outline-4! focus-visible:outline-[#2563eb]! focus-visible:outline-offset-4!"
+                    type="button"
+                    aria-pressed={answers[q.id] === "✓"}
+                    aria-disabled={locked || showResult[index] === "correct"}
+                    aria-label={`Question ${q.id}: same vowel sounds`}
+                    onKeyDown={(e) =>
+                      activation(e, () => selectAnswer(q.id, "✓"))
+                    }
+                    onKeyUp={activationUp}
                     onClick={() => selectAnswer(q.id, "✓")}
                     style={{
                       width: "40px",
@@ -200,10 +313,16 @@ const Review10_Page2_Q1 = () => {
                       color: answers[q.id] === "✓" ? "white" : "black",
                       cursor: "pointer",
                       position: "relative", // ⭐ مهم
+                      ...feedbackStyle(
+                        answers[q.id] === "✓",
+                        showResult[index],
+                      ),
                     }}
                   >
                     <img
                       src={trueIcon}
+                      alt=""
+                      aria-hidden="true"
                       style={{ height: "25px", width: "auto" }}
                     />
                     {showResult[index] === "wrong" && answers[q.id] === "✓" && (
@@ -215,7 +334,15 @@ const Review10_Page2_Q1 = () => {
 
                   {/* ✗ */}
                   <button
-                    className="flex justify-center items-center"
+                    className="flex justify-center items-center focus-visible:outline-4! focus-visible:outline-[#2563eb]! focus-visible:outline-offset-4!"
+                    type="button"
+                    aria-pressed={answers[q.id] === "✗"}
+                    aria-disabled={locked || showResult[index] === "correct"}
+                    aria-label={`Question ${q.id}: different vowel sounds`}
+                    onKeyDown={(e) =>
+                      activation(e, () => selectAnswer(q.id, "✗"))
+                    }
+                    onKeyUp={activationUp}
                     onClick={() => selectAnswer(q.id, "✗")}
                     style={{
                       width: "40px",
@@ -231,10 +358,16 @@ const Review10_Page2_Q1 = () => {
                       color: answers[q.id] === "✗" ? "white" : "black",
                       cursor: "pointer",
                       position: "relative", // ⭐ مهم
+                      ...feedbackStyle(
+                        answers[q.id] === "✗",
+                        showResult[index],
+                      ),
                     }}
                   >
                     <img
                       src={falseIcon}
+                      alt=""
+                      aria-hidden="true"
                       style={{ height: "25px", width: "auto" }}
                     />
                     {showResult[index] === "wrong" && answers[q.id] === "✗" && (
