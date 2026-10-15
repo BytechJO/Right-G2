@@ -25,6 +25,27 @@ const isActivateKey = (e) => e.key === "Enter" || e.key === " ";
 const ARROWS = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 };
 
 const Unit8_Page6_Q2 = () => {
+  const completedCheckRef = useRef(null);
+  const completeCheck = (event) => {
+    const button = event?.currentTarget;
+    if (!completedCheckRef.current || (button?.style && completedCheckRef.current.button !== button)) {
+      completedCheckRef.current = { button, cursor: button?.style?.cursor, aria: button?.getAttribute?.("aria-disabled") };
+    }
+    if (button?.style) {
+      button.style.cursor = "not-allowed";
+      button.setAttribute("aria-disabled", "true");
+    }
+  };
+  const resetCompletedCheck = () => {
+    const previous = completedCheckRef.current;
+    if (previous?.button?.style) {
+      previous.button.style.cursor = previous.cursor || "";
+      if (previous.aria == null) previous.button.removeAttribute("aria-disabled");
+      else previous.button.setAttribute("aria-disabled", previous.aria);
+    }
+    completedCheckRef.current = null;
+  };
+
   const images = [
     {
       image: img1,
@@ -364,7 +385,9 @@ const Unit8_Page6_Q2 = () => {
     setAnnouncement("Activity reset. All lines and results are cleared.");
   };
 
-  const checkAnswers = () => {
+  const checkAnswers = (checkEvent) => {
+    if (completedCheckRef.current) { completeCheck(checkEvent); return; }
+
     if (showedAnswer || allLocked) return;
     stopAudio();
     cancelAnimationFrame(focusFrame.current);
@@ -421,7 +444,7 @@ const Unit8_Page6_Q2 = () => {
         .join(" "),
     );
 
-    if (score === total) ValidationAlert.success(msg);
+    if (score === total) (completeCheck(checkEvent), ValidationAlert.success(msg));
     else if (score === 0) ValidationAlert.error(msg);
     else ValidationAlert.warning(msg);
   };
@@ -714,7 +737,7 @@ const Unit8_Page6_Q2 = () => {
       <div className="action-buttons-container">
         <button
           type="button"
-          onClick={resetAll}
+          onClick={(checkEvent) => { resetCompletedCheck(); (resetAll)(checkEvent); }}
           className={`try-again-button`}
         >
           Start Again ↻

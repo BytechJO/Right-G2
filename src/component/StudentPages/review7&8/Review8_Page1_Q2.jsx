@@ -54,6 +54,27 @@ const activeStyle = {
 };
 
 export default function Review8_Page1_Q2() {
+  const completedCheckRef = useRef(null);
+  const completeCheck = (event) => {
+    const button = event?.currentTarget;
+    if (!completedCheckRef.current || (button?.style && completedCheckRef.current.button !== button)) {
+      completedCheckRef.current = { button, cursor: button?.style?.cursor, aria: button?.getAttribute?.("aria-disabled") };
+    }
+    if (button?.style) {
+      button.style.cursor = "not-allowed";
+      button.setAttribute("aria-disabled", "true");
+    }
+  };
+  const resetCompletedCheck = () => {
+    const previous = completedCheckRef.current;
+    if (previous?.button?.style) {
+      previous.button.style.cursor = previous.cursor || "";
+      if (previous.aria == null) previous.button.removeAttribute("aria-disabled");
+      else previous.button.setAttribute("aria-disabled", previous.aria);
+    }
+    completedCheckRef.current = null;
+  };
+
   // Keep each tile's identity, including repeated letters in the same word.
   const [placements, setPlacements] = useState(emptyPlacement);
   const [correctSlots, setCorrectSlots] = useState([]);
@@ -243,7 +264,9 @@ export default function Review8_Page1_Q2() {
     setRevealed(true);
     setAnnouncement("All correct answers shown and locked.");
   };
-  const checkAnswers = () => {
+  const checkAnswers = (checkEvent) => {
+    if (completedCheckRef.current) { completeCheck(checkEvent); return; }
+
     if (revealed || correctSlots.length === items.length * 2) return;
     clearSelection();
     stopAudio();
@@ -269,7 +292,7 @@ export default function Review8_Page1_Q2() {
     const total = items.length;
     const color = score === total ? "green" : score === 0 ? "red" : "orange";
     const message = `<div style="font-size:20px;text-align:center;"><span style="color:${color};font-weight:bold">Score: ${score} / ${total}</span></div>`;
-    if (score === total) ValidationAlert.success(message);
+    if (score === total) (completeCheck(checkEvent), ValidationAlert.success(message));
     else if (score === 0) ValidationAlert.error(message);
     else ValidationAlert.warning(message);
     setAnnouncement(
@@ -571,7 +594,7 @@ export default function Review8_Page1_Q2() {
             ))}
           </div>
           <div className="action-buttons-container">
-            <button className="try-again-button" onClick={resetAll}>
+            <button className="try-again-button" onClick={(checkEvent) => { resetCompletedCheck(); (resetAll)(checkEvent); }}>
               Start Again ↻
             </button>
             <button onClick={showAnswers} className="show-answer-btn">

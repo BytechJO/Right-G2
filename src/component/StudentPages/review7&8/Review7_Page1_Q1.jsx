@@ -31,6 +31,27 @@ const focusClass =
   " focus-visible:outline-4! focus-visible:outline-[#2563eb]! rounded focus-visible:outline-offset-4!";
 
 const Review7_Page1_Q1 = () => {
+  const completedCheckRef = useRef(null);
+  const completeCheck = (event) => {
+    const button = event?.currentTarget;
+    if (!completedCheckRef.current || (button?.style && completedCheckRef.current.button !== button)) {
+      completedCheckRef.current = { button, cursor: button?.style?.cursor, aria: button?.getAttribute?.("aria-disabled") };
+    }
+    if (button?.style) {
+      button.style.cursor = "not-allowed";
+      button.setAttribute("aria-disabled", "true");
+    }
+  };
+  const resetCompletedCheck = () => {
+    const previous = completedCheckRef.current;
+    if (previous?.button?.style) {
+      previous.button.style.cursor = previous.cursor || "";
+      if (previous.aria == null) previous.button.removeAttribute("aria-disabled");
+      else previous.button.setAttribute("aria-disabled", previous.aria);
+    }
+    completedCheckRef.current = null;
+  };
+
   const questions = [
     {
       options: ["pilot", "suitcase", "flight attendant"],
@@ -171,7 +192,9 @@ const Review7_Page1_Q1 = () => {
     setAnnouncement("Correct answers are shown and locked.");
   };
 
-  const checkAnswers = () => {
+  const checkAnswers = (checkEvent) => {
+    if (completedCheckRef.current) { completeCheck(checkEvent); return; }
+
     if (locked) return;
     stopAudio();
     if (answers.includes("")) {
@@ -193,7 +216,7 @@ const Review7_Page1_Q1 = () => {
 <b style="color:${color};">Score: ${score} / ${total}</b>
 </div>
 `;
-    if (score === total) ValidationAlert.success(message);
+    if (score === total) (completeCheck(checkEvent), ValidationAlert.success(message));
     else if (score === 0) ValidationAlert.error(message);
     else ValidationAlert.warning(message);
     setResults(checked);
@@ -350,7 +373,7 @@ ${isSelected ? "border-2 border-blue-500 rounded-full px-3 py-1" : ""}
       {/* BUTTONS */}
 
       <div className="action-buttons-container mt-10">
-        <button type="button" onClick={resetAll} className={`try-again-button`}>
+        <button type="button" onClick={(checkEvent) => { resetCompletedCheck(); (resetAll)(checkEvent); }} className={`try-again-button`}>
           Start Again ↻
         </button>
 

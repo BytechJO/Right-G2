@@ -10,6 +10,27 @@ import trueIcon from "../../../assets/imgs/true.svg";
 import falseIcon from "../../../assets/imgs/false.svg";
 import ExerciseHeader from "../../ExerciseHeader";
 const Unit10_Page5_Q1 = () => {
+  const completedCheckRef = useRef(null);
+  const completeCheck = (event) => {
+    const button = event?.currentTarget;
+    if (!completedCheckRef.current || (button?.style && completedCheckRef.current.button !== button)) {
+      completedCheckRef.current = { button, cursor: button?.style?.cursor, aria: button?.getAttribute?.("aria-disabled") };
+    }
+    if (button?.style) {
+      button.style.cursor = "not-allowed";
+      button.setAttribute("aria-disabled", "true");
+    }
+  };
+  const resetCompletedCheck = () => {
+    const previous = completedCheckRef.current;
+    if (previous?.button?.style) {
+      previous.button.style.cursor = previous.cursor || "";
+      if (previous.aria == null) previous.button.removeAttribute("aria-disabled");
+      else previous.button.setAttribute("aria-disabled", previous.aria);
+    }
+    completedCheckRef.current = null;
+  };
+
   const stopAtSecond = 11.019;
   const [locked, setLocked] = useState(false);
   const [announcement, setAnnouncement] = useState("");
@@ -17,11 +38,7 @@ const Unit10_Page5_Q1 = () => {
   const stopAudio = () =>
     audioScope.current?.querySelectorAll("audio").forEach((audio) => {
       audio.pause();
-      try {
-        audio.currentTime = 0;
-      } catch {
-        /* media not ready */
-      }
+      
     }); // ⭐ NEW — قفل التعديل بعد Show Answer
 
   // ================================
@@ -80,7 +97,9 @@ const Unit10_Page5_Q1 = () => {
     setLocked(true); // 🔒 قفل التعديل
   };
 
-  const checkAnswers = () => {
+  const checkAnswers = (checkEvent) => {
+    if (completedCheckRef.current) { completeCheck(checkEvent); return; }
+
     if (locked) return;
     stopAudio();
     // 1) فحص الخانات الفارغة
@@ -117,7 +136,7 @@ const Unit10_Page5_Q1 = () => {
       </div>
     `;
 
-    if (correctCount === total) ValidationAlert.success(resultHTML);
+    if (correctCount === total) (completeCheck(checkEvent), ValidationAlert.success(resultHTML));
     else if (correctCount === 0) ValidationAlert.error(resultHTML);
     else ValidationAlert.warning(resultHTML);
   };
@@ -338,7 +357,7 @@ const Unit10_Page5_Q1 = () => {
           </div>
         </div>
         <div className="action-buttons-container">
-          <button onClick={resetAnswers} className="try-again-button">
+          <button onClick={(checkEvent) => { resetCompletedCheck(); (resetAnswers)(checkEvent); }} className="try-again-button">
             Start Again ↻
           </button>
           {/* ⭐⭐⭐ NEW — زر Show Answer */}

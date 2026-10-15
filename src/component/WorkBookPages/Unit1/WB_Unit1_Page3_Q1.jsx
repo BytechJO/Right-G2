@@ -20,6 +20,19 @@ import clip0 from "../../../assets/audio/WorkBook/Unit 1/Page 3 - A/Item_001_He'
 import clip1 from "../../../assets/audio/WorkBook/Unit 1/Page 3 - A/Item_002_They're_my_father_and_mother.mp3";
 import clip2 from "../../../assets/audio/WorkBook/Unit 1/Page 3 - A/Item_003_Who_are_they.mp3";
 import clip3 from "../../../assets/audio/WorkBook/Unit 1/Page 3 - A/Item_004_Who's_he.mp3";
+
+// Keep the score dialog's return focus on an enabled action in this exercise.
+function showCheckFeedback(root, kind, ...messages) {
+  if (kind === "success") {
+    const returnTarget =
+      root?.querySelector(".try-again-button:not(:disabled)") ||
+      root?.querySelector(".show-answer-btn:not(:disabled)");
+    returnTarget?.focus({ preventScroll: true });
+  }
+  ValidationAlert[kind](...messages);
+}
+
+
 const IMAGE_DESCRIPTIONS = {
   [img1]: "A girl gestures toward a man seated at an outdoor table with a cup.",
   [img2]:
@@ -159,6 +172,27 @@ function useWordPlacement({
   labels = {},
   missingMessage,
 }) {
+  const completedCheckRef = useRef(null);
+  const completeCheck = (event) => {
+    const button = event?.currentTarget;
+    if (!completedCheckRef.current || (button?.style && completedCheckRef.current.button !== button)) {
+      completedCheckRef.current = { button, cursor: button?.style?.cursor, aria: button?.getAttribute?.("aria-disabled") };
+    }
+    if (button?.style) {
+      button.style.cursor = "not-allowed";
+      button.setAttribute("aria-disabled", "true");
+    }
+  };
+  const resetCompletedCheck = () => {
+    const previous = completedCheckRef.current;
+    if (previous?.button?.style) {
+      previous.button.style.cursor = previous.cursor || "";
+      if (previous.aria == null) previous.button.removeAttribute("aria-disabled");
+      else previous.button.setAttribute("aria-disabled", previous.aria);
+    }
+    completedCheckRef.current = null;
+  };
+
   const [values, setValues] = useState(initialAnswers),
     [results, setResults] = useState({}),
     [revealed, setRevealed] = useState(false),
@@ -367,11 +401,11 @@ function useWordPlacement({
     onKeyUp: release,
     style: {
       position: "relative",
-      borderRadius: "6px",
+      borderRadius: 0,
       ...(results[id] === "correct" || revealed
         ? {
             borderBottomColor: "#16a34a",
-            boxShadow: "inset 0 -2px #16a34a",
+            boxShadow: "inset 0 0px #16a34a",
           }
         : {}),
       ...(snapshot?.isDraggingOver && !locked(id)
@@ -383,7 +417,9 @@ function useWordPlacement({
         : {}),
     },
   });
-  const check = () => {
+  const check = (checkEvent) => {
+    if (completedCheckRef.current) { completeCheck(checkEvent); return; }
+
     if (revealed) return;
     cancelFocus();
     setPicked(null);
@@ -408,7 +444,7 @@ function useWordPlacement({
     setMessage(
       msg + ". Correct answers are locked; incorrect answers can be changed.",
     );
-    if (score === total) ValidationAlert.success(msg);
+    if (score === total) (completeCheck(checkEvent), showCheckFeedback(rootRef.current, "success", msg));
     else if (score === 0) ValidationAlert.error(msg);
     else ValidationAlert.warning(msg);
   };
@@ -424,6 +460,8 @@ function useWordPlacement({
     setMessage("Correct answers shown and locked.");
   };
   const reset = () => {
+    resetCompletedCheck();
+
     cancelFocus();
     stopAudio();
     setPicked(null);

@@ -11,6 +11,27 @@ import QuestionAudioPlayer from "../../QuestionAudioPlayer";
 import sound1 from "../../../assets/audio/ClassBook/U 8/cd48pg68-instruction1-adult-lady_IL6QUJR1.mp3";
 const keyboardFocusClass = "focus-visible:outline-4! focus-visible:outline-[#2563eb]! focus-visible:outline-offset-4!";
 const Unit8_Page5_Q1 = () => {
+  const completedCheckRef = useRef(null);
+  const completeCheck = (event) => {
+    const button = event?.currentTarget;
+    if (!completedCheckRef.current || (button?.style && completedCheckRef.current.button !== button)) {
+      completedCheckRef.current = { button, cursor: button?.style?.cursor, aria: button?.getAttribute?.("aria-disabled") };
+    }
+    if (button?.style) {
+      button.style.cursor = "not-allowed";
+      button.setAttribute("aria-disabled", "true");
+    }
+  };
+  const resetCompletedCheck = () => {
+    const previous = completedCheckRef.current;
+    if (previous?.button?.style) {
+      previous.button.style.cursor = previous.cursor || "";
+      if (previous.aria == null) previous.button.removeAttribute("aria-disabled");
+      else previous.button.setAttribute("aria-disabled", previous.aria);
+    }
+    completedCheckRef.current = null;
+  };
+
   const items = [
     { img: img1, correct: "yes", alt: "A grey animal with long ears, a mane, four hooves, and a tail." },
     { img: img2, correct: "no", alt: "A yellow circle surrounded by orange rays." },
@@ -25,11 +46,11 @@ const Unit8_Page5_Q1 = () => {
   const [forceStopAudio, setForceStopAudio] = useState(false);
   const exerciseRef = useRef(null);
   const isLocked = (i) => locked || results[i] === "correct";
-  const stopInstructionAudio = (rewind = false) => {
+  const stopInstructionAudio = () => {
     const audio = exerciseRef.current?.querySelector("audio");
     if (audio) {
       audio.pause();
-      if (rewind) audio.currentTime = 0;
+      
     }
     setForceStopAudio(true);
   };
@@ -81,7 +102,9 @@ const Unit8_Page5_Q1 = () => {
     setMessage(`Question ${i + 1}: ${value === "yes" ? "tick" : "cross"} selected.`);
   };
 
-  const checkAnswers = () => {
+  const checkAnswers = (checkEvent) => {
+    if (completedCheckRef.current) { completeCheck(checkEvent); return; }
+
     if (locked) return;
 
     if (selected.includes("")) {
@@ -107,7 +130,7 @@ const Unit8_Page5_Q1 = () => {
       </div>
     `;
 
-    if (score === total) ValidationAlert.success(msg);
+    if (score === total) (completeCheck(checkEvent), ValidationAlert.success(msg));
     else if (score === 0) ValidationAlert.error(msg);
     else ValidationAlert.warning(msg);
 
@@ -125,7 +148,7 @@ const Unit8_Page5_Q1 = () => {
     setMessage("Correct answers are shown and locked. Press Start Again to try again.");
   };
   const reset = () => {
-    stopInstructionAudio(true);
+    stopInstructionAudio();
     setSelected(Array(items.length).fill(""));
     setLocked(false);
     setResults(Array(items.length).fill(null));
@@ -227,7 +250,7 @@ const Unit8_Page5_Q1 = () => {
 
         {/* buttons */}
         <div className="action-buttons-container">
-          <button type="button" onClick={reset} className={`try-again-button`}>
+          <button type="button" onClick={(checkEvent) => { resetCompletedCheck(); (reset)(checkEvent); }} className={`try-again-button`}>
             Start Again ↻
           </button>
 

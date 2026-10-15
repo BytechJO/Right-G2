@@ -209,6 +209,27 @@ const Slot = ({
 };
 
 const Review2_Page2_Q3 = () => {
+  const completedCheckRef = useRef(null);
+  const completeCheck = (event) => {
+    const button = event?.currentTarget;
+    if (!completedCheckRef.current || (button?.style && completedCheckRef.current.button !== button)) {
+      completedCheckRef.current = { button, cursor: button?.style?.cursor, aria: button?.getAttribute?.("aria-disabled") };
+    }
+    if (button?.style) {
+      button.style.cursor = "not-allowed";
+      button.setAttribute("aria-disabled", "true");
+    }
+  };
+  const resetCompletedCheck = () => {
+    const previous = completedCheckRef.current;
+    if (previous?.button?.style) {
+      previous.button.style.cursor = previous.cursor || "";
+      if (previous.aria == null) previous.button.removeAttribute("aria-disabled");
+      else previous.button.setAttribute("aria-disabled", previous.aria);
+    }
+    completedCheckRef.current = null;
+  };
+
   const [selected, setSelected] = useState(emptyArr()); // الخيار المختار لكل صورة
   const [answers, setAnswers] = useState(emptyArr()); // الكلمة بكل فراغ
   const [optionRes, setOptionRes] = useState(nullArr()); // null | "correct" | "wrong"
@@ -511,7 +532,9 @@ const Review2_Page2_Q3 = () => {
 
   /* ================= CHECK ================= */
 
-  const checkAnswers = () => {
+  const checkAnswers = (checkEvent) => {
+    if (completedCheckRef.current) { completeCheck(checkEvent); return; }
+
     // بعد Show Answer أو بعد ما كل شي صح: ما في شي نعمله
     if (disabled) return;
 
@@ -574,13 +597,13 @@ const Review2_Page2_Q3 = () => {
 
     const color = score === TOTAL ? "green" : score === 0 ? "red" : "orange";
 
-    ValidationAlert[
+    (((score === TOTAL ? "success" : score === 0 ? "error" : "warning") === "success") && completeCheck(checkEvent), ValidationAlert[
       score === TOTAL ? "success" : score === 0 ? "error" : "warning"
     ](
       `<div style="font-size:20px;text-align:center">
         <b style="color:${color}">Score: ${score} / ${TOTAL}</b>
       </div>`,
-    );
+    ));
   };
 
   /* ================= SHOW ANSWER ================= */
@@ -812,7 +835,7 @@ const Review2_Page2_Q3 = () => {
           <div className="action-buttons-container">
             <button
               type="button"
-              onClick={resetAll}
+              onClick={(checkEvent) => { resetCompletedCheck(); (resetAll)(checkEvent); }}
               className="try-again-button"
             >
               Start Again ↻

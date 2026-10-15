@@ -82,6 +82,27 @@ const pauseOtherAudio = () => {
 };
 
 const Unit3_Page5_Q1 = () => {
+  const completedCheckRef = useRef(null);
+  const completeCheck = (event) => {
+    const button = event?.currentTarget;
+    if (!completedCheckRef.current || (button?.style && completedCheckRef.current.button !== button)) {
+      completedCheckRef.current = { button, cursor: button?.style?.cursor, aria: button?.getAttribute?.("aria-disabled") };
+    }
+    if (button?.style) {
+      button.style.cursor = "not-allowed";
+      button.setAttribute("aria-disabled", "true");
+    }
+  };
+  const resetCompletedCheck = () => {
+    const previous = completedCheckRef.current;
+    if (previous?.button?.style) {
+      previous.button.style.cursor = previous.cursor || "";
+      if (previous.aria == null) previous.button.removeAttribute("aria-disabled");
+      else previous.button.setAttribute("aria-disabled", previous.aria);
+    }
+    completedCheckRef.current = null;
+  };
+
   const [answers, setAnswers] = useState(emptyArr()); // "j" | "y" | ""
   const [results, setResults] = useState(nullArr()); // null | "correct" | "wrong"
   const [finished, setFinished] = useState(false); // كل شي صح بعد Check
@@ -210,7 +231,9 @@ const Unit3_Page5_Q1 = () => {
 
   /* ================= CHECK ================= */
 
-  const checkAnswers = () => {
+  const checkAnswers = (checkEvent) => {
+    if (completedCheckRef.current) { completeCheck(checkEvent); return; }
+
     // بعد Show Answer أو بعد ما كل شي صح: ما في شي نعمله
     if (disabled) return;
 
@@ -251,13 +274,13 @@ const Unit3_Page5_Q1 = () => {
 
     const color = correct === COUNT ? "green" : correct === 0 ? "red" : "orange";
 
-    ValidationAlert[
+    (((correct === COUNT ? "success" : correct === 0 ? "error" : "warning") === "success") && completeCheck(checkEvent), ValidationAlert[
       correct === COUNT ? "success" : correct === 0 ? "error" : "warning"
     ](
       `<div style="font-size:20px;text-align:center">
         <b style="color:${color}">Score: ${correct} / ${COUNT}</b>
       </div>`,
-    );
+    ));
   };
 
   /* ================= SHOW ANSWER ================= */
@@ -444,7 +467,7 @@ const Unit3_Page5_Q1 = () => {
         </div>
 
         <div className="action-buttons-container">
-          <button type="button" onClick={reset} className="try-again-button">
+          <button type="button" onClick={(checkEvent) => { resetCompletedCheck(); (reset)(checkEvent); }} className="try-again-button">
             Start Again ↻
           </button>
           <button

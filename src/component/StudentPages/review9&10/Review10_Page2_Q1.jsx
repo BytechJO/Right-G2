@@ -11,6 +11,27 @@ import falseIcon from "../../../assets/imgs/false.svg";
 import ExerciseHeader from "../../ExerciseHeader";
 import { FaVolumeUp } from "react-icons/fa";
 const Review10_Page2_Q1 = () => {
+  const completedCheckRef = useRef(null);
+  const completeCheck = (event) => {
+    const button = event?.currentTarget;
+    if (!completedCheckRef.current || (button?.style && completedCheckRef.current.button !== button)) {
+      completedCheckRef.current = { button, cursor: button?.style?.cursor, aria: button?.getAttribute?.("aria-disabled") };
+    }
+    if (button?.style) {
+      button.style.cursor = "not-allowed";
+      button.setAttribute("aria-disabled", "true");
+    }
+  };
+  const resetCompletedCheck = () => {
+    const previous = completedCheckRef.current;
+    if (previous?.button?.style) {
+      previous.button.style.cursor = previous.cursor || "";
+      if (previous.aria == null) previous.button.removeAttribute("aria-disabled");
+      else previous.button.setAttribute("aria-disabled", previous.aria);
+    }
+    completedCheckRef.current = null;
+  };
+
   const [announcement, setAnnouncement] = useState("");
   const [, setPlayingKey] = useState(null);
   const audioRef = useRef(null),
@@ -26,11 +47,7 @@ const Review10_Page2_Q1 = () => {
     }
     scopeRef.current?.querySelectorAll("audio").forEach((a) => {
       a.pause();
-      try {
-        a.currentTime = 0;
-      } catch {
-        /* media unavailable */
-      }
+      
     });
   };
   useEffect(() => {
@@ -141,7 +158,9 @@ const Review10_Page2_Q1 = () => {
     setLocked(true); // 🔒 قفل التعديل
   };
 
-  const checkAnswers = () => {
+  const checkAnswers = (checkEvent) => {
+    if (completedCheckRef.current) { completeCheck(checkEvent); return; }
+
     stopAudio();
     if (locked) return;
     // 1) فحص الخانات الفارغة
@@ -178,7 +197,7 @@ const Review10_Page2_Q1 = () => {
       </div>
     `;
 
-    if (correctCount === total) ValidationAlert.success(resultHTML);
+    if (correctCount === total) (completeCheck(checkEvent), ValidationAlert.success(resultHTML));
     else if (correctCount === 0) ValidationAlert.error(resultHTML);
     else ValidationAlert.warning(resultHTML);
   };
@@ -383,7 +402,7 @@ const Review10_Page2_Q1 = () => {
         </div>
 
         <div className="action-buttons-container">
-          <button onClick={resetAnswers} className="try-again-button">
+          <button onClick={(checkEvent) => { resetCompletedCheck(); (resetAnswers)(checkEvent); }} className="try-again-button">
             Start Again ↻
           </button>
           {/* ⭐⭐⭐ NEW — زر Show Answer */}

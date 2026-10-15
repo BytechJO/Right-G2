@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+// import React, { useState, useRef, useEffect } from "react";
 import page from "../../../assets/imgs/WorkBook/Right Int WB G2 U1 Folder/Page 6.png";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 import "./WB_Unit1_Page6.css";
@@ -18,7 +18,16 @@ const WB_Unit1_Page6 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+            tabIndex={0}
+          role="button"
+          aria-label="Open exercise 8"
           onClick={() => openPopup("exercise", { startIndex: 7 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 7 });
+            }
+          }}
           // className="click-icon-page8-1 hover:scale-110 transition"
           style={{ overflow: "visible" }}
         >
@@ -41,7 +50,16 @@ const WB_Unit1_Page6 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+           tabIndex={0}
+          role="button"
+          aria-label="Open exercise 9"
           onClick={() => openPopup("exercise", { startIndex: 8 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 8 });
+            }
+          }}
           style={{ overflow: "visible" }}
           // className="click-icon-page8-2 hover:scale-110 transition"
         >
@@ -65,7 +83,16 @@ const WB_Unit1_Page6 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+            tabIndex={0}
+          role="button"
+          aria-label="Open exercise 10"
           onClick={() => openPopup("exercise", { startIndex: 9 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 9 });
+            }
+          }}
           style={{ overflow: "visible" }}
           // className="click-icon-page8-2 hover:scale-110 transition"
         >

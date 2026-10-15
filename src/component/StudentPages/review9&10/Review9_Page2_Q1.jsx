@@ -15,6 +15,27 @@ import clip0 from "../../../assets/audio/ClassBook/U 10/Page 89 - D/Item_001_sho
 import clip1 from "../../../assets/audio/ClassBook/U 10/Page 89 - D/Item_002_long_a.mp3";
 const clips = { "short a": clip0, "long a": clip1 };
 const Review9_Page2_Q1 = () => {
+  const completedCheckRef = useRef(null);
+  const completeCheck = (event) => {
+    const button = event?.currentTarget;
+    if (!completedCheckRef.current || (button?.style && completedCheckRef.current.button !== button)) {
+      completedCheckRef.current = { button, cursor: button?.style?.cursor, aria: button?.getAttribute?.("aria-disabled") };
+    }
+    if (button?.style) {
+      button.style.cursor = "not-allowed";
+      button.setAttribute("aria-disabled", "true");
+    }
+  };
+  const resetCompletedCheck = () => {
+    const previous = completedCheckRef.current;
+    if (previous?.button?.style) {
+      previous.button.style.cursor = previous.cursor || "";
+      if (previous.aria == null) previous.button.removeAttribute("aria-disabled");
+      else previous.button.setAttribute("aria-disabled", previous.aria);
+    }
+    completedCheckRef.current = null;
+  };
+
   const [announcement, setAnnouncement] = useState("");
   const [playingKey, setPlayingKey] = useState(null);
   const [forceStopAudio, setForceStopAudio] = useState(false);
@@ -22,7 +43,7 @@ const Review9_Page2_Q1 = () => {
     scopeRef = useRef(null);
   const normalizeAudioText = (text) =>
     text.replaceAll("’", "'").replace(/[.?!]$/, "");
-  const stopAudio = (resetInstruction = false) => {
+  const stopAudio = () => {
     setForceStopAudio(true);
     const a = audioRef.current;
     audioRef.current = null;
@@ -34,12 +55,8 @@ const Review9_Page2_Q1 = () => {
     }
     scopeRef.current?.querySelectorAll("audio").forEach((a) => {
       a.pause();
-      if (!resetInstruction) return;
-      try {
-        a.currentTime = 0;
-      } catch {
-        /* media unavailable */
-      }
+      
+      
     });
   };
   const listen = (key, text) => {
@@ -175,7 +192,7 @@ const Review9_Page2_Q1 = () => {
   };
 
   const resetAll = () => {
-    stopAudio(true);
+    stopAudio();
     setResults([]);
     setAnnouncement("Activity reset. All answers cleared.");
     setAnswers(Array(questions.length).fill(""));
@@ -192,7 +209,9 @@ const Review9_Page2_Q1 = () => {
     setShowWrongMarks(false);
   };
 
-  const checkAnswers = () => {
+  const checkAnswers = (checkEvent) => {
+    if (completedCheckRef.current) { completeCheck(checkEvent); return; }
+
     if (locked) return;
     stopAudio();
 
@@ -219,7 +238,7 @@ const Review9_Page2_Q1 = () => {
       </div>
     `;
 
-    if (score === total) ValidationAlert.success(message);
+    if (score === total) (completeCheck(checkEvent), ValidationAlert.success(message));
     else if (score === 0) ValidationAlert.error(message);
     else ValidationAlert.warning(message);
 
@@ -351,7 +370,7 @@ const Review9_Page2_Q1 = () => {
       </div>
 
       <div className="action-buttons-container mt-10">
-        <button onClick={resetAll} className="try-again-button">
+        <button onClick={(checkEvent) => { resetCompletedCheck(); (resetAll)(checkEvent); }} className="try-again-button">
           Start Again ↻
         </button>
 

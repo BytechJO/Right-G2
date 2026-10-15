@@ -20,6 +20,19 @@ import clip0 from "../../../assets/audio/WorkBook/Unit 1/Page 3 - B/Item_001_tis
 import clip1 from "../../../assets/audio/WorkBook/Unit 1/Page 3 - B/Item_002_aftreh.mp3";
 import clip2 from "../../../assets/audio/WorkBook/Unit 1/Page 3 - B/Item_003_lapy.mp3";
 import clip3 from "../../../assets/audio/WorkBook/Unit 1/Page 3 - B/Item_004_thomer.mp3";
+
+// Keep the score dialog's return focus on an enabled action in this exercise.
+function showCheckFeedback(root, kind, ...messages) {
+  if (kind === "success") {
+    const returnTarget =
+      root?.querySelector(".try-again-button:not(:disabled)") ||
+      root?.querySelector(".show-answer-btn:not(:disabled)");
+    returnTarget?.focus({ preventScroll: true });
+  }
+  ValidationAlert[kind](...messages);
+}
+
+
 const IMAGE_DESCRIPTIONS = {
   [img1]: "Two children kneeling with a doll and a teddy bear.",
   [img2]: "A woman with dark hair and an orange headband wearing green.",
@@ -318,7 +331,7 @@ function useMatching(correct, imageOrder) {
         : {}),
       ...(locked(side, id)
         ? {
-            boxShadow: "inset 0 -2px #16a34a",
+            boxShadow: "inset 0 0px #16a34a",
           }
         : {}),
     },
@@ -581,12 +594,12 @@ function useTokenOrder(questions, sounds) {
     },
     onKeyUp: release,
     style: {
-      borderRadius: "6px",
+      borderRadius: 0,
       position: "relative",
       ...(locked(q.id)
         ? {
             borderBottomColor: "#16a34a",
-            boxShadow: "inset 0 -2px #16a34a",
+            boxShadow: "inset 0 0px #16a34a",
           }
         : {}),
       ...(snapshot?.isDraggingOver && !locked(q.id)
@@ -673,6 +686,27 @@ function useTokenOrder(questions, sounds) {
 }
 
 const WB_Unit1_Page3_Q2 = () => {
+  const completedCheckRef = useRef(null);
+  const completeCheck = (event) => {
+    const button = event?.currentTarget;
+    if (!completedCheckRef.current || (button?.style && completedCheckRef.current.button !== button)) {
+      completedCheckRef.current = { button, cursor: button?.style?.cursor, aria: button?.getAttribute?.("aria-disabled") };
+    }
+    if (button?.style) {
+      button.style.cursor = "not-allowed";
+      button.setAttribute("aria-disabled", "true");
+    }
+  };
+  const resetCompletedCheck = () => {
+    const previous = completedCheckRef.current;
+    if (previous?.button?.style) {
+      previous.button.style.cursor = previous.cursor || "";
+      if (previous.aria == null) previous.button.removeAttribute("aria-disabled");
+      else previous.button.setAttribute("aria-disabled", previous.aria);
+    }
+    completedCheckRef.current = null;
+  };
+
   const initialQuestions = [
     {
       id: 1,
@@ -769,7 +803,9 @@ const WB_Unit1_Page3_Q2 = () => {
     if (!destination?.droppableId.startsWith("sentence-")) return;
     order.place(destination.droppableId.replace("sentence-", ""), draggableId);
   };
-  const checkAnswers2 = () => {
+  const checkAnswers2 = (checkEvent) => {
+    if (completedCheckRef.current) { completeCheck(checkEvent); return; }
+
     if (showAnswer) return;
     order.dragStart();
     match.cancel();
@@ -790,7 +826,7 @@ const WB_Unit1_Page3_Q2 = () => {
       msg + ". Correct pairs and correct words are locked independently.",
     );
     if (score === 4 && Object.values(words).every((x) => x === "correct"))
-      ValidationAlert.success(msg);
+      (completeCheck(checkEvent), showCheckFeedback(order.rootRef.current, "success", msg));
     else if (score === 0) ValidationAlert.error(msg);
     else ValidationAlert.warning(msg);
   };
@@ -1041,6 +1077,22 @@ const WB_Unit1_Page3_Q2 = () => {
                           ? "scale-95 border-2 border-red-600 rounded-lg shadow-xl"
                           : "border-2 border-gray-300 rounded-lg"
                       }`}
+                      onClick={() => {
+                        order.dragStart();
+                        match.choose("right", q.id);
+                      }}
+                      ref={(el) => {
+                        match.rightRefs.current[q.id] = el;
+                      }}
+                      {...match.endpointProps("right", q.id, `Image ${q.id}`)}
+                      onKeyDown={(e) => {
+                        if ((e.key === "Enter" || e.key === " ") && !e.repeat)
+                          order.dragStart();
+                        match
+                          .endpointProps("right", q.id, `Image ${q.id}`)
+                          .onKeyDown(e);
+                      }}
+                      style={{ position: "relative" }}
                     >
                       <img
                         src={q.image}
@@ -1050,21 +1102,6 @@ const WB_Unit1_Page3_Q2 = () => {
                             ? "opacity-60 cursor-not-allowed"
                             : "cursor-pointer hover:scale-105 hover:brightness-110"
                         }`}
-                        onClick={() => {
-                          order.dragStart();
-                          match.choose("right", q.id);
-                        }}
-                        ref={(el) => {
-                          match.rightRefs.current[q.id] = el;
-                        }}
-                        {...match.endpointProps("right", q.id, `Image ${q.id}`)}
-                        onKeyDown={(e) => {
-                          if ((e.key === "Enter" || e.key === " ") && !e.repeat)
-                            order.dragStart();
-                          match
-                            .endpointProps("right", q.id, `Image ${q.id}`)
-                            .onKeyDown(e);
-                        }}
                         onLoad={match.refresh}
                         style={{ height: "120px", width: "auto" }}
                       />
@@ -1104,7 +1141,7 @@ const WB_Unit1_Page3_Q2 = () => {
         </div>
 
         <div className="action-buttons-container mt-8">
-          <button onClick={reset} className="try-again-button">
+          <button onClick={(checkEvent) => { resetCompletedCheck(); (reset)(checkEvent); }} className="try-again-button">
             Start Again ↻
           </button>
           <button onClick={show} className="show-answer-btn swal-continue">

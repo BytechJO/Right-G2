@@ -35,6 +35,27 @@ const activeStyle = {
 };
 
 const Review10_Page1_Q2 = () => {
+  const completedCheckRef = useRef(null);
+  const completeCheck = (event) => {
+    const button = event?.currentTarget;
+    if (!completedCheckRef.current || (button?.style && completedCheckRef.current.button !== button)) {
+      completedCheckRef.current = { button, cursor: button?.style?.cursor, aria: button?.getAttribute?.("aria-disabled") };
+    }
+    if (button?.style) {
+      button.style.cursor = "not-allowed";
+      button.setAttribute("aria-disabled", "true");
+    }
+  };
+  const resetCompletedCheck = () => {
+    const previous = completedCheckRef.current;
+    if (previous?.button?.style) {
+      previous.button.style.cursor = previous.cursor || "";
+      if (previous.aria == null) previous.button.removeAttribute("aria-disabled");
+      else previous.button.setAttribute("aria-disabled", previous.aria);
+    }
+    completedCheckRef.current = null;
+  };
+
   const answersBank = [
     { id: "a1", text: "What are they doing" },
     { id: "a2", text: "What's he doing" },
@@ -310,7 +331,9 @@ const Review10_Page1_Q2 = () => {
     setRevealed(true);
     setAnnouncement("All correct sentences shown and locked.");
   };
-  const checkAnswers = () => {
+  const checkAnswers = (checkEvent) => {
+    if (completedCheckRef.current) { completeCheck(checkEvent); return; }
+
     if (revealed || allDone) return;
     clearSelection();
     stopAudio();
@@ -335,7 +358,7 @@ const Review10_Page1_Q2 = () => {
       total = questions.length;
     const color = score === total ? "green" : score === 0 ? "red" : "orange";
     const msg = `<div style="font-size:20px;margin-top:10px;text-align:center;"><span style="color:${color};font-weight:bold;">Score: ${score} / ${total}</span></div>`;
-    if (score === total) ValidationAlert.success(msg);
+    if (score === total) (completeCheck(checkEvent), ValidationAlert.success(msg));
     else if (score === 0) ValidationAlert.error(msg);
     else ValidationAlert.warning(msg);
     setAnnouncement(
@@ -635,7 +658,7 @@ const Review10_Page1_Q2 = () => {
           </div>
           {/* BUTTONS */}
           <div className="action-buttons-container mt-10">
-            <button onClick={reset} className="try-again-button">
+            <button onClick={(checkEvent) => { resetCompletedCheck(); (reset)(checkEvent); }} className="try-again-button">
               Start Again ↻
             </button>
 

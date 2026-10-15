@@ -181,6 +181,27 @@ const getCellFromPoint = (clientX, clientY) => {
   return Number.isNaN(r) || Number.isNaN(c) ? null : [r, c];
 };
 const Unit10_Page5_Q4 = () => {
+  const completedCheckRef = useRef(null);
+  const completeCheck = (event) => {
+    const button = event?.currentTarget;
+    if (!completedCheckRef.current || (button?.style && completedCheckRef.current.button !== button)) {
+      completedCheckRef.current = { button, cursor: button?.style?.cursor, aria: button?.getAttribute?.("aria-disabled") };
+    }
+    if (button?.style) {
+      button.style.cursor = "not-allowed";
+      button.setAttribute("aria-disabled", "true");
+    }
+  };
+  const resetCompletedCheck = () => {
+    const previous = completedCheckRef.current;
+    if (previous?.button?.style) {
+      previous.button.style.cursor = previous.cursor || "";
+      if (previous.aria == null) previous.button.removeAttribute("aria-disabled");
+      else previous.button.setAttribute("aria-disabled", previous.aria);
+    }
+    completedCheckRef.current = null;
+  };
+
   const [startCell, setStartCell] = useState(null);
   const [previewCells, setPreviewCells] = useState([]);
   const [foundWords, setFoundWords] = useState([]); // ids
@@ -526,7 +547,9 @@ const Unit10_Page5_Q4 = () => {
     resetPointer();
     clearSelection();
   };
-  const checkAnswers = () => {
+  const checkAnswers = (checkEvent) => {
+    if (completedCheckRef.current) { completeCheck(checkEvent); return; }
+
     if (locked) return;
 
     cancelAnimationFrame(focusFrame.current);
@@ -561,7 +584,7 @@ const Unit10_Page5_Q4 = () => {
       setAnnouncement(
         `Score ${correct} out of ${total}. All words are correct.`,
       );
-      ValidationAlert.success(msg);
+      (completeCheck(checkEvent), ValidationAlert.success(msg));
       return;
     }
 
@@ -763,7 +786,7 @@ const Unit10_Page5_Q4 = () => {
         </div>
         <Button
           handleShowAnswer={showAnswers}
-          handleStartAgain={reset}
+          handleStartAgain={(checkEvent) => { resetCompletedCheck(); (reset)(checkEvent); }}
           checkAnswers={checkAnswers}
         />
       </div>

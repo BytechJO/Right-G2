@@ -15,6 +15,7 @@ const Page8 = ({ openPopup }) => {
         <svg
           width="22"
           height="22"
+           viewBox="0 0 90 90"
           tabIndex={0}
           role="button"
           aria-label="Open exercise 1"

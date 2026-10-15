@@ -846,6 +846,7 @@ img {
   transform: translateX(-50%);
   display: flex;
   gap: 20px;
+  z-index: 99;
   width: calc(100% - 40px);
   justify-content: center;
 }

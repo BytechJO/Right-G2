@@ -56,12 +56,46 @@ older examples that style the exercise action buttons.
   exercise's ID or generate it dynamically. This namespaces saved audio positions.
   Do not migrate unrelated exercises without a request.
 
+- In exercises using `QuestionAudioPlayer`, Start Again resets exercise answers
+  and feedback without rewinding or restarting that player. It may pause playback,
+  but must preserve the current time and saved audio position. Do not seek to zero,
+  remove the player's saved-position key, reload/change its source, or remount it
+  with a changing key as part of the exercise reset. Keep the player's own explicit
+  restart control separate. Owned word/fragment audio may still be stopped and
+  cleared. Apply this rule when requested; do not change shared player internals.
+
 - In every exercise type, Show Answer reveals correct answers with the same green
   correct-answer feedback as a successful check: selected answer borders, slot
   borders/underlines, matching lines/endpoints, or completed sentence/grid feedback
   as appropriate. Keep revealed answers locked and clear incorrect feedback.
   Do not display a new score alert or count revealed answers as a student-earned
   score. Start Again clears the green feedback and all reveal locks.
+
+# Check Answer completion rule — all exercise types
+
+- In every future requested exercise update, explicitly check this behavior:
+  after Check Answer confirms that all required answers are correct, actually
+  disable the native Check Answer button (`disabled`) and show a `not-allowed`
+  cursor. Repeated mouse/touch clicks or Enter/Space activation must not show
+  another alert, score, or other feedback, or rerun checking side effects.
+- Keep a handler guard as well as actual button disabling. Derive the disabled
+  state from the exercise's checked completion/reveal state and keep it synchronized
+  across rerenders; do not rely only on `aria-disabled`, an event's `currentTarget`,
+  or a one-time cursor mutation. Correct choices before checking alone must not
+  disable the first Check Answer attempt.
+- Incomplete or partially incorrect attempts keep Check Answer available for
+  correction and rechecking. In mixed exercises, success requires every required
+  part to be correct. Show Answer keeps Check Answer disabled without awarding
+  a student-earned score. Start Again restores the enabled state and normal cursor.
+- References for this fix are the local completion checks and native-button
+  synchronization in `src/component/WorkBookPages/Unit2/WB_Unit2_Page13_Q1.jsx`,
+  `WB_Unit2_Page13_Q2.jsx`, `WB_Unit2_Page14_Q1.jsx`, and `WB_Unit2_Page14_Q2.jsx`
+  in that same directory. Adapt to the target's own state without changing its
+  design, content, audio, or other behavior. Do not modify shared components or
+  global styles, or migrate unrelated questions, without user authorization.
+- Verify first successful checking, repeated activation, rerender persistence,
+  partial correction/rechecking, Show Answer, and Start Again. Distinguish native
+  button/handler simulation from real browser mouse/touch/keyboard verification.
 
 # Drag and Drop exercise conventions
 
@@ -103,6 +137,17 @@ Search without their separate requirements.
 
 ## Selection, placement, return, and focus
 
+- In every requested Drag and Drop update, inspect drag positioning for mouse
+  and touch, especially inside the Book's transformed/zoomed containers. Never
+  override the drag library's active position, top, left, transform, or dimensions
+  with normal bank styles such as `position: relative`; apply library positioning
+  after those styles. The dragged word must remain visible at the pointer without
+  a jump or displacement. When reparenting is needed, move the actual draggable
+  into an untransformed portal in the active fullscreen element or document body,
+  keeping it visible above page layers. Do not remove the source in favor of a
+  clone that may be invisible. Preserve the bank appearance, mouse/touch sensors,
+  keyboard flow, and protected answer locks. Test portal visibility/coordinates
+  and report separately whether real mouse/touch verification was available.
 - Preserve logical Tab/Shift+Tab navigation. Enter and Space select a bank word
   and place it in an editable slot. Prevent duplicate activation, key-repeat
   actions, and conflicts with global handlers or the drag library's keyboard
@@ -260,6 +305,48 @@ rules separate from Drag and Drop, Matching, and Word Search behavior.
   Distinguish isolated handler/style checks from real browser verification.
 - Report checks actually run and any failures, limitations, or declined checks.
   Never claim an unverified check passed.
+
+# Word Search — إيجاد الكلمات
+
+Use this name for standalone word-finding exercises without sentence completion.
+User-provided interaction reference:
+`src/component/StudentPages/unit5/Unit5_Page5_Q3.jsx`.
+Workbook adaptation:
+`src/component/WorkBookPages/Unit1/WB_Unit1_Page7_Q1.jsx`.
+Keep this pattern separate from Word Search Sentence, Select, and Drag and Drop.
+
+- Preserve the target grid, word list, target paths, content, layout, dimensions,
+  and existing book colors/styles. Verify coordinates against the actual grid.
+  Adapt the interaction locally; do not copy reference images or Student Book
+  styling into Workbook exercises. Use ExerciseHeader with the target's title
+  and book theme, without inventing subtitles.
+- Support mouse/touch/pen dragging and two-click/two-tap endpoint selection.
+  Accept exact paths forward or backward, including paths through intersections
+  with previously found words. Reject invalid paths and duplicate discoveries.
+  Scope hit testing to this grid; use pointer capture and pointer identity so a
+  second pointer cannot hijack or finish a selection. Handle cancellation safely.
+- Provide one grid Tab stop, arrow navigation and preview, Enter/Space endpoint
+  activation, Escape cancellation, and Backspace undo. Tab must leave the grid.
+  Guard repeated activation and global keyboard conflicts; keep custom focus
+  visible and rounded, without styling the exercise action buttons.
+- Undo cancels an unfinished selection first; otherwise remove the most recent
+  discovery while editable. Shared cells stay found if another discovered word
+  still uses them. Preserve the target's found-cell and word-list feedback.
+- Check with no discoveries prompts the student. Partial checking marks missing
+  words and reports the existing score while keeping the activity editable.
+  Lock only on complete successful checking or Show Answer. Revealing shows all
+  paths with the same correct feedback and no new score. Start Again clears all
+  discoveries, feedback, locks, selection, capture, audio and pending focus work.
+- Use verified word audio where available. Word-list items or existing picture
+  cards support click/touch and Enter/Space listening; keyboard-visible focus may
+  listen. Show the speaker indicator and playback effect on the active item,
+  without shifting layout. Guard stale callbacks, stop overlap, and clean up on
+  check/reveal/reset/unmount. Listening never changes discoveries or locks.
+- Verify paths/reverse paths, invalid/duplicate/intersecting selections, keyboard
+  navigation/undo, pointer identity/capture/cancellation, partial rechecking,
+  reveal/reset, audio and preservation of content/styles. Run targeted lint and
+  available build checks. Distinguish handler checks from real browser/device,
+  audible playback, visual and screen-reader verification.
 
 # Word Search Sentence — البحث عن الكلمات لتكوين جملة
 

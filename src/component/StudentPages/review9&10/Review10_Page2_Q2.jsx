@@ -41,6 +41,27 @@ const clips = {
   ten: clip14,
 };
 const Review10_Page2_Q2 = () => {
+  const completedCheckRef = useRef(null);
+  const completeCheck = (event) => {
+    const button = event?.currentTarget;
+    if (!completedCheckRef.current || (button?.style && completedCheckRef.current.button !== button)) {
+      completedCheckRef.current = { button, cursor: button?.style?.cursor, aria: button?.getAttribute?.("aria-disabled") };
+    }
+    if (button?.style) {
+      button.style.cursor = "not-allowed";
+      button.setAttribute("aria-disabled", "true");
+    }
+  };
+  const resetCompletedCheck = () => {
+    const previous = completedCheckRef.current;
+    if (previous?.button?.style) {
+      previous.button.style.cursor = previous.cursor || "";
+      if (previous.aria == null) previous.button.removeAttribute("aria-disabled");
+      else previous.button.setAttribute("aria-disabled", previous.aria);
+    }
+    completedCheckRef.current = null;
+  };
+
   const [announcement, setAnnouncement] = useState("");
   const [playingKey, setPlayingKey] = useState(null);
   const audioRef = useRef(null),
@@ -191,7 +212,9 @@ const Review10_Page2_Q2 = () => {
   };
   const correctAnswers = [0, 3];
 
-  const checkAnswers = () => {
+  const checkAnswers = (checkEvent) => {
+    if (completedCheckRef.current) { completeCheck(checkEvent); return; }
+
     stopAudio();
 
     if (locked) return;
@@ -220,7 +243,7 @@ const Review10_Page2_Q2 = () => {
       </div>
     `;
     if (correct === total && selectedImages.length === total)
-      ValidationAlert.success(msg);
+      (completeCheck(checkEvent), ValidationAlert.success(msg));
     else if (correct === 0) ValidationAlert.error(msg);
     else ValidationAlert.warning(msg);
 
@@ -361,7 +384,7 @@ const Review10_Page2_Q2 = () => {
 
         {/* ⭐ الأزرار (كما هي) */}
         <div className="action-buttons-container">
-          <button onClick={reset} className="try-again-button">
+          <button onClick={(checkEvent) => { resetCompletedCheck(); (reset)(checkEvent); }} className="try-again-button">
             Start Again ↻
           </button>
 

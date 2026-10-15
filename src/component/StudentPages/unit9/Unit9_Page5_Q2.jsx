@@ -84,6 +84,27 @@ const activeStyle = {
 const exerciseTitle = "Which picture has a long a? Listen, circle, and write.";
 
 const Unit9_Page5_Q2 = () => {
+  const completedCheckRef = useRef(null);
+  const completeCheck = (event) => {
+    const button = event?.currentTarget;
+    if (!completedCheckRef.current || (button?.style && completedCheckRef.current.button !== button)) {
+      completedCheckRef.current = { button, cursor: button?.style?.cursor, aria: button?.getAttribute?.("aria-disabled") };
+    }
+    if (button?.style) {
+      button.style.cursor = "not-allowed";
+      button.setAttribute("aria-disabled", "true");
+    }
+  };
+  const resetCompletedCheck = () => {
+    const previous = completedCheckRef.current;
+    if (previous?.button?.style) {
+      previous.button.style.cursor = previous.cursor || "";
+      if (previous.aria == null) previous.button.removeAttribute("aria-disabled");
+      else previous.button.setAttribute("aria-disabled", previous.aria);
+    }
+    completedCheckRef.current = null;
+  };
+
   const [selected, setSelected] = useState({});
   const [droppedWords, setDroppedWords] = useState({});
   const [imageResults, setImageResults] = useState({});
@@ -131,14 +152,11 @@ const Unit9_Page5_Q2 = () => {
       audio.pause();
     }
   };
-  const stopInstruction = (rewind = false) => {
+  const stopInstruction = () => {
     const audio = exerciseRef.current?.querySelector("audio");
     if (audio) {
       audio.pause();
-      if (rewind) {
-        audio.currentTime = 0;
-        audio.dispatchEvent(new Event("timeupdate"));
-      }
+      
     }
     setForceStopAudio(true);
   };
@@ -349,7 +367,9 @@ const Unit9_Page5_Q2 = () => {
     stopAudio();
     stopInstruction();
   };
-  const checkAnswers = () => {
+  const checkAnswers = (checkEvent) => {
+    if (completedCheckRef.current) { completeCheck(checkEvent); return; }
+
     if (revealed || allDone) return;
     stopForAction();
     if (
@@ -383,7 +403,7 @@ const Unit9_Page5_Q2 = () => {
     const total = questions.length * 2,
       color = score === total ? "green" : score === 0 ? "red" : "orange";
     const msg = `<div style="font-size:20px;margin-top:10px;text-align:center;"><span style="color:${color};font-weight:bold;">Score: ${score} / ${total}</span></div>`;
-    if (score === total) ValidationAlert.success(msg);
+    if (score === total) (completeCheck(checkEvent), ValidationAlert.success(msg));
     else if (score === 0) ValidationAlert.error(msg);
     else ValidationAlert.warning(msg);
     setAnnouncement(
@@ -418,8 +438,8 @@ const Unit9_Page5_Q2 = () => {
   };
   const resetAll = () => {
     stopForAction();
-    stopInstruction(true);
-    localStorage.removeItem("audio-position-sb_unit9_page5_q2");
+    stopInstruction();
+    
     setSelected({});
     setDroppedWords({});
     setImageResults({});
@@ -769,7 +789,7 @@ const Unit9_Page5_Q2 = () => {
         </div>
 
         <div className="action-buttons-container">
-          <button className="try-again-button" onClick={resetAll}>
+          <button className="try-again-button" onClick={(checkEvent) => { resetCompletedCheck(); (resetAll)(checkEvent); }}>
             Start Again ↻
           </button>
           <button onClick={showAnswers} className="show-answer-btn">

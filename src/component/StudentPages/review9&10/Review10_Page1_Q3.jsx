@@ -28,6 +28,27 @@ const clips = {
   "No, they aren't": clip8,
 };
 const Review10_Page1_Q3 = () => {
+  const completedCheckRef = useRef(null);
+  const completeCheck = (event) => {
+    const button = event?.currentTarget;
+    if (!completedCheckRef.current || (button?.style && completedCheckRef.current.button !== button)) {
+      completedCheckRef.current = { button, cursor: button?.style?.cursor, aria: button?.getAttribute?.("aria-disabled") };
+    }
+    if (button?.style) {
+      button.style.cursor = "not-allowed";
+      button.setAttribute("aria-disabled", "true");
+    }
+  };
+  const resetCompletedCheck = () => {
+    const previous = completedCheckRef.current;
+    if (previous?.button?.style) {
+      previous.button.style.cursor = previous.cursor || "";
+      if (previous.aria == null) previous.button.removeAttribute("aria-disabled");
+      else previous.button.setAttribute("aria-disabled", previous.aria);
+    }
+    completedCheckRef.current = null;
+  };
+
   const [announcement, setAnnouncement] = useState("");
   const [playingKey, setPlayingKey] = useState(null);
   const audioRef = useRef(null),
@@ -181,7 +202,9 @@ const Review10_Page1_Q3 = () => {
     setResults((prev) => prev.map((v, i) => (i === index ? null : v)));
     setAnnouncement("Question " + (index + 1) + ": " + value + " selected.");
   };
-  const checkAnswers = () => {
+  const checkAnswers = (checkEvent) => {
+    if (completedCheckRef.current) { completeCheck(checkEvent); return; }
+
     if (locked) return;
     stopAudio();
 
@@ -209,7 +232,7 @@ const Review10_Page1_Q3 = () => {
       </div>
     `;
 
-    if (score === total) ValidationAlert.success(msg);
+    if (score === total) (completeCheck(checkEvent), ValidationAlert.success(msg));
     else if (score === 0) ValidationAlert.error(msg);
     else ValidationAlert.warning(msg);
     setShowWrongMarks(true);
@@ -360,7 +383,7 @@ const Review10_Page1_Q3 = () => {
 
         {/* buttons */}
         <div className="action-buttons-container">
-          <button onClick={reset} className="try-again-button">
+          <button onClick={(checkEvent) => { resetCompletedCheck(); (reset)(checkEvent); }} className="try-again-button">
             Start Again ↻
           </button>
 

@@ -236,6 +236,27 @@ const focusRingClass =
   "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2c5287] focus-visible:ring-offset-2";
 
 export default function Review4_Page1_Q1() {
+  const completedCheckRef = useRef(null);
+  const completeCheck = (event) => {
+    const button = event?.currentTarget;
+    if (!completedCheckRef.current || (button?.style && completedCheckRef.current.button !== button)) {
+      completedCheckRef.current = { button, cursor: button?.style?.cursor, aria: button?.getAttribute?.("aria-disabled") };
+    }
+    if (button?.style) {
+      button.style.cursor = "not-allowed";
+      button.setAttribute("aria-disabled", "true");
+    }
+  };
+  const resetCompletedCheck = () => {
+    const previous = completedCheckRef.current;
+    if (previous?.button?.style) {
+      previous.button.style.cursor = previous.cursor || "";
+      if (previous.aria == null) previous.button.removeAttribute("aria-disabled");
+      else previous.button.setAttribute("aria-disabled", previous.aria);
+    }
+    completedCheckRef.current = null;
+  };
+
   const [grid, setGrid] = useState(emptyGrid);
 
   // 🔒 الخانات الصح بعد Check بتنقفل
@@ -590,7 +611,9 @@ export default function Review4_Page1_Q1() {
      - السكور بينحسب من كل الخانات
   ===================================================== */
 
-  const checkAnswers = () => {
+  const checkAnswers = (checkEvent) => {
+    if (completedCheckRef.current) { completeCheck(checkEvent); return; }
+
     if (allLocked) return;
 
     const hasEmpty = KEYS.some((k) => !lockedCells[k] && !grid[k]);
@@ -641,7 +664,7 @@ export default function Review4_Page1_Q1() {
       </div>
     `;
 
-    if (score === TOTAL) ValidationAlert.success(msg);
+    if (score === TOTAL) (completeCheck(checkEvent), ValidationAlert.success(msg));
     else if (score === 0) ValidationAlert.error(msg);
     else ValidationAlert.warning(msg);
   };
@@ -1035,7 +1058,7 @@ export default function Review4_Page1_Q1() {
 
         {/* الأزرار */}
         <div className="action-buttons-container">
-          <button type="button" onClick={reset} className="try-again-button">
+          <button type="button" onClick={(checkEvent) => { resetCompletedCheck(); (reset)(checkEvent); }} className="try-again-button">
             Start Again ↻
           </button>
           <button

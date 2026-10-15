@@ -72,6 +72,27 @@ const activeStyle = {
 const arrows = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 };
 
 const Review8_Page2_Q2 = () => {
+  const completedCheckRef = useRef(null);
+  const completeCheck = (event) => {
+    const button = event?.currentTarget;
+    if (!completedCheckRef.current || (button?.style && completedCheckRef.current.button !== button)) {
+      completedCheckRef.current = { button, cursor: button?.style?.cursor, aria: button?.getAttribute?.("aria-disabled") };
+    }
+    if (button?.style) {
+      button.style.cursor = "not-allowed";
+      button.setAttribute("aria-disabled", "true");
+    }
+  };
+  const resetCompletedCheck = () => {
+    const previous = completedCheckRef.current;
+    if (previous?.button?.style) {
+      previous.button.style.cursor = previous.cursor || "";
+      if (previous.aria == null) previous.button.removeAttribute("aria-disabled");
+      else previous.button.setAttribute("aria-disabled", previous.aria);
+    }
+    completedCheckRef.current = null;
+  };
+
   const [matches, setMatches] = useState({});
   const [filledLetters, setFilledLetters] = useState({});
   const [matchResults, setMatchResults] = useState({});
@@ -402,7 +423,9 @@ const Review8_Page2_Q2 = () => {
       );
     }
   };
-  const checkAnswers = () => {
+  const checkAnswers = (checkEvent) => {
+    if (completedCheckRef.current) { completeCheck(checkEvent); return; }
+
     if (revealed || allDone) return;
     clearPending();
     stopAudio();
@@ -442,7 +465,7 @@ const Review8_Page2_Q2 = () => {
     const color =
       score === images.length ? "green" : score === 0 ? "red" : "orange";
     const msg = `<div style="font-size:20px;text-align:center;margin-top:8px;"><span style="color:${color};font-weight:bold;">Score: ${score} /${images.length} </span></div>`;
-    if (score === images.length) ValidationAlert.success(msg);
+    if (score === images.length) (completeCheck(checkEvent), ValidationAlert.success(msg));
     else if (score === 0) ValidationAlert.error(msg);
     else ValidationAlert.warning(msg);
     setAnnouncement(
@@ -870,7 +893,7 @@ const Review8_Page2_Q2 = () => {
           )}
         </svg>
         <div className="action-buttons-container">
-          <button onClick={reset} className="try-again-button">
+          <button onClick={(checkEvent) => { resetCompletedCheck(); (reset)(checkEvent); }} className="try-again-button">
             Start Again ↻
           </button>
           <button onClick={showAnswers} className="show-answer-btn">

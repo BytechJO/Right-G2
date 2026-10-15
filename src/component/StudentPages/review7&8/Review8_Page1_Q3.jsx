@@ -66,6 +66,27 @@ const focusClass =
 const isActivateKey = (e) => e.key === "Enter" || e.key === " ";
 
 const Review8_Page1_Q3 = () => {
+  const completedCheckRef = useRef(null);
+  const completeCheck = (event) => {
+    const button = event?.currentTarget;
+    if (!completedCheckRef.current || (button?.style && completedCheckRef.current.button !== button)) {
+      completedCheckRef.current = { button, cursor: button?.style?.cursor, aria: button?.getAttribute?.("aria-disabled") };
+    }
+    if (button?.style) {
+      button.style.cursor = "not-allowed";
+      button.setAttribute("aria-disabled", "true");
+    }
+  };
+  const resetCompletedCheck = () => {
+    const previous = completedCheckRef.current;
+    if (previous?.button?.style) {
+      previous.button.style.cursor = previous.cursor || "";
+      if (previous.aria == null) previous.button.removeAttribute("aria-disabled");
+      else previous.button.setAttribute("aria-disabled", previous.aria);
+    }
+    completedCheckRef.current = null;
+  };
+
   const [selected, setSelected] = useState(Array(items.length).fill(""));
   const [locked, setLocked] = useState(false);
   const [results, setResults] = useState(Array(items.length).fill(null));
@@ -138,7 +159,9 @@ const Review8_Page1_Q3 = () => {
       `Question ${i + 1}: ${value === "yes" ? "tick" : "cross"} selected.`,
     );
   };
-  const checkAnswers = () => {
+  const checkAnswers = (checkEvent) => {
+    if (completedCheckRef.current) { completeCheck(checkEvent); return; }
+
     if (locked) return;
     stopAudio();
     if (selected.includes("")) {
@@ -156,7 +179,7 @@ const Review8_Page1_Q3 = () => {
     const total = items.length;
     const color = score === total ? "green" : score === 0 ? "red" : "orange";
     const msg = `<div style="font-size:20px;text-align:center;"><span style="color:${color};font-weight:bold">Score: ${score} / ${total}</span></div>`;
-    if (score === total) ValidationAlert.success(msg);
+    if (score === total) (completeCheck(checkEvent), ValidationAlert.success(msg));
     else if (score === 0) ValidationAlert.error(msg);
     else ValidationAlert.warning(msg);
     setLocked(score === total);
@@ -335,7 +358,7 @@ const Review8_Page1_Q3 = () => {
           ))}
         </div>
         <div className="action-buttons-container">
-          <button onClick={reset} className="try-again-button">
+          <button onClick={(checkEvent) => { resetCompletedCheck(); (reset)(checkEvent); }} className="try-again-button">
             Start Again ↻
           </button>
           <button onClick={showAnswers} className="show-answer-btn">

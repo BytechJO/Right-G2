@@ -26,6 +26,27 @@ const focusClass =
 const isActivateKey = (e) => e.key === "Enter" || e.key === " ";
 
 const Review8_Page1_Q1 = () => {
+  const completedCheckRef = useRef(null);
+  const completeCheck = (event) => {
+    const button = event?.currentTarget;
+    if (!completedCheckRef.current || (button?.style && completedCheckRef.current.button !== button)) {
+      completedCheckRef.current = { button, cursor: button?.style?.cursor, aria: button?.getAttribute?.("aria-disabled") };
+    }
+    if (button?.style) {
+      button.style.cursor = "not-allowed";
+      button.setAttribute("aria-disabled", "true");
+    }
+  };
+  const resetCompletedCheck = () => {
+    const previous = completedCheckRef.current;
+    if (previous?.button?.style) {
+      previous.button.style.cursor = previous.cursor || "";
+      if (previous.aria == null) previous.button.removeAttribute("aria-disabled");
+      else previous.button.setAttribute("aria-disabled", previous.aria);
+    }
+    completedCheckRef.current = null;
+  };
+
   const I_answers = ["I have pants.", "I have a cap.", "I have shorts."];
 
   const She_answers = ["She has skirts.", "She has a hat.", "She has a scarf."];
@@ -323,7 +344,9 @@ const Review8_Page1_Q1 = () => {
     setWrongSlots([]);
     setAnnouncement("All correct answers shown and locked.");
   };
-  const checkAnswers = () => {
+  const checkAnswers = (checkEvent) => {
+    if (completedCheckRef.current) { completeCheck(checkEvent); return; }
+
     if (locked) return;
     clearTransientState();
     const total = Object.keys(blanks).length;
@@ -362,7 +385,7 @@ const Review8_Page1_Q1 = () => {
     );
     const color = score === total ? "green" : score === 0 ? "red" : "orange";
     const msg = `<div style="font-size:20px;text-align:center;"><span style="color:${color};font-weight:bold">Score: ${score} / ${total}</span></div>`;
-    if (score === total) ValidationAlert.success(msg);
+    if (score === total) (completeCheck(checkEvent), ValidationAlert.success(msg));
     else if (score === 0) ValidationAlert.error(msg);
     else ValidationAlert.warning(msg);
   };
@@ -637,7 +660,7 @@ const Review8_Page1_Q1 = () => {
           {/* BUTTONS */}
 
           <div className="action-buttons-container mt-10">
-            <button type="button" onClick={reset} className="try-again-button">
+            <button type="button" onClick={(checkEvent) => { resetCompletedCheck(); (reset)(checkEvent); }} className="try-again-button">
               Start Again ↻
             </button>
 

@@ -248,6 +248,27 @@ const wordsData = [
 ];
 
 const Review7_Page2_Q2 = () => {
+  const completedCheckRef = useRef(null);
+  const completeCheck = (event) => {
+    const button = event?.currentTarget;
+    if (!completedCheckRef.current || (button?.style && completedCheckRef.current.button !== button)) {
+      completedCheckRef.current = { button, cursor: button?.style?.cursor, aria: button?.getAttribute?.("aria-disabled") };
+    }
+    if (button?.style) {
+      button.style.cursor = "not-allowed";
+      button.setAttribute("aria-disabled", "true");
+    }
+  };
+  const resetCompletedCheck = () => {
+    const previous = completedCheckRef.current;
+    if (previous?.button?.style) {
+      previous.button.style.cursor = previous.cursor || "";
+      if (previous.aria == null) previous.button.removeAttribute("aria-disabled");
+      else previous.button.setAttribute("aria-disabled", previous.aria);
+    }
+    completedCheckRef.current = null;
+  };
+
   const [selected, setSelected] = useState([]);
   const [locked, setLocked] = useState(false);
 
@@ -380,7 +401,9 @@ const Review7_Page2_Q2 = () => {
     );
   };
 
-  const checkAnswers = () => {
+  const checkAnswers = (checkEvent) => {
+    if (completedCheckRef.current) { completeCheck(checkEvent); return; }
+
     if (locked) return;
     stopAudio();
     if (selected.length === 0) {
@@ -408,7 +431,7 @@ const Review7_Page2_Q2 = () => {
       </div>
     `;
 
-    if (userCorrect === correctCount) ValidationAlert.success(msg);
+    if (userCorrect === correctCount) (completeCheck(checkEvent), ValidationAlert.success(msg));
     else if (userCorrect === 0) ValidationAlert.error(msg);
     else ValidationAlert.warning(msg);
 
@@ -605,7 +628,7 @@ const Review7_Page2_Q2 = () => {
 
         {/* Buttons */}
         <div className="action-buttons-container">
-          <button type="button" onClick={resetAll} className="try-again-button">
+          <button type="button" onClick={(checkEvent) => { resetCompletedCheck(); (resetAll)(checkEvent); }} className="try-again-button">
             Start Again ↻
           </button>
 

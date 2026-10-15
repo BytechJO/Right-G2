@@ -113,6 +113,27 @@ const pauseOtherAudio = () => {
 };
 
 export default function Unit3_Page5_Q2() {
+  const completedCheckRef = useRef(null);
+  const completeCheck = (event) => {
+    const button = event?.currentTarget;
+    if (!completedCheckRef.current || (button?.style && completedCheckRef.current.button !== button)) {
+      completedCheckRef.current = { button, cursor: button?.style?.cursor, aria: button?.getAttribute?.("aria-disabled") };
+    }
+    if (button?.style) {
+      button.style.cursor = "not-allowed";
+      button.setAttribute("aria-disabled", "true");
+    }
+  };
+  const resetCompletedCheck = () => {
+    const previous = completedCheckRef.current;
+    if (previous?.button?.style) {
+      previous.button.style.cursor = previous.cursor || "";
+      if (previous.aria == null) previous.button.removeAttribute("aria-disabled");
+      else previous.button.setAttribute("aria-disabled", previous.aria);
+    }
+    completedCheckRef.current = null;
+  };
+
   const [answers, setAnswers] = useState({});
   const [score, setScore] = useState(null);
   const [locked, setLocked] = useState({}); // 🔒 { qId: [قيم الصور الصح المقفولة] }
@@ -227,7 +248,9 @@ export default function Unit3_Page5_Q2() {
 
   /* ================= CHECK ================= */
 
-  const handleCheck = () => {
+  const handleCheck = (checkEvent) => {
+    if (completedCheckRef.current) { completeCheck(checkEvent); return; }
+
     // بعد Show Answer أو بعد ما كل شي صح: ما في شي نعمله
     if (disabled) return;
 
@@ -317,7 +340,7 @@ export default function Unit3_Page5_Q2() {
 
     // إظهار نوع النتيجة
     if (correctCount === total) {
-      ValidationAlert.success(scoreMessage);
+      (completeCheck(checkEvent), ValidationAlert.success(scoreMessage));
     } else if (correctCount === 0) {
       ValidationAlert.error(scoreMessage);
     } else {
@@ -513,7 +536,7 @@ export default function Unit3_Page5_Q2() {
         <button
           type="button"
           className="try-again-button"
-          onClick={handleReset}
+          onClick={(checkEvent) => { resetCompletedCheck(); (handleReset)(checkEvent); }}
         >
           Start Again ↻
         </button>
