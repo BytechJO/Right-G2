@@ -1,4 +1,11 @@
-import { useState, useRef, useLayoutEffect } from "react";
+/* eslint-disable react-refresh/only-export-components -- Exercise-local controls preserve the shared components. */
+import ExerciseHeader from "../../ExerciseHeader";
+import { playGlobalAudio, stopGlobalAudio } from "../../audioManager";
+import { FaVolumeUp } from "react-icons/fa";
+import sound0 from "../../../assets/audio/WorkBook/Unit 4/Page 21 - A/Item_001_I_am_a_clerk.mp3";
+import sound1 from "../../../assets/audio/WorkBook/Unit 4/Page 21 - A/Item_002_I_am_a_farmer.mp3";
+import sound2 from "../../../assets/audio/WorkBook/Unit 4/Page 21 - A/Item_003_I_am_a_chef.mp3";
+import React, { useState, useRef, useEffect } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../Button";
 import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page21/Asset 38.svg";
@@ -8,177 +15,598 @@ import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U4 Folder/Page21
 // بيانات التمرين
 const exerciseData = {
   right: [
-    { id: 1, img: img1 },
-    { id: 2, img: img2 },
-    { id: 3, img: img3 },
+    {
+      id: 1,
+      img: img1,
+    },
+    {
+      id: 2,
+      img: img2,
+    },
+    {
+      id: 3,
+      img: img3,
+    },
   ],
   left: [
-    { id: 1, text: "I am a clerk." },
-    { id: 2, text: "I am a farmer." },
-    { id: 3, text: "I am a chef." },
+    {
+      id: 1,
+      text: "I am a clerk.",
+    },
+    {
+      id: 2,
+      text: "I am a farmer.",
+    },
+    {
+      id: 3,
+      text: "I am a chef.",
+    },
   ],
-  correctMatches: { 1: 2, 2: 3, 3: 1 }, // leftId -> rightId
+  correctMatches: {
+    1: 2,
+    2: 3,
+    3: 1,
+  }, // leftId -> rightId
 };
-
-const WB_Unit4_Page21_Q1 = () => {
-  const [selectedLeft, setSelectedLeft] = useState(null);
-  const [matches, setMatches] = useState({});
-  const [showResults, setShowResults] = useState(false);
-
-  const [selectedRight, setSelectedRight] = useState(null); // ⭐ جديد
-  const [lines, setLines] = useState([]);
-  const containerRef = useRef(null);
-  const elementRefs = useRef({});
-
-  // Hook لرسم وتحديث الخطوط
-  useLayoutEffect(() => {
-    const updateLines = () => {
-      if (!containerRef.current) return;
-      const containerRect = containerRef.current.getBoundingClientRect();
-
-      const newLines = Object.entries(matches)
-        .map(([leftId, rightId]) => {
-          const leftEl = elementRefs.current[`left-${leftId}`];
-          const rightEl = elementRefs.current[`right-${rightId}`];
-
-          if (leftEl && rightEl) {
-            const leftRect = leftEl.getBoundingClientRect();
-            const rightRect = rightEl.getBoundingClientRect();
-
-            return {
-              id: `${leftId}-${rightId}`,
-              x1: leftRect.right - containerRect.left,
-              y1: leftRect.top + leftRect.height / 2 - containerRect.top,
-              x2: rightRect.left - containerRect.left,
-              y2: rightRect.top + rightRect.height / 2 - containerRect.top,
-            };
-          }
-          return null;
-        })
-        .filter(Boolean);
-
-      setLines(newLines);
-    };
-
-    updateLines();
-    window.addEventListener("resize", updateLines);
-    return () => window.removeEventListener("resize", updateLines);
-  }, [matches]);
-
-  // منطق التعامل مع النقرات
-  const handleLeftClick = (id) => {
-    if (showResults) return;
-    setSelectedLeft(id);
+const IMAGE_DESCRIPTIONS = {
+  [img1]: "A person holding a covered tray beside a stove.",
+  [img2]: "A woman at a cash register in a shop.",
+  [img3]: "A man holding baskets of vegetables.",
+};
+const focusClass =
+  "focus-visible:outline-solid! focus-visible:outline-4! focus-visible:outline-[#2563eb]! focus-visible:outline-offset-4!";
+const SpeakerBadge = () => (
+  <span
+    aria-hidden="true"
+    style={{
+      position: "absolute",
+      top: -10,
+      right: -10,
+      width: 22,
+      height: 22,
+      borderRadius: "50%",
+      background: "white",
+      color: "black",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      pointerEvents: "none",
+      zIndex: 3,
+      boxShadow: "0 1px 3px rgba(0,0,0,.25)",
+    }}
+  >
+    <FaVolumeUp size={12} />
+  </span>
+);
+const activate = (e) => {
+  if (e.key !== "Enter" && e.key !== " ") return;
+  e.preventDefault();
+  e.stopPropagation();
+  if (!e.repeat) e.currentTarget.click();
+};
+const release = (e) => {
+  if (e.key === "Enter" || e.key === " ") {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+};
+function useExerciseAudio() {
+  const rootRef = useRef(null),
+    ownerRef = useRef(Symbol("workbook-exercise")),
+    tokenRef = useRef(0);
+  const [playingKey, setPlayingKey] = useState(null);
+  const stopAudio = () => {
+    tokenRef.current++;
+    stopGlobalAudio(ownerRef.current);
+    setPlayingKey(null);
   };
-  const isWrongMatch = (leftId) => {
-    if (!showResults) return false;
-
-    // إذا ما في توصيل لا نعرض شيء
-    if (!matches[leftId]) return false;
-
-    return matches[leftId] !== exerciseData.correctMatches[leftId];
-  };
-  const handleRightClick = (rightId) => {
-    if (selectedLeft !== null) {
-      const newMatches = { ...matches };
-
-      Object.keys(newMatches).forEach((key) => {
-        if (newMatches[key] === rightId) {
-          delete newMatches[key];
-        }
+  const playSound = (key, src) => {
+    if (!src) return;
+    stopAudio();
+    rootRef.current
+      ?.querySelectorAll("audio")
+      .forEach((audio) => audio.pause());
+    const token = tokenRef.current;
+    setPlayingKey(key);
+    try {
+      playGlobalAudio(src, {
+        owner: ownerRef.current,
+        onFinish: () => {
+          if (tokenRef.current === token) setPlayingKey(null);
+        },
       });
-
-      setMatches({ ...newMatches, [selectedLeft]: rightId });
-
-      setSelectedRight(rightId); // ⭐ تحديد الصورة
-
-      // ⭐ إزالة الإيفكت بعد التوصيل
-      setTimeout(() => {
-        setSelectedLeft(null);
-        setSelectedRight(null);
-      }, 100);
+    } catch {
+      stopAudio();
     }
   };
-
-  // منطق التحقق والأزرار
+  useEffect(() => {
+    const tokenState = tokenRef,
+      owner = ownerRef.current;
+    const onPlay = (e) => {
+      if (e.target?.tagName !== "AUDIO") return;
+      tokenRef.current++;
+      stopGlobalAudio(ownerRef.current);
+      setPlayingKey(null);
+    };
+    document.addEventListener("play", onPlay, true);
+    return () => {
+      document.removeEventListener("play", onPlay, true);
+      tokenState.current++;
+      stopGlobalAudio(owner);
+    };
+  }, []);
+  return {
+    rootRef,
+    playingKey,
+    playSound,
+    stopAudio,
+  };
+}
+const AudioText = ({
+  children,
+  audioKey,
+  label,
+  src,
+  playSound,
+  playingKey,
+  className = "",
+  style = {},
+  tabIndex = 0,
+}) => {
+  if (!src)
+    return (
+      <span className={className} style={style}>
+        {children}
+      </span>
+    );
+  return (
+    <span
+      role="button"
+      tabIndex={tabIndex}
+      aria-label={label || String(children) + ". Hear it."}
+      className={className + " " + focusClass}
+      onClick={() => playSound(audioKey, src)}
+      onKeyDown={activate}
+      onKeyUp={release}
+      style={{
+        borderRadius: "8px",
+        ...style,
+        position: "relative",
+        cursor: "pointer",
+        ...(playingKey === audioKey
+          ? {
+              boxShadow: "0 0 0 3px #2563eb",
+              backgroundColor: "#dbeafe",
+            }
+          : {}),
+      }}
+    >
+      {children}
+      {playingKey === audioKey && <SpeakerBadge />}
+    </span>
+  );
+};
+function useCheckButton(rootRef, checkDisabled) {
+  useEffect(() => {
+    const button = rootRef.current?.querySelector(".check-button2");
+    if (!button) return;
+    button.disabled = checkDisabled;
+    button.style.cursor = checkDisabled ? "not-allowed" : "";
+    button.setAttribute("aria-disabled", String(checkDisabled));
+  }, [rootRef, checkDisabled]);
+}
+function showCheckFeedback(root, kind, ...messages) {
+  if (kind === "success") {
+    const returnTarget =
+      root?.querySelector(".try-again-button:not(:disabled)") ||
+      root?.querySelector(".show-answer-btn:not(:disabled)");
+    returnTarget?.focus({
+      preventScroll: true,
+    });
+  }
+  ValidationAlert[kind](...messages);
+}
+const SOUNDS = {
+  "i am a clerk": sound0,
+  "i am a farmer": sound1,
+  "i am a chef": sound2,
+};
+const soundFor = (text) =>
+  SOUNDS[
+    String(text)
+      .toLowerCase()
+      .replace(/[.,!?]/g, "")
+      .trim()
+  ];
+function useMatching(correct, imageOrder, textSide = "left") {
+  const [matches, setMatches] = useState({}),
+    [results, setResults] = useState({}),
+    [source, setSource] = useState(null),
+    [preview, setPreview] = useState(null),
+    [revealed, setRevealed] = useState(false),
+    [message, setMessage] = useState("");
+  const containerRef = useRef(null),
+    leftDots = useRef({}),
+    rightDots = useRef({}),
+    leftRefs = useRef({}),
+    rightRefs = useRef({}),
+    frame = useRef(null);
+  const [, setGeometry] = useState(0),
+    refresh = () => setGeometry((v) => v + 1),
+    ids = Object.keys(correct),
+    rightIds = imageOrder.map(String);
+  const locked = (side, id) =>
+    revealed ||
+    (side === "left"
+      ? results[id] === "correct"
+      : Object.entries(matches).some(
+          ([left, right]) =>
+            String(right) === String(id) && results[left] === "correct",
+        ));
+  const cancelFocus = () => {
+    if (frame.current !== null) cancelAnimationFrame(frame.current);
+    frame.current = null;
+  };
+  const focus = (side, id) => {
+    cancelFocus();
+    frame.current = requestAnimationFrame(() => {
+      frame.current = null;
+      (side === "left" ? leftRefs : rightRefs).current[id]?.focus();
+    });
+  };
+  useEffect(() => {
+    const observer =
+      typeof ResizeObserver === "undefined"
+        ? null
+        : new ResizeObserver(refresh);
+    if (containerRef.current) observer?.observe(containerRef.current);
+    window.addEventListener("resize", refresh);
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener("resize", refresh);
+      if (frame.current !== null) cancelAnimationFrame(frame.current);
+    };
+  }, []);
+  useEffect(() => {
+    const id = requestAnimationFrame(refresh);
+    return () => cancelAnimationFrame(id);
+  }, [matches, source, preview]);
+  const cancel = () => {
+    cancelFocus();
+    setSource(null);
+    setPreview(null);
+    setMessage("Connection cancelled.");
+  };
+  const choose = (side, id, keyboard = false) => {
+    id = String(id);
+    if (locked(side, id)) return;
+    if (!source || source.side === side) {
+      if (source?.side === side && source.id === id) {
+        cancel();
+        return;
+      }
+      setSource({
+        side,
+        id,
+      });
+      setPreview(null);
+      setMessage("Selected. Choose an endpoint on the opposite side.");
+      if (keyboard) {
+        const other = side === "left" ? "right" : "left",
+          next = (other === "left" ? ids : rightIds).find(
+            (id) => !locked(other, id),
+          );
+        if (next !== undefined) focus(other, next);
+      }
+      return;
+    }
+    const left = side === "left" ? id : source.id,
+      right = side === "right" ? id : source.id;
+    if (locked("left", left) || locked("right", right)) return;
+    const next = {
+        ...matches,
+      },
+      affected = [left];
+    for (const [previous, value] of Object.entries(next))
+      if (String(value) === right && previous !== left) {
+        if (locked("left", previous)) return;
+        delete next[previous];
+        affected.push(previous);
+      }
+    next[left] = right;
+    setMatches(next);
+    setResults((prev) =>
+      Object.fromEntries(
+        Object.entries(prev).filter(([id]) => !affected.includes(id)),
+      ),
+    );
+    setSource(null);
+    setPreview(null);
+    setMessage("Pair connected.");
+    if (keyboard) {
+      const nextId = (textSide === "left" ? ids : rightIds).find(
+        (id) => !locked(textSide, id),
+      );
+      if (nextId) focus(textSide, nextId);
+    }
+  };
+  const endpointProps = (side, id, label) => ({
+    role: "button",
+    tabIndex: source && (source.side === side || locked(side, id)) ? -1 : 0,
+    "aria-label":
+      label +
+      (locked(side, id) ? ". Correct and locked." : ". Matching endpoint."),
+    "aria-disabled": locked(side, id),
+    "aria-pressed": source?.side === side && source.id === String(id),
+    onKeyDown: (e) => {
+      if (e.key === "Escape" && source) {
+        e.preventDefault();
+        e.stopPropagation();
+        cancel();
+        return;
+      }
+      if (["ArrowDown", "ArrowRight", "ArrowUp", "ArrowLeft"].includes(e.key)) {
+        e.preventDefault();
+        e.stopPropagation();
+        const list = side === "left" ? ids : rightIds,
+          step = e.key === "ArrowUp" || e.key === "ArrowLeft" ? -1 : 1;
+        for (let n = 1; n <= list.length; n++) {
+          const next =
+            list[
+              (list.indexOf(String(id)) + step * n + list.length) % list.length
+            ];
+          if (!locked(side, next)) {
+            focus(side, next);
+            break;
+          }
+        }
+        return;
+      }
+      if (e.key !== "Enter" && e.key !== " ") return;
+      e.preventDefault();
+      e.stopPropagation();
+      if (!e.repeat) choose(side, id, true);
+    },
+    onKeyUp: release,
+    onFocus: () => {
+      if (source && source.side !== side && !locked(side, id))
+        setPreview({
+          side,
+          id: String(id),
+        });
+    },
+    onMouseEnter: () => {
+      if (source && source.side !== side && !locked(side, id))
+        setPreview({
+          side,
+          id: String(id),
+        });
+    },
+    onMouseLeave: () => setPreview(null),
+    style: {
+      position: "relative",
+      borderRadius: "8px",
+      ...(source?.side === side && source.id === String(id)
+        ? {
+            outline: "3px solid #2563eb",
+            backgroundColor: "#dbeafe",
+            outlineOffset: 2,
+          }
+        : {}),
+      ...(locked(side, id)
+        ? {
+            boxShadow: "inset 0 0 0 2px #16a34a",
+          }
+        : {}),
+    },
+  });
+  const point = (side, id) => {
+    const el = (side === "left" ? leftDots : rightDots).current[id],
+      root = containerRef.current;
+    if (!el || !root) return null;
+    const r = el.getBoundingClientRect(),
+      c = root.getBoundingClientRect();
+    return {
+      x:
+        ((side === "left" ? r.right : r.left) - c.left) /
+        (root.clientWidth ? c.width / root.clientWidth : 1),
+      y:
+        (r.top + r.height / 2 - c.top) /
+        (root.clientHeight ? c.height / root.clientHeight : 1),
+    };
+  };
+  const line = (left, right) => {
+    const a = point("left", left),
+      b = point("right", right);
+    return a && b
+      ? {
+          left,
+          x1: a.x,
+          y1: a.y,
+          x2: b.x,
+          y2: b.y,
+        }
+      : null;
+  };
+  const lines = Object.entries(matches)
+    .map(([left, right]) => line(left, right))
+    .filter(Boolean);
+  const previewLine =
+    source && preview && source.side !== preview.side
+      ? line(
+          source.side === "left" ? source.id : preview.id,
+          source.side === "right" ? source.id : preview.id,
+        )
+      : null;
+  const evaluate = () => {
+    cancel();
+    const next = Object.fromEntries(
+      ids.map((id) => [
+        id,
+        results[id] === "correct" || String(matches[id]) === String(correct[id])
+          ? "correct"
+          : "wrong",
+      ]),
+    );
+    setResults(next);
+    return next;
+  };
+  const show = () => {
+    cancel();
+    setMatches(
+      Object.fromEntries(
+        Object.entries(correct).map(([left, right]) => [left, String(right)]),
+      ),
+    );
+    setResults(Object.fromEntries(ids.map((id) => [id, "correct"])));
+    setRevealed(true);
+    setMessage("Correct connections shown and locked.");
+  };
+  const reset = () => {
+    cancel();
+    setMatches({});
+    setResults({});
+    setRevealed(false);
+    setMessage("Exercise reset.");
+  };
+  return {
+    matches,
+    results,
+    source,
+    preview,
+    revealed,
+    message,
+    setMessage,
+    containerRef,
+    leftDots,
+    rightDots,
+    leftRefs,
+    rightRefs,
+    choose,
+    endpointProps,
+    lines,
+    previewLine,
+    evaluate,
+    show,
+    reset,
+    cancel,
+    cancelFocus,
+    locked,
+    refresh,
+  };
+}
+const WB_Unit4_Page21_Q1 = () => {
+  const match = useMatching(
+    exerciseData.correctMatches,
+    exerciseData.right.map((item) => item.id),
+  );
+  const { rootRef, playingKey, playSound, stopAudio } = useExerciseAudio();
+  const message = match.message,
+    containerRef = match.containerRef;
+  const matches = match.matches,
+    lines = match.lines.map((l) => ({
+      ...l,
+      id: l.left + "-" + matches[l.left],
+    }));
+  const selectedLeft =
+      match.source?.side === "left" ? Number(match.source.id) : null,
+    selectedRight =
+      match.source?.side === "right" ? Number(match.source.id) : null;
+  const complete = Object.keys(exerciseData.correctMatches).every(
+    (id) => match.results[id] === "correct",
+  );
+  useCheckButton(rootRef, complete || match.revealed);
+  const isWrongMatch = (id) => match.results[id] === "wrong";
+  const getLineColor = (id) =>
+    match.results[id.split("-")[0]] === "correct" ? "#16a34a" : "#ef4444";
+  const getDotColor = (side, id) =>
+    match.locked(side, id) ? "bg-green-600" : "bg-[#eb533c]";
+  const handleLeftClick = (id) => {
+    const item = exerciseData.left.find((item) => item.id === id);
+    playSound("text-" + id, soundFor(item.text));
+    match.choose("left", id);
+  };
+  const handleRightClick = (id) => match.choose("right", id);
+  const endpoint = (side, item) => {
+    const props = match.endpointProps(
+      side,
+      item.id,
+      side === "left" ? item.text : IMAGE_DESCRIPTIONS[item.img],
+    );
+    return {
+      ...props,
+      onClick: () =>
+        side === "left" ? handleLeftClick(item.id) : handleRightClick(item.id),
+      onKeyDown: (e) => {
+        if (side === "left" && ["Enter", " "].includes(e.key) && !e.repeat)
+          playSound("text-" + item.id, soundFor(item.text));
+        props.onKeyDown(e);
+      },
+      style: {
+        ...props.style,
+        ...(side === "left" && playingKey === "text-" + item.id
+          ? {
+              outline: "3px solid #2563eb",
+              outlineOffset: 2,
+              backgroundColor: "#dbeafe",
+            }
+          : {}),
+      },
+    };
+  };
   const checkAnswers = () => {
-    if (showResults) return;
-    const totalQuestions = exerciseData.left.length;
-
-    // 🔴 تحقق إنو كل العناصر متوصلة
-    const allConnected = exerciseData.left.every((item) => matches[item.id]);
-
-    if (!allConnected) {
+    if (complete || match.revealed) return;
+    stopAudio();
+    match.cancel();
+    if (exerciseData.left.some((item) => !matches[item.id])) {
+      match.setMessage("Please connect all items first.");
       ValidationAlert.info("Please connect all items first.");
       return;
     }
-
-    // بعدين نكمل التصحيح
-    setShowResults(true);
-
-    let currentScore = 0;
-
-    Object.keys(exerciseData.correctMatches).forEach((leftId) => {
-      if (matches[leftId] === exerciseData.correctMatches[leftId]) {
-        currentScore++;
-      }
-    });
-
-    if (currentScore === totalQuestions) {
-      ValidationAlert.success(`Score: ${currentScore} / ${totalQuestions}`);
-    } else if (currentScore > 0) {
-      ValidationAlert.warning(`Score: ${currentScore} / ${totalQuestions}`);
-    } else {
-      ValidationAlert.error(`Score: ${currentScore} / ${totalQuestions}`);
-    }
+    const next = match.evaluate(),
+      score = Object.values(next).filter((v) => v === "correct").length,
+      total = exerciseData.left.length;
+    match.setMessage(
+      "Score " + score + " out of " + total + ". Correct pairs are locked.",
+    );
+    showCheckFeedback(
+      rootRef.current,
+      score === total ? "success" : score ? "warning" : "error",
+      "Score: " + score + " / " + total,
+    );
   };
-
   const handleShowAnswer = () => {
-    setMatches(exerciseData.correctMatches);
-    setShowResults(true);
-  };
-
-  const handleStartAgain = () => {
-    setMatches({});
-    setSelectedLeft(null);
-    setShowResults(false);
-    setLines([]);
-  };
-
-  // دوال تحديد الألوان
-  const getLineColor = (lineId) => {
-    if (!showResults) return "red";
-    const [leftId] = lineId.split("-");
-    const isCorrect = matches[leftId] === exerciseData.correctMatches[leftId];
-    return isCorrect ? "#ef4444" : "#ef4444";
-  };
-
-  const getDotColor = (side, id) => {
-    if (side === "left" && selectedLeft === id) return "bg-red-600 scale-125";
-
-    const isConnected =
-      side === "left" ? !!matches[id] : Object.values(matches).includes(id);
-    if (!isConnected) return "bg-[#eb533c]";
-
-    if (showResults) {
-      const leftId =
-        side === "left"
-          ? id
-          : Object.keys(matches).find((key) => matches[key] === id);
-      if (!leftId) return "bg-red-600";
-      const isCorrect = matches[leftId] === exerciseData.correctMatches[leftId];
-      return isCorrect ? "bg-[#eb533c]" : "bg-[#eb533c]";
-    }
-
-    return "bg-[#eb533c]";
-  };
-
+      stopAudio();
+      match.show();
+    },
+    handleStartAgain = () => {
+      stopAudio();
+      match.reset();
+    };
   return (
-    <div className="main-container-component">
-      <div className="div-forall"  style={{gap:"40px"}}>
-        <h1 className="WB-header-title-page8">
-          <span className="WB-ex-A">A</span>Look, read, and match.
-        </h1>
+    <div className="main-container-component" ref={rootRef}>
+      <div
+        className="sr-only"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        {message}
+      </div>
+      <div
+        className="div-forall"
+        style={{
+          gap: "40px",
+        }}
+      >
+        <ExerciseHeader
+          isWorkbook
+          sectionLetter="A"
+          title={<>Look, read, and match.</>}
+          subTitle={
+            "Start with one picture or phrase, then connect it to the matching jobs and wants partner"
+          }
+        />
 
         <div
           ref={containerRef}
@@ -193,20 +621,20 @@ const WB_Unit4_Page21_Q1 = () => {
               >
                 <div className="w-35">
                   <p
-                    onClick={() => handleLeftClick(item.id)}
-                    className={`text-xl cursor-pointer transition active:scale-105
-    ${
-      selectedLeft === item.id
-        ? "text-red-600 underline"
-        : "text-gray-700 hover:text-blue-600"
-    }
+                    {...endpoint("left", item)}
+                    ref={(el) => {
+                      match.leftRefs.current[item.id] = el;
+                    }}
+                    className={`${focusClass} text-xl cursor-pointer transition active:scale-105
+    ${selectedLeft === item.id ? "text-gray-700" : "text-gray-700 hover:text-blue-600"}
   `}
                   >
                     {item.text}
+                    {playingKey === "text-" + item.id && <SpeakerBadge />}
                   </p>
                 </div>
                 <div
-                  ref={(el) => (elementRefs.current[`left-${item.id}`] = el)}
+                  ref={(el) => (match.leftDots.current[item.id] = el)}
                   onClick={() => handleLeftClick(item.id)}
                   className={`w-5 h-5 rounded-full cursor-pointer transition-all ${getDotColor("left", item.id)}`}
                 />
@@ -223,29 +651,44 @@ const WB_Unit4_Page21_Q1 = () => {
             {exerciseData.right.map((item) => (
               <div key={item.id} className="flex items-center gap-6">
                 <div
-                  ref={(el) => (elementRefs.current[`right-${item.id}`] = el)}
+                  ref={(el) => (match.rightDots.current[item.id] = el)}
                   onClick={() => handleRightClick(item.id)}
                   className={`w-5 h-5 rounded-full cursor-pointer transition-all ${getDotColor("right", item.id)}`}
                 />
                 <img
                   src={item.img}
-                  alt={`Person ${item.id}`}
-                  onClick={() => handleRightClick(item.id)}
-                  className={`object-contain rounded-lg shadow-sm cursor-pointer transition
-    ${
-      selectedRight === item.id
-        ? "border-2 border-red-600 scale-95 shadow-lg"
-        : "hover:scale-105 active:scale-105"
-    }
+                  alt={IMAGE_DESCRIPTIONS[item.img]}
+                  {...endpoint("right", item)}
+                  ref={(el) => {
+                    match.rightRefs.current[item.id] = el;
+                  }}
+                  onLoad={match.refresh}
+                  className={`${focusClass} object-contain rounded-lg shadow-sm cursor-pointer transition
+    ${selectedRight === item.id ? "border-2 border-red-600 scale-95 shadow-lg" : "hover:scale-105 active:scale-105"}
   `}
-                  style={{ height: "120px", width: "auto" }}
+                  style={{
+                    ...endpoint("right", item).style,
+                    height: "120px",
+                    width: "auto",
+                  }}
                 />
               </div>
             ))}
           </div>
 
           {/* SVG Container for Lines */}
-          <svg className="absolute top-0 left-0 w-full h-full pointer-events-none">
+          <svg
+            aria-hidden="true"
+            className="absolute top-0 left-0 w-full h-full pointer-events-none"
+          >
+            {match.previewLine && (
+              <line
+                {...match.previewLine}
+                stroke="#2563eb"
+                strokeWidth="3"
+                strokeDasharray="6 4"
+              />
+            )}
             {lines.map((line) => (
               <line
                 key={line.id}
@@ -270,5 +713,4 @@ const WB_Unit4_Page21_Q1 = () => {
     </div>
   );
 };
-
 export default WB_Unit4_Page21_Q1;

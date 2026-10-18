@@ -449,3 +449,60 @@ instructions take precedence; keep Matching separate from the other patterns.
   and speaker lifecycle, and Show Answer/Start Again. Run appropriate lint/build
   checks and report limitations. Handler checks are not real browser/touch/audio
   or visual verification; never claim an unverified check passed.
+
+# Clock Hands — ضبط عقارب الساعة
+
+User-provided interaction reference:
+`src/component/StudentPages/unit6/Unit6_Page6_Q1.jsx`, component
+`Unit6_Page6_Q1`. Read the active implementation; the file also contains an
+older commented-out implementation. Use this pattern when the user requests
+Clock Hands, ضبط عقارب الساعة, or an exercise based on this reference.
+Do not migrate other exercises merely because this reference was registered.
+
+- This is a clock-hand positioning activity: the student sets the hour and
+  minute hands to match a sentence. Keep it separate from freehand drawing with
+  Pen/Eraser/Undo/Clear and from numeric-only time entry. In particular, the
+  independently approved numeric-only grading and ungraded freehand drawing in
+  `WB_Unit6_Page35_Q2.jsx` remain unchanged unless the user requests conversion.
+- Preserve the target's own sentences, recordings, images, book colors, clock
+  appearance, dimensions, arrangement and existing mouse/touch concept. Adapt
+  the interaction locally; do not copy the reference's content or redesign the
+  target. Use ExerciseHeader with the target's own title and book theme.
+- Provide separate accessible hour/minute hand controls (slider semantics,
+  current values and descriptions), with visible rounded keyboard focus and
+  practical pointer hit areas. Tab/Shift+Tab reach the hands in logical order;
+  arrows adjust the focused hand, Enter/Space advance it once, and
+  Backspace/Delete reset an editable clock following this reference. Prevent
+  repeated Enter/Space activation and conflicts with global keyboard handlers.
+- Pointer input supports mouse, touch and pen, scoped pointer capture and
+  pointer identity. Prevent accidental scrolling during manipulation, handle
+  cancellation/lost capture/cleanup safely, and never let a second pointer
+  hijack a pending drag. Account for Book scaling when converting coordinates.
+  Keep overlapping hands independently reachable. The hour hand reflects the
+  minute offset as on a real clock.
+- Adapt snapping to the target's time data. This reference advances hours by
+  one and minutes by 30, and starts at 12:00 with touched=false. Its digital
+  time is read-only and shows --:-- until adjusted. Do not assume every future
+  target uses half-hour steps or accepts this initial time as an answer.
+- Grade the semantic hour/minute values, never pixel accuracy or stroke shape.
+  Require all clocks to be set before checking. Lock each correctly checked
+  clock individually with green feedback; incorrect clocks remain editable,
+  and changing one clears only its outdated error. Preserve prior correct locks
+  through rechecking. Listening to a sentence never changes or unlocks a clock.
+- Use verified sentence audio with click/touch and Enter/Space playback, a
+  speaker indicator and the established playback effect. Keyboard-visible
+  sentence focus may listen; suppress audio during programmatic focus moves.
+  Guard stale audio callbacks and stop overlap, errors and owned playback on
+  check/reveal/reset/unmount according to the shared audio rules above.
+- Show Answer positions all hands correctly, uses green feedback and locks
+  changes without awarding an earned score. Start Again clears times/touched
+  flags, locks, errors, announcements of previous results, pending pointer/focus
+  work and owned playback. Apply the current native Check Answer disabling and
+  popup focus-return rules above; do not inherit omissions from an older
+  reference implementation. Do not add custom focus styling to action buttons.
+- Prefer changes only to the requested exercise JSX. Do not modify the
+  reference, CSS, shared clock/audio components or global styles without
+  authorization. Verify keyboard steps/wrapping, pointer capture/cancellation,
+  independent locks, partial correction/rechecking, audio, reveal/reset and
+  repeated successful checking, and run targeted lint/build checks. Distinguish
+  handler simulations from actual browser/device, visual and audible checks.
