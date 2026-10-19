@@ -837,7 +837,7 @@ export default function WB_Unit5_Page32_Q3() {
               }}
               className="WB-word-bank bg-white shadow-lg"
             >
-              {activeItem.word}
+              {activeItem}
             </div>
           ) : null}
         </DragOverlay>,

@@ -664,12 +664,24 @@ const WB_Unit2_Page14_Q2 = () => {
   return (
     <DndContext
       sensors={sensors}
-      onDragStart={({ active }) => {
-        interaction.dragStart();
-        setDragWord(String(active.id));
-        const r = active.rect.current.initial;
-        setDragSize(r ? { width: r.width, height: r.height } : null);
-      }}
+      onDragStart={({
+  active
+}) => {
+  interaction.dragStart();
+  setDragWord(String(active.id));
+  const r = active.rect.current.initial;
+  const node = interaction.bankRefs.current[String(active.id)];
+  const computed = node && window.getComputedStyle(node);
+  const scale = node?.offsetWidth && r ? r.width / node.offsetWidth : 1;
+  const dragTypography = computed ? {
+    fontSize: parseFloat(computed.fontSize) * scale, fontFamily:computed.fontFamily,fontWeight:computed.fontWeight,color:computed.color,...(Number.isFinite(parseFloat(computed.lineHeight))?{lineHeight:parseFloat(computed.lineHeight)*scale}:{})
+  } : {};
+  setDragSize(r ? {
+    width: r.width,
+    height: r.height,
+    ...dragTypography
+  } : null);
+}}
       onDragCancel={() => setDragWord(null)}
       onDragEnd={handleDragEnd}
       collisionDetection={closestCenter}
@@ -761,21 +773,20 @@ const WB_Unit2_Page14_Q2 = () => {
       </div>
       {createPortal(
         <DragOverlay dropAnimation={null} zIndex={2147483647}>
-          {dragWord ? (
-            <div
-              className="WB-word-bank"
-              style={{
-                ...dragSize,
-                boxSizing: "border-box",
-                cursor: "grabbing",
-              }}
-            >
+          {dragWord ? <div className="WB-word-bank" style={{
+    ...dragSize,
+    boxSizing: "border-box",
+    cursor: "grabbing",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 0,
+    margin: 0,
+    pointerEvents: "none"
+  }}>
               {dragWord}
-              {interaction.playingKey === "bank-" + dragWord && (
-                <SpeakerBadge />
-              )}
-            </div>
-          ) : null}
+              {interaction.playingKey === "bank-" + dragWord && <SpeakerBadge />}
+            </div> : null}
         </DragOverlay>,
         document.fullscreenElement || document.body,
       )}

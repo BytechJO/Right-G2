@@ -1,3 +1,4 @@
+import { createPortal } from "react-dom";
 import ExerciseHeader from "../../ExerciseHeader";
 import { playGlobalAudio, stopGlobalAudio } from "../../audioManager";
 import React, { useState, useRef, useEffect } from "react";
@@ -22,6 +23,85 @@ import clip2 from "../../../assets/audio/WorkBook/Unit 1/Page 3 - B/Item_003_lap
 import clip3 from "../../../assets/audio/WorkBook/Unit 1/Page 3 - B/Item_004_thomer.mp3";
 
 // Keep the score dialog's return focus on an enabled action in this exercise.
+// Keep the actual draggable in viewport coordinates; the inert source keeps its exact bank position.
+// eslint-disable-next-line react-refresh/only-export-components -- Exercise-local drag presentation.
+function BankDragItem({ provided, snapshot, freeze, normalStyle, children }) {
+  const appearance = useRef({});
+  const originalRef = children.props.ref;
+  const measure = (node) => {
+    if (!node || snapshot.isDragging) return;
+    const computed = window.getComputedStyle(node);
+    const rect = node.getBoundingClientRect();
+    const scale = node.offsetWidth ? rect.width / node.offsetWidth : 1;
+    const next = {
+      fontFamily: computed.fontFamily,
+      fontWeight: computed.fontWeight,
+      color: computed.color,
+    };
+    for (const key of [
+      "fontSize",
+      "lineHeight",
+      "letterSpacing",
+      "paddingTop",
+      "paddingRight",
+      "paddingBottom",
+      "paddingLeft",
+      "borderTopWidth",
+      "borderRightWidth",
+      "borderBottomWidth",
+      "borderLeftWidth",
+      "borderRadius",
+    ]) {
+      const value = parseFloat(computed[key]);
+      if (Number.isFinite(value)) next[key] = value * scale;
+    }
+    appearance.current = next;
+  };
+  const ref = (node) => {
+    if (typeof originalRef === "function") originalRef(node);
+    else if (originalRef) originalRef.current = node;
+    measure(node);
+  };
+  const element = React.cloneElement(children, {
+    ref,
+    onPointerDownCapture: (event) => {
+      children.props.onPointerDownCapture?.(event);
+      measure(event.currentTarget);
+    },
+    style: {
+      ...normalStyle,
+      ...(snapshot.isDragging ? appearance.current : {}),
+      ...provided.draggableProps.style,
+      ...(snapshot.isDragging
+        ? {
+            opacity: 1,
+            visibility: "visible",
+            zIndex: 2147483647,
+            pointerEvents: "none",
+          }
+        : freeze
+          ? { transform: "none", transition: "none" }
+          : {}),
+    },
+  });
+  if (!snapshot.isDragging) return element;
+  const space = React.createElement(
+    children.type,
+    {
+      "aria-hidden": true,
+      className: children.props.className,
+      style: { ...normalStyle, visibility: "hidden", pointerEvents: "none" },
+    },
+    children.props.children,
+  );
+  return (
+    <>
+      {space}
+      {createPortal(element, document.fullscreenElement || document.body)}
+    </>
+  );
+}
+
 function showCheckFeedback(root, kind, ...messages) {
   if (kind === "success") {
     const returnTarget =
@@ -31,7 +111,6 @@ function showCheckFeedback(root, kind, ...messages) {
   }
   ValidationAlert[kind](...messages);
 }
-
 
 const IMAGE_DESCRIPTIONS = {
   [img1]: "Two children kneeling with a doll and a teddy bear.",
@@ -689,8 +768,15 @@ const WB_Unit1_Page3_Q2 = () => {
   const completedCheckRef = useRef(null);
   const completeCheck = (event) => {
     const button = event?.currentTarget;
-    if (!completedCheckRef.current || (button?.style && completedCheckRef.current.button !== button)) {
-      completedCheckRef.current = { button, cursor: button?.style?.cursor, aria: button?.getAttribute?.("aria-disabled") };
+    if (
+      !completedCheckRef.current ||
+      (button?.style && completedCheckRef.current.button !== button)
+    ) {
+      completedCheckRef.current = {
+        button,
+        cursor: button?.style?.cursor,
+        aria: button?.getAttribute?.("aria-disabled"),
+      };
     }
     if (button?.style) {
       button.style.cursor = "not-allowed";
@@ -701,7 +787,8 @@ const WB_Unit1_Page3_Q2 = () => {
     const previous = completedCheckRef.current;
     if (previous?.button?.style) {
       previous.button.style.cursor = previous.cursor || "";
-      if (previous.aria == null) previous.button.removeAttribute("aria-disabled");
+      if (previous.aria == null)
+        previous.button.removeAttribute("aria-disabled");
       else previous.button.setAttribute("aria-disabled", previous.aria);
     }
     completedCheckRef.current = null;
@@ -804,7 +891,10 @@ const WB_Unit1_Page3_Q2 = () => {
     order.place(destination.droppableId.replace("sentence-", ""), draggableId);
   };
   const checkAnswers2 = (checkEvent) => {
-    if (completedCheckRef.current) { completeCheck(checkEvent); return; }
+    if (completedCheckRef.current) {
+      completeCheck(checkEvent);
+      return;
+    }
 
     if (showAnswer) return;
     order.dragStart();
@@ -826,7 +916,8 @@ const WB_Unit1_Page3_Q2 = () => {
       msg + ". Correct pairs and correct words are locked independently.",
     );
     if (score === 4 && Object.values(words).every((x) => x === "correct"))
-      (completeCheck(checkEvent), showCheckFeedback(order.rootRef.current, "success", msg));
+      (completeCheck(checkEvent),
+        showCheckFeedback(order.rootRef.current, "success", msg));
     else if (score === 0) ValidationAlert.error(msg);
     else ValidationAlert.warning(msg);
   };
@@ -839,7 +930,7 @@ const WB_Unit1_Page3_Q2 = () => {
       match.reset();
     };
 
-    //....
+  //....
   return (
     <DragDropContext
       onDragEnd={onDragEnd}
@@ -864,7 +955,9 @@ const WB_Unit1_Page3_Q2 = () => {
             isWorkbook
             sectionLetter="B"
             title={<>Read and match.</>}
-            subTitle={"Unscramble one family word at a time, say it aloud, then connect it to the correct picture."}
+            subTitle={
+              "Unscramble one family word at a time, say it aloud, then connect it to the correct picture."
+            }
           />
 
           <div
@@ -936,7 +1029,7 @@ const WB_Unit1_Page3_Q2 = () => {
                         droppableId={`bank-${q.id}`}
                         direction="horizontal"
                       >
-                        {(provided) => (
+                        {(provided, bankSnapshot) => (
                           <div
                             ref={provided.innerRef}
                             {...provided.droppableProps}
@@ -953,27 +1046,14 @@ const WB_Unit1_Page3_Q2 = () => {
                                   isDragDisabled={order.locked(q.id) || isUsed}
                                   index={i}
                                 >
-                                  {(provided) => (
-                                    <div
-                                      ref={(el) => {
-                                        provided.innerRef(el);
-                                        order.bankRefs.current[letterObj.id] =
-                                          el;
-                                      }}
-                                      {...provided.draggableProps}
-                                      {...provided.dragHandleProps}
-                                      {...order.bankProps(
-                                        q,
-                                        letterObj,
-                                        !!match.source,
-                                      )}
-                                      className={`${focusClass} flex items-center justify-center w-8 h-8 border-1 border-gray-300 rounded text-lg font-bold transition-all touch-none ${
-                                        isUsed || showAnswer
-                                          ? "bg-gray-400 opacity-60 cursor-not-allowed"
-                                          : "bg-white cursor-grab hover:border-blue-900 hover:shadow-md"
-                                      }`}
-                                      style={{
-                                        ...provided.draggableProps.style,
+                                  {(provided, snapshot) => (
+                                    <BankDragItem
+                                      provided={provided}
+                                      snapshot={snapshot}
+                                      freeze={
+                                        !!bankSnapshot.draggingFromThisWith
+                                      }
+                                      normalStyle={{
                                         ...(order.picked?.token === letterObj.id
                                           ? {
                                               outline: "4px solid #2563eb",
@@ -982,13 +1062,40 @@ const WB_Unit1_Page3_Q2 = () => {
                                           : {}),
                                       }}
                                     >
-                                      {letterObj.value}
-                                    </div>
+                                      <div
+                                        ref={(el) => {
+                                          provided.innerRef(el);
+                                          order.bankRefs.current[letterObj.id] =
+                                            el;
+                                        }}
+                                        {...provided.draggableProps}
+                                        {...provided.dragHandleProps}
+                                        {...order.bankProps(
+                                          q,
+                                          letterObj,
+                                          !!match.source,
+                                        )}
+                                        className={`${focusClass} flex items-center justify-center w-8 h-8 border-1 border-gray-300 rounded text-lg font-bold transition-all touch-none ${isUsed || showAnswer ? "bg-gray-400 opacity-60 cursor-not-allowed" : "bg-white cursor-grab hover:border-blue-900 hover:shadow-md"}`}
+                                      >
+                                        {letterObj.value}
+                                      </div>
+                                    </BankDragItem>
                                   )}
                                 </Draggable>
                               );
                             })}
-                            {provided.placeholder}
+                            {bankSnapshot.draggingFromThisWith ? (
+                              <span
+                                aria-hidden="true"
+                                style={{
+                                  display: "none",
+                                }}
+                              >
+                                {provided.placeholder}
+                              </span>
+                            ) : (
+                              provided.placeholder
+                            )}
                           </div>
                         )}
                       </Droppable>
@@ -1141,7 +1248,13 @@ const WB_Unit1_Page3_Q2 = () => {
         </div>
 
         <div className="action-buttons-container mt-8">
-          <button onClick={(checkEvent) => { resetCompletedCheck(); (reset)(checkEvent); }} className="try-again-button">
+          <button
+            onClick={(checkEvent) => {
+              resetCompletedCheck();
+              reset(checkEvent);
+            }}
+            className="try-again-button"
+          >
             Start Again ↻
           </button>
           <button onClick={show} className="show-answer-btn swal-continue">

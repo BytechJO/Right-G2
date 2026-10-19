@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+import ExerciseHeader from "../../ExerciseHeader";
 import React, { useEffect, useState } from "react";
 import Button from "../Button";
 import { FaDownload } from "react-icons/fa";
@@ -7,7 +9,6 @@ import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 4
 import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/45_1.svg";
 import img5 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/46.svg";
 import img6 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/47.svg";
-
 import img7 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex B 7.svg";
 import img8 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex B 8.svg";
 import img9 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex B 9.svg";
@@ -15,24 +16,94 @@ import img10 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 
 import img11 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex B 11.svg";
 import img12 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 45/Ex B 12.svg";
 import ValidationAlert from "../../Popup/ValidationAlert";
+const activateColor = (e) => {
+  if (e.key !== "Enter" && e.key !== " ") return;
+  e.preventDefault();
+  e.stopPropagation();
+  if (!e.repeat) e.currentTarget.click();
+};
+const releaseColor = (e) => {
+  if (e.key === "Enter" || e.key === " ") {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+};
 const topItems = [
-  { id: "dress", x: 90, y: 90, img: img1 },
-  { id: "bag", x: 220, y: 90, img: img2 },
-  { id: "kite", x: 350, y: 90, img: img3 },
-  { id: "skirt", x: 500, y: 90, img: img4 },
-  { id: "jacket", x: 640, y: 90, img: img5 },
-  { id: "shirt", x: 780, y: 90, img: img6 },
+  {
+    id: "dress",
+    x: 90,
+    y: 90,
+    img: img1,
+  },
+  {
+    id: "bag",
+    x: 220,
+    y: 90,
+    img: img2,
+  },
+  {
+    id: "kite",
+    x: 350,
+    y: 90,
+    img: img3,
+  },
+  {
+    id: "skirt",
+    x: 500,
+    y: 90,
+    img: img4,
+  },
+  {
+    id: "jacket",
+    x: 640,
+    y: 90,
+    img: img5,
+  },
+  {
+    id: "shirt",
+    x: 780,
+    y: 90,
+    img: img6,
+  },
 ];
-
 const bottomItems = [
-  { id: "boy1", x: 180, y: 320, img: img7 },
-  { id: "girl1", x: 290, y: 320, img: img8 },
-  { id: "boy2", x: 400, y: 320, img: img9 },
-  { id: "girl2", x: 510, y: 320, img: img10 },
-  { id: "boy3", x: 620, y: 320, img: img11 },
-  { id: "boy4", x: 730, y: 320, img: img12 },
+  {
+    id: "boy1",
+    x: 180,
+    y: 320,
+    img: img7,
+  },
+  {
+    id: "girl1",
+    x: 290,
+    y: 320,
+    img: img8,
+  },
+  {
+    id: "boy2",
+    x: 400,
+    y: 320,
+    img: img9,
+  },
+  {
+    id: "girl2",
+    x: 510,
+    y: 320,
+    img: img10,
+  },
+  {
+    id: "boy3",
+    x: 620,
+    y: 320,
+    img: img11,
+  },
+  {
+    id: "boy4",
+    x: 730,
+    y: 320,
+    img: img12,
+  },
 ];
-
 const correctMatches = {
   dress: "girl1",
   bag: "girl2",
@@ -41,7 +112,6 @@ const correctMatches = {
   jacket: "boy2",
   shirt: "boy3",
 };
-
 const lineStyleMap = {
   dress: "solid",
   bag: "dashed",
@@ -59,7 +129,6 @@ const lineStyleMap = {
  */
 const processSvgForColoring = (svgContent) => {
   if (!svgContent) return svgContent;
-
   let modified = svgContent;
 
   // تعديل الـ <style> tag
@@ -85,10 +154,8 @@ const processSvgForColoring = (svgContent) => {
       return tag.replace(/fill="[^"]*"/g, 'fill="currentColor"');
     }
   });
-
   return modified;
 };
-
 const LookAndMatch = () => {
   const [connections] = useState(correctMatches);
 
@@ -97,7 +164,6 @@ const LookAndMatch = () => {
   const [colors, setColors] = useState({});
   const [svgContent, setSvgContent] = useState({});
   const [processedSvgContent, setProcessedSvgContent] = useState({});
-
   const palette = [
     "#808080",
     "#00AA00",
@@ -118,11 +184,17 @@ const LookAndMatch = () => {
         .then((res) => res.text())
         .then((data) => {
           // حفظ SVG الأصلي
-          setSvgContent((prev) => ({ ...prev, [item.id]: data }));
+          setSvgContent((prev) => ({
+            ...prev,
+            [item.id]: data,
+          }));
 
           // معالجة SVG للتلوين
           const processed = processSvgForColoring(data);
-          setProcessedSvgContent((prev) => ({ ...prev, [item.id]: processed }));
+          setProcessedSvgContent((prev) => ({
+            ...prev,
+            [item.id]: processed,
+          }));
         })
         .catch((err) => {
           console.error(`Error loading SVG: ${item.img}`, err);
@@ -153,13 +225,21 @@ const LookAndMatch = () => {
           justifyContent: "center",
           overflow: "visible",
         }}
+        role="button"
+        tabIndex={0}
+        aria-label={"Choose picture " + id + " to color"}
+        aria-pressed={activeItem === id}
+        data-color-target={id}
+        onKeyDown={activateColor}
+        onKeyUp={releaseColor}
       >
         {displayContent ? (
           <div
             style={{
               width: "100%",
               height: "100%",
-              color: colors[id] || "transparent", // هذا اللون سيتم تطبيقه على currentColor داخل الـ SVG
+              color: colors[id] || "transparent",
+              // هذا اللون سيتم تطبيقه على currentColor داخل الـ SVG
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -169,7 +249,12 @@ const LookAndMatch = () => {
             }}
           />
         ) : (
-          <div style={{ width: "100%", height: "100%" }} />
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+            }}
+          />
         )}
 
         {/* 🎨 palette */}
@@ -192,8 +277,14 @@ const LookAndMatch = () => {
                 key={color}
                 onClick={(e) => {
                   e.stopPropagation();
-                  setColors((prev) => ({ ...prev, [id]: color }));
+                  setColors((prev) => ({
+                    ...prev,
+                    [id]: color,
+                  }));
                   setActiveItem(null);
+                  e.currentTarget.closest("[data-color-target]")?.focus({
+                    preventScroll: true,
+                  });
                 }}
                 style={{
                   width: "18px",
@@ -202,6 +293,11 @@ const LookAndMatch = () => {
                   background: color,
                   cursor: "pointer",
                 }}
+                role="button"
+                tabIndex={0}
+                aria-label={"Color " + color}
+                onKeyDown={activateColor}
+                onKeyUp={releaseColor}
               />
             ))}
           </div>
@@ -214,24 +310,29 @@ const LookAndMatch = () => {
       (item) => colors[item.id] && colors[item.id] !== "transparent",
     );
   };
-
   const checkAnswers = () => {
     // 🔴 فاليديشن
     if (!areAllColored()) {
       ValidationAlert.info("Please color all the pictures first!");
       return;
     }
-
     ValidationAlert.success("Well done!");
   };
   const renderBottomPlaceholder = (label) => (
     <div
       className="flex items-center justify-center rounded-full border-2 border-gray-500 bg-white"
-      style={{ height: "90px", width: "90px" }}
+      style={{
+        height: "90px",
+        width: "90px",
+      }}
     >
       <img
         src={label}
-        style={{ height: "85px", width: "85px", borderRadius: "50%" }}
+        style={{
+          height: "85px",
+          width: "85px",
+          borderRadius: "50%",
+        }}
       />
     </div>
   );
@@ -239,9 +340,7 @@ const LookAndMatch = () => {
   // ----------------------
   const handledownload = async () => {
     const element = captureRef.current;
-
     const dataUrl = await toPng(element);
-
     const link = document.createElement("a");
     link.download = "activity.png";
     link.href = dataUrl;
@@ -250,7 +349,6 @@ const LookAndMatch = () => {
   const generateWavyPath = (x1, y1, x2, y2, amplitude = 20, frequency = 6) => {
     const points = [];
     const steps = 20;
-
     for (let i = 0; i <= steps; i++) {
       const t = i / steps;
       const x = x1 + (x2 - x1) * t;
@@ -259,20 +357,16 @@ const LookAndMatch = () => {
       const y = baseY + offset;
       points.push([x, y]);
     }
-
     let path = `M ${points[0][0]} ${points[0][1]}`;
     for (let i = 1; i < points.length; i++) {
       path += ` L ${points[i][0]} ${points[i][1]}`;
     }
-
     return path;
   };
-
   const renderLines = () => {
     return topItems.map((topItem) => {
       const matchedBottomId = connections[topItem.id];
       if (!matchedBottomId) return null;
-
       const bottomItem = bottomItems.find((b) => b.id === matchedBottomId);
       if (!bottomItem) return null;
 
@@ -281,19 +375,15 @@ const LookAndMatch = () => {
       const startY = topItem.y + 50;
       const endX = bottomItem.x;
       const endY = bottomItem.y - 45;
-
       const styleType = lineStyleMap[topItem.id];
-
       const path =
         styleType === "wave"
           ? generateWavyPath(startX, startY, endX, endY, 25, 8)
           : generateWavyPath(startX, startY, endX, endY, 10, 3);
-
       const dashStyles = {
         dashed: "10 6",
         dotted: "2 6",
       };
-
       return (
         <g key={topItem.id}>
           <circle cx={startX} cy={startY} r="5" fill="#DC2626" />
@@ -319,23 +409,39 @@ const LookAndMatch = () => {
   };
 
   // ----------------------
-
+//.
   return (
     <div className="main-container-component">
-      <div className="div-forall"  style={{gap:"20px"}}>
-        <h1 className="WB-header-title-page8">
-          <span className="WB-ex-A">B</span>Look and color.
-        </h1>
+      <div
+        className="div-forall"
+        style={{
+          gap: "20px",
+        }}
+      >
+        <ExerciseHeader
+          isWorkbook
+          sectionLetter="B"
+          title="Look and color."
+          subTitle={
+            "Choose a color once, then tap the correct clothing area; use the picture labels as your guide."
+          }
+        />
 
         <div className="flex justify-center items-center">
           <div
             className="flex justify-center items-center relative w-full"
-            style={{ height: "515px", minHeight: "430px" }}
+            style={{
+              height: "515px",
+              minHeight: "430px",
+            }}
           >
             <svg
               className="absolute inset-0 w-full h-full pointer-events-none"
               viewBox="0 0 900 430"
-              style={{ width: "100%", height: "100%" }}
+              style={{
+                width: "100%",
+                height: "100%",
+              }}
               preserveAspectRatio="xMidYMid meet"
             >
               {renderLines()}
@@ -393,5 +499,4 @@ const LookAndMatch = () => {
     </div>
   );
 };
-
 export default LookAndMatch;

@@ -1,3 +1,4 @@
+import { createPortal } from "react-dom";
 import ExerciseHeader from "../../ExerciseHeader";
 import { playGlobalAudio, stopGlobalAudio } from "../../audioManager";
 import React, { useState, useRef, useEffect } from "react";
@@ -22,6 +23,53 @@ import clip2 from "../../../assets/audio/WorkBook/Unit 1/Page 3 - A/Item_003_Who
 import clip3 from "../../../assets/audio/WorkBook/Unit 1/Page 3 - A/Item_004_Who's_he.mp3";
 
 // Keep the score dialog's return focus on an enabled action in this exercise.
+// Keep the actual draggable in viewport coordinates; the inert source keeps its exact bank position.
+// eslint-disable-next-line react-refresh/only-export-components -- Exercise-local drag presentation.
+function BankDragItem({ provided, snapshot, freeze, normalStyle, children }) {
+  const appearance = useRef({});
+  const originalRef = children.props.ref;
+  const measure = (node) => {
+    if (!node || snapshot.isDragging) return;
+    const computed = window.getComputedStyle(node);
+    const rect = node.getBoundingClientRect();
+    const scale = node.offsetWidth ? rect.width / node.offsetWidth : 1;
+    const next = { fontFamily: computed.fontFamily, fontWeight: computed.fontWeight, color: computed.color };
+    for (const key of ['fontSize', 'lineHeight', 'letterSpacing', 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft', 'borderTopWidth', 'borderRightWidth', 'borderBottomWidth', 'borderLeftWidth', 'borderRadius']) {
+      const value = parseFloat(computed[key]);
+      if (Number.isFinite(value)) next[key] = value * scale;
+    }
+    appearance.current = next;
+  };
+  const ref = (node) => {
+    if (typeof originalRef === 'function') originalRef(node);
+    else if (originalRef) originalRef.current = node;
+    measure(node);
+  };
+  const element = React.cloneElement(children, {
+    ref,
+    onPointerDownCapture: (event) => {
+      children.props.onPointerDownCapture?.(event);
+      measure(event.currentTarget);
+    },
+    style: {
+      ...normalStyle,
+      ...(snapshot.isDragging ? appearance.current : {}),
+      ...provided.draggableProps.style,
+      ...(snapshot.isDragging
+        ? { opacity: 1, visibility: 'visible', zIndex: 2147483647, pointerEvents: 'none' }
+        : freeze ? { transform: 'none', transition: 'none' } : {}),
+    },
+  });
+  if (!snapshot.isDragging) return element;
+  const space = React.createElement(children.type, {
+    'aria-hidden': true,
+    className: children.props.className,
+    style: { ...normalStyle, visibility: 'hidden', pointerEvents: 'none' },
+  }, children.props.children);
+  return <>{space}{createPortal(element, document.fullscreenElement || document.body)}</>;
+}
+
+
 function showCheckFeedback(root, kind, ...messages) {
   if (kind === "success") {
     const returnTarget =
@@ -608,50 +656,30 @@ const WB_Unit1_Page3_Q1 = () => {
           <div className="flex flex-col gap-5">
             {/* WORD BANK */}
             <Droppable droppableId="word-bank" direction="horizontal">
-              {(provided) => (
-                <div
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                  className="CB-unit2-p6-q2-word-bank"
-                  style={{ marginBottom: "0px" }}
-                >
+              {(provided, bankSnapshot) => <div ref={provided.innerRef} {...provided.droppableProps} className="CB-unit2-p6-q2-word-bank" style={{
+    marginBottom: "0px"
+  }}>
                   {wordBank.map((w, i) => {
-                    const isUsed = interaction.used(w.id);
-                    return (
-                      <Draggable
-                        key={w.id}
-                        draggableId={w.id}
-                        index={i}
-                        isDragDisabled={locked || isUsed}
-                      >
-                        {(provided) => (
-                          <span
-                            ref={(el) => {
-                              provided.innerRef(el);
-                              interaction.bankRefs.current[w.id] = el;
-                            }}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            {...interaction.bankProps(w.id)}
-                            className={`WB-word-bank ${focusClass}`}
-                            style={{
-                              background: isUsed ? "#ccc" : "white",
-                              opacity: isUsed ? 0.6 : 1,
-                              cursor: isUsed ? "not-allowed" : "grab",
-                              ...provided.draggableProps.style,
-                              ...interaction.bankStyle(w.id),
-                            }}
-                          >
+      const isUsed = interaction.used(w.id);
+      return <Draggable key={w.id} draggableId={w.id} index={i} isDragDisabled={locked || isUsed}>
+                        {(provided, snapshot) => <BankDragItem provided={provided} snapshot={snapshot} freeze={!!bankSnapshot.draggingFromThisWith} normalStyle={{
+          background: isUsed ? "#ccc" : "white",
+          opacity: isUsed ? 0.6 : 1,
+          cursor: isUsed ? "not-allowed" : "grab",
+          ...interaction.bankStyle(w.id)
+        }}><span ref={el => {
+            provided.innerRef(el);
+            interaction.bankRefs.current[w.id] = el;
+          }} {...provided.draggableProps} {...provided.dragHandleProps} {...interaction.bankProps(w.id)} className={`WB-word-bank ${focusClass}`}>
                             {w.text}
                             {playingKey === `bank-${w.id}` && <SpeakerBadge />}
-                          </span>
-                        )}
-                      </Draggable>
-                    );
-                  })}
-                  {provided.placeholder}
-                </div>
-              )}
+                          </span></BankDragItem>}
+                      </Draggable>;
+    })}
+                  {bankSnapshot.draggingFromThisWith ? <span aria-hidden="true" style={{
+      display: "none"
+    }}>{provided.placeholder}</span> : provided.placeholder}
+                </div>}
             </Droppable>
 
             {/* QUESTIONS */}
