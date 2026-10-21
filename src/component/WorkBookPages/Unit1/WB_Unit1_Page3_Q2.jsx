@@ -32,7 +32,16 @@ function BankDragItem({ provided, snapshot, freeze, normalStyle, children }) {
     if (!node || snapshot.isDragging) return;
     const computed = window.getComputedStyle(node);
     const rect = node.getBoundingClientRect();
-    const scale = node.offsetWidth ? rect.width / node.offsetWidth : 1;
+    // offsetWidth rounds to whole pixels, which can enlarge the portalled text
+    // just enough to wrap inside the library's exact (fractional) width.
+    const cssWidth = parseFloat(computed.width);
+    const borderBoxWidth = computed.boxSizing === 'border-box'
+      ? cssWidth
+      : cssWidth + ['paddingLeft', 'paddingRight', 'borderLeftWidth', 'borderRightWidth']
+        .reduce((sum, key) => sum + (parseFloat(computed[key]) || 0), 0);
+    const layoutWidth = Number.isFinite(borderBoxWidth) && borderBoxWidth > 0
+      ? borderBoxWidth : node.offsetWidth;
+    const scale = layoutWidth ? rect.width / layoutWidth : 1;
     const next = {
       fontFamily: computed.fontFamily,
       fontWeight: computed.fontWeight,
@@ -74,6 +83,7 @@ function BankDragItem({ provided, snapshot, freeze, normalStyle, children }) {
       ...provided.draggableProps.style,
       ...(snapshot.isDragging
         ? {
+          display: 'flex', alignItems: 'center', whiteSpace: 'nowrap',
             opacity: 1,
             visibility: "visible",
             zIndex: 2147483647,

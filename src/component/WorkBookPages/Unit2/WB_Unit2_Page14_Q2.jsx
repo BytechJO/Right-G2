@@ -672,7 +672,14 @@ const WB_Unit2_Page14_Q2 = () => {
   const r = active.rect.current.initial;
   const node = interaction.bankRefs.current[String(active.id)];
   const computed = node && window.getComputedStyle(node);
-  const scale = node?.offsetWidth && r ? r.width / node.offsetWidth : 1;
+  const cssWidth = computed ? parseFloat(computed.width) : NaN;
+  const borderBoxWidth = computed?.boxSizing === "border-box"
+    ? cssWidth
+    : cssWidth + ["paddingLeft", "paddingRight", "borderLeftWidth", "borderRightWidth"]
+      .reduce((sum, key) => sum + (parseFloat(computed?.[key]) || 0), 0);
+  const layoutWidth = Number.isFinite(borderBoxWidth) && borderBoxWidth > 0
+    ? borderBoxWidth : node?.offsetWidth;
+  const scale = layoutWidth && r ? r.width / layoutWidth : 1;
   const dragTypography = computed ? {
     fontSize: parseFloat(computed.fontSize) * scale, fontFamily:computed.fontFamily,fontWeight:computed.fontWeight,color:computed.color,...(Number.isFinite(parseFloat(computed.lineHeight))?{lineHeight:parseFloat(computed.lineHeight)*scale}:{})
   } : {};
@@ -780,6 +787,7 @@ const WB_Unit2_Page14_Q2 = () => {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    whiteSpace: "nowrap",
     padding: 0,
     margin: 0,
     pointerEvents: "none"

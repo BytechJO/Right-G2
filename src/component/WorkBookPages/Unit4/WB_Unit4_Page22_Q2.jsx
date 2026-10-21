@@ -727,15 +727,25 @@ const WB_Unit4_Page22_Q2 = () => {
   const handleDragStart = (e) => {
     order.dragStart();
     setActiveWord(e.active.id);
-    const box = e.active.rect?.current?.initial;
-    setDragSize(
-      box
-        ? {
-            width: box.width,
-            height: box.height,
-          }
-        : null,
-    );
+    const node = order.bankRefs.current[e.active.id];
+    const box = node?.getBoundingClientRect() || e.active.rect?.current?.initial;
+    const computed = node && window.getComputedStyle(node);
+    const cssWidth = computed ? parseFloat(computed.width) : NaN;
+    const borderBoxWidth = computed?.boxSizing === "border-box" ? cssWidth
+      : cssWidth + ["paddingLeft", "paddingRight", "borderLeftWidth", "borderRightWidth"]
+        .reduce((sum, key) => sum + (parseFloat(computed?.[key]) || 0), 0);
+    const layoutWidth = Number.isFinite(borderBoxWidth) && borderBoxWidth > 0
+      ? borderBoxWidth : node?.offsetWidth;
+    const scale = layoutWidth && box ? box.width / layoutWidth : 1;
+    const typography = computed ? {
+      fontFamily: computed.fontFamily, fontWeight: computed.fontWeight, color: computed.color,
+      fontSize: parseFloat(computed.fontSize) * scale,
+      ...(Number.isFinite(parseFloat(computed.lineHeight))
+        ? { lineHeight: parseFloat(computed.lineHeight) * scale } : {}),
+      ...(Number.isFinite(parseFloat(computed.letterSpacing))
+        ? { letterSpacing: parseFloat(computed.letterSpacing) * scale } : {}),
+    } : {};
+    setDragSize({ width: box?.width, height: box?.height, ...typography });
   };
   const handleDragEnd = (e) => {
     setActiveWord(null);
@@ -961,6 +971,8 @@ const WB_Unit4_Page22_Q2 = () => {
               style={{
                 ...dragSize,
                 boxSizing: "border-box",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                whiteSpace: "nowrap", padding: 0, margin: 0,
                 pointerEvents: "none",
               }}
               className="WB-word-bank bg-white shadow-xl"

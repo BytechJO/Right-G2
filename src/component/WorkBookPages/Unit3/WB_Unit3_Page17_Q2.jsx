@@ -16,6 +16,66 @@ import {
 } from "@hello-pangea/dnd";
 
 // Keep the score dialog's return focus on an enabled action in this exercise.
+// eslint-disable-next-line react-refresh/only-export-components -- Exercise-local drag presentation.
+function BankDragItem({ provided, snapshot, freeze, normalStyle, children, preserveSpace = true }) {
+  const appearance = useRef({});
+  const originalRef = children.props.ref;
+  const measure = (node) => {
+    if (!node || snapshot.isDragging) return;
+    const computed = window.getComputedStyle(node);
+    const rect = node.getBoundingClientRect();
+    // offsetWidth rounds to whole pixels, which can enlarge the portalled text
+    // just enough to wrap inside the library's exact (fractional) width.
+    const cssWidth = parseFloat(computed.width);
+    const borderBoxWidth = computed.boxSizing === 'border-box'
+      ? cssWidth
+      : cssWidth + ['paddingLeft', 'paddingRight', 'borderLeftWidth', 'borderRightWidth']
+        .reduce((sum, key) => sum + (parseFloat(computed[key]) || 0), 0);
+    const layoutWidth = Number.isFinite(borderBoxWidth) && borderBoxWidth > 0
+      ? borderBoxWidth : node.offsetWidth;
+    const scale = layoutWidth ? rect.width / layoutWidth : 1;
+    const next = { fontFamily: computed.fontFamily, fontWeight: computed.fontWeight, color: computed.color };
+    for (const key of ['fontSize', 'lineHeight', 'letterSpacing', 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft', 'borderTopWidth', 'borderRightWidth', 'borderBottomWidth', 'borderLeftWidth', 'borderRadius']) {
+      const value = parseFloat(computed[key]);
+      if (Number.isFinite(value)) next[key] = value * scale;
+    }
+    appearance.current = next;
+  };
+  const ref = (node) => {
+    if (typeof originalRef === 'function') originalRef(node);
+    else if (originalRef) originalRef.current = node;
+    measure(node);
+  };
+  const element = React.cloneElement(children, {
+    ref,
+    onPointerDownCapture: (event) => {
+      children.props.onPointerDownCapture?.(event);
+      measure(event.currentTarget);
+    },
+    style: {
+      ...normalStyle,
+      ...(snapshot.isDragging ? appearance.current : {}),
+      ...provided.draggableProps.style,
+      ...(snapshot.isDragging
+        ? {
+          // The bank makes this span a flex item; retain its single-line text
+          // alignment when the actual draggable is moved into the portal.
+          display: 'flex', alignItems: 'center', whiteSpace: 'nowrap',
+          opacity: 1, visibility: 'visible', zIndex: 2147483647, pointerEvents: 'none',
+        }
+        : freeze ? { transform: 'none', transition: 'none' } : {}),
+    },
+  });
+  if (!snapshot.isDragging) return element;
+  if (!preserveSpace) return createPortal(element, document.fullscreenElement || document.body);
+  const space = React.createElement(children.type, {
+    'aria-hidden': true,
+    className: children.props.className,
+    style: { ...normalStyle, visibility: 'hidden', pointerEvents: 'none' },
+  }, children.props.children);
+  return <>{space}{createPortal(element, document.fullscreenElement || document.body)}</>;
+}
+
 function showCheckFeedback(root, kind, ...messages) {
   if (kind === "success") {
     const returnTarget =
@@ -705,7 +765,7 @@ const WB_Unit3_Page17_Q2 = () => {
                           droppableId={`bank__${i}__${wordIndex}__0`}
                           direction="horizontal"
                         >
-                          {(provided) => (
+                          {(provided, bankSnapshot) => (
                             <div
                               ref={provided.innerRef}
                               {...provided.droppableProps}
@@ -748,46 +808,28 @@ const WB_Unit3_Page17_Q2 = () => {
                                           className={
                                             "WB-word-bank " + focusClass
                                           }
-                                          style={{
-                                            ...interaction.bankStyle(letterId),
-                                            width: "32px",
-                                            height: "32px",
-                                            display: "inline-flex",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                            // border: "2px solid #2c5287",
-                                            // borderRadius: "8px",
-                                            // background: "white",
-                                            // fontWeight: "bold",
-                                            textTransform: "lowercase",
-                                            opacity: used ? 0.35 : 1,
-                                            cursor: used
+                                          style={{...interaction.bankStyle(letterId),
+width: "32px",
+height: "32px",
+display: "inline-flex",
+alignItems: "center",
+justifyContent: "center",
+textTransform: "lowercase",
+opacity: used ? 0.35 : 1,
+cursor: used
                                               ? "not-allowed"
-                                              : "grab",
-                                            ...provided.draggableProps.style,
-                                            ...(snapshot.isDragging
-                                              ? {
-                                                  zIndex: 2147483647,
-                                                }
-                                              : {}),
-                                          }}
+                                              : "grab"}}
                                           {...interaction.bankProps(letterId)}
                                         >
                                           {char}
                                         </span>
                                       );
-                                      return snapshot.isDragging
-                                        ? createPortal(
-                                            tile,
-                                            document.fullscreenElement ||
-                                              document.body,
-                                          )
-                                        : tile;
+                                      return <BankDragItem provided={provided} snapshot={snapshot} normalStyle={tile.props.style} freeze={!!bankSnapshot.draggingFromThisWith}>{tile}</BankDragItem>;
                                     }}
                                   </Draggable>
                                 );
                               })}
-                              {provided.placeholder}
+                              {bankSnapshot.draggingFromThisWith ? <span aria-hidden="true" style={{ display: "none" }}>{provided.placeholder}</span> : provided.placeholder}
                             </div>
                           )}
                         </Droppable>

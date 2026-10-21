@@ -25,6 +25,66 @@ import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
 
 // Keep the score dialog's return focus on an enabled action in this exercise.
+// eslint-disable-next-line react-refresh/only-export-components -- Exercise-local drag presentation.
+function BankDragItem({ provided, snapshot, freeze, normalStyle, children, preserveSpace = true }) {
+  const appearance = useRef({});
+  const originalRef = children.props.ref;
+  const measure = (node) => {
+    if (!node || snapshot.isDragging) return;
+    const computed = window.getComputedStyle(node);
+    const rect = node.getBoundingClientRect();
+    // offsetWidth rounds to whole pixels, which can enlarge the portalled text
+    // just enough to wrap inside the library's exact (fractional) width.
+    const cssWidth = parseFloat(computed.width);
+    const borderBoxWidth = computed.boxSizing === 'border-box'
+      ? cssWidth
+      : cssWidth + ['paddingLeft', 'paddingRight', 'borderLeftWidth', 'borderRightWidth']
+        .reduce((sum, key) => sum + (parseFloat(computed[key]) || 0), 0);
+    const layoutWidth = Number.isFinite(borderBoxWidth) && borderBoxWidth > 0
+      ? borderBoxWidth : node.offsetWidth;
+    const scale = layoutWidth ? rect.width / layoutWidth : 1;
+    const next = { fontFamily: computed.fontFamily, fontWeight: computed.fontWeight, color: computed.color };
+    for (const key of ['fontSize', 'lineHeight', 'letterSpacing', 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft', 'borderTopWidth', 'borderRightWidth', 'borderBottomWidth', 'borderLeftWidth', 'borderRadius']) {
+      const value = parseFloat(computed[key]);
+      if (Number.isFinite(value)) next[key] = value * scale;
+    }
+    appearance.current = next;
+  };
+  const ref = (node) => {
+    if (typeof originalRef === 'function') originalRef(node);
+    else if (originalRef) originalRef.current = node;
+    measure(node);
+  };
+  const element = React.cloneElement(children, {
+    ref,
+    onPointerDownCapture: (event) => {
+      children.props.onPointerDownCapture?.(event);
+      measure(event.currentTarget);
+    },
+    style: {
+      ...normalStyle,
+      ...(snapshot.isDragging ? appearance.current : {}),
+      ...provided.draggableProps.style,
+      ...(snapshot.isDragging
+        ? {
+          // The bank makes this span a flex item; retain its single-line text
+          // alignment when the actual draggable is moved into the portal.
+          display: 'flex', alignItems: 'center', whiteSpace: 'nowrap',
+          opacity: 1, visibility: 'visible', zIndex: 2147483647, pointerEvents: 'none',
+        }
+        : freeze ? { transform: 'none', transition: 'none' } : {}),
+    },
+  });
+  if (!snapshot.isDragging) return element;
+  if (!preserveSpace) return createPortal(element, document.fullscreenElement || document.body);
+  const space = React.createElement(children.type, {
+    'aria-hidden': true,
+    className: children.props.className,
+    style: { ...normalStyle, visibility: 'hidden', pointerEvents: 'none' },
+  }, children.props.children);
+  return <>{space}{createPortal(element, document.fullscreenElement || document.body)}</>;
+}
+
 function showCheckFeedback(root, kind, ...messages) {
   if (kind === "success") {
     const returnTarget =
@@ -698,7 +758,7 @@ const WB_Unit3_Page19_Q2 = () => {
         >
           {/* Word Bank */}
           <Droppable droppableId="wordBank" direction="horizontal">
-            {(provided) => (
+            {(provided, bankSnapshot) => (
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
@@ -723,15 +783,7 @@ const WB_Unit3_Page19_Q2 = () => {
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
                             {...interaction.bankProps(word.id)}
-                            style={{
-                              ...interaction.bankStyle(word.id),
-                              ...provided.draggableProps.style,
-                              ...(snapshot.isDragging
-                                ? {
-                                    zIndex: 2147483647,
-                                  }
-                                : {}),
-                            }}
+                            style={{...interaction.bankStyle(word.id)}}
                             className={`${focusClass} WB-word-bank 
             ${isUsed || showResults ? "bg-gray-100 text-gray-400 border border-blue-800 cursor-not-allowed opacity-70" : "bg-white text-gray-800 border border-blue-800 cursor-grab hover:bg-gray-50"}`}
                           >
@@ -741,17 +793,12 @@ const WB_Unit3_Page19_Q2 = () => {
                             )}
                           </div>
                         );
-                        return snapshot.isDragging
-                          ? createPortal(
-                              tile,
-                              document.fullscreenElement || document.body,
-                            )
-                          : tile;
+                        return <BankDragItem provided={provided} snapshot={snapshot} normalStyle={tile.props.style} freeze={!!bankSnapshot.draggingFromThisWith}>{tile}</BankDragItem>;
                       }}
                     </Draggable>
                   );
                 })}
-                {provided.placeholder}
+                {bankSnapshot.draggingFromThisWith ? <span aria-hidden="true" style={{ display: "none" }}>{provided.placeholder}</span> : provided.placeholder}
               </div>
             )}
           </Droppable>
@@ -815,25 +862,13 @@ const WB_Unit3_Page19_Q2 = () => {
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
                                 tabIndex={-1}
-                                style={{
-                                  ...provided.draggableProps.style,
-                                  ...(snapshot.isDragging
-                                    ? {
-                                        zIndex: 2147483647,
-                                      }
-                                    : {}),
-                                }}
+                                style={{}}
                                 className="text-[20px]"
                               >
                                 {word.text}
                               </div>
                             );
-                            return snapshot.isDragging
-                              ? createPortal(
-                                  tile,
-                                  document.fullscreenElement || document.body,
-                                )
-                              : tile;
+                            return <BankDragItem provided={provided} snapshot={snapshot} normalStyle={tile.props.style} preserveSpace={false}>{tile}</BankDragItem>;
                           }}
                         </Draggable>
                       ))}

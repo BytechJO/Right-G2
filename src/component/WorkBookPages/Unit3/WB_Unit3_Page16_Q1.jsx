@@ -628,15 +628,27 @@ const WB_Unit3_Page16_Q1 = () => {
       onDragStart={({ active }) => {
         interaction.dragStart();
         setDragWord(String(active.id));
-        const rect = active.rect.current.initial;
-        setDragSize(
-          rect
-            ? {
-                width: rect.width,
-                height: rect.height,
-              }
-            : null,
-        );
+        const node = interaction.bankRefs.current[String(active.id)];
+        const rect = node?.getBoundingClientRect() || active.rect.current.initial;
+        const computed = node && window.getComputedStyle(node);
+        const cssWidth = computed ? parseFloat(computed.width) : NaN;
+        const borderBoxWidth = computed?.boxSizing === "border-box" ? cssWidth
+          : cssWidth + ["paddingLeft", "paddingRight", "borderLeftWidth", "borderRightWidth"]
+            .reduce((sum, key) => sum + (parseFloat(computed?.[key]) || 0), 0);
+        const layoutWidth = Number.isFinite(borderBoxWidth) && borderBoxWidth > 0
+          ? borderBoxWidth : node?.offsetWidth;
+        const scale = layoutWidth && rect ? rect.width / layoutWidth : 1;
+        const typography = computed ? {
+          fontFamily: computed.fontFamily, fontWeight: computed.fontWeight, color: computed.color,
+          fontSize: parseFloat(computed.fontSize) * scale,
+          ...(Number.isFinite(parseFloat(computed.lineHeight))
+            ? { lineHeight: parseFloat(computed.lineHeight) * scale } : {}),
+          ...(Number.isFinite(parseFloat(computed.letterSpacing))
+            ? { letterSpacing: parseFloat(computed.letterSpacing) * scale } : {}),
+        } : {};
+        setDragSize({
+          width: rect?.width, height: rect?.height, ...typography,
+        });
       }}
       onDragCancel={() => setDragWord(null)}
       onDragEnd={handleDragEnd}
@@ -734,6 +746,8 @@ const WB_Unit3_Page16_Q1 = () => {
                 boxSizing: "border-box",
                 position: "relative",
                 cursor: "grabbing",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                whiteSpace: "nowrap", padding: 0, margin: 0,
               }}
             >
               {dragWord}
