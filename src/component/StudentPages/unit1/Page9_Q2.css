@@ -64,6 +64,12 @@
   height: 25px;
 }
 
+
+.CB-unit1-p9-q2-input.CB-unit1-p9-q2-input-correct,
+.blank-space.blank-space-correct {
+  border-bottom: 2px solid #2e9e4f;
+  border-bottom-color: #2e9e4f !important;
+}
 /* ===============================
    CONTENT LAYOUT
 ================================ */

@@ -18,6 +18,15 @@ const WB_Unit10_Page58 = ({ openPopup }) => {
           height="22"
           viewBox="0 0 90 90"
           onClick={() => openPopup("exercise", { startIndex: 116 })}
+               tabIndex={0}
+          role="button"
+          aria-label="Open exercise 117"
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 116 });
+            }
+          }}
           style={{ overflow: "visible" }}
         // className="click-icon-page8-2 hover:scale-110 transition"
         >
@@ -41,6 +50,15 @@ const WB_Unit10_Page58 = ({ openPopup }) => {
           height="22"
           viewBox="0 0 90 90"
           onClick={() => openPopup("exercise", { startIndex: 117 })}
+               tabIndex={0}
+          role="button"
+          aria-label="Open exercise 118"
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 117 });
+            }
+          }}
           style={{ overflow: "visible" }}
         // className="click-icon-page8-2 hover:scale-110 transition"
         >

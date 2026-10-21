@@ -1,5 +1,5 @@
-import React, { useRef } from "react";
-import page2 from  "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 50.png";
+// import React, { useRef } from "react";
+import page2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U8 Folder/Page 50.png";
 import "./WB_unit8.css";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 
@@ -9,7 +9,6 @@ const WB_Unit8_Page50 = ({ openPopup }) => {
       className="page1-img-wrapper"
       style={{ backgroundImage: `url(${page2})` }}
     >
-
       <div
         className="wb-unit8-p6-q1 hover:scale-110 transition "
         style={{ overflow: "visible" }}
@@ -19,10 +18,20 @@ const WB_Unit8_Page50 = ({ openPopup }) => {
           height="22"
           viewBox="0 0 90 90"
           onClick={() => openPopup("exercise", { startIndex: 100 })}
+          tabIndex={0}
+          role="button"
+          aria-label="Open exercise 101"
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 100 });
+            }
+          }}
           style={{ overflow: "visible" }}
-        // className="click-icon-page8-2 hover:scale-110 transition"
+          // className="click-icon-page8-2 hover:scale-110 transition"
         >
-          <image className="svg-img"
+          <image
+            className="svg-img"
             href={arrowBtn}
             x="0"
             y="0"
@@ -42,10 +51,20 @@ const WB_Unit8_Page50 = ({ openPopup }) => {
           height="22"
           viewBox="0 0 90 90"
           onClick={() => openPopup("exercise", { startIndex: 101 })}
+          tabIndex={0}
+          role="button"
+          aria-label="Open exercise 102"
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 101 });
+            }
+          }}
           style={{ overflow: "visible" }}
-        // className="click-icon-page8-2 hover:scale-110 transition"
+          // className="click-icon-page8-2 hover:scale-110 transition"
         >
-          <image className="svg-img"
+          <image
+            className="svg-img"
             href={arrowBtn}
             x="0"
             y="0"
@@ -55,7 +74,6 @@ const WB_Unit8_Page50 = ({ openPopup }) => {
           />
         </svg>
       </div>
-
 
       <div
         className="wb-unit8-p6-q3 hover:scale-110 transition"
@@ -66,10 +84,20 @@ const WB_Unit8_Page50 = ({ openPopup }) => {
           height="22"
           viewBox="0 0 90 90"
           onClick={() => openPopup("exercise", { startIndex: 102 })}
+          tabIndex={0}
+          role="button"
+          aria-label="Open exercise 103"
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 102 });
+            }
+          }}
           style={{ overflow: "visible" }}
-        // className="click-icon-page8-2 hover:scale-110 transition"
+          // className="click-icon-page8-2 hover:scale-110 transition"
         >
-          <image className="svg-img"
+          <image
+            className="svg-img"
             href={arrowBtn}
             x="0"
             y="0"
@@ -79,7 +107,6 @@ const WB_Unit8_Page50 = ({ openPopup }) => {
           />
         </svg>
       </div>
-
     </div>
   );
 };

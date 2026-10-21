@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
+// import React, { useState, useRef, useEffect } from "react";
 import backgroundImage from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page.png";
-import page2_2 from "../../../assets/imgs/Voca.svg";
+// import page2_2 from "../../../assets/imgs/Voca.svg";
 import vocabulary from "../../../assets/audio/ClassBook/U 4/Pg28_Vocab_Adult Lady.mp3";
 import "./Unit4_Page1.css";
 import ModernVocabularyComponent from "../../ModernVocabularyComponent";
@@ -35,14 +35,19 @@ const Unit4_Page1_Vocab = () => {
   // ✔ Captions Array
   // ================================
 const captions = [
-  { start: 0.5, end: 3.34, text: "Page 28, unit 4, vocabulary." },
-  { start: 4.46, end: 12.0, text: "1: nurse. 2: pilot. 3: grow food." },
-  { start: 13.06, end: 15.38, text: "4: taxi driver." },
-  { start: 16.44, end: 18.26, text: "5: vet." },
-  { start: 19.52, end: 21.46, text: "6: clerk." },
-  { start: 22.48, end: 28.2, text: "7: photographer. 8: fix cars." },
-  { start: 29.32, end: 31.58, text: "9: police officer." },
-  { start: 32.66, end: 40.16, text: "10: farmer. 11: mechanic. 12: chef." },
+  { start: 0.5, end: 3.34, text: "Page 28, Unit 4 vocabulary." },
+  { start: 4.5, end: 6.06, text: "1 nurse" },
+  { start: 7.08, end: 8.9, text: "2 pilot" },
+  { start: 9.84, end: 11.98, text: "3 grow food" },
+  { start: 13.08, end: 15.44, text: "4 taxi driver" },
+  { start: 16.4, end: 18.32, text: "5 vet" },
+  { start: 19.48, end: 21.42, text: "6 clerk" },
+  { start: 22.46, end: 24.74, text: "7 photographer" },
+  { start: 25.8, end: 28.18, text: "8 fix cars" },
+  { start: 29.3, end: 31.52, text: "9 police officer" },
+  { start: 32.64, end: 34.62, text: "10 farmer" },
+  { start: 35.48, end: 37.46, text: "11 mechanic" },
+  { start: 38.38, end: 40.14, text: "12 chef" },
 ];
 
 
@@ -122,6 +127,8 @@ const captions = [
   { id: 12, top: "75.5%", left: "46%" }, // 100-24.5 , 100-54
 ]}
       captions={captions}
+      pageId="sb-unit4-page1-vocab"
+       height={70}
     />
   );
 };

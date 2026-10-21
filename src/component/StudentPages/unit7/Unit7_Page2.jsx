@@ -1,4 +1,3 @@
-import React, { useState, useEffect, useRef } from "react";
 import page_2 from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/Page 59.png";
 import img1_letter from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/Page 58-59/1-05.svg";
 import img2_letter from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/Page 58-59/1-06.svg";
@@ -27,7 +26,7 @@ import { AudioContext } from "../../../AudioContext";
 import "./Unit7_Page2.css";
 import ReadChoose from "../../ReadChoose";
 const Unit7_Page2 = ({ openPopup }) => {
-   const { audioRef, activeId, setActiveId } = useContext(AudioContext);
+  const { audioRef, activeId, setActiveId } = useContext(AudioContext);
   // أصوات الصور
   const imageSounds = [
     null, // الصورة الأولى الكبيرة (إن ما بدك صوت إلها)
@@ -121,6 +120,14 @@ const Unit7_Page2 = ({ openPopup }) => {
     6: sound6,
     7: sound7,
   };
+  const soundLabels = {
+    1: "airplane",
+    2: "souvenir shop",
+    3: "flight attendant",
+    4: "roll",
+    5: "suitcase",
+    6: "hold",
+  };
 
   const handleImageClick = (e) => {
     const rect = e.target.getBoundingClientRect();
@@ -128,7 +135,7 @@ const Unit7_Page2 = ({ openPopup }) => {
     const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
     console.log("X%:", xPercent.toFixed(2), "Y%:", yPercent.toFixed(2));
   };
-   const playSound = (path, id) => {
+  const playSound = (path, id) => {
     if (!audioRef.current) return;
 
     // 🔥 وقف أي صوت شغال بأي صفحة
@@ -162,14 +169,26 @@ const Unit7_Page2 = ({ openPopup }) => {
           return (
             <div
               key={index}
-              className={`circle-area ${isActive ? "active" : ""}`}
+              className={`circle-area page5-audio-hotspot ${
+                isActive ? "active" : ""
+              }`}
+              role="button"
+              tabIndex={0}
+              aria-label={`Play pronunciation: ${soundLabels[area.sound]}`}
+              aria-pressed={isActive}
               style={{
                 left: `${area.x1}%`,
                 top: `${area.y1}%`,
               }}
-            onClick={() => {
+              onClick={() => {
+                playSound(sounds[area.sound], `p59-${area.sound}`);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
                   playSound(sounds[area.sound], `p59-${area.sound}`);
-                }}
+                }
+              }}
             ></div>
           );
         }
@@ -182,6 +201,7 @@ const Unit7_Page2 = ({ openPopup }) => {
           <div
             key={index}
             className="clickable-area"
+            aria-hidden="true"
             style={{
               position: "absolute",
               left: `${area.x1}%`,
@@ -189,9 +209,9 @@ const Unit7_Page2 = ({ openPopup }) => {
               width: `${area.x2 - area.x1}%`,
               height: `${area.y2 - area.y1}%`,
             }}
-           onClick={() => {
-                  playSound(sounds[area.sound], `p59-${area.sound}`);
-                }}
+            onClick={() => {
+              playSound(sounds[area.sound], `p59-${area.sound}`);
+            }}
           ></div>
         );
       })}
@@ -204,12 +224,32 @@ const Unit7_Page2 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open Helen’s Father Is a Pilot audio"
           onClick={() =>
             openPopup(
               "audio",
-              <AudioWithCaption src={soundListen} captions={captionsExample} />,
+              <AudioWithCaption
+                src={soundListen}
+                captions={captionsExample}
+                pageId="sb-unit7-page2-Helen’sFatherIsaPilot"
+              />,
             )
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup(
+                "audio",
+                <AudioWithCaption
+                  src={soundListen}
+                  captions={captionsExample}
+                  pageId="sb-unit7-page2-Helen’sFatherIsaPilot"
+                />,
+              );
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -230,9 +270,18 @@ const Unit7_Page2 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open listen read and repeat activity"
           onClick={() =>
             openPopup("html", <ReadChoose data={readChooseData} />)
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("html", <ReadChoose data={readChooseData} />);
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -253,6 +302,9 @@ const Unit7_Page2 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open listen and read activity"
           onClick={() =>
             openPopup(
               "html",
@@ -270,9 +322,48 @@ const Unit7_Page2 = ({ openPopup }) => {
                 titleQ={"Listen and read along."}
                 audioArr={imageSounds}
                 captions={captions2}
+                pageId="sb-unit7-page2-listen-read"
+                imageAlts={[
+                  "Squirrel holding a circle with the letters long o",
+                  "A coat. The word coat, with the letter long o in red",
+                  "A window. The word window, with the letter long o in red",
+                  "A note. The word note, with the letter long o in red",
+                ]}
+                subHeader="Press Play, follow the long o: coat, window, note, then tap each card to hear it again"
               />,
             )
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup(
+                "html",
+                <FourImagesWithAudio
+                  images={[
+                    Rabbit,
+                    img1_letter,
+                    img2_letter,
+                    img3_letter,
+                    img4_letter,
+                  ]}
+                  audioSrc={letterSound}
+                  checkpoints={[0, 4.2, 6.73, 8.34, 10.11]}
+                  popupOpen={true}
+                  titleQ={"Listen and read along."}
+                  audioArr={imageSounds}
+                  captions={captions2}
+                  pageId="sb-unit7-page2-listen-read"
+                  imageAlts={[
+                    "Squirrel holding a circle with the letters long o",
+                    "A coat. The word coat, with the letter long o in red",
+                    "A window. The word window, with the letter long o in red",
+                    "A note. The word note, with the letter long o in red",
+                  ]}
+                  subHeader="Press Play, follow the long o: coat, window, note, then tap each card to hear it again"
+                />,
+              );
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image

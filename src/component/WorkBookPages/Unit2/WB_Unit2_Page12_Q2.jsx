@@ -1,11 +1,31 @@
+import ExerciseHeader from "../../ExerciseHeader";
+import { playGlobalAudio, stopGlobalAudio } from "../../audioManager";
+import { FaVolumeUp } from "react-icons/fa";
+import yesPluralAudio from "../../../assets/audio/WorkBook/Unit 2/Page 10 - D/Item_014_Yes,_they_are.mp3";
+import noPluralAudio from "../../../assets/audio/WorkBook/Unit 2/Page 10 - D/Item_015_No,_they_aren't.mp3";
+import yesSingularAudio from "../../../assets/audio/WorkBook/Unit 2/Page 10 - D/Item_012_Yes,_it_is.mp3";
+import noSingularAudio from "../../../assets/audio/WorkBook/Unit 2/Page 10 - D/Item_013_No,_it_isn't.mp3";
+import sound0 from "../../../assets/audio/WorkBook/Unit 2/Page 12 - H/Item_001_dogs.mp3";
+import sound1 from "../../../assets/audio/WorkBook/Unit 2/Page 12 - H/Item_002_squirrel.mp3";
+import sound2 from "../../../assets/audio/WorkBook/Unit 2/Page 12 - H/Item_003_horse.mp3";
+import sound3 from "../../../assets/audio/WorkBook/Unit 2/Page 12 - H/Item_004_rabbits.mp3";
 import React, { useState, useRef, useEffect } from "react";
 import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
-import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 12/Ex H 1.svg";
-import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 12/Ex H 2.svg";
-import img3 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 12/Ex H 3.svg";
-import img4 from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 12/Ex H 4.svg";
 import img from "../../../assets/imgs/WorkBook/Right Int WB G2 U2 Folder/Page 12/Asset 43.svg";
+
+// Keep the score dialog's return focus on an enabled action in this exercise.
+function showCheckFeedback(root, kind, ...messages) {
+  if (kind === "success") {
+    const returnTarget =
+      root?.querySelector(".try-again-button:not(:disabled)") ||
+      root?.querySelector(".show-answer-btn:not(:disabled)");
+    returnTarget?.focus({ preventScroll: true });
+  }
+  ValidationAlert[kind](...messages);
+}
+
+
 const correctAnswers = {
   input1_1: "Are these",
   input1_2: "Yes, they are.",
@@ -24,259 +44,392 @@ const questions = [
   { id: "q4", number: 4, question1_end: "rabbits?", image: 1 },
 ];
 
-/* ================= SVG ================= */
-
-const InteractiveConnectingLines = ({
-  connections,
-  leftDotsPositions,
-  rightDotsPositions,
-}) => {
-  return (
-    <svg className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-visible">
-      {connections.map((connection, index) => {
-        const leftPos = leftDotsPositions[connection.leftDotId];
-        const rightPos = rightDotsPositions[connection.rightImageIndex];
-
-        if (!leftPos || !rightPos) return null;
-
-        return (
-          <path
-            key={index}
-            d={`M ${leftPos.x} ${leftPos.y} 
-           C ${(leftPos.x + rightPos.x) / 2} ${leftPos.y},
-             ${(leftPos.x + rightPos.x) / 2} ${rightPos.y},
-             ${rightPos.x} ${rightPos.y}`}
-            stroke="red"
-            strokeWidth="2"
-            fill="none"
-            strokeDasharray="5,5"
-          />
-        );
-      })}
-    </svg>
-  );
-};
-
-/* ================= MATCHING ================= */
-
-const MatchingSection = ({
-  leftDotsPositions,
-  setLeftDotsPositions,
-  rightDotsPositions,
-  setRightDotsPositions,
-  connections,
-}) => {
-  const containerRef = useRef(null);
-  const leftDotsRef = useRef([]);
-  const rightDotsRef = useRef([]);
-
-  useEffect(() => {
-    const calc = () => {
-      if (!containerRef.current) return;
-
-      const containerRect = containerRef.current.getBoundingClientRect();
-
-      const left = {};
-      leftDotsRef.current.forEach((dot, index) => {
-        if (!dot) return;
-        const rect = dot.getBoundingClientRect();
-
-        left[`q${index + 1}`] = {
-          x: rect.left - containerRect.left + rect.width / 2,
-          y: rect.top - containerRect.top + rect.height / 2,
-        };
-      });
-
-      const right = {};
-      rightDotsRef.current.forEach((dot, index) => {
-        if (!dot) return;
-        const rect = dot.getBoundingClientRect();
-
-        right[index] = {
-          x: rect.left - containerRect.left + rect.width / 2,
-          y: rect.top - containerRect.top + rect.height / 2,
-        };
-      });
-
-      setLeftDotsPositions(left);
-      setRightDotsPositions(right);
-    };
-
-    // Use ResizeObserver for more reliable updates
-    const resizeObserver = new ResizeObserver(() => {
-      calc();
-    });
-
-    if (containerRef.current) {
-      resizeObserver.observe(containerRef.current);
-    }
-
-    // Initial calculation after a short delay to ensure layout is ready
-    const timer = setTimeout(calc, 100);
-
-    return () => {
-      resizeObserver.disconnect();
-      clearTimeout(timer);
-    };
-  }, [setLeftDotsPositions, setRightDotsPositions]);
-
-  const images = [img1, img2, img3, img4];
-  const labels = ["horse", "mules", "dogs", "squirrel"];
-
-  return (
-    <div
-      ref={containerRef}
-      className="relative w-full h-full flex justify-between items-center min-h-[400px]"
-    >
-      {/* LEFT DOTS */}
-      <div className="flex flex-col justify-around h-full">
-        {images.map((_, i) => (
-          <div key={i} className="flex items-center h-[100px]">
-            <div
-              ref={(el) => (leftDotsRef.current[i] = el)}
-              className="w-5 h-5 bg-gray-400 rounded-full"
-            />
-          </div>
-        ))}
-      </div>
-
-      {/* LINES */}
-      <InteractiveConnectingLines
-        connections={connections}
-        leftDotsPositions={leftDotsPositions}
-        rightDotsPositions={rightDotsPositions}
-      />
-
-      {/* RIGHT SIDE */}
-      <div className="flex flex-col justify-around h-full items-start">
-        {images.map((image, index) => (
-          <div key={index} className="flex items-center gap-3 h-[100px]">
-            <div
-              ref={(el) => (rightDotsRef.current[index] = el)}
-              className="w-5 h-5 bg-gray-400 rounded-full"
-            />
-            <div className="flex flex-col items-center gap-2">
-              <img src={image} style={{ height: "90px" }} alt={labels[index]} />
-              <span className="text-sm font-semibold text-gray-700">
-                {labels[index]}
-              </span>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
-
 /* ================= MAIN ================= */
 
-export default function WritingExercise() {
-  const [inputs, setInputs] = useState({
-    input1_1: "",
-    input1_2: "",
-    input2_1: "",
-    input2_2: "",
-    input3_1: "",
-    input3_2: "",
-    input4_1: "",
-    input4_2: "",
-  });
-
-  const [results, setResults] = useState({});
-  const [leftDotsPositions, setLeftDotsPositions] = useState({});
-  const [rightDotsPositions, setRightDotsPositions] = useState({});
-  const [connections, setConnections] = useState([]);
-  const [locked, setLocked] = useState(false);
-
-  useEffect(() => {
-    if (
-      Object.keys(leftDotsPositions).length &&
-      Object.keys(rightDotsPositions).length
-    ) {
-      setConnections(
-        questions.map((q) => ({
-          leftDotId: q.id,
-          rightImageIndex: q.image,
-        })),
-      );
+const IMAGE_DESCRIPTIONS = {
+  [img]: "A brown horse.",
+};
+const focusClass =
+  "focus-visible:outline-4! focus-visible:outline-[#2563eb]! focus-visible:outline-offset-4!";
+// eslint-disable-next-line react-refresh/only-export-components -- Keep this indicator local.
+const SpeakerBadge = () => (
+  <span
+    aria-hidden="true"
+    style={{
+      position: "absolute",
+      top: -10,
+      right: -10,
+      width: 22,
+      height: 22,
+      borderRadius: "50%",
+      background: "white",
+      color: "black",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      pointerEvents: "none",
+      zIndex: 3,
+      boxShadow: "0 1px 3px rgba(0,0,0,.25)",
+    }}
+  >
+    <FaVolumeUp size={12} />
+  </span>
+);
+const activate = (e) => {
+  if (e.key !== "Enter" && e.key !== " ") return;
+  e.preventDefault();
+  e.stopPropagation();
+  if (!e.repeat) e.currentTarget.click();
+};
+const release = (e) => {
+  if (e.key === "Enter" || e.key === " ") {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+};
+function useExerciseAudio() {
+  const rootRef = useRef(null),
+    ownerRef = useRef(Symbol("workbook-exercise")),
+    tokenRef = useRef(0);
+  const [playingKey, setPlayingKey] = useState(null);
+  const stopAudio = () => {
+    tokenRef.current++;
+    stopGlobalAudio(ownerRef.current);
+    setPlayingKey(null);
+  };
+  const playSound = (key, src) => {
+    if (!src) return;
+    stopAudio();
+    rootRef.current
+      ?.querySelectorAll("audio")
+      .forEach((audio) => audio.pause());
+    const token = tokenRef.current;
+    setPlayingKey(key);
+    try {
+      playGlobalAudio(src, {
+        owner: ownerRef.current,
+        onFinish: () => {
+          if (tokenRef.current === token) setPlayingKey(null);
+        },
+      });
+    } catch {
+      stopAudio();
     }
-  }, [leftDotsPositions, rightDotsPositions]);
-
-  const handleSelectChange = (inputName, value) => {
-    setInputs((prev) => ({ ...prev, [inputName]: value }));
+  };
+  useEffect(() => {
+    const tokenState = tokenRef,
+      owner = ownerRef.current;
+    const onPlay = (e) => {
+      if (e.target?.tagName !== "AUDIO") return;
+      tokenRef.current++;
+      stopGlobalAudio(ownerRef.current);
+      setPlayingKey(null);
+    };
+    document.addEventListener("play", onPlay, true);
+    return () => {
+      document.removeEventListener("play", onPlay, true);
+      tokenState.current++;
+      stopGlobalAudio(owner);
+    };
+  }, []);
+  return {
+    rootRef,
+    playingKey,
+    playSound,
+    stopAudio,
+  };
+}
+// eslint-disable-next-line react-refresh/only-export-components -- Keep this control local.
+const AudioText = ({
+  children,
+  audioKey,
+  src,
+  playSound,
+  playingKey,
+  className = "",
+  style = {},
+  tabIndex = 0,
+}) => {
+  if (!src)
+    return (
+      <span className={className} style={style}>
+        {children}
+      </span>
+    );
+  return (
+    <span
+      role="button"
+      tabIndex={tabIndex}
+      aria-label={String(children) + ". Hear it."}
+      className={className + " " + focusClass}
+      onClick={() => playSound(audioKey, src)}
+      onKeyDown={activate}
+      onKeyUp={release}
+      style={{
+        borderRadius: "8px",
+        ...style,
+        position: "relative",
+        cursor: "pointer",
+        ...(playingKey === audioKey
+          ? { boxShadow: "0 0 0 3px #2563eb", backgroundColor: "#dbeafe" }
+          : {}),
+      }}
+    >
+      {children}
+      {playingKey === audioKey && <SpeakerBadge />}
+    </span>
+  );
+};
+const SOUNDS = {
+  dogs: sound0,
+  squirrel: sound1,
+  horse: sound2,
+  rabbits: sound3,
+};
+function useSelectAnswers(correct, missingMessage) {
+  const completedCheckRef = useRef(null);
+  const completeCheck = (event) => {
+    const button = event?.currentTarget;
+    if (
+      !completedCheckRef.current ||
+      (button?.style && completedCheckRef.current.button !== button)
+    ) {
+      completedCheckRef.current = {
+        button,
+        cursor: button?.style?.cursor,
+        aria: button?.getAttribute?.("aria-disabled"),
+      };
+    }
+    if (button?.style) {
+      button.style.cursor = "not-allowed";
+      button.setAttribute("aria-disabled", "true");
+    }
+  };
+  const resetCompletedCheck = () => {
+    const previous = completedCheckRef.current;
+    if (previous?.button?.style) {
+      previous.button.style.cursor = previous.cursor || "";
+      if (previous.aria == null)
+        previous.button.removeAttribute("aria-disabled");
+      else previous.button.setAttribute("aria-disabled", previous.aria);
+    }
+    completedCheckRef.current = null;
   };
 
-  const checkAnswers = () => {
-    if (locked) return;
-
-    // ⭐ تحقق إذا في input فاضي
-    const hasEmpty = Object.values(inputs).some((value) => value.trim() === "");
-
-    if (hasEmpty) {
-      ValidationAlert.info("Oops!", "Please complete all fields first.");
+  const [values, setValues] = useState({}),
+    [results, setResults] = useState({}),
+    [revealed, setRevealed] = useState(false),
+    [message, setMessage] = useState("");
+  const audio = useExerciseAudio();
+  const locked = (id) => revealed || results[id] === "correct";
+  const choose = (id, value) => {
+    audio.rootRef.current?.querySelectorAll("audio").forEach((a) => a.pause());
+    if (locked(id)) {
+      setMessage("This answer is correct and locked.");
+      return;
+    }
+    setValues((p) => ({
+      ...p,
+      [id]: value,
+    }));
+    setResults((p) => ({
+      ...p,
+      [id]: null,
+    }));
+    setMessage("Question " + id + ": " + value + " selected.");
+  };
+  const check = (checkEvent) => {
+    if (completedCheckRef.current) {
+      completeCheck(checkEvent);
       return;
     }
 
-    let score = 0;
-    const newResults = {};
-
-    for (const key in correctAnswers) {
-      const isCorrect = inputs[key] === correctAnswers[key];
-      newResults[key] = isCorrect;
-      if (isCorrect) score++;
+    if (revealed) return;
+    audio.stopAudio();
+    if (
+      Object.keys(correct).some(
+        (id) => values[id] === undefined || values[id] === "",
+      )
+    ) {
+      ValidationAlert.info(missingMessage);
+      setMessage(missingMessage);
+      return;
     }
-
-    setResults(newResults);
-
-    if (score === 8) {
-      ValidationAlert.success(`Score: ${score} / 8`);
-    } else if (score > 0) {
-      ValidationAlert.warning(`Score: ${score} / 8`);
-    } else {
-      ValidationAlert.error(`Score: ${score} / 8`);
-    }
-
-    setLocked(true);
+    const next = Object.fromEntries(
+      Object.keys(correct).map((id) => [
+        id,
+        results[id] === "correct" || values[id] === correct[id]
+          ? "correct"
+          : "wrong",
+      ]),
+    );
+    setResults(next);
+    const score = Object.values(next).filter((x) => x === "correct").length,
+      total = Object.keys(correct).length,
+      msg = "Score: " + score + " / " + total;
+    setMessage(
+      msg + ". Correct answers are locked. Incorrect answers can be changed.",
+    );
+    ((score === total ? "success" : score ? "warning" : "error") ===
+      "success" && completeCheck(checkEvent),
+      showCheckFeedback(audio.rootRef.current, score === total ? "success" : score ? "warning" : "error", msg));
   };
+  const show = () => {
+    audio.stopAudio();
+    setValues({
+      ...correct,
+    });
+    setResults(
+      Object.fromEntries(Object.keys(correct).map((id) => [id, "correct"])),
+    );
+    setRevealed(true);
+    setMessage("Correct answers shown and locked.");
+  };
+  const reset = () => {
+    resetCompletedCheck();
 
-  const resetExercise = () => {
-    setInputs(Object.fromEntries(Object.keys(inputs).map((k) => [k, ""])));
+    audio.stopAudio();
+    audio.rootRef.current?.querySelectorAll("audio").forEach((a) => a.pause());
+    setValues({});
     setResults({});
-    setLocked(false);
-    setConnections(
-      questions.map((q) => ({
-        leftDotId: q.id,
-        rightImageIndex: q.image,
-      })),
+    setRevealed(false);
+    setMessage("Exercise reset.");
+  };
+  const props = (id, value, src) => ({
+    role: "button",
+    tabIndex: 0,
+    "aria-pressed": values[id] === value,
+    "aria-disabled": locked(id),
+    "aria-label":
+      "Question " +
+      id +
+      ": " +
+      value +
+      (locked(id)
+        ? ". Correct answer locked."
+        : results[id] === "wrong"
+          ? ". Incorrect. Choose another answer."
+          : ""),
+    onKeyDown: activate,
+    onKeyUp: release,
+    onClick: () => {
+      if (src) audio.playSound("choice-" + id + "-" + value, src);
+      choose(id, value);
+    },
+    style: {
+      position: "relative",
+      ...(values[id] === value && results[id]
+        ? {
+            boxShadow:
+              "inset 0 0 0 2px " +
+              (results[id] === "correct" ? "#16a34a" : "#ef4444"),
+            borderColor: results[id] === "correct" ? "#16a34a" : "#ef4444",
+            borderBottomColor:
+              results[id] === "correct" ? "#16a34a" : "#ef4444",
+          }
+        : {}),
+      ...(audio.playingKey === "choice-" + id + "-" + value
+        ? {
+            backgroundColor: "#dbeafe",
+          }
+        : {}),
+    },
+  });
+  const nativeProps = (id) => ({
+    "aria-label": "Answer " + id + (locked(id) ? ". Correct and locked." : ""),
+    disabled: locked(id),
+    value: values[id] ?? "",
+    onChange: (e) => choose(id, e.target.value),
+    onKeyDown: (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.stopPropagation();
+        if (e.repeat) e.preventDefault();
+      }
+    },
+    onKeyUp: (e) => {
+      if (e.key === "Enter" || e.key === " ") e.stopPropagation();
+    },
+    style: {
+      borderRadius: 0,
+      ...(results[id]
+        ? {
+            borderColor: results[id] === "correct" ? "#16a34a" : "#ef4444",
+          }
+        : {}),
+    },
+  });
+  return {
+    ...audio,
+    values,
+    results,
+    revealed,
+    message,
+    locked,
+    choose,
+    check,
+    show,
+    reset,
+    props,
+    nativeProps,
+  };
+}
+const WB_Unit2_Page12_Q2 = () => {
+  const interaction = useSelectAnswers(
+    correctAnswers,
+    "Please complete all fields first.",
+  );
+  const { rootRef, message, playingKey, playSound } = interaction;
+  const inputs = Object.fromEntries(
+      Object.keys(correctAnswers).map((id) => [
+        id,
+        interaction.values[id] ?? "",
+      ]),
+    ),
+    results = Object.fromEntries(
+      Object.entries(interaction.results).map(([id, r]) => [
+        id,
+        r === "correct" ? true : r === "wrong" ? false : undefined,
+      ]),
     );
-  };
-
-  const handleShowAnswer = () => {
-    setInputs(correctAnswers);
-    setLocked(true);
-    setConnections(
-      questions.map((q) => ({
-        leftDotId: q.id,
-        rightImageIndex: q.image,
-      })),
-    );
-
-    const showResults = {};
-    Object.keys(correctAnswers).forEach((k) => (showResults[k] = true));
-    setResults(showResults);
-  };
-
-  const getInputBorderColor = (name) => {
-    if (results[name] === undefined) return "border-gray-300";
-    return results[name] ? "border-gray-300" : "border-red-500";
-  };
+  const handleSelectChange = (id, value) => {
+      if (id.endsWith("_2")) {
+        const sounds = {
+          "Yes, they are.": yesPluralAudio,
+          "No, they aren't.": noPluralAudio,
+          "Yes, it is.": yesSingularAudio,
+          "No, it isn't.": noSingularAudio,
+        };
+        playSound("native-" + id, sounds[value]);
+      }
+      interaction.choose(id, value);
+    },
+    checkAnswers = interaction.check,
+    resetExercise = interaction.reset,
+    handleShowAnswer = interaction.show;
+  const getInputBorderColor = (name) =>
+    interaction.results[name] === "correct"
+      ? "border-green-600"
+      : interaction.results[name] === "wrong"
+        ? "border-red-500"
+        : "border-gray-300";
 
   return (
-    <div className="main-container-component">
+    <div className="main-container-component" ref={rootRef}>
+      <div
+        className="sr-only"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        {message}
+      </div>
       <div className="div-forall" style={{ gap: "5px" }}>
-        <h1 className="WB-header-title-page8">
-          <span className="WB-ex-A">H</span> Look, trace, and write.
-        </h1>
+        <ExerciseHeader
+          isWorkbook
+          sectionLetter="H"
+          title={"Look, trace, and write."}
+          subTitle={"Trace the question first, then connect it to the animal picture that makes the sentence correct."}
+        />
         <div className="font-sans w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             {/* LEFT SIDE */}
@@ -291,12 +444,12 @@ export default function WritingExercise() {
                         className={`border-b-2 pb-2 ${getInputBorderColor(`input${q.number}_1`)}`}
                       >
                         <select
-                          className={`bg-transparent outline-none ${
+                          className={`${focusClass} bg-transparent ${
                             inputs[`input${q.number}_1`] === ""
                               ? "text-gray-400"
                               : "text-black"
                           }`}
-                          value={inputs[`input${q.number}_1`]}
+                          {...interaction.nativeProps(`input${q.number}_1`)}
                           onChange={(e) =>
                             handleSelectChange(
                               `input${q.number}_1`,
@@ -312,7 +465,14 @@ export default function WritingExercise() {
                         </select>
 
                         <span className="text-red-600 ml-2">
-                          {q.question1_end}
+                          <AudioText
+                            audioKey={q.id}
+                            src={SOUNDS[q.question1_end.replace(/\?$/, "")]}
+                            playSound={playSound}
+                            playingKey={playingKey}
+                          >
+                            {q.question1_end}
+                          </AudioText>
                         </span>
                       </div>
 
@@ -331,12 +491,12 @@ export default function WritingExercise() {
                         className={`border-b-2 pb-2 ${getInputBorderColor(`input${q.number}_2`)}`}
                       >
                         <select
-                          className={`bg-transparent outline-none ${
+                          className={`${focusClass} bg-transparent ${
                             inputs[`input${q.number}_2`] === ""
                               ? "text-gray-400"
                               : "text-black"
                           }`}
-                          value={inputs[`input${q.number}_2`]}
+                          {...interaction.nativeProps(`input${q.number}_2`)}
                           onChange={(e) =>
                             handleSelectChange(
                               `input${q.number}_2`,
@@ -354,6 +514,9 @@ export default function WritingExercise() {
                           <option value="Yes, it is.">Yes, it is.</option>
                           <option value="No, it isn't.">No, it isn't.</option>
                         </select>
+                        {playingKey === "native-input" + q.number + "_2" && (
+                          <SpeakerBadge />
+                        )}
                       </div>
 
                       {/* ❌ ICON */}
@@ -374,9 +537,9 @@ export default function WritingExercise() {
             <div className="flex justify-center items-center">
               <img
                 src={img}
-                alt="exercise"
+                alt={IMAGE_DESCRIPTIONS[img] || ""}
                 className="w-full max-w-[400px] object-contain"
-                style={{height:"100%"}}
+                style={{ height: "100%" }}
               />
             </div>
           </div>
@@ -392,4 +555,6 @@ export default function WritingExercise() {
       </div>
     </div>
   );
-}
+};
+
+export default WB_Unit2_Page12_Q2;

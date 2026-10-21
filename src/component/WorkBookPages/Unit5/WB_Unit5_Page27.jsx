@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+// import React, { useRef } from "react";
 import page2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U5 Folder/Page 27.png";
 import "./WB_unit5.css"
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
@@ -18,7 +18,16 @@ const WB_Unit5_Page27 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+             tabIndex={0}
+          role="button"
+          aria-label="Open exercise 53"
           onClick={() => openPopup("exercise", { startIndex: 52 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 52 });
+            }
+          }}
           style={{ overflow: "visible" }}
         // className="click-icon-page8-2 hover:scale-110 transition"
         >
@@ -41,7 +50,16 @@ const WB_Unit5_Page27 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
-          onClick={() => openPopup("exercise", { startIndex: 53 })}
+            tabIndex={0}
+          role="button"
+          aria-label="Open exercise 54"
+          onClick={() => openPopup("exercise", { startIndex: 55 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 55 });
+            }
+          }}
           style={{ overflow: "visible" }}
         // className="click-icon-page8-2 hover:scale-110 transition"
         >

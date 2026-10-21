@@ -48,11 +48,11 @@ const Unit10_Page4 = ({ openPopup }) => {
     },
   ];
   const clickableAreas = [
-    { id: "pg20-1",x1: 7.15, y1: 10.11, x2: 38.18, y2: 20.32, sound: sound1 },
-    { id: "pg20-2",x1: 58.35, y1: 10.26, x2: 92.67, y2: 20.16, sound: sound2 },
-    { id: "pg20-3",x1: 5.8, y1: 22.75, x2: 37.21, y2: 28.85, sound: sound3 },
-    { id: "pg20-4",x1: 53.69, y1: 48.65, x2: 79.87, y2: 54.59, sound: sound4 },
-    { id: "pg20-5",x1: 7.73, y1: 59.61, x2: 31.97, y2: 65.55, sound: sound5 },
+    { id: "pg20-1", x1: 7.15, y1: 10.11, x2: 38.18, y2: 20.32, sound: sound1 },
+    { id: "pg20-2", x1: 58.35, y1: 10.26, x2: 92.67, y2: 20.16, sound: sound2 },
+    { id: "pg20-3", x1: 5.8, y1: 22.75, x2: 37.21, y2: 28.85, sound: sound3 },
+    { id: "pg20-4", x1: 53.69, y1: 48.65, x2: 79.87, y2: 54.59, sound: sound4 },
+    { id: "pg20-5", x1: 7.73, y1: 59.61, x2: 31.97, y2: 65.55, sound: sound5 },
   ];
 
   const handleImageClick = (e) => {
@@ -61,7 +61,7 @@ const Unit10_Page4 = ({ openPopup }) => {
     const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
     console.log("X%:", xPercent.toFixed(2), "Y%:", yPercent.toFixed(2));
   };
-const playSound = (soundPath, id) => {
+  const playSound = (soundPath, id) => {
     if (!audioRef.current) return;
 
     // 🔥 وقف أي صوت شغال بأي صفحة
@@ -83,30 +83,6 @@ const playSound = (soundPath, id) => {
       onClick={handleImageClick}
       style={{ backgroundImage: `url(${page_4})` }}
     >
-      {clickableAreas.map((area, index) => (
-        <div
-          key={index}
-          className={`clickable-area ${
-            activeId === area.id ? "highlight" : ""
-          }`}
-          style={{
-            position: "absolute",
-            left: `${area.x1}%`,
-            top: `${area.y1}%`,
-            width: `${area.x2 - area.x1}%`,
-            height: `${area.y2 - area.y1}%`,
-          }}
-          onClick={() => {
-            playSound(area.sound, area.id);
-          }}
-          onMouseEnter={() => {
-            if (!isPlaying) setHoveredAreaIndex(index);
-          }}
-          onMouseLeave={() => {
-            if (!isPlaying ) setHoveredAreaIndex(null);
-          }}
-        ></div>
-      ))}
       <div
         className="headset-icon-CD-unit10-page4-1 hover:scale-110 transition"
         style={{ overflow: "visible" }}
@@ -115,6 +91,9 @@ const playSound = (soundPath, id) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open grammar audio"
           onClick={() =>
             openPopup(
               "audio",
@@ -128,10 +107,32 @@ const playSound = (soundPath, id) => {
                 <AudioWithCaption
                   src={grammarSound}
                   captions={captionsExample}
+                  pageId="sb-unit10-page4-grammar"
                 />
               </div>,
             )
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup(
+                "audio",
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignContent: "center",
+                  }}
+                >
+                  <AudioWithCaption
+                    src={grammarSound}
+                    captions={captionsExample}
+                    pageId="sb-unit10-page4-grammar"
+                  />
+                </div>,
+              );
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -152,6 +153,9 @@ const playSound = (soundPath, id) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open grammar video"
           onClick={() =>
             openPopup(
               "video",
@@ -180,6 +184,37 @@ const playSound = (soundPath, id) => {
               </div>,
             )
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup(
+                "video",
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignContent: "center",
+                    alignItems: "center",
+                    height: "100%",
+                    width: "100%",
+                  }}
+                >
+                  <video
+                    autoPlay
+                    controls
+                    style={{
+                      width: "auto",
+                      height: "80%",
+                      objectFit: "fill",
+                      borderRadius: "20px",
+                    }}
+                  >
+                    <source src={video} type="video/mp4" />
+                  </video>
+                </div>,
+              );
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -192,6 +227,52 @@ const playSound = (soundPath, id) => {
           />
         </svg>
       </div>
+      {clickableAreas.map((area, index) => {
+        const areaId = `p85-${index}`;
+
+        return (
+          <div
+            key={index}
+            tabIndex={0}
+            role="button"
+            aria-label={`Play sentence audio ${index + 1}`}
+            aria-pressed={activeId === areaId}
+            className={`clickable-area ${
+              activeId === areaId || hoveredAreaIndex === index
+                ? "highlight"
+                : ""
+            }`}
+            style={{
+              position: "absolute",
+              left: `${area.x1}%`,
+              top: `${area.y1}%`,
+              width: `${area.x2 - area.x1}%`,
+              height: `${area.y2 - area.y1}%`,
+            }}
+            onClick={() => {
+              playSound(area.sound, areaId);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                playSound(area.sound, areaId);
+              }
+            }}
+            onFocus={() => {
+              setHoveredAreaIndex(index);
+            }}
+            onBlur={() => {
+              setHoveredAreaIndex(null);
+            }}
+            onMouseEnter={() => {
+              if (!isPlaying) setHoveredAreaIndex(index);
+            }}
+            onMouseLeave={() => {
+              if (!isPlaying) setHoveredAreaIndex(null);
+            }}
+          />
+        );
+      })}
       <audio ref={audioRef} style={{ display: "none" }} />
     </div>
   );

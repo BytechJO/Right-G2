@@ -14,7 +14,7 @@
 .CB-unit2-p5-q2-grid {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  /* gap: 16px; */
 }
 
 .CB-unit2-p14-q2-true {
@@ -115,4 +115,10 @@
   justify-content: center;
   align-items: center;
   pointer-events: none; /* عشان ما تأثر على السحب أو الكتابة */
+}
+
+
+.CB-unit2-p5-q2-input-box-correct .CB-unit2-p5-q2-input {
+ border-color: #2e9e4f !important;
+ background-color: #e8ffef;
 }

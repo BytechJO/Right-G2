@@ -1,224 +1,607 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Unit4_Page5_Q4.css";
 import img1 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 32/Ex C 1.svg";
 import img2 from "../../../assets/imgs/Right 2 Unit 4 Helens Uncle is a Photographer/Page 32/Ex C 2.svg";
 import Button from "../../WorkBookPages/Button";
+import ExerciseHeader from "../../ExerciseHeader";
+
+// ========================================
+// AUDIO
+// ========================================
+
+import { FaVolumeUp } from "react-icons/fa";
+// 🔊 مدير الصوت المشترك (صوت واحد بس بنفس الوقت)
+import { playGlobalAudio, stopGlobalAudio } from "../../audioManager";
+
+// ⚠️ ما عرفت اسم ملف صوت الجملة (فولدر Page 32 - C):
+// فكّي الكومنت عن الـ import تحت وعدّلي المسار/الاسم، وبعدين شيلي سطر الـ null
+import sentenceAudio from "../../../assets/audio/ClassBook/U 4/Page 32 - C/the photographers use cameras.mp3";
+
+
+// ========================================
+// GRID
+// ========================================
+
+const grid = [
+  "wxtheosdtphotographersxdu".split(""),
+  "lthaxmkliopaseijusexsqwzf".split(""),
+  "hcamerasxsyp".split(""),
+];
+
+// ========================================
+// WORDS (بالترتيب نفسه تبع الجملة)
+// coords = [صف، عمود]
+// ========================================
+
+const rowCoords = (r, from, to) =>
+  Array.from({ length: to - from + 1 }, (_, i) => [r, from + i]);
+
+const words = [
+  { id: "the", text: "the", coords: rowCoords(0, 2, 4) },
+  { id: "photographers", text: "photographers", coords: rowCoords(0, 9, 21) },
+  { id: "use", text: "use", coords: rowCoords(1, 16, 18) },
+  { id: "cameras", text: "cameras", coords: rowCoords(2, 1, 7) },
+];
+
+const SLOT_LENGTH = 8;
+const sentence = {
+  text: words.map((w) => w.text).join(" "),
+  audio: sentenceAudio,
+};
+
+// ========================================
+// HELPERS (خارج الكومبوننت)
+// ========================================
+
+const sameCoord = (a, b) => a[0] === b[0] && a[1] === b[1];
+
+const sameCoords = (a, b) =>
+  a.length === b.length && a.every((coord, i) => sameCoord(coord, b[i]));
+
+const reverseCoords = (coords) => [...coords].reverse();
+
+const getPath = (start, end) => {
+  const [r1, c1] = start;
+  const [r2, c2] = end;
+
+  const rowDiff = r2 - r1;
+  const colDiff = c2 - c1;
+
+  const isStraight =
+    rowDiff === 0 || colDiff === 0 || Math.abs(rowDiff) === Math.abs(colDiff);
+
+  if (!isStraight) return [];
+
+  const rowStep = Math.sign(rowDiff);
+  const colStep = Math.sign(colDiff);
+  const length = Math.max(Math.abs(rowDiff), Math.abs(colDiff)) + 1;
+
+  const path = Array.from({ length }, (_, i) => [
+    r1 + rowStep * i,
+    c1 + colStep * i,
+  ]);
+
+  // الصف الثالث أقصر: نتأكد إن كل خلية بالمسار موجودة
+  return path.every(([r, c]) => grid[r] && grid[r][c] !== undefined)
+    ? path
+    : [];
+};
+
+const lettersOf = (cells) => cells.map(([r, c]) => grid[r][c]);
+
+// الخلية اللي تحت نقطة معينة بالشاشة (ماوس / لمس / قلم)
+const getCellFromPoint = (clientX, clientY) => {
+  const element = document.elementFromPoint(clientX, clientY);
+
+  const cell = element?.closest?.("[data-wordsearch-cell='true']");
+
+  if (!cell) return null;
+
+  const r = Number(cell.dataset.row);
+  const c = Number(cell.dataset.col);
+
+  return Number.isNaN(r) || Number.isNaN(c) ? null : [r, c];
+};
+
+// ========================================
+// MAIN
+// ========================================
 
 const Unit4_Page5_Q4 = () => {
-  const grid = [
-    [
-      "w",
-      "x",
-      "t",
-      "h",
-      "e",
-      "o",
-      "s",
-      "d",
-      "t",
-      "p",
-      "h",
-      "o",
-      "t",
-      "o",
-      "g",
-      "r",
-      "a",
-      "p",
-      "h",
-      "e",
-      "r",
-      "s",
-      "x",
-      "d",
-      "u",
-    ],
+  // أول حرف مختار (بانتظار الحرف الأخير)
+  const [startCell, setStartCell] = useState(null);
+  const [previewCells, setPreviewCells] = useState([]);
+  const [foundWords, setFoundWords] = useState([]); // ids
+  const [showAnswer, setShowAnswer] = useState(false);
+  const [checkCompleted, setCheckCompleted] = useState(false);
+  const [announcement, setAnnouncement] = useState("");
+  const [activeCell, setActiveCell] = useState([0, 0]);
 
-    [
-      "l",
-      "t",
-      "h",
-      "a",
-      "x",
-      "m",
-      "k",
-      "l",
-      "i",
-      "o",
-      "p",
-      "a",
-      "s",
-      "e",
-      "i",
-      "j",
-      "u",
-      "s",
-      "e",
-      "x",
-      "s",
-      "q",
-      "w",
-      "z",
-      "f",
-    ],
-    ["h", "c", "a", "m", "e", "r", "a", "s", "x", "s", "y", "p"],
-  ];
+  // حالة الضغطة الحالية بالماوس / اللمس: { active, start, current }
+  const pointerRef = useRef({ active: false, start: null, current: null });
+  const cellRefs = useRef({});
 
-  // 🔥 تعديل 2: الجملة الكاملة
-  const letters = grid;
-  const fullSentence = ["the", "photographers", "use", "cameras"];
-  const wordsToFind = ["the", "photographers", "use", "cameras"];
+  const locked = showAnswer || checkCompleted;
+  const [playingSentence, setPlayingSentence] = useState(false);
+  const audioOwner = useRef({}).current;
 
-  const correctPositions = {
-    the: [2, 3, 4],
-    photographers: [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21],
-    // ✅ التصحيح هنا (row 1)
-    use: [100 + 16, 100 + 17, 100 + 18],
-    cameras: [200 + 1, 200 + 2, 200 + 3, 200 + 4, 200 + 5, 200 + 6, 200 + 7],
+  // ========================================
+  // AUDIO
+  // ========================================
+
+  const stopAudio = () => {
+    stopGlobalAudio(audioOwner);
+    setPlayingSentence(false);
   };
 
-  const correctAnswers = [
-    { word: "the", order: 0 },
-    { word: "photographers", order: 1 },
-    { word: "use", order: 2 },
-    { word: "cameras", order: 3 },
-  ];
-  const [locked, setLocked] = useState(false);
-  const [sentence, setSentence] = useState("");
-  const [selected, setSelected] = useState([]);
-  const [foundWords, setFoundWords] = useState([]);
-  const [coloredCells, setColoredCells] = useState([]);
-  const [isDragging, setIsDragging] = useState(false);
+  const playSentenceAudio = () => {
+    if (!sentence.audio) return;
 
-  const handleMouseDown = (index) => {
-    if (locked) return;
-    setIsDragging(true);
-    setSelected([index]);
-  };
-  const handleMouseEnter = (index) => {
-    if (!isDragging || locked) return;
+    playGlobalAudio(sentence.audio, {
+      owner: audioOwner,
+      onFinish: () => setPlayingSentence(false),
+    });
 
-    const lastIndex = selected[selected.length - 1];
-
-    if (index === lastIndex + 1 || index === lastIndex - 1) {
-      if (!selected.includes(index)) {
-        setSelected((prev) => [...prev, index]);
-      }
-    }
+    setPlayingSentence(true);
   };
 
-  const displayedSentence = fullSentence.map((word, index) => {
-    const isFound = foundWords.some(
-      (foundWord) =>
-        correctAnswers.find((c) => c.word === foundWord)?.order === index,
+  // وقف الصوت إذا سكرت الصفحة
+  useEffect(() => () => stopGlobalAudio(audioOwner), [audioOwner]);
+
+  // ========================================
+  // CELL STATE
+  // ========================================
+
+  const isFoundCell = (r, c) =>
+    words.some(
+      (word) =>
+        foundWords.includes(word.id) &&
+        word.coords.some(([wr, wc]) => wr === r && wc === c),
     );
 
-    const SLOT_LENGTH = 8;
+  const isPreviewCell = (r, c) =>
+    previewCells.some(([pr, pc]) => pr === r && pc === c);
 
-    if (isFound) {
-      return word.padEnd(SLOT_LENGTH, "");
-    }
-
-    return "_".repeat(SLOT_LENGTH);
-  });
-  const handleTouchMove = (e) => {
-    if (!isDragging || locked) return;
-    e.preventDefault(); // منع التمرير في الصفحة أثناء السحب
-
-    const touch = e.touches[0];
-    const element = document.elementFromPoint(touch.clientX, touch.clientY);
-    if (!element) return;
-
-    const index = element.getAttribute("data-index");
-    if (index !== null) {
-      handleMouseEnter(Number(index));
-    }
+  const clearSelection = () => {
+    setStartCell(null);
+    setPreviewCells([]);
   };
 
-  const handleMouseUp = () => {
+  const resetPointer = () => {
+    pointerRef.current = { active: false, start: null, current: null };
+  };
+
+  // نحدّث المعاينة بدون re-render إذا ما تغيّرت
+  const updatePreview = (path, fallback) => {
+    const next = path.length > 0 ? path : [fallback];
+
+    setPreviewCells((prev) => (sameCoords(prev, next) ? prev : next));
+  };
+
+  // ========================================
+  // START
+  // ========================================
+
+  const startSelection = (r, c) => {
+    if (locked || isFoundCell(r, c)) return;
+
+    setStartCell([r, c]);
+    setPreviewCells([[r, c]]);
+
+    setAnnouncement(
+      `Selection started at letter ${grid[r][c]}. Use the arrow keys to move to the last letter, then press Enter.`,
+    );
+  };
+
+  // ========================================
+  // COMPLETE
+  // ========================================
+
+  const completeSelection = (
+    endR,
+    endC,
+    start = startCell,
+    viaKeyboard = false,
+  ) => {
     if (locked) return;
-    setIsDragging(false);
 
-    const matchedWord = wordsToFind.find((word) => {
-      const positions = correctPositions[word];
-      if (!positions) return false;
-
-      // تحقق نفس الترتيب
-      const isSame =
-        positions.length === selected.length &&
-        positions.every((pos, i) => pos === selected[i]);
-
-      // تحقق بالعكس (reverse)
-      const isReverse =
-        positions.length === selected.length &&
-        positions
-          .slice()
-          .reverse()
-          .every((pos, i) => pos === selected[i]);
-
-      return isSame || isReverse;
-    });
-    if (matchedWord && !foundWords.includes(matchedWord)) {
-      setFoundWords((prev) => [...prev, matchedWord]);
-      setColoredCells((prev) => [...prev, ...selected]);
-      setSentence(
-        wordsToFind
-          .filter((word) => [...foundWords, matchedWord].includes(word))
-          .join(" "),
-      );
-    }
-
-    setSelected([]);
-  };
-
-  const reset = () => {
-    setSelected([]);
-    setFoundWords([]);
-    setColoredCells([]);
-    setSentence("");
-    setLocked(false);
-  };
-
-  const showAnswers = () => {
-    let allCells = [];
-    wordsToFind.forEach((word) => {
-      if (correctPositions[word]) {
-        allCells.push(...correctPositions[word]);
-      }
-    });
-    setFoundWords(wordsToFind);
-    setColoredCells(allCells);
-    setSelected([]);
-    setSentence(wordsToFind.join(" "));
-    setLocked(true);
-  };
-
-  const checkAnswers = () => {
-    if (locked) return;
-    const total = wordsToFind.length;
-    const score = foundWords.length;
-
-    if (score === 0) {
-      ValidationAlert.info();
+    if (!start) {
+      startSelection(endR, endC);
       return;
     }
 
-    if (score < total) {
-      ValidationAlert.warning(`
-        <div style="font-size:20px;text-align:center;">
-          <b style="color:orange;">Score: ${score} / ${total}</b>
-        </div>
-      `);
-    } else {
-      ValidationAlert.success(`
-        <div style="font-size:20px;text-align:center;">
-          <b style="color:green;">Score: ${score} / ${total}</b>
-        </div>
-      `);
+    // نفس الحرف مرتين = إلغاء الاختيار
+    if (sameCoord(start, [endR, endC])) {
+      clearSelection();
+      setAnnouncement("Selection cancelled.");
+      return;
     }
-    setLocked(true);
+
+    const path = getPath(start, [endR, endC]);
+
+    if (path.length === 0) {
+      setAnnouncement("That is not a straight line. Move to another letter.");
+
+      // بالكيبورد: الاختيار بيضل شغّال والطالب بيعدّل
+      if (!viaKeyboard) clearSelection();
+      return;
+    }
+
+    const matchedWord = words.find(
+      (word) =>
+        !foundWords.includes(word.id) &&
+        (sameCoords(path, word.coords) ||
+          sameCoords(path, reverseCoords(word.coords))),
+    );
+
+    if (matchedWord) {
+      setFoundWords((prev) => [...prev, matchedWord.id]);
+
+      const sentenceCompleted = foundWords.length + 1 === words.length;
+
+      setAnnouncement(
+        sentenceCompleted
+          ? `${matchedWord.text} found. The sentence is complete: ${sentence.text}.`
+          : `${matchedWord.text} found.`,
+      );
+
+      if (sentenceCompleted) playSentenceAudio();
+    } else {
+      setAnnouncement(
+        `${lettersOf(path).join(" ")} is not one of the target words.`,
+      );
+    }
+
+    clearSelection();
   };
+
+  // ========================================
+  // CLICK / ENTER / SPACE
+  // (للـ keyboard و screen readers)
+  // ========================================
+
+  const handleCellClick = (r, c, viaKeyboard = false) => {
+    if (locked) return;
+
+    if (!startCell) {
+      startSelection(r, c);
+    } else {
+      completeSelection(r, c, startCell, viaKeyboard);
+    }
+  };
+
+  // ========================================
+  // UNDO
+  // ========================================
+
+  const canUndo = !locked && (Boolean(startCell) || foundWords.length > 0);
+
+  const handleUndo = () => {
+    if (!canUndo) return;
+
+    // إذا في اختيار شغّال: نلغيه
+    if (startCell) {
+      resetPointer();
+      clearSelection();
+      setAnnouncement("Selection cancelled.");
+      return;
+    }
+
+    // وإلا: نشيل آخر كلمة انلقت
+    const lastId = foundWords[foundWords.length - 1];
+    const lastWord = words.find((w) => w.id === lastId)?.text;
+    stopAudio();
+    setFoundWords((prev) => prev.slice(0, -1));
+
+    setAnnouncement(`${lastWord} removed.`);
+  };
+
+  // ========================================
+  // KEYBOARD
+  // ========================================
+
+  const handleCellKeyDown = (e, r, c) => {
+    if (locked) return;
+
+    let nextR = r;
+    let nextC = c;
+
+    if (e.key === "ArrowRight") {
+      e.preventDefault();
+      nextC = c === grid[r].length - 1 ? 0 : c + 1;
+    }
+
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      nextC = c === 0 ? grid[r].length - 1 : c - 1;
+    }
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      nextR = r === grid.length - 1 ? 0 : r + 1;
+    }
+
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      nextR = r === 0 ? grid.length - 1 : r - 1;
+    }
+
+    // الصفوف مختلفة الطول
+    nextC = Math.min(nextC, grid[nextR].length - 1);
+
+    // التنقل بالأسهم: الاختيار بيضل شغّال والحروف بتضل ملوّنة لحد Enter ثاني
+    if (nextR !== r || nextC !== c) {
+      setActiveCell([nextR, nextC]);
+
+      if (startCell) {
+        const path = getPath(startCell, [nextR, nextC]);
+
+        // مسار مستقيم: بنلوّن من البداية للخلية الحالية
+        // مش مستقيم: بنضل على حرف البداية بس
+        setPreviewCells(path.length > 0 ? path : [startCell]);
+
+        setAnnouncement(
+          path.length > 0
+            ? `${lettersOf(path).join(" ")}. Press Enter to finish the word.`
+            : `Letter ${grid[nextR][nextC]}. Not in a straight line from the first letter.`,
+        );
+      } else {
+        setAnnouncement(`Letter ${grid[nextR][nextC]}.`);
+      }
+
+      requestAnimationFrame(() => {
+        cellRefs.current[`${nextR}-${nextC}`]?.focus();
+      });
+
+      return;
+    }
+
+    // ENTER / SPACE
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      e.stopPropagation();
+      handleCellClick(r, c, true);
+      return;
+    }
+
+    // BACKSPACE = UNDO
+    if (e.key === "Backspace") {
+      e.preventDefault();
+      handleUndo();
+      return;
+    }
+
+    // ESC
+    if (e.key === "Escape" && startCell) {
+      e.preventDefault();
+      clearSelection();
+      setAnnouncement("Selection cancelled.");
+    }
+  };
+
+  // ========================================
+  // POINTER: Mouse + Touch + Pen
+  //
+  // - سحب من حرف لحرف مختلف: بيكمل الكلمة مباشرة عند الإفلات
+  // - ضغطة وحدة: أول حرف، أو آخر حرف إذا في أول حرف مختار
+  // - القرار بيصير عند الإفلات، فأي حرف معلّق ما بيخطف السحب الجديد
+  // ========================================
+
+  const handleGridPointerDown = (e) => {
+    if (locked) return;
+
+    // الزر الأيسر بس بالماوس
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+
+    // إصبع تاني أثناء سحب شغّال: نتجاهله
+    if (pointerRef.current.active) return;
+
+    const cell = getCellFromPoint(e.clientX, e.clientY);
+
+    if (!cell) return;
+
+    // كلمة لاقيناها: ما بنبدأ منها اختيار جديد
+    if (isFoundCell(cell[0], cell[1])) return;
+
+    e.preventDefault();
+
+    // الشبكة بتمسك المؤشر: الإفلات برا الشبكة بيوصل لنفس الـ handler
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId);
+    } catch {
+      /* ما في مشكلة إذا المتصفح ما دعمها */
+    }
+
+    pointerRef.current = { active: true, start: cell, current: cell };
+
+    setActiveCell(cell);
+
+    // إذا في أول حرف معلّق منخلّي معاينته لحد ما يتحرك المؤشر
+    if (!startCell) {
+      setPreviewCells([cell]);
+    }
+  };
+
+  const handleGridPointerMove = (e) => {
+    if (locked) return;
+
+    const cell = getCellFromPoint(e.clientX, e.clientY);
+
+    if (!cell) return;
+
+    const pointer = pointerRef.current;
+
+    // أثناء السحب: معاينة المسار من نقطة الضغط
+    if (pointer.active) {
+      pointer.current = cell;
+
+      updatePreview(getPath(pointer.start, cell), pointer.start);
+
+      return;
+    }
+
+    // ماوس بدون ضغط وفي أول حرف مختار: معاينة المسار لحد الحرف تحت المؤشر
+    if (startCell && e.pointerType === "mouse") {
+      updatePreview(getPath(startCell, cell), startCell);
+    }
+  };
+
+  const handleGridPointerUp = (e) => {
+    const pointer = pointerRef.current;
+
+    if (!pointer.active) return;
+
+    e.preventDefault();
+
+    const start = pointer.start;
+
+    const end =
+      getCellFromPoint(e.clientX, e.clientY) || pointer.current || start;
+
+    resetPointer();
+
+    try {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    } catch {
+      /* ما في مشكلة */
+    }
+
+    // ===== سحب لحرف مختلف: بيكمل الكلمة مباشرة =====
+    if (!sameCoord(start, end)) {
+      completeSelection(end[0], end[1], start);
+
+      return;
+    }
+
+    // ===== ضغطة وحدة =====
+
+    // في أول حرف مختار من قبل: هاي آخر حرف (أو إلغاء إذا نفس الحرف)
+    if (startCell) {
+      completeSelection(start[0], start[1], startCell);
+
+      return;
+    }
+
+    // أول ضغطة: نبدأ الاختيار وننتظر آخر حرف
+    startSelection(start[0], start[1]);
+  };
+
+  const handleGridPointerCancel = () => {
+    resetPointer();
+    clearSelection();
+  };
+
+  // ========================================
+  // CHECK
+  // ========================================
+
+  const checkAnswers = () => {
+    // بعد Show Answer أو بعد ما كل شي صح: ما في شي نعمله
+    if (locked) return;
+
+    if (foundWords.length === 0) {
+      ValidationAlert.info(
+        "Oops!",
+        "Please find at least one word before checking.",
+      );
+      setAnnouncement("Please find at least one word before checking.");
+      return;
+    }
+
+    clearSelection();
+    resetPointer();
+
+    const total = words.length;
+    const correct = foundWords.length;
+
+    const color =
+      correct === total ? "green" : correct === 0 ? "red" : "orange";
+
+    const msg = `
+      <div style="font-size:20px;text-align:center;">
+        <span style="color:${color};font-weight:bold;">
+          Score: ${correct} / ${total}
+        </span>
+      </div>
+    `;
+
+    if (correct === total) {
+      setCheckCompleted(true);
+      setAnnouncement(
+        `Score ${correct} out of ${total}. All words are correct.`,
+      );
+      ValidationAlert.success(msg);
+      return;
+    }
+
+    // ما بنقفل الشبكة: الطالب بيكمل الكلمات الناقصة أو بيعمل Undo
+    setAnnouncement(
+      `Score ${correct} out of ${total}. Continue finding the missing words.`,
+    );
+    ValidationAlert.warning(msg);
+  };
+
+  // ========================================
+  // SHOW ANSWER
+  // ========================================
+
+  const showAnswers = () => {
+    stopAudio();
+    setFoundWords(words.map((word) => word.id));
+    clearSelection();
+    resetPointer();
+    setShowAnswer(true);
+    setCheckCompleted(true);
+    setAnnouncement("All answers shown.");
+  };
+
+  // ========================================
+  // RESET: بيمسح الشبكة، سطر الجواب، الفيدباك، والسكور
+  // ========================================
+
+  const reset = () => {
+    stopAudio();
+    setFoundWords([]);
+    clearSelection();
+    resetPointer();
+    setShowAnswer(false);
+    setCheckCompleted(false);
+    setActiveCell([0, 0]);
+    setAnnouncement("Activity reset. All answers are cleared.");
+
+    requestAnimationFrame(() => {
+      cellRefs.current["0-0"]?.focus();
+    });
+  };
+
+  // ========================================
+  // ANSWER LINE
+  // ========================================
+
+  const isSentenceComplete = foundWords.length === words.length;
+  const canReplay = isSentenceComplete && Boolean(sentence.audio);
+
+  const handleSentenceClick = () => {
+    if (canReplay) playSentenceAudio();
+  };
+
+  const handleSentenceKeyDown = (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      handleSentenceClick();
+    }
+  };
+
+  const displayedSentence = words.map((word) =>
+    foundWords.includes(word.id)
+      ? word.text.padEnd(SLOT_LENGTH, " ")
+      : "_".repeat(SLOT_LENGTH),
+  );
+
+  // ========================================
+  // RENDER
+  // ========================================
 
   return (
     <div
@@ -231,121 +614,186 @@ const Unit4_Page5_Q4 = () => {
         boxSizing: "border-box",
       }}
     >
-      <div className="div-forall">
-        <h5 className="header-title-page8 pb-2.5">
-          <span className="ex-A" style={{ marginRight: "10px" }}>
-            C
-          </span>
-       What do photographers use? Tap or click the hidden words to make a sentence. 
-        </h5>
+      {/* Screen Reader */}
+      <div
+        className="sr-only"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        {announcement}
+      </div>
 
-        {/* Words List */}
-        {/* <div className="flex flex-wrap justify-center gap-3 mb-5 border-2 border-dashed border-gray-300 rounded-[14px] p-3">
-          {wordsToFind.map((word) => (
-            <span
-              key={word}
-              className={`px-3 py-1.5 rounded-[10px] border-2 border-[#2c5287] font-semibold transition duration-200 ${
-                foundWords.includes(word)
-                  ? "bg-[#2c5287] text-white border-[#2c5287]"
-                  : "bg-white text-black"
-              }`}
-              style={{ fontSize: "clamp(12px, 2vw, 15px)" }}
-            >
-              {word}
-            </span>
-          ))}
-        </div> */}
+      <div className="div-forall">
+        <ExerciseHeader
+          sectionLetter="C"
+          title="What do photographers use?"
+          subTitle="Find the hidden words in order, then read the completed answer to “What do photographers use?”"
+        />
 
         <div
           style={{ width: "100%", display: "flex", justifyContent: "center" }}
         >
-          {/* Grid Wrapper */}
           <div
             className="px-4 pt-4 pb-5"
             style={{ width: "fit-content", margin: "0 auto" }}
           >
-            <div
-              className="bg-[#daf5ff] mb-10 rounded-[15px] p-2 sm:p-[15px]"
-              style={{
-                userSelect: "none",
-                width: "max-content",
-                touchAction: "none", // 🔥 الحل السحري لمنع تحريك الصفحة أثناء السحب على الآيباد
-                WebkitOverflowScrolling: "touch",
-              }}
-            >
-              {letters.map((row, rowIndex) => (
-                <div
-                  key={rowIndex}
-                  style={{
-                    display: "flex",
-                    gap: "clamp(1px, 0.3vw, 4px)", // مسافة تتغير حسب الشاشة
-                    width: "fit-content",
-                  }}
-                >
-                  {row.map((letter, colIndex) => {
-                    const index = rowIndex * 100 + colIndex;
-                    const isSelected = selected.includes(index);
-                    const isFound = coloredCells.includes(index);
+            {/* ==============================
+                GRID
+            ============================== */}
+            <div style={{ overflowX: "auto", maxWidth: "100%" }}>
+              <div
+                className="bg-[#daf5ff] rounded-[15px] p-2 sm:p-[15px] mb-10"
+                role="grid"
+                aria-label="Word search grid. Press Enter or Space on the first letter, use the arrow keys to move to the last letter, then press Enter again."
+                style={{
+                  userSelect: "none",
+                  width: "max-content",
+                  touchAction: "none",
+                  WebkitOverflowScrolling: "touch",
+                }}
+                onPointerDown={handleGridPointerDown}
+                onPointerMove={handleGridPointerMove}
+                onPointerUp={handleGridPointerUp}
+                onPointerCancel={handleGridPointerCancel}
+                onDragStart={(e) => e.preventDefault()}
+              >
+                {grid.map((row, rIdx) => (
+                  <div
+                    key={rIdx}
+                    role="row"
+                    style={{
+                      display: "flex",
+                      gap: "clamp(1px, 0.3vw, 4px)",
+                      width: "fit-content",
+                    }}
+                  >
+                    {row.map((cell, cIdx) => {
+                      const preview = isPreviewCell(rIdx, cIdx);
+                      const found = isFoundCell(rIdx, cIdx);
+                      const isStart =
+                        startCell &&
+                        startCell[0] === rIdx &&
+                        startCell[1] === cIdx;
+                      const isActiveCell =
+                        activeCell[0] === rIdx && activeCell[1] === cIdx;
 
-                    return (
-                      <span
-                        key={index}
-                        data-index={index}
-                        onMouseDown={() => handleMouseDown(index)}
-                        onMouseEnter={() => handleMouseEnter(index)}
-                        onMouseUp={handleMouseUp}
-                        onDragStart={(e) => e.preventDefault()}
-                        onTouchStart={(e) => {
-                          e.preventDefault(); // 🔥 منع تحريك الصفحة عند بدء اللمس
-                          handleMouseDown(index);
-                        }}
-                        onTouchMove={handleTouchMove}
-                        onTouchEnd={handleMouseUp}
-                        className={`
-                          flex items-center justify-center mb-2
-                          cursor-pointer
-                          transition
-                          ${isSelected ? "bg-[#ffd54f] rounded-sm" : ""}
-                          ${isFound ? "bg-[#4caf50] text-white rounded-sm" : ""}
-                        `}
-                        style={{
-                          width: "clamp(16px, 2.5vw, 25px)", // 🔥 عرض ديناميكي
-                          height: "clamp(22px, 3.5vw, 35px)", // 🔥 طول ديناميكي
-                          fontSize: "clamp(12px, 1.8vw, 18px)", // 🔥 حجم خط ديناميكي
-                        }}
-                      >
-                        {letter}
-                      </span>
-                    );
-                  })}
-                </div>
-              ))}
+                      return (
+                        <div
+                          key={cIdx}
+                          ref={(node) => {
+                            cellRefs.current[`${rIdx}-${cIdx}`] = node;
+                          }}
+                          role="gridcell"
+                          data-wordsearch-cell="true"
+                          data-row={rIdx}
+                          data-col={cIdx}
+                          tabIndex={locked ? -1 : isActiveCell ? 0 : -1}
+                          aria-label={`Row ${rIdx + 1}, column ${cIdx + 1}, letter ${cell}${
+                            found
+                              ? ", found word"
+                              : isStart
+                                ? ", first letter selected"
+                                : preview
+                                  ? ", selected"
+                                  : ""
+                          }`}
+                          aria-selected={preview || found}
+                          onFocus={() => setActiveCell([rIdx, cIdx])}
+                          className={`
+                            relative
+                            flex items-center justify-center mb-2
+                            cursor-pointer
+                            transition
+                            focus:outline-none focus-visible:ring-4 focus-visible:ring-[#2563eb] focus-visible:z-10
+                            ${
+                              found
+                                ? "bg-[#4caf50] text-white rounded-md"
+                                : preview
+                                  ? "bg-[#ffd54f] rounded-md font-bold"
+                                  : "hover:bg-white/60 rounded-md"
+                            }
+                          `}
+                          style={{
+                            width: "clamp(16px, 2.5vw, 25px)",
+                            height: "clamp(22px, 3.5vw, 35px)",
+                            fontSize: "clamp(12px, 1.8vw, 18px)",
+                            outline: isStart ? "3px solid #2c5287" : undefined,
+                          }}
+                          onClick={(e) => {
+                            // detail === 0 يعني click جاي من keyboard / screen reader
+                            // (الماوس واللمس بيتعاملوا معهم الـ pointer handlers فوق)
+                            if (e.detail === 0)
+                              handleCellClick(rIdx, cIdx, true);
+                          }}
+                          onKeyDown={(e) => handleCellKeyDown(e, rIdx, cIdx)}
+                        >
+                          {cell}
+
+                          {/* منطقة لمس أكبر بدون ما تتغير الأبعاد المرئية */}
+                          <span
+                            aria-hidden="true"
+                            style={{
+                              position: "absolute",
+                              inset: "-4px -1px",
+                            }}
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
+                ))}
+              </div>
             </div>
 
+            {/* ==============================
+                ANSWER LINE
+            ============================== */}
             <div className="flex justify-center items-center">
+              {/* ⚠️ alt مؤقت: عدّليه حسب الصورة (بدون ما تكشفي الجواب) */}
               <img
                 src={img1}
-                alt="start"
-                style={{
-                  width: "clamp(40px, 10vw, 100px)", // 🔥 حجم ديناميكي للصور
-                  height: "auto",
-                }}
+                alt="Illustration for the question"
+                style={{ width: "clamp(40px, 10vw, 100px)", height: "auto" }}
               />
 
               <input
-                className="answer-input-CB-unit3-p5-q4"
+                className="answer-input-CB-unit3-p5-q4 focus-visible:outline-4 focus-visible:outline-blue-600 focus-visible:outline-offset-2"
                 value={displayedSentence.join(" ")}
                 readOnly
-                style={{ fontFamily: "monospace" }} // 🔥 مهم جدا
+                tabIndex={canReplay ? 0 : -1}
+                aria-label={
+                  isSentenceComplete
+                    ? `Answer: ${sentence.text}.${canReplay ? " Press to listen again." : ""}`
+                    : `Answer. ${foundWords.length} of ${words.length} words found.`
+                }
+                onClick={handleSentenceClick}
+                onKeyDown={handleSentenceKeyDown}
+                style={{
+                  fontFamily: "monospace",
+                  border:
+                    playingSentence || isSentenceComplete
+                      ? "2px solid green"
+                      : "",
+                  backgroundColor:
+                    playingSentence || isSentenceComplete ? "#e6f4ea" : "",
+                  borderRadius:
+                    playingSentence || isSentenceComplete ? "5px" : "",
+                  cursor: canReplay ? "pointer" : undefined,
+                }}
               />
 
+              {playingSentence && (
+                <span aria-hidden="true" style={{ marginLeft: "8px" }}>
+                  <FaVolumeUp />
+                </span>
+              )}
+
+              {/* ⚠️ alt مؤقت: عدّليه حسب الصورة (بدون ما تكشفي الجواب) */}
               <img
                 src={img2}
-                alt="end"
-                style={{
-                  width: "clamp(40px, 10vw, 100px)", // 🔥 حجم ديناميكي للصور
-                  height: "auto",
-                }}
+                alt="Second illustration for the question"
+                style={{ width: "clamp(40px, 10vw, 100px)", height: "auto" }}
               />
             </div>
           </div>

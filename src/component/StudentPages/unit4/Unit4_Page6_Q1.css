@@ -18,6 +18,12 @@
   height: 30px;
   font-size: 18px;
 }
+
+.question-blank-CB-unit4-p6-q1.CB-unit4-p6-q1-correct,
+.answer-input-CB-unit4-p6-q1.CB-unit4-p6-q1-correct {
+  border-bottom: 3px solid #2e9e4f;
+  border-bottom-color: #2e9e4f !important;
+}
 .input-wrapper {
   position: relative;
   display: inline-block;

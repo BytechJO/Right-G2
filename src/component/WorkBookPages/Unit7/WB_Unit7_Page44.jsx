@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+// import React, { useRef } from "react";
 import page2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U7 Folder/Page 44.png";
 import "./WB_unit7.css";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
@@ -18,6 +18,15 @@ const WB_Unit7_Page44 = ({ openPopup }) => {
           height="22"
           viewBox="0 0 90 90"
           onClick={() => openPopup("exercise", { startIndex: 87 })}
+            tabIndex={0}
+          role="button"
+          aria-label="Open exercise 88"
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 87 });
+            }
+          }}
           style={{ overflow: "visible" }}
           // className="click-icon-page8-2 hover:scale-110 transition"
         >
@@ -42,6 +51,15 @@ const WB_Unit7_Page44 = ({ openPopup }) => {
           height="22"
           viewBox="0 0 90 90"
           onClick={() => openPopup("exercise", { startIndex: 88 })}
+            tabIndex={0}
+          role="button"
+          aria-label="Open exercise 89"
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 88 });
+            }
+          }}
           style={{ overflow: "visible" }}
           // className="click-icon-page8-2 hover:scale-110 transition"
         >

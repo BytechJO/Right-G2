@@ -1,8 +1,6 @@
-import React, { useState } from "react";
 import page_6 from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 45.png";
 // import song from "../../../assets/img_unit5/sounds-unit5/Pg15.Sing_Adult Lady.mp3";
 import "./Unit5_Page6.css";
-import audioBtn from "../../../assets/Page 01/Audio btn.svg";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 
 const Unit5_Page6 = ({ openPopup }) => {
@@ -23,7 +21,16 @@ const Unit5_Page6 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
-          onClick={() => openPopup("exercise", { startIndex: 51 })}
+             tabIndex={0}
+          role="button"
+          aria-label="Open exercise 53"
+          onClick={() => openPopup("exercise", { startIndex: 53 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 53 });
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -44,7 +51,16 @@ const Unit5_Page6 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
-          onClick={() => openPopup("exercise", { startIndex: 52 })}
+            tabIndex={0}
+          role="button"
+          aria-label="Open exercise 54"
+          onClick={() => openPopup("exercise", { startIndex: 54 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 54 });
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image

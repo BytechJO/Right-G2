@@ -1,168 +1,47 @@
-import React, { useState } from "react";
+import React from "react";
+
 import backgroundImage from "../../../assets/imgs/Right 2 Unit 1 Stellas Family/Page.png";
-import ValidationAlert from "../../Popup/ValidationAlert";
-import Rabbit from "../../../assets/Page 01/Rabbit.svg";
 import MySVG from "../../../assets/imgs/Interactive Svg un 1.svg";
+import grandmaSound from "../../../assets/audio/ClassBook/U 1/Page 4/Grandma and Grandpa.mp3";
+import FindQuestion from "../../FindQuestion";
+
+const TARGET_NAME = "Grandma and Grandpa";
+
+// تحويل من left/top/width/height إلى x1/y1/x2/y2
+// x2 = 36 + 12 = 48 ، y2 = 18.5 + 15.5 = 34
+const targetArea = {
+  x1: 36,
+  y1: 18.5,
+  x2: 48,
+  y2: 34,
+};
 
 const Page4_Interactive1 = () => {
-  const [clickedPoint, setClickedPoint] = useState(null);
-  const [checkResult, setCheckResult] = useState(null);
-  const [showAnswer, setShowAnswer] = useState(false);
-  // ✅ منطقة المطعم (بالنسب المئوية)
-  const targetArea = {
-    x1: 36.48,
-    y1: 20.71,
-    x2: 46.66,
-    y2: 31.44,
-  };
-
-  const handleImageClick = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const xPercent = ((e.clientX - rect.left) / rect.width) * 100;
-    const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
-
-    console.log(xPercent, yPercent);
-
-    setClickedPoint({
-      x: xPercent,
-      y: yPercent,
-      inside:
-        xPercent >= targetArea.x1 &&
-        xPercent <= targetArea.x2 &&
-        yPercent >= targetArea.y1 &&
-        yPercent <= targetArea.y2,
-    });
-  };
-
-  const handleCheck = () => {
-    if (showAnswer) return;
-    // 1️⃣ إذا الطالب ما ضغط على الصورة
-    if (!clickedPoint) {
-      ValidationAlert.info(
-        "Pay Attention!",
-        "Please click on a spot in the image before checking.",
-      );
-      return;
-    }
-
-    // 2️⃣ نحدد إنو الصواب / خطأ
-    const correct = clickedPoint.inside;
-    const total = 1;
-    const score = correct ? 1 : 0;
-
-    // 3️⃣ نحدد اللون حسب الإجابة
-    const color = score === total ? "green" : score === 0 ? "red" : "orange";
-
-    // 4️⃣ نكتب رسالة العلامة
-    const scoreMessage = `
-    <div style="font-size: 20px; margin-top: 10px; text-align:center;">
-      <span style="color:${color}; font-weight:bold;">
- Score: ${score} / ${total}
-      </span>
-    </div>
-  `;
-
-    // 5️⃣ نحدد نوع الإشعار حسب النتيجة
-    if (score === total) {
-      setCheckResult("success");
-      ValidationAlert.success("Bravo!", "You clicked on the restaurant! 🏆");
-    } else if (score === 0) {
-      setCheckResult("fail");
-      ValidationAlert.error("Oops!", "This is not the restaurant. Try again!");
-    } else {
-      ValidationAlert.warning(scoreMessage);
-    }
-  };
-
-  const handleStartAgain = () => {
-    setClickedPoint(null);
-    setCheckResult(null);
-    setShowAnswer(false);
-  };
-  const handleShowAnswer = () => {
-    setShowAnswer(true);
-    setClickedPoint(null); // نمسح النقطة اللي كبسها الطالب
-    setCheckResult("success"); // اختيارية إذا بدك يظهر نجاح
-  };
-
   return (
-    <div>
-      <div
-        style={{
-          textAlign: "center",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap:"30px",
-        }}
-      >
-        <div
-          style={{ display: "flex", justifyContent: "center", width: "100%" }}
-        >
-          <img src={Rabbit} style={{ height: "50px", width: "auto" }} />{" "}
-          <h5 className="header-title-page8">
-            I need your help. Can you help me find Grandma and Grandpa in the
-            picture?
-          </h5>
-        </div>
-        <div style={{ position: "relative" }}>
-          <img
-            src={backgroundImage}
-            alt="interactive"
-            onClick={handleImageClick}
-            style={{
-              width: "auto",
-              height: "70vh",
-              cursor: "pointer",
-              display: "block",
-                borderRadius:"15px",
-
-            }}
-          />
-
-          {/* ✅ الدائرة الحمراء في مكان الكبس */}
-          {clickedPoint && (
-            <div
-              style={{
-                position: "absolute",
-                top: `${clickedPoint.y}%`,
-                left: `${clickedPoint.x}%`,
-                width: "3%",
-                height: "3%",
-                backgroundColor: "red",
-                borderRadius: "50%",
-                transform: "translate(-50%, -50%)",
-                pointerEvents: "none",
-              }}
-            ></div>
-          )}
-          {(checkResult === "success" || showAnswer) && (
-            <img
-              src={MySVG}
-              alt="answer highlight"
-              style={{
-                position: "absolute",
-                top: `21%`,
-                left: `37%`,
-                height: `11%`,
-                pointerEvents: "none",
-              }}
-            />
-          )}
-        </div>
-      </div>
-      <div className="action-buttons-container ">
-        <button className="try-again-button" onClick={handleStartAgain}>
-          Start Again ↻
-        </button>
-        <button className="show-answer-btn" onClick={handleShowAnswer}>
-          Show Answer
-        </button>
-        <button className="check-button2" onClick={handleCheck}>
-          Check Answer ✓
-        </button>
-      </div>
-    </div>
+    <FindQuestion
+      title={`I need your help. Can you help me find ${TARGET_NAME} in the picture?`}
+      subtitle={`Scan the scene carefully, then tap, click, or press Enter or Space on ${TARGET_NAME}.`}
+      image={backgroundImage}
+      targetAudio={grandmaSound}
+      imageAlt="A family gathered in a living room: a man and a boy enter through the open door, a woman serves a tray of juice glasses, two children play on the floor with a doll and a teddy bear, and an older woman and man sit on a green sofa beside a coffee table with two glasses of juice."
+      targetName={TARGET_NAME}
+      targetArea={targetArea}
+      answerHighlight={MySVG}
+      imageHeight="70vh"
+      highlightTop="18.5%"
+      highlightLeft="36%"
+      highlightWidth="12%"
+      highlightHeight="15.5%"
+      targetAriaLabel={`Select ${TARGET_NAME}`}
+      pointerSelectedMessage="A point in the scene was selected. Use Check Answer to check it."
+      keyboardSelectedMessage={`${TARGET_NAME} selected. Use Check Answer to check your answer.`}
+      correctAnnouncement={`Correct. You found ${TARGET_NAME}.`}
+      correctAlertMessage={`You found ${TARGET_NAME}! 🏆`}
+      wrongAnnouncement={`That is not ${TARGET_NAME}. Try again.`}
+      wrongAlertMessage={`This is not ${TARGET_NAME}. Try again!`}
+      resetAnnouncement={`Activity reset. Find ${TARGET_NAME} in the scene.`}
+      showAnswerAnnouncement={`${TARGET_NAME} are highlighted.`}
+    />
   );
 };
 

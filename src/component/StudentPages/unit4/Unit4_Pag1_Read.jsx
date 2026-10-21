@@ -19,22 +19,30 @@ const Unit4_Page1_Read = () => {
     new Audio(sound4),
   ];
 
-const captions = [
-  { start: 0.5, end: 3.94, text: "Page 28. Listen and read along." },
-  { start: 5.14, end: 6.22, text: "Long A." },
-  { start: 7.34, end: 7.86, text: "May." },
-  { start: 8.94, end: 10.98, text: "Rain. Cake." },
-];
+  const captions = [
+    { start: 0.5, end: 3.94, text: "Page 28. Listen and read along." },
+    { start: 5.14, end: 6.22, text: "Long A." },
+    { start: 7.34, end: 7.86, text: "May." },
+    { start: 8.94, end: 10.98, text: "Rain. Cake." },
+  ];
   return (
     <>
       <FourImagesWithAudio
         images={[Rabbit, img1, img2, img3, img4]}
         audioSrc={longAudio}
-        checkpoints={[0, 3.94, 7.34, 8.94, 9.56]}
+        checkpoints={[0, 4.5, 7.34, 8.94, 9.56]}
         popupOpen={true}
         titleQ={"Listen and read along."}
         audioArr={imageSounds}
         captions={captions}
+        pageId="sb-unit4-page1-listen-read"
+        imageAlts={[
+          "Squirrel holding a circle with the letters long a",
+          "A May. The word May, with the letter long a in red",
+          "A  rain. The word  rain, with the letter long a in red",
+          "A  cake. The word  cake, with the letter long a in red",
+        ]}
+        subHeader="Press Play, follow the long a: May, rain, cake, then tap each card to hear it again."
       />
     </>
   );

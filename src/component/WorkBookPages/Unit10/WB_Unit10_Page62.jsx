@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+// import React, { useRef } from "react";
 import page2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U10 Folder/Page 62.png";
 import "./WB_unit10.css";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
@@ -18,6 +18,15 @@ const WB_Unit10_Page62 = ({ openPopup }) => {
           height="22"
           viewBox="0 0 90 90"
           onClick={() => openPopup("exercise", { startIndex: 124 })}
+               tabIndex={0}
+          role="button"
+          aria-label="Open exercise 125"
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 124 });
+            }
+          }}
           style={{ overflow: "visible" }}
           // className="click-icon-page8-2 hover:scale-110 transition"
         >
@@ -42,6 +51,15 @@ const WB_Unit10_Page62 = ({ openPopup }) => {
           height="22"
           viewBox="0 0 90 90"
           onClick={() => openPopup("exercise", { startIndex: 125 })}
+               tabIndex={0}
+          role="button"
+          aria-label="Open exercise 126"
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 125 });
+            }
+          }}
           style={{ overflow: "visible" }}
           // className="click-icon-page8-2 hover:scale-110 transition"
         >
@@ -66,6 +84,15 @@ const WB_Unit10_Page62 = ({ openPopup }) => {
           height="22"
           viewBox="0 0 90 90"
           onClick={() => openPopup("exercise", { startIndex: 126 })}
+               tabIndex={0}
+          role="button"
+          aria-label="Open exercise 127"
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 126 });
+            }
+          }}
           style={{ overflow: "visible" }}
           // className="click-icon-page8-2 hover:scale-110 transition"
         >

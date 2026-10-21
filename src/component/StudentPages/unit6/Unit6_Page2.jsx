@@ -1,4 +1,3 @@
-import React, { useState, useEffect, useRef } from "react";
 import page_2 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 47.png";
 import img1_letter from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 46-47/Untitled-22-05.svg";
 import img2_letter from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 46-47/Untitled-22-06.svg";
@@ -27,10 +26,8 @@ import { useContext } from "react";
 import { AudioContext } from "../../../AudioContext";
 import ReadChoose from "../../ReadChoose";
 const Unit6_Page2 = ({ openPopup }) => {
-  const [activeAreaIndex, setActiveAreaIndex] = useState(null);
-  const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-    const { audioRef, activeId, setActiveId } = useContext(AudioContext);
+
+  const { audioRef, activeId, setActiveId } = useContext(AudioContext);
   // أصوات الصور
   const imageSounds = [
     null, // الصورة الأولى الكبيرة (إن ما بدك صوت إلها)
@@ -99,13 +96,13 @@ const Unit6_Page2 = ({ openPopup }) => {
     { x1: 13.24, y1: 47.4, sound: 1, isPrimary: true },
 
     // // // الصوت الأول – منطقة إضافية
-    { x1: 2.31, y1: 44.4, x2: 15.10, y2: 59.61, sound: 1, isPrimary: false },
+    { x1: 2.31, y1: 44.4, x2: 15.1, y2: 59.61, sound: 1, isPrimary: false },
 
     // // // // الصوت الثاني – الأساسية
-    { x1: 15.60, y1: 64.7, sound: 2, isPrimary: true },
+    { x1: 15.6, y1: 64.7, sound: 2, isPrimary: true },
 
     // // // // الصوت الثاني – الإضافية
-    { x1: 11.81, y1: 65.40, x2: 28.87, y2: 79.72, sound: 2, isPrimary: false },
+    { x1: 11.81, y1: 65.4, x2: 28.87, y2: 79.72, sound: 2, isPrimary: false },
 
     //  // الصوت الأول – المنطقة الأساسية
     { x1: 29, y1: 53.8, sound: 3, isPrimary: true },
@@ -114,16 +111,22 @@ const Unit6_Page2 = ({ openPopup }) => {
     { x1: 24.61, y1: 45.9, x2: 42.83, y2: 60.07, sound: 3, isPrimary: false },
 
     // // // // الصوت الثاني – الأساسية
-    { x1: 21.9, y1:30, sound: 4, isPrimary: true },
+    { x1: 21.9, y1: 30, sound: 4, isPrimary: true },
 
     // // // // الصوت الثاني – الإضافية
-    { x1: 24.80, y1: 24.28, x2: 42.83, y2: 38.59, sound: 4, isPrimary: false },
+    { x1: 24.8, y1: 24.28, x2: 42.83, y2: 38.59, sound: 4, isPrimary: false },
   ];
   const sounds = {
     1: sound7,
     2: sound8,
     3: sound9,
     4: sound10,
+  };
+  const soundLabels = {
+    1: "go home",
+    2: "eat lunch",
+    3: "do homework",
+    4: "go to sleep",
   };
 
   const handleImageClick = (e) => {
@@ -132,7 +135,7 @@ const Unit6_Page2 = ({ openPopup }) => {
     const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
     console.log("X%:", xPercent.toFixed(2), "Y%:", yPercent.toFixed(2));
   };
-const playSound = (path, id) => {
+  const playSound = (path, id) => {
     if (!audioRef.current) return;
 
     // 🔥 وقف أي صوت شغال بأي صفحة
@@ -157,7 +160,7 @@ const playSound = (path, id) => {
       <audio ref={audioRef} style={{ display: "none" }} />
 
       {areas.map((area, index) => {
-const isActive = activeId === `p47-${area.sound}`;
+        const isActive = activeId === `p47-${area.sound}`;
 
         // ============================
         // 1️⃣ المنطقة الأساسية → دائرة تظهر فقط عندما تكون Active
@@ -166,14 +169,26 @@ const isActive = activeId === `p47-${area.sound}`;
           return (
             <div
               key={index}
-              className={`circle-area ${isActive ? "active" : ""}`}
+              className={`circle-area page5-audio-hotspot ${
+                isActive ? "active" : ""
+              }`}
+              role="button"
+              tabIndex={0}
+              aria-label={`Play pronunciation: ${soundLabels[area.sound]}`}
+              aria-pressed={isActive}
               style={{
                 left: `${area.x1}%`,
                 top: `${area.y1}%`,
               }}
               onClick={() => {
+                playSound(sounds[area.sound], `p47-${area.sound}`);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
                   playSound(sounds[area.sound], `p47-${area.sound}`);
-                }}
+                }
+              }}
             ></div>
           );
         }
@@ -186,6 +201,7 @@ const isActive = activeId === `p47-${area.sound}`;
           <div
             key={index}
             className="clickable-area"
+            aria-hidden="true"
             style={{
               position: "absolute",
               left: `${area.x1}%`,
@@ -194,8 +210,8 @@ const isActive = activeId === `p47-${area.sound}`;
               height: `${area.y2 - area.y1}%`,
             }}
             onClick={() => {
-                  playSound(sounds[area.sound], `p47-${area.sound}`);
-                }}
+              playSound(sounds[area.sound], `p47-${area.sound}`);
+            }}
           ></div>
         );
       })}
@@ -208,12 +224,32 @@ const isActive = activeId === `p47-${area.sound}`;
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open Helen’s Diary audio"
           onClick={() =>
             openPopup(
               "audio",
-              <AudioWithCaption src={soundListen} captions={captionsExample} />,
+              <AudioWithCaption
+                src={soundListen}
+                captions={captionsExample}
+                pageId="sb-unit6-page2-Helen’sDiary"
+              />,
             )
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup(
+                "audio",
+                <AudioWithCaption
+                  src={soundListen}
+                  captions={captionsExample}
+                  pageId="sb-unit6-page2-Helen’sDiary"
+                />,
+              );
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -234,9 +270,18 @@ const isActive = activeId === `p47-${area.sound}`;
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open listen read and repeat activity"
           onClick={() =>
             openPopup("html", <ReadChoose data={readChooseData} />)
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("html", <ReadChoose data={readChooseData} />);
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -257,6 +302,9 @@ const isActive = activeId === `p47-${area.sound}`;
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open listen and read activity"
           onClick={() =>
             openPopup(
               "html",
@@ -274,9 +322,48 @@ const isActive = activeId === `p47-${area.sound}`;
                 titleQ={"Listen and read along."}
                 audioArr={imageSounds}
                 captions={captions2}
+                pageId="sb-unit6-page2-listen-read"
+                imageAlts={[
+                  "Squirrel holding a circle with the letters long i",
+                  "A light. The word light, with the letter long i in red",
+                  "A night. The word night, with the letter long i in red",
+                  "A tight. The word tight, with the letter long i in red",
+                ]}
+                subHeader="Press Play, follow the long i: light, night, tight, then tap each card to hear it again."
               />,
             )
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup(
+                "html",
+                <FourImagesWithAudio
+                  images={[
+                    Rabbit,
+                    img1_letter,
+                    img2_letter,
+                    img3_letter,
+                    img4_letter,
+                  ]}
+                  audioSrc={letterSound}
+                  checkpoints={[0, 4.94, 7.26, 8.88, 10.38]}
+                  popupOpen={true}
+                  titleQ={"Listen and read along."}
+                  audioArr={imageSounds}
+                  captions={captions2}
+                  pageId="sb-unit6-page2-listen-read"
+                  imageAlts={[
+                    "Squirrel holding a circle with the letters long i",
+                    "A light. The word light, with the letter long i in red",
+                    "A night. The word night, with the letter long i in red",
+                    "A tight. The word tight, with the letter long i in red",
+                  ]}
+                  subHeader="Press Play, follow the long i: light, night, tight, then tap each card to hear it again."
+                />,
+              );
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image

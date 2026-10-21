@@ -56,3 +56,28 @@
     align-self: center;
 }
 
+
+
+/* الدايرة صارت زر: نرجّع ستايل الزر ونكبّرها لهدف لمس مريح */
+.CB-r4p1q2-circle {
+  min-width: 110px;
+  min-height: 60px;
+  padding: 10px;
+  font-size: 18px !important;
+  border-radius: 50%;
+  font: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* نتيجة الدايرة بعد Check */
+.CB-r4p1q2-circle.is-correct {
+  border-color: #2e7d32;
+  background: #f1f8f1;
+}
+.CB-r4p1q2-circle.is-wrong {
+  border-color: #c62828;
+  background: #fdf1f1;
+}

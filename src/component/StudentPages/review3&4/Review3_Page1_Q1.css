@@ -1,61 +1,320 @@
-.circle-choice-CB-review3-p1-q1.active {
-    border: 2px solid #1d4f7b;
-    border-radius: 50%;
-}
+/* ==========================================================
+   Review3_Page1_Q1.css  —  استبدل الملف القديم بالكامل بهاد
+   الشكل: رقم + صورة + (can / can't فوق بعض) + خط الكتابة تحتهم
+   ========================================================== */
 
-
-.circle-choice-CB-review3-p1-q1 {
-    font-size: 22px;
-    font-weight: 500;
-    cursor: pointer;
-    position: relative;
-    width: 60px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
+/* ===== شبكة الأسئلة: عمودين × صفين ===== */
 .question-grid-CB-review3-p1-q1 {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    column-gap: 80px;
-    row-gap: 50px;
-    margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 36px 70px;
+  width: 100%;
 }
 
-.wrong-mark-CB-review3-p1-q1 {
-    position: absolute;
-    top: -13px;
-    right: -11px;
-    background: red;
-    color: white;
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    font-size: 16px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    border: 2px solid white;
-    justify-content: center;
+/* ===== السؤال الواحد ===== */
+.question-box-CB-review2-p2-q3 {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
 }
 
+/* الصف: [رقم + صورة] ثم [can / can't] */
+.img-option-CB-review2-p2-q3 {
+  display: flex;
+  align-items: stretch; /* عمود الدواير بنفس ارتفاع الصورة */
+  gap: 28px;
+}
 
+.img-option-CB-review2-p2-q3 > .flex {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  flex-shrink: 0;
+}
 
-.wrong-mark-CB-review3-p1-q1-2  {
+.q-img-CB-review2-p2-q3 {
+  display: block;
+  height: auto;
+}
+
+/* ===== can / can't: فوق بعض، واحد بأول الصورة وواحد بآخرها ===== */
+.choices-CB-review2-p2-q3 {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 2px 0;
+}
+
+.circle-wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+/* الدايرة: هدف كبير، الكلمة بس بتبين، والدايرة بتظهر لما تنختار */
+.circle-choice-CB-review3-p1-q1 {
+  appearance: none;
+  -webkit-appearance: none;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 88px;
+  height: 54px;
+  padding: 0 18px;
+  background: transparent;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  font: inherit;
+  font-size: 22px;
+  color: #111;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+}
+
+.circle-choice-CB-review3-p1-q1:hover:not([aria-disabled="true"]) {
+  border-color: #b8c4dc;
+}
+
+/* مختارة */
+.circle-choice-CB-review3-p1-q1.active {
+  border-color: #1d4f7b;
+  background: #eef3fb;
+}
+
+/* فوكس بالتاب */
+.circle-choice-CB-review3-p1-q1:focus-visible {
+  outline: 3px solid #2e3192;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 3px rgba(46, 49, 146, 0.25);
+}
+
+/* عم يشتغل صوتها */
+.circle-choice-CB-review3-p1-q1.is-playing {
+  box-shadow: 0 0 0 3px rgba(46, 49, 146, 0.25);
+}
+
+/* نتيجة بعد Check */
+.circle-choice-CB-review3-p1-q1.is-correct {
+  border-color: #1e8e3e;
+  background: #eaf6ed;
+}
+
+.circle-choice-CB-review3-p1-q1.is-wrong {
+  border-color: #d93025;
+  background: #fdeceb;
+}
+
+.circle-choice-CB-review3-p1-q1[aria-disabled="true"] {
+  cursor: default;
+}
+
+/* ✕ على الدايرة الغلط */
+.wrong-mark-CB-review3-p1-q1,
+.wrong-mark-CB-review3-p1-q1-2 {
   position: absolute;
-  top: -10px;
-  right: -10px;
+  width: 26px;
+  height: 26px;
   background: red;
-  color: white;
-  width: 25px;
-    height: 25px;
+  color: #fff;
+  border: 2px solid #fff;
   border-radius: 50%;
   font-size: 16px;
   font-weight: bold;
   display: flex;
   align-items: center;
-  border: 2px solid white;
   justify-content: center;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.wrong-mark-CB-review3-p1-q1 {
+  top: -8px;
+  right: -6px;
+}
+
+/* ===== خط الكتابة (الخانة) ===== */
+.input-wrapper-CB-review2-p2-q3 {
+  position: relative;
+  margin-left: 34px; /* يبدأ من أول الصورة (بعد الرقم) */
+}
+
+.write-input-CB-review2-p2-q3 {
+  appearance: none;
+  -webkit-appearance: none;
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 100%;
+  min-height: 48px;
+  padding: 4px 10px;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid #222;
+  border-radius: 0;
+  font: inherit;
+  font-size: 22px;
+  color: #111;
+  text-align: center;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background 0.15s, box-shadow 0.15s;
+}
+
+.write-input-CB-review2-p2-q3[aria-disabled="true"] {
+  cursor: default;
+}
+
+/* فوكس بالتاب */
+.write-input-CB-review2-p2-q3:focus-visible {
+  outline: 3px solid #2e3192 !important;
+  outline-offset: 3px;
+  background: #dce6f5;
+  box-shadow: 0 0 0 3px rgba(46, 49, 146, 0.25);
+}
+
+/* فراغات متاحة وفي جملة مختارة */
+.write-input-CB-review2-p2-q3.is-target {
+  outline: 2px dashed #2e3192;
+  outline-offset: 3px;
+  background: #f2f6ff;
+}
+
+/* الجملة فوق الخانة وقت السحب */
+.write-input-CB-review2-p2-q3.drag-over-cell {
+  outline: 3px solid #2e3192 !important;
+  outline-offset: 3px;
+  background: #dce6f5;
+  
+  box-shadow: 0 0 0 3px rgba(46, 49, 146, 0.25);
+}
+
+.write-input-CB-review2-p2-q3.is-correct {
+  border-bottom-color: #1e8e3e;
+  /* color: #1e6b32; */
+}
+
+.write-input-CB-review2-p2-q3.is-wrong {
+  border-bottom-color: #d93025;
+}
+
+/* ✕ على الخانة الغلط */
+.wrong-mark-CB-review3-p1-q1-2 {
+  top: 2px;
+  right: 2px;
+}
+
+/* ===== البنك (جمل) ===== */
+.CB-r3p1q1-bank {
+  display: flex;
+  gap: 24px 36px;
+  padding: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.CB-r3p1q1-chip {
+  position: relative;
+  appearance: none;
+  background: #fff;
+  border: 2px solid #2b4f8a;
+  border-radius: 10px;
+  padding: 10px 22px;
+  font: inherit;
+  font-size: 20px;
+  color: #000;
+  cursor: grab;
+  outline: none;
+  touch-action: none; /* ضروري للسحب باللمس */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  white-space: nowrap;
+  transition: background 0.15s, box-shadow 0.15s;
+}
+
+.CB-r3p1q1-chip:focus,
+.CB-r3p1q1-chip.is-playing,
+.CB-r3p1q1-chip.is-selected {
+  background: #dce6f5;
+  box-shadow: 0 0 0 3px #2b4f8a;
+}
+
+.CB-r3p1q1-chip.is-used {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.CB-r3p1q1-chip.is-dragging {
+  opacity: 0.4;
+}
+
+.CB-r3p1q1-chip-overlay {
+  display: inline-block;
+  background: #dce6f5;
+  cursor: grabbing;
+  box-shadow: 0 0 0 3px #2b4f8a, 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+/* ===== السبيكر ===== */
+.CB-r3p1q1-speaker {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #fff;
+  /* color: #fff; */
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.15s, transform 0.15s;
+  pointer-events: none;
+}
+
+.CB-r3p1q1-chip:focus .CB-r3p1q1-speaker,
+.CB-r3p1q1-chip.is-playing .CB-r3p1q1-speaker {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.CB-r3p1q1-speaker.playing {
+  animation: r3p1q1-pulse 0.8s ease-in-out infinite;
+}
+
+@keyframes r3p1q1-pulse {
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+/* ===== شاشات صغيرة ===== */
+@media (max-width: 800px) {
+  .question-grid-CB-review3-p1-q1 {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+
+/* ===== لقارئ الشاشة فقط ===== */
+/* احذفه إذا .sr-only موجود عندك بملف مشترك */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }

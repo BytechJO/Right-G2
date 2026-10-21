@@ -1,146 +1,34 @@
-import React, { useState } from "react";
-import find_img from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page.png"; //======= should change ==========
-import Rabbit from "../../../assets/Page 01/Rabbit.svg";
-import ValidationAlert from "../../Popup/ValidationAlert";
+﻿import React from "react";
+import find_img from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page.png";
 import MySVG from "../../../assets/imgs/Interactive Svg un 10.svg";
+import FindQuestion from "../../FindQuestion";
 
-const Unit10_Page1_find = () => {
-  const [clickedPoint, setClickedPoint] = useState(null);
-  const [checkResult, setCheckResult] = useState(null);
-  const [showAnswer, setShowAnswer] = useState(false);
-  // ✅ منطقة المطعم (بالنسب المئوية)
-  const targetArea = {
-    x1: 63.7,
-    y1: 51.4,
-    x2: 93.9,
-    y2: 71.63,
-  };
+const targetArea = { x1: 63.7, y1: 51.4, x2: 93.9, y2: 71.63 };
 
-  const handleImageClick = (e) => {
-    const rect = e.target.getBoundingClientRect();
-    const xPercent = ((e.clientX - rect.left) / rect.width) * 100;
-    const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
-    console.log(xPercent, yPercent);
-
-    setClickedPoint({
-      x: xPercent,
-      y: yPercent,
-      inside:
-        xPercent >= targetArea.x1 &&
-        xPercent <= targetArea.x2 &&
-        yPercent >= targetArea.y1 &&
-        yPercent <= targetArea.y2,
-    });
-  };
-
-  const handleCheck = () => {
-    if (showAnswer) return;
-    if (!clickedPoint) {
-      ValidationAlert.info(
-        "Pay attention!",
-        "Please click on the image first.",
-      );
-      return;
-    }
-
-    if (clickedPoint.inside) {
-      setCheckResult("success");
-      ValidationAlert.success("Bravo!", "You clicked on the restaurant! 🏆");
-    } else {
-      setCheckResult("fail");
-      ValidationAlert.error("Oops!", "This is not the restaurant. Try again!");
-    }
-  };
-
-  const handleStartAgain = () => {
-    setClickedPoint(null);
-    setCheckResult(null);
-    setShowAnswer(false);
-  };
-
-  const handleShowAnswer = () => {
-    setShowAnswer(true);
-    setClickedPoint(null); // نمسح النقطة اللي كبسها الطالب
-    setCheckResult("success"); // اختيارية إذا بدك يظهر نجاح
-  };
-
-  return (
-    <div>
-      <div
-        style={{
-          textAlign: "center",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <div
-          style={{ display: "flex", justifyContent: "center", width: "100%" }}
-        >
-          <img src={Rabbit} style={{ height: "50px", width: "auto" }} />{" "}
-          <h5 className="header-title-page8">
-            I need your help. Can you help me find the plant in the picture?
-          </h5>
-        </div>
-        <div style={{ position: "relative", display: "inline-block" }}>
-          <img
-            src={find_img}
-            alt="interactive"
-            style={{
-              width: "auto",
-              height: "75vh",
-              cursor: "pointer",
-              display: "block",
-            }}
-            onClick={handleImageClick}
-          />
-
-          {/* ✅ الدائرة الحمراء في مكان الكبس */}
-          {clickedPoint && (
-            <div
-              style={{
-                position: "absolute",
-                top: `${clickedPoint.y}%`,
-                left: `${clickedPoint.x}%`,
-                width: "3%",
-                height: "3%",
-                backgroundColor: "red",
-                borderRadius: "50%",
-                transform: "translate(-50%, -50%)",
-                pointerEvents: "none",
-              }}
-            ></div>
-          )}
-
-          {/* ✅ تلوين المنطقة الصحيحة إذا الجواب صح */}
-          {(checkResult === "success" || showAnswer) && (
-            <img
-              src={MySVG}
-              alt="answer highlight"
-              style={{
-                position: "absolute",
-                top: `50%`,
-                left: `61%`,
-                height: `22.2%`,
-                pointerEvents: "none",
-              }}
-            />
-          )}
-        </div>
-      </div>
-      <div className="action-buttons-container ">
-        <button className="try-again-button" onClick={handleStartAgain}>
-          Start Again ↻
-        </button>
-        <button className="show-answer-btn" onClick={handleShowAnswer}>
-          Show Answer
-        </button>
-        <button className="check-button2" onClick={handleCheck}>
-          Check Answer ✓
-        </button>
-      </div>
-    </div>
-  );
-};
+const Unit10_Page1_find = () => (
+  <FindQuestion
+    title="I need your help. Can you help me find the plant in the picture?"
+    subtitle={"Wait for the full scene to load, scan it carefully, then tap the plant."}
+    image={find_img}
+    imageAlt="A cutaway house with people cooking, dressing, watching television, reading, and sleeping; children play outdoors beside a flower garden."
+    targetName="the plant"
+    targetArea={targetArea}
+    answerHighlight={MySVG}
+    targetAudio=""
+    imageHeight="75vh"
+    highlightTop="50%"
+    highlightLeft="61%"
+    highlightHeight="22.2%"
+    targetAriaLabel="Select the plant"
+    pointerSelectedMessage="A point in the scene was selected. Use Check Answer to check it."
+    keyboardSelectedMessage="The plant selected. Use Check Answer to check your answer."
+    correctAnnouncement="Correct. You found the plant."
+    correctAlertMessage="You found the plant! 🏆"
+    wrongAnnouncement="That is not the plant. Try again."
+    wrongAlertMessage="This is not the plant. Try again!"
+    resetAnnouncement="Activity reset. Find the plant."
+    showAnswerAnnouncement="The plant is highlighted."
+  />
+);
 
 export default Unit10_Page1_find;

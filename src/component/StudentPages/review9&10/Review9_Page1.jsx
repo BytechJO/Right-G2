@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import page_1 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 88.png";
 import "./Review9_Page1.css";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
@@ -19,7 +18,16 @@ const Review9_Page1 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
-          onClick={() => openPopup("exercise", { startIndex: 105 })}
+          tabIndex={0}
+          role="button"
+          aria-label="Open exercise 107"
+          onClick={() => openPopup("exercise", { startIndex: 107 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 107 });
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -40,7 +48,16 @@ const Review9_Page1 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
-          onClick={() => openPopup("exercise", { startIndex: 106 })}
+            tabIndex={0}
+          role="button"
+          aria-label="Open exercise 108"
+          onClick={() => openPopup("exercise", { startIndex: 108 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 108 });
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -61,7 +78,16 @@ const Review9_Page1 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
-          onClick={() => openPopup("exercise", { startIndex: 107 })}
+           tabIndex={0}
+          role="button"
+          aria-label="Open exercise 109"
+          onClick={() => openPopup("exercise", { startIndex: 109 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 109 });
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image

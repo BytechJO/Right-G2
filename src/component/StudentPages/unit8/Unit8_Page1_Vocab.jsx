@@ -96,6 +96,8 @@ const Unit8_Page1_Vocab = () => {
         { id: 10, top: "12.5%", left: "51%" }, // 100-73.5 , 100-44
       ]}
       captions={captions}
+            pageId="sb-unit8-page1-vocab"
+      height={70}
     />
   );
 };

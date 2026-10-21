@@ -17,7 +17,16 @@ const Unit8_Page5 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
-          onClick={() => openPopup("exercise", { startIndex: 77 })}
+             tabIndex={0}
+          role="button"
+          aria-label="Open exercise 79"
+          onClick={() => openPopup("exercise", { startIndex: 79 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 79 });
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -39,7 +48,16 @@ const Unit8_Page5 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
-          onClick={() => openPopup("exercise", { startIndex: 80 })}
+            tabIndex={0}
+          role="button"
+          aria-label="Open exercise 82"
+          onClick={() => openPopup("exercise", { startIndex: 82 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 82 });
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -61,7 +79,16 @@ const Unit8_Page5 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
-          onClick={() => openPopup("exercise", { startIndex: 78 })}
+            tabIndex={0}
+          role="button"
+          aria-label="Open exercise 80"
+          onClick={() => openPopup("exercise", { startIndex: 80 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 80 });
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -83,7 +110,16 @@ const Unit8_Page5 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
-          onClick={() => openPopup("exercise", { startIndex: 79 })}
+             tabIndex={0}
+          role="button"
+          aria-label="Open exercise 81"
+          onClick={() => openPopup("exercise", { startIndex: 81 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 81 });
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image

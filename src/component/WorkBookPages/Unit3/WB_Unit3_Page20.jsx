@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+// import React, { useRef } from "react";
 import page2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U3 Folder/Page 20.png";
 import arrowBtn from "../../../assets/Page 01/Arrow.svg";
 const WB_Unit2_Page20 = ({ openPopup }) => {
@@ -7,7 +7,7 @@ const WB_Unit2_Page20 = ({ openPopup }) => {
       className="page1-img-wrapper"
       style={{ backgroundImage: `url(${page2})` }}
     >
-       <div
+      <div
         className="wb-unit3-p6-q1 hover:scale-110 transition "
         style={{ overflow: "visible" }}
       >
@@ -15,11 +15,21 @@ const WB_Unit2_Page20 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open exercise 39"
           onClick={() => openPopup("exercise", { startIndex: 38 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 38 });
+            }
+          }}
           style={{ overflow: "visible" }}
-        // className="click-icon-page8-2 hover:scale-110 transition"
+          // className="click-icon-page8-2 hover:scale-110 transition"
         >
-          <image className="svg-img"
+          <image
+            className="svg-img"
             href={arrowBtn}
             x="0"
             y="0"
@@ -29,7 +39,7 @@ const WB_Unit2_Page20 = ({ openPopup }) => {
           />
         </svg>
       </div>
-       <div
+      <div
         className="wb-unit3-p6-q2 hover:scale-110 transition "
         style={{ overflow: "visible" }}
       >
@@ -37,11 +47,21 @@ const WB_Unit2_Page20 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open exercise 40"
           onClick={() => openPopup("exercise", { startIndex: 39 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 39 });
+            }
+          }}
           style={{ overflow: "visible" }}
-        // className="click-icon-page8-2 hover:scale-110 transition"
+          // className="click-icon-page8-2 hover:scale-110 transition"
         >
-          <image className="svg-img"
+          <image
+            className="svg-img"
             href={arrowBtn}
             x="0"
             y="0"

@@ -1,4 +1,3 @@
-import { useState, useRef } from "react";
 import page_1 from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/Page 58.png";
 import "./Unit7_Page1.css";
 import AudioWithCaption from "../../AudioWithCaption";
@@ -15,10 +14,7 @@ import sound10 from "../../../assets/audio/ClassBook/U 7/unit7-sound10.mp3";
 import { useContext } from "react";
 import { AudioContext } from "../../../AudioContext";
 const Unit7_Page1 = ({ openPopup }) => {
-  const [activeAreaIndex, setActiveAreaIndex] = useState(null);
-  const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-   const { audioRef, activeId, setActiveId } = useContext(AudioContext);
+  const { audioRef, activeId, setActiveId } = useContext(AudioContext);
   const captionsExample = [
     { start: 0.459, end: 4.199, text: "Page 58, Unit 7. It's boarding time." },
     {
@@ -56,40 +52,44 @@ const Unit7_Page1 = ({ openPopup }) => {
     { x1: 86.4, y1: 49.6, sound: 5, isPrimary: true },
 
     // // الصوت الأول – منطقة إضافية
-    { x1: 87.72, y1: 38.65, x2: 97.80, y2: 78.65, sound: 5, isPrimary: false },
+    { x1: 87.72, y1: 38.65, x2: 97.8, y2: 78.65, sound: 5, isPrimary: false },
 
-  //   // // الصوت الثاني – الأساسية
+    //   // // الصوت الثاني – الأساسية
     { x1: 42.2, y1: 19.9, sound: 8, isPrimary: true },
 
-  //   // // الصوت الثاني – الإضافية
+    //   // // الصوت الثاني – الإضافية
     { x1: 23.73, y1: 20.32, x2: 45.06, y2: 28.08, sound: 8, isPrimary: false },
 
-  //   // // الصوت الثالث – الأساسية
+    //   // // الصوت الثالث – الأساسية
     { x1: 64.8, y1: 62.2, sound: 9, isPrimary: true },
 
-  //   // // الصوت الثالث – الإضافية
+    //   // // الصوت الثالث – الإضافية
     { x1: 57.86, y1: 46.21, x2: 78.02, y2: 72.71, sound: 9, isPrimary: false },
-  //   // // الصوت الرابع – الأساسية
+    //   // // الصوت الرابع – الأساسية
     { x1: 13.2, y1: 24.9, sound: 10, isPrimary: true },
 
-  //   // // الصوت الرابع – الإضافية
-    { x1: 7.83, y1: 19.10, x2: 21.21, y2: 30.06, sound: 10, isPrimary: false },
-
-];
+    //   // // الصوت الرابع – الإضافية
+    { x1: 7.83, y1: 19.1, x2: 21.21, y2: 30.06, sound: 10, isPrimary: false },
+  ];
   const sounds = {
     5: sound5,
     8: sound8,
     9: sound9,
     10: sound10,
   };
-
+  const soundLabels = {
+    1: "pilot",
+    2: "arrival",
+    3: "reception",
+    4: "airport",
+  };
   const handleImageClick = (e) => {
     const rect = e.target.getBoundingClientRect();
     const xPercent = ((e.clientX - rect.left) / rect.width) * 100;
     const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
     console.log("X%:", xPercent.toFixed(2), "Y%:", yPercent.toFixed(2));
   };
-   const playSound = (path, id) => {
+  const playSound = (path, id) => {
     if (!audioRef.current) return;
 
     // 🔥 وقف أي صوت شغال بأي صفحة
@@ -105,6 +105,7 @@ const Unit7_Page1 = ({ openPopup }) => {
       setActiveId(null);
     };
   };
+
   return (
     <div
       className="page1-img-wrapper"
@@ -112,51 +113,6 @@ const Unit7_Page1 = ({ openPopup }) => {
       style={{ backgroundImage: `url(${page_1})` }}
     >
       <audio ref={audioRef} style={{ display: "none" }} />
-
-      {areas.map((area, index) => {
-          const isActive = activeId === `p58-${area.sound}`;
-
-        // ============================
-        // 1️⃣ المنطقة الأساسية → دائرة تظهر فقط عندما تكون Active
-        // ============================
-        if (area.isPrimary) {
-          return (
-            <div
-              key={index}
-              className={`circle-area ${isActive ? "active" : ""}`}
-              style={{
-                left: `${area.x1}%`,
-                top: `${area.y1}%`,
-              }}
-             onClick={() => {
-                  playSound(sounds[area.sound], `p58-${area.sound}`);
-                }}
-            ></div>
-          );
-        }
-
-        // ============================
-        // 2️⃣ المناطق الفرعية → مربعات داكنة مخفية ولازم
-        //    عند الضغط عليها → تفعّل الدائرة الأساسية
-        // ============================
-        return (
-          <div
-            key={index}
-            className="clickable-area"
-            style={{
-              position: "absolute",
-              left: `${area.x1}%`,
-              top: `${area.y1}%`,
-              width: `${area.x2 - area.x1}%`,
-              height: `${area.y2 - area.y1}%`,
-            }}
-            onClick={() => {
-                  playSound(sounds[area.sound], `p58-${area.sound}`);
-                }}
-          ></div>
-        );
-      })}
-
       <div
         className="headset-icon-CD-unit7-page1-1 hover:scale-110 transition"
         style={{ overflow: "visible" }}
@@ -165,6 +121,9 @@ const Unit7_Page1 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open page audio"
           onClick={() =>
             openPopup(
               "audio",
@@ -175,10 +134,36 @@ const Unit7_Page1 = ({ openPopup }) => {
                   alignContent: "center",
                 }}
               >
-                <AudioWithCaption src={allunit3} captions={captionsExample} />
+                <AudioWithCaption
+                  src={allunit3}
+                  captions={captionsExample}
+                  pageId="unit7-page1-main-audio"
+                />
               </div>,
             )
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+
+              openPopup(
+                "audio",
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignContent: "center",
+                  }}
+                >
+                  <AudioWithCaption
+                    src={allunit3}
+                    captions={captionsExample}
+                    pageId="unit7-page1-main-audio"
+                  />
+                </div>,
+              );
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -200,6 +185,9 @@ const Unit7_Page1 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open interactive activity"
           onClick={() =>
             openPopup(
               "html",
@@ -208,6 +196,13 @@ const Unit7_Page1 = ({ openPopup }) => {
               </>,
             )
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+
+              openPopup("html", <Unit7_Page1_find />);
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -228,6 +223,9 @@ const Unit7_Page1 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open vocabulary activity"
           onClick={() =>
             openPopup(
               "html",
@@ -236,6 +234,13 @@ const Unit7_Page1 = ({ openPopup }) => {
               </>,
             )
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+
+              openPopup("html", <Unit7_Page1_Vocab />);
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -256,6 +261,9 @@ const Unit7_Page1 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open listen and read activity"
           onClick={() =>
             openPopup(
               "html",
@@ -264,6 +272,17 @@ const Unit7_Page1 = ({ openPopup }) => {
               </>,
             )
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup(
+                "html",
+                <>
+                  <Unit7_Page1_Read />
+                </>,
+              );
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -276,6 +295,63 @@ const Unit7_Page1 = ({ openPopup }) => {
           />
         </svg>
       </div>
+
+      {areas.map((area, index) => {
+        const isActive = activeId === `p58-${area.sound}`;
+
+        // ============================
+        // 1️⃣ المنطقة الأساسية → دائرة تظهر فقط عندما تكون Active
+        // ============================
+        if (area.isPrimary) {
+          return (
+            <div
+              key={index}
+              className={`circle-area page4-audio-hotspot ${
+                isActive ? "active" : ""
+              }`}
+              role="button"
+              tabIndex={0}
+              aria-label={`Play pronunciation: ${soundLabels[area.sound]}`}
+              aria-pressed={isActive}
+              style={{
+                left: `${area.x1}%`,
+                top: `${area.y1}%`,
+              }}
+              onClick={() => {
+                playSound(sounds[area.sound], `p58-${area.sound}`);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  playSound(sounds[area.sound], `p58-${area.sound}`);
+                }
+              }}
+            ></div>
+          );
+        }
+
+        // ============================
+        // 2️⃣ المناطق الفرعية → مربعات داكنة مخفية ولازم
+        //    عند الضغط عليها → تفعّل الدائرة الأساسية
+        // ============================
+        return (
+          <div
+            key={index}
+            className="clickable-area"
+            aria-hidden="true"
+            style={{
+              position: "absolute",
+              left: `${area.x1}%`,
+              top: `${area.y1}%`,
+              width: `${area.x2 - area.x1}%`,
+              height: `${area.y2 - area.y1}%`,
+            }}
+            onClick={() => {
+              playSound(sounds[area.sound], `p58-${area.sound}`);
+            }}
+          ></div>
+        );
+      })}
     </div>
   );
 };

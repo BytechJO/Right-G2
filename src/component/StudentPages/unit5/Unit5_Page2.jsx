@@ -1,4 +1,3 @@
-import React, { useState, useEffect, useRef } from "react";
 import page_2 from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 41.png";
 import img1_letter from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 40-41/1-05.svg";
 import img2_letter from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 40-41/1-06.svg";
@@ -24,9 +23,6 @@ import { AudioContext } from "../../../AudioContext";
 import "./Unit5_Page2.css";
 import ReadChoose from "../../ReadChoose";
 const Unit5_Page2 = ({ openPopup }) => {
-  const [activeAreaIndex, setActiveAreaIndex] = useState(null);
-  const [hoveredAreaIndex, setHoveredAreaIndex] = useState(null);
-  const [isPlaying, setIsPlaying] = useState(false);
   const { audioRef, activeId, setActiveId } = useContext(AudioContext);
   // أصوات الصور
   const imageSounds = [
@@ -98,7 +94,12 @@ const Unit5_Page2 = ({ openPopup }) => {
     3: sound4,
     4: sound9,
   };
-
+  const soundLabels = {
+    1: "kitchen",
+    2: "carry",
+    3: "meat",
+    4: "look",
+  };
   const handleImageClick = (e) => {
     const rect = e.target.getBoundingClientRect();
     const xPercent = ((e.clientX - rect.left) / rect.width) * 100;
@@ -139,13 +140,25 @@ const Unit5_Page2 = ({ openPopup }) => {
           return (
             <div
               key={index}
-              className={`circle-area ${isActive ? "active" : ""}`}
+              className={`circle-area page5-audio-hotspot ${
+                isActive ? "active" : ""
+              }`}
+              role="button"
+              tabIndex={0}
+              aria-label={`Play pronunciation: ${soundLabels[area.sound]}`}
+              aria-pressed={isActive}
               style={{
                 left: `${area.x1}%`,
                 top: `${area.y1}%`,
               }}
               onClick={() => {
                 playSound(sounds[area.sound], `p41-${area.sound}`);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  playSound(sounds[area.sound], `p41-${area.sound}`);
+                }
               }}
             ></div>
           );
@@ -159,6 +172,7 @@ const Unit5_Page2 = ({ openPopup }) => {
           <div
             key={index}
             className="clickable-area"
+            aria-hidden="true"
             style={{
               position: "absolute",
               left: `${area.x1}%`,
@@ -181,12 +195,32 @@ const Unit5_Page2 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open Our Favorite Foods audio"
           onClick={() =>
             openPopup(
               "audio",
-              <AudioWithCaption src={soundListen} captions={captionsExample} />,
+              <AudioWithCaption
+                src={soundListen}
+                captions={captionsExample}
+                pageId="sb-unit5-page2-OurFavoriteFoods"
+              />,
             )
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup(
+                "audio",
+                <AudioWithCaption
+                  src={soundListen}
+                  captions={captionsExample}
+                  pageId="sb-unit5-page2-OurFavoriteFoods"
+                />,
+              );
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -207,9 +241,18 @@ const Unit5_Page2 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open listen read and repeat activity"
           onClick={() =>
             openPopup("html", <ReadChoose data={readChooseData} />)
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("html", <ReadChoose data={readChooseData} />);
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -230,6 +273,9 @@ const Unit5_Page2 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open listen and read activity"
           onClick={() =>
             openPopup(
               "html",
@@ -247,9 +293,48 @@ const Unit5_Page2 = ({ openPopup }) => {
                 titleQ={"Listen and read along."}
                 audioArr={imageSounds}
                 captions={captions2}
+                pageId="sb-unit5-page2-listen-read"
+                imageAlts={[
+                  "Squirrel holding a circle with the letters long e",
+                  "A meat. The word meat, with the letter long e in red",
+                  "A read. The word read, with the letter long e in red",
+                  "A tea. The word tea, with the letter long e in red",
+                ]}
+                subHeader="Press Play, follow the long e: meat, read, tea, then tap each card to hear it again."
               />,
             )
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup(
+                "html",
+                <FourImagesWithAudio
+                  images={[
+                    Rabbit,
+                    img1_letter,
+                    img2_letter,
+                    img3_letter,
+                    img4_letter,
+                  ]}
+                  audioSrc={letterSound}
+                  checkpoints={[0, 5.04, 7.18, 8.54, 9.92]}
+                  popupOpen={true}
+                  titleQ={"Listen and read along."}
+                  audioArr={imageSounds}
+                  captions={captions2}
+                  pageId="sb-unit5-page2-listen-read"
+                  imageAlts={[
+                    "Squirrel holding a circle with the letters long e",
+                    "A meat. The word meat, with the letter long e in red",
+                    "A read. The word read, with the letter long e in red",
+                    "A tea. The word tea, with the letter long e in red",
+                  ]}
+                  subHeader="Press Play, follow the long e: meat, read, tea, then tap each card to hear it again."
+                />,
+              );
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image

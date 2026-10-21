@@ -15,7 +15,16 @@ const WB_Unit1_Page19 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+            tabIndex={0}
+          role="button"
+          aria-label="Open exercise 36"
           onClick={() => openPopup("exercise", { startIndex: 35 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 35 });
+            }
+          }}
           style={{ overflow: "visible" }}
         // className="click-icon-page8-2 hover:scale-110 transition"
         >
@@ -38,7 +47,16 @@ const WB_Unit1_Page19 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open exercise 37"
           onClick={() => openPopup("exercise", { startIndex: 36 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 36 });
+            }
+          }}
           style={{ overflow: "visible" }}
         // className="click-icon-page8-2 hover:scale-110 transition"
         >
@@ -61,7 +79,16 @@ const WB_Unit1_Page19 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
+            tabIndex={0}
+          role="button"
+          aria-label="Open exercise 38"
           onClick={() => openPopup("exercise", { startIndex: 37 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 37 });
+            }
+          }}
           style={{ overflow: "visible" }}
         // className="click-icon-page8-2 hover:scale-110 transition"
         >

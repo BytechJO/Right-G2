@@ -17,29 +17,16 @@ const Unit10_Page5 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
-          onClick={() => openPopup("exercise", { startIndex: 99 })}
-          style={{ overflow: "visible" }}
-        >
-          <image
-            className="svg-img"
-            href={arrowBtn}
-            x="0"
-            y="0"
-            width="90"
-            height="90"
-          />
-        </svg>
-      </div>
-
-      <div
-        className="click-icon-unit10-page5-2 hover:scale-110 transition"
-        style={{ overflow: "visible" }}
-      >
-        <svg
-          width="22"
-          height="22"
-          viewBox="0 0 90 90"
-          onClick={() => openPopup("exercise", { startIndex: 102 })}
+          tabIndex={0}
+          role="button"
+          aria-label="Open exercise 101"
+          onClick={() => openPopup("exercise", { startIndex: 101 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 101 });
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -61,7 +48,16 @@ const Unit10_Page5 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
-          onClick={() => openPopup("exercise", { startIndex: 100 })}
+          tabIndex={0}
+          role="button"
+          aria-label="Open exercise 102"
+          onClick={() => openPopup("exercise", { startIndex: 102 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 102 });
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image
@@ -83,7 +79,46 @@ const Unit10_Page5 = ({ openPopup }) => {
           width="22"
           height="22"
           viewBox="0 0 90 90"
-          onClick={() => openPopup("exercise", { startIndex: 101 })}
+          tabIndex={0}
+          role="button"
+          aria-label="Open exercise 103"
+          onClick={() => openPopup("exercise", { startIndex: 103 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 103 });
+            }
+          }}
+          style={{ overflow: "visible" }}
+        >
+          <image
+            className="svg-img"
+            href={arrowBtn}
+            x="0"
+            y="0"
+            width="90"
+            height="90"
+          />
+        </svg>
+      </div>
+      <div
+        className="click-icon-unit10-page5-2 hover:scale-110 transition"
+        style={{ overflow: "visible" }}
+      >
+        <svg
+          width="22"
+          height="22"
+          viewBox="0 0 90 90"
+          tabIndex={0}
+          role="button"
+          aria-label="Open exercise 104"
+          onClick={() => openPopup("exercise", { startIndex: 104 })}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openPopup("exercise", { startIndex: 104 });
+            }
+          }}
           style={{ overflow: "visible" }}
         >
           <image

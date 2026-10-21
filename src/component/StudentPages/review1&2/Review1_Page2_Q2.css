@@ -1,119 +1,236 @@
-/* ====== CONTAINER ====== */
-.CB-review1-p2-q1-container {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 كروت بالصف */
-  gap: 30px;
-  margin-top: 20px;
-}
-
-/* ====== QUESTION CARD ====== */
-.CB-review1-p2-q1-question-box {
-  /* border: 2px solid #ff6b57; */
-  border-radius: 16px;
-  /* padding: 16px; */
-  background: #fff;
+/* ===== القائمة ===== */
+.CB-r1p2q2-list {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  position: relative;
-}
-.CB-review1-p2-q1-true {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 22px;
-    height: 28px;
-    pointer-events: none;
-}
-/* رقم السؤال */
-.CB-review1-p2-q1-question-text {
-  width: 100%;
-  text-align: left;
-}
-
-/* ====== IMAGES ====== */
-.CB-review1-p2-q1-flex {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   gap: 14px;
+  width: 100%;
+  max-width: 640px;
+  margin: 16px auto 0;
 }
 
-/* صورتين جنب بعض */
-.CB-review1-p2-q1-flex > div:first-child {
+/* ===== كل سؤال = كرت بسطر واحد ===== */
+.CB-r1p2q2-item {
   display: flex;
-  gap: 5px;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 16px;
+  background: #fff;
+  border: 2px solid #e2e8f0;
+  border-radius: 16px;
+  transition: border-color 0.2s, background 0.2s;
 }
 
-.CB-review1-p2-q2-img {
-     width: 210px;
-    height: 160px;
-  object-fit: contain;
+.CB-r1p2q2-item.is-active {
+  border-color: #2c5287;
+  background: #f5f8fd;
 }
 
-/* ====== OPTIONS ====== */
-.CB-review1-p2-q1-options-box {
-    display: flex;
-    gap: 20px;
-    width: 70%;
-    margin-left: 20px;
-    justify-content: space-between;
+.CB-r1p2q2-num {
+  font-size: 22px;
+  font-weight: 700;
+  color: darkblue;
+  min-width: 26px;
 }
 
-/* wrapper لكل زر */
-.CB-review1-p2-q1-option-wrapper {
+/* ===== الصورة (زر) ===== */
+.CB-r1p2q2-pic {
   position: relative;
-}
-
-/* زر ✓ و ✗ */
-.CB-review1-p2-q1-option-btn {
-    width: 45px;
-    height: 45px;
-    border: 2px solid #ff6b57;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-size: 22px;
-    font-weight: bold;
-    background: #fff;
-    transition: all 0.15s ease;
-}
-
-/* .CB-review1-p2-q1-option-btn:hover {
-  background: #ffe3df;
-} */
-
-/* لما يختار الطالب */
-.CB-review1-p2-q1-option-btn.is-selected {
-  /* background: #777cfd; */
-  color: white;
-  border: 3px solid #777cfd;
-}
-
-/* ====== WRONG ICON ====== */
-.CB-review1-p2-q1-wrong-icon {
-  position: absolute;
- top: -10px;
-  right: -10px;
-
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-
-  background: red;
-  color: white;
-
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 200px;
+  padding: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: #fff;
+  border: 2px solid #cbd5e1;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
 
+.CB-r1p2q2-pic:hover {
+  border-color: #2c5287;
+}
+
+.CB-r1p2q2-pic.is-playing {
+  /* border-color: #dc2626; */
+}
+
+.CB-r1p2q2-pic img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* ===== أيقونة السبيكر ===== */
+.CB-r1p2q2-speaker {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #fff;
+  /* color: #fff; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.2s, transform 0.2s;
+  pointer-events: none;
+}
+
+.CB-r1p2q2-pic:hover .CB-r1p2q2-speaker,
+.CB-r1p2q2-pic:focus-visible .CB-r1p2q2-speaker,
+.CB-r1p2q2-speaker.playing {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.CB-r1p2q2-speaker.playing {
+  /* background: #dc2626; */
+  animation: r1p2q2-pulse 0.9s ease-in-out infinite;
+}
+
+@keyframes r1p2q2-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+}
+
+/* ===== الاختيارات ✓ / ✗ ===== */
+.CB-r1p2q2-choices {
+  display: flex;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+.CB-r1p2q2-choice-wrap {
+  position: relative; /* عشان الـ badge يتموضع فوق يمين البوكس */
+}
+
+.CB-r1p2q2-choice {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: #fff;
+  border: 3px solid #cbd5e1;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, transform 0.15s;
+}
+
+.CB-r1p2q2-choice img {
+  width: 32px;
+  height: 32px;
+}
+
+.CB-r1p2q2-choice:hover {
+  border-color: #2c5287;
+  transform: scale(1.05);
+}
+
+.CB-r1p2q2-choice[aria-disabled="true"] {
+  cursor: default;
+}
+
+.CB-r1p2q2-choice[aria-disabled="true"]:hover {
+  transform: none;
+}
+
+.CB-r1p2q2-choice.is-selected {
+  border-color: #2c5287;
+  background: #dbe7f7;
+}
+
+.CB-r1p2q2-choice.is-correct {
+  border-color: #16a34a;
+  background: #dcfce7;
+}
+
+.CB-r1p2q2-choice.is-wrong {
+  border-color: #dc2626;
+  background: #fee2e2;
+}
+
+/* ===== أيقونة النتيجة: فوق يمين البوكس ===== */
+.CB-r1p2q2-badge.wrong {
+  position: absolute;
+  top: -9px;
+  right: -9px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
   font-size: 14px;
-  font-weight: bold;
-  border: 2px solid white;
-  /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25); */
-  z-index: 3;
+  font-weight: 700;
+  line-height: 1;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+}
+
+.CB-r1p2q2-badge.correct {
+  background: #16a34a;
+}
+
+.CB-r1p2q2-badge.wrong {
+  background: #dc2626;
+}
+
+/* ===== فوكس واضح بالكيبورد ===== */
+.CB-r1p2q2-pic:focus-visible,
+.CB-r1p2q2-choice:focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 3px;
+}
+
+/* ===== السكور ===== */
+.CB-r1p2q2-score {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 14px 0 0;
+}
+
+.CB-r1p2q2-score.is-perfect {
+  color: green;
+}
+.CB-r1p2q2-score.is-partial {
+  color: orange;
+}
+.CB-r1p2q2-score.is-zero {
+  color: red;
+}
+
+/* ===== شاشات صغيرة ===== */
+@media (max-width: 560px) {
+  .CB-r1p2q2-item {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .CB-r1p2q2-pic {
+    flex: 1 1 100%;
+    order: 2;
+  }
+  .CB-r1p2q2-num {
+    order: 1;
+  }
+  .CB-r1p2q2-choices {
+    order: 3;
+  }
 }

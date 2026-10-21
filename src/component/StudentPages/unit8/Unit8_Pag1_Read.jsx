@@ -1,7 +1,7 @@
 import sound1 from "../../../assets/audio/ClassBook/U 8/Pg64_1.1_Adult Lady.mp3";
 import sound2 from "../../../assets/audio/ClassBook/U 8/Pg64_1.2_Adult Lady.mp3";
 import sound3 from "../../../assets/audio/ClassBook/U 8/Pg64_1.3_Adult Lady.mp3";
-import sound4 from "../../../assets/audio/ClassBook/U 8/Pg64_1.4_Adult Lady.mp3"
+import sound4 from "../../../assets/audio/ClassBook/U 8/Pg64_1.4_Adult Lady.mp3";
 import Rabbit from "../../../assets/Page 01/Rabbit.svg";
 import img1 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 64-65/1-01.svg";
 import img2 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 64-65/1-02.svg";
@@ -16,27 +16,34 @@ const Unit8_Page1_Read = () => {
     new Audio(sound1),
     new Audio(sound2),
     new Audio(sound3),
-    new Audio(sound4)
-  
+    new Audio(sound4),
   ];
 
-const captions = [
-  { start: 0.459, end: 3.439, text: "Page 64. Listen and read along." },
-  { start: 4.559, end: 5.52, text: "Long U." },
-  { start: 6.72, end: 7.299, text: "Blue." },
-  { start: 8.340, end: 9.000, text: "Glue." },
-  { start: 10.039, end: 10.539, text: "Sue" }
-];
+  const captions = [
+    { start: 0.459, end: 3.439, text: "Page 64. Listen and read along." },
+    { start: 4.559, end: 5.52, text: "Long U." },
+    { start: 6.72, end: 7.299, text: "Blue." },
+    { start: 8.34, end: 9.0, text: "Glue." },
+    { start: 10.039, end: 10.539, text: "Sue" },
+  ];
   return (
     <>
       <FourImagesWithAudio
-        images={[Rabbit, img1, img2, img3,img4]}
+        images={[Rabbit, img1, img2, img3, img4]}
         audioSrc={longAudio}
-        checkpoints={[0, 4.55, 6.72, 8.340, 10.039]}
+        checkpoints={[0, 4.55, 6.72, 8.34, 10.039]}
         popupOpen={true}
         titleQ={"Listen and read along."}
         audioArr={imageSounds}
         captions={captions}
+        pageId="sb-unit8-page1-listen-read"
+        imageAlts={[
+          "Squirrel holding a circle with the letters long u",
+          "A blue. The word blue, with the letter long u in red",
+          "A glue. The word glue, with the letter long u in red",
+          "A Sue. The word Sue, with the letter long u in red",
+        ]}
+        subHeader="Press Play, follow the long u: blue, glue, Sue, then tap each card to hear it again."
       />
     </>
   );

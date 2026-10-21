@@ -1,7 +1,7 @@
 import sound1 from "../../../assets/audio/ClassBook/U 9/Pg76_1.1_Adult Lady.mp3";
 import sound2 from "../../../assets/audio/ClassBook/U 9/Pg76_1.2_Adult Lady.mp3";
 import sound3 from "../../../assets/audio/ClassBook/U 9/Pg76_1.3_Adult Lady.mp3";
-import sound4 from "../../../assets/audio/ClassBook/U 9/Pg76_1.4._Adult Lady.mp3"
+import sound4 from "../../../assets/audio/ClassBook/U 9/Pg76_1.4._Adult Lady.mp3";
 import Rabbit from "../../../assets/Page 01/Rabbit.svg";
 import img1 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 76-77/1-01.svg";
 import img2 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 76-77/1-02.svg";
@@ -16,27 +16,34 @@ const Unit9_Page1_Read = () => {
     new Audio(sound1),
     new Audio(sound2),
     new Audio(sound3),
-    new Audio(sound4)
-  
+    new Audio(sound4),
   ];
 
-const captions = [
-  { start: 0.519, end: 3.659, text: "Page 76. Listen and read along." },
-  { start: 4.679, end: 5.759, text: "Short A." },
-  { start: 6.839, end: 7.259, text: "Cap." },
-  { start: 8.359, end: 8.859, text: "Man." },
-  { start: 9.960, end: 10.499, text: "Sad" }
-];
+  const captions = [
+    { start: 0.519, end: 3.659, text: "Page 76. Listen and read along." },
+    { start: 4.679, end: 5.759, text: "Short A." },
+    { start: 6.839, end: 7.259, text: "Cap." },
+    { start: 8.359, end: 8.859, text: "Man." },
+    { start: 9.96, end: 10.499, text: "Sad" },
+  ];
   return (
     <>
       <FourImagesWithAudio
-        images={[Rabbit, img1, img2, img3,img4]}
+        images={[Rabbit, img1, img2, img3, img4]}
         audioSrc={longAudio}
-        checkpoints={[0, 4.67, 6.839, 8.359, 9.960]}
+        checkpoints={[0, 4.67, 6.839, 8.359, 9.96]}
         popupOpen={true}
         titleQ={"Listen and read along."}
         audioArr={imageSounds}
         captions={captions}
+        pageId="sb-unit9-page1-listen-read"
+        imageAlts={[
+          "Squirrel holding a circle with the letters short a",
+          "A cap. The word cap, with the letter short a in red",
+          "A man. The word man, with the letter short a in red",
+          "A sad. The word sad, with the letter short a in red",
+        ]}
+        subHeader="Press Play, follow the short a: cap, man, sad, then tap each card to hear it again."
       />
     </>
   );

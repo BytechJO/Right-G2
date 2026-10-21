@@ -1,25 +1,200 @@
-.row-content10-CB-review2-p2-q1 {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 60px;
+/* ===== القائمة: 3 أعمدة ===== */
+.CB-r2p2q1-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  /* gap: 20px; */
+  width: 100%;
+  margin: 16px auto 0;
 }
 
-.q-input-CB-review2-p2-q1 {
-    /* border-bottom: 2px solid #000000; */
-    font-size: 22px;
-    width: 100%;
-    height: 40px;
-    text-align: center;
-    vertical-align: middle;
-    line-height: normal;
+.CB-r2p2q1-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: 230px;
+  padding: 28px 12px 14px;
+  background: #fff;
+  border: 2px solid #e2e8f0;
+  border-radius: 16px;
+  transition: border-color 0.2s, background 0.2s;
 }
 
-.row2-CB-review2-p2-q1 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    /* border: 2px solid rgb(44, 82, 135); */
-    border-radius: 8px;
-    /* padding: 20px; */
+.CB-r2p2q1-item.is-active {
+  border-color: #2c5287;
+  background: #f5f8fd;
+}
+
+.CB-r2p2q1-num {
+  position: absolute;
+  top: 6px;
+  left: 12px;
+  font-size: 18px;
+  font-weight: 700;
+  color: darkblue;
+}
+
+/* ===== الصورة (زر) ===== */
+.CB-r2p2q1-pic {
+  position: relative;
+  width: 100%;
+  height: 150px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border: 2px solid #cbd5e1;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.CB-r2p2q1-pic:hover {
+  border-color: #2c5287;
+}
+
+.CB-r2p2q1-pic.is-playing {
+  /* border-color: #dc2626; */
+}
+
+.CB-r2p2q1-pic img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* ===== أيقونة السبيكر ===== */
+.CB-r2p2q1-speaker {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #fff;
+  /* color: #fff; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.2s, transform 0.2s;
+  pointer-events: none;
+}
+
+.CB-r2p2q1-pic:hover .CB-r2p2q1-speaker,
+.CB-r2p2q1-pic:focus-visible .CB-r2p2q1-speaker,
+.CB-r2p2q1-speaker.playing {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.CB-r2p2q1-speaker.playing {
+  /* background: #dc2626; */
+  animation: r2p2q1-pulse 0.9s ease-in-out infinite;
+}
+
+@keyframes r2p2q1-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+}
+
+/* ===== الحروف ===== */
+.CB-r2p2q1-letters {
+  display: flex;
+  gap: 16px;
+}
+
+.CB-r2p2q1-letter-wrap {
+  position: relative;
+}
+
+.CB-r2p2q1-letter {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: #1f2937;
+  background: #fff;
+  border: 3px solid #2c5287;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, transform 0.15s;
+}
+
+.CB-r2p2q1-letter:hover {
+  background: #eef4fc;
+  transform: scale(1.05);
+}
+
+.CB-r2p2q1-letter[aria-disabled="true"] {
+  cursor: default;
+}
+
+.CB-r2p2q1-letter[aria-disabled="true"]:hover {
+  transform: none;
+  background: #fff;
+}
+
+.CB-r2p2q1-letter.is-selected {
+  background: #bed7fe;
+}
+
+.CB-r2p2q1-letter.is-correct {
+  border-color: #16a34a;
+  background: #dcfce7;
+}
+
+.CB-r2p2q1-letter.is-wrong {
+  border-color: #dc2626;
+  background: #fee2e2;
+}
+
+/* ===== أيقونة النتيجة: فوق يمين ===== */
+.CB-r2p2q1-badge.wrong {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+}
+
+/* .CB-r2p2q1-badge.correct {
+  background: #16a34a;
+} */
+
+.CB-r2p2q1-badge.wrong {
+  background: #dc2626;
+}
+
+/* ===== فوكس واضح بالكيبورد ===== */
+.CB-r2p2q1-pic:focus-visible,
+.CB-r2p2q1-letter:focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 3px;
 }

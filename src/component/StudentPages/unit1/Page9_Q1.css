@@ -7,7 +7,7 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 30px;
-  margin-top: 20px;
+  /* margin-top: 20px; */
 }
 
 /* 🖼️ صندوق السؤال */
@@ -19,6 +19,12 @@
  
 }
 
+.CB-unit1-p9-q1-input.CB-unit1-p9-q1-input-correct {
+  border-color: #2e9e4f;
+}
+.CB-unit1-p9-q1-input-box:has(.CB-unit1-p9-q1-input-correct) {
+  border-color: #2e9e4f;
+}
 .CB-unit1-p9-q1-true {
   position: absolute;
  top: 84%;
@@ -39,9 +45,10 @@
 /* 📄 صف الخيار */
 .CB-unit1-p9-q1-row {
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   gap: 20px;
   margin-bottom: 8px;
+      height: 45px;
  
 }
 

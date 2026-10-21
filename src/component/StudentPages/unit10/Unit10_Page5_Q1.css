@@ -9,3 +9,10 @@
     gap: 12px;
     position: relative;
 }
+
+.CB-review10-p5-q1-container{
+        display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
