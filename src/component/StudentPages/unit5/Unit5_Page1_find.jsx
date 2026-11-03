@@ -5,7 +5,7 @@ import MySVG from "../../../assets/imgs/Interactive Svg un 5.svg";
 import FindQuestion from "../../FindQuestion";
 
 // ⚠️ لازم تضيفي ملف صوت "jello" وتعدّلي المسار حسب مكانه الفعلي
-import targetAudio from "../../../assets/audio/ClassBook/U 5/jello.mp3";
+import targetAudio from "../../../assets/audio/ClassBook/U 5/Jello.mp3";
 
 // const targetAudio =""
 const targetArea = {
