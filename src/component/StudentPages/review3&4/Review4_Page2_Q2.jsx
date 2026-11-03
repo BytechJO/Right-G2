@@ -371,7 +371,7 @@ const Review4_Page2_Q2 = () => {
          <ExerciseHeader
           sectionLetter="E"
           title="Does it have long a? Look and circle."
-          subTitle="Start with one picture or phrase, then match it to the partner that means the same thing."
+          subTitle="Look at the picture and read the words. Say each word aloud and circle the words that have the long a sound."
           isReview="true"
         />
 

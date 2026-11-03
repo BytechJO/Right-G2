@@ -2,6 +2,8 @@
 import find_img from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page.png";
 import MySVG from "../../../assets/imgs/Interactive Svg un 8.svg";
 import FindQuestion from "../../FindQuestion";
+// ⚠️ ما في ملف صوت لهاد السؤال. إذا أضفتيه، فعّلي الاستيراد وعدّلي المسار
+import targetAudio from "../../../assets/audio/ClassBook/U 8/The purse.mp3";
 
 // The purse, including its shoulder strap, in the verified Unit 8 artwork.
 const targetArea = {
@@ -20,7 +22,7 @@ const Unit8_Page1_find = () => (
     targetName="the purse"
     targetArea={targetArea}
     answerHighlight={MySVG}
-    targetAudio=""
+    targetAudio={targetAudio}
     imageHeight="75vh"
     highlightTop="55%"
     highlightLeft="68%"

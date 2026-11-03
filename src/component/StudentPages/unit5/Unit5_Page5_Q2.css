@@ -263,7 +263,7 @@
 }
 
 .CB-u5p5q2-speaker.playing {
-  background: #dc2626;
+  /* background: #dc2626; */
   animation: u5p5q2-pulse 0.9s ease-in-out infinite;
 }
 

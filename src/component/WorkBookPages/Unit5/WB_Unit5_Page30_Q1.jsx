@@ -1,3 +1,6 @@
+import missingAudio0 from "../../../assets/audio/WorkBook/missing/Like.mp3";
+import missingAudio1 from "../../../assets/audio/WorkBook/missing/I.mp3";
+import missingAudio2 from "../../../assets/audio/WorkBook/missing/Stew.mp3";
 import ExerciseHeader from "../../ExerciseHeader";
 import { playGlobalAudio, stopGlobalAudio } from "../../audioManager";
 import { FaVolumeUp } from "react-icons/fa";
@@ -286,6 +289,9 @@ const SOUNDS = {
   soda: clip30,
   "megan's brother doesn't like": clip31,
   nuts: clip32,
+  "like": missingAudio0,
+  "i": missingAudio1,
+  "stew": missingAudio2,
 };
 const normalized = (text) =>
   String(text)

@@ -1,3 +1,11 @@
+import question1Audio from "../../../assets/audio/ClassBook/U 7/Page 59/What does Helen hope to be.mp3";
+import question1Option1Audio from "../../../assets/audio/ClassBook/U 7/Page 59/pilot.mp3";
+import question1Option2Audio from "../../../assets/audio/ClassBook/U 7/Page 59/doctor.mp3";
+import question1Option3Audio from "../../../assets/audio/ClassBook/U 7/Page 59/nurse.mp3";
+import question2Audio from "../../../assets/audio/ClassBook/U 7/Page 59/At what time is her father’s flight.mp3";
+import question2Option1Audio from "../../../assets/audio/ClassBook/U 7/Page 59/at a quarter past one.mp3";
+import question2Option2Audio from "../../../assets/audio/ClassBook/U 7/Page 59/at a quarter past nine.mp3";
+import question2Option3Audio from "../../../assets/audio/ClassBook/U 7/Page 59/a quarter past two.mp3";
 import page_2 from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/Page 59.png";
 import img1_letter from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/Page 58-59/1-05.svg";
 import img2_letter from "../../../assets/imgs/Right 2 Unit 7 Its Boarding Time/Page 58-59/1-06.svg";
@@ -40,16 +48,16 @@ const Unit7_Page2 = ({ openPopup }) => {
     title: "Read and tap or click the correct answer.",
     questions: [
       {
-        text: "What does Helen hope to be?",
-        options: ["pilot", "doctor", "nurse"],
+        text: "What does Helen hope to be?", audio: question1Audio,
+        options: [{ text: "pilot", audio: question1Option1Audio }, { text: "doctor", audio: question1Option2Audio }, { text: "nurse", audio: question1Option3Audio }],
         correct: "pilot",
       },
       {
-        text: "At what time is her father’s flight?",
+        text: "At what time is her father’s flight?", audio: question2Audio,
         options: [
-          "at a quarter past one",
-          "at a quarter past nine",
-          "a quarter past two",
+          { text: "at a quarter past one", audio: question2Option1Audio },
+          { text: "at a quarter past nine", audio: question2Option2Audio },
+          { text: "a quarter past two", audio: question2Option3Audio },
         ],
         correct: "at a quarter past one",
       },

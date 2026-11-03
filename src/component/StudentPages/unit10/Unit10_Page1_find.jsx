@@ -2,7 +2,7 @@
 import find_img from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page.png";
 import MySVG from "../../../assets/imgs/Interactive Svg un 10.svg";
 import FindQuestion from "../../FindQuestion";
-
+import targetAudio from "../../../assets/audio/ClassBook/U 10/The plant.mp3"; // ⚠️ ما في ملف صوت لهاد السؤال. إذا أضفتيه، فعّلي الاستيراد وعدّلي المسار
 const targetArea = { x1: 63.7, y1: 51.4, x2: 93.9, y2: 71.63 };
 
 const Unit10_Page1_find = () => (
@@ -14,7 +14,7 @@ const Unit10_Page1_find = () => (
     targetName="the plant"
     targetArea={targetArea}
     answerHighlight={MySVG}
-    targetAudio=""
+    targetAudio={targetAudio}
     imageHeight="75vh"
     highlightTop="50%"
     highlightLeft="61%"

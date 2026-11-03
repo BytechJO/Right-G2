@@ -303,7 +303,7 @@ const Unit2_Page5_Q2 = () => {
           sectionLetter="B"
           // questionNumber="1"
           title="Look, read, and write ✓."
-          subTitle="Start with one picture or phrase, then match it to the partner that means the same thing."
+          subTitle="Look carefully at each picture. Is it near or far? Is there one or more than one? Choose the correct sentence using this, that, these, or those."
         />
 
         <div className="CB-unit2-p5-q2-grid">

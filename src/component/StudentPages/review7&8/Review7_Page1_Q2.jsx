@@ -27,6 +27,7 @@ import sound7 from "../../../assets/audio/ClassBook/U 8/Page 70 - B/Item_009_thr
 import sound8 from "../../../assets/audio/ClassBook/U 8/Page 70 - B/Item_011_today.mp3";
 import sound9 from "../../../assets/audio/ClassBook/U 8/Page 70 - B/Item_012_day.mp3";
 import sound11 from "../../../assets/audio/ClassBook/U 8/Page 70 - B/Item_014_Friday.mp3";
+import sound12 from "../../../assets/audio/ClassBook/U 8/Page 70 - B/January.mp3";
 const wordAudio = {
   monday: mondayAudio,
   time: sound0,
@@ -40,6 +41,7 @@ const wordAudio = {
   today: sound8,
   day: sound9,
   friday: sound11,
+  january: sound12,
 };
 const pointerSensors = [useMouseSensor, useTouchSensor];
 const focusClass =
@@ -49,8 +51,15 @@ const Review7_Page1_Q2 = () => {
   const completedCheckRef = useRef(null);
   const completeCheck = (event) => {
     const button = event?.currentTarget;
-    if (!completedCheckRef.current || (button?.style && completedCheckRef.current.button !== button)) {
-      completedCheckRef.current = { button, cursor: button?.style?.cursor, aria: button?.getAttribute?.("aria-disabled") };
+    if (
+      !completedCheckRef.current ||
+      (button?.style && completedCheckRef.current.button !== button)
+    ) {
+      completedCheckRef.current = {
+        button,
+        cursor: button?.style?.cursor,
+        aria: button?.getAttribute?.("aria-disabled"),
+      };
     }
     if (button?.style) {
       button.style.cursor = "not-allowed";
@@ -61,7 +70,8 @@ const Review7_Page1_Q2 = () => {
     const previous = completedCheckRef.current;
     if (previous?.button?.style) {
       previous.button.style.cursor = previous.cursor || "";
-      if (previous.aria == null) previous.button.removeAttribute("aria-disabled");
+      if (previous.aria == null)
+        previous.button.removeAttribute("aria-disabled");
       else previous.button.setAttribute("aria-disabled", previous.aria);
     }
     completedCheckRef.current = null;
@@ -382,12 +392,17 @@ const Review7_Page1_Q2 = () => {
         .map((word) => word.id);
     });
     setPlacements(filled);
-    setResults(Object.fromEntries(Object.keys(correct).map((slot) => [slot, "correct"])));
+    setResults(
+      Object.fromEntries(Object.keys(correct).map((slot) => [slot, "correct"])),
+    );
     setLocked(true);
     setAnnouncement("Correct questions and answers shown and locked.");
   };
   const checkAnswers = (checkEvent) => {
-    if (completedCheckRef.current) { completeCheck(checkEvent); return; }
+    if (completedCheckRef.current) {
+      completeCheck(checkEvent);
+      return;
+    }
 
     if (locked) return;
     clearTransient();
@@ -415,7 +430,8 @@ const Review7_Page1_Q2 = () => {
     );
     const color = score === total ? "green" : score === 0 ? "red" : "orange";
     const message = `<div style="font-size:20px;text-align:center;"><span style="color:${color};font-weight:bold">Score: ${score} / ${total}</span></div>`;
-    if (score === total) (completeCheck(checkEvent), ValidationAlert.success(message));
+    if (score === total)
+      (completeCheck(checkEvent), ValidationAlert.success(message));
     else if (score === 0) ValidationAlert.error(message);
     else ValidationAlert.warning(message);
   };
@@ -632,7 +648,9 @@ const Review7_Page1_Q2 = () => {
             <ExerciseHeader
               sectionLetter="B"
               title="Look, unscramble, and answer."
-              subTitle={"Say the answer first, then rearrange the letters or words into the correct order."}
+              subTitle={
+                "Say the answer first, then rearrange the letters or words into the correct order."
+              }
               isReview={true}
             />
           </div>
@@ -668,7 +686,10 @@ const Review7_Page1_Q2 = () => {
           <div className="action-buttons-container">
             <button
               type="button"
-              onClick={(checkEvent) => { resetCompletedCheck(); (reset)(checkEvent); }}
+              onClick={(checkEvent) => {
+                resetCompletedCheck();
+                reset(checkEvent);
+              }}
               className={"try-again-button" + focusClass}
             >
               Start Again ↻

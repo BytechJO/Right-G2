@@ -1,3 +1,6 @@
+import missingAudio0 from "../../../assets/audio/WorkBook/missing/They aren’t studying..mp3";
+import missingAudio1 from "../../../assets/audio/WorkBook/missing/Helen is working on the computer..mp3";
+import missingAudio2 from "../../../assets/audio/WorkBook/missing/They aren’t eating corn..mp3";
 /* eslint-disable react-refresh/only-export-components -- Exercise-local controls. */
 
 import Button from "../Button";
@@ -383,6 +386,9 @@ const SOUNDS = {
   "grandpa is listening to the radio": clip1,
   "they are watching tv": clip2,
   "she is eating an apple": clip3,
+  "they aren't studying": missingAudio0,
+  "helen is working on the computer": missingAudio1,
+  "they aren't eating corn": missingAudio2,
 };
 const soundFor = (text) => SOUNDS[normalized(text)];
 const IMAGE_DESCRIPTIONS = {

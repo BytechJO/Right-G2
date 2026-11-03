@@ -17,8 +17,8 @@ import { playGlobalAudio, stopGlobalAudio } from "../../audioManager";
 // ⚠️ ما عندي اسم ملف صوت الجملة لهاي الصفحة (Unit 7 - Page 62 - C).
 // إذا في ملف صوت: فكّي الكومنت عن الـ import وعدّلي المسار/الاسم،
 // وبعدين بدّلي سطر `const sentenceAudio = null;` تحت.
-// import sentenceAudio from "../../../assets/audio/ClassBook/U 7/Page 62 - C/pilots fly planes.mp3";
-const sentenceAudio = null;
+import sentenceAudio from "../../../assets/audio/ClassBook/U 7/Page 62 - C/pilots   fly      planes.mp3";
+// const sentenceAudio = null;
 
 // ========================================
 // GRID

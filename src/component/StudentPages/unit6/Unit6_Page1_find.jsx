@@ -5,9 +5,9 @@ import MySVG from "../../../assets/imgs/Interactive Svg un 6.svg";
 import FindQuestion from "../../FindQuestion";
 
 // ⚠️ ما في ملف صوت لهاد السؤال. إذا أضفتيه، فعّلي الاستيراد وعدّلي المسار
-// import targetAudio from "../../../assets/audio/ClassBook/U 6/Page 1/helen.mp3";
+import targetAudio from "../../../assets/audio/ClassBook/U 6/Helen stretching her arms.mp3";
 
-const targetAudio = "";
+// const targetAudio = "";
 
 // المنطقة الصحيحة (بالنسب المئوية)
 const targetArea = {

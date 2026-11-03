@@ -1,3 +1,4 @@
+import missingAudio0 from "../../../assets/audio/WorkBook/missing/He's a farmer..mp3";
 /* eslint-disable react-refresh/only-export-components -- Exercise-local controls preserve the shared components. */
 import ExerciseHeader from "../../ExerciseHeader";
 import { playGlobalAudio, stopGlobalAudio } from "../../audioManager";
@@ -311,6 +312,7 @@ const SOUNDS = {
   "what's his job": sound2,
   "he's a taxi driver": sound3,
   "he's a teacher": sound4,
+  "he's a farmer": missingAudio0,
 };
 const soundFor = (text) =>
   SOUNDS[

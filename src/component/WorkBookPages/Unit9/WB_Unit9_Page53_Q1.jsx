@@ -1,3 +1,7 @@
+import missingAudio0 from "../../../assets/audio/WorkBook/missing/He is riding.mp3";
+import missingAudio1 from "../../../assets/audio/WorkBook/missing/a horse..mp3";
+import missingAudio2 from "../../../assets/audio/WorkBook/missing/sunglasses..mp3";
+import missingAudio3 from "../../../assets/audio/WorkBook/missing/sandwiches.mp3";
 /* eslint-disable react-refresh/only-export-components -- Exercise-local controls. */
 import Button from "../Button";
 import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 53/Ex E 1.svg";
@@ -36,7 +40,6 @@ import clip11 from "../../../assets/audio/WorkBook/Unit 9/Page 53 - E/Item_012_s
 import clip12 from "../../../assets/audio/WorkBook/Unit 9/Page 53 - E/Item_013_She_is_singing.mp3";
 import clip13 from "../../../assets/audio/WorkBook/Unit 9/Page 53 - E/Item_014_she_is_cooking.mp3";
 import clip14 from "../../../assets/audio/WorkBook/Unit 9/Page 53 - E/Item_015_They_are_wearing.mp3";
-import clip15 from "../../../assets/audio/WorkBook/Unit 9/Page 53 - E/Item_016_They_are_riding.mp3";
 import clip16 from "../../../assets/audio/WorkBook/Unit 9/Page 53 - E/Item_017_They_are_eating.mp3";
 import clip17 from "../../../assets/audio/WorkBook/Unit 9/Page 53 - E/Item_018_a_song.mp3";
 import clip18 from "../../../assets/audio/WorkBook/Unit 9/Page 53 - E/Item_019_dinner.mp3";
@@ -216,10 +219,13 @@ const SOUNDS = {
   "she is singing": clip12,
   "she is cooking": clip13,
   "they are wearing": clip14,
-  "He is riding": clip15,
   "they are eating": clip16,
   "a song": clip17,
   dinner: clip18,
+  "he is riding": missingAudio0,
+  "a horse": missingAudio1,
+  "sunglasses": missingAudio2,
+  "sandwiches": missingAudio3,
 };
 const soundFor = (text) => SOUNDS[normalized(text)];
 const IMAGE_DESCRIPTIONS = {

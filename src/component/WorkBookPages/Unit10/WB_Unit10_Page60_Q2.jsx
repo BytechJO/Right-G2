@@ -1,3 +1,5 @@
+import missingAudio0 from "../../../assets/audio/WorkBook/missing/studying the . We bedroom are in.mp3";
+import missingAudio1 from "../../../assets/audio/WorkBook/missing/I'm yard flowers . watering the in the.mp3";
 /* eslint-disable react-refresh/only-export-components -- Exercise-local controls. */
 import Button from "../Button";
 import { useState, useRef, useEffect } from "react";
@@ -377,6 +379,8 @@ const SOUNDS = {
   "ball she yard in playing is the": clip0,
   "tv they are watching": clip1,
   "he shower bathroom taking is a the in": clip2,
+  "studying the we bedroom are in": missingAudio0,
+  "i'm yard flowers watering the in the": missingAudio1,
 };
 const soundFor = (text) => SOUNDS[normalized(text)];
 function useWordOrder(questions) {

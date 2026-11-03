@@ -5,8 +5,8 @@ import grammarSound from "../../../assets/audio/ClassBook/U 7/cd42pg61-grammar2-
 import sound1 from "../../../assets/audio/ClassBook/U 7/Pg61_2.1_Adult Lady.mp3";
 import sound2 from "../../../assets/audio/ClassBook/U 7/Pg61_3.1_Boy.mp3";
 import sound3 from "../../../assets/audio/ClassBook/U 7/Pg61_4.1_Woman.mp3";
-import sound4 from "../../../assets/audio/ClassBook/U 7/Pg61_5.1_Girl.mp3";
-import sound5 from "../../../assets/audio/ClassBook/U 7/Pg61_5.2_Girl.mp3";
+import sound4 from "../../../assets/audio/ClassBook/U 7/SureSirThe flight is at a quarter to eleven in the morning.mp3";
+import sound5 from "../../../assets/audio/ClassBook/U 7/Yesthere is onebut only four seats are availableWhat about September 7th at a quarter past twelve in the afternoon.mp3";
 import sound6 from "../../../assets/audio/ClassBook/U 7/Pg61_6.1_Woman.mp3";
 import sound7 from "../../../assets/audio/ClassBook/U 7/CD43.Pg62_Instruction1_Adult Lady.mp3";
 import { useContext } from "react";
@@ -22,33 +22,41 @@ const Unit7_Page4 = ({ openPopup }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const captionsExample = [
     {
-      start: 0.479,
-      end: 8.519,
-      text: "Page 61, exercise 2. Right Grammar. What day is today? It's Monday.",
-    },
-    { start: 8.519, end: 11.039, text: "What month is it? It's January." },
-    {
-      start: 12.059,
-      end: 17.799,
-      text: "Hi. Can you book me two tickets to Amman for Monday, September 12th, please?",
-    },
-    {
-      start: 18.859,
-      end: 23.839,
-      text: "Sure, sir. The flight is at a quarter to 11 in the morning.",
-    },
-    {
-      start: 23.84,
-      end: 30.579,
-      text: "Good morning. I need to book six tickets to Rome for September 6th. Are there any flights available?",
-    },
-    {
-      start: 31.619,
-      end: 39.84,
-      text: "Yes, there is one, but only four seats are available. What about September 7th at a quarter past 12?",
-    },
-    { start: 40.959, end: 43.619, text: "September 7th is fine. Thank you." },
-  ];
+    start: 0.48,
+    end: 7.5,
+    text: "Page 61, exercise 2. Write grammar. What day is today? It's Monday.",
+  },
+  {
+    start: 8.52,
+    end: 11.02,
+    text: "What month is it? It's January.",
+  },
+  {
+    start: 12.04,
+    end: 17.76,
+    text: "Hi, can you book me two tickets to Amman for Monday, September 12th, please?",
+  },
+  {
+    start: 18.38,
+    end: 21.92,
+    text: "Sure, sir. The flight is at a quarter to 11 in the morning.",
+  },
+  {
+    start: 22.56,
+    end: 29.28,
+    text: "Good morning. I need to book six tickets to Rome for September 6th. Are there any flights available?",
+  },
+  {
+    start: 29.9,
+    end: 37.92,
+    text: "Yes, there is one, but only four seats are available. What about September 7th at a quarter past 12 in the afternoon?",
+  },
+  {
+    start: 38.64,
+    end: 41.3,
+    text: "September 7th is fine. Thank you.",
+  },
+];
   const clickableAreas = [
     { id: "pg14-1", x1: 24.64, y1: 9.65, x2: 65.72, y2: 14.07, sound: sound1 },
     { id: "pg14-2", x1: 24.61, y1: 15.44, x2: 65.52, y2: 20.01, sound: sound2 },

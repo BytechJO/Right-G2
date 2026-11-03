@@ -1,3 +1,5 @@
+import missingAudio0 from "../../../assets/audio/WorkBook/missing/How many skirts does she have.mp3";
+import missingAudio1 from "../../../assets/audio/WorkBook/missing/She has four shirts..mp3";
 /* eslint-disable react-refresh/only-export-components -- Exercise-local controls. */
 import ExerciseHeader from "../../ExerciseHeader";
 import { playGlobalAudio, stopGlobalAudio } from "../../audioManager";
@@ -183,6 +185,8 @@ const SOUNDS = {
   "she has four pairs of shoes": clip1,
   "how many shirts does she have": clip2,
   "she has five skirts": clip3,
+  "how many skirts does she have": missingAudio0,
+  "she has four shirts": missingAudio1,
 };
 const normalized = (text) =>
   String(text)
@@ -875,7 +879,7 @@ const WB_Unit8_Page49_Q1 = () => {
 
                 <div className="space-y-2">
                   <p className="text-gray-700 font-medium">
-                    3. How many skirts does she have?
+                    <AudioText audioKey="question-3" src={soundFor("How many skirts does she have?")} playSound={playSound} playingKey={playingKey} tabIndex={interaction.picked ? -1 : 0}>3. How many skirts does she have?</AudioText>
                   </p>
                   <DropSlot
                     id="q3"

@@ -1,3 +1,11 @@
+import missingAudio0 from "../../../assets/audio/WorkBook/missing/I.mp3";
+import missingAudio1 from "../../../assets/audio/WorkBook/missing/It.mp3";
+import missingAudio2 from "../../../assets/audio/WorkBook/missing/Fly a kite.mp3";
+import missingAudio3 from "../../../assets/audio/WorkBook/missing/Swim.mp3";
+import missingAudio4 from "../../../assets/audio/WorkBook/missing/paint a picture..mp3";
+import missingAudio5 from "../../../assets/audio/WorkBook/missing/ride a bike..mp3";
+import missingAudio6 from "../../../assets/audio/WorkBook/missing/climb a tree..mp3";
+import missingAudio7 from "../../../assets/audio/WorkBook/missing/sleep..mp3";
 import ExerciseHeader from "../../ExerciseHeader";
 import { playGlobalAudio, stopGlobalAudio } from "../../audioManager";
 import { FaVolumeUp } from "react-icons/fa";
@@ -220,6 +228,14 @@ const AudioText = ({
 const SOUNDS = {
   can: sound0,
   "can't": sound1,
+  "i": missingAudio0,
+  "it": missingAudio1,
+  "fly a kite": missingAudio2,
+  "swim": missingAudio3,
+  "paint a picture": missingAudio4,
+  "ride a bike": missingAudio5,
+  "climb a tree": missingAudio6,
+  "sleep": missingAudio7,
 };
 const IMAGE_DESCRIPTIONS = {
   [img1]: "A girl flying a kite.",
@@ -358,7 +374,10 @@ function useSelectAnswers(correct, missingMessage, groups = null) {
     "aria-label": "Answer " + id + (locked(id) ? ". Correct and locked." : ""),
     disabled: locked(id),
     value: values[id] ?? "",
-    onChange: (e) => choose(id, e.target.value),
+    onChange: (e) => {
+      choose(id, e.target.value);
+      audio.playSound("native-" + id, SOUNDS[e.target.value.toLowerCase().replace(/\.$/, "")]);
+    },
     onKeyUp: (e) => {
       if (e.key === "Enter" || e.key === " ") e.stopPropagation();
     },
@@ -463,6 +482,7 @@ const WB_Unit3_Page18_Q1 = () => {
                       className={`flex items-center gap-2 border-b-2 pb-1 ${getClass(q.id)}`}
                     >
                       {/* before */}
+                      <span style={{ position: "relative", display: "inline-flex" }}>
                       <select
                         {...interaction.nativeProps(q.id + "-before")}
                         className={`${focusClass} focus-visible:outline-solid! focus-visible:rounded-sm! bg-transparent text-[20px] border-b-2 border-gray-500 w-15`}
@@ -474,6 +494,8 @@ const WB_Unit3_Page18_Q1 = () => {
                           </option>
                         ))}
                       </select>
+                      {playingKey === "native-" + q.id + "-before" && <SpeakerBadge />}
+                      </span>
 
                       {/* can / can't */}
                       <AudioText
@@ -487,6 +509,7 @@ const WB_Unit3_Page18_Q1 = () => {
                       </AudioText>
 
                       {/* after */}
+                      <span style={{ position: "relative", display: "inline-flex" }}>
                       <select
                         {...interaction.nativeProps(q.id + "-after")}
                         className={`${focusClass} focus-visible:outline-solid! focus-visible:rounded-sm! bg-transparent text-[20px] border-b-2 border-gray-500 w-40`}
@@ -498,6 +521,8 @@ const WB_Unit3_Page18_Q1 = () => {
                           </option>
                         ))}
                       </select>
+                      {playingKey === "native-" + q.id + "-after" && <SpeakerBadge />}
+                      </span>
                       {isWrong(q.id) && (
                         <div className="absolute bottom-2 -right-2 bg-red-500 font-bold text-white rounded-full w-6 h-6 flex items-center justify-center text-sm shadow border-2 border-white text-2xl">
                           ✕

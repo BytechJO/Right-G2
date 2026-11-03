@@ -1,3 +1,39 @@
+import missingAudio0 from "../../../assets/audio/WorkBook/missing/1. Dad's hat.mp3";
+import missingAudio1 from "../../../assets/audio/WorkBook/missing/2. Mom's hat.mp3";
+import missingAudio2 from "../../../assets/audio/WorkBook/missing/3. Mom's sunglasses.mp3";
+import missingAudio3 from "../../../assets/audio/WorkBook/missing/4. Left child's hat.mp3";
+import missingAudio4 from "../../../assets/audio/WorkBook/missing/5. Middle child's hat.mp3";
+import missingAudio5 from "../../../assets/audio/WorkBook/missing/6. Front child's hat.mp3";
+import missingAudio6 from "../../../assets/audio/WorkBook/missing/7. Left child's yo-yo.mp3";
+import missingAudio7 from "../../../assets/audio/WorkBook/missing/8. Middle child's yo-yo.mp3";
+import missingAudio8 from "../../../assets/audio/WorkBook/missing/9. Front child's yo-yo.mp3";
+import missingAudio9 from "../../../assets/audio/WorkBook/missing/In both pictures, Dad has a hat..mp3";
+import missingAudio10 from "../../../assets/audio/WorkBook/missing/In both pictures, Mom has a hat..mp3";
+import missingAudio11 from "../../../assets/audio/WorkBook/missing/In both pictures, Mom has sunglasses..mp3";
+import missingAudio12 from "../../../assets/audio/WorkBook/missing/In both pictures, the child at the front has a hat..mp3";
+import missingAudio13 from "../../../assets/audio/WorkBook/missing/In both pictures, the child at the front has a yo-yo..mp3";
+import missingAudio14 from "../../../assets/audio/WorkBook/missing/In both pictures, the child in the middle has a hat..mp3";
+import missingAudio15 from "../../../assets/audio/WorkBook/missing/In both pictures, the child in the middle has a yo-yo..mp3";
+import missingAudio16 from "../../../assets/audio/WorkBook/missing/In both pictures, the child on the left has a hat..mp3";
+import missingAudio17 from "../../../assets/audio/WorkBook/missing/In both pictures, the child on the left has a yo-yo..mp3";
+import missingAudio18 from "../../../assets/audio/WorkBook/missing/In Picture A, Dad doesn't have a hat. In Picture B, Dad has a hat..mp3";
+import missingAudio19 from "../../../assets/audio/WorkBook/missing/In Picture A, Dad has a hat. In Picture B, Dad doesn't have a hat..mp3";
+import missingAudio20 from "../../../assets/audio/WorkBook/missing/In Picture A, Mom doesn't have a hat. In Picture B, Mom has a hat..mp3";
+import missingAudio21 from "../../../assets/audio/WorkBook/missing/In Picture A, Mom doesn't have sunglasses. In Picture B, Mom has sunglasses..mp3";
+import missingAudio22 from "../../../assets/audio/WorkBook/missing/In Picture A, Mom has a hat. In Picture B, Mom doesn't have a hat..mp3";
+import missingAudio23 from "../../../assets/audio/WorkBook/missing/In Picture A, Mom has sunglasses. In Picture B, Mom doesn't have sunglasses..mp3";
+import missingAudio24 from "../../../assets/audio/WorkBook/missing/In Picture A, the child at the front doesn't have a hat. In Picture B, the child at the front has a hat..mp3";
+import missingAudio25 from "../../../assets/audio/WorkBook/missing/In Picture A, the child at the front doesn't have a yo-yo. In Picture B, the child at the front has a yo-yo..mp3";
+import missingAudio26 from "../../../assets/audio/WorkBook/missing/In Picture A, the child at the front has a hat. In Picture B, the child at the front doesn't have a hat..mp3";
+import missingAudio27 from "../../../assets/audio/WorkBook/missing/In Picture A, the child at the front has a yo-yo. In Picture B, the child at the front doesn't have a yo-yo..mp3";
+import missingAudio28 from "../../../assets/audio/WorkBook/missing/In Picture A, the child in the middle doesn't have a hat. In Picture B, the child in the middle has a hat..mp3";
+import missingAudio29 from "../../../assets/audio/WorkBook/missing/In Picture A, the child in the middle doesn't have a yo-yo. In Picture B, the child in the middle has a yo-yo..mp3";
+import missingAudio30 from "../../../assets/audio/WorkBook/missing/In Picture A, the child in the middle has a hat. In Picture B, the child in the middle doesn't have a hat..mp3";
+import missingAudio31 from "../../../assets/audio/WorkBook/missing/In Picture A, the child in the middle has a yo-yo. In Picture B, the child in the middle doesn't have a yo-yo..mp3";
+import missingAudio32 from "../../../assets/audio/WorkBook/missing/In Picture A, the child on the left doesn't have a hat. In Picture B, the child on the left has a hat..mp3";
+import missingAudio33 from "../../../assets/audio/WorkBook/missing/In Picture A, the child on the left doesn't have a yo-yo. In Picture B, the child on the left has a yo-yo..mp3";
+import missingAudio34 from "../../../assets/audio/WorkBook/missing/In Picture A, the child on the left has a hat. In Picture B, the child on the left doesn't have a hat..mp3";
+import missingAudio35 from "../../../assets/audio/WorkBook/missing/In Picture A, the child on the left has a yo-yo. In Picture B, the child on the left doesn't have a yo-yo..mp3";
 import ExerciseHeader from "../../ExerciseHeader";
 import { playGlobalAudio, stopGlobalAudio } from "../../audioManager";
 import { FaVolumeUp } from "react-icons/fa";
@@ -171,6 +207,42 @@ const SOUNDS = {
   "picture b": clip1,
   // "in picture a mom has sunglasses": clip2,
   // "in picture b mom has sunglasses": clip3,
+  "dad's hat": missingAudio0,
+  "mom's hat": missingAudio1,
+  "mom's sunglasses": missingAudio2,
+  "left child's hat": missingAudio3,
+  "middle child's hat": missingAudio4,
+  "front child's hat": missingAudio5,
+  "left child's yo-yo": missingAudio6,
+  "middle child's yo-yo": missingAudio7,
+  "front child's yo-yo": missingAudio8,
+  "in both pictures dad has a hat": missingAudio9,
+  "in both pictures mom has a hat": missingAudio10,
+  "in both pictures mom has sunglasses": missingAudio11,
+  "in both pictures the child at the front has a hat": missingAudio12,
+  "in both pictures the child at the front has a yo-yo": missingAudio13,
+  "in both pictures the child in the middle has a hat": missingAudio14,
+  "in both pictures the child in the middle has a yo-yo": missingAudio15,
+  "in both pictures the child on the left has a hat": missingAudio16,
+  "in both pictures the child on the left has a yo-yo": missingAudio17,
+  "in picture a dad doesn't have a hat in picture b dad has a hat": missingAudio18,
+  "in picture a dad has a hat in picture b dad doesn't have a hat": missingAudio19,
+  "in picture a mom doesn't have a hat in picture b mom has a hat": missingAudio20,
+  "in picture a mom doesn't have sunglasses in picture b mom has sunglasses": missingAudio21,
+  "in picture a mom has a hat in picture b mom doesn't have a hat": missingAudio22,
+  "in picture a mom has sunglasses in picture b mom doesn't have sunglasses": missingAudio23,
+  "in picture a the child at the front doesn't have a hat in picture b the child at the front has a hat": missingAudio24,
+  "in picture a the child at the front doesn't have a yo-yo in picture b the child at the front has a yo-yo": missingAudio25,
+  "in picture a the child at the front has a hat in picture b the child at the front doesn't have a hat": missingAudio26,
+  "in picture a the child at the front has a yo-yo in picture b the child at the front doesn't have a yo-yo": missingAudio27,
+  "in picture a the child in the middle doesn't have a hat in picture b the child in the middle has a hat": missingAudio28,
+  "in picture a the child in the middle doesn't have a yo-yo in picture b the child in the middle has a yo-yo": missingAudio29,
+  "in picture a the child in the middle has a hat in picture b the child in the middle doesn't have a hat": missingAudio30,
+  "in picture a the child in the middle has a yo-yo in picture b the child in the middle doesn't have a yo-yo": missingAudio31,
+  "in picture a the child on the left doesn't have a hat in picture b the child on the left has a hat": missingAudio32,
+  "in picture a the child on the left doesn't have a yo-yo in picture b the child on the left has a yo-yo": missingAudio33,
+  "in picture a the child on the left has a hat in picture b the child on the left doesn't have a hat": missingAudio34,
+  "in picture a the child on the left has a yo-yo in picture b the child on the left doesn't have a yo-yo": missingAudio35,
 };
 const normalized = (text) =>
   String(text)
@@ -508,6 +580,7 @@ export default function SpotTheDifference() {
   });
 
   const selectDetail = (detail, event, source) => {
+    a.playSound("detail-" + source, soundFor(detail.label));
     if (locked(detail.id)) {
       a.setMessage(`${detail.label} is correct and locked.`);
       return;
@@ -715,8 +788,10 @@ export default function SpotTheDifference() {
                               ? "not-allowed"
                               : "pointer",
                             ...pictureStyle(detail.id),
+                            ...(a.playingKey === "detail-" + source ? { boxShadow: "0 0 0 3px #2563eb", backgroundColor: "#dbeafe" } : {}),
                           }}
                         >
+                          {a.playingKey === "detail-" + source && <SpeakerBadge />}
                           {selectedDetails[detail.id] && (
                             <span
                               aria-hidden="true"
@@ -767,23 +842,21 @@ export default function SpotTheDifference() {
                         ? resultColor(detail.id)
                         : "#d1d5db",
                       backgroundColor: selected ? "#dbeafe" : "white",
+                        position: "relative",
                     }}
                     onClick={(event) => selectDetail(detail, event, source)}
                     onKeyDown={activate}
                     onKeyUp={release}
-                  >{`${index + 1}. ${detail.label}${locked(detail.id) ? " — Correct and locked" : selected ? " — Selected" : " — Select detail"}`}</button>
+                  >{`${index + 1}. ${detail.label}${locked(detail.id) ? " — Correct and locked" : selected ? " — Selected" : " — Select detail"}`}
+                    {a.playingKey === "detail-" + source && <SpeakerBadge />}
+                  </button>
                   <div
                     role="group"
                     aria-label={`${detail.label}: choose an explanation`}
                     className="relative space-y-2"
                   >
                     {choices.map((choice, choiceIndex) => {
-                      const src =
-                        detail.id === "mom-glasses" && choice.value !== "both"
-                          ? choice.value === "a-only"
-                            ? null
-                            : null
-                          : null;
+                      const src = soundFor(choice.text);
                       const audioKey = `choice-${detail.id}-${choice.value}`;
                       const playing = a.playingKey === audioKey;
                       const chosen = a.chosen(detail.id, choice.value);
@@ -839,9 +912,7 @@ export default function SpotTheDifference() {
                             <span className="sr-only">
                               {" "}
                               Audio:{" "}
-                              {choice.value === "a-only"
-                                ? "In Picture A, Mom has sunglasses."
-                                : "In Picture B, Mom has sunglasses."}
+                              {choice.text}
                             </span>
                           )}
                           {chosen && a.results[detail.id] === "wrong" && (

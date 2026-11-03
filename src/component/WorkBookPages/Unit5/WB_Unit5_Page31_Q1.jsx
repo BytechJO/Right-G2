@@ -1,3 +1,4 @@
+import missingAudio0 from "../../../assets/audio/WorkBook/missing/Pizza..mp3";
 /* eslint-disable react-refresh/only-export-components -- Keep exercise controls local. */
 import ExerciseHeader from "../../ExerciseHeader";
 import { playGlobalAudio, stopGlobalAudio } from "../../audioManager";
@@ -215,6 +216,7 @@ const SOUNDS = {
   cheese: clip4,
   cake: clip5,
   yogurt: clip6,
+  "pizza": missingAudio0,
 };
 const normalized = (text) =>
   String(text)
