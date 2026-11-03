@@ -1,3 +1,7 @@
+import missingAudio0 from "../../../assets/audio/WorkBook/missing/at 1 p.m..mp3";
+import missingAudio1 from "../../../assets/audio/WorkBook/missing/at 7 a.m..mp3";
+import missingAudio2 from "../../../assets/audio/WorkBook/missing/at 8 a.m..mp3";
+import missingAudio3 from "../../../assets/audio/WorkBook/missing/at 9 p.m..mp3";
 /* eslint-disable react-refresh/only-export-components -- Exercise-local controls. */
 import ExerciseHeader from "../../ExerciseHeader";
 import { playGlobalAudio, stopGlobalAudio } from "../../audioManager";
@@ -28,10 +32,7 @@ import clip22 from "../../../assets/audio/WorkBook/Unit 6/Page 37 - I/Item_023_W
 import clip23 from "../../../assets/audio/WorkBook/Unit 6/Page 37 - I/Item_024_Albert_goes_to_bed.mp3";
 import clip24 from "../../../assets/audio/WorkBook/Unit 6/Page 37 - I/Item_025_Molly_has_English_class.mp3";
 import clip25 from "../../../assets/audio/WorkBook/Unit 6/Page 37 - I/Item_026_at_12_30_p.m.mp3";
-import clip26 from "../../../assets/audio/WorkBook/Unit 6/Page 37 - I/Item_027_at_1_00_p.m.mp3";
 import clip27 from "../../../assets/audio/WorkBook/Unit 6/Page 37 - I/Item_028_at_7_30_a.m.mp3";
-import clip28 from "../../../assets/audio/WorkBook/Unit 6/Page 37 - I/Item_029_at_7_00_a.m.mp3";
-import clip29 from "../../../assets/audio/WorkBook/Unit 6/Page 37 - I/Item_030_at_8_00_a.m.mp3";
 import React, { useState, useRef, useEffect } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import Button from "../Button";
@@ -215,10 +216,12 @@ const SOUNDS = {
   "albert goes to bed": clip23,
   "molly has english class": clip24,
   "at 12 30 pm": clip25,
-  "at 1 00 pm": clip26,
   "at 7 30 am": clip27,
-  "at 7 00 am": clip28,
-  "at 8 00 am": clip29,
+  "at 1 00 pm": missingAudio0,
+  "at 7 00 am": missingAudio1,
+  "at 8 00 am": missingAudio2,
+  "8 00 am": missingAudio2,
+  "at 9 00 pm": missingAudio3,
 };
 const normalized = (text) =>
   String(text)

@@ -1,3 +1,10 @@
+import missingAudio0 from "../../../assets/audio/WorkBook/missing/Monday.mp3";
+import missingAudio1 from "../../../assets/audio/WorkBook/missing/Tuesday.mp3";
+import missingAudio2 from "../../../assets/audio/WorkBook/missing/Wednesday.mp3";
+import missingAudio3 from "../../../assets/audio/WorkBook/missing/Thursday.mp3";
+import missingAudio4 from "../../../assets/audio/WorkBook/missing/Friday.mp3";
+import missingAudio5 from "../../../assets/audio/WorkBook/missing/Saturday.mp3";
+import missingAudio6 from "../../../assets/audio/WorkBook/missing/Sunday.mp3";
 /* eslint-disable react-refresh/only-export-components -- Exercise-local controls. */
 import ExerciseHeader from "../../ExerciseHeader";
 import { playGlobalAudio, stopGlobalAudio } from "../../audioManager";
@@ -167,6 +174,13 @@ function showCheckFeedback(root, kind, ...messages) {
 const SOUNDS = {
   "what day is it today": clip0,
   "it is": clip1,
+  "monday": missingAudio0,
+  "tuesday": missingAudio1,
+  "wednesday": missingAudio2,
+  "thursday": missingAudio3,
+  "friday": missingAudio4,
+  "saturday": missingAudio5,
+  "sunday": missingAudio6,
 };
 const normalized = (text) =>
   String(text)

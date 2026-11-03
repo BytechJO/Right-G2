@@ -209,7 +209,7 @@ const Unit8_Page4 = ({ openPopup }) => {
       </div>
 
       {clickableAreas.map((area, index) => {
-        const areaId = `p60-${index}`;
+        const areaId = `p67-${index}`;
 
         return (
           <div

@@ -34,7 +34,7 @@ import wordStew from "../../../assets/audio/ClassBook/U 5/Page 45 - D/Item_012_s
 import sentenceLikeYouFish from "../../../assets/audio/ClassBook/U 5/Page 45 - D/Item_013_like_you_fish.mp3";
 import wordYou from "../../../assets/audio/ClassBook/U 5/Page 45 - D/Item_014_you.mp3";
 import wordFish from "../../../assets/audio/ClassBook/U 5/Page 45 - D/Item_015_fish.mp3";
-
+import sentenceDoesntLikeHeChicken from "../../../assets/audio/ClassBook/U 5/Page 45 - D/doesn't like he chicken.mp3";
 // صوت كل كلمة (المفتاح = الكلمة بحروف صغيرة)
 // ⚠️ "he" و "chicken" ما لقيت لهم ملفات بالفولدر، فما رح يشتغل لهم صوت لحد ما تنضاف
 const wordAudio = {
@@ -105,7 +105,7 @@ const questions = [
     correctSentence: "he doesn't like chicken",
     scrambled: ["doesn't", "like", "he", "chicken"],
     answerPic: 2,
-    audio: null,
+    audio: sentenceDoesntLikeHeChicken,
   },
 ];
 

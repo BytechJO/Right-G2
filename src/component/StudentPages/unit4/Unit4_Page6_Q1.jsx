@@ -18,7 +18,7 @@ import doYouWantASound from "../../../assets/audio/ClassBook/U 4/Page 33 - D/Do 
 import noIDontSound from "../../../assets/audio/ClassBook/U 4/Page 33 - D/No, I don't. I want a dress.mp3";
 import robotSound from "../../../assets/audio/ClassBook/U 4/Page 33 - D/robot.mp3";
 import yesIDoSound from "../../../assets/audio/ClassBook/U 4/Page 33 - D/Yes, I do..mp3";
-
+import doYouWantABike from "../../../assets/audio/ClassBook/U 4/Page 33 - D/Do you want a bike.mp3";
 // 🔊 true = الصوت يشتغل تلقائياً لما الطالب يوقف على الكلمة/الجملة بالتاب
 const PLAY_ON_FOCUS = true;
 
@@ -53,7 +53,7 @@ const items = [
     img: img4,
     alt: "Picture for conversation 4",
     // ما في ملف صوت لهالسؤال
-    question: [{ type: "text", value: "Do you want a bike?" }],
+    question: [{ type: "text", value: "Do you want a bike?" ,audio: doYouWantABike}],
     answer: "No, I don't. I want a dress",
   },
 ];

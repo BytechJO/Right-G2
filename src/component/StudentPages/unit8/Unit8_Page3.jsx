@@ -5,7 +5,7 @@ import grammarSound from "../../../assets/audio/ClassBook/U 8/cd46pg66-grammar1-
 import sound1 from "../../../assets/audio/ClassBook/U 8/grammar-marge1.mp3";
 import sound2 from "../../../assets/audio/ClassBook/U 8/Pg66_1.2_Adult Lady.mp3";
 import sound3 from "../../../assets/audio/ClassBook/U 8/Pg66_1.3_Helen.mp3";
-import sound4 from "../../../assets/audio/ClassBook/U 8/Pg66_2.1_Helen_Take 2.mp3";
+import sound4 from "../../../assets/audio/ClassBook/U 8/They have three pairs of shorts. They don’t have pants.mp3";
 import sound5 from "../../../assets/audio/ClassBook/U 8/Pg66_2.1_Tom.mp3";
 import sound6 from "../../../assets/audio/ClassBook/U 8/Pg66_3.1_Adult Lady.mp3";
 import { useContext } from "react";
@@ -20,24 +20,34 @@ const Unit8_Page3 = ({ openPopup }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const captionsExample = [
     {
-      start: 0.219,
-      end: 14.96,
-      text: "Page 66, exercise 1, Right Grammar. How many dresses do you have? I have two dresses. How many caps do we have? We have three caps.",
+      start: 0.24,
+      end: 8.9,
+      text: "Page 66, exercise 1. Write grammar. How many dresses do you have? I have two dresses.",
     },
     {
-      start: 14.96,
-      end: 19.379,
+      start: 9.92,
+      end: 14.02,
+      text: "How many caps do we have? We have three caps.",
+    },
+    {
+      start: 14.94,
+      end: 19.36,
       text: "How many pairs of shorts do they have? They have five pairs of shorts.",
     },
     {
       start: 20.6,
-      end: 25.039,
+      end: 24.04,
       text: "I have two dresses, but I don't have any skirts.",
     },
     {
-      start: 25.039,
-      end: 31.699,
-      text: "You have two caps and two hats, and we only have two caps  We don't have any hats",
+      start: 25.06,
+      end: 31.68,
+      text: "You have two caps and two hats, and we only have two caps. We don't have any hats.",
+    },
+    {
+      start: 32.24,
+      end: 35.58,
+      text: "They have three pairs of shorts. They don't have pants.",
     },
   ];
   const clickableAreas = [
@@ -223,7 +233,7 @@ const Unit8_Page3 = ({ openPopup }) => {
       </div>
       {/* رسم المستطيلات التفاعلية */}
       {clickableAreas.map((area, index) => {
-        const areaId = `p60-${index}`;
+        const areaId = `p66-${index}`;
 
         return (
           <div

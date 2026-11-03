@@ -1,3 +1,11 @@
+import question1Audio from "../../../assets/audio/ClassBook/U 8/Page 65/Hansel has.mp3";
+import question1Option1Audio from "../../../assets/audio/ClassBook/U 8/Page 65/black jacket, blue jeans, green cap.mp3";
+import question1Option2Audio from "../../../assets/audio/ClassBook/U 8/Page 65/green jacket and black jeans.mp3";
+import question1Option3Audio from "../../../assets/audio/ClassBook/U 8/Page 65/green jeans, white cap.mp3";
+import question2Audio from "../../../assets/audio/ClassBook/U 8/Page 65/Helen doesn’t have.mp3";
+import question2Option1Audio from "../../../assets/audio/ClassBook/U 8/Page 65/green jacket.mp3";
+import question2Option2Audio from "../../../assets/audio/ClassBook/U 8/Page 65/skirt or a scarf..mp3";
+import question2Option3Audio from "../../../assets/audio/ClassBook/U 8/Page 65/white cap.mp3";
 import page_2 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 65.png";
 import img1_letter from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 64-65/1-05.svg";
 import img2_letter from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 64-65/1-06.svg";
@@ -31,17 +39,17 @@ const Unit8_Page2 = ({ openPopup }) => {
     title: "Read and tap or click to complete the sentences.",
     questions: [
       {
-        text: "Hansel has?",
+        text: "Hansel has?", audio: question1Audio,
         options: [
-          "black jacket, blue jeans, green cap",
-          "green jacket and black jeans",
-          "green jeans, white cap",
+          { text: "black jacket, blue jeans, green cap", audio: question1Option1Audio },
+          { text: "green jacket and black jeans", audio: question1Option2Audio },
+          { text: "green jeans, white cap", audio: question1Option3Audio },
         ],
         correct: "black jacket, blue jeans, green cap",
       },
       {
-        text: "Helen doesn’t have?",
-        options: ["green jacket", "skirt or a scarf.", "white cap"],
+        text: "Helen doesn’t have?", audio: question2Audio,
+        options: [{ text: "green jacket", audio: question2Option1Audio }, { text: "skirt or a scarf.", audio: question2Option2Audio }, { text: "white cap", audio: question2Option3Audio }],
         correct: "skirt or a scarf.",
       },
     ],

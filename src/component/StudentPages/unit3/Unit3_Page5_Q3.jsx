@@ -7,7 +7,7 @@ import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 // 🔊 مدير الصوت المشترك (صوت واحد بس بنفس الوقت)
 import { playGlobalAudio, stopGlobalAudio } from "../../audioManager";
 
-import sheCanSound from "../../../assets/audio/ClassBook/U 3/Page 26 - B/She can.mp3";
+import sheCanSound from "../../../assets/audio/ClassBook/U 3/Page 26 - B/she can.mp3";
 import makeASandwichSound from "../../../assets/audio/ClassBook/U 3/Page 26 - B/make a sandwich.mp3";
 import makeSandwichSound from "../../../assets/audio/ClassBook/U 3/Page 26 - B/make - sandwich.mp3";
 import heSound from "../../../assets/audio/ClassBook/U 3/Page 26 - B/He.mp3";

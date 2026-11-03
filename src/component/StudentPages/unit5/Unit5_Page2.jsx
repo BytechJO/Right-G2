@@ -1,3 +1,11 @@
+import helenLikesAudio from "../../../assets/audio/ClassBook/U 5/Page 41/Helen likes.mp3";
+import tomDoesntLikeAudio from "../../../assets/audio/ClassBook/U 5/Page 41/Tom doesn’t like.mp3";
+import grapesAudio from "../../../assets/audio/ClassBook/U 5/Page 41/grapes.mp3";
+import carrotsAudio from "../../../assets/audio/ClassBook/U 5/Page 41/carrots.mp3";
+import riceAudio from "../../../assets/audio/ClassBook/U 5/Page 41/rice.mp3";
+import meatAudio from "../../../assets/audio/ClassBook/U 5/Page 41/Meat.mp3";
+import appleJuiceAudio from "../../../assets/audio/ClassBook/U 5/Page 41/apple juice.mp3";
+import fishAudio from "../../../assets/audio/ClassBook/U 5/Page 41/fish.mp3";
 import page_2 from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 41.png";
 import img1_letter from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 40-41/1-05.svg";
 import img2_letter from "../../../assets/imgs/Right 2 Unit 5 Yummy I Like It/Page 40-41/1-06.svg";
@@ -38,12 +46,22 @@ const Unit5_Page2 = ({ openPopup }) => {
     questions: [
       {
         text: "Helen likes",
-        options: ["grapes.", "carrots.", "rice."],
+        audio: helenLikesAudio,
+        options: [
+          { text: "grapes.", audio: grapesAudio },
+          { text: "carrots.", audio: carrotsAudio },
+          { text: "rice.", audio: riceAudio },
+        ],
         correct: "rice.",
       },
       {
         text: "Tom doesn’t like",
-        options: ["meat.", "apple juice.", "fish."],
+        audio: tomDoesntLikeAudio,
+        options: [
+          { text: "meat.", audio: meatAudio },
+          { text: "apple juice.", audio: appleJuiceAudio },
+          { text: "fish.", audio: fishAudio },
+        ],
         correct: "fish.",
       },
     ],

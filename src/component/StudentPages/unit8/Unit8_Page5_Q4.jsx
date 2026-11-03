@@ -7,7 +7,8 @@ import img1 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 68/
 import img2 from "../../../assets/imgs/Right 2 Unit 8 Its Shopping Time/Page 68/Ex C 2.svg";
 import { FaVolumeUp } from "react-icons/fa";
 import { playGlobalAudio, stopGlobalAudio } from "../../audioManager"; // No verified audio asset for this complete sentence is available.
-const sentenceAudio = null;
+import sentenceAudio from "../../../assets/audio/ClassBook/U 8/Page 68 - C/the      summer   vacation starts   in       june.mp3";
+// const sentenceAudio = null;
 const grid = [
   [
     "e",

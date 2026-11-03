@@ -1,3 +1,6 @@
+import missingAudio0 from "../../../assets/audio/WorkBook/missing/I.mp3";
+import missingAudio1 from "../../../assets/audio/WorkBook/missing/my teeth and.mp3";
+import missingAudio2 from "../../../assets/audio/WorkBook/missing/my face..mp3";
 /* eslint-disable react-refresh/only-export-components -- Exercise-local controls. */
 import ExerciseHeader from "../../ExerciseHeader";
 import { playGlobalAudio, stopGlobalAudio } from "../../audioManager";
@@ -196,6 +199,9 @@ const SOUNDS = {
   breakfast: clip7,
   "goodbye to mom and dad and": clip8,
   "to school": clip9,
+  "i": missingAudio0,
+  "my teeth and": missingAudio1,
+  "my face": missingAudio2,
 };
 const normalized = (text) =>
   String(text)
@@ -755,7 +761,7 @@ const WB_Unit6_Page33_Q1 = () => {
               </div>
 
               <p className="text-xl leading-relaxed">
-                I{" "}
+                <AudioText audioKey="fragment-I-1" src={soundFor("I")} playSound={playSound} playingKey={playingKey} tabIndex={interaction.picked ? -1 : 0}>I</AudioText>{" "}
                 <DropSlot
                   interaction={interaction}
                   id="drop1"
@@ -772,7 +778,7 @@ const WB_Unit6_Page33_Q1 = () => {
                 >
                   {"at six o'clock."}
                 </AudioText>{" "}
-                I{" "}
+                <AudioText audioKey="fragment-I-2" src={soundFor("I")} playSound={playSound} playingKey={playingKey} tabIndex={interaction.picked ? -1 : 0}>I</AudioText>{" "}
                 <DropSlot
                   interaction={interaction}
                   id="drop2"
@@ -780,7 +786,7 @@ const WB_Unit6_Page33_Q1 = () => {
                   isCorrect={placedWords.drop2 === CORRECT_ANSWERS.drop2}
                   isSubmitted={isSubmitted}
                 />{" "}
-                my teeth and{" "}
+                <AudioText audioKey="fragment-my teeth and" src={soundFor("my teeth and")} playSound={playSound} playingKey={playingKey} tabIndex={interaction.picked ? -1 : 0}>my teeth and</AudioText>{" "}
                 <DropSlot
                   interaction={interaction}
                   id="drop3"
@@ -788,7 +794,7 @@ const WB_Unit6_Page33_Q1 = () => {
                   isCorrect={placedWords.drop3 === CORRECT_ANSWERS.drop3}
                   isSubmitted={isSubmitted}
                 />{" "}
-                my face.
+                <AudioText audioKey="fragment-my face." src={soundFor("my face.")} playSound={playSound} playingKey={playingKey} tabIndex={interaction.picked ? -1 : 0}>my face.</AudioText>
               </p>
 
               <div className="w-full  gap-4">
@@ -800,7 +806,7 @@ const WB_Unit6_Page33_Q1 = () => {
               </div>
 
               <p className="text-xl leading-relaxed">
-                I{" "}
+                <AudioText audioKey="fragment-I-3" src={soundFor("I")} playSound={playSound} playingKey={playingKey} tabIndex={interaction.picked ? -1 : 0}>I</AudioText>{" "}
                 <DropSlot
                   interaction={interaction}
                   id="drop4"
@@ -817,7 +823,7 @@ const WB_Unit6_Page33_Q1 = () => {
                 >
                   {"breakfast."}
                 </AudioText>{" "}
-                I{" "}
+                <AudioText audioKey="fragment-I-4" src={soundFor("I")} playSound={playSound} playingKey={playingKey} tabIndex={interaction.picked ? -1 : 0}>I</AudioText>{" "}
                 <DropSlot
                   interaction={interaction}
                   id="drop5"

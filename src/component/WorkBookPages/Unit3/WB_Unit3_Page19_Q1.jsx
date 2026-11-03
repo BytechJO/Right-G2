@@ -1,3 +1,5 @@
+import missingAudio0 from "../../../assets/audio/WorkBook/missing/Can it.mp3";
+import missingAudio1 from "../../../assets/audio/WorkBook/missing/Can they.mp3";
 import ExerciseHeader from "../../ExerciseHeader";
 import { playGlobalAudio, stopGlobalAudio } from "../../audioManager";
 import { FaVolumeUp } from "react-icons/fa";
@@ -300,6 +302,8 @@ const SOUNDS = {
   "yes, they can": sound5,
   "no, they can't": sound6,
   "yes, it can": sound7,
+  "can it": missingAudio0,
+  "can they": missingAudio1,
 };
 const IMAGE_DESCRIPTIONS = {
   [img1]: "A green snake.",
@@ -692,7 +696,7 @@ const WB_Unit3_Page19_Q1 = () => {
     sounds: Object.fromEntries(
       initialWords.wordBank.map((w) => [
         w.id,
-        SOUNDS[w.text.slice(0, -1).toLowerCase()],
+        SOUNDS[w.text.toLowerCase()],
       ]),
     ),
     missingMessage: "Please complete all answers first.",

@@ -1,3 +1,4 @@
+import missingAudio0 from "../../../assets/audio/WorkBook/missing/We are looking at the hens..mp3";
 /* eslint-disable react-refresh/only-export-components -- Exercise-local controls. */
 // تأكد من صحة المسار في مشروعك
 import Button from "../Button"; // تأكد من صحة المسار في مشروعك
@@ -387,6 +388,7 @@ const SOUNDS = {
   "i'm cooking dinner for my family": clip2,
   "he isn't listening to the radio": clip3,
   "they aren't playing soccer": clip4,
+  "we are looking at the hens": missingAudio0,
 };
 const soundFor = (text) => SOUNDS[normalized(text)];
 const IMAGE_DESCRIPTIONS = {

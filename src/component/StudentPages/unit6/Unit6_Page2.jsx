@@ -1,3 +1,11 @@
+import question1Audio from "../../../assets/audio/ClassBook/U 6/Page 47/When does Helen go to school.mp3";
+import question1Option1Audio from "../../../assets/audio/ClassBook/U 6/Page 47/She goes to school at eight o’clock..mp3";
+import question1Option2Audio from "../../../assets/audio/ClassBook/U 6/Page 47/She goes to school at six o’clock..mp3";
+import question1Option3Audio from "../../../assets/audio/ClassBook/U 6/Page 47/She goes to school at nine o’clock..mp3";
+import question2Audio from "../../../assets/audio/ClassBook/U 6/Page 47/When does Helen go to sleep.mp3";
+import question2Option1Audio from "../../../assets/audio/ClassBook/U 6/Page 47/She goes to sleep at nine o’clock..mp3";
+import question2Option2Audio from "../../../assets/audio/ClassBook/U 6/Page 47/She goes to sleep at six o’clock..mp3";
+import question2Option3Audio from "../../../assets/audio/ClassBook/U 6/Page 47/She goes to sleep at eight o’clock..mp3";
 import page_2 from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 47.png";
 import img1_letter from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 46-47/Untitled-22-05.svg";
 import img2_letter from "../../../assets/imgs/Right 2 Unit 6 Helens Day/Page 46-47/Untitled-22-06.svg";
@@ -41,20 +49,20 @@ const Unit6_Page2 = ({ openPopup }) => {
     title: "Read and tap or click the correct time. ",
     questions: [
       {
-        text: "When does Helen go to school?",
+        text: "When does Helen go to school?", audio: question1Audio,
         options: [
-          "She goes to school at eight o’clock.",
-          "She goes to school at six o’clock.",
-          "She goes to school at nine o’clock.",
+          { text: "She goes to school at eight o’clock.", audio: question1Option1Audio },
+          { text: "She goes to school at six o’clock.", audio: question1Option2Audio },
+          { text: "She goes to school at nine o’clock.", audio: question1Option3Audio },
         ],
         correct: "She goes to school at eight o’clock.",
       },
       {
-        text: "When does Helen go to sleep?",
+        text: "When does Helen go to sleep?", audio: question2Audio,
         options: [
-          "She goes to sleep at nine o’clock.",
-          "She goes to sleep at six o’clock.",
-          "She goes to sleep at eight o’clock.",
+          { text: "She goes to sleep at nine o’clock.", audio: question2Option1Audio },
+          { text: "She goes to sleep at six o’clock.", audio: question2Option2Audio },
+          { text: "She goes to sleep at eight o’clock.", audio: question2Option3Audio },
         ],
         correct: "She goes to sleep at nine o’clock.",
       },

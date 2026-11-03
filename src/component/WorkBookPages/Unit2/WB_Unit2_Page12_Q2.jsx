@@ -1,3 +1,5 @@
+import missingAudio0 from "../../../assets/audio/WorkBook/missing/Are these.mp3";
+import missingAudio1 from "../../../assets/audio/WorkBook/missing/is this a.mp3";
 import ExerciseHeader from "../../ExerciseHeader";
 import { playGlobalAudio, stopGlobalAudio } from "../../audioManager";
 import { FaVolumeUp } from "react-icons/fa";
@@ -185,6 +187,8 @@ const SOUNDS = {
   squirrel: sound1,
   horse: sound2,
   rabbits: sound3,
+  "Are these": missingAudio0,
+  "Is this a": missingAudio1,
 };
 function useSelectAnswers(correct, missingMessage) {
   const completedCheckRef = useRef(null);
@@ -221,6 +225,15 @@ function useSelectAnswers(correct, missingMessage) {
     [revealed, setRevealed] = useState(false),
     [message, setMessage] = useState("");
   const audio = useExerciseAudio();
+  const completed = Object.keys(correct).every((id) => results[id] === "correct");
+  const checkDisabled = revealed || completed;
+  useEffect(() => {
+    const button = audio.rootRef.current?.querySelector(".check-button2");
+    if (!button) return;
+    button.disabled = checkDisabled;
+    button.style.cursor = checkDisabled ? "not-allowed" : "";
+    button.setAttribute("aria-disabled", String(checkDisabled));
+  }, [audio.rootRef, checkDisabled]);
   const locked = (id) => revealed || results[id] === "correct";
   const choose = (id, value) => {
     audio.rootRef.current?.querySelectorAll("audio").forEach((a) => a.pause());
@@ -244,7 +257,7 @@ function useSelectAnswers(correct, missingMessage) {
       return;
     }
 
-    if (revealed) return;
+    if (revealed || completed) return;
     audio.stopAudio();
     if (
       Object.keys(correct).some(
@@ -392,7 +405,9 @@ const WB_Unit2_Page12_Q2 = () => {
       ]),
     );
   const handleSelectChange = (id, value) => {
-      if (id.endsWith("_2")) {
+      if (id.endsWith("_1")) {
+      playSound("native-" + id, SOUNDS[value]);
+    } else if (id.endsWith("_2")) {
         const sounds = {
           "Yes, they are.": yesPluralAudio,
           "No, they aren't.": noPluralAudio,
@@ -464,7 +479,8 @@ const WB_Unit2_Page12_Q2 = () => {
                           <option value="Are these">Are these</option>
                         </select>
 
-                        <span className="text-red-600 ml-2">
+                        {playingKey === "native-input" + q.number + "_1" && <SpeakerBadge />}
+                      <span className="text-red-600 ml-2">
                           <AudioText
                             audioKey={q.id}
                             src={SOUNDS[q.question1_end.replace(/\?$/, "")]}

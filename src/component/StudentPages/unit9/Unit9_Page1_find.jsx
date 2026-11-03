@@ -2,7 +2,7 @@
 import find_img from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page.png";
 import MySVG from "../../../assets/imgs/Interactive Svg un 9.svg";
 import FindQuestion from "../../FindQuestion";
-
+import targetAudio from "../../../assets/audio/ClassBook/U 9/The ironing board.mp3"; // ⚠️ ما في ملف صوت لهاد السؤال. إذا أضفتيه، فعّلي الاستيراد وعدّلي المسار
 const targetArea = {
   x1: 50,
   y1: 25,
@@ -19,7 +19,7 @@ const Unit9_Page1_find = () => (
     targetName="the ironing board"
     targetArea={targetArea}
     answerHighlight={MySVG}
-    targetAudio=""
+    targetAudio={targetAudio}
     imageHeight="75vh"
     highlightTop="25%"
     highlightLeft="53.5%"
