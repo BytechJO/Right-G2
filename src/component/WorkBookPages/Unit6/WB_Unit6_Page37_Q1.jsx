@@ -1,3 +1,6 @@
+import extraAudio2 from "../../../assets/audio/G2 - Missing/Albert goes to school.mp3";
+import extraAudio1 from "../../../assets/audio/G2 - Missing/Sandra eats breakfast.mp3";
+import extraAudio0 from "../../../assets/audio/G2 - Missing/Wesley goes to bed.mp3";
 import missingAudio0 from "../../../assets/audio/WorkBook/missing/at 1 p.m..mp3";
 import missingAudio1 from "../../../assets/audio/WorkBook/missing/at 7 a.m..mp3";
 import missingAudio2 from "../../../assets/audio/WorkBook/missing/at 8 a.m..mp3";
@@ -190,6 +193,10 @@ function showCheckFeedback(root, kind, ...messages) {
   ValidationAlert[kind](...messages);
 }
 const SOUNDS = {
+  "wesley goes to bed": extraAudio0,
+  "sandra eats breakfast": extraAudio1,
+  "albert goes to school": extraAudio2,
+
   "eat breakfast": clip0,
   "go to school": clip1,
   "english class": clip2,
