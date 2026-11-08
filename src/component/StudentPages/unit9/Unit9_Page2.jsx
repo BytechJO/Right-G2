@@ -1,3 +1,11 @@
+import question1Audio from "../../../assets/audio/ClassBook/U 9/Page 77/Grandpa is listening to the radio because.mp3";
+import question1Option1Audio from "../../../assets/audio/ClassBook/U 9/Page 77/he is cooking lunch..mp3";
+import question1Option2Audio from "../../../assets/audio/ClassBook/U 9/Page 77/he wants to hear a program..mp3";
+import question1Option3Audio from "../../../assets/audio/ClassBook/U 9/Page 77/he is playing soccer..mp3";
+import question2Audio from "../../../assets/audio/ClassBook/U 9/Page 77/My dad and uncle are not playing soccer because.mp3";
+import question2Option1Audio from "../../../assets/audio/ClassBook/U 9/Page 77/they are playing chess..mp3";
+import question2Option2Audio from "../../../assets/audio/ClassBook/U 9/Page 77/they are ironing clothes..mp3";
+import question2Option3Audio from "../../../assets/audio/ClassBook/U 9/Page 77/they are cooking lunch..mp3";
 import page_2 from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 77.png";
 import img1_letter from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 76-77/1-05.svg";
 import img2_letter from "../../../assets/imgs/Right 2 Unit 9 Visiting Our Grandparents/Page 76-77/1-06.svg";
@@ -41,14 +49,24 @@ const Unit9_Page2 = ({ openPopup }) => {
     questions: [
       {
         text: "Grandpa is listening to the radio because",
-        options: ["grapes.", "carrots.", "rice."],
-        correct: "rice.",
+        audio: question1Audio,
+        options: [
+          { text: "he is cooking lunch.", audio: question1Option1Audio },
+          { text: "he wants to hear a program.", audio: question1Option2Audio },
+          { text: "he is playing soccer.", audio: question1Option3Audio }
+        ],
+        correct: "he wants to hear a program.",
       },
       {
         text: "My dad and uncle are not playing soccer because",
-        options: ["meat.", "apple juice.", "fish."],
-        correct: "fish.",
-      },
+        audio: question2Audio,
+        options: [
+          { text: "they are playing chess.", audio: question2Option1Audio },
+          { text: "they are ironing clothes.", audio: question2Option2Audio },
+          { text: "they are cooking lunch.", audio: question2Option3Audio }
+        ],
+        correct: "they are playing chess.",
+      }
     ],
   };
   const captionsExample = [

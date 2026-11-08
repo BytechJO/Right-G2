@@ -1,3 +1,11 @@
+import feetAudio from "../../../assets/audio/ClassBook/U 5/Page 44 - A2/Feet.mp3";
+import readAudio from "../../../assets/audio/ClassBook/U 5/Page 44 - A2/Read.mp3";
+import lakeAudio from "../../../assets/audio/ClassBook/U 5/Page 44 - A2/Lake.mp3";
+import beeAudio from "../../../assets/audio/ClassBook/U 5/Page 44 - A2/Bee.mp3";
+import cakeAudio from "../../../assets/audio/ClassBook/U 5/Page 44 - A2/Cake.mp3";
+import teaAudio from "../../../assets/audio/ClassBook/U 5/Page 44 - A2/Tea.mp3";
+import meatAudio from "../../../assets/audio/ClassBook/U 5/Page 44 - A2/Meat.mp3";
+import sleepAudio from "../../../assets/audio/ClassBook/U 5/Page 44 - A2/Sleep.mp3";
 import React, { useState, useRef, useEffect } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import ExerciseHeader from "../../ExerciseHeader";
@@ -29,20 +37,20 @@ const GROUPS = [
     id: 1,
     different: 2,
     images: [
-      { src: img1a, alt: "", audio: null },
-      { src: img1b, alt: "", audio: null },
-      { src: img1c, alt: "", audio: null },
-      { src: img1d, alt: "", audio: null },
+      { src: img1a, alt: "A pair of feet.", audio: feetAudio },
+      { src: img1b, alt: "A boy reading a book.", audio: readAudio },
+      { src: img1c, alt: "A lake.", audio: lakeAudio },
+      { src: img1d, alt: "A bee.", audio: beeAudio },
     ],
   },
   {
     id: 2,
     different: 0,
     images: [
-      { src: img2a, alt: "", audio: null },
-      { src: img2b, alt: "", audio: null },
-      { src: img2c, alt: "", audio: null },
-      { src: img2d, alt: "", audio: null },
+      { src: img2a, alt: "A cake.", audio: cakeAudio },
+      { src: img2b, alt: "A cup of tea.", audio: teaAudio },
+      { src: img2c, alt: "A steak on a plate.", audio: meatAudio },
+      { src: img2d, alt: "A child asleep in bed.", audio: sleepAudio },
     ],
   },
 ];
@@ -69,6 +77,7 @@ const Unit5_Page5_Q2 = () => {
   // مالك الصوت: بيعرّف الـ audioManager إنو هاد الصوت تابع للكومبوننت
   const audioOwner = useRef({}).current;
 
+  const resetButtonRef = useRef(null);
   const disabled = finished || answerShown;
 
   // 🔒 المجموعة الصح مقفولة، الغلط بيضل قابل للتعديل
@@ -157,7 +166,10 @@ const Unit5_Page5_Q2 = () => {
 
     setResults(newResults);
 
-    if (correct === COUNT) setFinished(true);
+    if (correct === COUNT) {
+      resetButtonRef.current?.focus({ preventScroll: true });
+      setFinished(true);
+    }
 
     // 🔊 فيدباك مسموع لكل مجموعة + السكور (للغلط ما بنكشف الجواب لأنو بيقدر يعدّل)
     const details = GROUPS.map(
@@ -196,6 +208,7 @@ const Unit5_Page5_Q2 = () => {
     setSelected(GROUPS.map((g) => g.different));
     setResults(emptyArr());
     setFinished(false);
+    resetButtonRef.current?.focus({ preventScroll: true });
     setAnswerShown(true);
     setMessage(
       "Correct answers are shown. The different picture in each group is marked with a cross.",
@@ -379,7 +392,7 @@ const Unit5_Page5_Q2 = () => {
         </div>
 
         <div className="action-buttons-container">
-          <button type="button" onClick={reset} className="try-again-button">
+          <button type="button" ref={resetButtonRef} onClick={reset} className="try-again-button">
             Start Again ↻
           </button>
           <button
@@ -393,6 +406,7 @@ const Unit5_Page5_Q2 = () => {
             type="button"
             onClick={checkAnswers}
             className="check-button2"
+            disabled={disabled}
             aria-disabled={disabled}
             style={
               disabled ? {  cursor: "not-allowed" } : undefined

@@ -1,11 +1,15 @@
+import missingAudio0 from "../../../assets/audio/WorkBook/missing/He wants an apple..mp3";
+import missingAudio1 from "../../../assets/audio/WorkBook/missing/She wants ice cream..mp3";
+import missingAudio2 from "../../../assets/audio/WorkBook/missing/She wants tea..mp3";
+import missingAudio3 from "../../../assets/audio/WorkBook/missing/He wants yogurt..mp3";
 /* eslint-disable react-refresh/only-export-components -- Keep exercise controls local. */
 import ExerciseHeader from "../../ExerciseHeader";
 import { playGlobalAudio, stopGlobalAudio } from "../../audioManager";
 import { FaVolumeUp } from "react-icons/fa";
 
-import clip7 from "../../../assets/audio/WorkBook/Unit 5/Page 31 - J/Item_001_an_He_apple_wants.mp3";
-import clip8 from "../../../assets/audio/WorkBook/Unit 5/Page 31 - J/Item_002_ice_wants_She_cream.mp3";
-import clip9 from "../../../assets/audio/WorkBook/Unit 5/Page 31 - J/Item_003_She_tea_wants.mp3";
+// import clip7 from "../../../assets/audio/WorkBook/Unit 5/Page 31 - J/Item_001_an_He_apple_wants.mp3";
+// import clip8 from "../../../assets/audio/WorkBook/Unit 5/Page 31 - J/Item_002_ice_wants_She_cream.mp3";
+// import clip9 from "../../../assets/audio/WorkBook/Unit 5/Page 31 - J/Item_003_She_tea_wants.mp3";
 import React, { useState, useRef, useEffect } from "react";
 import Button from "../Button";
 import ValidationAlert from "../../Popup/ValidationAlert";
@@ -109,13 +113,25 @@ const SentenceBuilder = ({ q, order }) => {
       </div>
       {/* ANSWER */}
       <div className="relative">
+        {order.playingKey === "sentence-" + q.id && <SpeakerBadge />}
         <div
           {...order.slotProps(q)}
+            onClickCapture={(event) => {
+              if (event.target !== event.currentTarget && order.locked(q.id)) order.playSound("sentence-" + q.id, soundFor(q.correctSentence));
+            }}
+          onKeyDownCapture={(event) => {
+            if (event.target !== event.currentTarget && order.locked(q.id) && ["Enter", " "].includes(event.key)) {
+              event.preventDefault();
+              event.stopPropagation();
+              if (!event.repeat) order.playSound("sentence-" + q.id, soundFor(q.correctSentence));
+            }
+          }}
           ref={(el) => {
             order.slotRefs.current[q.id] = el;
           }}
           style={{
             ...order.slotProps(q).style,
+              ...(order.playingKey === "sentence-" + q.id ? { boxShadow: "0 0 0 3px #2563eb", backgroundColor: "#dbeafe" } : {}),
             borderRadius: 8,
             borderColor: undefined,
             borderBottomColor:
@@ -304,9 +320,13 @@ function showCheckFeedback(root, kind, ...messages) {
   ValidationAlert[kind](...messages);
 }
 const SOUNDS = {
-  "an he apple wants": clip7,
-  "ice wants she cream": clip8,
-  "she tea wants": clip9,
+  // "an he apple wants": clip7,
+  // "ice wants she cream": clip8,
+  // "she tea wants": clip9,
+  "he wants an apple": missingAudio0,
+  "she wants ice cream": missingAudio1,
+  "she wants tea": missingAudio2,
+  "he wants yogurt": missingAudio3,
 };
 const normalized = (text) =>
   String(text)
@@ -388,6 +408,8 @@ function useTokenOrder(questions, sounds, crossRow = false) {
       return;
     const next = [...inputs[id]];
     next.splice(index ?? next.length, 0, item);
+    const sentence = next.map((t) => t.value).join(q.separator);
+    if (soundFor(sentence)) audio.playSound("sentence-" + q.id, soundFor(sentence));
     setInputs((prev) => ({
       ...Object.fromEntries(
         Object.entries(prev).map(([zone, items]) => [
@@ -488,6 +510,10 @@ function useTokenOrder(questions, sounds, crossRow = false) {
       (locked(q.id) ? ". Correct and locked" : ""),
     "aria-disabled": locked(q.id),
     onClick: (e) => {
+      if (locked(q.id)) {
+        audio.playSound("sentence-" + q.id, soundFor(q.correctSentence));
+        return;
+      }
       if (e.target === e.currentTarget && !locked(q.id) && inputs[q.id].length)
         remove(q.id, inputs[q.id].at(-1).id);
     },
@@ -508,7 +534,11 @@ function useTokenOrder(questions, sounds, crossRow = false) {
       if (e.key !== "Enter" && e.key !== " ") return;
       e.preventDefault();
       e.stopPropagation();
-      if (e.repeat || locked(q.id)) return;
+      if (e.repeat) return;
+      if (locked(q.id)) {
+        audio.playSound("sentence-" + q.id, soundFor(q.correctSentence));
+        return;
+      }
       if (picked) {
         if (
           crossRow

@@ -1,3 +1,4 @@
+import missingAudio0 from "../../../assets/audio/WorkBook/missing/Helen and Stella.mp3";
 /* eslint-disable react-refresh/only-export-components -- Exercise-local controls. */
 import ExerciseHeader from "../../ExerciseHeader";
 import { playGlobalAudio, stopGlobalAudio } from "../../audioManager";
@@ -193,6 +194,7 @@ const SOUNDS = {
   dad: clip8,
   grandpa: clip9,
   "sarah and jack": clip10,
+  "helen and stella": missingAudio0,
 };
 const normalized = (text) =>
   String(text)

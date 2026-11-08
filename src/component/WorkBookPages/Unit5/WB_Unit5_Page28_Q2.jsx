@@ -1,3 +1,4 @@
+import missingAudio0 from "../../../assets/audio/WorkBook/missing/Does she like soup.mp3";
 /* eslint-disable react-refresh/only-export-components -- Keep exercise controls local. */
 import ExerciseHeader from "../../ExerciseHeader";
 import { playGlobalAudio, stopGlobalAudio } from "../../audioManager";
@@ -231,6 +232,7 @@ const SOUNDS = {
   "does he like fruit": clip10,
   "does he like meat": clip11,
   "does he like rice": clip12,
+  "does she like soup": missingAudio0,
 };
 const normalized = (text) =>
   String(text)

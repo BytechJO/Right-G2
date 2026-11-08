@@ -1,3 +1,11 @@
+import question1Audio from "../../../assets/audio/ClassBook/U 10/Page 83/What is Sarah doing.mp3";
+import question1Option1Audio from "../../../assets/audio/ClassBook/U 10/Page 83/watering the flowers..mp3";
+import question1Option2Audio from "../../../assets/audio/ClassBook/U 10/Page 83/swinging on the swing set..mp3";
+import question1Option3Audio from "../../../assets/audio/ClassBook/U 10/Page 83/riding his bike.mp3";
+import question2Audio from "../../../assets/audio/ClassBook/U 10/Page 83/What is Dad doing.mp3";
+import question2Option1Audio from "../../../assets/audio/ClassBook/U 10/Page 83/watering the flowers..mp3";
+import question2Option2Audio from "../../../assets/audio/ClassBook/U 10/Page 83/watching from the window..mp3";
+import question2Option3Audio from "../../../assets/audio/ClassBook/U 10/Page 83/riding his bike.mp3";
 import page_2 from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 83.png";
 import img1_letter from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 86/Untitled-22-05.svg";
 import img2_letter from "../../../assets/imgs/Right 2 Unit 10 At Our Home/Page 86/Untitled-22-06.svg";
@@ -39,20 +47,20 @@ const Unit10_Page2 = ({ openPopup }) => {
     title: "Read and tap or click the correct name.",
     questions: [
       {
-        text: "What is Sarah doing?",
+        text: "What is Sarah doing?", audio: question1Audio,
         options: [
-          "watering the flowers.",
-          "swinging on the swing set.",
-          "riding his bike",
+          { text: "watering the flowers.", audio: question1Option1Audio },
+          { text: "swinging on the swing set.", audio: question1Option2Audio },
+          { text: "riding his bike", audio: question1Option3Audio },
         ],
         correct: "swinging on the swing set.",
       },
       {
-        text: "What is Dad doing?",
+        text: "What is Dad doing?", audio: question2Audio,
         options: [
-          "watering the flowers",
-          "watching from the window.",
-          "riding his bike",
+          { text: "watering the flowers", audio: question2Option1Audio },
+          { text: "watching from the window.", audio: question2Option2Audio },
+          { text: "riding his bike", audio: question2Option3Audio },
         ],
         correct: "watching from the window.",
       },

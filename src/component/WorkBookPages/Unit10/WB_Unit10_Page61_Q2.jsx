@@ -1,3 +1,4 @@
+import missingAudio0 from "../../../assets/audio/WorkBook/missing/What's he carrying.mp3";
 /* eslint-disable react-refresh/only-export-components -- Exercise-local controls. */
 import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U10 Folder/Page 61/SVG/Asset 2.svg";
 import img2 from "../../../assets/imgs/WorkBook/Right Int WB G2 U10 Folder/Page 61/SVG/Asset 3.svg";
@@ -204,6 +205,7 @@ const SOUNDS = {
   "what's he wearing": clip5,
   "what's he watching": clip6,
   "he's reading": clip7,
+  "what's he carrying": missingAudio0,
 };
 const soundFor = (text) => SOUNDS[normalized(text)];
 const IMAGE_DESCRIPTIONS = {

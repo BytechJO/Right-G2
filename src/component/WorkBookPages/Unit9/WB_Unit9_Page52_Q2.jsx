@@ -1,3 +1,9 @@
+import missingAudio0 from "../../../assets/audio/WorkBook/missing/The cat.mp3";
+import missingAudio1 from "../../../assets/audio/WorkBook/missing/Mom.mp3";
+import missingAudio2 from "../../../assets/audio/WorkBook/missing/John.mp3";
+import missingAudio3 from "../../../assets/audio/WorkBook/missing/Dad.mp3";
+import missingAudio4 from "../../../assets/audio/WorkBook/missing/TV..mp3";
+import missingAudio5 from "../../../assets/audio/WorkBook/missing/with my uncle..mp3";
 /* eslint-disable react-refresh/only-export-components -- Exercise-local controls. */
 import Button from "../Button";
 import img1 from "../../../assets/imgs/WorkBook/Right Int WB G2 U9 Folder/Page 52/Ex D 1.svg";
@@ -225,6 +231,12 @@ const SOUNDS = {
   tom: clip18,
   home: clip19,
   stella: clip20,
+  "the cat": missingAudio0,
+  "mom": missingAudio1,
+  "john": missingAudio2,
+  "dad": missingAudio3,
+  "tv": missingAudio4,
+  "with my uncle": missingAudio5,
 };
 const soundFor = (text) => SOUNDS[normalized(text)];
 const IMAGE_DESCRIPTIONS = {

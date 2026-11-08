@@ -1,3 +1,5 @@
+import missingAudio0 from "../../../assets/audio/WorkBook/missing/It’s four o’clock..mp3";
+import missingAudio1 from "../../../assets/audio/WorkBook/missing/It’s half past eight..mp3";
 /* eslint-disable react-refresh/only-export-components -- Exercise-local controls. */
 import ExerciseHeader from "../../ExerciseHeader";
 import { playGlobalAudio, stopGlobalAudio } from "../../audioManager";
@@ -131,6 +133,8 @@ const SOUNDS = {
   "it's eleven o'clock": clip1,
   "it's half past nine": clip2,
   "it's seven o'clock": clip3,
+  "it's four o'clock": missingAudio0,
+  "it's half past eight": missingAudio1,
 };
 const normalized = (text) =>
   String(text)

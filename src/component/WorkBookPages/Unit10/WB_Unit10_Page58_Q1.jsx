@@ -1,3 +1,4 @@
+import missingAudio0 from "../../../assets/audio/WorkBook/missing/He is having.mp3";
 /* eslint-disable react-refresh/only-export-components -- Exercise-local controls. */
 import Button from "../Button";
 // check
@@ -206,6 +207,7 @@ const SOUNDS = {
   "english class": clip7,
   "math class": clip8,
   soccer: clip9,
+  "he is having": missingAudio0,
 };
 const soundFor = (text) => SOUNDS[normalized(text)];
 const IMAGE_DESCRIPTIONS = {

@@ -1,3 +1,6 @@
+import sentenceAudio from "../../../assets/audio/G2 - Missing/we       send     emails   using    a        computer.mp3";
+import { playGlobalAudio, stopGlobalAudio } from "../../audioManager";
+import { FaVolumeUp } from "react-icons/fa";
 import React, { useState, useEffect, useRef } from "react";
 import ValidationAlert from "../../Popup/ValidationAlert";
 import "./Unit9_Page5_Q4.css";
@@ -191,6 +194,43 @@ const getCellFromPoint = (clientX, clientY) => {
   return Number.isNaN(r) || Number.isNaN(c) ? null : [r, c];
 };
 const Unit9_Page5_Q4 = () => {
+  const rootRef = useRef(null);
+  const audioOwner = useRef(Symbol("sentence-audio"));
+  const audioToken = useRef(0);
+  const mounted = useRef(false);
+  const [playingSentence, setPlayingSentence] = useState(false);
+  const stopAudio = () => {
+    audioToken.current += 1;
+    stopGlobalAudio(audioOwner.current);
+    setPlayingSentence(false);
+  };
+  const playSentenceAudio = () => {
+    stopAudio();
+    const token = audioToken.current;
+    setPlayingSentence(true);
+    try {
+      playGlobalAudio(sentenceAudio, {
+        owner: audioOwner.current,
+        onFinish: () => {
+          if (mounted.current && audioToken.current === token) {
+            setPlayingSentence(false);
+          }
+        },
+      });
+    } catch {
+      stopAudio();
+    }
+  };
+  useEffect(() => {
+    mounted.current = true;
+    const owner = audioOwner.current;
+    const token = audioToken;
+    return () => {
+      mounted.current = false;
+      token.current += 1;
+      stopGlobalAudio(owner);
+    };
+  }, []);
   const completedCheckRef = useRef(null);
   const completeCheck = (event) => {
     const button = event?.currentTarget;
@@ -229,6 +269,12 @@ const Unit9_Page5_Q4 = () => {
   const cellRefs = useRef({});
 
   const locked = showAnswer || checkCompleted;
+  useEffect(() => {
+    const button = rootRef.current?.querySelector(".check-button2");
+    if (!button) return;
+    button.disabled = locked;
+    button.style.cursor = locked ? "not-allowed" : "";
+  }, [locked]);
   useEffect(
     () => () => {
       if (focusFrame.current !== null) cancelAnimationFrame(focusFrame.current);
@@ -315,6 +361,7 @@ const Unit9_Page5_Q4 = () => {
       setFoundWords((prev) => [...prev, matchedWord.id]);
 
       const sentenceCompleted = foundWords.length + 1 === words.length;
+      if (sentenceCompleted) playSentenceAudio();
 
       setAnnouncement(
         sentenceCompleted
@@ -341,6 +388,7 @@ const Unit9_Page5_Q4 = () => {
   const canUndo = !locked && (Boolean(startCell) || foundWords.length > 0);
 
   const handleUndo = () => {
+    stopAudio();
     if (!canUndo) return;
 
     if (startCell) {
@@ -562,6 +610,7 @@ const Unit9_Page5_Q4 = () => {
 
     if (locked) return;
 
+    stopAudio();
     cancelAnimationFrame(focusFrame.current);
     if (foundWords.length === 0) {
       ValidationAlert.info(
@@ -590,6 +639,7 @@ const Unit9_Page5_Q4 = () => {
     `;
 
     if (correct === total) {
+      rootRef.current?.querySelector(".try-again-button")?.focus({ preventScroll: true });
       setCheckCompleted(true);
       setAnnouncement(
         `Score ${correct} out of ${total}. All words are correct.`,
@@ -604,6 +654,7 @@ const Unit9_Page5_Q4 = () => {
     ValidationAlert.warning(msg);
   };
   const showAnswers = () => {
+    stopAudio();
     setFoundWords(words.map((word) => word.id));
     clearSelection();
     resetPointer();
@@ -613,6 +664,7 @@ const Unit9_Page5_Q4 = () => {
     setAnnouncement("All answers shown.");
   };
   const reset = () => {
+    stopAudio();
     setFoundWords([]);
     clearSelection();
     resetPointer();
@@ -635,6 +687,7 @@ const Unit9_Page5_Q4 = () => {
   );
   return (
     <div
+      ref={rootRef}
       style={{
         display: "flex",
         flexDirection: "column",
@@ -759,24 +812,39 @@ const Unit9_Page5_Q4 = () => {
                 </div>
               ))}
             </div>
-            <div className="flex justify-center items-center">
+            <div className="flex justify-center items-center" style={{ position: "relative" }}>
               <img
                 src={img1}
                 alt="A desktop computer with a monitor, keyboard, and mouse."
                 style={{ width: "clamp(40px, 10vw, 100px)", height: "auto" }}
               />
               <input
-                className="answer-input-CB-unit3-p5-q4"
+                className="answer-input-CB-unit3-p5-q4 focus-visible:outline-solid! focus-visible:outline-4! focus-visible:outline-[#2563eb]! focus-visible:outline-offset-2!"
                 value={displayedSentence.join(" ")}
                 readOnly
-                tabIndex={-1}
+                tabIndex={isSentenceComplete ? 0 : -1}
+                onClick={() => { if (isSentenceComplete) playSentenceAudio(); }}
+                onKeyDown={(event) => {
+                  if (event.key !== "Enter" && event.key !== " ") return;
+                  event.preventDefault();
+                  event.stopPropagation();
+                  if (!event.repeat && isSentenceComplete) playSentenceAudio();
+                }}
+                onKeyUp={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    event.stopPropagation();
+                  }
+                }}
                 aria-label={
                   isSentenceComplete
-                    ? `Answer: ${sentence.text}.`
+                    ? `Answer: ${sentence.text}. Press Enter or Space to listen again.`
                     : `Answer. ${foundWords.length} of ${words.length} words found.`
                 }
                 style={{
                   fontFamily: "monospace",
+                  cursor: isSentenceComplete ? "pointer" : undefined,
+                  boxShadow: playingSentence ? "0 0 0 3px #2563eb" : undefined,
                   ...(isSentenceComplete
                     ? {
                         border: "2px solid green",
@@ -786,6 +854,11 @@ const Unit9_Page5_Q4 = () => {
                     : {}),
                 }}
               />
+              {playingSentence && (
+                <span aria-hidden="true" style={{ position: "absolute", top: -6, left: "50%", pointerEvents: "none", background: "white", color: "black", borderRadius: "50%", padding: 4, zIndex: 2 }}>
+                  <FaVolumeUp size={14} />
+                </span>
+              )}
               <img
                 src={img2}
                 alt="An at sign (@)."

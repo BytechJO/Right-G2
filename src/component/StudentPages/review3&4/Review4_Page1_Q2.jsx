@@ -16,7 +16,7 @@ import fishermanSound from "../../../assets/audio/ClassBook/U 4/Page 36 - B/Item
 import clerkSound from "../../../assets/audio/ClassBook/U 4/Page 36 - B/Item_005_clerk.mp3";
 import policeOfficerSound from "../../../assets/audio/ClassBook/U 4/Page 36 - B/Item_006_police_officer.mp3";
 import heIsSound from "../../../assets/audio/ClassBook/U 4/Page 36 - B/Item_007_He_is.mp3";
-
+import sheIsSound from "../../../assets/audio/ClassBook/U 4/Page 36 - B/she is.mp3";
 import "./Review4_Page1_Q2.css";
 import ExerciseHeader from "../../ExerciseHeader";
 
@@ -61,7 +61,7 @@ const ITEMS = [
     options: ["clerk", "police officer"],
     correct: "clerk",
     first: "She is",
-    firstAudio: null,
+    firstAudio: sheIsSound,
   },
 ];
 
