@@ -21,6 +21,10 @@ import clip8 from "../../../assets/audio/WorkBook/Unit 9/Page 51 - B/Item_009_is
 import clip9 from "../../../assets/audio/WorkBook/Unit 9/Page 51 - B/Item_010_is.mp3";
 import clip10 from "../../../assets/audio/WorkBook/Unit 9/Page 51 - B/Item_011_she.mp3";
 import clip11 from "../../../assets/audio/WorkBook/Unit 9/Page 51 - B/Item_012_helping.mp3";
+import clip12 from "../../../assets/audio/WorkBook/Unit 9/Page 51 - B/is she clothes washing.mp3";
+import clip13 from "../../../assets/audio/WorkBook/Unit 9/Page 51 - B/washing.mp3";
+import clip14 from "../../../assets/audio/WorkBook/Unit 9/Page 51 - B/clothes.mp3";
+
 const focusClass =
   "focus-visible:outline-solid! focus-visible:outline-4! focus-visible:outline-[#2563eb]! focus-visible:outline-offset-4!";
 const SpeakerBadge = () => (
@@ -393,6 +397,9 @@ const SOUNDS = {
   is: clip9,
   she: clip10,
   helping: clip11,
+  "is she clothes washing": clip12,
+  washing: clip13,
+  clothes: clip14,
 };
 const soundFor = (text) => SOUNDS[normalized(text)];
 const IMAGE_DESCRIPTIONS = {
@@ -719,7 +726,9 @@ function WB_Unit9_Page51_Q2() {
           isWorkbook
           sectionLetter="B"
           title={<>Look and write sentences.</>}
-          subTitle={"Say the correct present activities word or sentence first, then rearrange the pieces into that order."}
+          subTitle={
+            "Say the correct present activities word or sentence first, then rearrange the pieces into that order."
+          }
         />
 
         <div className="space-y-4">
