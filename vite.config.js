@@ -5,6 +5,8 @@ import svgr from "vite-plugin-svgr";
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: "./",
+  build: { outDir: "dist-scorm" },
   plugins: [react(), tailwindcss(), svgr()],
   optimizeDeps: {
     exclude: ["@jsplumb/browser-ui"],
